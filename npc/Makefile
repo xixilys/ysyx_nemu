@@ -1,10 +1,11 @@
-TOPNAME = light
-NXDC_FILES = pin_bind_light.nxdc
+TOPNAME = m_mux12
+NXDC_FILES = pin_bind_m_mux12.nxdc
 INC_PATH ?=
 
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
 				-O3 --x-assign fast --x-initial fast --noassert
+VERILATOR_CFLAGS += --trace
 
 BUILD_DIR = ./build
 OBJ_DIR = $(BUILD_DIR)/obj_dir
@@ -39,6 +40,7 @@ $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 		-top $(TOPNAME) $^ \
 		$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
 		--Mdir $(OBJ_DIR) --exe -o $(abspath $(BIN))
+$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 
 run: $(BIN)
 	@$^

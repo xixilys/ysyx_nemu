@@ -5,29 +5,32 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VEXAMPLE_H_
-#define VERILATED_VEXAMPLE_H_  // guard
+#ifndef VERILATED_VM_MUX12_H_
+#define VERILATED_VM_MUX12_H_  // guard
 
 #include "verilated_heavy.h"
-#include "verilated_cov.h"
 
-class Vexample__Syms;
-class Vexample___024root;
+class Vm_mux12__Syms;
+class Vm_mux12___024root;
 class VerilatedVcdC;
-class Vexample_VerilatedVcd;
+class Vm_mux12_VerilatedVcd;
 
 
 // This class is the main interface to the Verilated model
-class Vexample VL_NOT_FINAL {
+class Vm_mux12 VL_NOT_FINAL {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vexample__Syms* const vlSymsp;
+    Vm_mux12__Syms* const vlSymsp;
 
   public:
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
+    VL_IN8(&a,0,0);
+    VL_IN8(&b,0,0);
+    VL_IN8(&s,0,0);
+    VL_OUT8(&y,0,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -35,19 +38,19 @@ class Vexample VL_NOT_FINAL {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vexample___024root* const rootp;
+    Vm_mux12___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vexample(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vexample(const char* name = "TOP");
+    explicit Vm_mux12(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vm_mux12(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vexample();
+    virtual ~Vm_mux12();
   private:
-    VL_UNCOPYABLE(Vexample);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vm_mux12);  ///< Copying not allowed
 
   public:
     // API METHODS

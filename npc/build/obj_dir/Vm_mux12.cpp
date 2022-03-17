@@ -1,75 +1,79 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Model implementation (design independent parts)
 
-#include "Vexample.h"
-#include "Vexample__Syms.h"
+#include "Vm_mux12.h"
+#include "Vm_mux12__Syms.h"
 #include "verilated_vcd_c.h"
 
 //============================================================
 // Constructors
 
-Vexample::Vexample(VerilatedContext* _vcontextp__, const char* _vcname__)
-    : vlSymsp{new Vexample__Syms(_vcontextp__, _vcname__, this)}
+Vm_mux12::Vm_mux12(VerilatedContext* _vcontextp__, const char* _vcname__)
+    : vlSymsp{new Vm_mux12__Syms(_vcontextp__, _vcname__, this)}
+    , a{vlSymsp->TOP.a}
+    , b{vlSymsp->TOP.b}
+    , s{vlSymsp->TOP.s}
+    , y{vlSymsp->TOP.y}
     , rootp{&(vlSymsp->TOP)}
 {
 }
 
-Vexample::Vexample(const char* _vcname__)
-    : Vexample(nullptr, _vcname__)
+Vm_mux12::Vm_mux12(const char* _vcname__)
+    : Vm_mux12(nullptr, _vcname__)
 {
 }
 
 //============================================================
 // Destructor
 
-Vexample::~Vexample() {
+Vm_mux12::~Vm_mux12() {
     delete vlSymsp;
 }
 
 //============================================================
 // Evaluation loop
 
-void Vexample___024root___eval_initial(Vexample___024root* vlSelf);
-void Vexample___024root___eval_settle(Vexample___024root* vlSelf);
-void Vexample___024root___eval(Vexample___024root* vlSelf);
-QData Vexample___024root___change_request(Vexample___024root* vlSelf);
+void Vm_mux12___024root___eval_initial(Vm_mux12___024root* vlSelf);
+void Vm_mux12___024root___eval_settle(Vm_mux12___024root* vlSelf);
+void Vm_mux12___024root___eval(Vm_mux12___024root* vlSelf);
+QData Vm_mux12___024root___change_request(Vm_mux12___024root* vlSelf);
 #ifdef VL_DEBUG
-void Vexample___024root___eval_debug_assertions(Vexample___024root* vlSelf);
+void Vm_mux12___024root___eval_debug_assertions(Vm_mux12___024root* vlSelf);
 #endif  // VL_DEBUG
-void Vexample___024root___final(Vexample___024root* vlSelf);
+void Vm_mux12___024root___final(Vm_mux12___024root* vlSelf);
 
-static void _eval_initial_loop(Vexample__Syms* __restrict vlSymsp) {
+static void _eval_initial_loop(Vm_mux12__Syms* __restrict vlSymsp) {
     vlSymsp->__Vm_didInit = true;
-    Vexample___024root___eval_initial(&(vlSymsp->TOP));
+    Vm_mux12___024root___eval_initial(&(vlSymsp->TOP));
     // Evaluate till stable
     int __VclockLoop = 0;
     QData __Vchange = 1;
     vlSymsp->__Vm_activity = true;
     do {
         VL_DEBUG_IF(VL_DBG_MSGF("+ Initial loop\n"););
-        Vexample___024root___eval_settle(&(vlSymsp->TOP));
-        Vexample___024root___eval(&(vlSymsp->TOP));
+        Vm_mux12___024root___eval_settle(&(vlSymsp->TOP));
+        Vm_mux12___024root___eval(&(vlSymsp->TOP));
         if (VL_UNLIKELY(++__VclockLoop > 100)) {
             // About to fail, so enable debug to see what's not settling.
             // Note you must run make with OPT=-DVL_DEBUG for debug prints.
             int __Vsaved_debug = Verilated::debug();
             Verilated::debug(1);
-            __Vchange = Vexample___024root___change_request(&(vlSymsp->TOP));
+            __Vchange = Vm_mux12___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("vsrc/example.v", 1, "",
+            VL_FATAL_MT("/media/ddddddd/40d0728b-21f5-4125-bf84-4d623a60d871/ddddddd/Documents/ysyx/ysyx-workbench/npc/vsrc/m_mux12.v", 1, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
-            __Vchange = Vexample___024root___change_request(&(vlSymsp->TOP));
+            __Vchange = Vm_mux12___024root___change_request(&(vlSymsp->TOP));
         }
     } while (VL_UNLIKELY(__Vchange));
 }
 
-void Vexample::eval_step() {
-    VL_DEBUG_IF(VL_DBG_MSGF("+++++TOP Evaluate Vexample::eval_step\n"); );
+void Vm_mux12::eval_step() {
+    VL_DEBUG_IF(VL_DBG_MSGF("+++++TOP Evaluate Vm_mux12::eval_step\n"); );
 #ifdef VL_DEBUG
     // Debug assertions
-    Vexample___024root___eval_debug_assertions(&(vlSymsp->TOP));
+    Vm_mux12___024root___eval_debug_assertions(&(vlSymsp->TOP));
 #endif  // VL_DEBUG
     // Initialize
     if (VL_UNLIKELY(!vlSymsp->__Vm_didInit)) _eval_initial_loop(vlSymsp);
@@ -79,19 +83,19 @@ void Vexample::eval_step() {
     vlSymsp->__Vm_activity = true;
     do {
         VL_DEBUG_IF(VL_DBG_MSGF("+ Clock loop\n"););
-        Vexample___024root___eval(&(vlSymsp->TOP));
+        Vm_mux12___024root___eval(&(vlSymsp->TOP));
         if (VL_UNLIKELY(++__VclockLoop > 100)) {
             // About to fail, so enable debug to see what's not settling.
             // Note you must run make with OPT=-DVL_DEBUG for debug prints.
             int __Vsaved_debug = Verilated::debug();
             Verilated::debug(1);
-            __Vchange = Vexample___024root___change_request(&(vlSymsp->TOP));
+            __Vchange = Vm_mux12___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("vsrc/example.v", 1, "",
+            VL_FATAL_MT("/media/ddddddd/40d0728b-21f5-4125-bf84-4d623a60d871/ddddddd/Documents/ysyx/ysyx-workbench/npc/vsrc/m_mux12.v", 1, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
-            __Vchange = Vexample___024root___change_request(&(vlSymsp->TOP));
+            __Vchange = Vm_mux12___024root___change_request(&(vlSymsp->TOP));
         }
     } while (VL_UNLIKELY(__Vchange));
 }
@@ -99,30 +103,30 @@ void Vexample::eval_step() {
 //============================================================
 // Invoke final blocks
 
-void Vexample::final() {
-    Vexample___024root___final(&(vlSymsp->TOP));
+void Vm_mux12::final() {
+    Vm_mux12___024root___final(&(vlSymsp->TOP));
 }
 
 //============================================================
 // Utilities
 
-VerilatedContext* Vexample::contextp() const {
+VerilatedContext* Vm_mux12::contextp() const {
     return vlSymsp->_vm_contextp__;
 }
 
-const char* Vexample::name() const {
+const char* Vm_mux12::name() const {
     return vlSymsp->name();
 }
 
 //============================================================
 // Trace configuration
 
-void Vexample___024root__traceInitTop(Vexample___024root* vlSelf, VerilatedVcd* tracep);
+void Vm_mux12___024root__traceInitTop(Vm_mux12___024root* vlSelf, VerilatedVcd* tracep);
 
 static void traceInit(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
     // Callback from tracep->open()
-    Vexample___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vexample___024root*>(voidSelf);
-    Vexample__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    Vm_mux12___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vm_mux12___024root*>(voidSelf);
+    Vm_mux12__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     if (!vlSymsp->_vm_contextp__->calcUnusedSigs()) {
         VL_FATAL_MT(__FILE__, __LINE__, __FILE__,
             "Turning on wave traces requires Verilated::traceEverOn(true) call before time 0.");
@@ -130,13 +134,13 @@ static void traceInit(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
     vlSymsp->__Vm_baseCode = code;
     tracep->module(vlSymsp->name());
     tracep->scopeEscape(' ');
-    Vexample___024root__traceInitTop(vlSelf, tracep);
+    Vm_mux12___024root__traceInitTop(vlSelf, tracep);
     tracep->scopeEscape('.');
 }
 
-void Vexample___024root__traceRegister(Vexample___024root* vlSelf, VerilatedVcd* tracep);
+void Vm_mux12___024root__traceRegister(Vm_mux12___024root* vlSelf, VerilatedVcd* tracep);
 
-void Vexample::trace(VerilatedVcdC* tfp, int, int) {
+void Vm_mux12::trace(VerilatedVcdC* tfp, int, int) {
     tfp->spTrace()->addInitCb(&traceInit, &(vlSymsp->TOP));
-    Vexample___024root__traceRegister(&(vlSymsp->TOP), tfp->spTrace());
+    Vm_mux12___024root__traceRegister(&(vlSymsp->TOP), tfp->spTrace());
 }
