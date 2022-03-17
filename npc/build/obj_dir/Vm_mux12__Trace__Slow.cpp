@@ -30,6 +30,20 @@ void Vm_mux12___024root__traceInitSub0(Vm_mux12___024root* vlSelf, VerilatedVcd*
         tracep->declBit(c+2,"m_mux12 b", false,-1);
         tracep->declBit(c+3,"m_mux12 s", false,-1);
         tracep->declBit(c+4,"m_mux12 y", false,-1);
+        tracep->declBit(c+5,"m_mux12 l", false,-1);
+        tracep->declBit(c+6,"m_mux12 r", false,-1);
+        tracep->declBit(c+7,"m_mux12 s_n", false,-1);
+        tracep->declBit(c+3,"m_mux12 n1 a", false,-1);
+        tracep->declBit(c+7,"m_mux12 n1 b", false,-1);
+        tracep->declBit(c+7,"m_mux12 a1 a", false,-1);
+        tracep->declBit(c+1,"m_mux12 a1 b", false,-1);
+        tracep->declBit(c+5,"m_mux12 a1 c", false,-1);
+        tracep->declBit(c+3,"m_mux12 a2 a", false,-1);
+        tracep->declBit(c+2,"m_mux12 a2 b", false,-1);
+        tracep->declBit(c+6,"m_mux12 a2 c", false,-1);
+        tracep->declBit(c+5,"m_mux12 o1 a", false,-1);
+        tracep->declBit(c+6,"m_mux12 o1 b", false,-1);
+        tracep->declBit(c+4,"m_mux12 o1 c", false,-1);
     }
 }
 
@@ -70,5 +84,10 @@ void Vm_mux12___024root__traceFullSub0(Vm_mux12___024root* vlSelf, VerilatedVcd*
         tracep->fullBit(oldp+2,(vlSelf->b));
         tracep->fullBit(oldp+3,(vlSelf->s));
         tracep->fullBit(oldp+4,(vlSelf->y));
+        tracep->fullBit(oldp+5,(((~ (IData)(vlSelf->s)) 
+                                 & (IData)(vlSelf->a))));
+        tracep->fullBit(oldp+6,(((IData)(vlSelf->s) 
+                                 & (IData)(vlSelf->b))));
+        tracep->fullBit(oldp+7,((1U & (~ (IData)(vlSelf->s)))));
     }
 }

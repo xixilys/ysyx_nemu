@@ -12,9 +12,8 @@ VL_INLINE_OPT void Vm_mux12___024root___combo__TOP__1(Vm_mux12___024root* vlSelf
     Vm_mux12__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vm_mux12___024root___combo__TOP__1\n"); );
     // Body
-    vlSelf->y = (1U & (((1U & (~ (IData)(vlSelf->s))) 
-                        * (IData)(vlSelf->b)) | ((IData)(vlSelf->s) 
-                                                 & (IData)(vlSelf->a))));
+    vlSelf->y = (((~ (IData)(vlSelf->s)) & (IData)(vlSelf->a)) 
+                 | ((IData)(vlSelf->s) & (IData)(vlSelf->b)));
 }
 
 void Vm_mux12___024root___eval(Vm_mux12___024root* vlSelf) {

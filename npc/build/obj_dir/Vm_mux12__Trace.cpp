@@ -27,6 +27,11 @@ void Vm_mux12___024root__traceChgSub0(Vm_mux12___024root* vlSelf, VerilatedVcd* 
         tracep->chgBit(oldp+1,(vlSelf->b));
         tracep->chgBit(oldp+2,(vlSelf->s));
         tracep->chgBit(oldp+3,(vlSelf->y));
+        tracep->chgBit(oldp+4,(((~ (IData)(vlSelf->s)) 
+                                & (IData)(vlSelf->a))));
+        tracep->chgBit(oldp+5,(((IData)(vlSelf->s) 
+                                & (IData)(vlSelf->b))));
+        tracep->chgBit(oldp+6,((1U & (~ (IData)(vlSelf->s)))));
     }
 }
 

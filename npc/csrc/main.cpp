@@ -56,16 +56,33 @@ int main(int argc,char ** argv,char** env) {
 	nvboard_init();
 
 //	reset(10);
+	int a,b,s,y;
 	mux12->s=0;mux12-> a = 0;mux12->b=0; step_and_dump_wave(mux12);
-	        cout<<"a="<<mux12->a<<" b="<<mux12->b<<" s="<<mux12->s<<"and y="<<mux12->y<<endl;
+	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
+	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
+	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
 			mux12->a=0;mux12->b=1;step_and_dump_wave(mux12);
+	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
+	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
 			mux12->a=1;mux12->b=1;step_and_dump_wave(mux12);
+	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
+	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
 			mux12->a=1;mux12->b=0;step_and_dump_wave(mux12);
+	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
+	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
 	mux12->s=1;
 			mux12->a=0;mux12->b=0;step_and_dump_wave(mux12);
+	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
+	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
 			mux12->a=0;mux12->b=1;step_and_dump_wave(mux12);
+	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
+	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
 			mux12->a=1;mux12->b=1;step_and_dump_wave(mux12);
+	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
+	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
 			mux12->a=1;mux12->b=0;step_and_dump_wave(mux12);
+	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
+	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
 			tfp->close();
 /*	while(1) {
 		cout<<"count is adding "<<endl;
