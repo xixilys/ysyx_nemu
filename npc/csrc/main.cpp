@@ -8,7 +8,7 @@
 #include<iostream>
 #include<nvboard.h>
 //#include<Vlight.h>
-#include<Vm_mux12.h>
+#include<Vmux2bit41.h>
 #include<verilated.h>
 #include<verilated_vcd_c.h>
 using namespace std;
@@ -17,7 +17,7 @@ VerilatedVcdC * tfp = NULL;
 
 //static Vlight *light = new Vlight;
 //static Vm_mux12 * mux12 = new Vm_mux12;
-void nvboard_bind_all_pins(Vm_mux12 *top);
+void nvboard_bind_all_pins(Vmux2bit41 *top);
 const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
 double sc_time_stamp() {return 0;}
 
@@ -47,50 +47,47 @@ int main(int argc,char ** argv,char** env) {
 	contextp->randReset(2);
 	contextp->traceEverOn(true);
 	tfp = new VerilatedVcdC;
-    Vm_mux12 * mux12 = new Vm_mux12;
+    Vmux2bit41 * mux41 = new Vmux2bit41;
 //Veril:ated::traceEverOn(true);
 	//	contextp->traceEverOn(true);
-	mux12->trace(tfp,99);
+	mux41->trace(tfp,99);
 	tfp->open("dump.vcd");
-	nvboard_bind_all_pins(mux12);
+	nvboard_bind_all_pins(mux41);
 	nvboard_init();
-
+	mux41->y = 0;
+	mux41->x[0]=0;
+	mux41->x[1]=1;
+	mux41->x[2]=2;
+	mux41->x[3]=3;
+	step_and_dump_wave(mux41);
 //	reset(10);
-	int a,b,s,y;
-	mux12->s=0;mux12-> a = 0;mux12->b=0; step_and_dump_wave(mux12);
-	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
-	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
-	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
-			mux12->a=0;mux12->b=1;step_and_dump_wave(mux12);
-	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
-	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
-			mux12->a=1;mux12->b=1;step_and_dump_wave(mux12);
-	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
-	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
-			mux12->a=1;mux12->b=0;step_and_dump_wave(mux12);
-	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
-	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
-	mux12->s=1;
-			mux12->a=0;mux12->b=0;step_and_dump_wave(mux12);
-	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
-	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
-			mux12->a=0;mux12->b=1;step_and_dump_wave(mux12);
-	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
-	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
-			mux12->a=1;mux12->b=1;step_and_dump_wave(mux12);
-	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
-	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
-			mux12->a=1;mux12->b=0;step_and_dump_wave(mux12);
-	a = mux12->a;b=mux12->b;s=mux12->s;y=mux12->y;
-	        cout<<"a="<<a<<" b="<<b<<" s="<<s<<"and y="<<y<<endl;
-			tfp->close();
-/*	while(1) {
-		cout<<"count is adding "<<endl;
+	int a,b,s,y,f; 
+	int x1,x2,x3,x4;
+	y = mux41->f;
+	s = mux41->y;
+	mux41->y = 0;
+	int i = 10;
+	while(i>=0) {
+	//	mux41->x[0] = 0;
+	//	mux41->x[1] = 1;
+	//	mux41->x[2] = 2;
+	//	mux41->x[3] = 3;
+	//	mux41-> y   = y+1;
+		x1 = mux41->x[0];
+		x2 = mux41->x[1];
+		x3 = mux41->x[2];
+		x4 = mux41->x[3];
+		y  = mux41->y;
+		f = mux41->f;
+		cout<<"y is "<<y<<" x1 = "<<x1<<" x2 = "<<x2<<" x3 = "<<x3<<" x4 = "<<x4<<endl;
+		cout<<"f = "<<f<<endl;
+		step_and_dump_wave(mux41);
 		nvboard_update();
 
-		single_cycle();
+	//	single_cycle();
 	}
-*/
+	tfp->close();
+
 }
 
 

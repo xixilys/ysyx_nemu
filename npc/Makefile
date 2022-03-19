@@ -1,5 +1,5 @@
-TOPNAME = m_mux12
-NXDC_FILES = pin_bind_m_mux12.nxdc
+TOPNAME =  mux2bit41
+NXDC_FILES = pin_bind.nxdc
 INC_PATH ?=
 
 VERILATOR = verilator

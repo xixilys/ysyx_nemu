@@ -1,79 +1,78 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Model implementation (design independent parts)
 
-#include "Vm_mux12.h"
-#include "Vm_mux12__Syms.h"
+#include "Vmux2bit41.h"
+#include "Vmux2bit41__Syms.h"
 #include "verilated_vcd_c.h"
 
 //============================================================
 // Constructors
 
-Vm_mux12::Vm_mux12(VerilatedContext* _vcontextp__, const char* _vcname__)
-    : vlSymsp{new Vm_mux12__Syms(_vcontextp__, _vcname__, this)}
-    , a{vlSymsp->TOP.a}
-    , b{vlSymsp->TOP.b}
-    , s{vlSymsp->TOP.s}
+Vmux2bit41::Vmux2bit41(VerilatedContext* _vcontextp__, const char* _vcname__)
+    : vlSymsp{new Vmux2bit41__Syms(_vcontextp__, _vcname__, this)}
     , y{vlSymsp->TOP.y}
+    , x{vlSymsp->TOP.x}
+    , f{vlSymsp->TOP.f}
     , rootp{&(vlSymsp->TOP)}
 {
 }
 
-Vm_mux12::Vm_mux12(const char* _vcname__)
-    : Vm_mux12(nullptr, _vcname__)
+Vmux2bit41::Vmux2bit41(const char* _vcname__)
+    : Vmux2bit41(nullptr, _vcname__)
 {
 }
 
 //============================================================
 // Destructor
 
-Vm_mux12::~Vm_mux12() {
+Vmux2bit41::~Vmux2bit41() {
     delete vlSymsp;
 }
 
 //============================================================
 // Evaluation loop
 
-void Vm_mux12___024root___eval_initial(Vm_mux12___024root* vlSelf);
-void Vm_mux12___024root___eval_settle(Vm_mux12___024root* vlSelf);
-void Vm_mux12___024root___eval(Vm_mux12___024root* vlSelf);
-QData Vm_mux12___024root___change_request(Vm_mux12___024root* vlSelf);
+void Vmux2bit41___024root___eval_initial(Vmux2bit41___024root* vlSelf);
+void Vmux2bit41___024root___eval_settle(Vmux2bit41___024root* vlSelf);
+void Vmux2bit41___024root___eval(Vmux2bit41___024root* vlSelf);
+QData Vmux2bit41___024root___change_request(Vmux2bit41___024root* vlSelf);
 #ifdef VL_DEBUG
-void Vm_mux12___024root___eval_debug_assertions(Vm_mux12___024root* vlSelf);
+void Vmux2bit41___024root___eval_debug_assertions(Vmux2bit41___024root* vlSelf);
 #endif  // VL_DEBUG
-void Vm_mux12___024root___final(Vm_mux12___024root* vlSelf);
+void Vmux2bit41___024root___final(Vmux2bit41___024root* vlSelf);
 
-static void _eval_initial_loop(Vm_mux12__Syms* __restrict vlSymsp) {
+static void _eval_initial_loop(Vmux2bit41__Syms* __restrict vlSymsp) {
     vlSymsp->__Vm_didInit = true;
-    Vm_mux12___024root___eval_initial(&(vlSymsp->TOP));
+    Vmux2bit41___024root___eval_initial(&(vlSymsp->TOP));
     // Evaluate till stable
     int __VclockLoop = 0;
     QData __Vchange = 1;
     vlSymsp->__Vm_activity = true;
     do {
         VL_DEBUG_IF(VL_DBG_MSGF("+ Initial loop\n"););
-        Vm_mux12___024root___eval_settle(&(vlSymsp->TOP));
-        Vm_mux12___024root___eval(&(vlSymsp->TOP));
+        Vmux2bit41___024root___eval_settle(&(vlSymsp->TOP));
+        Vmux2bit41___024root___eval(&(vlSymsp->TOP));
         if (VL_UNLIKELY(++__VclockLoop > 100)) {
             // About to fail, so enable debug to see what's not settling.
             // Note you must run make with OPT=-DVL_DEBUG for debug prints.
             int __Vsaved_debug = Verilated::debug();
             Verilated::debug(1);
-            __Vchange = Vm_mux12___024root___change_request(&(vlSymsp->TOP));
+            __Vchange = Vmux2bit41___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/media/ddddddd/40d0728b-21f5-4125-bf84-4d623a60d871/ddddddd/Documents/ysyx/ysyx-workbench/npc/vsrc/m_mux12.v", 20, "",
+            VL_FATAL_MT("/media/ddddddd/40d0728b-21f5-4125-bf84-4d623a60d871/ddddddd/Documents/ysyx/ysyx-workbench/npc/vsrc/mux2bit41.v", 1, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
-            __Vchange = Vm_mux12___024root___change_request(&(vlSymsp->TOP));
+            __Vchange = Vmux2bit41___024root___change_request(&(vlSymsp->TOP));
         }
     } while (VL_UNLIKELY(__Vchange));
 }
 
-void Vm_mux12::eval_step() {
-    VL_DEBUG_IF(VL_DBG_MSGF("+++++TOP Evaluate Vm_mux12::eval_step\n"); );
+void Vmux2bit41::eval_step() {
+    VL_DEBUG_IF(VL_DBG_MSGF("+++++TOP Evaluate Vmux2bit41::eval_step\n"); );
 #ifdef VL_DEBUG
     // Debug assertions
-    Vm_mux12___024root___eval_debug_assertions(&(vlSymsp->TOP));
+    Vmux2bit41___024root___eval_debug_assertions(&(vlSymsp->TOP));
 #endif  // VL_DEBUG
     // Initialize
     if (VL_UNLIKELY(!vlSymsp->__Vm_didInit)) _eval_initial_loop(vlSymsp);
@@ -83,19 +82,19 @@ void Vm_mux12::eval_step() {
     vlSymsp->__Vm_activity = true;
     do {
         VL_DEBUG_IF(VL_DBG_MSGF("+ Clock loop\n"););
-        Vm_mux12___024root___eval(&(vlSymsp->TOP));
+        Vmux2bit41___024root___eval(&(vlSymsp->TOP));
         if (VL_UNLIKELY(++__VclockLoop > 100)) {
             // About to fail, so enable debug to see what's not settling.
             // Note you must run make with OPT=-DVL_DEBUG for debug prints.
             int __Vsaved_debug = Verilated::debug();
             Verilated::debug(1);
-            __Vchange = Vm_mux12___024root___change_request(&(vlSymsp->TOP));
+            __Vchange = Vmux2bit41___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/media/ddddddd/40d0728b-21f5-4125-bf84-4d623a60d871/ddddddd/Documents/ysyx/ysyx-workbench/npc/vsrc/m_mux12.v", 20, "",
+            VL_FATAL_MT("/media/ddddddd/40d0728b-21f5-4125-bf84-4d623a60d871/ddddddd/Documents/ysyx/ysyx-workbench/npc/vsrc/mux2bit41.v", 1, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
-            __Vchange = Vm_mux12___024root___change_request(&(vlSymsp->TOP));
+            __Vchange = Vmux2bit41___024root___change_request(&(vlSymsp->TOP));
         }
     } while (VL_UNLIKELY(__Vchange));
 }
@@ -103,30 +102,30 @@ void Vm_mux12::eval_step() {
 //============================================================
 // Invoke final blocks
 
-void Vm_mux12::final() {
-    Vm_mux12___024root___final(&(vlSymsp->TOP));
+void Vmux2bit41::final() {
+    Vmux2bit41___024root___final(&(vlSymsp->TOP));
 }
 
 //============================================================
 // Utilities
 
-VerilatedContext* Vm_mux12::contextp() const {
+VerilatedContext* Vmux2bit41::contextp() const {
     return vlSymsp->_vm_contextp__;
 }
 
-const char* Vm_mux12::name() const {
+const char* Vmux2bit41::name() const {
     return vlSymsp->name();
 }
 
 //============================================================
 // Trace configuration
 
-void Vm_mux12___024root__traceInitTop(Vm_mux12___024root* vlSelf, VerilatedVcd* tracep);
+void Vmux2bit41___024root__traceInitTop(Vmux2bit41___024root* vlSelf, VerilatedVcd* tracep);
 
 static void traceInit(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
     // Callback from tracep->open()
-    Vm_mux12___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vm_mux12___024root*>(voidSelf);
-    Vm_mux12__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    Vmux2bit41___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vmux2bit41___024root*>(voidSelf);
+    Vmux2bit41__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     if (!vlSymsp->_vm_contextp__->calcUnusedSigs()) {
         VL_FATAL_MT(__FILE__, __LINE__, __FILE__,
             "Turning on wave traces requires Verilated::traceEverOn(true) call before time 0.");
@@ -134,13 +133,13 @@ static void traceInit(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
     vlSymsp->__Vm_baseCode = code;
     tracep->module(vlSymsp->name());
     tracep->scopeEscape(' ');
-    Vm_mux12___024root__traceInitTop(vlSelf, tracep);
+    Vmux2bit41___024root__traceInitTop(vlSelf, tracep);
     tracep->scopeEscape('.');
 }
 
-void Vm_mux12___024root__traceRegister(Vm_mux12___024root* vlSelf, VerilatedVcd* tracep);
+void Vmux2bit41___024root__traceRegister(Vmux2bit41___024root* vlSelf, VerilatedVcd* tracep);
 
-void Vm_mux12::trace(VerilatedVcdC* tfp, int, int) {
+void Vmux2bit41::trace(VerilatedVcdC* tfp, int, int) {
     tfp->spTrace()->addInitCb(&traceInit, &(vlSymsp->TOP));
-    Vm_mux12___024root__traceRegister(&(vlSymsp->TOP), tfp->spTrace());
+    Vmux2bit41___024root__traceRegister(&(vlSymsp->TOP), tfp->spTrace());
 }

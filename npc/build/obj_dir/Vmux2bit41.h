@@ -5,32 +5,31 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VM_MUX12_H_
-#define VERILATED_VM_MUX12_H_  // guard
+#ifndef VERILATED_VMUX2BIT41_H_
+#define VERILATED_VMUX2BIT41_H_  // guard
 
 #include "verilated_heavy.h"
 
-class Vm_mux12__Syms;
-class Vm_mux12___024root;
+class Vmux2bit41__Syms;
+class Vmux2bit41___024root;
 class VerilatedVcdC;
-class Vm_mux12_VerilatedVcd;
+class Vmux2bit41_VerilatedVcd;
 
 
 // This class is the main interface to the Verilated model
-class Vm_mux12 VL_NOT_FINAL {
+class Vmux2bit41 VL_NOT_FINAL {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vm_mux12__Syms* const vlSymsp;
+    Vmux2bit41__Syms* const vlSymsp;
 
   public:
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_IN8(&a,0,0);
-    VL_IN8(&b,0,0);
-    VL_IN8(&s,0,0);
-    VL_OUT8(&y,0,0);
+    VL_IN8(&y,1,0);
+    VL_IN8((&x)[4],1,0);
+    VL_OUT8(&f,1,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -38,19 +37,19 @@ class Vm_mux12 VL_NOT_FINAL {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vm_mux12___024root* const rootp;
+    Vmux2bit41___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vm_mux12(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vm_mux12(const char* name = "TOP");
+    explicit Vmux2bit41(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vmux2bit41(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vm_mux12();
+    virtual ~Vmux2bit41();
   private:
-    VL_UNCOPYABLE(Vm_mux12);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vmux2bit41);  ///< Copying not allowed
 
   public:
     // API METHODS
