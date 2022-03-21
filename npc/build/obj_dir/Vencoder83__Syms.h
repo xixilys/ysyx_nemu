@@ -4,33 +4,33 @@
 // Internal details; most calling programs do not need this header,
 // unless using verilator public meta comments.
 
-#ifndef VERILATED_VMUX2BIT41__SYMS_H_
-#define VERILATED_VMUX2BIT41__SYMS_H_  // guard
+#ifndef VERILATED_VENCODER83__SYMS_H_
+#define VERILATED_VENCODER83__SYMS_H_  // guard
 
 #include "verilated_heavy.h"
 
 // INCLUDE MODEL CLASS
 
-#include "Vmux2bit41.h"
+#include "Vencoder83.h"
 
 // INCLUDE MODULE CLASSES
-#include "Vmux2bit41___024root.h"
+#include "Vencoder83___024root.h"
 
 // SYMS CLASS (contains all model state)
-class Vmux2bit41__Syms final : public VerilatedSyms {
+class Vencoder83__Syms final : public VerilatedSyms {
   public:
     // INTERNAL STATE
-    Vmux2bit41* const __Vm_modelp;
+    Vencoder83* const __Vm_modelp;
     bool __Vm_activity = false;  ///< Used by trace routines to determine change occurred
     uint32_t __Vm_baseCode = 0;  ///< Used by trace routines when tracing multiple models
     bool __Vm_didInit = false;
 
     // MODULE INSTANCE STATE
-    Vmux2bit41___024root           TOP;
+    Vencoder83___024root           TOP;
 
     // CONSTRUCTORS
-    Vmux2bit41__Syms(VerilatedContext* contextp, const char* namep, Vmux2bit41* modelp);
-    ~Vmux2bit41__Syms();
+    Vencoder83__Syms(VerilatedContext* contextp, const char* namep, Vencoder83* modelp);
+    ~Vencoder83__Syms();
 
     // METHODS
     const char* name() { return TOP.name(); }

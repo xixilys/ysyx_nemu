@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vmux2bit41__Syms.h"
-#include "Vmux2bit41.h"
-#include "Vmux2bit41___024root.h"
+#include "Vencoder83__Syms.h"
+#include "Vencoder83.h"
+#include "Vencoder83___024root.h"
 
 // FUNCTIONS
-Vmux2bit41__Syms::~Vmux2bit41__Syms()
+Vencoder83__Syms::~Vencoder83__Syms()
 {
 }
 
-Vmux2bit41__Syms::Vmux2bit41__Syms(VerilatedContext* contextp, const char* namep,Vmux2bit41* modelp)
+Vencoder83__Syms::Vencoder83__Syms(VerilatedContext* contextp, const char* namep,Vencoder83* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp(modelp)

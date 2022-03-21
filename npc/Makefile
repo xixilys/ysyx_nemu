@@ -1,4 +1,4 @@
-TOPNAME =  mux2bit41
+TOPNAME =  encoder83
 NXDC_FILES = pin_bind.nxdc
 INC_PATH ?=
 

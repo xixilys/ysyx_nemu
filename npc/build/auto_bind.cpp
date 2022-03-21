@@ -1,11 +1,8 @@
 #include <nvboard.h>
-#include "Vmux2bit41.h"
+#include "Vencoder83.h"
 
-void nvboard_bind_all_pins(Vmux2bit41* top){
-	nvboard_bind_pin(&top->y, false, false, 2, SW0, SW1);
-	nvboard_bind_pin(&top->x[0], false, false, 2, SW2, SW3);
-	nvboard_bind_pin(&top->x[1], false, false, 2, SW4, SW5);
-	nvboard_bind_pin(&top->x[2], false, false, 2, SW6, SW7);
-	nvboard_bind_pin(&top->x[3], false, false, 2, SW8, SW9);
-	nvboard_bind_pin(&top->f, false, true, 2, LD0, LD1);
+void nvboard_bind_all_pins(Vencoder83* top){
+	nvboard_bind_pin(&top->en, false, false, 1, SW0);
+	nvboard_bind_pin(&top->x, false, false, 8, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9);
+	nvboard_bind_pin(&top->out, false, true, 7, SEG0A, SEG0B, SEG0C, SEG0D, SEG0E, SEG0F, SEG0G);
 }
