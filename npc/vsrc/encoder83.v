@@ -19,9 +19,11 @@ always @(x or en) begin
 		endcase*/
 		for(i=0;i<=7;i++) begin
 			if(x[i] == 1) y = i[3:0];
+			
 		end
+		
 	end
-	else y = 4'b0100;
+	else y = 4'b0000;
 end
 endmodule
  

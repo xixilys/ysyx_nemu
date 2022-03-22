@@ -1,4 +1,4 @@
-TOPNAME = fourbitalu
+TOPNAME =  bitadder
 NXDC_FILES = pin_bind.nxdc
 INC_PATH ?=
 
@@ -7,12 +7,13 @@ VERILATOR_CFLAGS += -MMD --build -cc  \
 				-O3 --x-assign fast --x-initial fast --noassert
 VERILATOR_CFLAGS += --trace
 
-BUILD_DIR = ./build
+BUILD_DIR = ./build`
 OBJ_DIR = $(BUILD_DIR)/obj_dir
 BIN = $(BUILD_DIR)/$(TOPNAME)
 
 default: $(BIN)
 
+$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 $(shell mkdir -p $(BUILD_DIR))
 
 # constraint file
@@ -39,6 +40,7 @@ $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 		-top $(TOPNAME) $^ \
 		$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
 		--Mdir $(OBJ_DIR) --exe -o $(abspath $(BIN))
+$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 
 run: $(BIN)
 	@$^
