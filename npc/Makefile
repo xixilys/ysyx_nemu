@@ -1,4 +1,4 @@
-TOPNAME = fourbitalu
+TOPNAME = timer
 NXDC_FILES = pin_bind.nxdc
 INC_PATH ?=
 

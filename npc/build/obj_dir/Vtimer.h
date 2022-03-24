@@ -5,35 +5,34 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VFOURBITALU_H_
-#define VERILATED_VFOURBITALU_H_  // guard
+#ifndef VERILATED_VTIMER_H_
+#define VERILATED_VTIMER_H_  // guard
 
 #include "verilated_heavy.h"
 
-class Vfourbitalu__Syms;
-class Vfourbitalu___024root;
+class Vtimer__Syms;
+class Vtimer___024root;
 class VerilatedVcdC;
-class Vfourbitalu_VerilatedVcd;
+class Vtimer_VerilatedVcd;
 
 
 // This class is the main interface to the Verilated model
-class Vfourbitalu VL_NOT_FINAL {
+class Vtimer VL_NOT_FINAL {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vfourbitalu__Syms* const vlSymsp;
+    Vtimer__Syms* const vlSymsp;
 
   public:
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_IN8(&a,3,0);
-    VL_IN8(&b,3,0);
-    VL_IN8(&x,2,0);
-    VL_OUT8(&out,3,0);
-    VL_OUT8(&overflower,0,0);
-    VL_OUT8(&zero,0,0);
-    VL_OUT8(&carry_flag,0,0);
+    VL_IN8(&rst,0,0);
+    VL_IN8(&stop,0,0);
+    VL_IN8(&start,0,0);
+    VL_IN8(&clk,0,0);
+    VL_OUT8(&bcd1,6,0);
+    VL_OUT8(&bcd2,6,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -41,19 +40,19 @@ class Vfourbitalu VL_NOT_FINAL {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vfourbitalu___024root* const rootp;
+    Vtimer___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vfourbitalu(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vfourbitalu(const char* name = "TOP");
+    explicit Vtimer(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vtimer(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vfourbitalu();
+    virtual ~Vtimer();
   private:
-    VL_UNCOPYABLE(Vfourbitalu);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vtimer);  ///< Copying not allowed
 
   public:
     // API METHODS

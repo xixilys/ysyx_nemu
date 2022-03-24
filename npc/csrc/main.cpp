@@ -8,7 +8,7 @@
 #include<iostream>
 #include<nvboard.h>
 //#include<Vlight.h>
-#include<Vfourbitalu.h>
+#include<Vtimer.h>
 #include<verilated.h>
 #include<verilated_vcd_c.h>
 #include<bitset>
@@ -17,7 +17,7 @@ using namespace std;
 
 //static Vlight *light = new Vlight;
 //static Vm_mux12 * mux12 = new Vm_mux12;
-void nvboard_bind_all_pins(Vfourbitalu *top);
+void nvboard_bind_all_pins(Vtimer *top);
 const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
 VerilatedVcdC* tfp = NULL;
 double sc_time_stamp() {return 0;}
@@ -37,30 +37,49 @@ void sim_init(T * top) {
 	top->trace(tfp, 0);
 	tfp->open("dump.vcd");	
 }
+template<class T>
+void single_cycle(T * top) {
+	top->clk = 0; top->eval();
+	top->clk = 1; top->eval();
+}
 
+template<class T>
+void reset(T *top , int n) {
+	top->rst = 1;
+	while(n -- > 0) single_cycle(top);
+	top->rst = 0;
+}
 
 int main(int argc,char ** argv,char** env) {
 	if(false && argc && argv && env) {}
 	Verilated::mkdir("logs");
-    Vfourbitalu * top = new Vfourbitalu;
-//	sim_init(top);
+    Vtimer * top = new Vtimer;
+	sim_init(top);
 	nvboard_bind_all_pins(top);
 	nvboard_init();
-//	step_and_dump_wave(top);
+	reset(top,10);
+	step_and_dump_wave(top);
 	int en,y;
 	int x1,x2,x3,x4,out;
 	int a,b,c,s,_c;
 	int i = 10;
 	while(1){
-		x1 = top->a;
-		x2 = top->b;
-		x3 = top->out;
-		x4 = top->carry_flag;
-		s  = top->x;
-		out = top->overflower;
-		cout<<"a = "<<bitset<8>(x1)<<" b = "<<bitset<8>(x2)<<"x = "<<s <<" out = "<<bitset<8>(x3)<<"carry = "<<x4<<"overflower = "<<out<<endl;
-	top->eval();
-		
+		x1 = top->rst;
+		x2 = top->stop;
+		x3 = top->start;
+		a  = top->bcd1;
+		b  = top->bcd2;
+		x4 = top->clk;
+		//cout<<"a = "<<bitset<8>(x1)<<" b = "<<bitset<8>(x2)<<"x = "<<s <<" out = "<<bitset<8>(x3)<<"carry = "<<x4<<"overflower = "<<out<<endl;
+	//top->eval();
+	cout<<"rst  =  "<< x1<<" stop = "<<x2<<" start = "<<x3<<" clk ="<< x4 << " bcd1 = "<< bitset<8>(a)<<" bcd2 = "<< bitset<8>(b)<<endl;
+	single_cycle(top);
+	/*	if(top->clk == 1) 
+			top->clk = 0;
+		else top->clk = 1;*/
+
+	//step_and_dump_wave(top);
+
 		nvboard_update();
 		//en = top->en;
 		//x1 = top->x;
