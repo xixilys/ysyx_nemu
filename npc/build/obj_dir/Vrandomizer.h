@@ -5,34 +5,33 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VTIMER_H_
-#define VERILATED_VTIMER_H_  // guard
+#ifndef VERILATED_VRANDOMIZER_H_
+#define VERILATED_VRANDOMIZER_H_  // guard
 
 #include "verilated_heavy.h"
 
-class Vtimer__Syms;
-class Vtimer___024root;
+class Vrandomizer__Syms;
+class Vrandomizer___024root;
 class VerilatedVcdC;
-class Vtimer_VerilatedVcd;
+class Vrandomizer_VerilatedVcd;
 
 
 // This class is the main interface to the Verilated model
-class Vtimer VL_NOT_FINAL {
+class Vrandomizer VL_NOT_FINAL {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vtimer__Syms* const vlSymsp;
+    Vrandomizer__Syms* const vlSymsp;
 
   public:
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_IN8(&rst,0,0);
-    VL_IN8(&stop,0,0);
-    VL_IN8(&start,0,0);
     VL_IN8(&clk,0,0);
-    VL_OUT8(&bcd1,6,0);
-    VL_OUT8(&bcd2,6,0);
+    VL_IN8(&rst,0,0);
+    VL_OUT8(&bcd_num0,6,0);
+    VL_OUT8(&bcd_num1,6,0);
+    VL_OUT8(&bcd_num2,6,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -40,19 +39,19 @@ class Vtimer VL_NOT_FINAL {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vtimer___024root* const rootp;
+    Vrandomizer___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vtimer(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vtimer(const char* name = "TOP");
+    explicit Vrandomizer(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vrandomizer(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vtimer();
+    virtual ~Vrandomizer();
   private:
-    VL_UNCOPYABLE(Vtimer);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vrandomizer);  ///< Copying not allowed
 
   public:
     // API METHODS

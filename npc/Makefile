@@ -1,4 +1,4 @@
-TOPNAME = timer
+TOPNAME = randomizer
 NXDC_FILES = pin_bind.nxdc
 INC_PATH ?=
 

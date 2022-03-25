@@ -4,11 +4,12 @@
 	> Mail: amoscykl@163.com 
 	> Created Time: 2022年03月16日 星期三 00时25分07秒
  ************************************************************************/
+#define Vtop Vrandomizer
 
 #include<iostream>
 #include<nvboard.h>
 //#include<Vlight.h>
-#include<Vtimer.h>
+#include<Vrandomizer.h>
 #include<verilated.h>
 #include<verilated_vcd_c.h>
 #include<bitset>
@@ -17,7 +18,7 @@ using namespace std;
 
 //static Vlight *light = new Vlight;
 //static Vm_mux12 * mux12 = new Vm_mux12;
-void nvboard_bind_all_pins(Vtimer *top);
+void nvboard_bind_all_pins(Vtop *top);
 const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
 VerilatedVcdC* tfp = NULL;
 double sc_time_stamp() {return 0;}
@@ -53,7 +54,7 @@ void reset(T *top , int n) {
 int main(int argc,char ** argv,char** env) {
 	if(false && argc && argv && env) {}
 	Verilated::mkdir("logs");
-    Vtimer * top = new Vtimer;
+    Vtop * top = new Vtop;
 	sim_init(top);
 	nvboard_bind_all_pins(top);
 	nvboard_init();
@@ -64,21 +65,21 @@ int main(int argc,char ** argv,char** env) {
 	int a,b,c,s,_c;
 	int i = 10;
 	while(1){
-		x1 = top->rst;
-		x2 = top->stop;
-		x3 = top->start;
-		a  = top->bcd1;
-		b  = top->bcd2;
-		x4 = top->clk;
+		x1 = top->clk;
+		x2 = top->rst;
+		a  = top->bcd_num0;
+		b  = top->bcd_num1;
+		c  = top->bcd_num2;
+		
 		//cout<<"a = "<<bitset<8>(x1)<<" b = "<<bitset<8>(x2)<<"x = "<<s <<" out = "<<bitset<8>(x3)<<"carry = "<<x4<<"overflower = "<<out<<endl;
-	//top->eval();
-	cout<<"rst  =  "<< x1<<" stop = "<<x2<<" start = "<<x3<<" clk ="<< x4 << " bcd1 = "<< bitset<8>(a)<<" bcd2 = "<< bitset<8>(b)<<endl;
-	single_cycle(top);
+//	top->eval();
+	cout<<"rst  =  "<< x2<<" clk ="<< x2 << " bcd1 = "<< bitset<8>(a)<<" bcd2 = "<< bitset<8>(b)<<" bcd3 "<<bitset<8>(c)<<endl;
+//	single_cycle(top);
 	/*	if(top->clk == 1) 
 			top->clk = 0;
 		else top->clk = 1;*/
 
-	//step_and_dump_wave(top);
+	step_and_dump_wave(top);
 
 		nvboard_update();
 		//en = top->en;
