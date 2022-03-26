@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vrandomizer__Syms.h"
-#include "Vrandomizer.h"
-#include "Vrandomizer___024root.h"
+#include "Vkeyboard_bottom__Syms.h"
+#include "Vkeyboard_bottom.h"
+#include "Vkeyboard_bottom___024root.h"
 
 // FUNCTIONS
-Vrandomizer__Syms::~Vrandomizer__Syms()
+Vkeyboard_bottom__Syms::~Vkeyboard_bottom__Syms()
 {
 }
 
-Vrandomizer__Syms::Vrandomizer__Syms(VerilatedContext* contextp, const char* namep,Vrandomizer* modelp)
+Vkeyboard_bottom__Syms::Vkeyboard_bottom__Syms(VerilatedContext* contextp, const char* namep,Vkeyboard_bottom* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp(modelp)

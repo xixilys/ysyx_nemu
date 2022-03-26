@@ -1,4 +1,4 @@
-TOPNAME = randomizer
+TOPNAME = keyboard_bottom
 NXDC_FILES = pin_bind.nxdc
 INC_PATH ?=
 

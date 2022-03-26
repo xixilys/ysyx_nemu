@@ -5,22 +5,22 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VRANDOMIZER_H_
-#define VERILATED_VRANDOMIZER_H_  // guard
+#ifndef VERILATED_VKEYBOARD_BOTTOM_H_
+#define VERILATED_VKEYBOARD_BOTTOM_H_  // guard
 
 #include "verilated_heavy.h"
 
-class Vrandomizer__Syms;
-class Vrandomizer___024root;
+class Vkeyboard_bottom__Syms;
+class Vkeyboard_bottom___024root;
 class VerilatedVcdC;
-class Vrandomizer_VerilatedVcd;
+class Vkeyboard_bottom_VerilatedVcd;
 
 
 // This class is the main interface to the Verilated model
-class Vrandomizer VL_NOT_FINAL {
+class Vkeyboard_bottom VL_NOT_FINAL {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vrandomizer__Syms* const vlSymsp;
+    Vkeyboard_bottom__Syms* const vlSymsp;
 
   public:
 
@@ -29,9 +29,9 @@ class Vrandomizer VL_NOT_FINAL {
     // propagate new values into/out from the Verilated model.
     VL_IN8(&clk,0,0);
     VL_IN8(&rst,0,0);
-    VL_OUT8(&bcd_num0,6,0);
-    VL_OUT8(&bcd_num1,6,0);
-    VL_OUT8(&bcd_num2,6,0);
+    VL_IN8(&ps2_clk,0,0);
+    VL_IN8(&ps2_data,0,0);
+    VL_OUT8(&led,0,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -39,19 +39,19 @@ class Vrandomizer VL_NOT_FINAL {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vrandomizer___024root* const rootp;
+    Vkeyboard_bottom___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vrandomizer(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vrandomizer(const char* name = "TOP");
+    explicit Vkeyboard_bottom(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vkeyboard_bottom(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vrandomizer();
+    virtual ~Vkeyboard_bottom();
   private:
-    VL_UNCOPYABLE(Vrandomizer);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vkeyboard_bottom);  ///< Copying not allowed
 
   public:
     // API METHODS

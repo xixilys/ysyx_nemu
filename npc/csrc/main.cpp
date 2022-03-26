@@ -4,12 +4,12 @@
 	> Mail: amoscykl@163.com 
 	> Created Time: 2022年03月16日 星期三 00时25分07秒
  ************************************************************************/
-#define Vtop Vrandomizer
+#define Vtop Vkeyboard_bottom
 
 #include<iostream>
 #include<nvboard.h>
 //#include<Vlight.h>
-#include<Vrandomizer.h>
+#include<Vkeyboard_bottom.h>
 #include<verilated.h>
 #include<verilated_vcd_c.h>
 #include<bitset>
@@ -67,14 +67,12 @@ int main(int argc,char ** argv,char** env) {
 	while(1){
 		x1 = top->clk;
 		x2 = top->rst;
-		a  = top->bcd_num0;
-		b  = top->bcd_num1;
-		c  = top->bcd_num2;
+		a  = top->led;
 		
 		//cout<<"a = "<<bitset<8>(x1)<<" b = "<<bitset<8>(x2)<<"x = "<<s <<" out = "<<bitset<8>(x3)<<"carry = "<<x4<<"overflower = "<<out<<endl;
 //	top->eval();
-	cout<<"rst  =  "<< x2<<" clk ="<< x2 << " bcd1 = "<< bitset<8>(a)<<" bcd2 = "<< bitset<8>(b)<<" bcd3 "<<bitset<8>(c)<<endl;
-//	single_cycle(top);
+	cout<<"rst  =  "<< x2<<" clk ="<< x1 << " led "<<a<<endl;
+ 	single_cycle(top);
 	/*	if(top->clk == 1) 
 			top->clk = 0;
 		else top->clk = 1;*/
