@@ -1,4 +1,4 @@
-TOPNAME = keyboard_bottom
+TOPNAME = vga_module
 NXDC_FILES = pin_bind.nxdc
 INC_PATH ?=
 

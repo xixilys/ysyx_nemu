@@ -3,9 +3,10 @@ module keyboard_bottom (
 	input rst,
 	input ps2_clk,
 	input ps2_data,
-	output reg led
+	output reg led,
+	output reg [7:0]keyboard_data
 );
-reg [7:0]keyboard_data;
+//reg [7:0]keyboard_data;
 reg [31:0]data_sync;
 reg ready;
 reg overflow;

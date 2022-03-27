@@ -4,12 +4,12 @@
 	> Mail: amoscykl@163.com 
 	> Created Time: 2022年03月16日 星期三 00时25分07秒
  ************************************************************************/
-#define Vtop Vkeyboard_bottom
+#define Vtop Vvga_module
 
 #include<iostream>
 #include<nvboard.h>
 //#include<Vlight.h>
-#include<Vkeyboard_bottom.h>
+#include<Vvga_module.h>
 #include<verilated.h>
 #include<verilated_vcd_c.h>
 #include<bitset>
@@ -65,13 +65,13 @@ int main(int argc,char ** argv,char** env) {
 	int a,b,c,s,_c;
 	int i = 10;
 	while(1){
-		x1 = top->clk;
-		x2 = top->rst;
-		a  = top->led;
-		
+		x1 = top->addr_h;
+		x2 = top->addr_v;
+		//a  = top->led;
+		//b  = top->	keyboard_data;
 		//cout<<"a = "<<bitset<8>(x1)<<" b = "<<bitset<8>(x2)<<"x = "<<s <<" out = "<<bitset<8>(x3)<<"carry = "<<x4<<"overflower = "<<out<<endl;
 //	top->eval();
-	cout<<"rst  =  "<< x2<<" clk ="<< x1 << " led "<<a<<endl;
+	cout<<"addr_h  =  "<< x1 <<" addr_v ="<< x2 <<endl;
  	single_cycle(top);
 	/*	if(top->clk == 1) 
 			top->clk = 0;

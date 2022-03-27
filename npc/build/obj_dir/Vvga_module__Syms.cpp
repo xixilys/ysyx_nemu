@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vkeyboard_bottom__Syms.h"
-#include "Vkeyboard_bottom.h"
-#include "Vkeyboard_bottom___024root.h"
+#include "Vvga_module__Syms.h"
+#include "Vvga_module.h"
+#include "Vvga_module___024root.h"
 
 // FUNCTIONS
-Vkeyboard_bottom__Syms::~Vkeyboard_bottom__Syms()
+Vvga_module__Syms::~Vvga_module__Syms()
 {
 }
 
-Vkeyboard_bottom__Syms::Vkeyboard_bottom__Syms(VerilatedContext* contextp, const char* namep,Vkeyboard_bottom* modelp)
+Vvga_module__Syms::Vvga_module__Syms(VerilatedContext* contextp, const char* namep,Vvga_module* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp(modelp)
