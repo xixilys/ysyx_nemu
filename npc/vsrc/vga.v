@@ -27,8 +27,7 @@ reg [9:0] x_cnt;//x轴数据
 reg [9:0] y_cnt;
 wire h_valid;
 wire v_valid;
-
-clk_gen  #(25000000) clk_1(.rst(rst),.clk(clk),.en(1),.clk_out(vga_clk));
+assign vga_clk = clk;
 
 always @(posedge rst or posedge clk) begin //计算行像素的东西
 	if(rst) begin

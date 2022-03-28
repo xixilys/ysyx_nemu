@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See Vvga_module.mk for the caller.
+# See Vcommand_line_test.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -25,21 +25,21 @@ VM_TRACE_FST_WRITER_THREAD = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	Vvga_module \
-	Vvga_module___024root \
+	Vcommand_line_test \
+	Vcommand_line_test___024root \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	Vvga_module___024root__Slow \
+	Vcommand_line_test___024root__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
-	Vvga_module__Trace \
+	Vcommand_line_test__Trace \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	Vvga_module__Syms \
-	Vvga_module__Trace__Slow \
+	Vcommand_line_test__Syms \
+	Vcommand_line_test__Trace__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

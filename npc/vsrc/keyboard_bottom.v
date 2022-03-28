@@ -3,14 +3,16 @@ module keyboard_bottom (
 	input rst,
 	input ps2_clk,
 	input ps2_data,
-	output reg led,
-	output reg [7:0]keyboard_data
+	output reg continue_flag,
+	output  [7:0]keyboard_data,
+	output  loosen_flag,
+	output ready
 );
-//reg [7:0]keyboard_data;
 reg [31:0]data_sync;
-reg ready;
 reg overflow;
 reg nextdata_n;
+reg [15:0] raw_table_data[300:0];
+reg [7:0]  lookup_table[300:0];
 
 ps2_keyboard k1(.clk(clk),.clrn(rst),.data(keyboard_data),.ready(ready),.overflow(overflow),.nextdata_n(nextdata_n),.ps2_clk(ps2_clk),.ps2_data(ps2_data));
 
@@ -26,11 +28,11 @@ always @(posedge clk or posedge rst) begin
 end
 
 always @(posedge clk or posedge rst) begin
-	if(rst == 1) led <= 0;
-	else if(data_sync[31:24] == data_sync[23:16] && data_sync[23:16]== data_sync[15:8] && data_sync[15:8] == data_sync[7:0]) begin
-		led <= 1;
+	if(rst == 1) continue_flag <= 0;
+	else if( data_sync[15:8] == data_sync[7:0]) begin
+		continue_flag <= 1;
 	end
-	else led <= 0;
+	else continue_flag <= 0;
 end
-
+assign loosen_flag = (keyboard_data == 8'h0F);
 endmodule

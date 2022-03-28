@@ -1,4 +1,4 @@
-TOPNAME = vga_module
+TOPNAME = command_line_test
 NXDC_FILES = pin_bind.nxdc
 INC_PATH ?=
 
