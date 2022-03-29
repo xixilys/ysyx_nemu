@@ -39,6 +39,8 @@ $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 		-top $(TOPNAME) $^ \
 		$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
 		--Mdir $(OBJ_DIR) --exe -o $(abspath $(BIN))
+        
+		$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 
 run: $(BIN)
 	@$^
