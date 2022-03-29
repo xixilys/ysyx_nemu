@@ -36,10 +36,13 @@ VL_MODULE(Vcommand_line_test___024root) {
     VL_OUT16(addr_v,9,0);
 
     // LOCAL SIGNALS
-    CData/*7:0*/ command_line_test__DOT__asc_data;
-    CData/*0:0*/ command_line_test__DOT__continue_flag;
     CData/*0:0*/ command_line_test__DOT__ready;
+    CData/*7:0*/ command_line_test__DOT__asc_data;
+    CData/*7:0*/ command_line_test__DOT__key_board_data;
+    CData/*0:0*/ command_line_test__DOT__continue_flag;
     CData/*7:0*/ command_line_test__DOT__temp_asc;
+    CData/*7:0*/ command_line_test__DOT__command_x;
+    CData/*7:0*/ command_line_test__DOT__command_y;
     CData/*0:0*/ command_line_test__DOT__vga_module1__DOT__h_valid;
     CData/*0:0*/ command_line_test__DOT__vga_module1__DOT__v_valid;
     CData/*0:0*/ command_line_test__DOT__keyboard1__DOT__overflow;
@@ -53,6 +56,7 @@ VL_MODULE(Vcommand_line_test___024root) {
     SData/*9:0*/ command_line_test__DOT__keyboard1__DOT__k1__DOT__buffer;
     IData/*31:0*/ command_line_test__DOT__i;
     IData/*23:0*/ command_line_test__DOT__vga_data;
+    IData/*23:0*/ command_line_test__DOT__key_board_data_sync;
     IData/*31:0*/ command_line_test__DOT__temp_h;
     IData/*31:0*/ command_line_test__DOT__temp_v;
     IData/*31:0*/ command_line_test__DOT__char_x;
@@ -60,23 +64,27 @@ VL_MODULE(Vcommand_line_test___024root) {
     IData/*31:0*/ command_line_test__DOT__down_set;
     IData/*31:0*/ command_line_test__DOT__keyboard1__DOT__data_sync;
     VlUnpacked<SData/*15:0*/, 256> command_line_test__DOT__raw_table_data;
+    VlUnpacked<CData/*7:0*/, 256> command_line_test__DOT__lookup_table;
     VlUnpacked<IData/*23:0*/, 500001> command_line_test__DOT__vga_data_array;
     VlUnpacked<SData/*11:0*/, 5001> command_line_test__DOT__char_table;
     VlUnpacked<CData/*7:0*/, 2501> command_line_test__DOT__screen_data;
     VlUnpacked<CData/*7:0*/, 8> command_line_test__DOT__keyboard1__DOT__k1__DOT__fifo;
 
     // LOCAL VARIABLES
+    CData/*7:0*/ command_line_test__DOT____Vlvbound2;
     CData/*0:0*/ command_line_test__DOT__keyboard1__DOT__k1__DOT____Vlvbound1;
-    CData/*2:0*/ __Vdly__command_line_test__DOT__keyboard1__DOT__k1__DOT__r_ptr;
+    CData/*7:0*/ __Vdlyvval__command_line_test__DOT__screen_data__v0;
+    CData/*0:0*/ __Vdlyvset__command_line_test__DOT__screen_data__v0;
     CData/*0:0*/ __Vdly__command_line_test__DOT__ready;
-    CData/*2:0*/ __Vdlyvdim0__command_line_test__DOT__keyboard1__DOT__k1__DOT__fifo__v0;
-    CData/*7:0*/ __Vdlyvval__command_line_test__DOT__keyboard1__DOT__k1__DOT__fifo__v0;
-    CData/*0:0*/ __Vdlyvset__command_line_test__DOT__keyboard1__DOT__k1__DOT__fifo__v0;
+    CData/*0:0*/ __VinpClk__TOP__command_line_test__DOT__ready;
+    CData/*0:0*/ __Vclklast__TOP____VinpClk__TOP__command_line_test__DOT__ready;
     CData/*0:0*/ __Vclklast__TOP__clk;
     CData/*0:0*/ __Vclklast__TOP__rst;
     CData/*0:0*/ __Vclklast__TOP__vga_vs;
-    IData/*23:0*/ command_line_test__DOT____Vlvbound2;
-    VlUnpacked<CData/*0:0*/, 5> __Vm_traceActivity;
+    CData/*0:0*/ __Vchglast__TOP__command_line_test__DOT__ready;
+    SData/*11:0*/ __Vdlyvdim0__command_line_test__DOT__screen_data__v0;
+    IData/*23:0*/ command_line_test__DOT____Vlvbound1;
+    VlUnpacked<CData/*0:0*/, 6> __Vm_traceActivity;
 
     // INTERNAL VARIABLES
     Vcommand_line_test__Syms* vlSymsp;  // Symbol table

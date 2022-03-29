@@ -34,5 +34,5 @@ always @(posedge clk or posedge rst) begin
 	end
 	else continue_flag <= 0;
 end
-assign loosen_flag = (keyboard_data == 8'h0F);
+assign loosen_flag = (keyboard_data == 8'hF0);
 endmodule

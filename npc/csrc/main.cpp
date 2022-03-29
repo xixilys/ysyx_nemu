@@ -65,8 +65,8 @@ int main(int argc,char ** argv,char** env) {
 	int a,b,c,s,_c;
 	int i = 10;
 	while(1){
-		x1 = top->clk;
-		x2 = top->rst;
+	//	x1 = top->clk;
+	//	x2 = top->rst;
 		//a  = top->led;
 		//b  = top->	keyboard_data;
 		//cout<<"a = "<<bitset<8>(x1)<<" b = "<<bitset<8>(x2)<<"x = "<<s <<" out = "<<bitset<8>(x3)<<"carry = "<<x4<<"overflower = "<<out<<endl;
@@ -78,7 +78,7 @@ int main(int argc,char ** argv,char** env) {
 			top->clk = 0;
 		else top->clk = 1;*/
 
-	step_and_dump_wave(top);
+	//step_and_dump_wave(top);
 
 		nvboard_update();
 		//en = top->en;

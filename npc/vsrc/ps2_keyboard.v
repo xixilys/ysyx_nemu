@@ -33,7 +33,7 @@ always @(posedge clk ) begin
 			if(count == 4'd10) begin
 				if((buffer[0] == 0) && (ps2_data) && (^buffer[9:1])) begin
 					fifo[w_ptr] <= buffer[8:1];
-					$display("recieve %x",buffer[8:1]);
+					////$display("recieve %x",buffer[8:1]);
 					w_ptr <= w_ptr +1;
 					ready <= 1'b1;
 					overflow <= overflow | (r_ptr ==  (w_ptr + 3'b1));
