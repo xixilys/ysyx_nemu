@@ -65,6 +65,7 @@ int main(int argc,char ** argv,char** env) {
 	int a,b,c,s,_c;
 	int i = 10;
 	while(1){
+	    
 	//	x1 = top->clk;
 	//	x2 = top->rst;
 		//a  = top->led;

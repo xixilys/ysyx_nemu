@@ -73,6 +73,7 @@ assign vga_r = vga_data[23:16];
 assign vga_g = vga_data[15:8];
 assign vga_b = vga_data[7:0];
 
+
 endmodule 
 
 
