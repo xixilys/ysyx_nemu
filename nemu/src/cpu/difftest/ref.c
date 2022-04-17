@@ -11,6 +11,7 @@ void difftest_regcpy(void *dut, bool direction) {
   assert(0);
 }
 
+
 void difftest_exec(uint64_t n) {
   assert(0);
 }

@@ -34,11 +34,13 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
+  nemu_state.state = NEMU_QUIT ;
   return -1;
 }
 
 static int cmd_help(char *args);
 
+static int cmd_single_step(char *args) ;
 static struct {
   const char *name;
   const char *description;
@@ -47,6 +49,7 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si","Single Step of the program", cmd_single_step}
 
   /* TODO: Add more commands */
 
@@ -86,7 +89,7 @@ void sdb_mainloop() {
     cmd_c(NULL);
     return;
   }
-
+//后面就是检测到底输入了啥
   for (char *str; (str = rl_gets()) != NULL; ) {
     char *str_end = str + strlen(str);
 
@@ -117,6 +120,28 @@ void sdb_mainloop() {
 
     if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
   }
+}
+
+static int cmd_single_step(char *args)  {
+  char *arg = strtok(NULL, " ");
+  int i;
+  int step_value;
+
+  if (arg == NULL) {
+    /* no argument given */
+    step_value = 1;  //默认没有数据的时候为1
+  }  else { 
+    for(i = 0;i < strlen(arg); i ++) {
+      if(arg[i] > '9' || arg[i] < '0') {
+        printf("wrong parameters for si\n");
+        return 0;
+      }
+    }
+    step_value = atoi(arg);
+  }
+  printf("step_value = %d\n",step_value);
+  cpu_exec(step_value);
+  return 0;
 }
 
 void init_sdb() {
