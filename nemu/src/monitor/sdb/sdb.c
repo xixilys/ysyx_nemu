@@ -3,6 +3,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include "memory/vaddr.h"
 
 static int is_batch_mode = false;
 
@@ -39,6 +40,13 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_help(char *args);
+static int cmd_info(char *args);
+static int cmd_watch_memory(char *args);
+static int cmd_cal_express(char *args);
+static int cmd_set_watchpoint(char *args);
+static int cmd_delete_watchpoint(char *args);
+
+static void display_watch_point(char *args);
 
 static int cmd_single_step(char *args) ;
 static struct {
@@ -49,10 +57,24 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si","Single Step of the program", cmd_single_step}
+  { "si","Single Step of the program", cmd_single_step},
+  { "info", "show the state of the pragram", cmd_info},
+  { "x", "show the memory of address",cmd_watch_memory},
+  { "p", "calculate the value of expressions",cmd_cal_express},
+  { "w", "set watch point",cmd_set_watchpoint},
+  { "d", "delete watch point",cmd_delete_watchpoint}
 
   /* TODO: Add more commands */
 
+};
+
+static struct {
+  const char * name ;
+  const char * description;
+  void (*handler) (char *); 
+}info_table [] = {
+  {"r","Display the register of cpu",isa_reg_display},
+  {"w","Display the watch point of the debugger",display_watch_point},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
@@ -143,7 +165,85 @@ static int cmd_single_step(char *args)  {
   cpu_exec(step_value);
   return 0;
 }
+static int cmd_info(char *args) { 
+  /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  int i;
 
+  if (arg == NULL) {
+    /* no argument given */
+    isa_reg_display();
+  }
+  else {
+    for (i = 0; i < 2 ; i ++) {
+      if (strcmp(arg, info_table[i].name) == 0) {
+        info_table[i].handler(args);
+        return 0;
+      }
+    }
+    printf("Unknown command '%s'\n", arg);
+  }
+  return 0;
+}
+static void display_watch_point(char *args) { 
+  printf("have do no thing\n");
+}
+static int cmd_watch_memory(char *args) {
+  char *arg = strtok(NULL, " ");
+  unsigned long i;
+  int watch_num ;
+  if(arg == NULL) {
+     /* no argument given */
+     printf("please enter the expressions\n");
+     return 0;
+  }
+  else {
+    if((watch_num = atoi(arg)) == 0) {
+      watch_num = 1;
+    }else {
+      arg = strtok(NULL, " ");
+    }
+  }
+  if (arg == NULL) {
+    /* no argument given */
+    printf("please enter the expressions\n");
+    
+  }
+  else {
+    i = strtoul(arg,NULL,16); //mains the entering number is  hex
+    int num ;
+    printf("watch_num = %x  i = %lx\n",watch_num,i);
+    for(num = 0;num < watch_num;num++) {
+      //printf("num = %d\n",num);
+       printf("memory 0x%lx is %x\n",(i+num*4),(unsigned int)vaddr_read((i+num*4),4)); 
+    }
+  
+  }
+  return 0;
+
+}
+static int cmd_cal_express(char *args) { 
+  bool cal_state;
+  word_t  answer;
+  answer = expr(args,&cal_state);
+  
+  if(cal_state == true) {
+    printf("the answer is %ld\n",answer);
+  }
+
+  //printf("have do no thing\n");
+  return 0;
+}
+  
+
+static int cmd_set_watchpoint(char *args){ 
+  printf("have do no thing\n");
+  return 0;
+}
+static int cmd_delete_watchpoint(char *args){
+  printf("have do no thing\n");
+  return 0;
+  }
 void init_sdb() {
   /* Compile the regular expressions. */
   init_regex();
