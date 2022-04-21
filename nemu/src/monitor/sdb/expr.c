@@ -61,7 +61,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[800000] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -119,9 +119,9 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   *success = true;
-  for(int i = 0;i < nr_token;i++) {
-    printf("num %d type is %d\n",i,tokens[i].type);
-  }
+  // for(int i = 0;i < nr_token;i++) {
+  //   printf("num %d type is %d\n",i,tokens[i].type);
+  // }
   word_t temp = 0;
   temp = evaluate_the_expression(0,nr_token-1);
   return temp;
@@ -151,13 +151,13 @@ word_t evaluate_the_expression(int start,int end) {
     /* The expression is surrounded by a matched pair of parentheses.
      * If that is the case, just throw away the parentheses.
      */
-    printf("start = %d and end = %d\n",start,end);
+    //printf("start = %d and end = %d\n",start,end);
     return evaluate_the_expression(start + 1, end - 1);
   }
   else {
     
     int op = find_the_main_character(start,end);
-    printf("start = %d and end = %d\n",start,end);printf("main is %d\n",op);
+   // printf("start = %d and end = %d\n",start,end);printf("main is %d\n",op);
     int a = evaluate_the_expression(start,op-1);
     int b = evaluate_the_expression(op+1,end);
    //printf("start = %d and end = %d\n",start,end);
@@ -166,7 +166,14 @@ word_t evaluate_the_expression(int start,int end) {
       case '+' :return a + b;
       case '-' :return a - b;
       case '*' :return a * b;
-      case '/' :return a / b;
+      case '/' :{
+        if(b == 0 ) {
+          panic("cannot evaluate expression,the denominator is zero \n");
+        }
+        return a / b;
+      }
+      
+     
       default : printf("wrong char here %d\n",tokens[op].type) ;
                 assert(0);
     }
@@ -184,7 +191,7 @@ bool heck_parentheses(int a, int b) {
       }else if(tokens[i].type == ')'){
         kuohao_num -- ;
       }
-      printf("kuohaonum = %d\n",kuohao_num);
+     // printf("kuohaonum = %d\n",kuohao_num);
       if(kuohao_num == 0 && i != b) {
         return false;
       }
@@ -200,31 +207,28 @@ int find_the_main_character(int start,int end) {
   int temp_type  = tokens[start].type;//may be num,so be careful
   int i = start;
   int kuohao_num = 0;
-  for(;i<=end;i++) {
+
+  for(i = start; i <= end;i++) {
     if(tokens[i].type == '('){
       kuohao_num ++;
     }
     else if(tokens[i].type == ')'){
       kuohao_num --;
     }
-  }
-  if(kuohao_num != 0) {
-    return -1;
-  }
-  for(i = start; i <= end;i++) {
     if(tokens[i].type < TK_NORMAL_NUM) {
-      if(tokens[i].type == '+' || tokens[i].type == '-') {
+      if(kuohao_num != 0) {
+          value = value; 
+         // printf("kuohao_num = %d i =%d\n",kuohao_num,i);
+      }else if(tokens[i].type == '+' || tokens[i].type == '-') {
         if(i-start <= 1 || end - i <= 1) {
           temp_type = tokens[i].type;
           value = i;
-        }else if(tokens[i-2].type == '(' || tokens[i+2].type == ')') {
-          printf("herre?\n");
-          value = value;
         }else {
           temp_type = tokens[i].type;
           value = i;
         }
-      } else if(tokens[i].type == '*'|| tokens[i].type == '/') {
+        
+      }else if(tokens[i].type == '*'|| tokens[i].type == '/') {
           if(temp_type != '+'&& temp_type != '-') {
             temp_type = tokens[i].type;
             value = i;
@@ -233,6 +237,10 @@ int find_the_main_character(int start,int end) {
       }
       //printf("i = %d and value =%d\n",i,value);
     }
+    //printf("i = %d, type = %d value =%d kuohao_num = %d\n",i,temp_type,value,kuohao_num);
+  }
+  if(kuohao_num != 0) {
+    return -1;
   }
  // printf("start = %dand end =%d and value = %d\n",start,end,value);
   return value;
