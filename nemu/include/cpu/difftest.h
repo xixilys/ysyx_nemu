@@ -29,10 +29,12 @@ static inline bool difftest_check_reg(const char *name, vaddr_t pc, word_t ref, 
   if (ref != dut) {
     Log("%s is different after executing instruction at pc = " FMT_WORD
         ", right = " FMT_WORD ", wrong = " FMT_WORD ", diff = " FMT_WORD,
-        name, pc, ref, dut, ref ^ dut);
+        name, pc,  ref, dut, ref ^ dut);
     return false;
   }
   return true;
 }
+
+
 
 #endif

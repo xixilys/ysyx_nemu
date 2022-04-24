@@ -4,10 +4,11 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include <memory/vaddr.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,
-  TK_NORMAL_NUM
+  TK_NOTYPE = 256, TK_EQ,TK_AND,TK_NOEQ,
+  TK_POINT,TK_VARAY,TK_NORMAL_NUM
 
 
   /* TODO: Add more token types */
@@ -22,7 +23,9 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
+  {"0[xX][0-9a-fA-F]+",TK_NORMAL_NUM},
   {"[0-9]+",TK_NORMAL_NUM},
+  {"\\$[a-zA-Z_]+[a-zA-Z0-9_]*",TK_VARAY},
   {"\\)",')'},
   {"\\(",'('},       
   {" +", TK_NOTYPE},    // spaces
@@ -30,7 +33,10 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"\\-",'-'},          // minus
   {"\\/",'/'},          // slash
-  {"\\*",'*'}           //multiply
+  {"\\*",'*'},           //multiply or point,when make tokens ,we see all * as multiply
+  {"&&",TK_AND},    //and 
+  {"!=",TK_NOEQ}
+  
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -82,22 +88,27 @@ static bool make_token(char *e) {
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
-
-        /* TODO: Now a new token is recognized with rules[i]. Add codes
-         * to record the token in the array `tokens'. For certain types
-         * of tokens, some extra actions should be performed.
-         */
-
+        
         switch (rules[i].token_type) {
           case TK_NOTYPE:break;
           default:{
-                  tokens[nr_token].type = rules[i].token_type;
+                if(tokens[nr_token].type != TK_POINT) {
+                   tokens[nr_token].type = rules[i].token_type;
+                }
+                
+                if (tokens[nr_token].type == '*' && (nr_token == 0 || tokens[nr_token- 1].type == '+' ||tokens[nr_token - 1].type == '-'||
+                  tokens[nr_token-1].type == '*' ||tokens[nr_token-1].type == '/' || tokens[nr_token-1].type == '(' || tokens[nr_token-1].type == TK_EQ ||
+                  tokens[nr_token-1].type == TK_AND || tokens[nr_token-1].type == TK_NOEQ) ){
+                  tokens[nr_token].type = TK_POINT;
+                }else {
                   for(int num = 0;num < substr_len;num++) {
                     tokens[nr_token].str[num] = substr_start[num];
                   }
                   tokens[nr_token].str[substr_len] = '\0';
                   //printf("nrtoken is %d\n and tokenstype is %d\n",nr_token,tokens[nr_token].type);
                   nr_token++;
+                }
+                
           }
         }
 
@@ -119,6 +130,15 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   *success = true;
+  // for (int i = 0; i < nr_token; i ++) {
+  //   if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '+' ||tokens[i - 1].type == '-'||
+  //  tokens[i-1].type == '*' ||tokens[i-1].type == '/' || tokens[i-1].type == '(' || tokens[i-1].type == TK_EQ ||
+  //  tokens[i-1].type == TK_AND || tokens[i-1].type == TK_NOEQ) ){
+  //   tokens[i].type = TK_POINT;
+    
+  //   } 
+  // }
+
   // for(int i = 0;i < nr_token;i++) {
   //   printf("num %d type is %d\n",i,tokens[i].type);
   // }
@@ -131,35 +151,43 @@ word_t evaluate_the_expression(int start,int end) {
   if (start > end) {
     /* Bad expression */
     printf("start = %d and end = %d\n",start,end);
-  panic("the expression tokens is wrong\nand so I don't know why\nbecause start > end\n");    
+    panic("the expression tokens is wrong\nand so I don't know why\nbecause start > end\n");    
   }
   else if (start == end) {
-    /* Single token.
-     * For now this token should be a number.
-     * Return the value of the number.
-     */
-   // printf("here is %d\n",start);
-   //printf("start = %d and end = %d\n",start,end);
-    if(tokens[start].type == TK_NORMAL_NUM){
+    if(tokens[start].type == TK_NORMAL_NUM ){
+      if(tokens[start].str[0]=='0' && (tokens[start].str[1] == 'x' || tokens[start].str[1] == 'X')) {
+       
+        return strtoul(tokens[start].str,NULL,16);
+      }else {
      // printf("value is %d\n",atoi(tokens[start].str));
-      return atoi(tokens[start].str);
-    }else {
-       panic("the expression tokens is wrong\nand so I don't know why\nbecause not a number\n");    
-    }
+      return atol(tokens[start].str);
+      } 
+    }else if(tokens[start].type == TK_VARAY){
+      if(tokens[start].str[0] == '$' ) {
+        bool reg_type;
+        word_t temp_value = isa_reg_str2val((&tokens[start].str[1]), &reg_type);
+        if(reg_type == false) {
+          printf("%s not reg!!! ",&tokens[start].str[1]);
+        }
+        else {
+          printf("reg %s is %ld\n",&tokens[start].str[1],temp_value);
+          return temp_value;
+        }
+      }
+    } else if(tokens[start].type == TK_POINT){
+      word_t temp_t =strtoul(tokens[start].str,NULL,16);
+      return vaddr_read(temp_t,8);
+    } 
   }
   else if (heck_parentheses(start, end) == true) {
-    /* The expression is surrounded by a matched pair of parentheses.
-     * If that is the case, just throw away the parentheses.
-     */
     //printf("start = %d and end = %d\n",start,end);
     return evaluate_the_expression(start + 1, end - 1);
   }
   else {
-    
     int op = find_the_main_character(start,end);
    // printf("start = %d and end = %d\n",start,end);printf("main is %d\n",op);
-    int a = evaluate_the_expression(start,op-1);
-    int b = evaluate_the_expression(op+1,end);
+    word_t a = evaluate_the_expression(start,op-1);
+    word_t b = evaluate_the_expression(op+1,end);
    //printf("start = %d and end = %d\n",start,end);
     //printf("a = %d && b = %d && type = %d\n",a,b,tokens[op].type);
     switch(tokens[op].type) {
@@ -171,14 +199,15 @@ word_t evaluate_the_expression(int start,int end) {
           panic("cannot evaluate expression,the denominator is zero \n");
         }
         return a / b;
-      }
-      
-     
+      };break;
+      case TK_EQ:return a == b;
+      case TK_AND:return a && b;
+      case TK_NOEQ:return a != b;
       default : printf("wrong char here %d\n",tokens[op].type) ;
                 assert(0);
     }
-    /* We should do more things here. */
   }
+  return 0;
 }
 
 bool heck_parentheses(int a, int b) {
@@ -207,7 +236,10 @@ int find_the_main_character(int start,int end) {
   int temp_type  = tokens[start].type;//may be num,so be careful
   int i = start;
   int kuohao_num = 0;
-
+ // printf("value = %d ,end = %d\n",value ,end);
+  // for(int h = start; h <= end; h++) {
+  //   printf("%d\n",tokens[h].type);
+  // }
   for(i = start; i <= end;i++) {
     if(tokens[i].type == '('){
       kuohao_num ++;
@@ -215,34 +247,36 @@ int find_the_main_character(int start,int end) {
     else if(tokens[i].type == ')'){
       kuohao_num --;
     }
-    if(tokens[i].type < TK_NORMAL_NUM) {
+     //printf("kuohao_num = %d i =%d value = %d\n",kuohao_num,i,value);
+    if(tokens[i].type != TK_NORMAL_NUM && tokens[i].type != TK_POINT) {
       if(kuohao_num != 0) {
-          value = value; 
-         // printf("kuohao_num = %d i =%d\n",kuohao_num,i);
+        value = value; 
+       
+      }else if(tokens[i].type == TK_AND) {
+        temp_type = tokens[i].type;
+        value = i;
+      }else if(temp_type == TK_AND) {
+        value = value;
+      }else if(tokens[i].type == TK_EQ || tokens[i].type == TK_NOEQ){
+        temp_type = tokens[i].type;
+        value = i;
+      }else if(temp_type == TK_EQ || temp_type ==TK_NOEQ) {
+        value = value;
       }else if(tokens[i].type == '+' || tokens[i].type == '-') {
-        if(i-start <= 1 || end - i <= 1) {
-          temp_type = tokens[i].type;
-          value = i;
-        }else {
-          temp_type = tokens[i].type;
-          value = i;
-        }
-        
+        temp_type = tokens[i].type;
+        value = i;
+      }else if(temp_type == '+'||temp_type == '-') {
+        value = value;
       }else if(tokens[i].type == '*'|| tokens[i].type == '/') {
-          if(temp_type != '+'&& temp_type != '-') {
-            temp_type = tokens[i].type;
-            value = i;
-          }
-          
-      }
-      //printf("i = %d and value =%d\n",i,value);
-    }
-    //printf("i = %d, type = %d value =%d kuohao_num = %d\n",i,temp_type,value,kuohao_num);
+        temp_type = tokens[i].type;
+        value = i;
+      }  
+    } //printf("i = %d and value =%d\n",i,value);//printf("i = %d, type = %d value =%d kuohao_num = %d\n",i,temp_type,value,kuohao_num);
   }
   if(kuohao_num != 0) {
     return -1;
   }
- // printf("start = %dand end =%d and value = %d\n",start,end,value);
+  //printf("start = %dand end =%d and value = %d\n",start,end,value);
   return value;
 }
 

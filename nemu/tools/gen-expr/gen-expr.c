@@ -23,7 +23,7 @@ int choose(int a) {
 
 static void gen_rand_expr() {
  // printf("value = %d\n",buf_value);
-  if(buf_value >= 100000) {
+  if(buf_value >= 1000) {
       int value = rand()%10;
       sprintf(&buf[buf_value], "%d", value);
       buf_value += strlen(&buf[buf_value]);
@@ -68,6 +68,7 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
+    //printf("i = %d\n",i);
     buf_value = 0;
     memset(buf,0,sizeof(buf));
     gen_rand_expr();

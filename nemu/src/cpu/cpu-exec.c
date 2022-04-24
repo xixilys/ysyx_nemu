@@ -2,6 +2,7 @@
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
 #include <locale.h>
+#include </media/ddddddd/40d0728b-21f5-4125-bf84-4d623a60d871/ddddddd/Documents/ysyx/ysyx-workbench/nemu/src/monitor/sdb/sdb.h>
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -23,7 +24,25 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+  WP* p = head;
+  bool cal_state;
+  while(p != NULL){
+    word_t answer;
+    answer = expr(p->str,&cal_state);
+    if(cal_state != true) {
+      printf("cal wrong\n");
+    }
+    if (answer != p->last_value) {
+      Log("%s is different after executing instruction at pc = " FMT_WORD ", dnpc = "
+      FMT_WORD  ", last = " FMT_WORD ", now = " FMT_WORD ,
+        p->str, _this->pc,dnpc,  p->last_value, answer ); 
+      p->last_value = answer;
+      nemu_state.state = NEMU_STOP; 
+    }
+    p = p->next;
+  }
 }
+
 
 static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;

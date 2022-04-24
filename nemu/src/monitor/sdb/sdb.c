@@ -158,15 +158,15 @@ static int cmd_single_step(char *args)  {
         printf("wrong parameters for si\n");
         return 0;
       }
-    }
+    } 
     step_value = atoi(arg);
   }
   printf("step_value = %d\n",step_value);
   cpu_exec(step_value);
   return 0;
 }
-static char test_buf[755350];
-static char test_answer_buf[1000];
+//static char test_buf[755350];
+//static char test_answer_buf[1000];
 static int cmd_info(char *args) { 
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
@@ -217,7 +217,7 @@ static int cmd_watch_memory(char *args) {
     printf("watch_num = %x  i = %lx\n",watch_num,i);
     for(num = 0;num < watch_num;num++) {
       //printf("num = %d\n",num);
-       printf("memory 0x%lx is %x\n",(i+num*4),(unsigned int)vaddr_read((i+num*4),4)); 
+       printf("memory 0x%lx is %08x\n",(i+num*4),(unsigned int)vaddr_read((i+num*4),4)); 
     }
   
   }
@@ -227,39 +227,42 @@ static int cmd_watch_memory(char *args) {
 static int cmd_cal_express(char *args) { 
   bool cal_state;
   word_t  answer;
-  int true_answer;
-  FILE *fp = fopen("/media/ddddddd/40d0728b-21f5-4125-bf84-4d623a60d871/ddddddd/Documents/ysyx/ysyx-workbench/nemu/tools/gen-expr/build/input", "r");
-  assert(fp != NULL);
+  // int true_answer;
+  // FILE *fp = fopen("/media/ddddddd/40d0728b-21f5-4125-bf84-4d623a60d871/ddddddd/Documents/ysyx/ysyx-workbench/nemu/tools/gen-expr/build/input", "r");
+  // assert(fp != NULL);
    
-  for(int i = 0;i<100;i++) {
-    int a = fscanf(fp,"%s",test_answer_buf); 
-    if(a != 1) {
-      printf("error fscanf\n");
-    }
-    char *b = fgets(test_buf,700000,fp);
-    //printf("length is %lu\n",strlen(test_buf));
-    test_buf[strlen(test_buf)-1] = '\0';
-    if(b == NULL) {
-      printf("here wrong fgets\n");
-    }
-    true_answer = atoi(test_answer_buf);
-    //printf(" true is %d and test_buf is %s length is %lu\n",true_answer,test_buf,strlen(test_buf));
-    answer = expr(test_buf,&cal_state);
-    if(cal_state == true) {
-      if(answer == true_answer){
-        printf("ok\n");
-      }
-      else {
-        panic("error answer\n");
-      }
-    }
-  } 
-  fclose(fp);
-  // = expr(args,&cal_state);
+  // for(int i = 0;i<1000;i++) {
+  //   int a = fscanf(fp,"%s",test_answer_buf); 
+  //   if(a != 1) {
+  //     printf("error fscanf\n");
+  //   }
+  //   char *b = fgets(test_buf,700000,fp);
+  //   //printf("length is %lu\n",strlen(test_buf));
+  //   test_buf[strlen(test_buf)-1] = '\0';
+  //   if(b == NULL) {
+  //     printf("here wrong fgets\n");
+  //   }
+  //   true_answer = atoi(test_answer_buf);
+  //   //printf(" true is %d and test_buf is %s length is %lu\n",true_answer,test_buf,strlen(test_buf));
+  //   answer = expr(test_buf,&cal_state);
+  //   if(cal_state == true) {
+  //     if(answer == true_answer){
+  //       printf("ok\n");
+  //     }
+  //     else {
+  //       panic("error answer\n");
+  //       while (1){
+  //         printf("wrongwrongwrong\n");
+  //       }
+  //     }
+  //   }
+  // } 
+  // fclose(fp);
+  answer = expr(args,&cal_state);
   
-  // if(cal_state == true) {
-  //   printf("the answer is %ld\n",answer);
-  // }
+  if(cal_state == true) {
+    printf("the answer is Dec:%ld Hex: %016lx\n",answer,answer);
+  }
 
   //printf("have do no thing\n");
   return 0;
@@ -267,13 +270,32 @@ static int cmd_cal_express(char *args) {
   
 
 static int cmd_set_watchpoint(char *args){ 
-  printf("have do no thing\n");
+  //printf("here");
+  WP* p = NULL;
+  p = new_wp();
+  strcpy(p->str,args);
+  bool cal_state;
+  p->last_value = expr(args,&cal_state);
+  if(cal_state == false) {
+    printf("cal wrong!!!\n");
+  }
+  if(p != NULL) {
+    printf("%s\n",p->str);
+  }else {
+    printf("shabi\n");
+  }
   return 0;
 }
 static int cmd_delete_watchpoint(char *args){
-  printf("have do no thing\n");
-  return 0;
+  int num = atoi(args);
+  if(delete_wp(num) == true) {
+    printf("delete completely !!!\n");
+  }else{
+    printf("delete fail !!!\n");
   }
+  return 0;
+
+}
 void init_sdb() {
   /* Compile the regular expressions. */
   init_regex();
