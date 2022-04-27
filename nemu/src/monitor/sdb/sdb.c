@@ -161,7 +161,7 @@ static int cmd_single_step(char *args)  {
     } 
     step_value = atoi(arg);
   }
-  printf("step_value = %d\n",step_value);
+  //printf("step_value = %d\n",step_value);
   cpu_exec(step_value);
   return 0;
 }

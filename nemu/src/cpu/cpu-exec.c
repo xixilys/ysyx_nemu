@@ -73,7 +73,9 @@ static void exec_once(Decode *s, vaddr_t pc) {
 
 static void execute(uint64_t n) {
   Decode s;
+ // printf("n = %lud\n",n);传一个负数进来，注意形参n为无符号数，就会一直跑直到break;
   for (;n > 0; n --) {
+    //printf("hjyshabi\n");
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
     trace_and_difftest(&s, cpu.pc);

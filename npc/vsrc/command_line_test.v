@@ -82,7 +82,8 @@ always @(negedge vga_vs or posedge rst) begin
 				down_set = char_x + char_y*70;
 				//$display("char x = %d char_y = %d temp_asc = %d dow_set = %d\n",char_x,char_y,temp_asc,down_set);
 				temp_asc =screen_data[down_set];
-				vga_data_array[{(temp_h[9:0]),(temp_v[8:0])}] = (char_table[temp_asc*16+((temp_v-1)%16)][(temp_h-1)%9])>0 ? 24'hFFFFFF:24'b0;
+				vga_data_array[{(temp_h[9:0]),(temp_v[8:0])}] = 
+				(char_table[temp_asc*16+((temp_v-1)%16)][(temp_h-1)%9])>0 ? 24'hFFFFFF:24'b0;
 			end
 		end
 	end
