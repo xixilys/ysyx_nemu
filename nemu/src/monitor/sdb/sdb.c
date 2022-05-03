@@ -187,6 +187,7 @@ static int cmd_info(char *args) {
   }
   return 0;
 }
+
 static void display_watch_point(char *args) { 
   printf("have do no thing\n");
 }

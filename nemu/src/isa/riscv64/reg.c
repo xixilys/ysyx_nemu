@@ -13,6 +13,7 @@ void isa_reg_display() {
   for(i = 0;i<32;i++) {
     printf("%s : %lx\n",regs[i],cpu.gpr[i]);
   }
+  printf("%ld\n",(uint64_t)5+(uint64_t)-2);
   printf("pc : %lx\n",cpu.pc);
 }
 

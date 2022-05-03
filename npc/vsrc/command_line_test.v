@@ -108,9 +108,7 @@ always @(posedge ready) begin
 			end
 			default: begin
 		//	$display("key data is %h and table answer is %h",key_board_data,lookup_table[key_board_data]);
-				screen_data[command_x+command_y*70] <=lookup_table[ key_board_data];
-
-
+				screen_data[command_x+command_y*70] <=lookup_table[key_board_data];
 				if(command_x<70) begin
 					command_x <= command_x+8'b1;
 				end

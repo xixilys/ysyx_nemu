@@ -119,7 +119,7 @@
   Clear condition
 	a : according to the card state
 	b : always related to the previous command. Reception of
-            a valid command will clear it (with a delay of one command)
+            a valid command0x80000000 will clear it (with a delay of one command)
 	c : clear by read
  */
 
