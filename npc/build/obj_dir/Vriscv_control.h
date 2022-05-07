@@ -5,43 +5,40 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VCOMMAND_LINE_TEST_H_
-#define VERILATED_VCOMMAND_LINE_TEST_H_  // guard
+#ifndef VERILATED_VRISCV_CONTROL_H_
+#define VERILATED_VRISCV_CONTROL_H_  // guard
 
 #include "verilated_heavy.h"
 
-class Vcommand_line_test__Syms;
-class Vcommand_line_test___024root;
+class Vriscv_control__Syms;
+class Vriscv_control___024root;
 class VerilatedVcdC;
-class Vcommand_line_test_VerilatedVcd;
+class Vriscv_control_VerilatedVcd;
 
 
 // This class is the main interface to the Verilated model
-class Vcommand_line_test VL_NOT_FINAL {
+class Vriscv_control VL_NOT_FINAL {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vcommand_line_test__Syms* const vlSymsp;
+    Vriscv_control__Syms* const vlSymsp;
 
   public:
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_IN8(&clk,0,0);
-    VL_IN8(&rst,0,0);
-    VL_IN8(&ps2_clk,0,0);
-    VL_IN8(&ps2_data,0,0);
-    VL_OUT8(&vga_vs,0,0);
-    VL_OUT8(&vga_hs,0,0);
-    VL_OUT8(&vga_clk,0,0);
-    VL_OUT8(&vga_blank_n,0,0);
-    VL_OUT8(&vga_sync_n,0,0);
-    VL_OUT8(&vga_r,7,0);
-    VL_OUT8(&vga_g,7,0);
-    VL_OUT8(&vga_b,7,0);
-    VL_OUT16(&addr_h,9,0);
-    VL_OUT16(&addr_v,9,0);
-    VL_OUT8(&led,0,0);
+    VL_IN8(&clock,0,0);
+    VL_IN8(&reset,0,0);
+    VL_IN(&io_mem_instrution,31,0);
+    VL_OUT64(&io_pc,63,0);
+    VL_OUT(&io_riscv_instruction,31,0);
+    VL_OUT64(&io_answer,63,0);
+    VL_OUT(&io_src1,31,0);
+    VL_OUT(&io_src2,31,0);
+    VL_OUT(&io_dest,31,0);
+    VL_OUT(&io_inscode,31,0);
+    VL_OUT8(&io_instype,3,0);
+    VL_OUT8(&io_trap_flag,0,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -49,19 +46,19 @@ class Vcommand_line_test VL_NOT_FINAL {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vcommand_line_test___024root* const rootp;
+    Vriscv_control___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vcommand_line_test(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vcommand_line_test(const char* name = "TOP");
+    explicit Vriscv_control(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vriscv_control(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vcommand_line_test();
+    virtual ~Vriscv_control();
   private:
-    VL_UNCOPYABLE(Vcommand_line_test);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vriscv_control);  ///< Copying not allowed
 
   public:
     // API METHODS

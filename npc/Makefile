@@ -1,4 +1,4 @@
-TOPNAME = command_line_test
+TOPNAME = riscv_control
 NXDC_FILES = pin_bind.nxdc
 INC_PATH ?=
 
@@ -21,7 +21,7 @@ $(SRC_AUTO_BIND): $(NXDC_FILES)
 	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $^ $@
 
 # project source
-VSRCS = $(shell find $(abspath ./vsrc) -name "*.v")
+VSRCS = $(shell find $(abspath ./vsrc/digital_experiment) -name "*.v")
 CSRCS = $(shell find $(abspath ./csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
 CSRCS += $(SRC_AUTO_BIND)
 

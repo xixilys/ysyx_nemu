@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vcommand_line_test__Syms.h"
-#include "Vcommand_line_test.h"
-#include "Vcommand_line_test___024root.h"
+#include "Vriscv_control__Syms.h"
+#include "Vriscv_control.h"
+#include "Vriscv_control___024root.h"
 
 // FUNCTIONS
-Vcommand_line_test__Syms::~Vcommand_line_test__Syms()
+Vriscv_control__Syms::~Vriscv_control__Syms()
 {
 }
 
-Vcommand_line_test__Syms::Vcommand_line_test__Syms(VerilatedContext* contextp, const char* namep,Vcommand_line_test* modelp)
+Vriscv_control__Syms::Vriscv_control__Syms(VerilatedContext* contextp, const char* namep,Vriscv_control* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp(modelp)

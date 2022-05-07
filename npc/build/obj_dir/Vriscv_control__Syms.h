@@ -4,33 +4,33 @@
 // Internal details; most calling programs do not need this header,
 // unless using verilator public meta comments.
 
-#ifndef VERILATED_VCOMMAND_LINE_TEST__SYMS_H_
-#define VERILATED_VCOMMAND_LINE_TEST__SYMS_H_  // guard
+#ifndef VERILATED_VRISCV_CONTROL__SYMS_H_
+#define VERILATED_VRISCV_CONTROL__SYMS_H_  // guard
 
 #include "verilated_heavy.h"
 
 // INCLUDE MODEL CLASS
 
-#include "Vcommand_line_test.h"
+#include "Vriscv_control.h"
 
 // INCLUDE MODULE CLASSES
-#include "Vcommand_line_test___024root.h"
+#include "Vriscv_control___024root.h"
 
 // SYMS CLASS (contains all model state)
-class Vcommand_line_test__Syms final : public VerilatedSyms {
+class Vriscv_control__Syms final : public VerilatedSyms {
   public:
     // INTERNAL STATE
-    Vcommand_line_test* const __Vm_modelp;
+    Vriscv_control* const __Vm_modelp;
     bool __Vm_activity = false;  ///< Used by trace routines to determine change occurred
     uint32_t __Vm_baseCode = 0;  ///< Used by trace routines when tracing multiple models
     bool __Vm_didInit = false;
 
     // MODULE INSTANCE STATE
-    Vcommand_line_test___024root   TOP;
+    Vriscv_control___024root       TOP;
 
     // CONSTRUCTORS
-    Vcommand_line_test__Syms(VerilatedContext* contextp, const char* namep, Vcommand_line_test* modelp);
-    ~Vcommand_line_test__Syms();
+    Vriscv_control__Syms(VerilatedContext* contextp, const char* namep, Vriscv_control* modelp);
+    ~Vriscv_control__Syms();
 
     // METHODS
     const char* name() { return TOP.name(); }
