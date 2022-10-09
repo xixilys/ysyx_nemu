@@ -1,0 +1,336 @@
+// Verilated -*- C++ -*-
+// DESCRIPTION: Verilator output: Design internal header
+// See Vmycpu_top.h for the primary calling header
+
+#ifndef VERILATED_VMYCPU_TOP_FIFO_WITH_BUNDLE_H_
+#define VERILATED_VMYCPU_TOP_FIFO_WITH_BUNDLE_H_  // guard
+
+#include "verilated.h"
+#include "verilated_threads.h"
+
+class Vmycpu_top__Syms;
+class Vmycpu_top_Look_up_table_read_first_with_bundle;
+
+
+class Vmycpu_top_fifo_with_bundle final : public VerilatedModule {
+  public:
+    // CELLS
+    Vmycpu_top_Look_up_table_read_first_with_bundle* __PVT__Look_up_table_read_first_with_bundle;
+    Vmycpu_top_Look_up_table_read_first_with_bundle* __PVT__Look_up_table_read_first_with_bundle_1;
+    Vmycpu_top_Look_up_table_read_first_with_bundle* __PVT__Look_up_table_read_first_with_bundle_2;
+    Vmycpu_top_Look_up_table_read_first_with_bundle* __PVT__Look_up_table_read_first_with_bundle_3;
+
+    // DESIGN SPECIFIC STATE
+    // Anonymous structures to workaround compiler member-count bugs
+    struct {
+        CData/*3:0*/ __PVT__read_length_points;
+        VL_IN8(__PVT__reset,0,0);
+        CData/*3:0*/ __Vdly__read_length_points;
+        CData/*3:0*/ __PVT___read_length_points_T_7;
+        VL_IN8(__PVT__io_read_en,1,0);
+        CData/*2:0*/ __PVT___GEN_58;
+        CData/*2:0*/ __PVT___read_length_points_T_3;
+        CData/*3:0*/ __PVT___GEN_59;
+        VL_OUT(__PVT__io_read_out_0_inst,31,0);
+        IData/*31:0*/ __PVT___GEN_15;
+        IData/*31:0*/ __PVT___GEN_29;
+        IData/*31:0*/ __PVT___GEN_43;
+        VL_OUT64(__PVT__io_read_out_0_pc,63,0);
+        QData/*63:0*/ __PVT___GEN_14;
+        QData/*63:0*/ __PVT___GEN_28;
+        QData/*63:0*/ __PVT___GEN_42;
+        CData/*1:0*/ __PVT___read_banks_points_T_2;
+        CData/*2:0*/ __PVT___read_length_points_T_1;
+        VL_OUT8(__PVT__io_full,0,0);
+        CData/*0:0*/ __PVT___fifo_banks_3_write_T_1;
+        CData/*0:0*/ __PVT___io_empty_T_1;
+        CData/*2:0*/ __PVT___io_full_T_3;
+        CData/*3:0*/ __PVT___io_full_T_7;
+        CData/*0:0*/ __PVT___io_full_T_12;
+        CData/*1:0*/ __Vdly__write_banks_points;
+        CData/*3:0*/ __Vdly__write_length_points;
+        CData/*1:0*/ __Vdly__read_banks_points;
+        CData/*2:0*/ __PVT___write_length_points_T_1;
+        CData/*3:0*/ __PVT___write_length_points_T_7;
+        CData/*3:0*/ __PVT__write_length_points;
+        CData/*1:0*/ __PVT__write_banks_points;
+        VL_IN8(__PVT__io_write_en,1,0);
+        CData/*2:0*/ __PVT___GEN_56;
+        VL_IN8(__PVT__io_write_in_0_pre_decoder_branchD_flag,0,0);
+        VL_IN8(__PVT__io_write_in_0_pre_decoder_jump,0,0);
+        VL_IN8(__PVT__io_write_in_0_pre_decoder_branchdata,5,0);
+        VL_IN8(__PVT__io_write_in_0_pre_decoder_jr,0,0);
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_io_write;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pre_decoder_branchD_flag;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pre_decoder_jump;
+        CData/*5:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pre_decoder_jr;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_exception_type;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pre_lookup_data;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pre_hashcode;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pre_pht;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pre_decoder_branchD_flag;
+        CData/*5:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_true_branch_state;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_write;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pre_decoder_branchD_flag;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pre_decoder_jump;
+        CData/*5:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pre_decoder_jr;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_write;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pre_decoder_branchD_flag;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pre_decoder_jump;
+        CData/*5:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pre_decoder_jr;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pre_decoder_jump;
+        CData/*5:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pre_decoder_jr;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_true_branch_state;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_write;
+    };
+    struct {
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_decoder_branchD_flag;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_decoder_jump;
+        CData/*5:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_decoder_jr;
+        CData/*2:0*/ __PVT___write_length_points_T_3;
+        CData/*3:0*/ __PVT___GEN_57;
+        VL_IN(__PVT__io_write_in_0_inst,31,0);
+        IData/*31:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_inst;
+        IData/*31:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_inst;
+        IData/*31:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_inst;
+        IData/*31:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_inst;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pre_pc_target;
+        CData/*1:0*/ __PVT__fifo_banks_0_out_exception_type;
+        CData/*6:0*/ __PVT__fifo_banks_0_out_pre_lookup_data;
+        CData/*3:0*/ __PVT__fifo_banks_0_out_pre_hashcode;
+        CData/*1:0*/ __PVT__fifo_banks_0_out_pre_pht;
+        CData/*0:0*/ __PVT__fifo_banks_0_out_pre_decoder_branchD_flag;
+        CData/*5:0*/ __PVT__fifo_banks_0_out_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__fifo_banks_0_out_true_branch_state;
+        CData/*0:0*/ __PVT__fifo_banks_2_out_pre_decoder_jump;
+        CData/*5:0*/ __PVT__fifo_banks_2_out_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__fifo_banks_2_out_pre_decoder_jr;
+        CData/*0:0*/ __PVT__fifo_banks_2_out_true_branch_state;
+        QData/*63:0*/ __PVT__fifo_banks_0_out_pre_pc_target;
+        VL_OUT8(__PVT__io_read_out_0_exception_type,1,0);
+        VL_OUT8(__PVT__io_read_out_0_pre_lookup_data,6,0);
+        VL_OUT8(__PVT__io_read_out_0_pre_hashcode,3,0);
+        VL_OUT8(__PVT__io_read_out_0_pre_pht,1,0);
+        VL_OUT8(__PVT__io_read_out_0_pre_bht,6,0);
+        VL_OUT8(__PVT__io_read_out_0_pre_lookup_value,7,0);
+        VL_OUT8(__PVT__io_read_out_0_pre_decoder_branchD_flag,0,0);
+        VL_OUT8(__PVT__io_read_out_0_pre_decoder_jump,0,0);
+        VL_OUT8(__PVT__io_read_out_0_pre_decoder_branchdata,5,0);
+        VL_OUT8(__PVT__io_read_out_0_pre_decoder_jr,0,0);
+        VL_OUT8(__PVT__io_read_out_0_true_branch_state,0,0);
+        VL_IN8(__PVT__io_write_in_0_pre_pht,1,0);
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pre_pht;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pre_pht;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pre_pht;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_pht;
+        CData/*1:0*/ __PVT___GEN_16;
+        CData/*6:0*/ __PVT___GEN_18;
+        CData/*3:0*/ __PVT___GEN_19;
+        CData/*1:0*/ __PVT___GEN_20;
+        CData/*6:0*/ __PVT___GEN_21;
+        CData/*7:0*/ __PVT___GEN_22;
+        CData/*0:0*/ __PVT___GEN_23;
+        CData/*0:0*/ __PVT___GEN_24;
+        CData/*5:0*/ __PVT___GEN_25;
+        CData/*0:0*/ __PVT___GEN_26;
+        CData/*0:0*/ __PVT___GEN_27;
+        CData/*1:0*/ __PVT___GEN_30;
+        CData/*6:0*/ __PVT___GEN_32;
+        CData/*3:0*/ __PVT___GEN_33;
+        CData/*1:0*/ __PVT___GEN_34;
+        CData/*6:0*/ __PVT___GEN_35;
+        CData/*7:0*/ __PVT___GEN_36;
+        CData/*0:0*/ __PVT___GEN_37;
+        CData/*0:0*/ __PVT___GEN_38;
+        CData/*5:0*/ __PVT___GEN_39;
+        CData/*0:0*/ __PVT___GEN_40;
+        CData/*0:0*/ __PVT___GEN_41;
+        CData/*1:0*/ __PVT___GEN_44;
+        CData/*6:0*/ __PVT___GEN_46;
+    };
+    struct {
+        CData/*3:0*/ __PVT___GEN_47;
+        CData/*1:0*/ __PVT___GEN_48;
+        CData/*6:0*/ __PVT___GEN_49;
+        CData/*7:0*/ __PVT___GEN_50;
+        CData/*0:0*/ __PVT___GEN_51;
+        CData/*0:0*/ __PVT___GEN_52;
+        CData/*5:0*/ __PVT___GEN_53;
+        CData/*0:0*/ __PVT___GEN_54;
+        CData/*0:0*/ __PVT___GEN_55;
+        VL_OUT64(__PVT__io_read_out_0_pre_pc_target,63,0);
+        QData/*63:0*/ __PVT___GEN_17;
+        QData/*63:0*/ __PVT___GEN_31;
+        QData/*63:0*/ __PVT___GEN_45;
+        CData/*1:0*/ __PVT__fifo_banks_1_out_exception_type;
+        CData/*6:0*/ __PVT__fifo_banks_1_out_pre_lookup_data;
+        CData/*3:0*/ __PVT__fifo_banks_1_out_pre_hashcode;
+        CData/*1:0*/ __PVT__fifo_banks_1_out_pre_pht;
+        CData/*6:0*/ __PVT__fifo_banks_1_out_pre_bht;
+        CData/*7:0*/ __PVT__fifo_banks_1_out_pre_lookup_value;
+        CData/*0:0*/ __PVT__fifo_banks_1_out_pre_decoder_branchD_flag;
+        CData/*0:0*/ __PVT__fifo_banks_1_out_pre_decoder_jump;
+        CData/*5:0*/ __PVT__fifo_banks_1_out_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__fifo_banks_1_out_pre_decoder_jr;
+        CData/*0:0*/ __PVT__fifo_banks_1_out_true_branch_state;
+        CData/*1:0*/ __PVT__fifo_banks_2_out_exception_type;
+        CData/*6:0*/ __PVT__fifo_banks_2_out_pre_lookup_data;
+        CData/*3:0*/ __PVT__fifo_banks_2_out_pre_hashcode;
+        CData/*1:0*/ __PVT__fifo_banks_2_out_pre_pht;
+        CData/*6:0*/ __PVT__fifo_banks_2_out_pre_bht;
+        CData/*7:0*/ __PVT__fifo_banks_2_out_pre_lookup_value;
+        CData/*0:0*/ __PVT__fifo_banks_2_out_pre_decoder_branchD_flag;
+        CData/*1:0*/ __PVT__fifo_banks_3_out_exception_type;
+        CData/*6:0*/ __PVT__fifo_banks_3_out_pre_lookup_data;
+        CData/*3:0*/ __PVT__fifo_banks_3_out_pre_hashcode;
+        CData/*1:0*/ __PVT__fifo_banks_3_out_pre_pht;
+        CData/*6:0*/ __PVT__fifo_banks_3_out_pre_bht;
+        CData/*7:0*/ __PVT__fifo_banks_3_out_pre_lookup_value;
+        CData/*0:0*/ __PVT__fifo_banks_3_out_pre_decoder_branchD_flag;
+        CData/*0:0*/ __PVT__fifo_banks_3_out_pre_decoder_jump;
+        CData/*5:0*/ __PVT__fifo_banks_3_out_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__fifo_banks_3_out_pre_decoder_jr;
+        CData/*0:0*/ __PVT__fifo_banks_3_out_true_branch_state;
+        QData/*63:0*/ __PVT__fifo_banks_1_out_pre_pc_target;
+        QData/*63:0*/ __PVT__fifo_banks_2_out_pre_pc_target;
+        QData/*63:0*/ __PVT__fifo_banks_3_out_pre_pc_target;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_exception_type;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pre_lookup_data;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pre_hashcode;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pre_pht;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pre_bht;
+        CData/*7:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pre_lookup_value;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pre_decoder_branchD_flag;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pre_decoder_jump;
+        CData/*5:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pre_decoder_jr;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_true_branch_state;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_exception_type;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pre_lookup_data;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pre_hashcode;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pre_pht;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pre_bht;
+        CData/*7:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pre_lookup_value;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pre_decoder_branchD_flag;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_exception_type;
+    };
+    struct {
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_lookup_data;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_hashcode;
+        CData/*1:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_pht;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_bht;
+        CData/*7:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_lookup_value;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_decoder_branchD_flag;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_decoder_jump;
+        CData/*5:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_decoder_branchdata;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_decoder_jr;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_true_branch_state;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pc;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_pre_pc_target;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pre_pc_target;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_pc_target;
+        QData/*63:0*/ __PVT__fifo_banks_1_out_pc;
+        IData/*31:0*/ __PVT__fifo_banks_0_out_inst;
+        IData/*31:0*/ __PVT__fifo_banks_1_out_inst;
+        IData/*31:0*/ __PVT__fifo_banks_2_out_inst;
+        IData/*31:0*/ __PVT__fifo_banks_3_out_inst;
+        QData/*63:0*/ __PVT__fifo_banks_0_out_pc;
+        QData/*63:0*/ __PVT__fifo_banks_2_out_pc;
+        QData/*63:0*/ __PVT__fifo_banks_3_out_pc;
+        VL_IN8(__PVT__io_write_in_0_pre_hashcode,3,0);
+        VL_IN8(__PVT__io_write_in_0_pre_bht,6,0);
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pre_hashcode;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pre_bht;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pre_bht;
+        CData/*7:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pre_lookup_value;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pre_decoder_jump;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pre_decoder_jr;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pre_hashcode;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pre_bht;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pre_hashcode;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pre_bht;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_hashcode;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_bht;
+        IData/*31:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_inst;
+        IData/*31:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_out_inst;
+        IData/*31:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_inst;
+        IData/*31:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_inst;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_io_out_pc;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_out_pc;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_out_pc;
+        CData/*6:0*/ __PVT__fifo_banks_0_out_pre_bht;
+        CData/*7:0*/ __PVT__fifo_banks_0_out_pre_lookup_value;
+        CData/*0:0*/ __PVT__fifo_banks_0_out_pre_decoder_jump;
+        CData/*0:0*/ __PVT__fifo_banks_0_out_pre_decoder_jr;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pc;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pc;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pc;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pc;
+        VL_IN8(__PVT__io_write_in_0_pre_lookup_data,6,0);
+        VL_IN64(__PVT__io_write_in_0_pc,63,0);
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pre_lookup_data;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pre_lookup_data;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pre_lookup_data;
+        CData/*6:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_lookup_data;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_reset;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_reset;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_reset;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_reset;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_io_aw_addr;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_aw_addr;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_aw_addr;
+    };
+    struct {
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_aw_addr;
+        CData/*1:0*/ __PVT___write_banks_points_T_2;
+        VL_IN8(__PVT__io_point_flush,0,0);
+        VL_IN8(__PVT__clock,0,0);
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_clock;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_clock;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_clock;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_clock;
+        VL_IN8(__PVT__io_write_in_0_pre_lookup_value,7,0);
+        VL_IN8(__PVT__io_write_in_0_true_branch_state,0,0);
+        CData/*7:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pre_lookup_value;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_true_branch_state;
+        CData/*7:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pre_lookup_value;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_true_branch_state;
+        CData/*7:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pre_lookup_value;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_true_branch_state;
+        CData/*7:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_lookup_value;
+        CData/*0:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_true_branch_state;
+        VL_IN64(__PVT__io_write_in_0_pre_pc_target,63,0);
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_io_in_pre_pc_target;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_in_pre_pc_target;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_in_pre_pc_target;
+        QData/*63:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_pc_target;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_io_ar_addr;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_1_io_ar_addr;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_2_io_ar_addr;
+        CData/*3:0*/ __PVT__Look_up_table_read_first_with_bundle_3_io_ar_addr;
+        CData/*0:0*/ __PVT___write_banks_points_T;
+        VL_IN8(__PVT__io_point_write_en,0,0);
+        CData/*1:0*/ __PVT__read_banks_points;
+        VL_OUT8(__PVT__io_empty,0,0);
+    };
+
+    // INTERNAL VARIABLES
+    Vmycpu_top__Syms* const vlSymsp;
+
+    // CONSTRUCTORS
+    Vmycpu_top_fifo_with_bundle(Vmycpu_top__Syms* symsp, const char* name);
+    ~Vmycpu_top_fifo_with_bundle();
+    VL_UNCOPYABLE(Vmycpu_top_fifo_with_bundle);
+
+    // INTERNAL METHODS
+    void __Vconfigure(bool first);
+} VL_ATTR_ALIGNED(VL_CACHE_LINE_BYTES);
+
+
+#endif  // guard

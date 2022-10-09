@@ -1,7 +1,7 @@
 #include <am.h>
 #include <nemu.h>
 #include <klib.h>
-
+//VME  虚存扩展 virtual memory extension
 static AddrSpace kas = {};
 static void* (*pgalloc_usr)(int) = NULL;
 static void (*pgfree_usr)(void*) = NULL;

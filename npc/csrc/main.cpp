@@ -4,12 +4,12 @@
 	> Mail: amoscykl@163.com 
 	> Created Time: 2022年03月16日 星期三 00时25分07秒
  ************************************************************************/
-#define Vtop Vriscv_control
+
 
 #include<iostream>
 #include<nvboard.h>
 //#include<Vlight.h>
-#include<Vriscv_control.h>
+#include<Vmycpu_top.h>
 #include<verilated.h>
 #include<verilated_vcd_c.h>
 #include<bitset>
@@ -66,48 +66,49 @@ static const uint32_t img [] = {
   	0x00100073  // ebreak (used as nemu_trap)
 //   0xdeadbeef,  // some data
 };
-template <class T>
-void step_and_dump_wave(T *top){
-	top->eval();
-	contextp->timeInc(1);
-	tfp->dump(contextp->time());
-}
-template<class T>
-void sim_init(T * top) {
-	tfp = new VerilatedVcdC;
-	contextp->debug(0);
-	contextp->randReset(2);
-	contextp->traceEverOn(true);
-	top->trace(tfp, 0);
-	tfp->open("dump.vcd");	
-}
-template<class T>
-void single_cycle(T * top) {
-	top->clock = 0; top->eval();step_and_dump_wave(top);
-	top->clock = 1; top->eval();step_and_dump_wave(top);
-}
+// template <class T>
+// void step_and_dump_wave(T *top){
+// 	top->eval();
+// 	contextp->timeInc(1);
+// 	tfp->dump(contextp->time());
+// }
+// template<class T>
+// void sim_init(T * top) {
+// 	tfp = new VerilatedVcdC;
+// 	contextp->debug(0);
+// 	contextp->randReset(2);
+// 	contextp->traceEverOn(true);
+// 	top->trace(tfp, 0);
+// 	tfp->open("dump.vcd");	
+// }
+// template<class T>
+// void single_cycle(T * top) {
+// 	top->clock = 1; top->eval();step_and_dump_wave(top);
+// 	top->clock = 0; top->eval();step_and_dump_wave(top);
+// }
 
-template<class T>
-void reset(T *top , int n) {
-	top->reset = 1;
-	while(n -- > 0) single_cycle(top);
-	top->reset = 0;
-}
+// template<class T>
+// void reset(T *top , int n) {
+// 	top->reset = 1;
+// 	while(n -- > 0) single_cycle(top);
+// 	top->reset = 0;
+// }
 
 int main(int argc,char ** argv,char** env) {
-	memset(pmem,0,sizeof(pmem));
-	if(false && argc && argv && env) {}
-	memcpy(guest_to_host(RESET_VECTOR), img, sizeof(img));
-	Verilated::mkdir("logs");
-    Vtop * top = new Vtop;
-	sim_init(top);
-	nvboard_bind_all_pins(top);
-	nvboard_init();
-	reset(top,10);
-	step_and_dump_wave(top);
-	uint64_t answer,pc;
-	uint32_t src1,src2,dest,ins,trap_flag;
-	uint32_t instype,inscode;
+	// memset(pmem,0,sizeof(pmem));
+	// if(false && argc && argv && env) {}
+	// memcpy(guest_to_host(RESET_VECTOR), img, sizeof(img));
+	// Verilated::mkdir("logs");
+    // Vtop * top = new Vtop;
+	// sim_init(top);
+	// nvboard_bind_all_pins(top);
+	// // nvboard_init();
+	// reset(top,10);
+	// // step_and_dump_wave(top);
+	// uint64_t answer,pc;
+	// uint32_t src1,src2,dest,ins,trap_flag;
+	// uint32_t instype,inscode;
+	
 
 	while(1){
 	    
@@ -120,19 +121,19 @@ int main(int argc,char ** argv,char** env) {
 	//cout<<"rst  =  "<< x2<<" clk ="<< x1 <<" data "<<hex<<b<< " led "<<a<<endl;
  
 
-	top->io_mem_instrution =pmem_read(top->io_pc,4);
-	single_cycle(top);
-	answer = top->io_answer;
-	pc     = top->io_pc;
-	src1   = top->io_src1;
-	src2   = top->io_src2;
-	dest   = top->io_dest;
-	ins    = top->io_riscv_instruction;
-	instype = top->io_instype;
-	inscode = top->io_inscode;
-	trap_flag = top->io_trap_flag;
+	// top->io_mem_instrution =pmem_read(top->io_pc,4);
+	// single_cycle(top);
+	// answer = top->io_answer;
+	// pc     = top->io_pc;
+	// src1   = top->io_src1;
+	// src2   = top->io_src2;
+	// dest   = top->io_dest;
+	// ins    = top->io_riscv_instruction;
+	// instype = top->io_instype;
+	// inscode = top->io_inscode;
+	// trap_flag = top->io_trap_flag;
 
-	cout<<"answer = "<<answer<<" pc = "<<pc<<" src1 = "<<src1<<" src2 = "<<hex<<src2<<endl<<"dest = "<<dest<<" ins = "<<ins<<" instype = "<<instype<<" inscode "<<inscode<<endl;
+	// cout<<"answer = "<<answer<<" pc = "<<pc<<" src1 = "<<src1<<" src2 = "<<hex<<src2<<endl<<"dest = "<<dest<<" ins = "<<ins<<" instype = "<<instype<<" inscode "<<inscode<<endl;
 	
 	
 	/*	if(top->clk == 1) 
@@ -141,12 +142,11 @@ int main(int argc,char ** argv,char** env) {
 
 	//step_and_dump_wave(top);
 
-	nvboard_update();
-	if(trap_flag == 1) {
-		break;
-	}
+	// if(trap_flag == 1) {
+	// 	break;
+	// }
 	
-		//en = top->en;
+	// 	//en = top->en;
 		//x1 = top->x;
 		//y = top->y;
 		//out =  top->out;
@@ -162,7 +162,7 @@ int main(int argc,char ** argv,char** env) {
    }
 
 
-	tfp->close();
+	// tfp->close();
 
 }
 

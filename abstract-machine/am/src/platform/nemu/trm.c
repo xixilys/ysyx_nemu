@@ -14,6 +14,7 @@ void putch(char ch) {
   outb(SERIAL_PORT, ch);
 }
 
+
 void halt(int code) {
   nemu_trap(code);
 

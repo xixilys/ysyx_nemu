@@ -1,66 +1,8 @@
 module IFU(
-  input         clock,
-  input         reset,
   input  [31:0] io_mem_instrution,
   output [31:0] io_ifu_instruction
 );
-`ifdef RANDOMIZE_REG_INIT
-  reg [31:0] _RAND_0;
-`endif // RANDOMIZE_REG_INIT
-  reg [31:0] instruction_reg; // @[IFU.scala 15:36]
-  assign io_ifu_instruction = instruction_reg; // @[IFU.scala 16:27]
-  always @(posedge clock) begin
-    if (reset) begin // @[IFU.scala 15:36]
-      instruction_reg <= 32'h0; // @[IFU.scala 15:36]
-    end else begin
-      instruction_reg <= io_mem_instrution; // @[IFU.scala 17:27]
-    end
-  end
-// Register and memory initialization
-`ifdef RANDOMIZE_GARBAGE_ASSIGN
-`define RANDOMIZE
-`endif
-`ifdef RANDOMIZE_INVALID_ASSIGN
-`define RANDOMIZE
-`endif
-`ifdef RANDOMIZE_REG_INIT
-`define RANDOMIZE
-`endif
-`ifdef RANDOMIZE_MEM_INIT
-`define RANDOMIZE
-`endif
-`ifndef RANDOM
-`define RANDOM $random
-`endif
-`ifdef RANDOMIZE_MEM_INIT
-  integer initvar;
-`endif
-`ifndef SYNTHESIS
-`ifdef FIRRTL_BEFORE_INITIAL
-`FIRRTL_BEFORE_INITIAL
-`endif
-initial begin
-  `ifdef RANDOMIZE
-    `ifdef INIT_RANDOM
-      `INIT_RANDOM
-    `endif
-    `ifndef VERILATOR
-      `ifdef RANDOMIZE_DELAY
-        #`RANDOMIZE_DELAY begin end
-      `else
-        #0.002 begin end
-      `endif
-    `endif
-`ifdef RANDOMIZE_REG_INIT
-  _RAND_0 = {1{`RANDOM}};
-  instruction_reg = _RAND_0[31:0];
-`endif // RANDOMIZE_REG_INIT
-  `endif // RANDOMIZE
-end // initial
-`ifdef FIRRTL_AFTER_INITIAL
-`FIRRTL_AFTER_INITIAL
-`endif
-`endif // SYNTHESIS
+  assign io_ifu_instruction = io_mem_instrution; // @[IFU.scala 15:33 17:27]
 endmodule
 module IDU(
   input  [31:0] io_idu_instruction,
@@ -130,8 +72,7 @@ module EXU(
   input  [31:0] io_exu_dest,
   input  [31:0] io_exu_inscode,
   input  [31:0] io_exu_instype,
-  output [63:0] io_exu_answer,
-  input         io_exu_enable
+  output [63:0] io_exu_answer
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
@@ -243,7 +184,6 @@ module EXU(
   wire  _type_I_answer_T_16 = _GEN_31 < _GEN_224; // @[EXU.scala 52:82]
   wire [63:0] _type_I_answer_T_18 = _type_I_answer_T_14 ? {{63'd0}, _type_I_answer_T_16} : 64'h0; // @[Mux.scala 101:16]
   wire [63:0] _type_I_answer_T_19 = _type_I_answer_T_7 ? {{63'd0}, _type_I_answer_T_11} : _type_I_answer_T_18; // @[Mux.scala 101:16]
-  wire [63:0] _type_I_answer_T_20 = _type_I_answer_T_2 ? _type_I_answer_T_5 : _type_I_answer_T_19; // @[Mux.scala 101:16]
   wire [63:0] _GEN_97 = 5'h1 == io_exu_dest[4:0] ? Riscv_Reg_1 : Riscv_Reg_0; // @[Mux.scala 101:{16,16}]
   wire [63:0] _GEN_98 = 5'h2 == io_exu_dest[4:0] ? Riscv_Reg_2 : _GEN_97; // @[Mux.scala 101:{16,16}]
   wire [63:0] _GEN_99 = 5'h3 == io_exu_dest[4:0] ? Riscv_Reg_3 : _GEN_98; // @[Mux.scala 101:{16,16}]
@@ -274,489 +214,614 @@ module EXU(
   wire [63:0] _GEN_124 = 5'h1c == io_exu_dest[4:0] ? Riscv_Reg_28 : _GEN_123; // @[Mux.scala 101:{16,16}]
   wire [63:0] _GEN_125 = 5'h1d == io_exu_dest[4:0] ? Riscv_Reg_29 : _GEN_124; // @[Mux.scala 101:{16,16}]
   wire [63:0] _GEN_126 = 5'h1e == io_exu_dest[4:0] ? Riscv_Reg_30 : _GEN_125; // @[Mux.scala 101:{16,16}]
-  wire [63:0] _GEN_127 = 5'h1f == io_exu_dest[4:0] ? Riscv_Reg_31 : _GEN_126; // @[Mux.scala 101:{16,16}]
   assign io_exu_answer = 5'h1f == io_exu_dest[4:0] ? Riscv_Reg_31 : _GEN_126; // @[EXU.scala 75:{23,23}]
   always @(posedge clock) begin
     if (5'h0 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_0 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_0 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_0 <= 64'h0;
+            Riscv_Reg_0 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_0 <= _GEN_127;
+          Riscv_Reg_0 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_0 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_0 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_0 <= _GEN_127;
+        Riscv_Reg_0 <= _GEN_125;
       end
     end else begin
       Riscv_Reg_0 <= 64'h0; // @[EXU.scala 44:18]
     end
     if (5'h1 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_1 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_1 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_1 <= 64'h0;
+            Riscv_Reg_1 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_1 <= _GEN_127;
+          Riscv_Reg_1 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_1 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_1 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_1 <= _GEN_127;
+        Riscv_Reg_1 <= _GEN_125;
       end
     end
     if (5'h2 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_2 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_2 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_2 <= 64'h0;
+            Riscv_Reg_2 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_2 <= _GEN_127;
+          Riscv_Reg_2 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_2 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_2 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_2 <= _GEN_127;
+        Riscv_Reg_2 <= _GEN_125;
       end
     end
     if (5'h3 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_3 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_3 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_3 <= 64'h0;
+            Riscv_Reg_3 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_3 <= _GEN_127;
+          Riscv_Reg_3 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_3 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_3 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_3 <= _GEN_127;
+        Riscv_Reg_3 <= _GEN_125;
       end
     end
     if (5'h4 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_4 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_4 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_4 <= 64'h0;
+            Riscv_Reg_4 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_4 <= _GEN_127;
+          Riscv_Reg_4 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_4 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_4 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_4 <= _GEN_127;
+        Riscv_Reg_4 <= _GEN_125;
       end
     end
     if (5'h5 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_5 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_5 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_5 <= 64'h0;
+            Riscv_Reg_5 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_5 <= _GEN_127;
+          Riscv_Reg_5 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_5 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_5 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_5 <= _GEN_127;
+        Riscv_Reg_5 <= _GEN_125;
       end
     end
     if (5'h6 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_6 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_6 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_6 <= 64'h0;
+            Riscv_Reg_6 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_6 <= _GEN_127;
+          Riscv_Reg_6 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_6 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_6 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_6 <= _GEN_127;
+        Riscv_Reg_6 <= _GEN_125;
       end
     end
     if (5'h7 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_7 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_7 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_7 <= 64'h0;
+            Riscv_Reg_7 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_7 <= _GEN_127;
+          Riscv_Reg_7 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_7 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_7 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_7 <= _GEN_127;
+        Riscv_Reg_7 <= _GEN_125;
       end
     end
     if (5'h8 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_8 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_8 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_8 <= 64'h0;
+            Riscv_Reg_8 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_8 <= _GEN_127;
+          Riscv_Reg_8 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_8 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_8 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_8 <= _GEN_127;
+        Riscv_Reg_8 <= _GEN_125;
       end
     end
     if (5'h9 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_9 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_9 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_9 <= 64'h0;
+            Riscv_Reg_9 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_9 <= _GEN_127;
+          Riscv_Reg_9 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_9 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_9 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_9 <= _GEN_127;
+        Riscv_Reg_9 <= _GEN_125;
       end
     end
     if (5'ha == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_10 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_10 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_10 <= 64'h0;
+            Riscv_Reg_10 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_10 <= _GEN_127;
+          Riscv_Reg_10 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_10 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_10 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_10 <= _GEN_127;
+        Riscv_Reg_10 <= _GEN_125;
       end
     end
     if (5'hb == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_11 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_11 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_11 <= 64'h0;
+            Riscv_Reg_11 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_11 <= _GEN_127;
+          Riscv_Reg_11 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_11 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_11 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_11 <= _GEN_127;
+        Riscv_Reg_11 <= _GEN_125;
       end
     end
     if (5'hc == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_12 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_12 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_12 <= 64'h0;
+            Riscv_Reg_12 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_12 <= _GEN_127;
+          Riscv_Reg_12 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_12 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_12 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_12 <= _GEN_127;
+        Riscv_Reg_12 <= _GEN_125;
       end
     end
     if (5'hd == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_13 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_13 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_13 <= 64'h0;
+            Riscv_Reg_13 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_13 <= _GEN_127;
+          Riscv_Reg_13 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_13 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_13 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_13 <= _GEN_127;
+        Riscv_Reg_13 <= _GEN_125;
       end
     end
     if (5'he == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_14 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_14 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_14 <= 64'h0;
+            Riscv_Reg_14 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_14 <= _GEN_127;
+          Riscv_Reg_14 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_14 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_14 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_14 <= _GEN_127;
+        Riscv_Reg_14 <= _GEN_125;
       end
     end
     if (5'hf == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_15 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_15 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_15 <= 64'h0;
+            Riscv_Reg_15 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_15 <= _GEN_127;
+          Riscv_Reg_15 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_15 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_15 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_15 <= _GEN_127;
+        Riscv_Reg_15 <= _GEN_125;
       end
     end
     if (5'h10 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_16 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_16 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_16 <= 64'h0;
+            Riscv_Reg_16 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_16 <= _GEN_127;
+          Riscv_Reg_16 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_16 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_16 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_16 <= _GEN_127;
+        Riscv_Reg_16 <= _GEN_125;
       end
     end
     if (5'h11 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_17 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_17 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_17 <= 64'h0;
+            Riscv_Reg_17 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_17 <= _GEN_127;
+          Riscv_Reg_17 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_17 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_17 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_17 <= _GEN_127;
+        Riscv_Reg_17 <= _GEN_125;
       end
     end
     if (5'h12 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_18 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_18 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_18 <= 64'h0;
+            Riscv_Reg_18 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_18 <= _GEN_127;
+          Riscv_Reg_18 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_18 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_18 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_18 <= _GEN_127;
+        Riscv_Reg_18 <= _GEN_125;
       end
     end
     if (5'h13 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_19 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_19 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_19 <= 64'h0;
+            Riscv_Reg_19 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_19 <= _GEN_127;
+          Riscv_Reg_19 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_19 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_19 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_19 <= _GEN_127;
+        Riscv_Reg_19 <= _GEN_125;
       end
     end
     if (5'h14 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_20 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_20 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_20 <= 64'h0;
+            Riscv_Reg_20 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_20 <= _GEN_127;
+          Riscv_Reg_20 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_20 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_20 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_20 <= _GEN_127;
+        Riscv_Reg_20 <= _GEN_125;
       end
     end
     if (5'h15 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_21 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_21 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_21 <= 64'h0;
+            Riscv_Reg_21 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_21 <= _GEN_127;
+          Riscv_Reg_21 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_21 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_21 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_21 <= _GEN_127;
+        Riscv_Reg_21 <= _GEN_125;
       end
     end
     if (5'h16 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_22 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_22 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_22 <= 64'h0;
+            Riscv_Reg_22 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_22 <= _GEN_127;
+          Riscv_Reg_22 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_22 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_22 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_22 <= _GEN_127;
+        Riscv_Reg_22 <= _GEN_125;
       end
     end
     if (5'h17 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_23 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_23 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_23 <= 64'h0;
+            Riscv_Reg_23 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_23 <= _GEN_127;
+          Riscv_Reg_23 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_23 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_23 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_23 <= _GEN_127;
+        Riscv_Reg_23 <= _GEN_125;
       end
     end
     if (5'h18 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_24 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_24 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_24 <= 64'h0;
+            Riscv_Reg_24 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_24 <= _GEN_127;
+          Riscv_Reg_24 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_24 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_24 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_24 <= _GEN_127;
+        Riscv_Reg_24 <= _GEN_125;
       end
     end
     if (5'h19 == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_25 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_25 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_25 <= 64'h0;
+            Riscv_Reg_25 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_25 <= _GEN_127;
+          Riscv_Reg_25 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_25 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_25 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_25 <= _GEN_127;
+        Riscv_Reg_25 <= _GEN_125;
       end
     end
     if (5'h1a == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_26 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_26 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_26 <= 64'h0;
+            Riscv_Reg_26 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_26 <= _GEN_127;
+          Riscv_Reg_26 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_26 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_26 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_26 <= _GEN_127;
+        Riscv_Reg_26 <= _GEN_125;
       end
     end
     if (5'h1b == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_27 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_27 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_27 <= 64'h0;
+            Riscv_Reg_27 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_27 <= _GEN_127;
+          Riscv_Reg_27 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_27 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_27 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_27 <= _GEN_127;
+        Riscv_Reg_27 <= _GEN_125;
       end
     end
     if (5'h1c == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_28 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_28 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_28 <= 64'h0;
+            Riscv_Reg_28 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_28 <= _GEN_127;
+          Riscv_Reg_28 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_28 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_28 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_28 <= _GEN_127;
+        Riscv_Reg_28 <= _GEN_125;
       end
     end
     if (5'h1d == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_29 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_29 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_29 <= 64'h0;
+            Riscv_Reg_29 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_29 <= _GEN_127;
+          Riscv_Reg_29 <= 64'h0;
         end
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_29 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_29 <= Riscv_Reg_30; // @[Mux.scala 101:16]
       end else begin
-        Riscv_Reg_29 <= _GEN_127;
+        Riscv_Reg_29 <= _GEN_125;
       end
     end
     if (5'h1e == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_30 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_30 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_30 <= 64'h0;
+            Riscv_Reg_30 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_30 <= _GEN_127;
+          Riscv_Reg_30 <= 64'h0;
         end
-      end else begin
-        Riscv_Reg_30 <= _GEN_127;
+      end else if (5'h1f == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+        Riscv_Reg_30 <= Riscv_Reg_31; // @[Mux.scala 101:16]
+      end else if (!(5'h1e == io_exu_dest[4:0])) begin // @[Mux.scala 101:16]
+        Riscv_Reg_30 <= _GEN_125;
       end
     end
     if (5'h1f == io_exu_dest[4:0]) begin // @[EXU.scala 67:28]
-      if (io_exu_enable) begin // @[EXU.scala 67:34]
-        if (_type_I_answer_T) begin // @[Mux.scala 101:16]
-          if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
-            Riscv_Reg_31 <= _type_I_answer_T_20;
+      if (_type_I_answer_T) begin // @[Mux.scala 101:16]
+        if (io_exu_instype == 32'h1) begin // @[EXU.scala 49:25]
+          if (_type_I_answer_T_2) begin // @[Mux.scala 101:16]
+            Riscv_Reg_31 <= _type_I_answer_T_5;
           end else begin
-            Riscv_Reg_31 <= 64'h0;
+            Riscv_Reg_31 <= _type_I_answer_T_19;
           end
         end else begin
-          Riscv_Reg_31 <= _GEN_127;
+          Riscv_Reg_31 <= 64'h0;
         end
-      end else begin
-        Riscv_Reg_31 <= _GEN_127;
+      end else if (!(5'h1f == io_exu_dest[4:0])) begin // @[Mux.scala 101:16]
+        if (5'h1e == io_exu_dest[4:0]) begin // @[Mux.scala 101:16]
+          Riscv_Reg_31 <= Riscv_Reg_30; // @[Mux.scala 101:16]
+        end else begin
+          Riscv_Reg_31 <= _GEN_125;
+        end
       end
     end
   end
@@ -884,49 +949,31 @@ module riscv_control(
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
-  reg [31:0] _RAND_1;
-  reg [31:0] _RAND_2;
-  reg [31:0] _RAND_3;
-  reg [31:0] _RAND_4;
-  reg [31:0] _RAND_5;
-  reg [31:0] _RAND_6;
 `endif // RANDOMIZE_REG_INIT
-  wire  ifu_instance_clock; // @[riscv_control.scala 31:30]
-  wire  ifu_instance_reset; // @[riscv_control.scala 31:30]
   wire [31:0] ifu_instance_io_mem_instrution; // @[riscv_control.scala 31:30]
   wire [31:0] ifu_instance_io_ifu_instruction; // @[riscv_control.scala 31:30]
-  wire [31:0] idu_instance_io_idu_instruction; // @[riscv_control.scala 48:30]
-  wire [31:0] idu_instance_io_idu_src1; // @[riscv_control.scala 48:30]
-  wire [31:0] idu_instance_io_idu_src2; // @[riscv_control.scala 48:30]
-  wire [31:0] idu_instance_io_idu_dest; // @[riscv_control.scala 48:30]
-  wire [31:0] idu_instance_io_idu_inscode; // @[riscv_control.scala 48:30]
-  wire [3:0] idu_instance_io_idu_instype; // @[riscv_control.scala 48:30]
-  wire  exu_instance_clock; // @[riscv_control.scala 59:30]
-  wire [31:0] exu_instance_io_exu_src1; // @[riscv_control.scala 59:30]
-  wire [31:0] exu_instance_io_exu_src2; // @[riscv_control.scala 59:30]
-  wire [31:0] exu_instance_io_exu_dest; // @[riscv_control.scala 59:30]
-  wire [31:0] exu_instance_io_exu_inscode; // @[riscv_control.scala 59:30]
-  wire [31:0] exu_instance_io_exu_instype; // @[riscv_control.scala 59:30]
-  wire [63:0] exu_instance_io_exu_answer; // @[riscv_control.scala 59:30]
-  wire  exu_instance_io_exu_enable; // @[riscv_control.scala 59:30]
+  wire [31:0] idu_instance_io_idu_instruction; // @[riscv_control.scala 53:30]
+  wire [31:0] idu_instance_io_idu_src1; // @[riscv_control.scala 53:30]
+  wire [31:0] idu_instance_io_idu_src2; // @[riscv_control.scala 53:30]
+  wire [31:0] idu_instance_io_idu_dest; // @[riscv_control.scala 53:30]
+  wire [31:0] idu_instance_io_idu_inscode; // @[riscv_control.scala 53:30]
+  wire [3:0] idu_instance_io_idu_instype; // @[riscv_control.scala 53:30]
+  wire  exu_instance_clock; // @[riscv_control.scala 64:30]
+  wire [31:0] exu_instance_io_exu_src1; // @[riscv_control.scala 64:30]
+  wire [31:0] exu_instance_io_exu_src2; // @[riscv_control.scala 64:30]
+  wire [31:0] exu_instance_io_exu_dest; // @[riscv_control.scala 64:30]
+  wire [31:0] exu_instance_io_exu_inscode; // @[riscv_control.scala 64:30]
+  wire [31:0] exu_instance_io_exu_instype; // @[riscv_control.scala 64:30]
+  wire [63:0] exu_instance_io_exu_answer; // @[riscv_control.scala 64:30]
   reg [63:0] pc; // @[riscv_control.scala 29:21]
-  reg [31:0] src1; // @[riscv_control.scala 36:23]
-  reg [31:0] src2; // @[riscv_control.scala 37:23]
-  reg [31:0] dest; // @[riscv_control.scala 38:23]
-  reg [31:0] inscode; // @[riscv_control.scala 39:27]
-  reg [3:0] instype; // @[riscv_control.scala 40:27]
-  reg [1:0] a; // @[Counter.scala 62:40]
-  wire  wrap_wrap = a == 2'h2; // @[Counter.scala 74:24]
-  wire [1:0] _wrap_value_T_1 = a + 2'h1; // @[Counter.scala 78:24]
-  wire [63:0] _pc_T_5 = pc + 64'h4; // @[riscv_control.scala 72:49]
+  wire [3:0] instype = idu_instance_io_idu_instype; // @[riscv_control.scala 45:24 59:13]
+  wire [63:0] _pc_T_2 = pc + 64'h4; // @[riscv_control.scala 81:14]
   wire [63:0] riscv_ins = {{32'd0}, ifu_instance_io_ifu_instruction}; // @[riscv_control.scala 27:25 34:24]
   IFU ifu_instance ( // @[riscv_control.scala 31:30]
-    .clock(ifu_instance_clock),
-    .reset(ifu_instance_reset),
     .io_mem_instrution(ifu_instance_io_mem_instrution),
     .io_ifu_instruction(ifu_instance_io_ifu_instruction)
   );
-  IDU idu_instance ( // @[riscv_control.scala 48:30]
+  IDU idu_instance ( // @[riscv_control.scala 53:30]
     .io_idu_instruction(idu_instance_io_idu_instruction),
     .io_idu_src1(idu_instance_io_idu_src1),
     .io_idu_src2(idu_instance_io_idu_src2),
@@ -934,73 +981,37 @@ module riscv_control(
     .io_idu_inscode(idu_instance_io_idu_inscode),
     .io_idu_instype(idu_instance_io_idu_instype)
   );
-  EXU exu_instance ( // @[riscv_control.scala 59:30]
+  EXU exu_instance ( // @[riscv_control.scala 64:30]
     .clock(exu_instance_clock),
     .io_exu_src1(exu_instance_io_exu_src1),
     .io_exu_src2(exu_instance_io_exu_src2),
     .io_exu_dest(exu_instance_io_exu_dest),
     .io_exu_inscode(exu_instance_io_exu_inscode),
     .io_exu_instype(exu_instance_io_exu_instype),
-    .io_exu_answer(exu_instance_io_exu_answer),
-    .io_exu_enable(exu_instance_io_exu_enable)
+    .io_exu_answer(exu_instance_io_exu_answer)
   );
   assign io_pc = pc; // @[riscv_control.scala 30:11]
   assign io_riscv_instruction = riscv_ins[31:0]; // @[riscv_control.scala 28:26]
-  assign io_answer = exu_instance_io_exu_answer; // @[riscv_control.scala 68:15]
-  assign io_src1 = src1; // @[riscv_control.scala 42:13]
-  assign io_src2 = src2; // @[riscv_control.scala 43:13]
-  assign io_dest = dest; // @[riscv_control.scala 44:13]
-  assign io_inscode = inscode; // @[riscv_control.scala 46:16]
-  assign io_instype = instype; // @[riscv_control.scala 45:16]
-  assign io_trap_flag = instype == 4'h6; // @[riscv_control.scala 73:33]
-  assign ifu_instance_clock = clock;
-  assign ifu_instance_reset = reset;
+  assign io_answer = exu_instance_io_exu_answer; // @[riscv_control.scala 73:15]
+  assign io_src1 = idu_instance_io_idu_src1; // @[riscv_control.scala 41:20 55:10]
+  assign io_src2 = idu_instance_io_idu_src2; // @[riscv_control.scala 42:20 56:10]
+  assign io_dest = idu_instance_io_idu_dest; // @[riscv_control.scala 43:20 57:10]
+  assign io_inscode = idu_instance_io_idu_inscode; // @[riscv_control.scala 44:24 58:13]
+  assign io_instype = idu_instance_io_idu_instype; // @[riscv_control.scala 45:24 59:13]
+  assign io_trap_flag = instype == 4'h6; // @[riscv_control.scala 74:34]
   assign ifu_instance_io_mem_instrution = io_mem_instrution; // @[riscv_control.scala 33:36]
-  assign idu_instance_io_idu_instruction = riscv_ins[31:0]; // @[riscv_control.scala 49:38]
+  assign idu_instance_io_idu_instruction = riscv_ins[31:0]; // @[riscv_control.scala 54:38]
   assign exu_instance_clock = clock;
-  assign exu_instance_io_exu_src1 = src1; // @[riscv_control.scala 60:30]
-  assign exu_instance_io_exu_src2 = src2; // @[riscv_control.scala 61:30]
-  assign exu_instance_io_exu_dest = dest; // @[riscv_control.scala 62:30]
-  assign exu_instance_io_exu_inscode = inscode; // @[riscv_control.scala 63:33]
-  assign exu_instance_io_exu_instype = {{28'd0}, instype}; // @[riscv_control.scala 64:33]
-  assign exu_instance_io_exu_enable = a == 2'h1; // @[riscv_control.scala 74:25]
+  assign exu_instance_io_exu_src1 = idu_instance_io_idu_src1; // @[riscv_control.scala 41:20 55:10]
+  assign exu_instance_io_exu_src2 = idu_instance_io_idu_src2; // @[riscv_control.scala 42:20 56:10]
+  assign exu_instance_io_exu_dest = idu_instance_io_idu_dest; // @[riscv_control.scala 43:20 57:10]
+  assign exu_instance_io_exu_inscode = idu_instance_io_idu_inscode; // @[riscv_control.scala 44:24 58:13]
+  assign exu_instance_io_exu_instype = {{28'd0}, instype}; // @[riscv_control.scala 69:33]
   always @(posedge clock) begin
     if (reset) begin // @[riscv_control.scala 29:21]
       pc <= 64'h80000000; // @[riscv_control.scala 29:21]
-    end else if (wrap_wrap & instype != 4'h6) begin // @[riscv_control.scala 72:14]
-      pc <= _pc_T_5;
-    end
-    if (reset) begin // @[riscv_control.scala 36:23]
-      src1 <= 32'h0; // @[riscv_control.scala 36:23]
     end else begin
-      src1 <= idu_instance_io_idu_src1; // @[riscv_control.scala 50:10]
-    end
-    if (reset) begin // @[riscv_control.scala 37:23]
-      src2 <= 32'h0; // @[riscv_control.scala 37:23]
-    end else begin
-      src2 <= idu_instance_io_idu_src2; // @[riscv_control.scala 51:10]
-    end
-    if (reset) begin // @[riscv_control.scala 38:23]
-      dest <= 32'h0; // @[riscv_control.scala 38:23]
-    end else begin
-      dest <= idu_instance_io_idu_dest; // @[riscv_control.scala 52:10]
-    end
-    if (reset) begin // @[riscv_control.scala 39:27]
-      inscode <= 32'h0; // @[riscv_control.scala 39:27]
-    end else begin
-      inscode <= idu_instance_io_idu_inscode; // @[riscv_control.scala 53:13]
-    end
-    if (reset) begin // @[riscv_control.scala 40:27]
-      instype <= 4'h0; // @[riscv_control.scala 40:27]
-    end else begin
-      instype <= idu_instance_io_idu_instype; // @[riscv_control.scala 54:13]
-    end
-    if (reset) begin // @[Counter.scala 62:40]
-      a <= 2'h0; // @[Counter.scala 62:40]
-    end else if (wrap_wrap) begin // @[Counter.scala 88:20]
-      a <= 2'h0; // @[Counter.scala 88:28]
-    end else begin
-      a <= _wrap_value_T_1; // @[Counter.scala 78:15]
+      pc <= _pc_T_2; // @[riscv_control.scala 81:8]
     end
   end
 // Register and memory initialization
@@ -1041,18 +1052,6 @@ initial begin
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {2{`RANDOM}};
   pc = _RAND_0[63:0];
-  _RAND_1 = {1{`RANDOM}};
-  src1 = _RAND_1[31:0];
-  _RAND_2 = {1{`RANDOM}};
-  src2 = _RAND_2[31:0];
-  _RAND_3 = {1{`RANDOM}};
-  dest = _RAND_3[31:0];
-  _RAND_4 = {1{`RANDOM}};
-  inscode = _RAND_4[31:0];
-  _RAND_5 = {1{`RANDOM}};
-  instype = _RAND_5[3:0];
-  _RAND_6 = {1{`RANDOM}};
-  a = _RAND_6[1:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial

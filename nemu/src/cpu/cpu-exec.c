@@ -2,7 +2,9 @@
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
 #include <locale.h>
-#include </media/ddddddd/40d0728b-21f5-4125-bf84-4d623a60d871/ddddddd/Documents/ysyx/ysyx-workbench/nemu/src/monitor/sdb/sdb.h>
+
+#include </home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/nemu/src/monitor/sdb/sdb.h>
+#include <elf_read.h>
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -10,11 +12,41 @@
  * You can modify this value as you want.
  */
 #define MAX_INST_TO_PRINT 1000
+#define MAX_ITRACE_LOOP_DEPTH  30
 
 CPU_state cpu = {};
 static uint64_t g_timer = 0; // unit: us
 uint64_t g_nr_guest_inst = 0;
 static bool g_print_step = false;
+#ifdef CONFIG_ITRACE_COND
+  Decode itrace_loop[100] = {};
+  int  itrace_loop_index = 0;
+  
+  static void itrace_loop_push(Decode * loop,Decode instance , int* index) {
+  
+    loop[*index] = instance;
+    (*index) ++;
+    if(*index >= MAX_ITRACE_LOOP_DEPTH) {
+      *index = 0;
+    }
+  }
+  static void itrace_loop_print(Decode * loop,int index) {
+    int i = index;
+    for(;i < MAX_ITRACE_LOOP_DEPTH;i++) {
+       printf("     inst ->  %08x __ pc ->  ",loop[i].isa.inst.val);
+       printf("%s\n",loop[i].logbuf);
+  
+    }
+    for(i = 0;i < index - 1;i++) {
+      printf("     inst ->  %08x __ pc ->  ",loop[i].isa.inst.val);
+      printf("%s\n",loop[i].logbuf);
+    }
+    printf("---->inst ->  %08x __ pc ->  ",loop[i].isa.inst.val);
+    printf("%s\n",loop[i].logbuf);
+  }
+
+#endif
+
 
 void device_update();
 
@@ -44,10 +76,13 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 }
 
 
+
 static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
+  // printf("inst ->  %08x __ pc ->  %016lx\n",s->isa.inst.val,s->pc);
+
   cpu.pc = s->dnpc;
 
 #ifdef CONFIG_ITRACE
@@ -67,11 +102,17 @@ static void exec_once(Decode *s, vaddr_t pc) {
   p += space_len;
 
 
+
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+  itrace_loop_push(itrace_loop,*s,&itrace_loop_index);
 #endif
-  //printf("buhuiya\n");
+
+  
+  // printf("index = %d\n",itrace_loop_index);
+// printf("inst ->  %08x __ pc ->  %08lx\n",itrace_loop[itrace_loop_index - 1].isa.inst.val,itrace_loop[itrace_loop_index - 1].pc);
+//   printf("log buffer %s\n",s->logbuf);
 }
 
 static void execute(uint64_t n) {
@@ -90,6 +131,12 @@ static void execute(uint64_t n) {
 }
 
 static void statistic() {
+  if(nemu_state.halt_ret == 1){
+    #ifdef CONFIG_ITRACE_COND
+      itrace_loop_print(itrace_loop,itrace_loop_index); 
+      ftrace_loop_print(ftrace_loop,ftrace_loop_index);
+    #endif
+  } 
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%ld", "%'ld")
   Log("host time spent = " NUMBERIC_FMT " us", g_timer);
@@ -98,8 +145,15 @@ static void statistic() {
   else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
 }
 
-void assert_fail_msg() {
+void assert_fail_msg() {  
+ 
   isa_reg_display();
+  #ifdef CONFIG_ITRACE_COND
+    itrace_loop_print(itrace_loop,itrace_loop_index);
+    ftrace_loop_print(ftrace_loop,ftrace_loop_index);
+  #endif
+  
+  
   statistic();
 }
 
