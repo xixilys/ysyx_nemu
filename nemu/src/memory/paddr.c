@@ -13,7 +13,7 @@ static uint8_t pmem[CONFIG_MSIZE] PG_ALIGN = {};
      #define MAX_MTRACE_LOOP_DEPTH  30
   #define read_type 1
   #define write_type  2
-  #endif
+#endif
 
 
 
@@ -103,6 +103,7 @@ void init_mem() {
 #ifdef CONFIG_MEM_RANDOM 
   uint32_t *p = (uint32_t *)pmem;
   int i;
+  fefef
   for (i = 0; i < (int) (CONFIG_MSIZE / sizeof(p[0])); i ++) {
     p[i] = rand();
   }
@@ -120,7 +121,7 @@ word_t paddr_read(paddr_t addr, int len , uint8_t mem_type) {
   mem_read_mtrace.paddr = addr;
   mem_read_mtrace.pc = mem_pc;
   #endif
-  
+  //如果在所设定的内存范围内
   if (likely(in_pmem(addr)))  {
       size_t pmem_data = pmem_read(addr, len);
     #ifdef CONFIG_ITRACE_COND  
@@ -135,6 +136,7 @@ word_t paddr_read(paddr_t addr, int len , uint8_t mem_type) {
       return pmem_data;//mem_read_mtrace.data;
 
   }
+  //如果不在设定的内存地址范围内，则进行MMIO处理
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
   out_of_bound(addr);
   return 0;

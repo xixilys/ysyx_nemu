@@ -141,7 +141,7 @@ static void _eval_initial_loop(Vmycpu_top__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = Vmycpu_top___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65067, "",
+            VL_FATAL_MT("/home/ddddddd/learning/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65067, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -172,7 +172,7 @@ void Vmycpu_top::eval_step() {
             Verilated::debug(1);
             __Vchange = Vmycpu_top___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65067, "",
+            VL_FATAL_MT("/home/ddddddd/learning/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65067, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {

@@ -21,7 +21,9 @@ void vga_update_screen();
 void device_update() {
   static uint64_t last = 0;
   uint64_t now = get_time();
+  // printf("distanche is %lu\n",now - last);
   if (now - last < 1000000 / TIMER_HZ) {
+    // printf("sbsbsbssbsb\n");
     return;
   }
   last = now;

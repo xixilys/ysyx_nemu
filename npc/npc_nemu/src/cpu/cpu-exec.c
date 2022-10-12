@@ -8,7 +8,7 @@
 
 
 
-#include </home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/nemu/src/monitor/sdb/sdb.h>
+#include <cpu/sdb.h>
 #include <elf_read.h>
 
 /* The assembly code of instructions executed is only output to the screen

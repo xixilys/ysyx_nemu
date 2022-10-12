@@ -2,7 +2,7 @@
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "sdb.h"
+#include "cpu/sdb.h"
 #include "memory/vaddr.h"
 
 static int is_batch_mode = false;
@@ -29,6 +29,8 @@ static char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
+  // printf("sbsbsbs");
+
   cpu_exec(-1);
   return 0;
 }
@@ -111,6 +113,9 @@ void sdb_mainloop() {
     cmd_c(NULL);
     return;
   }
+
+
+
 //后面就是检测到底输入了啥
   for (char *str; (str = rl_gets()) != NULL; ) {
     char *str_end = str + strlen(str);

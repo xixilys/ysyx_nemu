@@ -4,7 +4,7 @@
 # Execute this makefile from the object directory:
 #    make -f Vmycpu_top.mk
 
-default: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/build/mycpu_top
+default: /home/ddddddd/learning/ysyx-workbench/npc/build/mycpu_top
 
 ### Constants...
 # Perl executable (from $PERL)
@@ -41,10 +41,9 @@ VM_USER_CFLAGS = \
 	-O2 \
 	-DITRACE_COND=true \
 	-D__GUEST_ISA__=riscv64 \
-	-I/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/include \
-	-I/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/include \
-	-I/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/engine/interpreter \
-	-I/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/nvboard/include \
+	-I/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/include \
+	-I/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/engine/interpreter \
+	-I/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/include \
 	-DTOP_NAME="Vmycpu_top" \
 	-I/usr/lib/llvm-13/include \
 	-std=c++14 \
@@ -54,8 +53,6 @@ VM_USER_CFLAGS = \
 	-D__STDC_FORMAT_MACROS \
 	-D__STDC_LIMIT_MACROS \
 	-fPIE \
-	-MMD \
-	-O3 \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
@@ -102,19 +99,19 @@ VM_USER_CLASSES = \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/cpu \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/cpu/difftest \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/device/io \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/engine/interpreter \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64 \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/difftest \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/system \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/memory \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/monitor \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/monitor/sdb \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/sim \
-	/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/utils \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/cpu \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/cpu/difftest \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/io \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/engine/interpreter \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64 \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/difftest \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/system \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/memory \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/monitor \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/monitor/sdb \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/sim \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/utils \
 
 
 ### Default rules...
@@ -126,67 +123,67 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-cpu-exec.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/cpu/cpu-exec.c
+cpu-exec.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/cpu/cpu-exec.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-dut_without_isa.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/cpu/difftest/dut_without_isa.c
+dut_without_isa.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/cpu/difftest/dut_without_isa.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-ref.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/cpu/difftest/ref.c
+ref.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/cpu/difftest/ref.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-map.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/device/io/map.c
+map.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/io/map.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-mmio.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/device/io/mmio.c
+mmio.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/io/mmio.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-port-io.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/device/io/port-io.c
+port-io.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/io/port-io.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-hostcall.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/engine/interpreter/hostcall.c
+hostcall.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/engine/interpreter/hostcall.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-init.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/engine/interpreter/init.c
+init.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/engine/interpreter/init.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-dut.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/difftest/dut.c
+dut.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/difftest/dut.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-init.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/init.c
+init.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/init.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-inst.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/inst.c
+inst.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/inst.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-logo.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/logo.c
+logo.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/logo.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-reg.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/reg.c
+reg.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/reg.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-intr.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/system/intr.c
+intr.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/system/intr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-mmu.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/system/mmu.c
+mmu.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/system/mmu.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-paddr.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/memory/paddr.c
+paddr.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/memory/paddr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-vaddr.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/memory/vaddr.c
+vaddr.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/memory/vaddr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-monitor.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/monitor/monitor.c
+monitor.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/monitor/monitor.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-expr.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/monitor/sdb/expr.c
+expr.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/monitor/sdb/expr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-sdb.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/monitor/sdb/sdb.c
+sdb.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/monitor/sdb/sdb.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-watchpoint.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/monitor/sdb/watchpoint.c
+watchpoint.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/monitor/sdb/watchpoint.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-nemu-main.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/nemu-main.c
+nemu-main.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/nemu-main.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-axi.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/sim/axi.cc
+axi.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/sim/axi.cc
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-verilator_use.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/sim/verilator_use.cc
+verilator_use.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/sim/verilator_use.cc
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-disasm.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/utils/disasm.cc
+disasm.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/utils/disasm.cc
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-log.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/utils/log.c
+log.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/utils/log.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-rand.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/utils/rand.c
+rand.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/utils/rand.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-state.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/utils/state.c
+state.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/utils/state.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-timer.o: /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/npc_nemu/src/utils/timer.c
+timer.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/utils/timer.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
-/home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc/build/mycpu_top: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
+/home/ddddddd/learning/ysyx-workbench/npc/build/mycpu_top: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
 	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) $(LIBS) $(SC_LIBS) -o $@
 
 

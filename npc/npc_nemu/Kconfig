@@ -189,8 +189,8 @@ config DIFFTEST_REF_NAME
 endmenu
 
 if MODE_SYSTEM
-source "src/memory/Kconfig"
-source "src/device/Kconfig"
+source "npc_nemu/src/memory/Kconfig"
+source "npc_nemu/src/device/Kconfig"
 endif
 
 

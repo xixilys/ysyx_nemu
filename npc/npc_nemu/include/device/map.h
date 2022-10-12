@@ -38,4 +38,16 @@ void add_mmio_map(const char *name, paddr_t addr,
 word_t map_read(paddr_t addr, int len, IOMap *map);
 void map_write(paddr_t addr, int len, word_t data, IOMap *map);
 
+#ifdef CONFIG_ITRACE_COND
+  typedef struct {
+    size_t addr_base ;
+    size_t offset;
+    size_t data;
+    int len;
+    char* device_name;
+    uint8_t type;
+  }dtrace_type;
+void dtrace_loop_print();
+#endif
+
 #endif

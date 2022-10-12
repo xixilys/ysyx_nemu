@@ -2,8 +2,9 @@
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
 #include <locale.h>
+#include <isa.h>
 
-#include </home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/nemu/src/monitor/sdb/sdb.h>
+#include <cpu/sdb.h>
 #include <elf_read.h>
 
 /* The assembly code of instructions executed is only output to the screen
@@ -11,7 +12,7 @@
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INST_TO_PRINT 1000
+#define MAX_INST_TO_PRINT 100
 #define MAX_ITRACE_LOOP_DEPTH  30
 
 CPU_state cpu = {};
@@ -30,6 +31,7 @@ static bool g_print_step = false;
       *index = 0;
     }
   }
+  // fff
   static void itrace_loop_print(Decode * loop,int index) {
     int i = index;
     for(;i < MAX_ITRACE_LOOP_DEPTH;i++) {
@@ -52,6 +54,7 @@ void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
+// fd
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
@@ -81,7 +84,6 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
-  // printf("inst ->  %08x __ pc ->  %016lx\n",s->isa.inst.val,s->pc);
 
   cpu.pc = s->dnpc;
 
@@ -101,12 +103,11 @@ static void exec_once(Decode *s, vaddr_t pc) {
   memset(p, ' ', space_len);
   p += space_len;
 
-
-
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
   itrace_loop_push(itrace_loop,*s,&itrace_loop_index);
+  // fdfd
 #endif
 
   
@@ -125,9 +126,17 @@ static void execute(uint64_t n) {
     g_nr_guest_inst ++;
     trace_and_difftest(&s, cpu.pc);
     if (nemu_state.state != NEMU_RUNNING) break;
-    IFDEF(CONFIG_DEVICE, device_update());
+    static uint64_t run_counter = 0;
+    if(run_counter >= 100000) {
+      IFDEF(CONFIG_DEVICE, device_update());
+      run_counter = 0;
+    }else{
+      run_counter ++;
+    }
+    
     
   }
+  // printf("sum_time = %lu\n", sum_time_decoder);
 }
 
 static void statistic() {
@@ -135,6 +144,7 @@ static void statistic() {
     #ifdef CONFIG_ITRACE_COND
       itrace_loop_print(itrace_loop,itrace_loop_index); 
       ftrace_loop_print(ftrace_loop,ftrace_loop_index);
+
     #endif
   } 
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
@@ -166,7 +176,7 @@ void cpu_exec(uint64_t n) {
       return;
     default: nemu_state.state = NEMU_RUNNING;
   }
-
+// printf("n = %lu\n", n);
   uint64_t timer_start = get_time();
 
   execute(n);

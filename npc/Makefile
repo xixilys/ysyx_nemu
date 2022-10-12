@@ -71,7 +71,6 @@ CSRCS = $(SRCS) $(CXXSRC)
 # CSRCS = $(NPC_NEMU_HOME)/nemu-main.c
 
 # rules for NVBoard
-include $(NVBOARD_HOME)/scripts/nvboard.mk
 
 # rules for verilator
 INCFLAGS = $(addprefix -I, $(INC_PATH))

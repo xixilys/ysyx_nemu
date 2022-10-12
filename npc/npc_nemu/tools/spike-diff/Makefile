@@ -1,6 +1,4 @@
-
 REPO_PATH = repo
-
 ifeq ($(wildcard repo/spike_main),)
   $(shell git clone --depth=1 git@github.com:NJU-ProjectN/riscv-isa-sim $(REPO_PATH))
 endif
@@ -21,7 +19,7 @@ $(shell mkdir -p $(BUILD_DIR))
 
 inc_dependencies = fesvr riscv disasm customext fdt softfloat spike_main spike_dasm build
 INC_PATH  = -I$(REPO_PATH) $(addprefix -I$(REPO_PATH)/, $(inc_dependencies))
-INC_PATH += -I$(NPC_NEMU_HOME)/include
+INC_PATH += -I$(NEMU_HOME)/include
 lib_dependencies = libspike_main.a libriscv.a libdisasm.a libsoftfloat.a libfesvr.a libfdt.a
 INC_LIBS  = $(addprefix $(REPO_PATH)/build/, $(lib_dependencies))
 

@@ -66,7 +66,7 @@ static int decode_exec(Decode *s) {
 
   }
   memcpy(cpu.gpr,cpu_gpr,sizeof(word_t) * 32);
-  printf("debug pc = %lx\n",debug_pc);
+  // printf("debug pc = %lx\n",debug_pc);
   
   cpu.pc = debug_pc;
   cpu_commited = 1;
