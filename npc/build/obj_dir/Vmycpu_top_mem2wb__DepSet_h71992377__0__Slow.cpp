@@ -13,6 +13,10 @@ VL_ATTR_COLD void Vmycpu_top_mem2wb___settle__TOP__mycpu_top__u_riscv_cpu___mem2
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_mem2wb___settle__TOP__mycpu_top__u_riscv_cpu___mem22wb__0\n"); );
     // Body
     vlSelf->__PVT__io_eBreakW = vlSelf->__PVT__ebreak_Reg;
+    vlSelf->__PVT__io_Mem_trace_budleW_pc = vlSelf->__PVT__Mem_trace_budleReg_pc;
+    vlSelf->__PVT__io_Mem_trace_budleW_data = vlSelf->__PVT__Mem_trace_budleReg_data;
+    vlSelf->__PVT__io_Mem_trace_budleW_addr = vlSelf->__PVT__Mem_trace_budleReg_addr;
+    vlSelf->__PVT__io_Mem_trace_budleW_len = vlSelf->__PVT__Mem_trace_budleReg_len;
 }
 
 VL_ATTR_COLD void Vmycpu_top_mem2wb___settle__TOP__mycpu_top__u_riscv_cpu___mem22wb__1(Vmycpu_top_mem2wb* vlSelf) {
@@ -20,6 +24,8 @@ VL_ATTR_COLD void Vmycpu_top_mem2wb___settle__TOP__mycpu_top__u_riscv_cpu___mem2
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_mem2wb___settle__TOP__mycpu_top__u_riscv_cpu___mem22wb__1\n"); );
     // Body
+    vlSelf->__PVT__io_Mem_trace_budleW_mem_fetch_type 
+        = vlSelf->__PVT__Mem_trace_budleReg_mem_fetch_type;
     vlSelf->__PVT__io_Pc_NextW = vlSelf->__PVT__pc_nextReg;
 }
 
@@ -112,6 +118,11 @@ VL_ATTR_COLD void Vmycpu_top_mem2wb___ctor_var_reset(Vmycpu_top_mem2wb* vlSelf) 
     vlSelf->__PVT__io_BranchJump_JrM = 0;
     vlSelf->__PVT__io_eBreakM = 0;
     vlSelf->__PVT__io_Pc_NextM = 0;
+    vlSelf->__PVT__io_Mem_trace_budleM_pc = 0;
+    vlSelf->__PVT__io_Mem_trace_budleM_data = 0;
+    vlSelf->__PVT__io_Mem_trace_budleM_mem_fetch_type = 0;
+    vlSelf->__PVT__io_Mem_trace_budleM_addr = 0;
+    vlSelf->__PVT__io_Mem_trace_budleM_len = 0;
     vlSelf->__PVT__io_RegWriteW_Out = 0;
     vlSelf->__PVT__io_ResultW = 0;
     vlSelf->__PVT__io_WriteRegW = 0;
@@ -125,6 +136,11 @@ VL_ATTR_COLD void Vmycpu_top_mem2wb___ctor_var_reset(Vmycpu_top_mem2wb* vlSelf) 
     vlSelf->__PVT__io_BranchJump_JrW = 0;
     vlSelf->__PVT__io_eBreakW = 0;
     vlSelf->__PVT__io_Pc_NextW = 0;
+    vlSelf->__PVT__io_Mem_trace_budleW_pc = 0;
+    vlSelf->__PVT__io_Mem_trace_budleW_data = 0;
+    vlSelf->__PVT__io_Mem_trace_budleW_mem_fetch_type = 0;
+    vlSelf->__PVT__io_Mem_trace_budleW_addr = 0;
+    vlSelf->__PVT__io_Mem_trace_budleW_len = 0;
     vlSelf->__PVT__RegWriteW = 0;
     vlSelf->__PVT__ResultW = 0;
     vlSelf->__PVT__WriteRegW = 0;
@@ -138,6 +154,11 @@ VL_ATTR_COLD void Vmycpu_top_mem2wb___ctor_var_reset(Vmycpu_top_mem2wb* vlSelf) 
     vlSelf->__PVT__BranchJump_JrW_Reg = 0;
     vlSelf->__PVT__ebreak_Reg = 0;
     vlSelf->__PVT__pc_nextReg = 0;
+    vlSelf->__PVT__Mem_trace_budleReg_pc = 0;
+    vlSelf->__PVT__Mem_trace_budleReg_data = 0;
+    vlSelf->__PVT__Mem_trace_budleReg_mem_fetch_type = 0;
+    vlSelf->__PVT__Mem_trace_budleReg_addr = 0;
+    vlSelf->__PVT__Mem_trace_budleReg_len = 0;
     vlSelf->__Vdly__RegWriteW = 0;
     vlSelf->__Vdly__ResultW = 0;
     vlSelf->__Vdly__WriteRegW = 0;
@@ -151,4 +172,9 @@ VL_ATTR_COLD void Vmycpu_top_mem2wb___ctor_var_reset(Vmycpu_top_mem2wb* vlSelf) 
     vlSelf->__Vdly__BranchJump_JrW_Reg = 0;
     vlSelf->__Vdly__ebreak_Reg = 0;
     vlSelf->__Vdly__pc_nextReg = 0;
+    vlSelf->__Vdly__Mem_trace_budleReg_pc = 0;
+    vlSelf->__Vdly__Mem_trace_budleReg_data = 0;
+    vlSelf->__Vdly__Mem_trace_budleReg_mem_fetch_type = 0;
+    vlSelf->__Vdly__Mem_trace_budleReg_addr = 0;
+    vlSelf->__Vdly__Mem_trace_budleReg_len = 0;
 }

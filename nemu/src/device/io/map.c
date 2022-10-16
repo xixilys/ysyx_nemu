@@ -6,7 +6,7 @@
 #define IO_SPACE_MAX (2 * 1024 * 1024)
 
 //下面与dtrace有关
-#ifdef CONFIG_ITRACE_COND
+#if(0)
 
   #define MAX_DTRACE_LOOP_DEPTH  30
   #define read_type 1
@@ -99,7 +99,7 @@ word_t map_read(paddr_t addr, int len, IOMap *map) {
   paddr_t offset = addr - map->low;
   invoke_callback(map->callback, offset, len, false); // prepare data to read
   word_t ret = host_read(map->space + offset, len);
-  #ifdef CONFIG_ITRACE_COND
+  #ifdef CONFIG_ITRACE_COND_SBSBSB
   dtrace_type device_read_dtrace = {};
   device_read_dtrace.type = read_type;
   device_read_dtrace.len = len;
@@ -118,7 +118,7 @@ void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
   paddr_t offset = addr - map->low;
   host_write(map->space + offset, len, data);
   invoke_callback(map->callback, offset, len, true);
-  #ifdef CONFIG_ITRACE_COND
+  #ifdef CONFIG_ITRACE_COND_SBSBSB
   dtrace_type device_read_dtrace = {};
   device_read_dtrace.type = write_type;
   device_read_dtrace.len = len;

@@ -16,9 +16,9 @@ VM_THREADS = 10
 # Tracing output mode?  0/1 (from --trace/--trace-fst)
 VM_TRACE = 1
 # Tracing output mode in VCD format?  0/1 (from --trace)
-VM_TRACE_VCD = 1
+VM_TRACE_VCD = 0
 # Tracing output mode in FST format?  0/1 (from --trace-fst)
-VM_TRACE_FST = 0
+VM_TRACE_FST = 1
 
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
@@ -31,18 +31,23 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_mycpu_top__DepSet_heb4658b1__0 \
 	Vmycpu_top_mycpu_top__DepSet_h02412096__0 \
 	Vmycpu_top_myCPU__DepSet_hbd5afe9b__0 \
+	Vmycpu_top_myCPU__DepSet_hbd5afe9b__1 \
 	Vmycpu_top_myCPU__DepSet_h583d82bc__0 \
 	Vmycpu_top_inst_cache__DepSet_h52ce030f__0 \
+	Vmycpu_top_inst_cache__DepSet_h52ce030f__1 \
+	Vmycpu_top_inst_cache__DepSet_h52ce030f__2 \
 	Vmycpu_top_inst_cache__DepSet_h6ac96850__0 \
 	Vmycpu_top_data_cache__DepSet_ha261f6c4__0 \
+	Vmycpu_top_data_cache__DepSet_ha261f6c4__1 \
 	Vmycpu_top_data_cache__DepSet_h3b627b0b__0 \
 	Vmycpu_top_data_cache__DepSet_h3b627b0b__1 \
 	Vmycpu_top___024unit__DepSet_hc8c96b27__0 \
-	Vmycpu_top_cfu__DepSet_hfaab7013__0 \
-	Vmycpu_top_cfu__DepSet_h132bf934__0 \
 	Vmycpu_top_cp0__DepSet_hc6b9262a__0 \
 	Vmycpu_top_cp0__DepSet_hdf1a4b2d__0 \
+	Vmycpu_top_cu__DepSet_h5647ed0a__0 \
+	Vmycpu_top_cu__DepSet_h6f40964d__0 \
 	Vmycpu_top_ex2mem__DepSet_hb6b964e4__0 \
+	Vmycpu_top_id2ex__DepSet_hc5ada6c7__0 \
 	Vmycpu_top_id2ex__DepSet_he026cb08__0 \
 	Vmycpu_top_if2id__DepSet_h4d05a6f7__0 \
 	Vmycpu_top_mem2wb__DepSet_h71992377__0 \
@@ -53,6 +58,7 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_pc_detail__DepSet_h1146336d__0 \
 	Vmycpu_top_branch_prediction_with_blockram__DepSet_h21ccee08__0 \
 	Vmycpu_top_branch_prediction_with_blockram__DepSet_hbbc7934f__0 \
+	Vmycpu_top_bru_detail__DepSet_ha9d3d236__0 \
 	Vmycpu_top_bru_detail__DepSet_h43b49719__0 \
 	Vmycpu_top_icache_tag__DepSet_h6d1354a6__0 \
 	Vmycpu_top_icache_tag__DepSet_h88741ca9__0 \
@@ -71,19 +77,18 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_Look_up_table_read_first_with_bundle__DepSet_h8849de43__0 \
 	Vmycpu_top_Look_up_table_read_first_with_bundle__DepSet_h8849de43__1 \
 	Vmycpu_top_Look_up_table_read_first_with_bundle__DepSet_h7016a540__0 \
+	Vmycpu_top_Look_up_table_read_first_with_bundle__DepSet_h7016a540__1 \
 	Vmycpu_top_PHTS_banks_oneissue_block_ram__DepSet_he281b228__0 \
 	Vmycpu_top_PHTS_banks_oneissue_block_ram__DepSet_h7e63db15__0 \
 	Vmycpu_top_BHT_banks_oneissue__DepSet_hda417152__0 \
 	Vmycpu_top_BTB_banks_oneissue_with_block_ram__DepSet_h4fb54aa4__0 \
 	Vmycpu_top_BTB_banks_oneissue_with_block_ram__DepSet_h8aa024f8__0 \
-	Vmycpu_top_BTB_banks_oneissue_with_block_ram__DepSet_h8aa024f8__1 \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h8fe6a992__0 \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h8fe6a992__1 \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h8fe6a992__2 \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h8fe6a992__3 \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h8fe6a992__4 \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h8fe6a992__5 \
-	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h8fe6a992__6 \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h3ac77dad__0 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__0 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__1 \
@@ -92,6 +97,12 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__4 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__5 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__6 \
+	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__7 \
+	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__8 \
+	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__9 \
+	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__10 \
+	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__11 \
+	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h58f9fe77__0 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h087acf43__0 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_ha55db484__0 \
 	Vmycpu_top_PHTS_with_block_ram__DepSet_h36bdc820__0 \
@@ -152,22 +163,19 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_Look_up_table_read_first___05F40__DepSet_hb05cc169__50 \
 	Vmycpu_top_Look_up_table_read_first___05F40__DepSet_hb7403c24__0 \
 	Vmycpu_top_Look_up_table_read_first___05F40__DepSet_hb7403c24__1 \
-	Vmycpu_top_Look_up_table_read_first___05F40__DepSet_hb7403c24__2 \
-	Vmycpu_top_Look_up_table_read_first___05F40__DepSet_hb7403c24__3 \
 	Vmycpu_top_pht_data_with_block_ram__DepSet_hac671538__0 \
-	Vmycpu_top_pht_data_with_block_ram__DepSet_h6ab02bce__0 \
 	Vmycpu_top_data_ram_simple_two_ports_32__DepSet_h0c46c566__0 \
 	Vmycpu_top_data_ram_simple_two_ports_36__DepSet_h629a4429__0 \
 	Vmycpu_top_data_ram_simple_two_ports__DepSet_h59b25ea7__0 \
-	Vmycpu_top_data_ram_simple_two_ports__DepSet_hceb05f8b__0 \
 	Vmycpu_top_Look_up_table_read_first___05F32__DepSet_h5b53d2ef__0 \
 	Vmycpu_top_Look_up_table_read_first___05F32__DepSet_h5b53d2ef__1 \
 	Vmycpu_top_Look_up_table_read_first___05F32__DepSet_h5b53d2ef__2 \
 	Vmycpu_top_Look_up_table_read_first___05F32__DepSet_h5b53d2ef__3 \
+	Vmycpu_top_Look_up_table_read_first___05F32__DepSet_hf4ccf1c1__0 \
 	Vmycpu_top_Look_up_table_read_first___05F36__DepSet_hffb82b2c__0 \
 	Vmycpu_top_Look_up_table_read_first___05F36__DepSet_hffb82b2c__1 \
 	Vmycpu_top_Look_up_table_read_first___05F36__DepSet_hffb82b2c__2 \
-	Vmycpu_top_Look_up_table_read_first___05F36__DepSet_h0e766352__0 \
+	Vmycpu_top_Look_up_table_read_first___05F36__DepSet_hffb82b2c__3 \
 	Vmycpu_top_Look_up_table_read_first___DepSet_h61ded0d4__0 \
 	Vmycpu_top_Look_up_table_read_first___DepSet_h61ded0d4__1 \
 	Vmycpu_top_Look_up_table_read_first___DepSet_h61ded0d4__2 \
@@ -339,6 +347,7 @@ VM_SUPPORT_FAST += \
 	Vmycpu_top__Trace__1 \
 	Vmycpu_top__Trace__2 \
 	Vmycpu_top__Trace__3 \
+	Vmycpu_top__Trace__4 \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
@@ -352,12 +361,13 @@ VM_SUPPORT_SLOW += \
 	Vmycpu_top__Trace__6__Slow \
 	Vmycpu_top__Trace__7__Slow \
 	Vmycpu_top__Trace__8__Slow \
+	Vmycpu_top__Trace__9__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \
 	verilated \
 	verilated_dpi \
-	verilated_vcd_c \
+	verilated_fst_c \
 	verilated_threads \
 
 # Global classes, need linked once per executable, non-fast-path, compile with low/medium optimization

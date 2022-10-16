@@ -3,7 +3,7 @@
 
 #include "Vmycpu_top.h"
 #include "Vmycpu_top__Syms.h"
-#include "verilated_vcd_c.h"
+#include "verilated_fst_c.h"
 #include "verilated_dpi.h"
 
 //============================================================
@@ -12,52 +12,52 @@
 Vmycpu_top::Vmycpu_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     : VerilatedModel{*_vcontextp__}
     , vlSymsp{new Vmycpu_top__Syms(contextp(), _vcname__, this)}
-    , axi_mem_port_1_wdata{vlSymsp->TOP.axi_mem_port_1_wdata}
+    , axi_mem_port_1_arvalid{vlSymsp->TOP.axi_mem_port_1_arvalid}
     , axi_mem_port_1_awaddr{vlSymsp->TOP.axi_mem_port_1_awaddr}
-    , axi_mem_port_1_awvalid{vlSymsp->TOP.axi_mem_port_1_awvalid}
-    , axi_mem_port_1_rdata{vlSymsp->TOP.axi_mem_port_1_rdata}
+    , axi_mem_port_1_wdata{vlSymsp->TOP.axi_mem_port_1_wdata}
     , debug_wb_rf_wnum{vlSymsp->TOP.debug_wb_rf_wnum}
     , debug_wb_rf_wdata{vlSymsp->TOP.debug_wb_rf_wdata}
-    , axi_mem_port_0_arready{vlSymsp->TOP.axi_mem_port_0_arready}
-    , axi_mem_port_0_arlen{vlSymsp->TOP.axi_mem_port_0_arlen}
-    , axi_mem_port_0_arburst{vlSymsp->TOP.axi_mem_port_0_arburst}
-    , axi_mem_port_0_arvalid{vlSymsp->TOP.axi_mem_port_0_arvalid}
-    , axi_mem_port_1_arlen{vlSymsp->TOP.axi_mem_port_1_arlen}
     , axi_mem_port_1_arsize{vlSymsp->TOP.axi_mem_port_1_arsize}
-    , axi_mem_port_1_arburst{vlSymsp->TOP.axi_mem_port_1_arburst}
-    , axi_mem_port_1_arvalid{vlSymsp->TOP.axi_mem_port_1_arvalid}
     , axi_mem_port_1_rlast{vlSymsp->TOP.axi_mem_port_1_rlast}
-    , axi_mem_port_1_awlen{vlSymsp->TOP.axi_mem_port_1_awlen}
     , axi_mem_port_1_awsize{vlSymsp->TOP.axi_mem_port_1_awsize}
-    , axi_mem_port_1_awburst{vlSymsp->TOP.axi_mem_port_1_awburst}
     , axi_mem_port_1_wstrb{vlSymsp->TOP.axi_mem_port_1_wstrb}
     , axi_mem_port_1_wlast{vlSymsp->TOP.axi_mem_port_1_wlast}
     , axi_mem_port_1_wvalid{vlSymsp->TOP.axi_mem_port_1_wvalid}
+    , axi_mem_port_1_bvalid{vlSymsp->TOP.axi_mem_port_1_bvalid}
+    , axi_mem_port_1_araddr{vlSymsp->TOP.axi_mem_port_1_araddr}
+    , axi_mem_port_0_rdata{vlSymsp->TOP.axi_mem_port_0_rdata}
+    , ext_int{vlSymsp->TOP.ext_int}
+    , axi_mem_port_0_arvalid{vlSymsp->TOP.axi_mem_port_0_arvalid}
     , debug_wb_rf_wen{vlSymsp->TOP.debug_wb_rf_wen}
     , debug_wb_pc{vlSymsp->TOP.debug_wb_pc}
     , axi_mem_port_0_araddr{vlSymsp->TOP.axi_mem_port_0_araddr}
-    , axi_mem_port_1_araddr{vlSymsp->TOP.axi_mem_port_1_araddr}
-    , ext_int{vlSymsp->TOP.ext_int}
-    , axi_mem_port_0_rlast{vlSymsp->TOP.axi_mem_port_0_rlast}
-    , axi_mem_port_0_rvalid{vlSymsp->TOP.axi_mem_port_0_rvalid}
     , axi_mem_port_1_arready{vlSymsp->TOP.axi_mem_port_1_arready}
     , axi_mem_port_1_awready{vlSymsp->TOP.axi_mem_port_1_awready}
     , axi_mem_port_1_wready{vlSymsp->TOP.axi_mem_port_1_wready}
-    , axi_mem_port_1_bvalid{vlSymsp->TOP.axi_mem_port_1_bvalid}
-    , axi_mem_port_0_rdata{vlSymsp->TOP.axi_mem_port_0_rdata}
-    , axi_mem_port_1_rvalid{vlSymsp->TOP.axi_mem_port_1_rvalid}
+    , axi_mem_port_0_arlen{vlSymsp->TOP.axi_mem_port_0_arlen}
+    , axi_mem_port_0_arburst{vlSymsp->TOP.axi_mem_port_0_arburst}
+    , axi_mem_port_0_arready{vlSymsp->TOP.axi_mem_port_0_arready}
+    , axi_mem_port_0_rlast{vlSymsp->TOP.axi_mem_port_0_rlast}
+    , axi_mem_port_0_rvalid{vlSymsp->TOP.axi_mem_port_0_rvalid}
     , aresetn{vlSymsp->TOP.aresetn}
-    , aclk{vlSymsp->TOP.aclk}
-    , axi_mem_port_0_rresp{vlSymsp->TOP.axi_mem_port_0_rresp}
+    , axi_mem_port_1_arlen{vlSymsp->TOP.axi_mem_port_1_arlen}
+    , axi_mem_port_1_arburst{vlSymsp->TOP.axi_mem_port_1_arburst}
+    , axi_mem_port_1_rvalid{vlSymsp->TOP.axi_mem_port_1_rvalid}
+    , axi_mem_port_1_awlen{vlSymsp->TOP.axi_mem_port_1_awlen}
+    , axi_mem_port_1_awburst{vlSymsp->TOP.axi_mem_port_1_awburst}
+    , axi_mem_port_1_awvalid{vlSymsp->TOP.axi_mem_port_1_awvalid}
+    , axi_mem_port_1_rdata{vlSymsp->TOP.axi_mem_port_1_rdata}
     , axi_mem_port_0_rid{vlSymsp->TOP.axi_mem_port_0_rid}
-    , axi_mem_port_0_wready{vlSymsp->TOP.axi_mem_port_0_wready}
+    , aclk{vlSymsp->TOP.aclk}
     , axi_mem_port_0_awready{vlSymsp->TOP.axi_mem_port_0_awready}
-    , axi_mem_port_0_bresp{vlSymsp->TOP.axi_mem_port_0_bresp}
+    , axi_mem_port_0_rresp{vlSymsp->TOP.axi_mem_port_0_rresp}
     , axi_mem_port_0_bid{vlSymsp->TOP.axi_mem_port_0_bid}
-    , axi_mem_port_1_rid{vlSymsp->TOP.axi_mem_port_1_rid}
+    , axi_mem_port_0_wready{vlSymsp->TOP.axi_mem_port_0_wready}
     , axi_mem_port_0_bvalid{vlSymsp->TOP.axi_mem_port_0_bvalid}
-    , axi_mem_port_1_bid{vlSymsp->TOP.axi_mem_port_1_bid}
+    , axi_mem_port_0_bresp{vlSymsp->TOP.axi_mem_port_0_bresp}
     , axi_mem_port_1_rresp{vlSymsp->TOP.axi_mem_port_1_rresp}
+    , axi_mem_port_1_rid{vlSymsp->TOP.axi_mem_port_1_rid}
+    , axi_mem_port_1_bid{vlSymsp->TOP.axi_mem_port_1_bid}
     , axi_mem_port_1_bresp{vlSymsp->TOP.axi_mem_port_1_bresp}
     , axi_mem_port_0_arid{vlSymsp->TOP.axi_mem_port_0_arid}
     , axi_mem_port_0_arsize{vlSymsp->TOP.axi_mem_port_0_arsize}
@@ -141,7 +141,7 @@ static void _eval_initial_loop(Vmycpu_top__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = Vmycpu_top___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/home/ddddddd/learning/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65067, "",
+            VL_FATAL_MT("/home/ddddddd/learning/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65369, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -172,7 +172,7 @@ void Vmycpu_top::eval_step() {
             Verilated::debug(1);
             __Vchange = Vmycpu_top___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/home/ddddddd/learning/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65067, "",
+            VL_FATAL_MT("/home/ddddddd/learning/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65369, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -204,15 +204,15 @@ const char* Vmycpu_top::hierName() const { return vlSymsp->name(); }
 const char* Vmycpu_top::modelName() const { return "Vmycpu_top"; }
 unsigned Vmycpu_top::threads() const { return 10; }
 std::unique_ptr<VerilatedTraceConfig> Vmycpu_top::traceConfig() const {
-    return std::unique_ptr<VerilatedTraceConfig>{new VerilatedTraceConfig{true, false, false}};
+    return std::unique_ptr<VerilatedTraceConfig>{new VerilatedTraceConfig{false, false, false}};
 };
 
 //============================================================
 // Trace configuration
 
-void Vmycpu_top___024root__trace_init_top(Vmycpu_top___024root* vlSelf, VerilatedVcd* tracep);
+void Vmycpu_top___024root__trace_init_top(Vmycpu_top___024root* vlSelf, VerilatedFst* tracep);
 
-VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
+VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedFst* tracep, uint32_t code) {
     // Callback from tracep->open()
     Vmycpu_top___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vmycpu_top___024root*>(voidSelf);
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -228,9 +228,9 @@ VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32
     tracep->scopeEscape('.');
 }
 
-VL_ATTR_COLD void Vmycpu_top___024root__trace_register(Vmycpu_top___024root* vlSelf, VerilatedVcd* tracep);
+VL_ATTR_COLD void Vmycpu_top___024root__trace_register(Vmycpu_top___024root* vlSelf, VerilatedFst* tracep);
 
-VL_ATTR_COLD void Vmycpu_top::trace(VerilatedVcdC* tfp, int levels, int options) {
+VL_ATTR_COLD void Vmycpu_top::trace(VerilatedFstC* tfp, int levels, int options) {
     if (false && levels && options) {}  // Prevent unused
     tfp->spTrace()->addModel(this);
     tfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP));

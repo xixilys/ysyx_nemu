@@ -7,10 +7,18 @@
 
 #include "Vmycpu_top_branch_prediction_with_blockram.h"
 
-VL_INLINE_OPT void Vmycpu_top_branch_prediction_with_blockram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__1(Vmycpu_top_branch_prediction_with_blockram* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_branch_prediction_with_blockram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__3(Vmycpu_top_branch_prediction_with_blockram* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_branch_prediction_with_blockram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__1\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_branch_prediction_with_blockram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__3\n"); );
+    // Body
+    vlSelf->__PVT__BHT_banks_oneissue_clock = vlSelf->__PVT__clock;
+}
+
+VL_INLINE_OPT void Vmycpu_top_branch_prediction_with_blockram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__5(Vmycpu_top_branch_prediction_with_blockram* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_branch_prediction_with_blockram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__5\n"); );
     // Body
     vlSelf->__PVT__PHTS_banks_oneissue_block_ram_io_aw_addr 
         = vlSelf->__PVT__io_aw_pht_addr;
@@ -21,10 +29,10 @@ VL_INLINE_OPT void Vmycpu_top_branch_prediction_with_blockram___combo__TOP__mycp
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_branch_prediction_with_blockram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__7\n"); );
     // Body
-    vlSelf->__PVT__BTB_banks_oneissue_with_block_ram_io_aw_target_addr 
-        = vlSelf->__PVT__io_aw_target_addr;
     vlSelf->__PVT__PHTS_banks_oneissue_block_ram_io_in 
         = vlSelf->__PVT__io_pht_in;
+    vlSelf->__PVT__PHTS_banks_oneissue_block_ram_io_aw_pht_addr 
+        = (7U & VL_SEL_IIII(4, (IData)(vlSelf->__PVT__io_aw_pht_ways_addr), 0U, 3U));
 }
 
 VL_INLINE_OPT void Vmycpu_top_branch_prediction_with_blockram___sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__0(Vmycpu_top_branch_prediction_with_blockram* vlSelf) {

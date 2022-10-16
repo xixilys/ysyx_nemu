@@ -251,15 +251,22 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__13(V
     vlSelf->__PVT___inst_code_type_T_108 = ((0U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? 0x18U
                                              : 0U);
-    vlSelf->__PVT___inst_code_type_T_136 = ((0U == (IData)(vlSelf->__PVT__Funct7D))
-                                             ? 0x3aU
-                                             : 0U);
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__14(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__14\n"); );
+    // Body
+    vlSelf->__PVT___inst_code_type_T_136 = ((0U == (IData)(vlSelf->__PVT__Funct7D))
+                                             ? 0x3aU
+                                             : 0U);
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__15(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__15\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_128 = ((0U == (IData)(vlSelf->__PVT__Funct7D))
                                              ? 0x3cU
@@ -293,13 +300,13 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__14(V
                                             : 0U);
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__15(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__16(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__15\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__16\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_8 = ((0U == (IData)(vlSelf->__PVT__Funct3D))
-                                           ? 4U : 0U);
+    vlSelf->__PVT___inst_code_type_T_8 = ((2U == (IData)(vlSelf->__PVT__Funct3D))
+                                           ? 0xdU : 4U);
     vlSelf->__PVT___inst_code_type_T_31 = ((0U == (IData)(vlSelf->__PVT__Funct7D))
                                             ? 0x31U
                                             : 0U);
@@ -308,19 +315,19 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__15(V
                                             : 0U);
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__16(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__17(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__16\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__17\n"); );
     // Body
     vlSelf->__PVT___io_MemWidthD_T_21 = ((3U == (IData)(vlSelf->__PVT__Funct3D))
                                           ? 3U : (IData)(vlSelf->__PVT___io_MemWidthD_T_5));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__17(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__18(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__17\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__18\n"); );
     // Body
     vlSelf->__PVT__immSB_lo_hi = VL_CONCAT_III(13,1,12, 
                                                (1U 
@@ -347,10 +354,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__17(V
                                          ? 0U : (IData)(vlSelf->__PVT___io_MemWidthD_T_5));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__18(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__19(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__18\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__19\n"); );
     // Body
     vlSelf->__PVT__immSB_lo_lo = VL_CONCAT_III(12,1,11, 
                                                (1U 
@@ -372,10 +379,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__18(V
                                                                                 & VL_BITSEL_IIII(13, (IData)(vlSelf->__PVT___immSB_T_4), 0xcU)), (IData)(vlSelf->__PVT__immSB_lo_lo_lo)))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__19(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__20(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__19\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__20\n"); );
     // Body
     vlSelf->__PVT__immI_lo = VL_CONCAT_III(26,1,25, 
                                            (1U & VL_BITSEL_IIII(32, vlSelf->__PVT__io1_InstrD, 0x1fU)), 
@@ -400,10 +407,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__19(V
                                                                                 VL_CONCAT_III(19,6,13, (IData)(vlSelf->__PVT__immI_lo_lo_lo), (IData)(vlSelf->__PVT__immI_lo_lo)))))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__20(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__21(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__20\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__21\n"); );
     // Body
     vlSelf->__PVT__immS_lo_lo_lo = VL_CONCAT_III(6,1,5, 
                                                  (1U 
@@ -424,10 +431,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__20(V
                                                                                 & VL_BITSEL_IIII(12, (IData)(vlSelf->__PVT___immS_T_2), 0xbU)))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__21(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__22(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__21\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__22\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_119 = ((0x20U 
                                              == (IData)(vlSelf->__PVT__Funct7D))
@@ -438,18 +445,32 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__21(V
                                              : VL_EXTEND_II(5,3, (IData)(vlSelf->__PVT___inst_code_type_T_121)));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__22(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__23(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__22\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__23\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_110 = ((1U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? 0x19U
                                              : (IData)(vlSelf->__PVT___inst_code_type_T_108));
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__24(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__24\n"); );
+    // Body
     vlSelf->__PVT___inst_code_type_T_138 = ((0x20U 
                                              == (IData)(vlSelf->__PVT__Funct7D))
                                              ? 0x3bU
                                              : (IData)(vlSelf->__PVT___inst_code_type_T_136));
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__25(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__25\n"); );
+    // Body
     vlSelf->__PVT___inst_code_type_T_130 = ((0x20U 
                                              == (IData)(vlSelf->__PVT__Funct7D))
                                              ? 0x3dU
@@ -481,14 +502,13 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__22(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_35));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__23(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__26(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__23\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__26\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_10 = ((2U == (IData)(vlSelf->__PVT__Funct3D))
-                                            ? 0xdU : 
-                                           VL_EXTEND_II(4,3, (IData)(vlSelf->__PVT___inst_code_type_T_8)));
+    vlSelf->__PVT___inst_code_type_T_10 = ((3U == (IData)(vlSelf->__PVT__Funct3D))
+                                            ? 0xeU : (IData)(vlSelf->__PVT___inst_code_type_T_8));
     vlSelf->__PVT___inst_code_type_T_33 = ((1U == (IData)(vlSelf->__PVT__Funct7D))
                                             ? 0x2dU
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_31));
@@ -497,19 +517,19 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__23(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_25));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__24(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__27(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__24\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__27\n"); );
     // Body
     vlSelf->__PVT___io_MemWidthD_T_9 = ((5U == (IData)(vlSelf->__PVT__Funct3D))
                                          ? 1U : (IData)(vlSelf->__PVT___io_MemWidthD_T_7));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__25(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__28(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__25\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__28\n"); );
     // Body
     vlSelf->__PVT__immSB_lo_1 = VL_CONCAT_III(25,1,24, 
                                               (1U & 
@@ -535,10 +555,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__25(V
                                                                                 VL_CONCAT_III(18,6,12, (IData)(vlSelf->__PVT__immSB_lo_lo_lo), (IData)(vlSelf->__PVT__immSB_lo_lo)))))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__26(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__29(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__26\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__29\n"); );
     // Body
     vlSelf->__PVT___immI_T_53 = VL_CONCAT_QIQ(52,1,51, 
                                               (1U & 
@@ -565,10 +585,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__26(V
                                                                                 VL_CONCAT_QII(39,13,26, (IData)(vlSelf->__PVT__immI_lo_lo), vlSelf->__PVT__immI_lo)))))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__27(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__30(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__27\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__30\n"); );
     // Body
     vlSelf->__PVT__immS_lo_lo = VL_CONCAT_III(13,1,12, 
                                               (1U & 
@@ -593,27 +613,27 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__27(V
                                                                                 & VL_BITSEL_IIII(12, (IData)(vlSelf->__PVT___immS_T_2), 0xbU)), (IData)(vlSelf->__PVT__immS_lo_lo_lo))))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__28(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__31(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__28\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__31\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_125 = ((5U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? (IData)(vlSelf->__PVT___inst_code_type_T_119)
                                              : (IData)(vlSelf->__PVT___inst_code_type_T_123));
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__29(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__29\n"); );
-    // Body
     vlSelf->__PVT___inst_code_type_T_112 = ((2U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? 0x1aU
                                              : (IData)(vlSelf->__PVT___inst_code_type_T_110));
     vlSelf->__PVT___inst_code_type_T_140 = ((1U == (IData)(vlSelf->__PVT__Funct7D))
                                              ? 0x28U
                                              : (IData)(vlSelf->__PVT___inst_code_type_T_138));
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__32(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__32\n"); );
+    // Body
     vlSelf->__PVT___inst_code_type_T_132 = ((1U == (IData)(vlSelf->__PVT__Funct7D))
                                              ? 0x2bU
                                              : (IData)(vlSelf->__PVT___inst_code_type_T_130));
@@ -627,31 +647,32 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__29(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_49));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__30(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__33(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__30\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__33\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_12 = ((3U == (IData)(vlSelf->__PVT__Funct3D))
-                                            ? 0xeU : (IData)(vlSelf->__PVT___inst_code_type_T_10));
+    vlSelf->__PVT___inst_code_type_T_12 = ((4U == (IData)(vlSelf->__PVT__Funct3D))
+                                            ? 0x17U
+                                            : VL_EXTEND_II(5,4, (IData)(vlSelf->__PVT___inst_code_type_T_10)));
     vlSelf->__PVT___inst_code_type_T_29 = ((1U == (IData)(vlSelf->__PVT__Funct7D))
                                             ? 0x2cU
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_27));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__31(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__34(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__31\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__34\n"); );
     // Body
     vlSelf->__PVT___io_MemWidthD_T_11 = ((6U == (IData)(vlSelf->__PVT__Funct3D))
                                           ? 2U : (IData)(vlSelf->__PVT___io_MemWidthD_T_9));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__32(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__35(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__32\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__35\n"); );
     // Body
     vlSelf->__PVT___immSB_T_56 = VL_CONCAT_QIQ(51,1,50, 
                                                (1U 
@@ -680,10 +701,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__32(V
                                         (0xfffU & VL_SEL_IIII(32, vlSelf->__PVT__io1_InstrD, 0x14U, 0xcU)));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__33(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__36(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__33\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__36\n"); );
     // Body
     vlSelf->__PVT__immS_lo = VL_CONCAT_III(26,1,25, 
                                            (1U & VL_BITSEL_IIII(12, (IData)(vlSelf->__PVT___immS_T_2), 0xbU)), 
@@ -708,22 +729,22 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__33(V
                                                                                 VL_CONCAT_III(19,6,13, (IData)(vlSelf->__PVT__immS_lo_lo_lo), (IData)(vlSelf->__PVT__immS_lo_lo)))))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__34(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__37(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__34\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__37\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_126 = VL_CONCAT_III(8,5,3, (IData)(vlSelf->__PVT___inst_code_type_T_125), 2U);
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__35(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__35\n"); );
-    // Body
     vlSelf->__PVT___inst_code_type_T_114 = ((3U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? 0x1bU
                                              : (IData)(vlSelf->__PVT___inst_code_type_T_112));
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__38(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__38\n"); );
+    // Body
     vlSelf->__PVT___inst_code_type_T_142 = ((0U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? (IData)(vlSelf->__PVT___inst_code_type_T_132)
                                              : 0U);
@@ -734,32 +755,32 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__35(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_80));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__36(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__39(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__36\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__39\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_14 = ((4U == (IData)(vlSelf->__PVT__Funct3D))
-                                            ? 0x17U
-                                            : VL_EXTEND_II(5,4, (IData)(vlSelf->__PVT___inst_code_type_T_12)));
+    vlSelf->__PVT___inst_code_type_T_14 = ((6U == (IData)(vlSelf->__PVT__Funct3D))
+                                            ? 0x16U
+                                            : (IData)(vlSelf->__PVT___inst_code_type_T_12));
     vlSelf->__PVT___inst_code_type_T_61 = ((1U == (IData)(vlSelf->__PVT__Funct3D))
                                             ? (IData)(vlSelf->__PVT___inst_code_type_T_33)
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_29));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__37(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__40(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__37\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__40\n"); );
     // Body
     vlSelf->__PVT___io_MemWidthD_T_13 = ((3U == (IData)(vlSelf->__PVT__Funct3D))
                                           ? 3U : (IData)(vlSelf->__PVT___io_MemWidthD_T_11));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__38(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__41(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__38\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__41\n"); );
     // Body
     vlSelf->__PVT__immSB = VL_CONCAT_QQI(64,51,13, vlSelf->__PVT___immSB_T_56, 
                                          VL_CONCAT_III(13,1,12, 
@@ -776,10 +797,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__38(V
                                                                                 & VL_SEL_IIII(32, vlSelf->__PVT__io1_InstrD, 8U, 4U)), 0U)))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__39(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__42(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__39\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__42\n"); );
     // Body
     vlSelf->__PVT___immS_T_55 = VL_CONCAT_QIQ(52,1,51, 
                                               (1U & 
@@ -806,12 +827,19 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__39(V
                                                                                 VL_CONCAT_QII(39,13,26, (IData)(vlSelf->__PVT__immS_lo_lo), vlSelf->__PVT__immS_lo)))))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__40(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__43(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__40\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__43\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_115 = VL_CONCAT_III(8,5,3, (IData)(vlSelf->__PVT___inst_code_type_T_114), 3U);
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__44(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__44\n"); );
+    // Body
     vlSelf->__PVT___inst_code_type_T_144 = ((1U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? (IData)(vlSelf->__PVT___inst_code_type_T_134)
                                              : (IData)(vlSelf->__PVT___inst_code_type_T_142));
@@ -822,10 +850,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__40(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_82));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__41(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__45(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__41\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__45\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_16 = ((7U == (IData)(vlSelf->__PVT__Funct3D))
                                             ? 0x15U
@@ -835,20 +863,20 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__41(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_61));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__42(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__46(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__42\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__46\n"); );
     // Body
     vlSelf->__PVT___io_MemWidthD_T_23 = ((3U == (IData)(vlSelf->__PVT__OpD))
                                           ? (IData)(vlSelf->__PVT___io_MemWidthD_T_13)
                                           : 0U);
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__43(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__47(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__43\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__47\n"); );
     // Body
     vlSelf->__PVT__immS = VL_CONCAT_QQI(64,52,12, vlSelf->__PVT___immS_T_55, 
                                         VL_CONCAT_III(12,7,5, (IData)(vlSelf->__PVT__Funct7D), 
@@ -856,10 +884,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__43(V
                                                        & VL_SEL_IIII(32, vlSelf->__PVT__io1_InstrD, 7U, 5U))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__44(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__48(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__44\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__48\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_146 = ((5U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? (IData)(vlSelf->__PVT___inst_code_type_T_140)
@@ -872,10 +900,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__44(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_84));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__45(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__49(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__45\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__49\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_18 = ((1U == (IData)(vlSelf->__PVT__Funct3D))
                                             ? VL_EXTEND_II(5,4, (IData)(vlSelf->__PVT___inst_code_type_T_2))
@@ -885,20 +913,20 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__45(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_63));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__46(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__50(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__46\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__50\n"); );
     // Body
     vlSelf->__PVT__io_MemWidthD = ((0x23U == (IData)(vlSelf->__PVT__OpD))
                                     ? (IData)(vlSelf->__PVT___io_MemWidthD_T_21)
                                     : (IData)(vlSelf->__PVT___io_MemWidthD_T_23));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__47(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__51(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__47\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__51\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_148 = ((6U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? 0x29U
@@ -908,10 +936,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__47(V
     vlSelf->__PVT___inst_code_type_T_87 = VL_CONCAT_III(9,6,3, (IData)(vlSelf->__PVT___inst_code_type_T_86), 4U);
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__48(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__52(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__48\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__52\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_20 = ((1U == (IData)(vlSelf->__PVT__Funct3D))
                                             ? 0xfU : (IData)(vlSelf->__PVT___inst_code_type_T_18));
@@ -920,10 +948,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__48(V
                                             : VL_EXTEND_II(7,6, (IData)(vlSelf->__PVT___inst_code_type_T_65)));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__49(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__53(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__49\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__53\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_150 = ((7U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? 0x2aU
@@ -931,10 +959,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__49(V
     vlSelf->__PVT___inst_code_type_T_106 = VL_CONCAT_III(7,4,3, (IData)(vlSelf->__PVT___inst_code_type_T_105), 2U);
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__50(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__54(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__50\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__54\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_22 = ((5U == (IData)(vlSelf->__PVT__Funct3D))
                                             ? (IData)(vlSelf->__PVT___inst_code_type_T_6)
@@ -944,20 +972,20 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__50(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_67));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__51(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__55(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__51\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__55\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_152 = ((4U == (IData)(vlSelf->__PVT__Funct3D))
                                              ? 0x27U
                                              : (IData)(vlSelf->__PVT___inst_code_type_T_150));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__52(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__56(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__52\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__56\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_23 = VL_CONCAT_III(8,5,3, (IData)(vlSelf->__PVT___inst_code_type_T_22), 2U);
     vlSelf->__PVT___inst_code_type_T_71 = ((6U == (IData)(vlSelf->__PVT__Funct3D))
@@ -965,18 +993,18 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__52(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_69));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__53(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__57(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__53\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__57\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_153 = VL_CONCAT_III(9,6,3, (IData)(vlSelf->__PVT___inst_code_type_T_152), 5U);
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__54(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__58(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__54\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__58\n"); );
     // Body
     vlSelf->__PVT___inst_code_type_T_156 = ((0x13U 
                                              == (IData)(vlSelf->__PVT__OpD))
@@ -987,56 +1015,12 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__54(V
                                             : (IData)(vlSelf->__PVT___inst_code_type_T_71));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__55(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__55\n"); );
-    // Body
-    vlSelf->__PVT___inst_code_type_T_74 = VL_CONCAT_III(10,7,3, (IData)(vlSelf->__PVT___inst_code_type_T_73), 5U);
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__56(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__56\n"); );
-    // Body
-    vlSelf->__PVT___inst_code_type_T_158 = ((0x33U 
-                                             == (IData)(vlSelf->__PVT__OpD))
-                                             ? (IData)(vlSelf->__PVT___inst_code_type_T_74)
-                                             : VL_EXTEND_II(10,8, (IData)(vlSelf->__PVT___inst_code_type_T_156)));
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__57(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__57\n"); );
-    // Body
-    vlSelf->__PVT___inst_code_type_T_160 = ((0x63U 
-                                             == (IData)(vlSelf->__PVT__OpD))
-                                             ? VL_EXTEND_II(10,9, (IData)(vlSelf->__PVT___inst_code_type_T_87))
-                                             : (IData)(vlSelf->__PVT___inst_code_type_T_158));
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__58(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__58\n"); );
-    // Body
-    vlSelf->__PVT___inst_code_type_T_162 = ((0x6fU 
-                                             == (IData)(vlSelf->__PVT__OpD))
-                                             ? 0x16U
-                                             : (IData)(vlSelf->__PVT___inst_code_type_T_160));
-}
-
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__59(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__59\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_164 = ((0x67U 
-                                             == (IData)(vlSelf->__PVT__OpD))
-                                             ? 0x1aU
-                                             : (IData)(vlSelf->__PVT___inst_code_type_T_162));
+    vlSelf->__PVT___inst_code_type_T_74 = VL_CONCAT_III(10,7,3, (IData)(vlSelf->__PVT___inst_code_type_T_73), 5U);
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__60(Vmycpu_top_cu* vlSelf) {
@@ -1044,9 +1028,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__60(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__60\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_166 = ((0x37U 
+    vlSelf->__PVT___inst_code_type_T_158 = ((0x33U 
                                              == (IData)(vlSelf->__PVT__OpD))
-                                             ? 9U : (IData)(vlSelf->__PVT___inst_code_type_T_164));
+                                             ? (IData)(vlSelf->__PVT___inst_code_type_T_74)
+                                             : VL_EXTEND_II(10,8, (IData)(vlSelf->__PVT___inst_code_type_T_156)));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__61(Vmycpu_top_cu* vlSelf) {
@@ -1054,10 +1039,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__61(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__61\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_168 = ((0x17U 
+    vlSelf->__PVT___inst_code_type_T_160 = ((0x63U 
                                              == (IData)(vlSelf->__PVT__OpD))
-                                             ? 0x201U
-                                             : (IData)(vlSelf->__PVT___inst_code_type_T_166));
+                                             ? VL_EXTEND_II(10,9, (IData)(vlSelf->__PVT___inst_code_type_T_87))
+                                             : (IData)(vlSelf->__PVT___inst_code_type_T_158));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__62(Vmycpu_top_cu* vlSelf) {
@@ -1065,9 +1050,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__62(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__62\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_170 = ((3U == (IData)(vlSelf->__PVT__OpD))
-                                             ? VL_EXTEND_II(10,7, (IData)(vlSelf->__PVT___inst_code_type_T_106))
-                                             : (IData)(vlSelf->__PVT___inst_code_type_T_168));
+    vlSelf->__PVT___inst_code_type_T_162 = ((0x6fU 
+                                             == (IData)(vlSelf->__PVT__OpD))
+                                             ? 0x16U
+                                             : (IData)(vlSelf->__PVT___inst_code_type_T_160));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__63(Vmycpu_top_cu* vlSelf) {
@@ -1075,10 +1061,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__63(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__63\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_172 = ((0x23U 
+    vlSelf->__PVT___inst_code_type_T_164 = ((0x67U 
                                              == (IData)(vlSelf->__PVT__OpD))
-                                             ? VL_EXTEND_II(10,8, (IData)(vlSelf->__PVT___inst_code_type_T_115))
-                                             : (IData)(vlSelf->__PVT___inst_code_type_T_170));
+                                             ? 0x1aU
+                                             : (IData)(vlSelf->__PVT___inst_code_type_T_162));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__64(Vmycpu_top_cu* vlSelf) {
@@ -1086,10 +1072,9 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__64(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__64\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_174 = ((0x1bU 
+    vlSelf->__PVT___inst_code_type_T_166 = ((0x37U 
                                              == (IData)(vlSelf->__PVT__OpD))
-                                             ? VL_EXTEND_II(10,8, (IData)(vlSelf->__PVT___inst_code_type_T_126))
-                                             : (IData)(vlSelf->__PVT___inst_code_type_T_172));
+                                             ? 9U : (IData)(vlSelf->__PVT___inst_code_type_T_164));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__65(Vmycpu_top_cu* vlSelf) {
@@ -1097,10 +1082,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__65(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__65\n"); );
     // Body
-    vlSelf->__PVT___inst_code_type_T_176 = ((0x3bU 
+    vlSelf->__PVT___inst_code_type_T_168 = ((0x17U 
                                              == (IData)(vlSelf->__PVT__OpD))
-                                             ? VL_EXTEND_II(10,9, (IData)(vlSelf->__PVT___inst_code_type_T_153))
-                                             : (IData)(vlSelf->__PVT___inst_code_type_T_174));
+                                             ? 0x201U
+                                             : (IData)(vlSelf->__PVT___inst_code_type_T_166));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__66(Vmycpu_top_cu* vlSelf) {
@@ -1108,8 +1093,9 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__66(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__66\n"); );
     // Body
-    vlSelf->__PVT__inst_code_type = ((0U == (IData)(vlSelf->__PVT__OpD))
-                                      ? 0x282U : (IData)(vlSelf->__PVT___inst_code_type_T_176));
+    vlSelf->__PVT___inst_code_type_T_170 = ((3U == (IData)(vlSelf->__PVT__OpD))
+                                             ? VL_EXTEND_II(10,7, (IData)(vlSelf->__PVT___inst_code_type_T_106))
+                                             : (IData)(vlSelf->__PVT___inst_code_type_T_168));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__67(Vmycpu_top_cu* vlSelf) {
@@ -1117,7 +1103,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__67(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__67\n"); );
     // Body
-    vlSelf->__PVT__inst_type = (7U & VL_SEL_IIII(10, (IData)(vlSelf->__PVT__inst_code_type), 0U, 3U));
+    vlSelf->__PVT___inst_code_type_T_172 = ((0x23U 
+                                             == (IData)(vlSelf->__PVT__OpD))
+                                             ? VL_EXTEND_II(10,8, (IData)(vlSelf->__PVT___inst_code_type_T_115))
+                                             : (IData)(vlSelf->__PVT___inst_code_type_T_170));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__68(Vmycpu_top_cu* vlSelf) {
@@ -1125,13 +1114,52 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__68(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__68\n"); );
     // Body
-    vlSelf->__PVT__ins_code = (0x7fU & VL_SEL_IIII(10, (IData)(vlSelf->__PVT__inst_code_type), 3U, 7U));
+    vlSelf->__PVT___inst_code_type_T_174 = ((0x1bU 
+                                             == (IData)(vlSelf->__PVT__OpD))
+                                             ? VL_EXTEND_II(10,8, (IData)(vlSelf->__PVT___inst_code_type_T_126))
+                                             : (IData)(vlSelf->__PVT___inst_code_type_T_172));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__69(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__69\n"); );
+    // Body
+    vlSelf->__PVT___inst_code_type_T_176 = ((0x3bU 
+                                             == (IData)(vlSelf->__PVT__OpD))
+                                             ? VL_EXTEND_II(10,9, (IData)(vlSelf->__PVT___inst_code_type_T_153))
+                                             : (IData)(vlSelf->__PVT___inst_code_type_T_174));
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__70(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__70\n"); );
+    // Body
+    vlSelf->__PVT__inst_code_type = ((0U == (IData)(vlSelf->__PVT__OpD))
+                                      ? 0x282U : (IData)(vlSelf->__PVT___inst_code_type_T_176));
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__71(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__71\n"); );
+    // Body
+    vlSelf->__PVT__inst_type = (7U & VL_SEL_IIII(10, (IData)(vlSelf->__PVT__inst_code_type), 0U, 3U));
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__72(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__72\n"); );
+    // Body
+    vlSelf->__PVT__ins_code = (0x7fU & VL_SEL_IIII(10, (IData)(vlSelf->__PVT__inst_code_type), 3U, 7U));
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__73(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__73\n"); );
     // Body
     vlSelf->__PVT__io_ALUSrcD_0 = VL_EXTEND_II(2,1, 
                                                (0x40U 
@@ -1166,10 +1194,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__69(V
                                                                            == (IData)(vlSelf->__PVT__ins_code))))))))))))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__70(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__74(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__70\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__74\n"); );
     // Body
     vlSelf->__PVT___io_ImmD_T_3 = (4U == (IData)(vlSelf->__PVT__inst_type));
     vlSelf->__PVT___io_RegWriteD_T_29 = ((0x30U == (IData)(vlSelf->__PVT__ins_code)) 
@@ -1201,45 +1229,6 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__70(V
                                                                                 == (IData)(vlSelf->__PVT__ins_code)) 
                                                                                 | (0x23U 
                                                                                 == (IData)(vlSelf->__PVT__ins_code))))))))))))))));
-    vlSelf->__PVT___io_ImmD_T_4 = (6U == (IData)(vlSelf->__PVT__inst_type));
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__71(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__71\n"); );
-    // Body
-    vlSelf->__PVT___io_ImmD_T_2 = (3U == (IData)(vlSelf->__PVT__inst_type));
-    vlSelf->__PVT___io_ImmD_T_1 = (2U == (IData)(vlSelf->__PVT__inst_type));
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__72(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__72\n"); );
-    // Body
-    vlSelf->__PVT__io1_BadInstrD = (0U == (IData)(vlSelf->__PVT__ins_code));
-    vlSelf->__PVT___io_ImmD_T = (1U == (IData)(vlSelf->__PVT__inst_type));
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__73(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__73\n"); );
-    // Body
-    vlSelf->__PVT___io_muldiv_control_T_14 = ((0x24U 
-                                               == (IData)(vlSelf->__PVT__ins_code))
-                                               ? 2U
-                                               : 0U);
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__74(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__74\n"); );
-    // Body
-    vlSelf->__PVT___io_ALUCtrlD_T_33 = ((0x40U == (IData)(vlSelf->__PVT__ins_code))
-                                         ? 2U : 0U);
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__75(Vmycpu_top_cu* vlSelf) {
@@ -1247,9 +1236,7 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__75(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__75\n"); );
     // Body
-    vlSelf->__PVT___io_ALUSrcD_1_T_4 = (((IData)(vlSelf->__PVT___io_ImmD_T_1) 
-                                         | (IData)(vlSelf->__PVT___io_ImmD_T_4)) 
-                                        | (IData)(vlSelf->__PVT___io_ImmD_T));
+    vlSelf->__PVT___io_ImmD_T_4 = (6U == (IData)(vlSelf->__PVT__inst_type));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__76(Vmycpu_top_cu* vlSelf) {
@@ -1257,6 +1244,47 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__76(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__76\n"); );
     // Body
+    vlSelf->__PVT___io_ImmD_T_2 = (3U == (IData)(vlSelf->__PVT__inst_type));
+    vlSelf->__PVT___io_ImmD_T_1 = (2U == (IData)(vlSelf->__PVT__inst_type));
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__77(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__77\n"); );
+    // Body
+    vlSelf->__PVT__io1_BadInstrD = (0U == (IData)(vlSelf->__PVT__ins_code));
+    vlSelf->__PVT___io_ImmD_T = (1U == (IData)(vlSelf->__PVT__inst_type));
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__78(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__78\n"); );
+    // Body
+    vlSelf->__PVT___io_muldiv_control_T_14 = ((0x24U 
+                                               == (IData)(vlSelf->__PVT__ins_code))
+                                               ? 2U
+                                               : 0U);
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__79(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__79\n"); );
+    // Body
+    vlSelf->__PVT___io_ALUCtrlD_T_33 = ((0x40U == (IData)(vlSelf->__PVT__ins_code))
+                                         ? 2U : 0U);
+}
+
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__80(Vmycpu_top_cu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__80\n"); );
+    // Body
+    vlSelf->__PVT___io_ALUSrcD_1_T_4 = (((IData)(vlSelf->__PVT___io_ImmD_T_1) 
+                                         | (IData)(vlSelf->__PVT___io_ImmD_T_4)) 
+                                        | (IData)(vlSelf->__PVT___io_ImmD_T));
     vlSelf->__PVT___io_ImmD_T_9 = ((IData)(vlSelf->__PVT___io_ImmD_T_4)
                                     ? vlSelf->__PVT__immUJ
                                     : 0U);
@@ -1294,10 +1322,10 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__76(V
                                                                                 | (IData)(vlSelf->__PVT___io_RegWriteD_T_29))))))))))))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__77(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__81(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__77\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__81\n"); );
     // Body
     vlSelf->__PVT___io_ImmD_T_7 = ((IData)(vlSelf->__PVT___io_ImmD_T_2)
                                     ? vlSelf->__PVT__immS
@@ -1307,49 +1335,35 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__77(V
                                     : 0ULL);
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__78(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__82(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__78\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__82\n"); );
     // Body
     vlSelf->__PVT___io_ImmD_T_5 = ((IData)(vlSelf->__PVT___io_ImmD_T)
                                     ? vlSelf->__PVT__immU
                                     : 0U);
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__79(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__79\n"); );
-    // Body
     vlSelf->__PVT___io_muldiv_control_T_16 = ((0x23U 
                                                == (IData)(vlSelf->__PVT__ins_code))
                                                ? 1U
                                                : (IData)(vlSelf->__PVT___io_muldiv_control_T_14));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__80(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__83(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__80\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__83\n"); );
     // Body
     vlSelf->__PVT___io_ALUCtrlD_T_35 = ((0x30U == (IData)(vlSelf->__PVT__ins_code))
                                          ? 2U : (IData)(vlSelf->__PVT___io_ALUCtrlD_T_33));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__81(Vmycpu_top_cu* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__84(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__81\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__84\n"); );
     // Body
     vlSelf->__PVT__io_ALUSrcD_1 = VL_EXTEND_II(2,1, (IData)(vlSelf->__PVT___io_ALUSrcD_1_T_4));
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__82(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__82\n"); );
-    // Body
     vlSelf->__PVT___GEN_1 = VL_EXTEND_QI(64,20, vlSelf->__PVT___io_ImmD_T_9);
     vlSelf->__PVT___io_RegWriteD_T_89 = ((0x10U == (IData)(vlSelf->__PVT__ins_code)) 
                                          | ((0xfU == (IData)(vlSelf->__PVT__ins_code)) 
@@ -1382,32 +1396,16 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__82(V
                                                                                 | (IData)(vlSelf->__PVT___io_RegWriteD_T_59))))))))))))))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__83(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__83\n"); );
-    // Body
-    vlSelf->__PVT___GEN_0 = VL_EXTEND_QI(64,32, vlSelf->__PVT___io_ImmD_T_5);
-}
-
-VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__84(Vmycpu_top_cu* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__84\n"); );
-    // Body
-    vlSelf->__PVT___io_muldiv_control_T_18 = ((0x25U 
-                                               == (IData)(vlSelf->__PVT__ins_code))
-                                               ? 4U
-                                               : VL_EXTEND_II(4,2, (IData)(vlSelf->__PVT___io_muldiv_control_T_16)));
-}
-
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__85(Vmycpu_top_cu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__85\n"); );
     // Body
-    vlSelf->__PVT___io_ALUCtrlD_T_37 = ((5U == (IData)(vlSelf->__PVT__ins_code))
-                                         ? 2U : (IData)(vlSelf->__PVT___io_ALUCtrlD_T_35));
+    vlSelf->__PVT___GEN_0 = VL_EXTEND_QI(64,32, vlSelf->__PVT___io_ImmD_T_5);
+    vlSelf->__PVT___io_muldiv_control_T_18 = ((0x25U 
+                                               == (IData)(vlSelf->__PVT__ins_code))
+                                               ? 4U
+                                               : VL_EXTEND_II(4,2, (IData)(vlSelf->__PVT___io_muldiv_control_T_16)));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__86(Vmycpu_top_cu* vlSelf) {
@@ -1415,22 +1413,8 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__86(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__86\n"); );
     // Body
-    vlSelf->__PVT__io_RegWriteD = ((1U == (IData)(vlSelf->__PVT__ins_code)) 
-                                   | ((0x40U == (IData)(vlSelf->__PVT__ins_code)) 
-                                      | ((0x17U == (IData)(vlSelf->__PVT__ins_code)) 
-                                         | ((0x16U 
-                                             == (IData)(vlSelf->__PVT__ins_code)) 
-                                            | ((0x15U 
-                                                == (IData)(vlSelf->__PVT__ins_code)) 
-                                               | ((0x14U 
-                                                   == (IData)(vlSelf->__PVT__ins_code)) 
-                                                  | ((0x13U 
-                                                      == (IData)(vlSelf->__PVT__ins_code)) 
-                                                     | ((0x12U 
-                                                         == (IData)(vlSelf->__PVT__ins_code)) 
-                                                        | ((0x11U 
-                                                            == (IData)(vlSelf->__PVT__ins_code)) 
-                                                           | (IData)(vlSelf->__PVT___io_RegWriteD_T_89))))))))));
+    vlSelf->__PVT___io_ALUCtrlD_T_37 = ((5U == (IData)(vlSelf->__PVT__ins_code))
+                                         ? 2U : (IData)(vlSelf->__PVT___io_ALUCtrlD_T_35));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__87(Vmycpu_top_cu* vlSelf) {
@@ -1438,8 +1422,24 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__87(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__87\n"); );
     // Body
-    vlSelf->__PVT___io_ImmD_T_10 = (vlSelf->__PVT___GEN_0 
-                                    | vlSelf->__PVT___io_ImmD_T_6);
+    vlSelf->__PVT__io_RegWriteD = ((1U == (IData)(vlSelf->__PVT__ins_code)) 
+                                   | ((0x40U == (IData)(vlSelf->__PVT__ins_code)) 
+                                      | ((0x41U == (IData)(vlSelf->__PVT__ins_code)) 
+                                         | ((0x17U 
+                                             == (IData)(vlSelf->__PVT__ins_code)) 
+                                            | ((0x16U 
+                                                == (IData)(vlSelf->__PVT__ins_code)) 
+                                               | ((0x15U 
+                                                   == (IData)(vlSelf->__PVT__ins_code)) 
+                                                  | ((0x14U 
+                                                      == (IData)(vlSelf->__PVT__ins_code)) 
+                                                     | ((0x13U 
+                                                         == (IData)(vlSelf->__PVT__ins_code)) 
+                                                        | ((0x12U 
+                                                            == (IData)(vlSelf->__PVT__ins_code)) 
+                                                           | ((0x11U 
+                                                               == (IData)(vlSelf->__PVT__ins_code)) 
+                                                              | (IData)(vlSelf->__PVT___io_RegWriteD_T_89)))))))))));
 }
 
 VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__88(Vmycpu_top_cu* vlSelf) {
@@ -1447,6 +1447,8 @@ VL_ATTR_COLD void Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__88(V
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cu___settle__TOP__mycpu_top__u_riscv_cpu___cu__88\n"); );
     // Body
+    vlSelf->__PVT___io_ImmD_T_10 = (vlSelf->__PVT___GEN_0 
+                                    | vlSelf->__PVT___io_ImmD_T_6);
     vlSelf->__PVT___io_muldiv_control_T_20 = ((0x26U 
                                                == (IData)(vlSelf->__PVT__ins_code))
                                                ? 8U

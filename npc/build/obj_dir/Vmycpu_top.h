@@ -14,7 +14,7 @@
 
 class Vmycpu_top__Syms;
 class Vmycpu_top___024root;
-class VerilatedVcdC;
+class VerilatedFstC;
 class Vmycpu_top_mycpu_top;
 class Vmycpu_top___024unit;
 
@@ -30,52 +30,52 @@ class Vmycpu_top VL_NOT_FINAL : public VerilatedModel {
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_OUT64(&axi_mem_port_1_wdata,63,0);
+    VL_OUT8(&axi_mem_port_1_arvalid,0,0);
     VL_OUT64(&axi_mem_port_1_awaddr,63,0);
-    VL_OUT8(&axi_mem_port_1_awvalid,0,0);
-    VL_IN64(&axi_mem_port_1_rdata,63,0);
+    VL_OUT64(&axi_mem_port_1_wdata,63,0);
     VL_OUT8(&debug_wb_rf_wnum,4,0);
     VL_OUT(&debug_wb_rf_wdata,31,0);
-    VL_IN8(&axi_mem_port_0_arready,0,0);
-    VL_OUT8(&axi_mem_port_0_arlen,3,0);
-    VL_OUT8(&axi_mem_port_0_arburst,1,0);
-    VL_OUT8(&axi_mem_port_0_arvalid,0,0);
-    VL_OUT8(&axi_mem_port_1_arlen,3,0);
     VL_OUT8(&axi_mem_port_1_arsize,2,0);
-    VL_OUT8(&axi_mem_port_1_arburst,1,0);
-    VL_OUT8(&axi_mem_port_1_arvalid,0,0);
     VL_IN8(&axi_mem_port_1_rlast,0,0);
-    VL_OUT8(&axi_mem_port_1_awlen,3,0);
     VL_OUT8(&axi_mem_port_1_awsize,2,0);
-    VL_OUT8(&axi_mem_port_1_awburst,1,0);
     VL_OUT8(&axi_mem_port_1_wstrb,7,0);
     VL_OUT8(&axi_mem_port_1_wlast,0,0);
     VL_OUT8(&axi_mem_port_1_wvalid,0,0);
+    VL_IN8(&axi_mem_port_1_bvalid,0,0);
+    VL_OUT64(&axi_mem_port_1_araddr,63,0);
+    VL_IN64(&axi_mem_port_0_rdata,63,0);
+    VL_IN8(&ext_int,5,0);
+    VL_OUT8(&axi_mem_port_0_arvalid,0,0);
     VL_OUT8(&debug_wb_rf_wen,3,0);
     VL_OUT(&debug_wb_pc,31,0);
     VL_OUT64(&axi_mem_port_0_araddr,63,0);
-    VL_OUT64(&axi_mem_port_1_araddr,63,0);
-    VL_IN8(&ext_int,5,0);
-    VL_IN8(&axi_mem_port_0_rlast,0,0);
-    VL_IN8(&axi_mem_port_0_rvalid,0,0);
     VL_IN8(&axi_mem_port_1_arready,0,0);
     VL_IN8(&axi_mem_port_1_awready,0,0);
     VL_IN8(&axi_mem_port_1_wready,0,0);
-    VL_IN8(&axi_mem_port_1_bvalid,0,0);
-    VL_IN64(&axi_mem_port_0_rdata,63,0);
-    VL_IN8(&axi_mem_port_1_rvalid,0,0);
+    VL_OUT8(&axi_mem_port_0_arlen,3,0);
+    VL_OUT8(&axi_mem_port_0_arburst,1,0);
+    VL_IN8(&axi_mem_port_0_arready,0,0);
+    VL_IN8(&axi_mem_port_0_rlast,0,0);
+    VL_IN8(&axi_mem_port_0_rvalid,0,0);
     VL_IN8(&aresetn,0,0);
-    VL_IN8(&aclk,0,0);
-    VL_IN8(&axi_mem_port_0_rresp,1,0);
+    VL_OUT8(&axi_mem_port_1_arlen,3,0);
+    VL_OUT8(&axi_mem_port_1_arburst,1,0);
+    VL_IN8(&axi_mem_port_1_rvalid,0,0);
+    VL_OUT8(&axi_mem_port_1_awlen,3,0);
+    VL_OUT8(&axi_mem_port_1_awburst,1,0);
+    VL_OUT8(&axi_mem_port_1_awvalid,0,0);
+    VL_IN64(&axi_mem_port_1_rdata,63,0);
     VL_IN8(&axi_mem_port_0_rid,3,0);
-    VL_IN8(&axi_mem_port_0_wready,0,0);
+    VL_IN8(&aclk,0,0);
     VL_IN8(&axi_mem_port_0_awready,0,0);
-    VL_IN8(&axi_mem_port_0_bresp,1,0);
+    VL_IN8(&axi_mem_port_0_rresp,1,0);
     VL_IN8(&axi_mem_port_0_bid,3,0);
-    VL_IN8(&axi_mem_port_1_rid,3,0);
+    VL_IN8(&axi_mem_port_0_wready,0,0);
     VL_IN8(&axi_mem_port_0_bvalid,0,0);
-    VL_IN8(&axi_mem_port_1_bid,3,0);
+    VL_IN8(&axi_mem_port_0_bresp,1,0);
     VL_IN8(&axi_mem_port_1_rresp,1,0);
+    VL_IN8(&axi_mem_port_1_rid,3,0);
+    VL_IN8(&axi_mem_port_1_bid,3,0);
     VL_IN8(&axi_mem_port_1_bresp,1,0);
     VL_OUT8(&axi_mem_port_0_arid,3,0);
     VL_OUT8(&axi_mem_port_0_arsize,2,0);
@@ -144,7 +144,7 @@ class Vmycpu_top VL_NOT_FINAL : public VerilatedModel {
     /// Simulation complete, run final blocks.  Application must call on completion.
     void final();
     /// Trace signals in the model; called by application code
-    void trace(VerilatedVcdC* tfp, int levels, int options = 0);
+    void trace(VerilatedFstC* tfp, int levels, int options = 0);
     /// Retrieve name of this model instance (as passed to constructor).
     const char* name() const;
 

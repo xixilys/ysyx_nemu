@@ -72,21 +72,6 @@ VL_INLINE_OPT void Vmycpu_top_icache_data___sequent__TOP__mycpu_top__inst_cache_
     vlSelf->__PVT__icache_data_ram_0_io_douta = vlSelf->__PVT__icache_data_ram_0->__PVT__io_douta;
 }
 
-VL_INLINE_OPT void Vmycpu_top_icache_data___combo__TOP__mycpu_top__inst_cache__icache_data_8__0(Vmycpu_top_icache_data* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_icache_data___combo__TOP__mycpu_top__inst_cache__icache_data_8__0\n"); );
-    // Body
-    vlSelf->__PVT__icache_data_ram_0_io_addra = (0x7fU 
-                                                 & VL_SEL_IQII(64, vlSelf->__PVT__io_addr, 5U, 7U));
-    vlSelf->__PVT__icache_data_ram_0->__PVT__io_addra 
-        = vlSelf->__PVT__icache_data_ram_0_io_addra;
-    vlSelf->__PVT__icache_data_ram_0->__PVT__Look_up_table_read_first___05Fio_aw_addr 
-        = vlSelf->__PVT__icache_data_ram_0->__PVT__io_addra;
-    vlSelf->__PVT__icache_data_ram_0->__PVT__Look_up_table_read_first___05F2_io_aw_addr 
-        = vlSelf->__PVT__icache_data_ram_0->__PVT__io_addra;
-}
-
 VL_INLINE_OPT void Vmycpu_top_icache_data___sequent__TOP__mycpu_top__inst_cache__icache_data_8__0(Vmycpu_top_icache_data* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;

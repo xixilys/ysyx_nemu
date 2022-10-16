@@ -24,15 +24,6 @@ VL_INLINE_OPT void Vmycpu_top_dcache_data___sequent__TOP__mycpu_top__data_cache_
     vlSelf->__PVT__dcache_data_ram_0_io_douta = vlSelf->__PVT__dcache_data_ram_0->__PVT__io_douta;
 }
 
-VL_INLINE_OPT void Vmycpu_top_dcache_data___combo__TOP__mycpu_top__data_cache__dcache_data_1__1(Vmycpu_top_dcache_data* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_data___combo__TOP__mycpu_top__data_cache__dcache_data_1__1\n"); );
-    // Body
-    vlSelf->__PVT__dcache_data_ram_0->__PVT__io_addra 
-        = vlSelf->__PVT__dcache_data_ram_0_io_addra;
-}
-
 VL_INLINE_OPT void Vmycpu_top_dcache_data___sequent__TOP__mycpu_top__data_cache__dcache_data_2__0(Vmycpu_top_dcache_data* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;

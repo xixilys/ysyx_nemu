@@ -56,10 +56,12 @@ VM_USER_CFLAGS = \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
+	-lz \
 	-O2 \
 	-O2 \
 	-lSDL2 \
 	-lSDL2_image \
+	-lSDL2 \
 	-lreadline \
 	-ldl \
 	-pie \
@@ -70,9 +72,18 @@ VM_USER_CLASSES = \
 	cpu-exec \
 	dut_without_isa \
 	ref \
+	alarm \
+	audio \
+	device \
+	disk \
+	intr \
 	map \
 	mmio \
 	port-io \
+	keyboard \
+	serial \
+	timer \
+	vga \
 	hostcall \
 	init \
 	dut \
@@ -102,6 +113,7 @@ VM_USER_DIR = \
 	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src \
 	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/cpu \
 	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/cpu/difftest \
+	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device \
 	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/io \
 	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/engine/interpreter \
 	/home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/isa/riscv64 \
@@ -129,11 +141,29 @@ dut_without_isa.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/cpu/di
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 ref.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/cpu/difftest/ref.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+alarm.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/alarm.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+audio.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/audio.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+device.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/device.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+disk.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/disk.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+intr.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/intr.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 map.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/io/map.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 mmio.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/io/mmio.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 port-io.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/io/port-io.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+keyboard.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/keyboard.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+serial.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/serial.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+timer.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/timer.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+vga.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/device/vga.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 hostcall.o: /home/ddddddd/learning/ysyx-workbench/npc/npc_nemu/src/engine/interpreter/hostcall.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

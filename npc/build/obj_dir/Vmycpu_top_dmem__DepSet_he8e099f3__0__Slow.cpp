@@ -158,6 +158,13 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
                                                                                 (1U 
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)))))));
+}
+
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__5(Vmycpu_top_dmem* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__5\n"); );
+    // Body
     vlSelf->__PVT___io_RD_T_64 = VL_EXTEND_II(9,8, 
                                               (0xffU 
                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x20U, 8U)));
@@ -238,13 +245,6 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
                                                                                 (1U 
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)))))));
-}
-
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__5(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__5\n"); );
-    // Body
     vlSelf->__PVT__io_RD_lo_lo_lo_2 = VL_CONCAT_III(7,1,6, 
                                                     (1U 
                                                      & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x37U)), 
@@ -456,6 +456,13 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                                                                 VL_CONCAT_III(7,1,6, 
                                                                                 (1U 
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), (IData)(vlSelf->__PVT__io_RD_lo_lo_lo_11)))))));
+}
+
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__7(Vmycpu_top_dmem* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__7\n"); );
+    // Body
     vlSelf->__PVT__io_RD_lo_lo_3 = VL_CONCAT_III(14,1,13, 
                                                  (1U 
                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
@@ -534,13 +541,6 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                                                                 VL_CONCAT_III(7,1,6, 
                                                                                 (1U 
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), (IData)(vlSelf->__PVT__io_RD_lo_lo_lo_10)))))));
-}
-
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__7(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__7\n"); );
-    // Body
     vlSelf->__PVT__io_RD_lo_lo_2 = VL_CONCAT_III(14,1,13, 
                                                  (1U 
                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x37U)), 
@@ -806,6 +806,13 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                                                                 (1U 
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
                                                                                 VL_CONCAT_III(21,7,14, (IData)(vlSelf->__PVT__io_RD_lo_lo_lo_7), (IData)(vlSelf->__PVT__io_RD_lo_lo_7)))))))));
+}
+
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__9(Vmycpu_top_dmem* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__9\n"); );
+    // Body
     vlSelf->__PVT__io_RD_lo_8 = VL_CONCAT_III(24,1,23, 
                                               (1U & 
                                                VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
@@ -888,13 +895,6 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                                                                 (1U 
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x17U)), 
                                                                                 VL_CONCAT_III(21,7,14, (IData)(vlSelf->__PVT__io_RD_lo_lo_lo_6), (IData)(vlSelf->__PVT__io_RD_lo_lo_6)))))))));
-}
-
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__9(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__9\n"); );
-    // Body
     vlSelf->__PVT__io_RD_lo_1 = VL_CONCAT_III(28,1,27, 
                                               (1U & 
                                                VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
@@ -1085,6 +1085,13 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
                                                                                 VL_CONCAT_QIQ(49,7,42, (IData)(vlSelf->__PVT__io_RD_lo_lo_lo_7), 
                                                                                 VL_CONCAT_QII(42,14,28, (IData)(vlSelf->__PVT__io_RD_lo_lo_7), vlSelf->__PVT__io_RD_lo_7)))))))));
+}
+
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__11(Vmycpu_top_dmem* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__11\n"); );
+    // Body
     vlSelf->__PVT___io_RD_T_590 = VL_CONCAT_QIQ(64,1,63, 
                                                 (1U 
                                                  & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
@@ -1177,13 +1184,6 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x17U)), 
                                                                                 VL_CONCAT_QIQ(49,7,42, (IData)(vlSelf->__PVT__io_RD_lo_lo_lo_6), 
                                                                                 VL_CONCAT_QII(42,14,28, (IData)(vlSelf->__PVT__io_RD_lo_lo_6), vlSelf->__PVT__io_RD_lo_6)))))))));
-}
-
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__11(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__11\n"); );
-    // Body
     vlSelf->__PVT___io_RD_T_122 = VL_CONCAT_QIQ(56,1,55, 
                                                 (1U 
                                                  & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
@@ -1295,6 +1295,13 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
     vlSelf->__PVT___io_RD_T_518 = VL_CONCAT_QQI(64,56,8, vlSelf->__PVT___io_RD_T_516, 
                                                 (0xffU 
                                                  & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x18U, 8U)));
+}
+
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__13(Vmycpu_top_dmem* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__13\n"); );
+    // Body
     vlSelf->__PVT___io_RD_T_650 = ((1U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? vlSelf->__PVT___io_RD_T_590
                                     : 0ULL);
@@ -1307,13 +1314,6 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
     vlSelf->__PVT___io_RD_T_455 = VL_CONCAT_QQI(64,56,8, vlSelf->__PVT___io_RD_T_453, 
                                                 (0xffU 
                                                  & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x10U, 8U)));
-}
-
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__13(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__13\n"); );
-    // Body
     vlSelf->__PVT___io_RD_T_124 = VL_CONCAT_QQI(64,56,8, vlSelf->__PVT___io_RD_T_122, 
                                                 (0xffU 
                                                  & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x28U, 8U)));
@@ -1336,12 +1336,6 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
     vlSelf->__PVT___io_RD_T_858 = ((IData)(vlSelf->__PVT__third_ra)
                                     ? vlSelf->__PVT___io_RD_T_817
                                     : vlSelf->__PVT___io_RD_T_857);
-    vlSelf->__PVT___io_RD_T_652 = ((0U == (IData)(vlSelf->__PVT___io_RD_T_1))
-                                    ? VL_EXTEND_QI(64,17, vlSelf->__PVT___io_RD_T_593)
-                                    : vlSelf->__PVT___io_RD_T_650);
-    vlSelf->__PVT___io_RD_T_772 = ((0U == (IData)(vlSelf->__PVT___io_RD_T_1))
-                                    ? VL_EXTEND_QI(64,17, vlSelf->__PVT___io_RD_T_713)
-                                    : vlSelf->__PVT___io_RD_T_770);
 }
 
 VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__15(Vmycpu_top_dmem* vlSelf) {
@@ -1349,6 +1343,12 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__15\n"); );
     // Body
+    vlSelf->__PVT___io_RD_T_652 = ((0U == (IData)(vlSelf->__PVT___io_RD_T_1))
+                                    ? VL_EXTEND_QI(64,17, vlSelf->__PVT___io_RD_T_593)
+                                    : vlSelf->__PVT___io_RD_T_650);
+    vlSelf->__PVT___io_RD_T_772 = ((0U == (IData)(vlSelf->__PVT___io_RD_T_1))
+                                    ? VL_EXTEND_QI(64,17, vlSelf->__PVT___io_RD_T_713)
+                                    : vlSelf->__PVT___io_RD_T_770);
     vlSelf->__PVT___io_RD_T_255 = ((0U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? VL_EXTEND_QI(64,9, (IData)(vlSelf->__PVT___io_RD_T_64))
                                     : vlSelf->__PVT___io_RD_T_61);
@@ -1368,13 +1368,6 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
     vlSelf->__PVT___io_RD_T_774 = ((5U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? vlSelf->__PVT___io_RD_T_765
                                     : vlSelf->__PVT___io_RD_T_772);
-}
-
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__17(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__17\n"); );
-    // Body
     vlSelf->__PVT___io_RD_T_257 = ((3U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? vlSelf->__PVT___io_RD_T_124
                                     : vlSelf->__PVT___io_RD_T_255);
@@ -1383,10 +1376,10 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                     : vlSelf->__PVT___io_RD_T_523);
 }
 
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__18(Vmycpu_top_dmem* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__17(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__18\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__17\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_656 = ((4U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? VL_EXTEND_QI(64,17, vlSelf->__PVT___io_RD_T_648)
@@ -1394,13 +1387,6 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
     vlSelf->__PVT___io_RD_T_776 = ((4U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? VL_EXTEND_QI(64,17, vlSelf->__PVT___io_RD_T_768)
                                     : vlSelf->__PVT___io_RD_T_774);
-}
-
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__19(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__19\n"); );
-    // Body
     vlSelf->__PVT___io_RD_T_259 = ((2U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? VL_EXTEND_QI(64,9, (IData)(vlSelf->__PVT___io_RD_T_127))
                                     : vlSelf->__PVT___io_RD_T_257);
@@ -1409,21 +1395,14 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                     : vlSelf->__PVT___io_RD_T_525);
 }
 
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__20(Vmycpu_top_dmem* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__18(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__20\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__18\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_777 = ((IData)(vlSelf->__PVT__third_ra)
                                     ? vlSelf->__PVT___io_RD_T_656
                                     : vlSelf->__PVT___io_RD_T_776);
-}
-
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__21(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__21\n"); );
-    // Body
     vlSelf->__PVT___io_RD_T_261 = ((5U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? vlSelf->__PVT___io_RD_T_187
                                     : vlSelf->__PVT___io_RD_T_259);
@@ -1432,10 +1411,10 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                     : vlSelf->__PVT___io_RD_T_527);
 }
 
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__22(Vmycpu_top_dmem* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__19(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__22\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__19\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_263 = ((4U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? VL_EXTEND_QI(64,9, (IData)(vlSelf->__PVT___io_RD_T_190))
@@ -1445,10 +1424,10 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                     : vlSelf->__PVT___io_RD_T_529);
 }
 
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__23(Vmycpu_top_dmem* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__20(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__23\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__20\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_265 = ((7U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? vlSelf->__PVT___io_RD_T_250
@@ -1458,10 +1437,10 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                     : vlSelf->__PVT___io_RD_T_531);
 }
 
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__24(Vmycpu_top_dmem* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__21(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__24\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__21\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_267 = ((6U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? VL_EXTEND_QI(64,9, (IData)(vlSelf->__PVT___io_RD_T_253))
@@ -1471,40 +1450,40 @@ VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__
                                     : vlSelf->__PVT___io_RD_T_533);
 }
 
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__25(Vmycpu_top_dmem* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__22(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__25\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__22\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_536 = ((IData)(vlSelf->__PVT__third_ra)
                                     ? vlSelf->__PVT___io_RD_T_267
                                     : vlSelf->__PVT___io_RD_T_535);
 }
 
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__26(Vmycpu_top_dmem* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__23(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__26\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__23\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_860 = ((1U == (IData)(vlSelf->__PVT__io_WIDTH))
                                     ? vlSelf->__PVT___io_RD_T_777
                                     : vlSelf->__PVT___io_RD_T_536);
 }
 
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__27(Vmycpu_top_dmem* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__24(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__27\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__24\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_862 = ((2U == (IData)(vlSelf->__PVT__io_WIDTH))
                                     ? vlSelf->__PVT___io_RD_T_858
                                     : vlSelf->__PVT___io_RD_T_860);
 }
 
-VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__28(Vmycpu_top_dmem* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__25(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__28\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___settle__TOP__mycpu_top__u_riscv_cpu___dmem__25\n"); );
     // Body
     vlSelf->__PVT__io_RD = ((3U == (IData)(vlSelf->__PVT__io_WIDTH))
                              ? vlSelf->__PVT__io_rdata

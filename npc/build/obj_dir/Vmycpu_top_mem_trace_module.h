@@ -14,6 +14,7 @@ class Vmycpu_top_mem_trace_module final : public VerilatedModule {
   public:
 
     // DESIGN SPECIFIC STATE
+    VL_IN8(__PVT__clock,0,0);
     VL_IN8(__PVT__reset,0,0);
     VL_IN8(__PVT__mem_req,0,0);
     VL_IN8(__PVT__mem_size,2,0);
@@ -21,7 +22,6 @@ class Vmycpu_top_mem_trace_module final : public VerilatedModule {
     VL_IN64(__PVT__addr,63,0);
     VL_IN64(__PVT__data,63,0);
     VL_IN64(__PVT__pc,63,0);
-    VL_IN8(__PVT__clock,0,0);
 
     // INTERNAL VARIABLES
     Vmycpu_top__Syms* const vlSymsp;

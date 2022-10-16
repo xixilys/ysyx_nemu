@@ -1,6 +1,7 @@
 import "DPI-C" function void cpu_commited_func();
 import "DPI-C" function void set_gpr_ptr(input logic [63:0] a []);
 import "DPI-C" function void set_pc_ptr(input logic [63:0] a);
+import "DPI-C" function void set_debug_pc_ptr(input logic [63:0] a);
 import "DPI-C" function void cpu_ebreak();
 import "DPI-C" function void mem_trace_func(input logic [0:0]mem_write_state,input logic [63:0] addr,input logic [63:0] data,input logic [63:0] pc,input logic [2:0]size);
 
@@ -31,19 +32,26 @@ module difftest_commit (
     input clock,
     input [`data_length * 32 - 1:0]gpr_wire,
     input [`data_length - 1:0]pc,
+    input [`data_length - 1:0]debug_pc,
     input inst_commit,
     output reg data_ok_ok,
     input cpu_ebreak_sign
 );
     wire [`data_length - 1 :0] gpr [31:0];
     wire [`data_length - 1 :0] pc_debug;
-    assign pc_debug = pc;
+    wire [`data_length - 1:0] commit_pc;
+    assign pc_debug = debug_pc;
+    
     `UNPACK_ARRAY(`data_length,32,gpr,gpr_wire)
-    initial set_gpr_ptr(gpr);
+    initial begin 
+      set_gpr_ptr(gpr);
+
+    end
   always @(posedge clock ) begin
     if(reset == 1'b0 && inst_commit == 1'b1) begin
+        set_pc_ptr(pc);
+        set_debug_pc_ptr(debug_pc);
         cpu_commited_func();
-        set_pc_ptr(pc_debug);
     end
     if(cpu_ebreak_sign == 1'b1) begin
       cpu_ebreak();

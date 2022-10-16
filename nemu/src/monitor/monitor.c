@@ -135,7 +135,7 @@ void ftrace_loop_print(ftrace_type * loop,int index) {
     // printf("@%08lx   \n",ftrace_loop[i].target_pc); 
 }
 
-
+#ifdef ITRACE_COND
  void get_jal_type (size_t now_pc,size_t target_pc,uint8_t inst_type,uint8_t reg_source,uint32_t imm_value) {
     ftrace_type temp_ftrace = {};
     if(inst_type == jal_or_jalr) {
@@ -164,7 +164,7 @@ void ftrace_loop_print(ftrace_type * loop,int index) {
         }
     }
 }
-
+#endif
 static void load_elf() {
   if (elf_file == NULL) {
     printf("No elf is given. ftrace is not working.");

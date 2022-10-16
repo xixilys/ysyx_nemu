@@ -112,16 +112,23 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
     // Body
     vlSelf->__PVT__Look_up_table_read_first_with_bundle_2_io_ar_addr 
         = vlSelf->__PVT__read_length_points;
-    vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_ar_addr 
-        = vlSelf->__PVT__read_length_points;
-    vlSelf->__PVT__Look_up_table_read_first_with_bundle_1_io_ar_addr 
-        = vlSelf->__PVT__read_length_points;
 }
 
 VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__10(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__10\n"); );
+    // Body
+    vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_ar_addr 
+        = vlSelf->__PVT__read_length_points;
+    vlSelf->__PVT__Look_up_table_read_first_with_bundle_1_io_ar_addr 
+        = vlSelf->__PVT__read_length_points;
+}
+
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__11(Vmycpu_top_fifo_with_bundle* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__11\n"); );
     // Body
     vlSelf->__PVT___io_full_T_3 = (7U & ((IData)(1U) 
                                          + (IData)(vlSelf->__PVT___write_length_points_T_1)));
@@ -131,10 +138,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
                                        & (0U == (IData)(vlSelf->__PVT__read_banks_points))));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__13(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__15(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__13\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__15\n"); );
     // Body
     vlSelf->__PVT__io_full = ((IData)(vlSelf->__PVT___io_empty_T_1)
                                ? ((IData)(vlSelf->__PVT___io_full_T_3) 
@@ -142,10 +149,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
                                : (IData)(vlSelf->__PVT___io_full_T_12));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__17(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__19(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__17\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__19\n"); );
     // Body
     vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_in_pc 
         = vlSelf->__PVT__io_write_in_0_pc;
@@ -165,10 +172,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
         = vlSelf->__PVT__io_write_in_0_pre_lookup_data;
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__19(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__21(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__19\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__21\n"); );
     // Body
     vlSelf->__PVT___write_banks_points_T_2 = (3U & 
                                               ((IData)(vlSelf->__PVT__write_banks_points) 
@@ -187,31 +194,12 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
            & VL_BITSEL_IIII(2, (IData)(vlSelf->__PVT__io_write_en), 0U));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__20(Vmycpu_top_fifo_with_bundle* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__20\n"); );
-    // Body
-    vlSelf->__PVT___GEN_56 = VL_EXTEND_II(3,2, (IData)(vlSelf->__PVT__io_write_en));
-}
-
 VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__22(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__22\n"); );
     // Body
-    vlSelf->__PVT___write_length_points_T_3 = (7U & 
-                                               ((IData)(vlSelf->__PVT___write_length_points_T_1) 
-                                                + (IData)(vlSelf->__PVT___GEN_56)));
-}
-
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__23(Vmycpu_top_fifo_with_bundle* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__23\n"); );
-    // Body
-    vlSelf->__PVT___GEN_57 = VL_EXTEND_II(4,1, (1U 
-                                                & VL_BITSEL_IIII(3, (IData)(vlSelf->__PVT___write_length_points_T_3), 2U)));
+    vlSelf->__PVT___GEN_56 = VL_EXTEND_II(3,2, (IData)(vlSelf->__PVT__io_write_en));
 }
 
 VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__24(Vmycpu_top_fifo_with_bundle* vlSelf) {
@@ -219,15 +207,34 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__24\n"); );
     // Body
+    vlSelf->__PVT___write_length_points_T_3 = (7U & 
+                                               ((IData)(vlSelf->__PVT___write_length_points_T_1) 
+                                                + (IData)(vlSelf->__PVT___GEN_56)));
+}
+
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__25(Vmycpu_top_fifo_with_bundle* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__25\n"); );
+    // Body
+    vlSelf->__PVT___GEN_57 = VL_EXTEND_II(4,1, (1U 
+                                                & VL_BITSEL_IIII(3, (IData)(vlSelf->__PVT___write_length_points_T_3), 2U)));
+}
+
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__26(Vmycpu_top_fifo_with_bundle* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__26\n"); );
+    // Body
     vlSelf->__PVT___write_length_points_T_7 = (0xfU 
                                                & ((IData)(vlSelf->__PVT__write_length_points) 
                                                   + (IData)(vlSelf->__PVT___GEN_57)));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__30(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__32(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__30\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__32\n"); );
     // Body
     vlSelf->__PVT__fifo_banks_3_out_pre_decoder_branchD_flag 
         = vlSelf->__PVT__Look_up_table_read_first_with_bundle_3_io_out_pre_decoder_branchD_flag;
@@ -259,10 +266,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
         = vlSelf->__PVT__Look_up_table_read_first_with_bundle_2_io_out_true_branch_state;
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__31(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__33(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__31\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__33\n"); );
     // Body
     vlSelf->__PVT__fifo_banks_3_out_exception_type 
         = vlSelf->__PVT__Look_up_table_read_first_with_bundle_3_io_out_exception_type;
@@ -296,10 +303,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
         = vlSelf->__PVT__Look_up_table_read_first_with_bundle_1_io_out_true_branch_state;
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__32(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__34(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__32\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__34\n"); );
     // Body
     vlSelf->__PVT__fifo_banks_2_out_exception_type 
         = vlSelf->__PVT__Look_up_table_read_first_with_bundle_2_io_out_exception_type;
@@ -328,22 +335,29 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
     vlSelf->__PVT__fifo_banks_0_out_pc = vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_out_pc;
     vlSelf->__PVT__fifo_banks_1_out_pc = vlSelf->__PVT__Look_up_table_read_first_with_bundle_1_io_out_pc;
     vlSelf->__PVT__fifo_banks_3_out_inst = vlSelf->__PVT__Look_up_table_read_first_with_bundle_3_io_out_inst;
+}
+
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__35(Vmycpu_top_fifo_with_bundle* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__35\n"); );
+    // Body
     vlSelf->__PVT__fifo_banks_2_out_inst = vlSelf->__PVT__Look_up_table_read_first_with_bundle_2_io_out_inst;
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__33(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__36(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__33\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__36\n"); );
     // Body
     vlSelf->__PVT__fifo_banks_0_out_inst = vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_out_inst;
     vlSelf->__PVT__fifo_banks_1_out_inst = vlSelf->__PVT__Look_up_table_read_first_with_bundle_1_io_out_inst;
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__34(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__37(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__34\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__37\n"); );
     // Body
     vlSelf->__PVT___GEN_23 = ((1U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? (IData)(vlSelf->__PVT__fifo_banks_1_out_pre_decoder_branchD_flag)
@@ -362,10 +376,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
                                : (IData)(vlSelf->__PVT__fifo_banks_0_out_true_branch_state));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__35(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__38(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__35\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__38\n"); );
     // Body
     vlSelf->__PVT___GEN_17 = ((1U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? vlSelf->__PVT__fifo_banks_1_out_pre_pc_target
@@ -390,23 +404,30 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
                                : (IData)(vlSelf->__PVT__fifo_banks_0_out_exception_type));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__36(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__39(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__36\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__39\n"); );
     // Body
     vlSelf->__PVT___GEN_14 = ((1U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? vlSelf->__PVT__fifo_banks_1_out_pc
                                : vlSelf->__PVT__fifo_banks_0_out_pc);
+}
+
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__40(Vmycpu_top_fifo_with_bundle* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__40\n"); );
+    // Body
     vlSelf->__PVT___GEN_15 = ((1U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? vlSelf->__PVT__fifo_banks_1_out_inst
                                : vlSelf->__PVT__fifo_banks_0_out_inst);
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__37(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__41(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__37\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__41\n"); );
     // Body
     vlSelf->__PVT___GEN_37 = ((2U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? (IData)(vlSelf->__PVT__fifo_banks_2_out_pre_decoder_branchD_flag)
@@ -425,10 +446,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
                                : (IData)(vlSelf->__PVT___GEN_27));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__38(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__42(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__38\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__42\n"); );
     // Body
     vlSelf->__PVT___GEN_31 = ((2U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? vlSelf->__PVT__fifo_banks_2_out_pre_pc_target
@@ -453,23 +474,30 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
                                : (IData)(vlSelf->__PVT___GEN_16));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__39(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__43(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__39\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__43\n"); );
     // Body
     vlSelf->__PVT___GEN_28 = ((2U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? vlSelf->__PVT__fifo_banks_2_out_pc
                                : vlSelf->__PVT___GEN_14);
+}
+
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__44(Vmycpu_top_fifo_with_bundle* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__44\n"); );
+    // Body
     vlSelf->__PVT___GEN_29 = ((2U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? vlSelf->__PVT__fifo_banks_2_out_inst
                                : vlSelf->__PVT___GEN_15);
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__40(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__45(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__40\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__45\n"); );
     // Body
     vlSelf->__PVT___GEN_51 = ((3U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? (IData)(vlSelf->__PVT__fifo_banks_3_out_pre_decoder_branchD_flag)
@@ -488,10 +516,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
                                : (IData)(vlSelf->__PVT___GEN_41));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__41(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__46(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__41\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__46\n"); );
     // Body
     vlSelf->__PVT___GEN_45 = ((3U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? vlSelf->__PVT__fifo_banks_3_out_pre_pc_target
@@ -516,30 +544,30 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
                                : (IData)(vlSelf->__PVT___GEN_30));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__42(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__47(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__42\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__47\n"); );
     // Body
     vlSelf->__PVT___GEN_42 = ((3U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? vlSelf->__PVT__fifo_banks_3_out_pc
                                : vlSelf->__PVT___GEN_28);
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__43(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__48(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__43\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__48\n"); );
     // Body
     vlSelf->__PVT___GEN_43 = ((3U == (IData)(vlSelf->__PVT__read_banks_points))
                                ? vlSelf->__PVT__fifo_banks_3_out_inst
                                : vlSelf->__PVT___GEN_29);
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__44(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__49(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__44\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__49\n"); );
     // Body
     vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_in_inst 
         = vlSelf->__PVT__io_write_in_0_inst;
@@ -575,10 +603,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
         = vlSelf->__PVT__io_write_in_0_pre_decoder_branchdata;
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__46(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__51(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__46\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__51\n"); );
     // Body
     vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_in_pre_decoder_jr 
         = vlSelf->__PVT__io_write_in_0_pre_decoder_jr;
@@ -590,10 +618,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
         = vlSelf->__PVT__io_write_in_0_pre_decoder_jr;
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__48(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__53(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__48\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__53\n"); );
     // Body
     vlSelf->__PVT___write_banks_points_T = ((IData)(vlSelf->__PVT__io_point_flush) 
                                             | (IData)(vlSelf->__PVT__io_point_write_en));
@@ -604,10 +632,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
                                | (IData)(vlSelf->__PVT__io_point_write_en));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__49(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__54(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__49\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__54\n"); );
     // Body
     vlSelf->__PVT__io_read_out_0_pre_decoder_branchD_flag 
         = ((~ (IData)(vlSelf->__PVT__io_empty)) & (IData)(vlSelf->__PVT___GEN_51));
@@ -643,49 +671,49 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
                                           ? 0U : vlSelf->__PVT___GEN_43);
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__50(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__55(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__50\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__55\n"); );
     // Body
     vlSelf->__PVT___read_banks_points_T_2 = (3U & ((IData)(vlSelf->__PVT__read_banks_points) 
                                                    + (IData)(vlSelf->__PVT__io_read_en)));
     vlSelf->__PVT___GEN_58 = VL_EXTEND_II(3,2, (IData)(vlSelf->__PVT__io_read_en));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__51(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__56(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__51\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__56\n"); );
     // Body
     vlSelf->__PVT___read_length_points_T_3 = (7U & 
                                               ((IData)(vlSelf->__PVT___read_length_points_T_1) 
                                                + (IData)(vlSelf->__PVT___GEN_58)));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__52(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__57(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__52\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__57\n"); );
     // Body
     vlSelf->__PVT___GEN_59 = VL_EXTEND_II(4,1, (1U 
                                                 & VL_BITSEL_IIII(3, (IData)(vlSelf->__PVT___read_length_points_T_3), 2U)));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__53(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__58(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__53\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__58\n"); );
     // Body
     vlSelf->__PVT___read_length_points_T_7 = (0xfU 
                                               & ((IData)(vlSelf->__PVT__read_length_points) 
                                                  + (IData)(vlSelf->__PVT___GEN_59)));
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__54(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__59(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__54\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__59\n"); );
     // Body
     vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_in_pre_lookup_value 
         = vlSelf->__PVT__io_write_in_0_pre_lookup_value;
@@ -697,10 +725,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
         = vlSelf->__PVT__io_write_in_0_pre_lookup_value;
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__56(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__61(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__56\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__61\n"); );
     // Body
     vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_in_pre_pht 
         = vlSelf->__PVT__io_write_in_0_pre_pht;
@@ -712,10 +740,10 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
         = vlSelf->__PVT__io_write_in_0_pre_pht;
 }
 
-VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__58(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__63(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__58\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__63\n"); );
     // Body
     vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_in_pre_pc_target 
         = vlSelf->__PVT__io_write_in_0_pre_pc_target;
@@ -725,6 +753,21 @@ VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_
         = vlSelf->__PVT__io_write_in_0_pre_pc_target;
     vlSelf->__PVT__Look_up_table_read_first_with_bundle_3_io_in_pre_pc_target 
         = vlSelf->__PVT__io_write_in_0_pre_pc_target;
+}
+
+VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__65(Vmycpu_top_fifo_with_bundle* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___settle__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__65\n"); );
+    // Body
+    vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_in_true_branch_state 
+        = vlSelf->__PVT__io_write_in_0_true_branch_state;
+    vlSelf->__PVT__Look_up_table_read_first_with_bundle_1_io_in_true_branch_state 
+        = vlSelf->__PVT__io_write_in_0_true_branch_state;
+    vlSelf->__PVT__Look_up_table_read_first_with_bundle_2_io_in_true_branch_state 
+        = vlSelf->__PVT__io_write_in_0_true_branch_state;
+    vlSelf->__PVT__Look_up_table_read_first_with_bundle_3_io_in_true_branch_state 
+        = vlSelf->__PVT__io_write_in_0_true_branch_state;
 }
 
 VL_ATTR_COLD void Vmycpu_top_fifo_with_bundle___ctor_var_reset(Vmycpu_top_fifo_with_bundle* vlSelf) {

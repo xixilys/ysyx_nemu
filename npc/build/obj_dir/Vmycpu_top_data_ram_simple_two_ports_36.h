@@ -18,19 +18,19 @@ class Vmycpu_top_data_ram_simple_two_ports_36 final : public VerilatedModule {
     Vmycpu_top_Look_up_table_read_first___05F36* __PVT__Look_up_table_read_first_;
 
     // DESIGN SPECIFIC STATE
+    SData/*8:0*/ __PVT__Look_up_table_read_first___05Fio_aw_addr;
     VL_OUT(__PVT__io_doutb,31,0);
     IData/*31:0*/ __PVT__Look_up_table_read_first___05Fio_out;
-    SData/*8:0*/ __PVT__Look_up_table_read_first___05Fio_aw_addr;
-    VL_IN16(__PVT__io_addrb,8,0);
-    VL_IN(__PVT__io_dina,31,0);
-    VL_IN8(__PVT__clock,0,0);
-    CData/*0:0*/ __PVT__Look_up_table_read_first___05Fclock;
     VL_IN16(__PVT__io_addra,8,0);
     SData/*8:0*/ __PVT__Look_up_table_read_first___05Fio_ar_addr;
+    VL_IN8(__PVT__clock,0,0);
+    CData/*0:0*/ __PVT__Look_up_table_read_first___05Fclock;
+    VL_IN16(__PVT__io_addrb,8,0);
+    VL_IN(__PVT__io_dina,31,0);
     IData/*31:0*/ __PVT__Look_up_table_read_first___05Fio_in;
     VL_IN8(__PVT__reset,0,0);
-    CData/*0:0*/ __PVT__Look_up_table_read_first___05Freset;
     VL_IN8(__PVT__io_wea,0,0);
+    CData/*0:0*/ __PVT__Look_up_table_read_first___05Freset;
     CData/*0:0*/ __PVT__Look_up_table_read_first___05Fio_write;
 
     // INTERNAL VARIABLES

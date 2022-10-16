@@ -16,7 +16,12 @@ class Vmycpu_top_regfile final : public VerilatedModule {
     // DESIGN SPECIFIC STATE
     // Anonymous structures to workaround compiler member-count bugs
     struct {
-        VL_OUTW(__PVT__io_reg_file_alL_out,2047,0,64);
+        VL_OUT64(__PVT__io_RD1,63,0);
+        VL_OUT64(__PVT__io_RD2,63,0);
+        VL_IN8(__PVT__io_A1,4,0);
+        VL_IN8(__PVT__io_A2,4,0);
+        QData/*63:0*/ __PVT___GEN_95;
+        QData/*63:0*/ __PVT___GEN_127;
         QData/*63:0*/ __PVT___GEN_1;
         QData/*63:0*/ __PVT___GEN_2;
         QData/*63:0*/ __PVT___GEN_3;
@@ -75,13 +80,13 @@ class Vmycpu_top_regfile final : public VerilatedModule {
         QData/*63:0*/ __PVT___GEN_92;
         QData/*63:0*/ __PVT___GEN_93;
         QData/*63:0*/ __PVT___GEN_94;
+    };
+    struct {
         QData/*63:0*/ __PVT___GEN_97;
         QData/*63:0*/ __PVT___GEN_98;
         QData/*63:0*/ __PVT___GEN_99;
         QData/*63:0*/ __PVT___GEN_100;
         QData/*63:0*/ __PVT___GEN_101;
-    };
-    struct {
         QData/*63:0*/ __PVT___GEN_102;
         QData/*63:0*/ __PVT___GEN_103;
         QData/*63:0*/ __PVT___GEN_104;
@@ -107,6 +112,11 @@ class Vmycpu_top_regfile final : public VerilatedModule {
         QData/*63:0*/ __PVT___GEN_124;
         QData/*63:0*/ __PVT___GEN_125;
         QData/*63:0*/ __PVT___GEN_126;
+        QData/*63:0*/ __PVT__regs_0;
+        QData/*63:0*/ __PVT__regs_1;
+        QData/*63:0*/ __PVT__regs_2;
+        QData/*63:0*/ __PVT__regs_3;
+        QData/*63:0*/ __PVT__regs_4;
         QData/*63:0*/ __PVT__regs_5;
         QData/*63:0*/ __PVT__regs_6;
         QData/*63:0*/ __PVT__regs_7;
@@ -132,13 +142,24 @@ class Vmycpu_top_regfile final : public VerilatedModule {
         QData/*63:0*/ __PVT__regs_27;
         QData/*63:0*/ __PVT__regs_28;
         QData/*63:0*/ __PVT__regs_29;
+        QData/*63:0*/ __PVT__regs_30;
+        QData/*63:0*/ __PVT__regs_31;
+        QData/*63:0*/ __PVT___GEN_29;
+        VL_IN8(__PVT__reset,0,0);
+    };
+    struct {
+        VL_OUTW(__PVT__io_reg_file_alL_out,2047,0,64);
         VlWide<16>/*511:0*/ __PVT__io_reg_file_alL_out_lo_lo;
+        VlWide<32>/*1023:0*/ __PVT__io_reg_file_alL_out_lo;
         VlWide<16>/*511:0*/ __PVT__io_reg_file_alL_out_hi_lo;
-        QData/*63:0*/ __Vdly__regs_31;
+        VlWide<32>/*1023:0*/ __PVT__io_reg_file_alL_out_hi;
         QData/*63:0*/ __Vdly__regs_0;
         QData/*63:0*/ __Vdly__regs_1;
         QData/*63:0*/ __Vdly__regs_2;
         QData/*63:0*/ __Vdly__regs_3;
+        QData/*63:0*/ __Vdly__regs_31;
+        VL_IN8(__PVT__clock,0,0);
+        QData/*63:0*/ __Vdly__regs_4;
         QData/*63:0*/ __Vdly__regs_5;
         QData/*63:0*/ __Vdly__regs_6;
         QData/*63:0*/ __Vdly__regs_7;
@@ -146,14 +167,11 @@ class Vmycpu_top_regfile final : public VerilatedModule {
         QData/*63:0*/ __Vdly__regs_9;
         QData/*63:0*/ __Vdly__regs_10;
         QData/*63:0*/ __Vdly__regs_11;
-    };
-    struct {
         QData/*63:0*/ __Vdly__regs_12;
         QData/*63:0*/ __Vdly__regs_13;
         QData/*63:0*/ __Vdly__regs_14;
         QData/*63:0*/ __Vdly__regs_15;
         QData/*63:0*/ __Vdly__regs_16;
-        VL_IN8(__PVT__clock,0,0);
         QData/*63:0*/ __Vdly__regs_17;
         QData/*63:0*/ __Vdly__regs_18;
         QData/*63:0*/ __Vdly__regs_19;
@@ -168,28 +186,9 @@ class Vmycpu_top_regfile final : public VerilatedModule {
         QData/*63:0*/ __Vdly__regs_28;
         QData/*63:0*/ __Vdly__regs_29;
         QData/*63:0*/ __Vdly__regs_30;
-        QData/*63:0*/ __Vdly__regs_4;
-        QData/*63:0*/ __PVT__regs_4;
-        QData/*63:0*/ __PVT__regs_30;
-        VL_IN8(__PVT__reset,0,0);
         VL_IN8(__PVT__io_WE3,0,0);
         VL_IN8(__PVT__io_A3,4,0);
         VL_IN64(__PVT__io_WD3,63,0);
-        QData/*63:0*/ __PVT__regs_31;
-        QData/*63:0*/ __PVT___GEN_29;
-        QData/*63:0*/ __PVT__regs_0;
-        QData/*63:0*/ __PVT__regs_1;
-        QData/*63:0*/ __PVT__regs_2;
-        QData/*63:0*/ __PVT__regs_3;
-        VlWide<32>/*1023:0*/ __PVT__io_reg_file_alL_out_lo;
-        VlWide<32>/*1023:0*/ __PVT__io_reg_file_alL_out_hi;
-        VL_IN8(__PVT__io_A1,4,0);
-        VL_IN8(__PVT__io_A2,4,0);
-        CData/*0:0*/ __PVT___io_RD1_T_3;
-        QData/*63:0*/ __PVT___GEN_95;
-        QData/*63:0*/ __PVT___GEN_127;
-        VL_OUT64(__PVT__io_RD1,63,0);
-        VL_OUT64(__PVT__io_RD2,63,0);
     };
 
     // INTERNAL VARIABLES

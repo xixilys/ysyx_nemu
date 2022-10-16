@@ -22,9 +22,11 @@ static inline bool in_pmem(paddr_t addr) {
   return (addr >= CONFIG_MBASE) && (addr < (paddr_t)CONFIG_MBASE + CONFIG_MSIZE);
 }
 
-word_t paddr_read(paddr_t addr, int len ,uint8_t mem_type);
-void paddr_write(paddr_t addr, int len, word_t data);
+word_t paddr_read(paddr_t addr, int len ,uint8_t mem_type,int skip);
+void paddr_write(paddr_t addr, int len, word_t data,int skip);
+#ifdef CONFIG_ITRACE_COND
 void mtrace_printf();
+#endif
 
 #ifdef __cplusplus
 }

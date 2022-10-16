@@ -14,13 +14,13 @@ class Vmycpu_top_pc_detail final : public VerilatedModule {
   public:
 
     // DESIGN SPECIFIC STATE
-    VL_IN8(__PVT__io_stall,0,0);
     VL_IN8(__PVT__io_flush,0,0);
+    VL_IN8(__PVT__io_stall,0,0);
     VL_IN8(__PVT__clock,0,0);
+    VL_IN8(__PVT__reset,0,0);
     VL_OUT64(__PVT__io_out_pc_value_out,63,0);
     QData/*63:0*/ __PVT__pc_value;
     QData/*63:0*/ __Vdly__pc_value;
-    VL_IN8(__PVT__reset,0,0);
     VL_IN64(__PVT__io_in_pc_value_in,63,0);
 
     // INTERNAL VARIABLES

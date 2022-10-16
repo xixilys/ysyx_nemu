@@ -46,7 +46,7 @@ INC_PATH ?=
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
 				-O0 --x-assign fast --x-initial fast --noassert 
-VERILATOR_CFLAGS += --trace -j 10
+VERILATOR_CFLAGS += --trace-fst -j 10
 VERILATOR_CFLAGS += --threads 10
 
 NOW_PLACE = $(shell pwd)
@@ -78,6 +78,10 @@ CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\"" $(CXXFLAGS)
 LDFLAGS += -lSDL2 -lSDL2_image $(LIBS) 
 
 $(BIN): $(VSRCS) $(CSRCS)
+	python3 $(NPC_HOME)/verilog_add_something.py
+	-rm $(NPC_NEMU_HOME)/include/generated/autoconf.h 
+	cp $(NPC_HOME)/include/generated/autoconf.h $(NPC_NEMU_HOME)/include/generated/
+	@echo $(CSRCS)
 	@rm -rf $(OBJ_DIR)
 	$(VERILATOR) $(VERILATOR_CFLAGS) \
 		-top $(TOPNAME) $^ \

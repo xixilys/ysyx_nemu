@@ -12,7 +12,7 @@ VL_ATTR_COLD void Vmycpu_top_difftest_commit___settle__TOP__mycpu_top__u_riscv_c
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_difftest_commit___settle__TOP__mycpu_top__u_riscv_cpu___commit_difftest__0\n"); );
     // Body
-    vlSelf->__PVT__pc_debug = vlSelf->__PVT__pc;
+    vlSelf->__PVT__pc_debug = vlSelf->__PVT__debug_pc;
 }
 
 VL_ATTR_COLD void Vmycpu_top_difftest_commit___settle__TOP__mycpu_top__u_riscv_cpu___commit_difftest__1(Vmycpu_top_difftest_commit* vlSelf) {
@@ -63,6 +63,7 @@ VL_ATTR_COLD void Vmycpu_top_difftest_commit___ctor_var_reset(Vmycpu_top_difftes
     vlSelf->__PVT__clock = 0;
     VL_ZERO_RESET_W(2048, vlSelf->__PVT__gpr_wire);
     vlSelf->__PVT__pc = 0;
+    vlSelf->__PVT__debug_pc = 0;
     vlSelf->__PVT__inst_commit = 0;
     vlSelf->__PVT__data_ok_ok = 0;
     vlSelf->__PVT__cpu_ebreak_sign = 0;
@@ -70,4 +71,5 @@ VL_ATTR_COLD void Vmycpu_top_difftest_commit___ctor_var_reset(Vmycpu_top_difftes
         vlSelf->__PVT__gpr[__Vi0] = 0;
     }
     vlSelf->__PVT__pc_debug = 0;
+    vlSelf->__PVT__commit_pc = 0;
 }

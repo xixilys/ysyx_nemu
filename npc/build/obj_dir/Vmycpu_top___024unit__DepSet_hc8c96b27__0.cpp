@@ -37,6 +37,16 @@ VL_INLINE_OPT void Vmycpu_top___024unit____Vdpiimwrap_set_pc_ptr_TOP____024unit(
     set_pc_ptr(a__Vcvt);
 }
 
+extern "C" void set_debug_pc_ptr(const svLogicVecVal* a);
+
+VL_INLINE_OPT void Vmycpu_top___024unit____Vdpiimwrap_set_debug_pc_ptr_TOP____024unit(QData/*63:0*/ a) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top___024unit____Vdpiimwrap_set_debug_pc_ptr_TOP____024unit\n"); );
+    // Body
+    svLogicVecVal a__Vcvt[2];
+    for (size_t a__Vidx = 0; a__Vidx < 1; ++a__Vidx) VL_SET_SVLV_Q(64, a__Vcvt + 2 * a__Vidx, a);
+    set_debug_pc_ptr(a__Vcvt);
+}
+
 extern "C" void cpu_ebreak();
 
 VL_INLINE_OPT void Vmycpu_top___024unit____Vdpiimwrap_cpu_ebreak_TOP____024unit() {
