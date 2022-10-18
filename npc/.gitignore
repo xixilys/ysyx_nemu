@@ -1,11 +1,6 @@
-*.*
-*
-!*/
-!Makefile
-!*.mk
-!*.[cSh]
-!*.v
-!*.cc
-!*.cpp
-!.gitignore
-!README.md
+build/
+*.vcd
+*.fst
+.vscode
+.metal
+

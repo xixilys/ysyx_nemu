@@ -5,6 +5,8 @@
 !*.mk
 !*.[cSh]
 !*.cc
+!*.scala
+!npc_nemu
 !.gitignore
 !README.md
 !Kconfig
