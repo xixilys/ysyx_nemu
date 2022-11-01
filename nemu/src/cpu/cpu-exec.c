@@ -59,23 +59,23 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
-  WP* p = head;
-  bool cal_state;
-  while(p != NULL){
-    word_t answer;
-    answer = expr(p->str,&cal_state);
-    if(cal_state != true) {
-      printf("cal wrong\n");
-    }
-    if (answer != p->last_value) {
-      Log("%s is different after executing instruction at pc = " FMT_WORD ", dnpc = "
-      FMT_WORD  ", last = " FMT_WORD ", now = " FMT_WORD ,
-        p->str, _this->pc,dnpc,  p->last_value, answer ); 
-      p->last_value = answer;
-      nemu_state.state = NEMU_STOP; 
-    }
-    p = p->next;
-  }
+  // WP* p = head;
+  // bool cal_state;
+  // while(p != NULL){
+  //   word_t answer;
+  //   answer = expr(p->str,&cal_state);
+  //   if(cal_state != true) {
+  //     printf("cal wrong\n");
+  //   }
+  //   if (answer != p->last_value) {
+  //     Log("%s is different after executing instruction at pc = " FMT_WORD ", dnpc = "
+  //     FMT_WORD  ", last = " FMT_WORD ", now = " FMT_WORD ,
+  //       p->str, _this->pc,dnpc,  p->last_value, answer ); 
+  //     p->last_value = answer;
+  //     nemu_state.state = NEMU_STOP; 
+  //   }
+  //   p = p->next;
+  // }
 }
 
 

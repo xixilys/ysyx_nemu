@@ -11,6 +11,13 @@ static IOMap* fetch_mmio_map(paddr_t addr) {
   return (mapid == -1 ? NULL : &maps[mapid]);
 }
 
+
+static IOMap* fetch_mmio_map_without_skip(paddr_t addr) {
+  int mapid = find_mapid_by_addr_without_skip(maps, nr_map, addr);
+  return (mapid == -1 ? NULL : &maps[mapid]);
+}
+
+
 /* device interface */
 void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_callback_t callback) {
   assert(nr_map < NR_MAP);
@@ -26,7 +33,17 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_
 word_t mmio_read(paddr_t addr, int len) {
   return map_read(addr, len, fetch_mmio_map(addr));
 }
+word_t mmio_read_without_skip(paddr_t addr, int len) {
+  return map_read(addr, len, fetch_mmio_map_without_skip(addr));
+}
 
 void mmio_write(paddr_t addr, int len, word_t data) {
   map_write(addr, len, data, fetch_mmio_map(addr));
+}
+void mmio_write_without_skip(paddr_t addr, int len, word_t data) {
+  map_write(addr, len, data, fetch_mmio_map_without_skip(addr));
+}
+
+void mmio_search_for_skip(paddr_t addr) {
+  fetch_mmio_map(addr);
 }

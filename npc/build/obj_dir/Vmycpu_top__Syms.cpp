@@ -1410,6 +1410,6 @@ Vmycpu_top__Syms::Vmycpu_top__Syms(VerilatedContext* contextp, const char* namep
     TOP__mycpu_top__u_riscv_cpu__stage_fec_2_pc_R.__Vconfigure(false);
     TOP__mycpu_top__u_riscv_cpu__wb_bru_state.__Vconfigure(false);
     // Setup export functions
-    for (int __Vfinal=0; __Vfinal<2; __Vfinal++) {
+    for (int __Vfinal = 0; __Vfinal < 2; ++__Vfinal) {
     }
 }

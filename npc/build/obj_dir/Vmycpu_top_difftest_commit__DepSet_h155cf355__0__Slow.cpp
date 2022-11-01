@@ -7,19 +7,12 @@
 
 #include "Vmycpu_top_difftest_commit.h"
 
-VL_ATTR_COLD void Vmycpu_top_difftest_commit___settle__TOP__mycpu_top__u_riscv_cpu___commit_difftest__0(Vmycpu_top_difftest_commit* vlSelf) {
+VL_ATTR_COLD void Vmycpu_top_difftest_commit___stl_sequent__TOP__mycpu_top__u_riscv_cpu___commit_difftest__0(Vmycpu_top_difftest_commit* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_difftest_commit___settle__TOP__mycpu_top__u_riscv_cpu___commit_difftest__0\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_difftest_commit___stl_sequent__TOP__mycpu_top__u_riscv_cpu___commit_difftest__0\n"); );
     // Body
-    vlSelf->__PVT__pc_debug = vlSelf->__PVT__pc;
-}
-
-VL_ATTR_COLD void Vmycpu_top_difftest_commit___settle__TOP__mycpu_top__u_riscv_cpu___commit_difftest__1(Vmycpu_top_difftest_commit* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_difftest_commit___settle__TOP__mycpu_top__u_riscv_cpu___commit_difftest__1\n"); );
-    // Body
+    vlSelf->__PVT__pc_debug = vlSelf->__PVT__debug_pc;
     vlSelf->__PVT__gpr[0U] = VL_SEL_QWII(2048, vlSelf->__PVT__gpr_wire, 0U, 0x40U);
     vlSelf->__PVT__gpr[1U] = VL_SEL_QWII(2048, vlSelf->__PVT__gpr_wire, 0x40U, 0x40U);
     vlSelf->__PVT__gpr[2U] = VL_SEL_QWII(2048, vlSelf->__PVT__gpr_wire, 0x80U, 0x40U);
@@ -63,11 +56,13 @@ VL_ATTR_COLD void Vmycpu_top_difftest_commit___ctor_var_reset(Vmycpu_top_difftes
     vlSelf->__PVT__clock = 0;
     VL_ZERO_RESET_W(2048, vlSelf->__PVT__gpr_wire);
     vlSelf->__PVT__pc = 0;
+    vlSelf->__PVT__debug_pc = 0;
     vlSelf->__PVT__inst_commit = 0;
     vlSelf->__PVT__data_ok_ok = 0;
     vlSelf->__PVT__cpu_ebreak_sign = 0;
-    for (int __Vi0=0; __Vi0<32; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 32; ++__Vi0) {
         vlSelf->__PVT__gpr[__Vi0] = 0;
     }
     vlSelf->__PVT__pc_debug = 0;
+    vlSelf->__PVT__commit_pc = 0;
 }

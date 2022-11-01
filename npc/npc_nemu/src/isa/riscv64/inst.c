@@ -6,6 +6,8 @@
 #include <axi.h>
 #include <verilator_use.h>
 #include <debug.h>
+#include <memory/paddr.h>
+#include <device/mmio.h>
 
 
 #define R(i) gpr(i)
@@ -28,6 +30,7 @@ enum {
 
 size_t *cpu_gpr = NULL;
 size_t debug_pc = 0;
+size_t now_pc = 0;
 int cpu_commited = 1;
 void cpu_commited_func(void){
   cpu_commited = 0;
@@ -37,8 +40,12 @@ void set_gpr_ptr(const svOpenArrayHandle r){
   cpu_gpr = (size_t *)(((VerilatedDpiOpenVar*)r)->datap());
 }
 
-void set_pc_ptr(size_t r){
+void set_debug_pc_ptr(size_t r){
   debug_pc = *(size_t*)r;
+}
+
+void set_pc_ptr(size_t r) {
+  now_pc = *(size_t *)r;
 }
 
 void cpu_ebreak(){
@@ -66,8 +73,17 @@ static int decode_exec(Decode *s) {
 
   }
   memcpy(cpu.gpr,cpu_gpr,sizeof(word_t) * 32);
-  // printf("debug pc = %lx\n",debug_pc);
+  if(debug_mem_state == 1) {
+    // printf("come here\n");
+    // printf("debug pc %lx\n",debug_mem_pc);
+    // printf("debug mem_addr %lx\n",debug_mem_addr);
+    // printf("debug mem write-state %d\n",debug_mem_write_state_get);
+    mmio_search_for_skip(debug_mem_addr);
+    debug_mem_state = 0;
+  }
   
+  // printf("debug pc = %lx\n",*debug_pc);
+  // printf("debug pc = %lx\n",debug_pc);
   cpu.pc = debug_pc;
   cpu_commited = 1;
   return 0;

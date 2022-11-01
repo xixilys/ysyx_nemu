@@ -8,7 +8,7 @@
 
 #include<Vmycpu_top.h>
 #include<verilated.h>
-#include<verilated_vcd_c.h>
+#include<verilated_fst_c.h>
 
 #if defined(__GNUC__) && !defined(__clang__)
 #pragma GCC diagnostic pop
@@ -17,18 +17,17 @@
 using namespace std;
 
 Vtop *top = new Vtop;
-VerilatedVcdC* tfp = NULL;
-
+VerilatedFstC* tfp = NULL;
 extern "C" void sim_init() {	
 	contextp->debug(0);
 	contextp->randReset(2);
 	contextp->traceEverOn(true);
 	Verilated::mkdir("logs");
 	Verilated::traceEverOn(true);
-	tfp = new VerilatedVcdC;
+	tfp = new VerilatedFstC;
 	top->trace(tfp, 0);
 	// printf("sbsbsbsbssbsb\n");
-	tfp->open("dump.vcd");	
+	tfp->open("dump.fst");	
 	// printf("sbsbsb\n");
 }
 extern "C" void step_and_dump_wave(){

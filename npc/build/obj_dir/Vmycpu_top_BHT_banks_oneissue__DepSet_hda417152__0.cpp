@@ -8,11 +8,27 @@
 #include "Vmycpu_top_BHT_banks_oneissue.h"
 #include "Vmycpu_top__Syms.h"
 
-VL_INLINE_OPT void Vmycpu_top_BHT_banks_oneissue___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__0(Vmycpu_top_BHT_banks_oneissue* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_BHT_banks_oneissue___ico_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__0(Vmycpu_top_BHT_banks_oneissue* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+            Vmycpu_top_BHT_banks_oneissue___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__0\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+            Vmycpu_top_BHT_banks_oneissue___ico_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__0\n"); );
     // Body
+    vlSelf->__PVT__BHT_clock = vlSelf->__PVT__clock;
+    vlSelf->__PVT__BHT_1_clock = vlSelf->__PVT__clock;
+    vlSelf->__PVT__BHT_2_clock = vlSelf->__PVT__clock;
+    vlSelf->__PVT__BHT_3_clock = vlSelf->__PVT__clock;
+    vlSelf->__PVT__BHT_reset = vlSelf->__PVT__reset;
+    vlSelf->__PVT__BHT_1_reset = vlSelf->__PVT__reset;
+    vlSelf->__PVT__BHT_2_reset = vlSelf->__PVT__reset;
+    vlSelf->__PVT__BHT_3_reset = vlSelf->__PVT__reset;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT.__PVT__clock 
+        = vlSelf->__PVT__BHT_clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_1.__PVT__clock 
+        = vlSelf->__PVT__BHT_1_clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_2.__PVT__clock 
+        = vlSelf->__PVT__BHT_2_clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_3.__PVT__clock 
+        = vlSelf->__PVT__BHT_3_clock;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT.__PVT__reset 
         = vlSelf->__PVT__BHT_reset;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_1.__PVT__reset 
@@ -21,4 +37,80 @@ VL_INLINE_OPT void Vmycpu_top_BHT_banks_oneissue___combo__TOP__mycpu_top__u_risc
         = vlSelf->__PVT__BHT_2_reset;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_3.__PVT__reset 
         = vlSelf->__PVT__BHT_3_reset;
+}
+
+VL_INLINE_OPT void Vmycpu_top_BHT_banks_oneissue___nba_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__1(Vmycpu_top_BHT_banks_oneissue* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+            Vmycpu_top_BHT_banks_oneissue___nba_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__1\n"); );
+    // Body
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_2.__PVT__io_ar_addr 
+        = vlSelf->__PVT__BHT_2_io_ar_addr;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT.__PVT__io_ar_addr 
+        = vlSelf->__PVT__BHT_io_ar_addr;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_1.__PVT__io_ar_addr 
+        = vlSelf->__PVT__BHT_1_io_ar_addr;
+}
+
+VL_INLINE_OPT void Vmycpu_top_BHT_banks_oneissue___nba_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__3(Vmycpu_top_BHT_banks_oneissue* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+            Vmycpu_top_BHT_banks_oneissue___nba_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__3\n"); );
+    // Body
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT.__PVT__io_in 
+        = vlSelf->__PVT__BHT_io_in;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_1.__PVT__io_in 
+        = vlSelf->__PVT__BHT_1_io_in;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_2.__PVT__io_in 
+        = vlSelf->__PVT__BHT_2_io_in;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_3.__PVT__io_in 
+        = vlSelf->__PVT__BHT_3_io_in;
+}
+
+VL_INLINE_OPT void Vmycpu_top_BHT_banks_oneissue___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__5(Vmycpu_top_BHT_banks_oneissue* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+            Vmycpu_top_BHT_banks_oneissue___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__5\n"); );
+    // Body
+    vlSelf->__PVT__io_out_L = ((3U == (IData)(vlSelf->__PVT__io_ar_bank_sel))
+                                ? (IData)(vlSelf->__PVT__bht_banks_3_out)
+                                : (IData)(vlSelf->__PVT___GEN_2));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram.__PVT__BHT_banks_oneissue_io_out_L 
+        = vlSelf->__PVT__io_out_L;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram.__PVT__PHTS_banks_oneissue_block_ram_io_ar_addr_L 
+        = VL_CONCAT_III(7,3,4, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram.__PVT__BHT_banks_oneissue_io_out_L), 
+                        (0xfU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram.__PVT__io_pc, 0xbU, 4U)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__io_ar_addr_L 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram.__PVT__PHTS_banks_oneissue_block_ram_io_ar_addr_L;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_io_ar_addr 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__io_ar_addr_L;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_1_io_ar_addr 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__io_ar_addr_L;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_2_io_ar_addr 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__io_ar_addr_L;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_3_io_ar_addr 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__io_ar_addr_L;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_ar_addr 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_io_ar_addr;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_ar_addr 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_1_io_ar_addr;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_ar_addr 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_2_io_ar_addr;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__io_ar_addr 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_3_io_ar_addr;
+}
+
+VL_INLINE_OPT void Vmycpu_top_BHT_banks_oneissue___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__7(Vmycpu_top_BHT_banks_oneissue* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+            Vmycpu_top_BHT_banks_oneissue___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__7\n"); );
+    // Body
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT.__PVT__io_write 
+        = vlSelf->__PVT__BHT_io_write;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_1.__PVT__io_write 
+        = vlSelf->__PVT__BHT_1_io_write;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_2.__PVT__io_write 
+        = vlSelf->__PVT__BHT_2_io_write;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_3.__PVT__io_write 
+        = vlSelf->__PVT__BHT_3_io_write;
 }

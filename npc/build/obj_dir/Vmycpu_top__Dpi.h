@@ -16,15 +16,17 @@ extern "C" {
 
 
     // DPI IMPORTS
-    // DPI import at /home/ddddddd/learning/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:1:30
+    // DPI import at /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:1:30
     extern void cpu_commited_func();
-    // DPI import at /home/ddddddd/learning/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:4:30
+    // DPI import at /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:5:30
     extern void cpu_ebreak();
-    // DPI import at /home/ddddddd/learning/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:5:30
+    // DPI import at /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:6:30
     extern void mem_trace_func(const svLogicVecVal* mem_write_state, const svLogicVecVal* addr, const svLogicVecVal* data, const svLogicVecVal* pc, const svLogicVecVal* size);
-    // DPI import at /home/ddddddd/learning/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:2:30
+    // DPI import at /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:4:30
+    extern void set_debug_pc_ptr(const svLogicVecVal* a);
+    // DPI import at /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:2:30
     extern void set_gpr_ptr(const svOpenArrayHandle a);
-    // DPI import at /home/ddddddd/learning/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:3:30
+    // DPI import at /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:3:30
     extern void set_pc_ptr(const svLogicVecVal* a);
 
 #ifdef __cplusplus

@@ -103,7 +103,7 @@ void init_mem() {
 #ifdef CONFIG_MEM_RANDOM 
   uint32_t *p = (uint32_t *)pmem;
   int i;
-  fefef
+  // fefef
   for (i = 0; i < (int) (CONFIG_MSIZE / sizeof(p[0])); i ++) {
     p[i] = rand();
   }

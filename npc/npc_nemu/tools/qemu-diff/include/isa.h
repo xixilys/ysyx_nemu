@@ -4,7 +4,7 @@
 #if defined(CONFIG_ISA_mips32)
 #define ISA_QEMU_BIN "qemu-system-mipsel"
 #define ISA_QEMU_ARGS "-machine", "mipssim",\
-  "-kernel", NEMU_HOME "/resource/mips-elf/mips.dummy",
+  "-kernel", NPC_NEMU_HOME "/resource/mips-elf/mips.dummy",
 #elif defined(CONFIG_ISA_riscv32)
 #define ISA_QEMU_BIN "qemu-system-riscv32"
 #define ISA_QEMU_ARGS "-bios", "none",

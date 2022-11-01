@@ -1,5 +1,5 @@
 #include <am.h>
-#include <klib-macros.h>
+#include <nemu.h>
 
 extern char _heap_start;
 int main(const char *args);
@@ -25,6 +25,7 @@ static const char mainargs[] = MAINARGS;
 #endif
 
 void putch(char ch) {
+    outb(SERIAL_PORT, ch);
 }
 
 void halt(int code) {

@@ -128,7 +128,14 @@ static void execute(uint64_t n) {
     g_nr_guest_inst ++;
     trace_and_difftest(&s, cpu.pc);
     if (nemu_state.state != NEMU_RUNNING) break;
-    IFDEF(CONFIG_DEVICE, device_update());
+    static uint64_t run_counter = 0;
+    if(run_counter >= 100000) {
+      IFDEF(CONFIG_DEVICE, device_update());
+      run_counter = 0;
+    }else{
+      run_counter ++;
+    }
+    
     
   }
 }
@@ -187,9 +194,11 @@ void cpu_exec(uint64_t n) {
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
 
     case NEMU_END: case NEMU_ABORT:
+    #ifdef CONFIG_ITRACE_COND
       itrace_loop_print(itrace_loop,itrace_loop_index);
       ftrace_loop_print(ftrace_loop,ftrace_loop_index);
       mtrace_printf();
+    #endif
       Log("nemu: %s at pc = " FMT_WORD,
           (nemu_state.state == NEMU_ABORT ? ASNI_FMT("ABORT", ASNI_FG_RED) :
            (nemu_state.halt_ret == 0 ? ASNI_FMT("HIT GOOD TRAP", ASNI_FG_GREEN) :

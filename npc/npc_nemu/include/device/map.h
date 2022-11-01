@@ -23,6 +23,7 @@ static inline int find_mapid_by_addr(IOMap *maps, int size, paddr_t addr) {
   int i;
   for (i = 0; i < size; i ++) {
     if (map_inside(maps + i, addr)) {
+      // printf("skip_here\n");
       difftest_skip_ref();
       return i;
     }
@@ -30,6 +31,17 @@ static inline int find_mapid_by_addr(IOMap *maps, int size, paddr_t addr) {
   return -1;
 }
 
+static inline int find_mapid_by_addr_without_skip(IOMap *maps, int size, paddr_t addr) {
+  int i;
+  for (i = 0; i < size; i ++) {
+    if (map_inside(maps + i, addr)) {
+      // printf("skip_here\n");
+      // difftest_skip_ref();
+      return i;
+    }
+  }
+  return -1;
+}
 void add_pio_map(const char *name, ioaddr_t addr,
         void *space, uint32_t len, io_callback_t callback);
 void add_mmio_map(const char *name, paddr_t addr,

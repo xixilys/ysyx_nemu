@@ -10,6 +10,8 @@
 #include<verilated_vcd_c.h>   
 #include<verilator_use.h>   
 #include<iostream>
+ 
+
 #include<memory/paddr.h>
 
 #if defined(__GNUC__) && !defined(__clang__)
@@ -31,8 +33,6 @@ const int AXI_DATA_READY = 0;
 const int AXI_DATA_READ = 1;
 const int AXI_DATA_WRITE = 2;
 
-AXI_ResponseSignal inst_axi_handle;
-AXI_ResponseSignal data_axi_handle;
 
 int axi_size_to_bytes_num(int axi_size) {
     switch(axi_size) {
@@ -42,6 +42,11 @@ int axi_size_to_bytes_num(int axi_size) {
         case 3:return 8;break;
         default: return 0;break;
     }
+}
+uint64_t read_data_to_axi_data(uint64_t get_data,uint64_t addr) {
+    int unaligned_size = addr % 8;
+    
+    return get_data << (unaligned_size * 8);
 }
 
 extern "C" void AXI_ResponseHandler_Inst(AXI_ResponseSignal* axi_handle){
@@ -65,7 +70,7 @@ extern "C" void AXI_ResponseHandler_Inst(AXI_ResponseSignal* axi_handle){
     case AXI_DATA_READ:
         top->axi_mem_port_0_rlast =  0;
         top->axi_mem_port_0_rvalid = 1;
-        top->axi_mem_port_0_rdata = paddr_read(axi_handle->read_addr,axi_size_to_bytes_num(axi_handle->read_size),mem_inst_fec);
+        top->axi_mem_port_0_rdata = paddr_read(axi_handle->read_addr,axi_size_to_bytes_num(axi_handle->read_size),mem_inst_fec,0);
         // cout<<"read_data = " << top->axi_mem_port_0_rdata<<endl;
         if(top->axi_mem_port_0_rready){
             axi_handle->read_addr += axi_size_to_bytes_num(axi_handle->read_size);
@@ -97,7 +102,7 @@ extern "C" void AXI_ResponseHandler_Inst(AXI_ResponseSignal* axi_handle){
     case AXI_DATA_WRITE:
         top->axi_mem_port_0_wready =  1;
         if(top->axi_mem_port_0_wvalid){
-            paddr_write(axi_handle->write_addr,axi_size_to_bytes_num(axi_handle->write_size),top->axi_mem_port_0_wdata);
+            paddr_write(axi_handle->write_addr,axi_size_to_bytes_num(axi_handle->write_size),top->axi_mem_port_0_wdata,0);
             axi_handle->write_addr += axi_size_to_bytes_num(axi_handle->write_size );
             axi_handle->write_counter ++;
             if(axi_handle->write_counter > axi_handle->write_len || top->axi_mem_port_0_wlast) {
@@ -114,7 +119,7 @@ extern "C" void AXI_ResponseHandler_Inst(AXI_ResponseSignal* axi_handle){
 
 extern "C" void AXI_ResponseHandler_Data(AXI_ResponseSignal* axi_handle){
     // printf("state machine is %d\n",axi_handle->read_work_state);
-     switch (axi_handle->read_work_state)
+    switch (axi_handle->read_work_state)
     {
     case AXI_DATA_READY:
         top->axi_mem_port_1_rlast =  0;
@@ -130,8 +135,19 @@ extern "C" void AXI_ResponseHandler_Data(AXI_ResponseSignal* axi_handle){
     case AXI_DATA_READ:
         top->axi_mem_port_1_rlast =  0;
         top->axi_mem_port_1_rvalid = 1;
-        top->axi_mem_port_1_rdata = paddr_read(axi_handle->read_addr,axi_size_to_bytes_num(axi_handle->read_size),mem_inst_fec);
-        // cout<<"read_data = " << top->axi_mem_port_0_rdata<<endl;
+        //窄带传输
+        // size_t sb_read_addr = axi_handle->read_addr - (axi_handle->read_addr) % 8;
+        //
+
+        //uint64_t read_out_data = paddr_read(axi_handle->read_addr,axi_size_to_bytes_num(axi_handle->read_size),mem_inst_fec);
+        top->axi_mem_port_1_rdata = read_data_to_axi_data(paddr_read(axi_handle->read_addr,axi_size_to_bytes_num(axi_handle->read_size),mem_inst_fec,0),axi_handle->read_addr);
+        // cout << "read_out_addr: ";
+        // printf("%016lx",axi_handle->read_addr );
+        // cout << "  read out out   " ;
+        // printf("%016lx",top->axi_mem_port_1_rdata);
+        // cout  << "mem fetch data is ";
+        // printf("%016lx",paddr_read(axi_handle->read_addr,axi_size_to_bytes_num(axi_handle->read_size),mem_inst_fec));
+        // cout <<endl;
         if(top->axi_mem_port_1_rready){
             axi_handle->read_addr += axi_size_to_bytes_num(axi_handle->read_size);
             axi_handle->read_counter ++;
@@ -141,16 +157,27 @@ extern "C" void AXI_ResponseHandler_Data(AXI_ResponseSignal* axi_handle){
                 axi_handle->read_counter = 0;
                 
             }
-        }break;
+        }
+        break;
     default:
         axi_handle->read_work_state = AXI_DATA_READY;
         break;
     }
+    static int write_end = 0;
     switch (axi_handle->write_work_state)
     {
     case AXI_DATA_READY:
+        if(write_end == 1) {
+            top->axi_mem_port_1_bvalid = 1;
+            write_end = 0;
+        }else{
+            top->axi_mem_port_1_bvalid = 0;
+        }
         top->axi_mem_port_1_awready = 1;
         top->axi_mem_port_1_wlast = 0;
+
+
+
         if(top->axi_mem_port_1_awvalid == 1){
             //完成地址的握手
             axi_handle->write_work_state = AXI_DATA_WRITE;
@@ -158,19 +185,44 @@ extern "C" void AXI_ResponseHandler_Data(AXI_ResponseSignal* axi_handle){
             axi_handle->write_len = top->axi_mem_port_1_awlen;
             axi_handle->write_size = top->axi_mem_port_1_awsize;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
-        }break;
+        }
+        break;
     case AXI_DATA_WRITE:
         top->axi_mem_port_1_wready =  1;
+        static int num_to_stop = 0;
+        // printf("write counter = %d\n", axi_handle->write_counter);
         if(top->axi_mem_port_1_wvalid){
-            paddr_write(axi_handle->write_addr,axi_size_to_bytes_num(axi_handle->write_size),top->axi_mem_port_1_wdata);
+            // if(num_to_stop == 1) {
+            //     assert(0);
+            // }
+            paddr_write(axi_handle->write_addr,axi_size_to_bytes_num(axi_handle->write_size),top->axi_mem_port_1_wdata,0);
+            // if(axi_handle->write_addr >= 0x8000ef00 && axi_handle->write_addr < 0x8000ef40) {
+            //     // num_to_stop = 1;
+            //     printf("addr is %lx\n",axi_handle->write_addr);
+            //     printf("write data is %lx\n", top->axi_mem_port_1_wdata);
+            //     printf("read data is %lx\n", paddr_read(axi_handle->write_addr,axi_size_to_bytes_num(axi_handle->write_size),mem_inst_fec,0));
+            //     printf("wlast is %d\n",top->axi_mem_port_1_wlast );
+            //     printf("counter is %d\n", axi_handle->write_counter);
+            // } 
+            // if(axi_handle->write_addr == 0x8000ef38) {
+            //     num_to_stop = 1;
+            //     printf("i come here\n");
+            //     printf("write data is %lx\n", top->axi_mem_port_1_wdata);
+            //     printf("read data is %lx\n", paddr_read(axi_handle->write_addr,axi_size_to_bytes_num(axi_handle->write_size),mem_inst_fec,0));
+            // } 
+     
             axi_handle->write_addr += axi_size_to_bytes_num(axi_handle->write_size );
             axi_handle->write_counter ++;
-            if(axi_handle->write_counter >= axi_handle->write_len || top->axi_mem_port_1_wlast) {
+            if(axi_handle->write_counter > axi_handle->write_len || top->axi_mem_port_1_wlast) {
                 axi_handle->write_work_state = AXI_DATA_READY ;
+                write_end = 1;
                 axi_handle->write_counter = 0;
                 
             }
-        }break;
+            
+            
+        }
+        break;
     default:
         axi_handle->write_work_state = AXI_DATA_READY;
         break;
