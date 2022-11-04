@@ -10,12 +10,15 @@ typedef concat(__GUEST_ISA__, _CPU_state) CPU_state;
 typedef concat(__GUEST_ISA__, _ISADecodeInfo) ISADecodeInfo;
 
 
+
 // monitor
 extern char isa_logo[];
 void init_isa();
 
 // reg
 extern CPU_state cpu;
+
+#define CSR(i) cpu.special_reg[i]
 
 void isa_reg_display();
 word_t isa_reg_str2val(const char *name, bool *success);

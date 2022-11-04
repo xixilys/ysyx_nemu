@@ -8,113 +8,59 @@
 #include "Vmycpu_top__Syms.h"
 #include "Vmycpu_top_cfu.h"
 
-VL_INLINE_OPT void Vmycpu_top_cfu___nba_comb__TOP__mycpu_top__u_riscv_cpu___cfu__15(Vmycpu_top_cfu* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_cfu___combo__TOP__mycpu_top__u_riscv_cpu___cfu__1(Vmycpu_top_cfu* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cfu___nba_comb__TOP__mycpu_top__u_riscv_cpu___cfu__15\n"); );
-    // Init
-    VlWide<3>/*95:0*/ __Vtemp_h37a4c5d9__0;
-    VlWide<3>/*95:0*/ __Vtemp_h0504faa9__0;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cfu___combo__TOP__mycpu_top__u_riscv_cpu___cfu__1\n"); );
     // Body
-    vlSelf->__PVT___io_Forward2E_T_18 = ((IData)(vlSelf->__PVT___io_Forward2E_T_6)
-                                          ? 2U : (IData)(vlSelf->__PVT___io_Forward2E_T_17));
-    vlSelf->__PVT___io_Forward1E_T_18 = ((IData)(vlSelf->__PVT___io_Forward1E_T_6)
-                                          ? 2U : (IData)(vlSelf->__PVT___io_Forward1E_T_17));
     vlSelf->__PVT__io_Forward2E = ((0U == (IData)(vlSelf->__PVT__io_R2E))
                                     ? 0U : (IData)(vlSelf->__PVT___io_Forward2E_T_18));
-    vlSelf->__PVT__io_Forward1E = ((0U == (IData)(vlSelf->__PVT__io_R1E))
-                                    ? 0U : (IData)(vlSelf->__PVT___io_Forward1E_T_18));
     vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___cfu_io_Forward2E 
         = vlSelf->__PVT__io_Forward2E;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___cfu_io_Forward1E 
-        = vlSelf->__PVT__io_Forward1E;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___RD2ForWardE_p_T_1 
         = ((1U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___cfu_io_Forward2E))
             ? vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__ResultW
             : vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___id2ex_io_RD2E);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___RD1ForWardE_p_T_1 
-        = ((1U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___cfu_io_Forward1E))
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__ResultW
-            : vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___id2ex_io_RD1E);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___RD2ForWardE_p_T_3 
-        = ((2U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___cfu_io_Forward2E))
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__resultE2M_Reg
-            : vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___RD2ForWardE_p_T_1);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___RD1ForWardE_p_T_3 
-        = ((2U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___cfu_io_Forward1E))
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__resultE2M_Reg
-            : vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___RD1ForWardE_p_T_1);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD2ForWardE_p 
-        = ((3U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___cfu_io_Forward2E))
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__ResultM2_Reg
-            : vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___RD2ForWardE_p_T_3);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD1ForWardE_p 
-        = ((3U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___cfu_io_Forward1E))
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__ResultM2_Reg
-            : vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___RD1ForWardE_p_T_3);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD2ForWardE 
-        = ((IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__Forward_Lock2E)
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD2ForWardE_r
-            : vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD2ForWardE_p);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD1ForWardE 
-        = ((IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__Forward_Lock1E)
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD1ForWardE_r
-            : vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD1ForWardE_p);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__Src1E 
-        = ((IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___id2ex_io2_ALUSrcE_0)
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___id2ex_io2_PCE
-            : vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD1ForWardE);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__Src2E 
-        = ((IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___id2ex_io2_ALUSrcE_1)
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___id2ex_io_ImmE
-            : vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD2ForWardE);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___addr_cal_io_d_vaddr 
-        = (vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___id2ex_io_ImmE 
-           + vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__RD1ForWardE);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___alu_io_in1 
-        = VL_CONCAT_QII(64,32,32, VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__Src1E, 0x20U, 0x20U), 
-                        VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__Src1E, 0U, 0x20U));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___alu_io_in2 
-        = VL_CONCAT_QII(64,32,32, VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__Src2E, 0x20U, 0x20U), 
-                        VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__Src2E, 0U, 0x20U));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___addr_cal.__PVT__io_d_vaddr 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___addr_cal_io_d_vaddr;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___addr_cal.__PVT__io_d_paddr 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu___addr_cal.__PVT__io_d_vaddr;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___alu.__PVT__io_in1 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___alu_io_in1;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___alu.__PVT__io_in2 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___alu_io_in2;
-    VL_CONCAT_WIQ(65,1,64, __Vtemp_h37a4c5d9__0, (1U 
-                                                  & VL_BITSEL_IQII(64, vlSymsp->TOP__mycpu_top__u_riscv_cpu___alu.__PVT__io_in1, 0x3fU)), vlSymsp->TOP__mycpu_top__u_riscv_cpu___alu.__PVT__io_in1);
-    VL_ASSIGN_W(65,vlSymsp->TOP__mycpu_top__u_riscv_cpu___alu.__PVT__in1_extend, __Vtemp_h37a4c5d9__0);
-    VL_CONCAT_WIQ(65,1,64, __Vtemp_h0504faa9__0, (1U 
-                                                  & VL_BITSEL_IQII(64, vlSymsp->TOP__mycpu_top__u_riscv_cpu___alu.__PVT__io_in2, 0x3fU)), vlSymsp->TOP__mycpu_top__u_riscv_cpu___alu.__PVT__io_in2);
-    VL_ASSIGN_W(65,vlSymsp->TOP__mycpu_top__u_riscv_cpu___alu.__PVT__in2_extend, __Vtemp_h0504faa9__0);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___addr_cal_io_d_paddr 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu___addr_cal.__PVT__io_d_paddr;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___dmemreq_io_VAddrE 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___addr_cal_io_d_paddr;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___dmemreq.__PVT__io_VAddrE 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___dmemreq_io_VAddrE;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___dmemreq.__PVT__io_addr 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu___dmemreq.__PVT__io_VAddrE;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___dmemreq_io_addr 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu___dmemreq.__PVT__io_addr;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__data_sram_addr 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT___dmemreq_io_addr;
-    vlSymsp->TOP__mycpu_top.__PVT__u_riscv_cpu_data_sram_addr 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__data_sram_addr;
-    vlSymsp->TOP__mycpu_top.__PVT__data_cache_io_sram_addr 
-        = vlSymsp->TOP__mycpu_top.__PVT__u_riscv_cpu_data_sram_addr;
-    vlSymsp->TOP__mycpu_top__data_cache.__PVT__io_sram_addr 
-        = vlSymsp->TOP__mycpu_top.__PVT__data_cache_io_sram_addr;
-    vlSymsp->TOP__mycpu_top__data_cache.__PVT__dcache_tag_io_raddr 
-        = vlSymsp->TOP__mycpu_top__data_cache.__PVT__io_sram_addr;
-    vlSymsp->TOP__mycpu_top__data_cache.__PVT__dcache_tag_1_io_raddr 
-        = vlSymsp->TOP__mycpu_top__data_cache.__PVT__io_sram_addr;
-    vlSymsp->TOP__mycpu_top__data_cache__dcache_tag.__PVT__io_raddr 
-        = vlSymsp->TOP__mycpu_top__data_cache.__PVT__dcache_tag_io_raddr;
-    vlSymsp->TOP__mycpu_top__data_cache__dcache_tag_1.__PVT__io_raddr 
-        = vlSymsp->TOP__mycpu_top__data_cache.__PVT__dcache_tag_1_io_raddr;
+}
+
+VL_INLINE_OPT void Vmycpu_top_cfu___combo__TOP__mycpu_top__u_riscv_cpu___cfu__2(Vmycpu_top_cfu* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cfu___combo__TOP__mycpu_top__u_riscv_cpu___cfu__2\n"); );
+    // Body
+    vlSelf->__PVT___br_Stall_T_18 = ((IData)(vlSelf->__PVT__io_MemToRegM2) 
+                                     & (((IData)(vlSelf->__PVT__io_WriteRegM2) 
+                                         == (IData)(vlSelf->__PVT__io_R2D)) 
+                                        | ((IData)(vlSelf->__PVT__io_WriteRegM2) 
+                                           == (IData)(vlSelf->__PVT__io_R1D))));
+    vlSelf->__PVT___br_Stall_T_16 = ((IData)(vlSelf->__PVT__io_WriteRegM2) 
+                                     == (IData)(vlSelf->__PVT__io_R1D));
+    vlSelf->__PVT___br_Stall_T_5 = ((IData)(vlSelf->__PVT__io_WriteRegE) 
+                                    == (IData)(vlSelf->__PVT__io_R1D));
+    vlSelf->__PVT___br_Stall_T_10 = ((IData)(vlSelf->__PVT__io_WriteRegM) 
+                                     == (IData)(vlSelf->__PVT__io_R1D));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_28 
+        = VL_EXTEND_II(24,12, (0xfffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 0xcU, 0xcU)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_26 
+        = VL_EXTEND_II(24,13, (0x1fffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 0xbU, 0xdU)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_24 
+        = VL_EXTEND_II(24,14, (0x3fffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 0xaU, 0xeU)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_21 
+        = VL_EXTEND_II(24,16, (0xffffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 8U, 0x10U)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_18 
+        = VL_EXTEND_II(24,15, (0x7fffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 9U, 0xfU)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_16 
+        = VL_EXTEND_II(24,17, (0x1ffffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 7U, 0x11U)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_14 
+        = VL_EXTEND_II(24,18, (0x3ffffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 6U, 0x12U)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_12 
+        = VL_EXTEND_II(24,22, (0x3fffffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 2U, 0x16U)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_10 
+        = VL_EXTEND_II(24,21, (0x1fffffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 3U, 0x15U)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_8 
+        = VL_EXTEND_II(24,19, (0x7ffffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 5U, 0x13U)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_6 
+        = VL_EXTEND_II(24,20, (0xfffffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 4U, 0x14U)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T 
+        = VL_EXTEND_II(24,23, (0x7fffffU & VL_SEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_ctrl, 1U, 0x17U)));
 }

@@ -10,6 +10,11 @@ void init_proc(void);
 int main() {
   extern const char logo[];
   printf("%s", logo);
+  //logo make my print out pool boom
+  printf("=============================\n");
+  printf("hehehehe\n");
+  printf("=============================\n");
+
   Log("'Hello World!' from Nanos-lite");
   Log("Build time: %s, %s", __TIME__, __DATE__);
 
@@ -20,6 +25,7 @@ int main() {
   init_ramdisk();
 
 #ifdef HAS_CTE
+// printf("sbsbsbhxz");
   init_irq();
 #endif
 

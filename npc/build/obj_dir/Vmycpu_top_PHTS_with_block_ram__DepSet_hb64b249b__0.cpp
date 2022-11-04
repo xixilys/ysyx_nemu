@@ -8,364 +8,181 @@
 #include "Vmycpu_top_PHTS_with_block_ram.h"
 #include "Vmycpu_top__Syms.h"
 
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__22(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__0(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__22\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__0\n"); );
     // Body
-    vlSelf->__PVT__io_pht_out = ((7U == (7U & VL_SEL_IIII(8, (IData)(vlSelf->__PVT__ways_araddr_reg), 0U, 3U)))
-                                  ? (IData)(vlSelf->__PVT__phts_7_rdata)
-                                  : (IData)(vlSelf->__PVT___GEN_6));
-    vlSelf->__PVT___GEN_7 = ((7U == (7U & VL_SEL_IIII(8, (IData)(vlSelf->__PVT__ways_araddr_reg), 0U, 3U)))
-                              ? (IData)(vlSelf->__PVT__phts_7_rdata)
-                              : (IData)(vlSelf->__PVT___GEN_6));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_io_pht_out 
-        = vlSelf->__PVT__io_pht_out;
+    vlSelf->__PVT__pht_data_with_block_ram_7_clock 
+        = vlSelf->__PVT__clock;
+    vlSelf->__PVT__pht_data_with_block_ram_5_clock 
+        = vlSelf->__PVT__clock;
+    vlSelf->__PVT__pht_data_with_block_ram_4_clock 
+        = vlSelf->__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_7_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_5_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_4_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_5_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_3_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_2_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__clock;
 }
 
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__23(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__2(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__23\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__2\n"); );
     // Body
-    vlSelf->__PVT___io_out_T_10 = (3U & ((0U == (3U 
-                                                 & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__raddr_reg), 0U, 2U)))
-                                          ? VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 0U, 2U)
-                                          : VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 6U, 2U)));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__phts_banks_0_pht_out 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_io_pht_out;
+    vlSelf->__PVT__pht_data_with_block_ram_6_clock 
+        = vlSelf->__PVT__clock;
+    vlSelf->__PVT__pht_data_with_block_ram_3_clock 
+        = vlSelf->__PVT__clock;
+    vlSelf->__PVT__pht_data_with_block_ram_2_clock 
+        = vlSelf->__PVT__clock;
+    vlSelf->__PVT__pht_data_with_block_ram_clock = vlSelf->__PVT__clock;
+    vlSelf->__PVT__pht_data_with_block_ram_1_clock 
+        = vlSelf->__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_6_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_3_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_2_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_1_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_7_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_6_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_5_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_4_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_3_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_2_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_1_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_7_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_6_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_4_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__clock;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_1_clock 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__clock;
 }
 
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__25(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__5(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__25\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram__5\n"); );
     // Body
-    vlSelf->__PVT__io_out = (3U & ((2U == (3U & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__raddr_reg), 0U, 2U)))
-                                    ? VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 4U, 2U)
-                                    : (IData)(vlSelf->__PVT___io_out_T_12)));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_io_out 
-        = vlSelf->__PVT__io_out;
+    vlSelf->__PVT__pht_data_with_block_ram_5_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSelf->__PVT__pht_data_with_block_ram_4_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_5_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_4_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_3_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_119 
+        = ((0x20U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT__Funct7D))
+            ? 0x12U : (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_117));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_123 
+        = ((1U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT__Funct3D))
+            ? 0x10U : VL_EXTEND_II(5,3, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_121)));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_110 
+        = ((1U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT__Funct3D))
+            ? 0x19U : (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_108));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_158 
+        = ((0x18U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT__Funct7D))
+            ? 0x4dU : (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_156));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_138 
+        = ((0x20U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT__Funct7D))
+            ? 0x3bU : (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_136));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_130 
+        = ((0x20U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT__Funct7D))
+            ? 0x3dU : (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_128));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_78 
+        = ((1U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT__Funct3D))
+            ? 0x1dU : (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_76));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_10 
+        = ((3U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT__Funct3D))
+            ? 0xeU : (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cu.__PVT___inst_code_type_T_8));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT___jr_Stall_T_9 
+        = (((IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT__io_RegWriteE) 
+            & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT___br_Stall_T_5)) 
+           | (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT___jr_Stall_T_8));
 }
 
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1__22(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__0(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1__22\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__0\n"); );
     // Body
-    vlSelf->__PVT__io_pht_out = ((7U == (7U & VL_SEL_IIII(8, (IData)(vlSelf->__PVT__ways_araddr_reg), 0U, 3U)))
-                                  ? (IData)(vlSelf->__PVT__phts_7_rdata)
-                                  : (IData)(vlSelf->__PVT___GEN_6));
-    vlSelf->__PVT___GEN_7 = ((7U == (7U & VL_SEL_IIII(8, (IData)(vlSelf->__PVT__ways_araddr_reg), 0U, 3U)))
-                              ? (IData)(vlSelf->__PVT__phts_7_rdata)
-                              : (IData)(vlSelf->__PVT___GEN_6));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_1_io_pht_out 
-        = vlSelf->__PVT__io_pht_out;
+    vlSelf->__PVT__pht_data_with_block_ram_5_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSelf->__PVT__pht_data_with_block_ram_4_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_6_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_5_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__io_aw_addr), 2U, 5U));
 }
 
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1__23(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__2(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1__23\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__2\n"); );
     // Body
-    vlSelf->__PVT___io_out_T_10 = (3U & ((0U == (3U 
-                                                 & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__raddr_reg), 0U, 2U)))
-                                          ? VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 0U, 2U)
-                                          : VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 6U, 2U)));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__phts_banks_1_pht_out 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_1_io_pht_out;
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1__25(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1__25\n"); );
-    // Body
-    vlSelf->__PVT__io_out = (3U & ((2U == (3U & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__raddr_reg), 0U, 2U)))
-                                    ? VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 4U, 2U)
-                                    : (IData)(vlSelf->__PVT___io_out_T_12)));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_1_io_out 
-        = vlSelf->__PVT__io_out;
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__6(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__6\n"); );
-    // Body
-    vlSelf->__PVT__pht_data_with_block_ram_io_wen = 
-        ((0U == (IData)(vlSelf->__PVT__io_aw_pht_addr)) 
-         & (IData)(vlSelf->__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_io_wen 
-        = ((0U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_write));
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__24(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__24\n"); );
-    // Body
-    vlSelf->__PVT__io_pht_out = ((7U == (7U & VL_SEL_IIII(8, (IData)(vlSelf->__PVT__ways_araddr_reg), 0U, 3U)))
-                                  ? (IData)(vlSelf->__PVT__phts_7_rdata)
-                                  : (IData)(vlSelf->__PVT___GEN_6));
-    vlSelf->__PVT___GEN_7 = ((7U == (7U & VL_SEL_IIII(8, (IData)(vlSelf->__PVT__ways_araddr_reg), 0U, 3U)))
-                              ? (IData)(vlSelf->__PVT__phts_7_rdata)
-                              : (IData)(vlSelf->__PVT___GEN_6));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_2_io_pht_out 
-        = vlSelf->__PVT__io_pht_out;
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__25(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__25\n"); );
-    // Body
-    vlSelf->__PVT___io_out_T_10 = (3U & ((0U == (3U 
-                                                 & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__raddr_reg), 0U, 2U)))
-                                          ? VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 0U, 2U)
-                                          : VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 6U, 2U)));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__phts_banks_2_pht_out 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_2_io_pht_out;
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__27(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__27\n"); );
-    // Body
-    vlSelf->__PVT__io_out = (3U & ((2U == (3U & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__raddr_reg), 0U, 2U)))
-                                    ? VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 4U, 2U)
-                                    : (IData)(vlSelf->__PVT___io_out_T_12)));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_2_io_out 
-        = vlSelf->__PVT__io_out;
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__12(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__12\n"); );
-    // Body
-    vlSelf->__PVT__pht_data_with_block_ram_1_io_wen 
-        = ((1U == (IData)(vlSelf->__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSelf->__PVT__io_write));
-    vlSelf->__PVT__pht_data_with_block_ram_2_io_wen 
-        = ((2U == (IData)(vlSelf->__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSelf->__PVT__io_write));
-    vlSelf->__PVT__pht_data_with_block_ram_3_io_wen 
-        = ((3U == (IData)(vlSelf->__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSelf->__PVT__io_write));
-    vlSelf->__PVT__pht_data_with_block_ram_4_io_wen 
-        = ((4U == (IData)(vlSelf->__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSelf->__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_6_io_wen 
-        = ((6U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_7_io_wen 
-        = ((7U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_io_wen 
-        = ((0U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_1_io_wen 
-        = ((1U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_write));
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__14(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__14\n"); );
-    // Body
-    vlSelf->__PVT__pht_data_with_block_ram_io_wdata 
-        = vlSelf->__PVT__io_in;
-    vlSelf->__PVT__pht_data_with_block_ram_1_io_wdata 
-        = vlSelf->__PVT__io_in;
-    vlSelf->__PVT__pht_data_with_block_ram_2_io_wdata 
-        = vlSelf->__PVT__io_in;
-    vlSelf->__PVT__pht_data_with_block_ram_3_io_wdata 
-        = vlSelf->__PVT__io_in;
-    vlSelf->__PVT__pht_data_with_block_ram_4_io_wdata 
-        = vlSelf->__PVT__io_in;
-    vlSelf->__PVT__pht_data_with_block_ram_5_io_wdata 
-        = vlSelf->__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_4_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_5_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_6_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_7_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_2_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_3_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_4_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_5_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_6_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_7_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_1_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_2_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_3_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_4_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_5_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_6_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_7_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_in;
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__14(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__14\n"); );
-    // Body
-    vlSelf->__PVT__pht_data_with_block_ram_5_io_wen 
-        = ((5U == (IData)(vlSelf->__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSelf->__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_5_io_wen 
-        = ((5U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_6_io_wen 
-        = ((6U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_7_io_wen 
-        = ((7U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_3_io_wen 
-        = ((3U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_5_io_wen 
-        = ((5U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_5_io_wen 
-        = ((5U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_7_io_wen 
-        = ((7U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_write));
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__26(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__26\n"); );
-    // Body
-    vlSelf->__PVT__io_pht_out = ((7U == (7U & VL_SEL_IIII(8, (IData)(vlSelf->__PVT__ways_araddr_reg), 0U, 3U)))
-                                  ? (IData)(vlSelf->__PVT__phts_7_rdata)
-                                  : (IData)(vlSelf->__PVT___GEN_6));
-    vlSelf->__PVT___GEN_7 = ((7U == (7U & VL_SEL_IIII(8, (IData)(vlSelf->__PVT__ways_araddr_reg), 0U, 3U)))
-                              ? (IData)(vlSelf->__PVT__phts_7_rdata)
-                              : (IData)(vlSelf->__PVT___GEN_6));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_3_io_pht_out 
-        = vlSelf->__PVT__io_pht_out;
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__27(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__27\n"); );
-    // Body
-    vlSelf->__PVT___io_out_T_10 = (3U & ((0U == (3U 
-                                                 & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__raddr_reg), 0U, 2U)))
-                                          ? VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 0U, 2U)
-                                          : VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 6U, 2U)));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__phts_banks_3_pht_out 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_3_io_pht_out;
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__29(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__29\n"); );
-    // Body
-    vlSelf->__PVT__io_out = (3U & ((2U == (3U & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__raddr_reg), 0U, 2U)))
-                                    ? VL_SEL_IIII(8, (IData)(vlSelf->__PVT___GEN_7), 4U, 2U)
-                                    : (IData)(vlSelf->__PVT___io_out_T_12)));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram.__PVT__PHTS_with_block_ram_3_io_out 
-        = vlSelf->__PVT__io_out;
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__16(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__16\n"); );
-    // Body
-    vlSelf->__PVT__pht_data_with_block_ram_6_io_wdata 
-        = vlSelf->__PVT__io_in;
-    vlSelf->__PVT__pht_data_with_block_ram_7_io_wdata 
-        = vlSelf->__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_1_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_2_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_3_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_in;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_1_io_wdata 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_in;
-}
-
-VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__31(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__31\n"); );
-    // Body
-    vlSelf->__PVT__pht_data_with_block_ram_io_wen = 
-        ((0U == (IData)(vlSelf->__PVT__io_aw_pht_addr)) 
-         & (IData)(vlSelf->__PVT__io_write));
-    vlSelf->__PVT__pht_data_with_block_ram_6_io_wen 
-        = ((6U == (IData)(vlSelf->__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSelf->__PVT__io_write));
-    vlSelf->__PVT__pht_data_with_block_ram_7_io_wen 
-        = ((7U == (IData)(vlSelf->__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSelf->__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_1_io_wen 
-        = ((1U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_2_io_wen 
-        = ((2U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_3_io_wen 
-        = ((3U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__pht_data_with_block_ram_4_io_wen 
-        = ((4U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_1_io_wen 
-        = ((1U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_2_io_wen 
-        = ((2U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__pht_data_with_block_ram_4_io_wen 
-        = ((4U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_2_io_wen 
-        = ((2U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_3_io_wen 
-        = ((3U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_4_io_wen 
-        = ((4U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_write));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__pht_data_with_block_ram_6_io_wen 
-        = ((6U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_aw_pht_addr)) 
-           & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1.__PVT__io_write));
+    vlSelf->__PVT__pht_data_with_block_ram_2_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSelf->__PVT__pht_data_with_block_ram_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSelf->__PVT__pht_data_with_block_ram_1_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_7_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_1_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT___GEN_3 
+        = ((3U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT__io_A3))
+            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT__regs_3
+            : vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT___GEN_2);
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT___GEN_99 
+        = ((3U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT__io_A2))
+            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT__regs_3
+            : vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT___GEN_98);
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT___GEN_67 
+        = ((3U == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT__io_A1))
+            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT__regs_3
+            : vlSymsp->TOP__mycpu_top__u_riscv_cpu___regfile.__PVT___GEN_66);
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT___mem2regM_Stall_T_10 
+        = (((IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT___io_Forward2E_T_3) 
+            & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT__io_MemToRegM)) 
+           | (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT___mem2regM_Stall_T_9));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT___io_Forward2D_T_14 
+        = (((((IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT__io_R2D) 
+              == (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT__io_WriteRegM)) 
+             & (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT__io_RegWriteM)) 
+            & (~ (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT__io_MemToRegM)))
+            ? 1U : (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT___io_Forward2D_T_13));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT___io_Forward1D_T_13 
+        = ((IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT___io_Forward1D_T_12)
+            ? 2U : 0U);
 }

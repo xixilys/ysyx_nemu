@@ -18,18 +18,18 @@ class Vmycpu_top_icache_data final : public VerilatedModule {
     Vmycpu_top_data_ram_one_port_with_latency* __PVT__icache_data_ram_0;
 
     // DESIGN SPECIFIC STATE
-    CData/*6:0*/ __PVT__icache_data_ram_0_io_addra;
-    VL_IN64(__PVT__io_addr,63,0);
     VL_OUT64(__PVT__io_rdata,39,0);
     QData/*39:0*/ __PVT__icache_data_ram_0_io_douta;
     VL_IN8(__PVT__io_wen,4,0);
     CData/*4:0*/ __PVT__icache_data_ram_0_io_wea;
+    VL_IN8(__PVT__clock,0,0);
+    CData/*0:0*/ __PVT__icache_data_ram_0_clock;
+    VL_IN8(__PVT__reset,0,0);
+    CData/*0:0*/ __PVT__icache_data_ram_0_reset;
     VL_IN64(__PVT__io_wdata,39,0);
     QData/*39:0*/ __PVT__icache_data_ram_0_io_dina;
-    VL_IN8(__PVT__clock,0,0);
-    VL_IN8(__PVT__reset,0,0);
-    CData/*0:0*/ __PVT__icache_data_ram_0_clock;
-    CData/*0:0*/ __PVT__icache_data_ram_0_reset;
+    CData/*6:0*/ __PVT__icache_data_ram_0_io_addra;
+    VL_IN64(__PVT__io_addr,63,0);
 
     // INTERNAL VARIABLES
     Vmycpu_top__Syms* const vlSymsp;

@@ -18,18 +18,18 @@ class Vmycpu_top_dcache_data final : public VerilatedModule {
     Vmycpu_top_data_ram_one_port_with_latency_16* __PVT__dcache_data_ram_0;
 
     // DESIGN SPECIFIC STATE
-    CData/*6:0*/ __PVT__dcache_data_ram_0_io_addra;
-    VL_IN64(__PVT__io_addr,63,0);
-    VL_OUT64(__PVT__io_rdata,63,0);
-    QData/*63:0*/ __PVT__dcache_data_ram_0_io_douta;
-    VL_IN8(__PVT__io_wen,7,0);
-    CData/*7:0*/ __PVT__dcache_data_ram_0_io_wea;
+    VL_IN8(__PVT__reset,0,0);
+    CData/*0:0*/ __PVT__dcache_data_ram_0_reset;
     VL_IN64(__PVT__io_wdata,63,0);
     QData/*63:0*/ __PVT__dcache_data_ram_0_io_dina;
     VL_IN8(__PVT__clock,0,0);
-    VL_IN8(__PVT__reset,0,0);
     CData/*0:0*/ __PVT__dcache_data_ram_0_clock;
-    CData/*0:0*/ __PVT__dcache_data_ram_0_reset;
+    VL_OUT64(__PVT__io_rdata,63,0);
+    QData/*63:0*/ __PVT__dcache_data_ram_0_io_douta;
+    CData/*6:0*/ __PVT__dcache_data_ram_0_io_addra;
+    VL_IN64(__PVT__io_addr,63,0);
+    VL_IN8(__PVT__io_wen,7,0);
+    CData/*7:0*/ __PVT__dcache_data_ram_0_io_wea;
 
     // INTERNAL VARIABLES
     Vmycpu_top__Syms* const vlSymsp;

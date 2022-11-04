@@ -17,7 +17,6 @@ void isa_reg_display() {
     printf("\n");
     
   }
-  printf("%ld\n",(uint64_t)5+(uint64_t)-2);
   printf("pc : %lx\n",cpu.pc);
 }
 

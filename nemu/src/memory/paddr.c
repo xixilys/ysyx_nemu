@@ -86,6 +86,7 @@ static void pmem_write(paddr_t addr, int len, word_t data) {
 }
 
 static void out_of_bound(paddr_t addr) {
+
 #ifdef CONFIG_ITRACE_COND
   mtrace_loop_print(mtrace_loop,mtrace_loop_index);
 #endif
@@ -120,6 +121,7 @@ word_t paddr_read(paddr_t addr, int len , uint8_t mem_type) {
   mem_read_mtrace.len = len;
   mem_read_mtrace.paddr = addr;
   mem_read_mtrace.pc = mem_pc;
+
   #endif
   //如果在所设定的内存范围内
   if (likely(in_pmem(addr)))  {
@@ -132,12 +134,12 @@ word_t paddr_read(paddr_t addr, int len , uint8_t mem_type) {
         mem_pc = addr;
       }
     #endif
-     
       return pmem_data;//mem_read_mtrace.data;
 
   }
   //如果不在设定的内存地址范围内，则进行MMIO处理
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
+
   out_of_bound(addr);
   return 0;
 }
@@ -158,3 +160,6 @@ void paddr_write(paddr_t addr, int len, word_t data) {
 }
 
 
+void mtrace_printf(){
+    mtrace_loop_print(mtrace_loop,mtrace_loop_index);
+}

@@ -3,6 +3,9 @@
 #include <cpu/difftest.h>
 #include <locale.h>
 #include <isa.h>
+#include <memory/paddr.h>
+#include <etrace.h>
+
 
 #include <cpu/sdb.h>
 #include <elf_read.h>
@@ -54,28 +57,27 @@ void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
-// fd
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
-  // WP* p = head;
-  // bool cal_state;
-  // while(p != NULL){
-  //   word_t answer;
-  //   answer = expr(p->str,&cal_state);
-  //   if(cal_state != true) {
-  //     printf("cal wrong\n");
-  //   }
-  //   if (answer != p->last_value) {
-  //     Log("%s is different after executing instruction at pc = " FMT_WORD ", dnpc = "
-  //     FMT_WORD  ", last = " FMT_WORD ", now = " FMT_WORD ,
-  //       p->str, _this->pc,dnpc,  p->last_value, answer ); 
-  //     p->last_value = answer;
-  //     nemu_state.state = NEMU_STOP; 
-  //   }
-  //   p = p->next;
-  // }
+  WP* p = head;
+  bool cal_state;
+  while(p != NULL){
+    word_t answer;
+    answer = expr(p->str,&cal_state);
+    if(cal_state != true) {
+      printf("cal wrong\n");
+    }
+    if (answer != p->last_value) {
+      Log("%s is different after executing instruction at pc = " FMT_WORD ", dnpc = "
+      FMT_WORD  ", last = " FMT_WORD ", now = " FMT_WORD ,
+        p->str, _this->pc,dnpc,  p->last_value, answer ); 
+      p->last_value = answer;
+      nemu_state.state = NEMU_STOP; 
+    }
+    p = p->next;
+  }
 }
 
 
@@ -124,7 +126,9 @@ static void execute(uint64_t n) {
     exec_once(&s, cpu.pc);
     
     g_nr_guest_inst ++;
+    // printf("nemu_state.state = %d\n",nemu_state.state);
     trace_and_difftest(&s, cpu.pc);
+  
     if (nemu_state.state != NEMU_RUNNING) break;
     static uint64_t run_counter = 0;
     if(run_counter >= 100000) {
@@ -133,9 +137,11 @@ static void execute(uint64_t n) {
     }else{
       run_counter ++;
     }
-    
+    // printf("n = %lx\n",n);
     
   }
+  // printf("why i am here\n");
+  // printf("=======================================\n");
   // printf("sum_time = %lu\n", sum_time_decoder);
 }
 
@@ -144,7 +150,8 @@ static void statistic() {
     #ifdef CONFIG_ITRACE_COND
       itrace_loop_print(itrace_loop,itrace_loop_index); 
       ftrace_loop_print(ftrace_loop,ftrace_loop_index);
-
+      mtrace_printf();
+      etrace_printfall();
     #endif
   } 
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
@@ -161,6 +168,8 @@ void assert_fail_msg() {
   #ifdef CONFIG_ITRACE_COND
     itrace_loop_print(itrace_loop,itrace_loop_index);
     ftrace_loop_print(ftrace_loop,ftrace_loop_index);
+    mtrace_printf();
+    etrace_printfall(); 
   #endif
   
   

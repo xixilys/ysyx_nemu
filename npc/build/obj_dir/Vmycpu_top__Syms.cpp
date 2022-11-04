@@ -12,7 +12,7 @@
 #include "Vmycpu_top_alu.h"
 #include "Vmycpu_top_br.h"
 #include "Vmycpu_top_cfu.h"
-#include "Vmycpu_top_cp0.h"
+#include "Vmycpu_top_csr.h"
 #include "Vmycpu_top_cu.h"
 #include "Vmycpu_top_dmem.h"
 #include "Vmycpu_top_dmemreq.h"
@@ -350,7 +350,7 @@ Vmycpu_top__Syms::Vmycpu_top__Syms(VerilatedContext* contextp, const char* namep
     , TOP__mycpu_top__u_riscv_cpu___br{this, Verilated::catName(namep, "mycpu_top.u_riscv_cpu._br")}
     , TOP__mycpu_top__u_riscv_cpu___cfu{this, Verilated::catName(namep, "mycpu_top.u_riscv_cpu._cfu")}
     , TOP__mycpu_top__u_riscv_cpu___commit_difftest{this, Verilated::catName(namep, "mycpu_top.u_riscv_cpu._commit_difftest")}
-    , TOP__mycpu_top__u_riscv_cpu___cp0{this, Verilated::catName(namep, "mycpu_top.u_riscv_cpu._cp0")}
+    , TOP__mycpu_top__u_riscv_cpu___csr{this, Verilated::catName(namep, "mycpu_top.u_riscv_cpu._csr")}
     , TOP__mycpu_top__u_riscv_cpu___cu{this, Verilated::catName(namep, "mycpu_top.u_riscv_cpu._cu")}
     , TOP__mycpu_top__u_riscv_cpu___dmem{this, Verilated::catName(namep, "mycpu_top.u_riscv_cpu._dmem")}
     , TOP__mycpu_top__u_riscv_cpu___dmemreq{this, Verilated::catName(namep, "mycpu_top.u_riscv_cpu._dmemreq")}
@@ -801,7 +801,7 @@ Vmycpu_top__Syms::Vmycpu_top__Syms(VerilatedContext* contextp, const char* namep
     TOP__mycpu_top__u_riscv_cpu.__PVT___br = &TOP__mycpu_top__u_riscv_cpu___br;
     TOP__mycpu_top__u_riscv_cpu.__PVT___cfu = &TOP__mycpu_top__u_riscv_cpu___cfu;
     TOP__mycpu_top__u_riscv_cpu.__PVT___commit_difftest = &TOP__mycpu_top__u_riscv_cpu___commit_difftest;
-    TOP__mycpu_top__u_riscv_cpu.__PVT___cp0 = &TOP__mycpu_top__u_riscv_cpu___cp0;
+    TOP__mycpu_top__u_riscv_cpu.__PVT___csr = &TOP__mycpu_top__u_riscv_cpu___csr;
     TOP__mycpu_top__u_riscv_cpu.__PVT___cu = &TOP__mycpu_top__u_riscv_cpu___cu;
     TOP__mycpu_top__u_riscv_cpu.__PVT___dmem = &TOP__mycpu_top__u_riscv_cpu___dmem;
     TOP__mycpu_top__u_riscv_cpu.__PVT___dmemreq = &TOP__mycpu_top__u_riscv_cpu___dmemreq;
@@ -1249,7 +1249,7 @@ Vmycpu_top__Syms::Vmycpu_top__Syms(VerilatedContext* contextp, const char* namep
     TOP__mycpu_top__u_riscv_cpu___br.__Vconfigure(true);
     TOP__mycpu_top__u_riscv_cpu___cfu.__Vconfigure(true);
     TOP__mycpu_top__u_riscv_cpu___commit_difftest.__Vconfigure(true);
-    TOP__mycpu_top__u_riscv_cpu___cp0.__Vconfigure(true);
+    TOP__mycpu_top__u_riscv_cpu___csr.__Vconfigure(true);
     TOP__mycpu_top__u_riscv_cpu___cu.__Vconfigure(true);
     TOP__mycpu_top__u_riscv_cpu___dmem.__Vconfigure(true);
     TOP__mycpu_top__u_riscv_cpu___dmemreq.__Vconfigure(true);
@@ -1410,6 +1410,6 @@ Vmycpu_top__Syms::Vmycpu_top__Syms(VerilatedContext* contextp, const char* namep
     TOP__mycpu_top__u_riscv_cpu__stage_fec_2_pc_R.__Vconfigure(false);
     TOP__mycpu_top__u_riscv_cpu__wb_bru_state.__Vconfigure(false);
     // Setup export functions
-    for (int __Vfinal = 0; __Vfinal < 2; ++__Vfinal) {
+    for (int __Vfinal=0; __Vfinal<2; __Vfinal++) {
     }
 }

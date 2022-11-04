@@ -23,7 +23,7 @@
 #include "Vmycpu_top_alu.h"
 #include "Vmycpu_top_br.h"
 #include "Vmycpu_top_cfu.h"
-#include "Vmycpu_top_cp0.h"
+#include "Vmycpu_top_csr.h"
 #include "Vmycpu_top_cu.h"
 #include "Vmycpu_top_dmem.h"
 #include "Vmycpu_top_dmemreq.h"
@@ -76,9 +76,7 @@ class Vmycpu_top__Syms final : public VerilatedSyms {
 
     // MULTI-THREADING
     VlThreadPool* const __Vm_threadPoolp;
-    bool __Vm_even_cycle__ico = false;
-    bool __Vm_even_cycle__act = false;
-    bool __Vm_even_cycle__nba = false;
+    bool __Vm_even_cycle = false;
 
     // MODULE INSTANCE STATE
     Vmycpu_top___024root           TOP;
@@ -368,7 +366,7 @@ class Vmycpu_top__Syms final : public VerilatedSyms {
     Vmycpu_top_br                  TOP__mycpu_top__u_riscv_cpu___br;
     Vmycpu_top_cfu                 TOP__mycpu_top__u_riscv_cpu___cfu;
     Vmycpu_top_difftest_commit     TOP__mycpu_top__u_riscv_cpu___commit_difftest;
-    Vmycpu_top_cp0                 TOP__mycpu_top__u_riscv_cpu___cp0;
+    Vmycpu_top_csr                 TOP__mycpu_top__u_riscv_cpu___csr;
     Vmycpu_top_cu                  TOP__mycpu_top__u_riscv_cpu___cu;
     Vmycpu_top_dmem                TOP__mycpu_top__u_riscv_cpu___dmem;
     Vmycpu_top_dmemreq             TOP__mycpu_top__u_riscv_cpu___dmemreq;

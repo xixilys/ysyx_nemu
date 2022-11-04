@@ -15,7 +15,8 @@ define git_commit
 	-@cd $(YSYX_HOME) && git branch $(TRACER_BRANCH) -q 2>/dev/null || true    `# create tracer branch if not existent`
 	-@cd $(YSYX_HOME) && git worktree add $(TRACER_BRANCH) -q                  `# check out tracer branch`
 	-@cd $(YSYX_HOME) && git status --untracked-files -z                       `# list changed files to copy (w/o quotes)` \
-			| tr '\000' '\n'                                           `# restore EOL sequence`                    \
+			| tr '\000' '\n'
+			`# restore EOL sequence`                    \
 			| cut -c 1-3 --complement                                  `# remove status indicator`                 \
 			| grep -v '^$(TRACER_BRANCH)/'                             `# skip tracer worktree`                    \
 			| rsync -aq --files-from=- ./ $(TRACER_BRANCH)/            `# call rsync to copy files`

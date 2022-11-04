@@ -45,14 +45,6 @@ VM_USER_CFLAGS = \
 	-I/home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/npc_nemu/src/isa/riscv64/include \
 	-I/home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/npc_nemu/src/engine/interpreter \
 	-DTOP_NAME="Vmycpu_top" \
-	-I/usr/lib/llvm-13/include \
-	-std=c++14 \
-	-fno-exceptions \
-	-D_GNU_SOURCE \
-	-D__STDC_CONSTANT_MACROS \
-	-D__STDC_FORMAT_MACROS \
-	-D__STDC_LIMIT_MACROS \
-	-fPIE \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
@@ -61,7 +53,6 @@ VM_USER_LDLIBS = \
 	-O2 \
 	-lSDL2 \
 	-lSDL2_image \
-	-lLLVM-13 \
 	-lSDL2 \
 	-lreadline \
 	-ldl \
@@ -102,7 +93,6 @@ VM_USER_CLASSES = \
 	nemu-main \
 	axi \
 	verilator_use \
-	disasm \
 	log \
 	rand \
 	state \
@@ -200,8 +190,6 @@ nemu-main.o: /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/npc_nemu/src
 axi.o: /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/npc_nemu/src/sim/axi.cc
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 verilator_use.o: /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/npc_nemu/src/sim/verilator_use.cc
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-disasm.o: /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/npc_nemu/src/utils/disasm.cc
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 log.o: /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/npc_nemu/src/utils/log.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

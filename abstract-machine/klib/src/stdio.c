@@ -5,7 +5,7 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-#define printf_max_size 1024
+#define printf_max_size 65535
 
 void int_to_string(int num , char * value) {
 

@@ -25,6 +25,7 @@ static void restart() {
 void init_isa() {
   /* Load built-in image. */
   memcpy(guest_to_host(RESET_VECTOR), img, sizeof(img));
+  CSR(MSTATUS) = 0x0000000a00001800;
 
   /* Initialize this virtual computer system. */
   restart();
