@@ -70,27 +70,27 @@ class Vmycpu_top_PHTS_banks_oneissue_block_ram final : public VerilatedModule {
         CData/*0:0*/ __PVT__PHTS_with_block_ram_2_io_write;
         CData/*6:0*/ __PVT__PHTS_with_block_ram_3_io_ar_addr;
         CData/*0:0*/ __PVT__PHTS_with_block_ram_3_io_write;
-        VL_IN8(__PVT__io_aw_pht_addr,2,0);
-        VL_IN8(__PVT__io_in,7,0);
-        CData/*2:0*/ __PVT__PHTS_with_block_ram_io_aw_pht_addr;
-        CData/*7:0*/ __PVT__PHTS_with_block_ram_io_in;
-        CData/*2:0*/ __PVT__PHTS_with_block_ram_1_io_aw_pht_addr;
-        CData/*7:0*/ __PVT__PHTS_with_block_ram_1_io_in;
-        CData/*2:0*/ __PVT__PHTS_with_block_ram_2_io_aw_pht_addr;
-        CData/*7:0*/ __PVT__PHTS_with_block_ram_2_io_in;
-        CData/*2:0*/ __PVT__PHTS_with_block_ram_3_io_aw_pht_addr;
-        CData/*7:0*/ __PVT__PHTS_with_block_ram_3_io_in;
+        VL_IN8(__PVT__io_aw_addr,6,0);
+        CData/*6:0*/ __PVT__PHTS_with_block_ram_io_aw_addr;
+        CData/*6:0*/ __PVT__PHTS_with_block_ram_1_io_aw_addr;
+        CData/*6:0*/ __PVT__PHTS_with_block_ram_2_io_aw_addr;
+        CData/*6:0*/ __PVT__PHTS_with_block_ram_3_io_aw_addr;
         CData/*0:0*/ __PVT__PHTS_with_block_ram_clock;
         CData/*0:0*/ __PVT__PHTS_with_block_ram_1_clock;
         CData/*0:0*/ __PVT__PHTS_with_block_ram_2_clock;
         CData/*0:0*/ __PVT__PHTS_with_block_ram_3_clock;
-        VL_IN8(__PVT__io_aw_addr,6,0);
-        CData/*6:0*/ __PVT__PHTS_with_block_ram_io_aw_addr;
-        CData/*6:0*/ __PVT__PHTS_with_block_ram_1_io_aw_addr;
+        VL_IN8(__PVT__io_in,7,0);
+        CData/*7:0*/ __PVT__PHTS_with_block_ram_io_in;
+        CData/*7:0*/ __PVT__PHTS_with_block_ram_1_io_in;
+        CData/*7:0*/ __PVT__PHTS_with_block_ram_2_io_in;
+        CData/*7:0*/ __PVT__PHTS_with_block_ram_3_io_in;
+        VL_IN8(__PVT__io_aw_pht_addr,2,0);
+        CData/*2:0*/ __PVT__PHTS_with_block_ram_io_aw_pht_addr;
+        CData/*2:0*/ __PVT__PHTS_with_block_ram_1_io_aw_pht_addr;
     };
     struct {
-        CData/*6:0*/ __PVT__PHTS_with_block_ram_2_io_aw_addr;
-        CData/*6:0*/ __PVT__PHTS_with_block_ram_3_io_aw_addr;
+        CData/*2:0*/ __PVT__PHTS_with_block_ram_2_io_aw_pht_addr;
+        CData/*2:0*/ __PVT__PHTS_with_block_ram_3_io_aw_pht_addr;
     };
 
     // INTERNAL VARIABLES

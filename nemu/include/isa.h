@@ -15,6 +15,7 @@ extern char isa_logo[];
 void init_isa();
 
 // reg
+
 extern CPU_state cpu;
 
 void isa_reg_display();

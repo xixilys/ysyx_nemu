@@ -72,6 +72,65 @@ VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__4\n"); );
     // Body
+    vlSelf->__Vdly__ebreak_Reg = vlSelf->__PVT__ebreak_Reg;
+    vlSelf->__Vdly__alu_mul_cal_Reg = vlSelf->__PVT__alu_mul_cal_Reg;
+    vlSelf->__Vdly__ExceptionTypeE_Reg = vlSelf->__PVT__ExceptionTypeE_Reg;
+}
+
+VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__5(Vmycpu_top_id2ex* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__5\n"); );
+    // Body
+    if (vlSelf->__PVT__reset) {
+        vlSelf->__Vdly__ebreak_Reg = 0U;
+    } else if (vlSelf->__PVT__io_clr) {
+        vlSelf->__Vdly__ebreak_Reg = 0U;
+    } else if (vlSelf->__PVT__io_en) {
+        vlSelf->__Vdly__ebreak_Reg = vlSelf->__PVT__io1_ebreakD;
+    }
+    if (vlSelf->__PVT__reset) {
+        vlSelf->__Vdly__alu_mul_cal_Reg = 0U;
+    } else if (vlSelf->__PVT__io_clr) {
+        vlSelf->__Vdly__alu_mul_cal_Reg = 0U;
+    } else if (vlSelf->__PVT__io_en) {
+        vlSelf->__Vdly__alu_mul_cal_Reg = vlSelf->__PVT___alu_mul_cal_Reg_T_2;
+    }
+    if (vlSelf->__PVT__reset) {
+        vlSelf->__Vdly__ExceptionTypeE_Reg = 0U;
+    } else if (vlSelf->__PVT__io_clr) {
+        vlSelf->__Vdly__ExceptionTypeE_Reg = 0U;
+    } else if (vlSelf->__PVT__io_en) {
+        vlSelf->__Vdly__ExceptionTypeE_Reg = vlSelf->__PVT__io_ExceptionTypeD;
+    }
+}
+
+VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__6(Vmycpu_top_id2ex* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__6\n"); );
+    // Body
+    vlSelf->__PVT__ebreak_Reg = vlSelf->__Vdly__ebreak_Reg;
+    vlSelf->__PVT__alu_mul_cal_Reg = vlSelf->__Vdly__alu_mul_cal_Reg;
+    vlSelf->__PVT__ExceptionTypeE_Reg = vlSelf->__Vdly__ExceptionTypeE_Reg;
+}
+
+VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__7(Vmycpu_top_id2ex* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__7\n"); );
+    // Body
+    vlSelf->__PVT__io_muldiv_calE = (1U & VL_BITSEL_IIII(2, (IData)(vlSelf->__PVT__alu_mul_cal_Reg), 1U));
+    vlSelf->__PVT__io_alu_calE = (1U & VL_BITSEL_IIII(2, (IData)(vlSelf->__PVT__alu_mul_cal_Reg), 0U));
+    vlSelf->__PVT__io2_eBreakE = vlSelf->__PVT__ebreak_Reg;
+    vlSelf->__PVT__io_ExceptionTypeE_Out = vlSelf->__PVT__ExceptionTypeE_Reg;
+}
+
+VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__8(Vmycpu_top_id2ex* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__8\n"); );
+    // Body
     vlSelf->__Vdly__Pc_NextReg = vlSelf->__PVT__Pc_NextReg;
     vlSelf->__Vdly__BranchJump_JrE_Reg = vlSelf->__PVT__BranchJump_JrE_Reg;
     vlSelf->__Vdly__InDelaySlotE_Reg = vlSelf->__PVT__InDelaySlotE_Reg;
@@ -91,10 +150,10 @@ VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2
     vlSelf->__Vdly__R2E_Reg = vlSelf->__PVT__R2E_Reg;
 }
 
-VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__5(Vmycpu_top_id2ex* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__9(Vmycpu_top_id2ex* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__5\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__9\n"); );
     // Body
     if (vlSelf->__PVT__reset) {
         vlSelf->__Vdly__LoadUnsignedE_Reg = 0U;
@@ -224,10 +283,10 @@ VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2
     }
 }
 
-VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__6(Vmycpu_top_id2ex* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__10(Vmycpu_top_id2ex* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__6\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__10\n"); );
     // Body
     vlSelf->__PVT__PCPlus4E_Reg = vlSelf->__Vdly__PCPlus4E_Reg;
     vlSelf->__PVT__LinkE_Reg = vlSelf->__Vdly__LinkE_Reg;
@@ -243,10 +302,10 @@ VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2
     vlSelf->__PVT__R2E_Reg = vlSelf->__Vdly__R2E_Reg;
 }
 
-VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__7(Vmycpu_top_id2ex* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__11(Vmycpu_top_id2ex* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__7\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__11\n"); );
     // Body
     vlSelf->__PVT__io2_PCPlus4E = vlSelf->__PVT__PCPlus4E_Reg;
     vlSelf->__PVT__io2_LinkE = vlSelf->__PVT__LinkE_Reg;
@@ -262,69 +321,40 @@ VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2
     vlSelf->__PVT__io_R2E = vlSelf->__PVT__R2E_Reg;
 }
 
-VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__8(Vmycpu_top_id2ex* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__8\n"); );
-    // Body
-    vlSelf->__Vdly__ebreak_Reg = vlSelf->__PVT__ebreak_Reg;
-    vlSelf->__Vdly__alu_mul_cal_Reg = vlSelf->__PVT__alu_mul_cal_Reg;
-    vlSelf->__Vdly__ExceptionTypeE_Reg = vlSelf->__PVT__ExceptionTypeE_Reg;
-}
-
-VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__9(Vmycpu_top_id2ex* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__9\n"); );
-    // Body
-    if (vlSelf->__PVT__reset) {
-        vlSelf->__Vdly__ebreak_Reg = 0U;
-    } else if (vlSelf->__PVT__io_clr) {
-        vlSelf->__Vdly__ebreak_Reg = 0U;
-    } else if (vlSelf->__PVT__io_en) {
-        vlSelf->__Vdly__ebreak_Reg = vlSelf->__PVT__io1_ebreakD;
-    }
-    if (vlSelf->__PVT__reset) {
-        vlSelf->__Vdly__alu_mul_cal_Reg = 0U;
-    } else if (vlSelf->__PVT__io_clr) {
-        vlSelf->__Vdly__alu_mul_cal_Reg = 0U;
-    } else if (vlSelf->__PVT__io_en) {
-        vlSelf->__Vdly__alu_mul_cal_Reg = vlSelf->__PVT___alu_mul_cal_Reg_T_2;
-    }
-    if (vlSelf->__PVT__reset) {
-        vlSelf->__Vdly__ExceptionTypeE_Reg = 0U;
-    } else if (vlSelf->__PVT__io_clr) {
-        vlSelf->__Vdly__ExceptionTypeE_Reg = 0U;
-    } else if (vlSelf->__PVT__io_en) {
-        vlSelf->__Vdly__ExceptionTypeE_Reg = vlSelf->__PVT__io_ExceptionTypeD;
-    }
-}
-
-VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__10(Vmycpu_top_id2ex* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__10\n"); );
-    // Body
-    vlSelf->__PVT__ebreak_Reg = vlSelf->__Vdly__ebreak_Reg;
-    vlSelf->__PVT__alu_mul_cal_Reg = vlSelf->__Vdly__alu_mul_cal_Reg;
-    vlSelf->__PVT__ExceptionTypeE_Reg = vlSelf->__Vdly__ExceptionTypeE_Reg;
-}
-
-VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__11(Vmycpu_top_id2ex* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__11\n"); );
-    // Body
-    vlSelf->__PVT__io_muldiv_calE = (1U & VL_BITSEL_IIII(2, (IData)(vlSelf->__PVT__alu_mul_cal_Reg), 1U));
-    vlSelf->__PVT__io_alu_calE = (1U & VL_BITSEL_IIII(2, (IData)(vlSelf->__PVT__alu_mul_cal_Reg), 0U));
-    vlSelf->__PVT__io2_eBreakE = vlSelf->__PVT__ebreak_Reg;
-    vlSelf->__PVT__io_ExceptionTypeE_Out = vlSelf->__PVT__ExceptionTypeE_Reg;
-}
-
 VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__12(Vmycpu_top_id2ex* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__12\n"); );
+    // Body
+    if (vlSelf->__PVT__reset) {
+        vlSelf->__Vdly__MemWidthE_Reg = 0U;
+    } else if (vlSelf->__PVT__io_clr) {
+        vlSelf->__Vdly__MemWidthE_Reg = 0U;
+    } else if (vlSelf->__PVT__io_en) {
+        vlSelf->__Vdly__MemWidthE_Reg = vlSelf->__PVT__io1_MemWidthD;
+    }
+}
+
+VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__13(Vmycpu_top_id2ex* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__13\n"); );
+    // Body
+    vlSelf->__PVT__MemWidthE_Reg = vlSelf->__Vdly__MemWidthE_Reg;
+}
+
+VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__14(Vmycpu_top_id2ex* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__14\n"); );
+    // Body
+    vlSelf->__PVT__io2_MemWidthE = vlSelf->__PVT__MemWidthE_Reg;
+}
+
+VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__15(Vmycpu_top_id2ex* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__15\n"); );
     // Body
     vlSelf->__Vdly__RegWriteE_Reg = vlSelf->__PVT__RegWriteE_Reg;
     vlSelf->__Vdly__RegDstE_Reg = vlSelf->__PVT__RegDstE_Reg;
@@ -342,36 +372,6 @@ VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2
     } else if (vlSelf->__PVT__io_en) {
         vlSelf->__Vdly__RegDstE_Reg = vlSelf->__PVT__io1_RegDstD;
     }
-}
-
-VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__14(Vmycpu_top_id2ex* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__14\n"); );
-    // Body
-    if (vlSelf->__PVT__reset) {
-        vlSelf->__Vdly__MemWidthE_Reg = 0U;
-    } else if (vlSelf->__PVT__io_clr) {
-        vlSelf->__Vdly__MemWidthE_Reg = 0U;
-    } else if (vlSelf->__PVT__io_en) {
-        vlSelf->__Vdly__MemWidthE_Reg = vlSelf->__PVT__io1_MemWidthD;
-    }
-}
-
-VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__15(Vmycpu_top_id2ex* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__15\n"); );
-    // Body
-    vlSelf->__PVT__MemWidthE_Reg = vlSelf->__Vdly__MemWidthE_Reg;
-}
-
-VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__16(Vmycpu_top_id2ex* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__16\n"); );
-    // Body
-    vlSelf->__PVT__io2_MemWidthE = vlSelf->__PVT__MemWidthE_Reg;
 }
 
 VL_INLINE_OPT void Vmycpu_top_id2ex___sequent__TOP__mycpu_top__u_riscv_cpu___id2ex__17(Vmycpu_top_id2ex* vlSelf) {

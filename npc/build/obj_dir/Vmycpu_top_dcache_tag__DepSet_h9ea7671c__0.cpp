@@ -2288,6 +2288,12 @@ VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__3\n"); );
+}
+
+VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__4(Vmycpu_top_dcache_tag* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__4\n"); );
     // Body
     vlSelf->__PVT__tag_regs1_50 = vlSelf->__Vdly__tag_regs1_50;
     vlSelf->__PVT__tag_regs0_50 = vlSelf->__Vdly__tag_regs0_50;
@@ -2395,10 +2401,10 @@ VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__
     vlSelf->__Vdly__tag_regs0_63 = vlSelf->__PVT__tag_regs0_63;
 }
 
-VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__4(Vmycpu_top_dcache_tag* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__5(Vmycpu_top_dcache_tag* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__4\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__5\n"); );
     // Body
     if (vlSelf->__PVT__reset) {
         vlSelf->__Vdly__tag_regs0_63 = 0ULL;
@@ -2428,10 +2434,10 @@ VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__
     }
 }
 
-VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__5(Vmycpu_top_dcache_tag* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__6(Vmycpu_top_dcache_tag* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__5\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__6\n"); );
     // Body
     vlSelf->__PVT__tag_regs1_61 = vlSelf->__Vdly__tag_regs1_61;
     vlSelf->__PVT__tag_regs0_61 = vlSelf->__Vdly__tag_regs0_61;
@@ -2457,10 +2463,10 @@ VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__
     vlSelf->__PVT__tag_regs0_51 = vlSelf->__Vdly__tag_regs0_51;
 }
 
-VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__6(Vmycpu_top_dcache_tag* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__7(Vmycpu_top_dcache_tag* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__6\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag__7\n"); );
     // Body
     vlSelf->__PVT__tag_regs1_63 = vlSelf->__Vdly__tag_regs1_63;
     vlSelf->__PVT__tag_regs0_63 = vlSelf->__Vdly__tag_regs0_63;
@@ -4749,6 +4755,12 @@ VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__3\n"); );
+}
+
+VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__4(Vmycpu_top_dcache_tag* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__4\n"); );
     // Body
     vlSelf->__PVT__tag_regs1_60 = vlSelf->__Vdly__tag_regs1_60;
     vlSelf->__PVT__tag_regs0_60 = vlSelf->__Vdly__tag_regs0_60;
@@ -4876,10 +4888,10 @@ VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__
     vlSelf->__Vdly__tag_regs0_63 = vlSelf->__PVT__tag_regs0_63;
 }
 
-VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__4(Vmycpu_top_dcache_tag* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__5(Vmycpu_top_dcache_tag* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__4\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__5\n"); );
     // Body
     if (vlSelf->__PVT__reset) {
         vlSelf->__Vdly__tag_regs0_63 = 0ULL;
@@ -4909,19 +4921,19 @@ VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__
     }
 }
 
-VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__5(Vmycpu_top_dcache_tag* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__6(Vmycpu_top_dcache_tag* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__5\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__6\n"); );
     // Body
     vlSelf->__PVT__tag_regs1_61 = vlSelf->__Vdly__tag_regs1_61;
     vlSelf->__PVT__tag_regs0_61 = vlSelf->__Vdly__tag_regs0_61;
 }
 
-VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__6(Vmycpu_top_dcache_tag* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__7(Vmycpu_top_dcache_tag* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__6\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dcache_tag___sequent__TOP__mycpu_top__data_cache__dcache_tag_1__7\n"); );
     // Body
     vlSelf->__PVT__tag_regs1_63 = vlSelf->__Vdly__tag_regs1_63;
     vlSelf->__PVT__tag_regs0_63 = vlSelf->__Vdly__tag_regs0_63;

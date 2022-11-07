@@ -5,13 +5,17 @@
 #include <elf_read.h>
 
 #define R(i) gpr(i)
+#define CSR(i) cpu.special_reg[i]
+
 #define Mr vaddr_read
 #define Mw vaddr_write
 
 enum {
   TYPE_I, TYPE_U, TYPE_S,
-  TYPE_RR,TYPE_SB,TYPE_UJ,TYPE_N, // none
+  TYPE_RR,TYPE_SB,TYPE_UJ,TYPE_II,TYPE_N // none
 };
+
+
 
 #define src1R(n) do { *src1 = R(n); } while (0)
 #define src2R(n) do { *src2 = R(n); } while (0)
@@ -35,11 +39,12 @@ static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, 
   int rs2 = BITS(i, 24, 20);
   destR(rd);
   switch (type) {
-    case TYPE_I:  src1R(rs1);    src2I(immI(i)); break;
-    case TYPE_U:  src1I(immU(i)); break;
-    case TYPE_S:  destI(immS(i)); src1R(rs1); src2R(rs2); break;
-    case TYPE_SB: destI(immSB(i));src1R(rs1); src2R(rs2); break;
+    case TYPE_I:   src1R(rs1);    src2I(immI(i)); break;
+    case TYPE_U:   src1I(immU(i)); break;
+    case TYPE_S:   destI(immS(i)); src1R(rs1); src2R(rs2); break;
+    case TYPE_SB:  destI(immSB(i));src1R(rs1); src2R(rs2); break;
     case TYPE_RR:  src1R(rs1); src2R(rs2); break;
+    case TYPE_II:  src1I(rs1); src2I(immI(i));break;
   }
 }
 uint64_t sum_time_decoder = 0;
@@ -141,10 +146,18 @@ static int decode_exec(Decode *s) {
 
   INSTPAT("0000000 ????? ????? 000 ????? 01110 11", addw  ,  RR, R(dest) = SEXT((uint32_t)src1+(uint32_t)src2,32)) ;
   INSTPAT("0100000 ????? ????? 000 ????? 01110 11", subw  ,  RR, R(dest) = SEXT((uint32_t)src1-(uint32_t)src2,32)) ;
-  INSTPAT("0000000 ????? ????? 100 ????? 01100 11", xor  ,  RR, R(dest) = src1 ^ src2) ; 
-
-
-
+  INSTPAT("0000000 ????? ????? 100 ????? 01100 11", xor   ,  RR, R(dest) = src1 ^ src2) ; 
+  
+  //异常有关的所有指令
+  INSTPAT("??????? ????? ????? 111 ????? 11100 11", csrrci , II , R(dest) = CSR(src2) ; CSR(src2) = CSR(src2) & ( ~ src1);) ;
+  INSTPAT("??????? ????? ????? 110 ????? 11100 11", csrrsi , II , R(dest) = CSR(src2) ; CSR(src2) = CSR(src2) | src1;) ;
+  INSTPAT("??????? ????? ????? 101 ????? 11100 11", csrrwi , II , R(dest) = CSR(src2) ; CSR(src2) = src1;) ;
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , I  , R(dest) = CSR(src2) ; CSR(src2) = CSR(src2) & ( ~ src1);) ;
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , I  , R(dest) = CSR(src2) ; CSR(src2) = CSR(src2) | src1;) ;
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I  , R(dest) = CSR(src2) ; CSR(src2) = src1 ; ) ;
+  
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0,s->pc)) ; 
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = CSR(MEPC) ;
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
 

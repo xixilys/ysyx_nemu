@@ -15,7 +15,10 @@
 #define MAX_INST_TO_PRINT 100
 #define MAX_ITRACE_LOOP_DEPTH  30
 
+//cpu中的所有寄存器，包括基础的寄存器，pc，还有特殊的寄存器
 CPU_state cpu = {};
+
+
 static uint64_t g_timer = 0; // unit: us
 uint64_t g_nr_guest_inst = 0;
 static bool g_print_step = false;
@@ -176,6 +179,7 @@ void cpu_exec(uint64_t n) {
       return;
     default: nemu_state.state = NEMU_RUNNING;
   }
+  cpu.special_reg[MSTATUS] = 0xa00001800;
 // printf("n = %lu\n", n);
   uint64_t timer_start = get_time();
 

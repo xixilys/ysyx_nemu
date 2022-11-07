@@ -46,8 +46,8 @@ INC_PATH ?=
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
 				-O0 --x-assign fast --x-initial fast --noassert 
-VERILATOR_CFLAGS += --trace-fst -j 10
-VERILATOR_CFLAGS += --threads 10
+VERILATOR_CFLAGS += --trace-fst -j 16
+VERILATOR_CFLAGS += --threads 16
 
 NOW_PLACE = $(shell pwd)
 

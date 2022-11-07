@@ -16,34 +16,6 @@ class Vmycpu_top_Look_up_table_read_first_ final : public VerilatedModule {
     // DESIGN SPECIFIC STATE
     // Anonymous structures to workaround compiler member-count bugs
     struct {
-        CData/*7:0*/ __PVT___GEN_33;
-        CData/*7:0*/ __PVT___GEN_34;
-        CData/*7:0*/ __PVT___GEN_35;
-        CData/*7:0*/ __PVT___GEN_36;
-        CData/*7:0*/ __PVT___GEN_37;
-        CData/*7:0*/ __PVT___GEN_38;
-        CData/*7:0*/ __PVT___GEN_39;
-        CData/*7:0*/ __PVT___GEN_40;
-        CData/*7:0*/ __PVT___GEN_41;
-        CData/*7:0*/ __PVT___GEN_42;
-        CData/*7:0*/ __PVT___GEN_43;
-        CData/*7:0*/ __PVT___GEN_44;
-        CData/*7:0*/ __PVT___GEN_45;
-        CData/*7:0*/ __PVT___GEN_46;
-        CData/*7:0*/ __PVT___GEN_47;
-        CData/*7:0*/ __PVT___GEN_48;
-        CData/*7:0*/ __PVT___GEN_49;
-        CData/*7:0*/ __PVT___GEN_50;
-        CData/*7:0*/ __PVT___GEN_51;
-        CData/*7:0*/ __PVT___GEN_52;
-        CData/*7:0*/ __PVT___GEN_53;
-        CData/*7:0*/ __PVT___GEN_54;
-        CData/*7:0*/ __PVT___GEN_55;
-        CData/*7:0*/ __PVT___GEN_56;
-        CData/*7:0*/ __PVT___GEN_57;
-        CData/*7:0*/ __PVT___GEN_58;
-        CData/*7:0*/ __PVT___GEN_59;
-        CData/*7:0*/ __PVT___GEN_60;
         CData/*7:0*/ __Vdly__btb_3;
         CData/*7:0*/ __Vdly__btb_4;
         CData/*7:0*/ __Vdly__btb_5;
@@ -80,8 +52,6 @@ class Vmycpu_top_Look_up_table_read_first_ final : public VerilatedModule {
         CData/*7:0*/ __PVT__btb_2;
         CData/*7:0*/ __PVT__btb_7;
         CData/*7:0*/ __PVT__btb_8;
-    };
-    struct {
         CData/*7:0*/ __PVT__btb_10;
         CData/*7:0*/ __PVT__btb_20;
         CData/*7:0*/ __PVT__btb_22;
@@ -110,6 +80,8 @@ class Vmycpu_top_Look_up_table_read_first_ final : public VerilatedModule {
         CData/*7:0*/ __PVT__btb_29;
         CData/*7:0*/ __Vdly__btb_26;
         CData/*7:0*/ __Vdly__btb_27;
+    };
+    struct {
         CData/*7:0*/ __Vdly__btb_28;
         CData/*7:0*/ __Vdly__btb_29;
         CData/*7:0*/ __Vdly__btb_30;
@@ -146,10 +118,38 @@ class Vmycpu_top_Look_up_table_read_first_ final : public VerilatedModule {
         CData/*7:0*/ __PVT___GEN_27;
         CData/*7:0*/ __PVT___GEN_28;
         CData/*7:0*/ __PVT___GEN_29;
-    };
-    struct {
         CData/*7:0*/ __PVT___GEN_30;
         CData/*7:0*/ __Vdly__btb_31;
+        CData/*7:0*/ __PVT___GEN_33;
+        CData/*7:0*/ __PVT___GEN_34;
+        CData/*7:0*/ __PVT___GEN_35;
+        CData/*7:0*/ __PVT___GEN_36;
+        CData/*7:0*/ __PVT___GEN_37;
+        CData/*7:0*/ __PVT___GEN_38;
+        CData/*7:0*/ __PVT___GEN_39;
+        CData/*7:0*/ __PVT___GEN_40;
+        CData/*7:0*/ __PVT___GEN_41;
+        CData/*7:0*/ __PVT___GEN_42;
+        CData/*7:0*/ __PVT___GEN_43;
+        CData/*7:0*/ __PVT___GEN_44;
+        CData/*7:0*/ __PVT___GEN_45;
+        CData/*7:0*/ __PVT___GEN_46;
+        CData/*7:0*/ __PVT___GEN_47;
+        CData/*7:0*/ __PVT___GEN_48;
+        CData/*7:0*/ __PVT___GEN_49;
+        CData/*7:0*/ __PVT___GEN_50;
+        CData/*7:0*/ __PVT___GEN_51;
+        CData/*7:0*/ __PVT___GEN_52;
+        CData/*7:0*/ __PVT___GEN_53;
+        CData/*7:0*/ __PVT___GEN_54;
+        CData/*7:0*/ __PVT___GEN_55;
+        CData/*7:0*/ __PVT___GEN_56;
+        CData/*7:0*/ __PVT___GEN_57;
+        CData/*7:0*/ __PVT___GEN_58;
+    };
+    struct {
+        CData/*7:0*/ __PVT___GEN_59;
+        CData/*7:0*/ __PVT___GEN_60;
     };
 
     // INTERNAL VARIABLES

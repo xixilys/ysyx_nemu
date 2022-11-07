@@ -124,3 +124,28 @@ VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_ris
             ? (IData)(vlSymsp->TOP__mycpu_top__data_cache__dcache_data_5__dcache_data_ram_0__Look_up_table_read_first___05F1.__PVT__btb_1)
             : (IData)(vlSymsp->TOP__mycpu_top__data_cache__dcache_data_5__dcache_data_ram_0__Look_up_table_read_first___05F1.__PVT__btb_0));
 }
+
+VL_INLINE_OPT void Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__1(Vmycpu_top_PHTS_with_block_ram* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_PHTS_with_block_ram___combo__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2__1\n"); );
+    // Body
+    vlSelf->__PVT__pht_data_with_block_ram_3_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSelf->__PVT__pht_data_with_block_ram_2_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSelf->__PVT__pht_data_with_block_ram_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSelf->__PVT__pht_data_with_block_ram_1_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSelf->__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_7_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_6_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_2_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__io_aw_addr), 2U, 5U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__pht_data_with_block_ram_1_io_waddr 
+        = (0x1fU & VL_SEL_IIII(7, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3.__PVT__io_aw_addr), 2U, 5U));
+}

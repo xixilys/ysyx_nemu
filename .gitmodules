@@ -1,0 +1,3 @@
+[submodule "riscv_cpu"]
+	path = riscv_cpu
+	url = git@github.com:onlyforqiong/riscv_cpu.git

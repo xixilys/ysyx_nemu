@@ -527,31 +527,10 @@ VL_INLINE_OPT void Vmycpu_top_fifo_with_bundle___combo__TOP__mycpu_top__u_riscv_
         = vlSymsp->TOP__mycpu_top__data_cache__dcache_data_15__dcache_data_ram_0.__PVT__clock;
 }
 
-VL_INLINE_OPT void Vmycpu_top_fifo_with_bundle___sequent__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__4(Vmycpu_top_fifo_with_bundle* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_fifo_with_bundle___combo__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__1(Vmycpu_top_fifo_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___sequent__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__4\n"); );
-    // Body
-    vlSelf->__PVT___io_full_T_3 = (7U & ((IData)(1U) 
-                                         + (IData)(vlSelf->__PVT___write_length_points_T_1)));
-    vlSelf->__PVT___io_full_T_12 = (((IData)(vlSelf->__PVT___io_full_T_7) 
-                                     == (IData)(vlSelf->__PVT__read_length_points)) 
-                                    & ((IData)(vlSelf->__PVT___fifo_banks_3_write_T_1) 
-                                       & (0U == (IData)(vlSelf->__PVT__read_banks_points))));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_3.__PVT__io_ar_addr 
-        = vlSelf->__PVT__Look_up_table_read_first_with_bundle_3_io_ar_addr;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_2.__PVT__io_ar_addr 
-        = vlSelf->__PVT__Look_up_table_read_first_with_bundle_2_io_ar_addr;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle.__PVT__io_ar_addr 
-        = vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_ar_addr;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_1.__PVT__io_ar_addr 
-        = vlSelf->__PVT__Look_up_table_read_first_with_bundle_1_io_ar_addr;
-}
-
-VL_INLINE_OPT void Vmycpu_top_fifo_with_bundle___combo__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__2(Vmycpu_top_fifo_with_bundle* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___combo__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__2\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___combo__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__1\n"); );
     // Body
     vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_in_pc 
         = vlSelf->__PVT__io_write_in_0_pc;
@@ -577,6 +556,27 @@ VL_INLINE_OPT void Vmycpu_top_fifo_with_bundle___combo__TOP__mycpu_top__u_riscv_
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue.__PVT__io_in;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue.__PVT__BHT_3_io_in 
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue.__PVT__io_in;
+}
+
+VL_INLINE_OPT void Vmycpu_top_fifo_with_bundle___sequent__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__4(Vmycpu_top_fifo_with_bundle* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_fifo_with_bundle___sequent__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__4\n"); );
+    // Body
+    vlSelf->__PVT___io_full_T_3 = (7U & ((IData)(1U) 
+                                         + (IData)(vlSelf->__PVT___write_length_points_T_1)));
+    vlSelf->__PVT___io_full_T_12 = (((IData)(vlSelf->__PVT___io_full_T_7) 
+                                     == (IData)(vlSelf->__PVT__read_length_points)) 
+                                    & ((IData)(vlSelf->__PVT___fifo_banks_3_write_T_1) 
+                                       & (0U == (IData)(vlSelf->__PVT__read_banks_points))));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_3.__PVT__io_ar_addr 
+        = vlSelf->__PVT__Look_up_table_read_first_with_bundle_3_io_ar_addr;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_2.__PVT__io_ar_addr 
+        = vlSelf->__PVT__Look_up_table_read_first_with_bundle_2_io_ar_addr;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle.__PVT__io_ar_addr 
+        = vlSelf->__PVT__Look_up_table_read_first_with_bundle_io_ar_addr;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_1.__PVT__io_ar_addr 
+        = vlSelf->__PVT__Look_up_table_read_first_with_bundle_1_io_ar_addr;
 }
 
 VL_INLINE_OPT void Vmycpu_top_fifo_with_bundle___combo__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__3(Vmycpu_top_fifo_with_bundle* vlSelf) {

@@ -22,30 +22,29 @@ class Vmycpu_top_branch_prediction_with_blockram final : public VerilatedModule 
     Vmycpu_top_BTB_banks_oneissue_with_block_ram* __PVT__BTB_banks_oneissue_with_block_ram;
 
     // DESIGN SPECIFIC STATE
-    VL_IN64(__PVT__io_pc,63,0);
-    VL_IN8(__PVT__reset,0,0);
-    VL_IN8(__PVT__io_aw_bht_addr,6,0);
-    CData/*0:0*/ __PVT__BHT_banks_oneissue_reset;
-    CData/*6:0*/ __PVT__BHT_banks_oneissue_io_aw_addr;
+    VL_IN8(__PVT__io_pht_in,7,0);
+    CData/*7:0*/ __PVT__PHTS_banks_oneissue_block_ram_io_in;
+    VL_IN8(__PVT__io_aw_pht_ways_addr,3,0);
+    CData/*2:0*/ __PVT__PHTS_banks_oneissue_block_ram_io_aw_pht_addr;
+    VL_IN64(__PVT__io_aw_target_addr,63,0);
+    QData/*63:0*/ __PVT__BTB_banks_oneissue_with_block_ram_io_aw_target_addr;
+    VL_IN8(__PVT__io_bht_in,6,0);
+    CData/*6:0*/ __PVT__BHT_banks_oneissue_io_ar_addr_L;
+    CData/*2:0*/ __PVT__BHT_banks_oneissue_io_in;
+    VL_IN8(__PVT__clock,0,0);
+    VL_IN8(__PVT__io_aw_pht_addr,6,0);
+    CData/*6:0*/ __PVT__PHTS_banks_oneissue_block_ram_io_aw_addr;
+    CData/*0:0*/ __PVT__BHT_banks_oneissue_clock;
     CData/*0:0*/ __PVT__PHTS_banks_oneissue_block_ram_clock;
     CData/*0:0*/ __PVT__BTB_banks_oneissue_with_block_ram_clock;
     CData/*0:0*/ __PVT__BTB_banks_oneissue_with_block_ram_reset;
     QData/*63:0*/ __PVT__BTB_banks_oneissue_with_block_ram_io_ar_addr_L;
     QData/*63:0*/ __PVT__BTB_banks_oneissue_with_block_ram_io_aw_addr;
-    VL_IN8(__PVT__io_bht_in,6,0);
-    CData/*6:0*/ __PVT__BHT_banks_oneissue_io_ar_addr_L;
-    CData/*2:0*/ __PVT__BHT_banks_oneissue_io_in;
-    VL_IN8(__PVT__io_aw_pht_ways_addr,3,0);
-    VL_IN8(__PVT__io_pht_in,7,0);
-    CData/*2:0*/ __PVT__PHTS_banks_oneissue_block_ram_io_aw_pht_addr;
-    CData/*7:0*/ __PVT__PHTS_banks_oneissue_block_ram_io_in;
-    VL_IN8(__PVT__io_aw_pht_addr,6,0);
-    CData/*6:0*/ __PVT__PHTS_banks_oneissue_block_ram_io_aw_addr;
-    CData/*0:0*/ __PVT__BHT_banks_oneissue_clock;
-    VL_IN64(__PVT__io_aw_target_addr,63,0);
-    QData/*63:0*/ __PVT__BTB_banks_oneissue_with_block_ram_io_aw_target_addr;
+    VL_IN8(__PVT__io_aw_bht_addr,6,0);
+    CData/*0:0*/ __PVT__BHT_banks_oneissue_reset;
+    CData/*6:0*/ __PVT__BHT_banks_oneissue_io_aw_addr;
+    VL_IN8(__PVT__reset,0,0);
     VL_IN64(__PVT__io_write_pc,63,0);
-    VL_IN8(__PVT__clock,0,0);
     VL_IN8(__PVT__io_btb_write,0,0);
     VL_IN8(__PVT__io_bht_write,0,0);
     VL_IN8(__PVT__io_pht_write,0,0);
@@ -82,6 +81,7 @@ class Vmycpu_top_branch_prediction_with_blockram final : public VerilatedModule 
     QData/*63:0*/ __PVT__BTB_banks_oneissue_with_block_ram_io_out_L;
     VL_IN8(__PVT__io_stage2_stall,0,0);
     VL_IN8(__PVT__io_stage2_flush,0,0);
+    VL_IN64(__PVT__io_pc,63,0);
 
     // INTERNAL VARIABLES
     Vmycpu_top__Syms* const vlSymsp;

@@ -12,7 +12,7 @@ VM_COVERAGE = 0
 # Parallel builds?  0/1 (from --output-split)
 VM_PARALLEL_BUILDS = 1
 # Threaded output mode?  0/1/N threads (from --threads)
-VM_THREADS = 10
+VM_THREADS = 16
 # Tracing output mode?  0/1 (from --trace/--trace-fst)
 VM_TRACE = 1
 # Tracing output mode in VCD format?  0/1 (from --trace)
@@ -34,11 +34,8 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_myCPU__DepSet_hbd5afe9b__1 \
 	Vmycpu_top_myCPU__DepSet_h583d82bc__0 \
 	Vmycpu_top_inst_cache__DepSet_h52ce030f__0 \
-	Vmycpu_top_inst_cache__DepSet_h52ce030f__1 \
-	Vmycpu_top_inst_cache__DepSet_h52ce030f__2 \
 	Vmycpu_top_inst_cache__DepSet_h6ac96850__0 \
 	Vmycpu_top_data_cache__DepSet_ha261f6c4__0 \
-	Vmycpu_top_data_cache__DepSet_ha261f6c4__1 \
 	Vmycpu_top_data_cache__DepSet_h3b627b0b__0 \
 	Vmycpu_top_data_cache__DepSet_h3b627b0b__1 \
 	Vmycpu_top___024unit__DepSet_hc8c96b27__0 \
@@ -89,6 +86,7 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h8fe6a992__3 \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h8fe6a992__4 \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h8fe6a992__5 \
+	Vmycpu_top_data_ram_one_port_with_latency__DepSet_hce53c92e__0 \
 	Vmycpu_top_data_ram_one_port_with_latency__DepSet_h3ac77dad__0 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__0 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__1 \
@@ -102,8 +100,8 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__9 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__10 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__11 \
+	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h147cf0a9__12 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h58f9fe77__0 \
-	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_h087acf43__0 \
 	Vmycpu_top_data_ram_one_port_with_latency_16__DepSet_ha55db484__0 \
 	Vmycpu_top_PHTS_with_block_ram__DepSet_h36bdc820__0 \
 	Vmycpu_top_PHTS_with_block_ram__DepSet_hb64b249b__0 \

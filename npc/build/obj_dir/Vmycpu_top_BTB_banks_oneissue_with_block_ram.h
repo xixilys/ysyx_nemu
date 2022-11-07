@@ -28,8 +28,8 @@ class Vmycpu_top_BTB_banks_oneissue_with_block_ram final : public VerilatedModul
     // DESIGN SPECIFIC STATE
     // Anonymous structures to workaround compiler member-count bugs
     struct {
-        QData/*63:0*/ __PVT__btb_data_with_block_ram_2_io_rdata;
-        QData/*63:0*/ __PVT__btb_banks_2_rdata;
+        QData/*63:0*/ __PVT__btb_data_with_block_ram_3_io_rdata;
+        QData/*63:0*/ __PVT__btb_banks_3_rdata;
         VL_OUT8(__PVT__io_hit_L,0,0);
         CData/*7:0*/ __PVT___GEN_13;
         CData/*7:0*/ __PVT___GEN_14;
@@ -37,25 +37,20 @@ class Vmycpu_top_BTB_banks_oneissue_with_block_ram final : public VerilatedModul
         VL_OUT64(__PVT__io_out_L,63,0);
         QData/*63:0*/ __PVT___GEN_1;
         QData/*63:0*/ __PVT___GEN_2;
-        CData/*7:0*/ __PVT__tag_banks_0_rdata;
-        CData/*7:0*/ __PVT__tag_banks_2_rdata;
-        CData/*7:0*/ __PVT__btb_tag_with_block_ram_io_rdata;
-        CData/*7:0*/ __PVT__btb_tag_with_block_ram_2_io_rdata;
-        SData/*8:0*/ __PVT__btb_tag_with_block_ram_io_waddr;
-        SData/*8:0*/ __PVT__btb_tag_with_block_ram_2_io_waddr;
-        CData/*7:0*/ __PVT__btb_tag_with_block_ram_1_io_rdata;
-        CData/*7:0*/ __PVT__btb_tag_with_block_ram_3_io_rdata;
-        QData/*63:0*/ __PVT__btb_data_with_block_ram_io_rdata;
-        QData/*63:0*/ __PVT__btb_data_with_block_ram_1_io_rdata;
         CData/*7:0*/ __PVT__tag_banks_1_rdata;
         CData/*7:0*/ __PVT__tag_banks_3_rdata;
         QData/*63:0*/ __PVT__btb_banks_0_rdata;
         QData/*63:0*/ __PVT__btb_banks_1_rdata;
-        QData/*63:0*/ __PVT__btb_banks_3_rdata;
-        SData/*8:0*/ __PVT__btb_tag_with_block_ram_1_io_waddr;
-        SData/*8:0*/ __PVT__btb_tag_with_block_ram_3_io_waddr;
-        SData/*8:0*/ __PVT__btb_data_with_block_ram_3_io_waddr;
-        QData/*63:0*/ __PVT__btb_data_with_block_ram_3_io_rdata;
+        CData/*7:0*/ __PVT__btb_tag_with_block_ram_1_io_rdata;
+        CData/*7:0*/ __PVT__btb_tag_with_block_ram_3_io_rdata;
+        QData/*63:0*/ __PVT__btb_data_with_block_ram_io_rdata;
+        QData/*63:0*/ __PVT__btb_data_with_block_ram_1_io_rdata;
+        QData/*63:0*/ __PVT__btb_data_with_block_ram_2_io_rdata;
+        QData/*63:0*/ __PVT__btb_banks_2_rdata;
+        CData/*7:0*/ __PVT__tag_banks_0_rdata;
+        CData/*7:0*/ __PVT__tag_banks_2_rdata;
+        CData/*7:0*/ __PVT__btb_tag_with_block_ram_io_rdata;
+        CData/*7:0*/ __PVT__btb_tag_with_block_ram_2_io_rdata;
         VL_IN64(__PVT__io_ar_addr_L,63,0);
         QData/*63:0*/ __PVT__ar_addr_reg;
         VL_IN8(__PVT__clock,0,0);
@@ -76,6 +71,11 @@ class Vmycpu_top_BTB_banks_oneissue_with_block_ram final : public VerilatedModul
         SData/*8:0*/ __PVT__btb_data_with_block_ram_2_io_raddr;
         SData/*8:0*/ __PVT__btb_data_with_block_ram_3_io_raddr;
         QData/*63:0*/ __Vdly__ar_addr_reg;
+        SData/*8:0*/ __PVT__btb_tag_with_block_ram_1_io_waddr;
+        SData/*8:0*/ __PVT__btb_tag_with_block_ram_3_io_waddr;
+        SData/*8:0*/ __PVT__btb_data_with_block_ram_3_io_waddr;
+        SData/*8:0*/ __PVT__btb_tag_with_block_ram_io_waddr;
+        SData/*8:0*/ __PVT__btb_tag_with_block_ram_2_io_waddr;
         VL_IN64(__PVT__io_aw_target_addr,63,0);
         QData/*63:0*/ __PVT__btb_data_with_block_ram_io_wdata;
         QData/*63:0*/ __PVT__btb_data_with_block_ram_1_io_wdata;

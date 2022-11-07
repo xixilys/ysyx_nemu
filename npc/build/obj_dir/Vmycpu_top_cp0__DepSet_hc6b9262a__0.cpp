@@ -18,10 +18,10 @@ VL_INLINE_OPT void Vmycpu_top_cp0___sequent__TOP__mycpu_top__u_riscv_cpu___cp0__
         = vlSelf->__PVT__io_asid;
 }
 
-VL_INLINE_OPT void Vmycpu_top_cp0___sequent__TOP__mycpu_top__u_riscv_cpu___cp0__14(Vmycpu_top_cp0* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_cp0___sequent__TOP__mycpu_top__u_riscv_cpu___cp0__11(Vmycpu_top_cp0* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cp0___sequent__TOP__mycpu_top__u_riscv_cpu___cp0__14\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_cp0___sequent__TOP__mycpu_top__u_riscv_cpu___cp0__11\n"); );
     // Body
     vlSelf->__PVT__int_signal = (((0U != (IData)(vlSelf->__PVT___int_signal_T_2)) 
                                   & (IData)(vlSelf->__PVT___io_Int_able_T_1)) 

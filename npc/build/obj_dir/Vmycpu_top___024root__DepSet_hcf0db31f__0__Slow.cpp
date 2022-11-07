@@ -377,6 +377,9 @@ VL_ATTR_COLD void Vmycpu_top___024root___ctor_var_reset(Vmycpu_top___024root* vl
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__pht_data_with_block_ram_5__btb_data_ram_0__Look_up_table_read_first_____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__pht_data_with_block_ram_6__btb_data_ram_0__Look_up_table_read_first_____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__pht_data_with_block_ram_7__btb_data_ram_0__Look_up_table_read_first_____PVT__reset = 0;
+    vlSelf->__VinpClk__TOP__mycpu_top__inst_cache__icache_tag_1____PVT__reset = 0;
+    vlSelf->__VinpClk__TOP__mycpu_top__data_cache__dcache_data_9__dcache_data_ram_0__Look_up_table_read_first_____PVT__reset = 0;
+    vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__mem2_bru_state____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu___cp0____PVT__clock = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu___cp0____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__ex_bru_state____PVT__reset = 0;
@@ -386,9 +389,6 @@ VL_ATTR_COLD void Vmycpu_top___024root___ctor_var_reset(Vmycpu_top___024root* vl
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu___ex2mem____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu___id2ex____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu___mem2mem2____PVT__reset = 0;
-    vlSelf->__VinpClk__TOP__mycpu_top__inst_cache__icache_tag_1____PVT__reset = 0;
-    vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle____PVT__reset = 0;
-    vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__mem2_bru_state____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__mem_bru_state____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram____PVT__reset = 0;
@@ -396,7 +396,7 @@ VL_ATTR_COLD void Vmycpu_top___024root___ctor_var_reset(Vmycpu_top___024root* vl
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_2____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram____PVT__reset = 0;
     vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_1____PVT__reset = 0;
-    vlSelf->__VinpClk__TOP__mycpu_top__data_cache__dcache_data_9__dcache_data_ram_0__Look_up_table_read_first_____PVT__reset = 0;
+    vlSelf->__VinpClk__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle____PVT__reset = 0;
     vlSelf->__Vchglast__TOP__mycpu_top__u_riscv_cpu___T_2 = 0;
     vlSelf->__Vchglast__TOP__mycpu_top__inst_cache__reset = 0;
     vlSelf->__Vchglast__TOP__mycpu_top__data_cache__reset = 0;
@@ -681,7 +681,7 @@ VL_ATTR_COLD void Vmycpu_top___024root___ctor_var_reset(Vmycpu_top___024root* vl
     vlSelf->__Vchglast__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__pht_data_with_block_ram_5__btb_data_ram_0__Look_up_table_read_first___reset = 0;
     vlSelf->__Vchglast__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__pht_data_with_block_ram_6__btb_data_ram_0__Look_up_table_read_first___reset = 0;
     vlSelf->__Vchglast__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__PHTS_banks_oneissue_block_ram__PHTS_with_block_ram_3__pht_data_with_block_ram_7__btb_data_ram_0__Look_up_table_read_first___reset = 0;
-    for (int __Vi0=0; __Vi0<652; ++__Vi0) {
+    for (int __Vi0=0; __Vi0<698; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
     }
 }

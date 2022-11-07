@@ -33,8 +33,6 @@ class Vmycpu_top VL_NOT_FINAL : public VerilatedModel {
     VL_OUT8(&axi_mem_port_1_arvalid,0,0);
     VL_OUT64(&axi_mem_port_1_awaddr,63,0);
     VL_OUT64(&axi_mem_port_1_wdata,63,0);
-    VL_OUT8(&debug_wb_rf_wnum,4,0);
-    VL_OUT(&debug_wb_rf_wdata,31,0);
     VL_OUT8(&axi_mem_port_1_arsize,2,0);
     VL_IN8(&axi_mem_port_1_rlast,0,0);
     VL_OUT8(&axi_mem_port_1_awsize,2,0);
@@ -43,12 +41,14 @@ class Vmycpu_top VL_NOT_FINAL : public VerilatedModel {
     VL_OUT8(&axi_mem_port_1_wvalid,0,0);
     VL_IN8(&axi_mem_port_1_bvalid,0,0);
     VL_OUT64(&axi_mem_port_1_araddr,63,0);
-    VL_IN64(&axi_mem_port_0_rdata,63,0);
-    VL_IN8(&ext_int,5,0);
+    VL_OUT8(&debug_wb_rf_wnum,4,0);
+    VL_OUT(&debug_wb_rf_wdata,31,0);
     VL_OUT8(&axi_mem_port_0_arvalid,0,0);
     VL_OUT8(&debug_wb_rf_wen,3,0);
     VL_OUT(&debug_wb_pc,31,0);
     VL_OUT64(&axi_mem_port_0_araddr,63,0);
+    VL_IN64(&axi_mem_port_0_rdata,63,0);
+    VL_IN8(&ext_int,5,0);
     VL_IN8(&axi_mem_port_1_arready,0,0);
     VL_IN8(&axi_mem_port_1_awready,0,0);
     VL_IN8(&axi_mem_port_1_wready,0,0);
@@ -57,7 +57,7 @@ class Vmycpu_top VL_NOT_FINAL : public VerilatedModel {
     VL_IN8(&axi_mem_port_0_arready,0,0);
     VL_IN8(&axi_mem_port_0_rlast,0,0);
     VL_IN8(&axi_mem_port_0_rvalid,0,0);
-    VL_IN8(&aresetn,0,0);
+    VL_IN8(&aclk,0,0);
     VL_OUT8(&axi_mem_port_1_arlen,3,0);
     VL_OUT8(&axi_mem_port_1_arburst,1,0);
     VL_IN8(&axi_mem_port_1_rvalid,0,0);
@@ -66,7 +66,7 @@ class Vmycpu_top VL_NOT_FINAL : public VerilatedModel {
     VL_OUT8(&axi_mem_port_1_awvalid,0,0);
     VL_IN64(&axi_mem_port_1_rdata,63,0);
     VL_IN8(&axi_mem_port_0_rid,3,0);
-    VL_IN8(&aclk,0,0);
+    VL_IN8(&aresetn,0,0);
     VL_IN8(&axi_mem_port_0_awready,0,0);
     VL_IN8(&axi_mem_port_0_rresp,1,0);
     VL_IN8(&axi_mem_port_0_bid,3,0);

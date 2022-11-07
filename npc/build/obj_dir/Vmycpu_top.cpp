@@ -15,8 +15,6 @@ Vmycpu_top::Vmycpu_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     , axi_mem_port_1_arvalid{vlSymsp->TOP.axi_mem_port_1_arvalid}
     , axi_mem_port_1_awaddr{vlSymsp->TOP.axi_mem_port_1_awaddr}
     , axi_mem_port_1_wdata{vlSymsp->TOP.axi_mem_port_1_wdata}
-    , debug_wb_rf_wnum{vlSymsp->TOP.debug_wb_rf_wnum}
-    , debug_wb_rf_wdata{vlSymsp->TOP.debug_wb_rf_wdata}
     , axi_mem_port_1_arsize{vlSymsp->TOP.axi_mem_port_1_arsize}
     , axi_mem_port_1_rlast{vlSymsp->TOP.axi_mem_port_1_rlast}
     , axi_mem_port_1_awsize{vlSymsp->TOP.axi_mem_port_1_awsize}
@@ -25,12 +23,14 @@ Vmycpu_top::Vmycpu_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     , axi_mem_port_1_wvalid{vlSymsp->TOP.axi_mem_port_1_wvalid}
     , axi_mem_port_1_bvalid{vlSymsp->TOP.axi_mem_port_1_bvalid}
     , axi_mem_port_1_araddr{vlSymsp->TOP.axi_mem_port_1_araddr}
-    , axi_mem_port_0_rdata{vlSymsp->TOP.axi_mem_port_0_rdata}
-    , ext_int{vlSymsp->TOP.ext_int}
+    , debug_wb_rf_wnum{vlSymsp->TOP.debug_wb_rf_wnum}
+    , debug_wb_rf_wdata{vlSymsp->TOP.debug_wb_rf_wdata}
     , axi_mem_port_0_arvalid{vlSymsp->TOP.axi_mem_port_0_arvalid}
     , debug_wb_rf_wen{vlSymsp->TOP.debug_wb_rf_wen}
     , debug_wb_pc{vlSymsp->TOP.debug_wb_pc}
     , axi_mem_port_0_araddr{vlSymsp->TOP.axi_mem_port_0_araddr}
+    , axi_mem_port_0_rdata{vlSymsp->TOP.axi_mem_port_0_rdata}
+    , ext_int{vlSymsp->TOP.ext_int}
     , axi_mem_port_1_arready{vlSymsp->TOP.axi_mem_port_1_arready}
     , axi_mem_port_1_awready{vlSymsp->TOP.axi_mem_port_1_awready}
     , axi_mem_port_1_wready{vlSymsp->TOP.axi_mem_port_1_wready}
@@ -39,7 +39,7 @@ Vmycpu_top::Vmycpu_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     , axi_mem_port_0_arready{vlSymsp->TOP.axi_mem_port_0_arready}
     , axi_mem_port_0_rlast{vlSymsp->TOP.axi_mem_port_0_rlast}
     , axi_mem_port_0_rvalid{vlSymsp->TOP.axi_mem_port_0_rvalid}
-    , aresetn{vlSymsp->TOP.aresetn}
+    , aclk{vlSymsp->TOP.aclk}
     , axi_mem_port_1_arlen{vlSymsp->TOP.axi_mem_port_1_arlen}
     , axi_mem_port_1_arburst{vlSymsp->TOP.axi_mem_port_1_arburst}
     , axi_mem_port_1_rvalid{vlSymsp->TOP.axi_mem_port_1_rvalid}
@@ -48,7 +48,7 @@ Vmycpu_top::Vmycpu_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     , axi_mem_port_1_awvalid{vlSymsp->TOP.axi_mem_port_1_awvalid}
     , axi_mem_port_1_rdata{vlSymsp->TOP.axi_mem_port_1_rdata}
     , axi_mem_port_0_rid{vlSymsp->TOP.axi_mem_port_0_rid}
-    , aclk{vlSymsp->TOP.aclk}
+    , aresetn{vlSymsp->TOP.aresetn}
     , axi_mem_port_0_awready{vlSymsp->TOP.axi_mem_port_0_awready}
     , axi_mem_port_0_rresp{vlSymsp->TOP.axi_mem_port_0_rresp}
     , axi_mem_port_0_bid{vlSymsp->TOP.axi_mem_port_0_bid}
@@ -141,7 +141,7 @@ static void _eval_initial_loop(Vmycpu_top__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = Vmycpu_top___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/home/ddddddd/learning/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65369, "",
+            VL_FATAL_MT("/home/ddddddd/learning/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65351, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -172,7 +172,7 @@ void Vmycpu_top::eval_step() {
             Verilated::debug(1);
             __Vchange = Vmycpu_top___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/home/ddddddd/learning/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65369, "",
+            VL_FATAL_MT("/home/ddddddd/learning/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65351, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -202,7 +202,7 @@ VL_ATTR_COLD void Vmycpu_top::final() {
 
 const char* Vmycpu_top::hierName() const { return vlSymsp->name(); }
 const char* Vmycpu_top::modelName() const { return "Vmycpu_top"; }
-unsigned Vmycpu_top::threads() const { return 10; }
+unsigned Vmycpu_top::threads() const { return 16; }
 std::unique_ptr<VerilatedTraceConfig> Vmycpu_top::traceConfig() const {
     return std::unique_ptr<VerilatedTraceConfig>{new VerilatedTraceConfig{false, false, false}};
 };

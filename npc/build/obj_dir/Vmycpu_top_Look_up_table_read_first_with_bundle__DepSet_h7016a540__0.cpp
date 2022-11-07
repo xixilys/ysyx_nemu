@@ -619,10 +619,10 @@ VL_INLINE_OPT void Vmycpu_top_Look_up_table_read_first_with_bundle___combo__TOP_
             : vlSymsp->TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_1.__PVT__btb_0_inst);
 }
 
-VL_INLINE_OPT void Vmycpu_top_Look_up_table_read_first_with_bundle___combo__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_3__11(Vmycpu_top_Look_up_table_read_first_with_bundle* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_Look_up_table_read_first_with_bundle___combo__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_3__10(Vmycpu_top_Look_up_table_read_first_with_bundle* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+            Vmycpu_top_Look_up_table_read_first_with_bundle___combo__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_3__11\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+            Vmycpu_top_Look_up_table_read_first_with_bundle___combo__TOP__mycpu_top__u_riscv_cpu__fifo_with_bundle__Look_up_table_read_first_with_bundle_3__10\n"); );
     // Body
     vlSelf->__PVT___GEN_34 = ((2U == (IData)(vlSelf->__PVT__io_ar_addr))
                                ? (IData)(vlSelf->__PVT__btb_2_pre_decoder_branchdata)
