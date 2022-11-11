@@ -5,7 +5,8 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-#define printf_max_size 65535
+#define printf_max_size 5000
+#define size_length 16
 
 void int_to_string(int num , char * value) {
 
@@ -28,6 +29,38 @@ void int_to_string(int num , char * value) {
   }
   value [(index + 1)]  = '\0';
 } 
+
+void sizet_to_string_x(size_t num , char * value) {
+
+  char reverse_value[100] = {0};
+  int index = 0;
+  if(num == 0) {
+    // printf("num = %d\n",num);
+    
+    reverse_value[0] = 0 + '1' - 1;
+    index = 1;
+  }
+  
+  while(num != 0) {
+    char temp_value = num%16 ;
+    if(temp_value >= 0 && temp_value <= 9) {
+      temp_value += '1'- 1;
+    }else {
+      temp_value += 'A' - 10;
+    }
+    reverse_value [index]  =  temp_value;
+    num = num / 16;
+    index ++ ;
+    
+  }
+  
+  index --;
+  for(int i = 0;i <= index;i++) {
+    value[i] =  reverse_value [ index - i ];
+  }
+  value [(index + 1)]  = '\0';
+} 
+
 
 int sprintf(char *out, const char *fmt, ...) {
 
@@ -60,10 +93,12 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   char *s;
   char sb_s = 0;
   int length = 0;
+  size_t the_long_data = 0;
   while (*fmt) {
     if(*fmt == '%')   {
       fmt++ ;
       if(*fmt < '0' || *fmt > '9') {
+        char num_string[100] = {0};
         switch (*fmt) {
         case 's':              /* string */
             s = va_arg(ap, char *);
@@ -73,7 +108,6 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
             break;
         case 'd':              /* int */
             d = va_arg(ap, int);
-            char num_string[100] = {0};
             int_to_string(d,num_string);
             out = memcpy(out,num_string,strlen(num_string));
             length += strlen(num_string);
@@ -82,7 +116,23 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         case 'c':
             sb_s = (char)va_arg(ap, int);
             *out = sb_s;
-            out++;
+            out++;break;
+        case 'p': /* point */
+            // printf("i come herererere\n");
+            the_long_data = (size_t)va_arg(ap, size_t);
+            // printf("the long data is %d\n",the_long_data);
+            // char num_string[100] = {0};
+            sizet_to_string_x(the_long_data,num_string);
+            // printf("num_string is %s\n",num_string);
+            int value_length = strlen(num_string);
+            // printf("value")
+            for(int i_for = 0; i_for < size_length - value_length; i_for++){
+               num_string[i_for] = '0';
+            }
+            sizet_to_string_x(the_long_data,&num_string[size_length - value_length]);
+            out = memcpy(out,num_string,strlen(num_string));
+            out += strlen(num_string);
+            // printf("sum data = %s \n",num_string);
         default : out = out;        
         }
       }else{
@@ -111,6 +161,11 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
               length += strlen(num_string);
               out += strlen(num_string);
               break;
+          // cacse 'p':   /* point */
+          //     size_t data_p = 0;
+          //     data_p = va_arg(ap, size_t);
+
+          //     break;
           default : out = out;       
         }
       }

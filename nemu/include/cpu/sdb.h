@@ -17,4 +17,6 @@ extern WP *free_ ;
 word_t expr(char *e, bool *success);
 WP* new_wp();
 bool delete_wp(int n);
+extern bool stop_point_set ;
+extern size_t stop_point_pc ;
 #endif

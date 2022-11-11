@@ -155,11 +155,14 @@ void paddr_write(paddr_t addr, int len, word_t data) {
   mtrace_loop_push(mtrace_loop,mem_write_mtrace,&mtrace_loop_index);
   #endif
   if (likely(in_pmem(addr))) { pmem_write(addr, len, data); return; }
+  // printf("oh my god\n");
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
   out_of_bound(addr);
 }
 
 
 void mtrace_printf(){
-    mtrace_loop_print(mtrace_loop,mtrace_loop_index);
+    #ifdef CONFIG_ITRACE_COND
+  mtrace_loop_print(mtrace_loop,mtrace_loop_index);
+#endif
 }

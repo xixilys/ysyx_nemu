@@ -19,9 +19,9 @@ class Vmycpu_top_pc_detail final : public VerilatedModule {
     QData/*63:0*/ __Vdly__pc_value;
     VL_IN8(__PVT__reset,0,0);
     VL_IN64(__PVT__io_in_pc_value_in,63,0);
-    VL_IN8(__PVT__clock,0,0);
     VL_IN8(__PVT__io_stall,0,0);
     VL_IN8(__PVT__io_flush,0,0);
+    VL_IN8(__PVT__clock,0,0);
 
     // INTERNAL VARIABLES
     Vmycpu_top__Syms* const vlSymsp;

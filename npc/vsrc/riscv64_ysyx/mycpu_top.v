@@ -1,5 +1,12 @@
 /* verilator lint_off WIDTH */ 
 /* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
 module alu(
   input  [23:0] io_ctrl,
   input  [63:0] io_in1,
@@ -479,7 +486,14 @@ module cu(
   wire [51:0] _immS_T_55 = {_immS_T_2[11],_immS_T_2[11],_immS_T_2[11],_immS_T_2[11],_immS_T_2[11],_immS_T_2[11],
     _immS_T_2[11],immS_lo_lo_lo,immS_lo_lo,immS_lo}; // @[Cat.scala 31:58]
   wire [63:0] immS = {_immS_T_55,Funct7D,io1_InstrD[11:7]}; // @[Cat.scala 31:58]
-  wire [31:0] immU = {io1_InstrD[31:12],12'h0}; // @[Cat.scala 31:58]
+  wire [31:0] _immU_T_1 = {io1_InstrD[31:12],12'h0}; // @[Cat.scala 31:58]
+  wire [7:0] immU_lo_lo = {_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1
+    [31],_immU_T_1[31]}; // @[Cat.scala 31:58]
+  wire [15:0] immU_lo = {_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1[
+    31],_immU_T_1[31],immU_lo_lo}; // @[Cat.scala 31:58]
+  wire [31:0] _immU_T_34 = {_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],_immU_T_1[31],
+    _immU_T_1[31],_immU_T_1[31],immU_lo_lo,immU_lo}; // @[Cat.scala 31:58]
+  wire [63:0] immU = {_immU_T_34,io1_InstrD[31:12],12'h0}; // @[Cat.scala 31:58]
   wire [12:0] _immSB_T_4 = {io1_InstrD[31],io1_InstrD[7],io1_InstrD[30:25],io1_InstrD[11:8],1'h0}; // @[Cat.scala 31:58]
   wire [5:0] immSB_lo_lo_lo = {_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12]
     }; // @[Cat.scala 31:58]
@@ -607,16 +621,15 @@ module cu(
   wire  _io_ImmD_T_2 = inst_type == 3'h3; // @[cu.scala 231:20]
   wire  _io_ImmD_T_3 = inst_type == 3'h4; // @[cu.scala 232:20]
   wire  _io_ImmD_T_4 = inst_type == 3'h6; // @[cu.scala 233:20]
-  wire [31:0] _io_ImmD_T_5 = _io_ImmD_T ? immU : 32'h0; // @[Mux.scala 27:73]
+  wire [63:0] _io_ImmD_T_5 = _io_ImmD_T ? immU : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _io_ImmD_T_6 = _io_ImmD_T_1 ? immI : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _io_ImmD_T_7 = _io_ImmD_T_2 ? immS : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _io_ImmD_T_8 = _io_ImmD_T_3 ? immSB : 64'h0; // @[Mux.scala 27:73]
   wire [19:0] _io_ImmD_T_9 = _io_ImmD_T_4 ? immUJ : 20'h0; // @[Mux.scala 27:73]
-  wire [63:0] _GEN_0 = {{32'd0}, _io_ImmD_T_5}; // @[Mux.scala 27:73]
-  wire [63:0] _io_ImmD_T_10 = _GEN_0 | _io_ImmD_T_6; // @[Mux.scala 27:73]
+  wire [63:0] _io_ImmD_T_10 = _io_ImmD_T_5 | _io_ImmD_T_6; // @[Mux.scala 27:73]
   wire [63:0] _io_ImmD_T_11 = _io_ImmD_T_10 | _io_ImmD_T_7; // @[Mux.scala 27:73]
   wire [63:0] _io_ImmD_T_12 = _io_ImmD_T_11 | _io_ImmD_T_8; // @[Mux.scala 27:73]
-  wire [63:0] _GEN_1 = {{44'd0}, _io_ImmD_T_9}; // @[Mux.scala 27:73]
+  wire [63:0] _GEN_0 = {{44'd0}, _io_ImmD_T_9}; // @[Mux.scala 27:73]
   wire  _io_RegWriteD_T_29 = 7'h30 == ins_code | (7'h2b == ins_code | (7'h2f == ins_code | (7'h2e == ins_code | (7'h2d
      == ins_code | (7'h2c == ins_code | (7'h2b == ins_code | (7'h2a == ins_code | (7'h29 == ins_code | (7'h28 ==
     ins_code | (7'h27 == ins_code | (7'h26 == ins_code | (7'h25 == ins_code | (7'h24 == ins_code | 7'h23 == ins_code))))
@@ -707,7 +720,7 @@ module cu(
     ins_code | 7'h49 == ins_code)))); // @[Mux.scala 81:58]
   assign io_LoadUnsignedD = 7'h3 == OpD & (3'h6 == Funct3D | (3'h5 == Funct3D | 3'h4 == Funct3D)); // @[Mux.scala 81:58]
   assign io_MemWidthD = 7'h23 == OpD ? _io_MemWidthD_T_21 : _io_MemWidthD_T_23; // @[Mux.scala 81:58]
-  assign io_ImmD = _io_ImmD_T_12 | _GEN_1; // @[Mux.scala 27:73]
+  assign io_ImmD = _io_ImmD_T_12 | _GEN_0; // @[Mux.scala 27:73]
   assign io_ebreakD = io1_InstrD == 32'h100073; // @[cu.scala 256:33]
   assign io_data_wD = 7'h12 == ins_code | (7'h11 == ins_code | (7'h10 == ins_code | (7'h5 == ins_code | (7'h3d ==
     ins_code | (7'h3c == ins_code | (7'h3b == ins_code | (7'h3a == ins_code | (7'h39 == ins_code | (7'h2b == ins_code |
@@ -39107,14 +39120,22 @@ module myCPU(
     immUJ_lo_lo_lo,immUJ_lo_lo}; // @[Cat.scala 31:58]
   wire [63:0] immUJ = {_immUJ_T_4[20],_immUJ_T_4[20],_immUJ_T_4[20],_immUJ_T_4[20],_immUJ_T_4[20],_immUJ_T_4[20],
     immUJ_lo_lo_lo,immUJ_lo_hi,immUJ_lo_1,_immUJ_T_4}; // @[Cat.scala 31:58]
+  wire [5:0] PCJumpD_lo_lo_lo = {_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],
+    _if2id_io_InstrD[31],_if2id_io_InstrD[31]}; // @[Cat.scala 31:58]
+  wire [12:0] PCJumpD_lo_lo = {_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],
+    _if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],PCJumpD_lo_lo_lo}; // @[Cat.scala 31:58]
+  wire [25:0] PCJumpD_lo = {_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],
+    _if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],PCJumpD_lo_lo_lo,PCJumpD_lo_lo}; // @[Cat.scala 31:58]
+  wire [51:0] _PCJumpD_T_54 = {_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],
+    _if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],PCJumpD_lo_lo_lo,PCJumpD_lo_lo,PCJumpD_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _PCJumpD_T_56 = {_PCJumpD_T_54,_if2id_io_InstrD[31:20]}; // @[Cat.scala 31:58]
   reg [63:0] resultE2M_Reg; // @[myCPU.scala 965:32]
   reg [63:0] ResultM2_Reg; // @[myCPU.scala 1019:29]
   wire [63:0] _BranchR1D_T_2 = _cfu_io_Forward1D[1] ? ResultM2_Reg : _regfile_io_RD1; // @[myCPU.scala 765:61]
   wire [63:0] BranchR1D = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 765:20]
-  wire [63:0] _GEN_12 = {{52'd0}, _if2id_io_InstrD[31:20]}; // @[myCPU.scala 197:58]
-  wire [63:0] _PCJumpD_T_3 = BranchR1D + _GEN_12; // @[myCPU.scala 197:58]
-  wire [63:0] _PCJumpD_T_5 = immUJ + _if2id_io_PCD; // @[myCPU.scala 197:91]
-  wire [63:0] PCJumpD = pre_decoder_jr ? _PCJumpD_T_3 : _PCJumpD_T_5; // @[myCPU.scala 197:24]
+  wire [63:0] _PCJumpD_T_58 = BranchR1D + _PCJumpD_T_56; // @[myCPU.scala 197:58]
+  wire [63:0] _PCJumpD_T_60 = immUJ + _if2id_io_PCD; // @[myCPU.scala 197:107]
+  wire [63:0] PCJumpD = pre_decoder_jr ? _PCJumpD_T_58 : _PCJumpD_T_60; // @[myCPU.scala 197:24]
   reg [63:0] PCW_Reg; // @[myCPU.scala 284:26]
   wire  _PCW_Reg_T = _mem22wb_io_PCW != 64'h0; // @[myCPU.scala 288:36]
   reg [63:0] reg_pc; // @[myCPU.scala 293:25]
@@ -39221,21 +39242,21 @@ module myCPU(
   wire [20:0] _ExceptionTypeD_Out_T_4 = _ExceptionTypeD_Out_T_1 ? 21'h100000 : 21'h0; // @[Mux.scala 27:73]
   wire [3:0] _ExceptionTypeD_Out_T_5 = _if2id_io_ExceptionTypeD_Out[0] ? 4'h8 : 4'h0; // @[Mux.scala 27:73]
   wire [2:0] _ExceptionTypeD_Out_T_6 = _if2id_io_ExceptionTypeD_Out[1] ? 3'h4 : 3'h0; // @[Mux.scala 27:73]
-  wire [20:0] _GEN_13 = {{17'd0}, _ExceptionTypeD_Out_T_5}; // @[Mux.scala 27:73]
-  wire [20:0] _ExceptionTypeD_Out_T_7 = _ExceptionTypeD_Out_T_4 | _GEN_13; // @[Mux.scala 27:73]
-  wire [20:0] _GEN_14 = {{18'd0}, _ExceptionTypeD_Out_T_6}; // @[Mux.scala 27:73]
-  wire [20:0] _ExceptionTypeD_Out_T_8 = _ExceptionTypeD_Out_T_7 | _GEN_14; // @[Mux.scala 27:73]
+  wire [20:0] _GEN_12 = {{17'd0}, _ExceptionTypeD_Out_T_5}; // @[Mux.scala 27:73]
+  wire [20:0] _ExceptionTypeD_Out_T_7 = _ExceptionTypeD_Out_T_4 | _GEN_12; // @[Mux.scala 27:73]
+  wire [20:0] _GEN_13 = {{18'd0}, _ExceptionTypeD_Out_T_6}; // @[Mux.scala 27:73]
+  wire [20:0] _ExceptionTypeD_Out_T_8 = _ExceptionTypeD_Out_T_7 | _GEN_13; // @[Mux.scala 27:73]
   wire  _int_with_timer_int_T_1 = _csr_io_timer_int_has | ext_int[5]; // @[myCPU.scala 782:56]
   wire [5:0] int_with_timer_int = {_int_with_timer_int_T_1,ext_int[4:0]}; // @[Cat.scala 31:58]
   wire [5:0] __id2ex_io_ExceptionTypeD_T = int_with_timer_int & _csr_io_csr_status; // @[myCPU.scala 793:59]
   wire [63:0] ExceptionTypeD_Out = {{43'd0}, _ExceptionTypeD_Out_T_8}; // @[myCPU.scala 185:34 768:24]
   wire [10:0] __id2ex_io_ExceptionTypeD_T_6 = __if2id_io_InstrF_T ? 11'h400 : 11'h0; // @[myCPU.scala 794:13]
   wire [8:0] __id2ex_io_ExceptionTypeD_T_8 = __if2id_io_InstrF_T_1 ? 9'h100 : 9'h0; // @[myCPU.scala 795:13]
-  wire [10:0] _GEN_15 = {{2'd0}, __id2ex_io_ExceptionTypeD_T_8}; // @[myCPU.scala 794:59]
-  wire [10:0] __id2ex_io_ExceptionTypeD_T_9 = __id2ex_io_ExceptionTypeD_T_6 | _GEN_15; // @[myCPU.scala 794:59]
+  wire [10:0] _GEN_14 = {{2'd0}, __id2ex_io_ExceptionTypeD_T_8}; // @[myCPU.scala 794:59]
+  wire [10:0] __id2ex_io_ExceptionTypeD_T_9 = __id2ex_io_ExceptionTypeD_T_6 | _GEN_14; // @[myCPU.scala 794:59]
   wire [31:0] __id2ex_io_ExceptionTypeD_T_11 = __if2id_io_InstrF_T_3 ? 32'h80000000 : 32'h0; // @[myCPU.scala 797:13]
-  wire [31:0] _GEN_16 = {{21'd0}, __id2ex_io_ExceptionTypeD_T_9}; // @[myCPU.scala 795:59]
-  wire [31:0] __id2ex_io_ExceptionTypeD_T_12 = _GEN_16 | __id2ex_io_ExceptionTypeD_T_11; // @[myCPU.scala 795:59]
+  wire [31:0] _GEN_15 = {{21'd0}, __id2ex_io_ExceptionTypeD_T_9}; // @[myCPU.scala 795:59]
+  wire [31:0] __id2ex_io_ExceptionTypeD_T_12 = _GEN_15 | __id2ex_io_ExceptionTypeD_T_11; // @[myCPU.scala 795:59]
   wire [63:0] __id2ex_io_ExceptionTypeD_T_13 = ExceptionTypeD_Out == 64'h0 ? {{32'd0}, __id2ex_io_ExceptionTypeD_T_12}
      : ExceptionTypeD_Out; // @[myCPU.scala 793:135]
   wire [63:0] __id2ex_io_ExceptionTypeD_T_14 = __id2ex_io_ExceptionTypeD_T != 6'h0 & _csr_io_Int_able ? 64'h1 :
@@ -39312,8 +39333,8 @@ module myCPU(
     _mem2mem2_io_mem_trace_budleM_data : 32'h0; // @[Mux.scala 27:73]
   wire [63:0] __mem22wb_io_Mem_trace_budleM_data_T_3 = _mem2mem2_io_mem_trace_budleM_mem_fetch_type[1] ? Mem_withRL_Data
      : 64'h0; // @[Mux.scala 27:73]
-  wire [63:0] _GEN_20 = {{32'd0}, __mem22wb_io_Mem_trace_budleM_data_T_2}; // @[Mux.scala 27:73]
-  wire [63:0] __mem22wb_io_Mem_trace_budleM_data_T_4 = _GEN_20 | __mem22wb_io_Mem_trace_budleM_data_T_3; // @[Mux.scala 27:73]
+  wire [63:0] _GEN_19 = {{32'd0}, __mem22wb_io_Mem_trace_budleM_data_T_2}; // @[Mux.scala 27:73]
+  wire [63:0] __mem22wb_io_Mem_trace_budleM_data_T_4 = _GEN_19 | __mem22wb_io_Mem_trace_budleM_data_T_3; // @[Mux.scala 27:73]
   reg [63:0] pcw_reg; // @[myCPU.scala 1128:26]
   wire  csrWriteW = wb_exception ? 1'h0 : _mem22wb_io_csrWriteW; // @[myCPU.scala 1146:25]
   alu _alu ( // @[myCPU.scala 113:22]
@@ -40330,9 +40351,9 @@ module myCPU(
       if (fifo_with_bundle_io_point_write_en) begin
         if (pre_decoder_jump) begin
           if (pre_decoder_jr) begin
-            pc_next_wait <= _PCJumpD_T_3;
+            pc_next_wait <= _PCJumpD_T_58;
           end else begin
-            pc_next_wait <= _PCJumpD_T_5;
+            pc_next_wait <= _PCJumpD_T_60;
           end
         end else if (_PCSrcD_T_3) begin
           pc_next_wait <= PCBranchD;

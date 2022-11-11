@@ -15,7 +15,7 @@
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INST_TO_PRINT 100
+#define MAX_INST_TO_PRINT 100000000000000
 #define MAX_ITRACE_LOOP_DEPTH  30
 
 CPU_state cpu = {};
@@ -86,7 +86,11 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
-
+  if(stop_point_set) {
+     if(stop_point_pc == pc) {
+        nemu_state.state = NEMU_STOP; 
+     }
+  }
   cpu.pc = s->dnpc;
 
 #ifdef CONFIG_ITRACE

@@ -10,6 +10,9 @@ void init_proc(void);
 int main() {
   extern const char logo[];
   printf("%s", logo);
+  // panic("Should not reach here");
+  // printf("%p\n",0x20);
+  // assert(0);
   //logo make my print out pool boom
   printf("=============================\n");
   printf("hehehehe\n");

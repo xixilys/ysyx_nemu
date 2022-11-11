@@ -10,6 +10,10 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 
+
+bool stop_point_set = false;
+size_t stop_point_pc = 0x0;
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -45,6 +49,7 @@ static int cmd_watch_memory(char *args);
 static int cmd_cal_express(char *args);
 static int cmd_set_watchpoint(char *args);
 static int cmd_delete_watchpoint(char *args);
+static int cmd_stop_point(char *args);
 
 static void display_watch_point(char *args);
 
@@ -62,7 +67,8 @@ static struct {
   { "x", "show the memory of address",cmd_watch_memory},
   { "p", "calculate the value of expressions",cmd_cal_express},
   { "w", "set watch point",cmd_set_watchpoint},
-  { "d", "delete watch point",cmd_delete_watchpoint}
+  { "d", "delete watch point",cmd_delete_watchpoint},
+  { "sp", "set stop point ", cmd_stop_point}
 
   /* TODO: Add more commands */
 
@@ -294,6 +300,20 @@ static int cmd_delete_watchpoint(char *args){
   }else{
     printf("delete fail !!!\n");
   }
+  return 0;
+
+
+
+}
+
+static int cmd_stop_point(char *args){
+  //先弄个简单的
+  char *ptr;
+  size_t num = strtoul(args,&ptr,16);
+  stop_point_pc = num;
+  printf("pc = %lx\n",stop_point_pc);
+  stop_point_set = true;
+  printf("sb come here for stop point\n");
   return 0;
 
 }
