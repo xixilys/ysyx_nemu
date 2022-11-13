@@ -1,13 +1,3 @@
 *.*
 *
-!*/
-!Makefile
-!*.mk
-!include/*
-!*.v
-!npc/*
-!npc_nemu/*
-!*.scala
-!*.py
-!.gitignore
-!README.md
+
