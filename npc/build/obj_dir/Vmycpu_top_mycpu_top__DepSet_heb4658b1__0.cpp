@@ -144,24 +144,6 @@ VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_sequent__TOP__mycpu_top__1(Vmycpu_
         = vlSelf->__PVT__inst_cache_io_inst_buffer_full;
 }
 
-VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__1(Vmycpu_top_mycpu_top* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__1\n"); );
-    // Body
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__data_sram_rdata 
-        = vlSelf->__PVT__u_riscv_cpu_data_sram_rdata;
-}
-
-VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__4(Vmycpu_top_mycpu_top* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__4\n"); );
-    // Body
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__inst_sram_rdata_L 
-        = vlSelf->__PVT__u_riscv_cpu_inst_sram_rdata_L;
-}
-
 VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_sequent__TOP__mycpu_top__3(Vmycpu_top_mycpu_top* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -171,94 +153,40 @@ VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_sequent__TOP__mycpu_top__3(Vmycpu_
         = vlSelf->__PVT__u_riscv_cpu_data_stage2_stall;
 }
 
-VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__5(Vmycpu_top_mycpu_top* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__2(Vmycpu_top_mycpu_top* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__5\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__2\n"); );
     // Body
-    vlSelf->__PVT__data_cache_io_sram_cache = vlSelf->__PVT__u_riscv_cpu_data_cache;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_42 
-        = ((1U & VL_BITSEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_28, 0U))
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__mulhsu_answer
-            : 0ULL);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__mulw_answer 
-        = VL_CONCAT_QII(64,32,32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___mulw_answer_T_33, 
-                        VL_SEL_IWII(128, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__mulu_answer, 0U, 0x20U));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___GEN_13 
-        = VL_EXTEND_QQ(64,33, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_37);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_38 
-        = VL_CONCAT_III(32,1,31, (1U & VL_BITSEL_IIII(32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_5, 0x1fU)), 
-                        VL_CONCAT_III(31,1,30, (1U 
-                                                & VL_BITSEL_IIII(32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_5, 0x1fU)), 
-                                      VL_CONCAT_III(30,1,29, 
-                                                    (1U 
-                                                     & VL_BITSEL_IIII(32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_5, 0x1fU)), 
-                                                    VL_CONCAT_III(29,1,28, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IIII(32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_5, 0x1fU)), 
-                                                                  VL_CONCAT_III(28,1,27, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IIII(32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_5, 0x1fU)), 
-                                                                                VL_CONCAT_III(27,1,26, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IIII(32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_5, 0x1fU)), 
-                                                                                VL_CONCAT_III(26,1,25, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IIII(32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_5, 0x1fU)), 
-                                                                                VL_CONCAT_III(25,1,24, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IIII(32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_5, 0x1fU)), 
-                                                                                VL_CONCAT_III(24,8,16, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__remw_answer_lo_lo), (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__remw_answer_lo))))))))));
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_38 
-        = VL_CONCAT_III(32,1,31, (1U & VL_BITSEL_IQII(33, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_5, 0x1fU)), 
-                        VL_CONCAT_III(31,1,30, (1U 
-                                                & VL_BITSEL_IQII(33, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_5, 0x1fU)), 
-                                      VL_CONCAT_III(30,1,29, 
-                                                    (1U 
-                                                     & VL_BITSEL_IQII(33, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_5, 0x1fU)), 
-                                                    VL_CONCAT_III(29,1,28, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IQII(33, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_5, 0x1fU)), 
-                                                                  VL_CONCAT_III(28,1,27, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(33, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_5, 0x1fU)), 
-                                                                                VL_CONCAT_III(27,1,26, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(33, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_5, 0x1fU)), 
-                                                                                VL_CONCAT_III(26,1,25, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(33, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_5, 0x1fU)), 
-                                                                                VL_CONCAT_III(25,1,24, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(33, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_5, 0x1fU)), 
-                                                                                VL_CONCAT_III(24,8,16, (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__divw_answer_lo_lo), (IData)(vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__divw_answer_lo))))))))));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__inst_sram_rdata_L 
+        = vlSelf->__PVT__u_riscv_cpu_inst_sram_rdata_L;
 }
 
-VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__6(Vmycpu_top_mycpu_top* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__4(Vmycpu_top_mycpu_top* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__6\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__4\n"); );
     // Body
-    vlSymsp->TOP__mycpu_top__data_cache.__PVT__io_sram_cache 
-        = vlSelf->__PVT__data_cache_io_sram_cache;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_39 
-        = ((1U & VL_BITSEL_IIII(24, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___io_data_out_T_21, 0U))
-            ? vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__mulw_answer
-            : 0ULL);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__remw_answer 
-        = VL_CONCAT_QII(64,32,32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_38, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___remw_answer_T_5);
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__divw_answer 
-        = VL_CONCAT_QII(64,32,32, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_38, 
-                        VL_SEL_IQII(33, vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT___divw_answer_T_5, 0U, 0x20U));
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__data_sram_rdata 
+        = vlSelf->__PVT__u_riscv_cpu_data_sram_rdata;
 }
 
-VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_sequent__TOP__mycpu_top__5(Vmycpu_top_mycpu_top* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_sequent__TOP__mycpu_top__6(Vmycpu_top_mycpu_top* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_sequent__TOP__mycpu_top__5\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_sequent__TOP__mycpu_top__6\n"); );
     // Body
     vlSymsp->TOP__mycpu_top__data_cache.__PVT__io_sram_wr 
         = vlSelf->__PVT__data_cache_io_sram_wr;
+}
+
+VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__7(Vmycpu_top_mycpu_top* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__7\n"); );
+    // Body
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__inst_write_en 
+        = vlSelf->__PVT__u_riscv_cpu_inst_write_en;
 }
 
 VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__9(Vmycpu_top_mycpu_top* vlSelf) {
@@ -266,16 +194,6 @@ VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__9(Vmycpu_top
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__9\n"); );
     // Body
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__inst_write_en 
-        = vlSelf->__PVT__u_riscv_cpu_inst_write_en;
-}
-
-VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__10(Vmycpu_top_mycpu_top* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__10\n"); );
-    // Body
-    vlSelf->__PVT__data_cache_io_sram_req = vlSelf->__PVT__u_riscv_cpu_data_sram_en;
     vlSymsp->TOP__mycpu_top__data_cache.__PVT__io_sram_req 
         = vlSelf->__PVT__data_cache_io_sram_req;
 }
@@ -285,7 +203,6 @@ VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__12(Vmycpu_to
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__12\n"); );
     // Body
-    vlSelf->__PVT__u_riscv_cpu_stage2_stall = vlSelf->__PVT__inst_cache_io_stage2_stall;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu.__PVT__stage2_stall 
         = vlSelf->__PVT__u_riscv_cpu_stage2_stall;
 }
@@ -294,6 +211,15 @@ VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__13(Vmycpu_to
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__13\n"); );
+    // Body
+    vlSymsp->TOP__mycpu_top__inst_cache.__PVT__io_sram_req 
+        = vlSelf->__PVT__inst_cache_io_sram_req;
+}
+
+VL_INLINE_OPT void Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__14(Vmycpu_top_mycpu_top* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+      Vmycpu_top_mycpu_top___nba_comb__TOP__mycpu_top__14\n"); );
     // Body
     vlSymsp->TOP__mycpu_top__inst_cache.__PVT__io_stage1_valid_flush 
         = vlSelf->__PVT__inst_cache_io_stage1_valid_flush;

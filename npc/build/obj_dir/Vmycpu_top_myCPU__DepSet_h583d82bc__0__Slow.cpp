@@ -187,6 +187,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___ctor_var_reset(Vmycpu_top_myCPU* vlSelf) {
     vlSelf->__PVT___ex2mem_io_mem_trace_budleE_mem_fetch_type = 0;
     vlSelf->__PVT___ex2mem_io_mem_trace_budleE_addr = 0;
     vlSelf->__PVT___ex2mem_io_mem_trace_budleE_len = 0;
+    vlSelf->__PVT___ex2mem_io_mem_trace_budleE_cache = 0;
     vlSelf->__PVT___ex2mem_io_RegWriteM = 0;
     vlSelf->__PVT___ex2mem_io_MemToRegM = 0;
     vlSelf->__PVT___ex2mem_io_WriteDataM = 0;
@@ -208,6 +209,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___ctor_var_reset(Vmycpu_top_myCPU* vlSelf) {
     vlSelf->__PVT___ex2mem_io_mem_trace_budleM_mem_fetch_type = 0;
     vlSelf->__PVT___ex2mem_io_mem_trace_budleM_addr = 0;
     vlSelf->__PVT___ex2mem_io_mem_trace_budleM_len = 0;
+    vlSelf->__PVT___ex2mem_io_mem_trace_budleM_cache = 0;
     vlSelf->__PVT___ex2mem_io_CsrWritedataM = 0;
     vlSelf->__PVT___mem2mem2_clock = 0;
     vlSelf->__PVT___mem2mem2_reset = 0;
@@ -236,6 +238,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___ctor_var_reset(Vmycpu_top_myCPU* vlSelf) {
     vlSelf->__PVT___mem2mem2_io_mem_trace_budleE_mem_fetch_type = 0;
     vlSelf->__PVT___mem2mem2_io_mem_trace_budleE_addr = 0;
     vlSelf->__PVT___mem2mem2_io_mem_trace_budleE_len = 0;
+    vlSelf->__PVT___mem2mem2_io_mem_trace_budleE_cache = 0;
     vlSelf->__PVT___mem2mem2_io_RegWriteM = 0;
     vlSelf->__PVT___mem2mem2_io_MemToRegM = 0;
     vlSelf->__PVT___mem2mem2_io_WriteDataM = 0;
@@ -257,6 +260,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___ctor_var_reset(Vmycpu_top_myCPU* vlSelf) {
     vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_mem_fetch_type = 0;
     vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_addr = 0;
     vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_len = 0;
+    vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_cache = 0;
     vlSelf->__PVT___mem2mem2_io_CsrWritedataM = 0;
     vlSelf->__PVT___id2ex_clock = 0;
     vlSelf->__PVT___id2ex_reset = 0;
@@ -356,6 +360,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___ctor_var_reset(Vmycpu_top_myCPU* vlSelf) {
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_mem_fetch_type = 0;
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_addr = 0;
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_len = 0;
+    vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_cache = 0;
     vlSelf->__PVT___mem22wb_io_RegWriteW_Out = 0;
     vlSelf->__PVT___mem22wb_io_ResultW = 0;
     vlSelf->__PVT___mem22wb_io_WriteRegW = 0;
@@ -371,6 +376,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___ctor_var_reset(Vmycpu_top_myCPU* vlSelf) {
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_mem_fetch_type = 0;
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_addr = 0;
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_len = 0;
+    vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_cache = 0;
     vlSelf->__PVT___mem22wb_io_CsrWritedataW = 0;
     vlSelf->__PVT___addr_cal_io_d_vaddr = 0;
     vlSelf->__PVT___addr_cal_io_d_paddr = 0;
@@ -397,6 +403,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___ctor_var_reset(Vmycpu_top_myCPU* vlSelf) {
     vlSelf->__PVT___mtrace_mod_mem_req = 0;
     vlSelf->__PVT___mtrace_mod_mem_write_read = 0;
     vlSelf->__PVT___mtrace_mod_mem_size = 0;
+    vlSelf->__PVT___mtrace_mod_mem_cached = 0;
     vlSelf->__PVT__fifo_with_bundle_clock = 0;
     vlSelf->__PVT__fifo_with_bundle_reset = 0;
     vlSelf->__PVT__fifo_with_bundle_io_read_en = 0;
@@ -716,14 +723,15 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___ctor_var_reset(Vmycpu_top_myCPU* vlSelf) {
     vlSelf->__PVT___ExceptionTypeD_Out_T_8 = 0;
     vlSelf->__PVT___int_with_timer_int_T_1 = 0;
     vlSelf->__PVT__int_with_timer_int = 0;
+    vlSelf->__PVT___GEN_14 = 0;
     vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T = 0;
     vlSelf->__PVT__ExceptionTypeD_Out = 0;
     vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_6 = 0;
     vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_8 = 0;
-    vlSelf->__PVT___GEN_14 = 0;
+    vlSelf->__PVT___GEN_15 = 0;
     vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_9 = 0;
     vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_11 = 0;
-    vlSelf->__PVT___GEN_15 = 0;
+    vlSelf->__PVT___GEN_16 = 0;
     vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_12 = 0;
     vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_13 = 0;
     vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_14 = 0;
@@ -791,8 +799,6 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___ctor_var_reset(Vmycpu_top_myCPU* vlSelf) {
     vlSelf->__PVT__Mem_withRL_Data = 0;
     vlSelf->__PVT_____05Fmem22wb_io_Mem_trace_budleM_data_T_2 = 0;
     vlSelf->__PVT_____05Fmem22wb_io_Mem_trace_budleM_data_T_3 = 0;
-    vlSelf->__PVT___GEN_19 = 0;
-    vlSelf->__PVT_____05Fmem22wb_io_Mem_trace_budleM_data_T_4 = 0;
     vlSelf->__PVT__pcw_reg = 0;
     vlSelf->__PVT__csrWriteW = 0;
     vlSelf->__Vdly__pre_decoder_branchD_flag = 0;

@@ -86,6 +86,8 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_mem_trace_budleM_addr;
     vlSelf->__PVT___ex2mem_io_mem_trace_budleM_len 
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_mem_trace_budleM_len;
+    vlSelf->__PVT___ex2mem_io_mem_trace_budleM_cache 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_mem_trace_budleM_cache;
     vlSelf->__PVT___ex2mem_io_CsrWritedataM = vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_CsrWritedataM;
     vlSelf->__PVT___ex2mem_io_ExceptionTypeM_Out = vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_ExceptionTypeM_Out;
     vlSelf->__PVT___ex2mem_io_Tlb_ControlM = vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_Tlb_ControlM;
@@ -107,6 +109,8 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io_mem_trace_budleM_addr;
     vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_len 
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io_mem_trace_budleM_len;
+    vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_cache 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io_mem_trace_budleM_cache;
     vlSelf->__PVT___mem2mem2_io_CsrWritedataM = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io_CsrWritedataM;
     vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_data 
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io_mem_trace_budleM_data;
@@ -167,16 +171,18 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
     vlSelf->__PVT___id2ex_io_R2E = vlSymsp->TOP__mycpu_top__u_riscv_cpu___id2ex.__PVT__io_R2E;
     vlSelf->__PVT___id2ex_io_R1E = vlSymsp->TOP__mycpu_top__u_riscv_cpu___id2ex.__PVT__io_R1E;
     vlSelf->__PVT___mem22wb_io_eBreakW = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_eBreakW;
+    vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_len 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleW_len;
+    vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_cache 
+        = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleW_cache;
+    vlSelf->__PVT___mem22wb_io_CsrWritedataW = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_CsrWritedataW;
+    vlSelf->__PVT___mem22wb_io_Pc_NextW = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Pc_NextW;
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_pc 
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleW_pc;
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_data 
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleW_data;
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_addr 
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleW_addr;
-    vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_len 
-        = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleW_len;
-    vlSelf->__PVT___mem22wb_io_CsrWritedataW = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_CsrWritedataW;
-    vlSelf->__PVT___mem22wb_io_Pc_NextW = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Pc_NextW;
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_mem_fetch_type 
         = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleW_mem_fetch_type;
     vlSelf->__PVT___mem22wb_io_WritecsrAddrW = vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_WritecsrAddrW;
@@ -306,6 +312,8 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
         = vlSelf->__PVT___ex2mem_io_mem_trace_budleM_addr;
     vlSelf->__PVT___mem2mem2_io_mem_trace_budleE_len 
         = vlSelf->__PVT___ex2mem_io_mem_trace_budleM_len;
+    vlSelf->__PVT___mem2mem2_io_mem_trace_budleE_cache 
+        = vlSelf->__PVT___ex2mem_io_mem_trace_budleM_cache;
     vlSelf->__PVT___mem2mem2_io_CsrWritedataE = vlSelf->__PVT___ex2mem_io_CsrWritedataM;
     vlSelf->__PVT___mem2mem2_io_ExceptionTypeE = ((IData)(vlSelf->__PVT__mem_exception)
                                                    ? vlSelf->__PVT___ex2mem_io_ExceptionTypeM_Out
@@ -335,13 +343,15 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
         = vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_addr;
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_len 
         = vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_len;
+    vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_cache 
+        = vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_cache;
     vlSelf->__PVT___mem22wb_io_CsrWritedataM = vlSelf->__PVT___mem2mem2_io_CsrWritedataM;
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_mem_fetch_type 
         = vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_mem_fetch_type;
     vlSelf->__PVT_____05Fmem22wb_io_Mem_trace_budleM_data_T_2 
         = ((1U & VL_BITSEL_IIII(2, (IData)(vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_mem_fetch_type), 0U))
             ? vlSelf->__PVT___mem2mem2_io_mem_trace_budleM_data
-            : 0U);
+            : 0ULL);
     vlSelf->__PVT___mem22wb_io_csrWriteM = vlSelf->__PVT___mem2mem2_io_csrWriteM;
     vlSelf->__PVT___cfu_io_csrWriteM2 = vlSelf->__PVT___mem2mem2_io_csrWriteM;
     vlSelf->__PVT___mem22wb_io_WritecsrAddrM = vlSelf->__PVT___mem2mem2_io_WritecsrAddrM;
@@ -408,11 +418,12 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
     vlSelf->__PVT___cfu_io_R1E = vlSelf->__PVT___id2ex_io_R1E;
     vlSelf->__PVT___commit_difftest_cpu_ebreak_sign 
         = vlSelf->__PVT___mem22wb_io_eBreakW;
-    vlSelf->__PVT___mtrace_mod_pc = vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_pc;
-    vlSelf->__PVT___mtrace_mod_data = VL_EXTEND_QI(64,32, vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_data);
-    vlSelf->__PVT___mtrace_mod_addr = vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_addr;
     vlSelf->__PVT___mtrace_mod_mem_size = vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_len;
+    vlSelf->__PVT___mtrace_mod_mem_cached = vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_cache;
     vlSelf->__PVT___csr_io_csr_write_data = vlSelf->__PVT___mem22wb_io_CsrWritedataW;
+    vlSelf->__PVT___mtrace_mod_pc = vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_pc;
+    vlSelf->__PVT___mtrace_mod_data = vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_data;
+    vlSelf->__PVT___mtrace_mod_addr = vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_addr;
     vlSelf->__PVT___mtrace_mod_mem_req = (0U != (IData)(vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_mem_fetch_type));
     vlSelf->__PVT___mtrace_mod_mem_write_read = (1U 
                                                  & VL_BITSEL_IIII(2, (IData)(vlSelf->__PVT___mem22wb_io_Mem_trace_budleW_mem_fetch_type), 0U));
@@ -669,6 +680,8 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
         = vlSelf->__PVT___mem2mem2_io_mem_trace_budleE_addr;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io_mem_trace_budleE_len 
         = vlSelf->__PVT___mem2mem2_io_mem_trace_budleE_len;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io_mem_trace_budleE_cache 
+        = vlSelf->__PVT___mem2mem2_io_mem_trace_budleE_cache;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io_CsrWritedataE 
         = vlSelf->__PVT___mem2mem2_io_CsrWritedataE;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io_ExceptionTypeE 
@@ -714,11 +727,12 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
         = vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_addr;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleM_len 
         = vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_len;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleM_cache 
+        = vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_cache;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_CsrWritedataM 
         = vlSelf->__PVT___mem22wb_io_CsrWritedataM;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleM_mem_fetch_type 
         = vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_mem_fetch_type;
-    vlSelf->__PVT___GEN_19 = VL_EXTEND_QI(64,32, vlSelf->__PVT_____05Fmem22wb_io_Mem_trace_budleM_data_T_2);
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_csrWriteM 
         = vlSelf->__PVT___mem22wb_io_csrWriteM;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___cfu.__PVT__io_csrWriteM2 
@@ -812,16 +826,18 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
         = vlSelf->__PVT___cfu_io_R1E;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___commit_difftest.__PVT__cpu_ebreak_sign 
         = vlSelf->__PVT___commit_difftest_cpu_ebreak_sign;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___mtrace_mod.__PVT__mem_size 
+        = vlSelf->__PVT___mtrace_mod_mem_size;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___mtrace_mod.__PVT__mem_cached 
+        = vlSelf->__PVT___mtrace_mod_mem_cached;
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___csr.__PVT__io_csr_write_data 
+        = vlSelf->__PVT___csr_io_csr_write_data;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mtrace_mod.__PVT__pc 
         = vlSelf->__PVT___mtrace_mod_pc;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mtrace_mod.__PVT__data 
         = vlSelf->__PVT___mtrace_mod_data;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mtrace_mod.__PVT__addr 
         = vlSelf->__PVT___mtrace_mod_addr;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___mtrace_mod.__PVT__mem_size 
-        = vlSelf->__PVT___mtrace_mod_mem_size;
-    vlSymsp->TOP__mycpu_top__u_riscv_cpu___csr.__PVT__io_csr_write_data 
-        = vlSelf->__PVT___csr_io_csr_write_data;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mtrace_mod.__PVT__mem_req 
         = vlSelf->__PVT___mtrace_mod_mem_req;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mtrace_mod.__PVT__mem_write_read 
@@ -1040,9 +1056,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
         = (1U & VL_REDXOR_32((0xfU & VL_SEL_IQII(64, vlSelf->__PVT__branch_prediction_with_blockram_io_pc, 0x10U, 4U))));
     vlSymsp->TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram.__PVT__io_pc 
         = vlSelf->__PVT__branch_prediction_with_blockram_io_pc;
-    vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T 
-        = ((IData)(vlSelf->__PVT__int_with_timer_int) 
-           & (IData)(vlSelf->__PVT___csr_io_csr_status));
+    vlSelf->__PVT___GEN_14 = VL_EXTEND_II(7,6, (IData)(vlSelf->__PVT__int_with_timer_int));
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io1_csrWriteE 
         = vlSelf->__PVT___mem2mem2_io1_csrWriteE;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem2mem2.__PVT__io1_eBreakE 
@@ -1171,6 +1185,8 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__1
     vlSelf->__PVT___stage_fec_2_hascode_0_T_1 = VL_CONCAT_III(4,1,3, (IData)(vlSelf->__PVT__stage_fec_2_hascode_0_num_array_3), 
                                                               VL_CONCAT_III(3,1,2, (IData)(vlSelf->__PVT__stage_fec_2_hascode_0_num_array_2), 
                                                                             VL_CONCAT_III(2,1,1, (IData)(vlSelf->__PVT__stage_fec_2_hascode_0_num_array_1), (IData)(vlSelf->__PVT__stage_fec_2_hascode_0_num_array_0))));
+    vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T 
+        = ((IData)(vlSelf->__PVT___GEN_14) & (IData)(vlSelf->__PVT___csr_io_csr_status));
     vlSymsp->TOP__mycpu_top__u_riscv_cpu__mem_bru_state.__PVT__io_in_pht 
         = vlSelf->__PVT__mem_bru_state_io_in_pht;
     vlSelf->__PVT___pht_lookup_value_tobeE_T_10 = VL_CONCAT_III(8,2,6, (IData)(vlSelf->__PVT__pht_tobeE), 
@@ -1524,7 +1540,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__2
                                     + vlSelf->__PVT___PCJumpD_T_56);
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___br.__PVT__io_r1 
         = vlSelf->__PVT___br_io_r1;
-    vlSelf->__PVT___GEN_14 = VL_EXTEND_II(11,9, (IData)(vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_8));
+    vlSelf->__PVT___GEN_15 = VL_EXTEND_II(11,9, (IData)(vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_8));
     vlSelf->__PVT___ex2mem_io_WriteDataE = ((IData)(vlSelf->__PVT__Forward_Lock2E)
                                              ? vlSelf->__PVT__RD2ForWardE_r
                                              : vlSelf->__PVT__RD2ForWardE_p);
@@ -1545,7 +1561,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__2
                                : vlSelf->__PVT___PCJumpD_T_60);
     vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_9 
         = ((IData)(vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_6) 
-           | (IData)(vlSelf->__PVT___GEN_14));
+           | (IData)(vlSelf->__PVT___GEN_15));
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_WriteDataE 
         = vlSelf->__PVT___ex2mem_io_WriteDataE;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_RtE 
@@ -1574,7 +1590,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__2
                                        : 0ULL);
     vlSelf->__PVT__target_neq_jumpD = (vlSelf->__PVT__id_bru_state_io_out_target_pc 
                                        != vlSelf->__PVT__PCJumpD);
-    vlSelf->__PVT___GEN_15 = VL_EXTEND_II(32,11, (IData)(vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_9));
+    vlSelf->__PVT___GEN_16 = VL_EXTEND_II(32,11, (IData)(vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_9));
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___muldiv.__PVT__io_in2 
         = vlSelf->__PVT___muldiv_io_in2;
     vlSelf->__PVT___alu_io_in2 = VL_CONCAT_QII(64,32,32, 
@@ -1597,7 +1613,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__2
                                                     ? vlSelf->__PVT__PCBranchD
                                                     : vlSelf->__PVT___Pc_targetD_T_2);
     vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_12 
-        = (vlSelf->__PVT___GEN_15 | vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_11);
+        = (vlSelf->__PVT___GEN_16 | vlSelf->__PVT_____05Fid2ex_io_ExceptionTypeD_T_11);
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___alu.__PVT__io_in2 
         = vlSelf->__PVT___alu_io_in2;
     vlSelf->__PVT___CalCsrDataE_T_9 = ((1U & VL_BITSEL_IIII(6, (IData)(vlSelf->__PVT___CalCsrDataE_T), 0U))
@@ -1787,6 +1803,8 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__3
                                          & (IData)(vlSelf->__PVT__target_neq_jumpD)) 
                                         | ((IData)(vlSelf->__PVT___PCSrcD_T_3) 
                                            & (IData)(vlSelf->__PVT__target_neq_branchD)));
+    vlSelf->__PVT___ex2mem_io_mem_trace_budleE_cache 
+        = vlSelf->__PVT__data_cache;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_PhyAddrE 
         = vlSelf->__PVT___ex2mem_io_PhyAddrE;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___dmemreq.__PVT__io_VAddrE 
@@ -1816,6 +1834,8 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__3
     vlSelf->__PVT__PC_nextD = ((IData)(vlSelf->__PVT__pre_decoder_jump)
                                 ? vlSelf->__PVT__PCJumpD
                                 : vlSelf->__PVT___PC_nextD_T_2);
+    vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_mem_trace_budleE_cache 
+        = vlSelf->__PVT___ex2mem_io_mem_trace_budleE_cache;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___ex2mem.__PVT__io_ExceptionTypeE 
         = vlSelf->__PVT___ex2mem_io_ExceptionTypeE;
     vlSelf->__PVT___resultE_T_7 = (vlSelf->__PVT___resultE_T_6 
@@ -1848,10 +1868,9 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__3
             ? vlSelf->__PVT__Mem_withRL_Data : 0ULL);
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_ResultM 
         = vlSelf->__PVT___mem22wb_io_ResultM;
-    vlSelf->__PVT_____05Fmem22wb_io_Mem_trace_budleM_data_T_4 
-        = (vlSelf->__PVT___GEN_19 | vlSelf->__PVT_____05Fmem22wb_io_Mem_trace_budleM_data_T_3);
     vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_data 
-        = VL_SEL_IQII(64, vlSelf->__PVT_____05Fmem22wb_io_Mem_trace_budleM_data_T_4, 0U, 0x20U);
+        = (vlSelf->__PVT_____05Fmem22wb_io_Mem_trace_budleM_data_T_2 
+           | vlSelf->__PVT_____05Fmem22wb_io_Mem_trace_budleM_data_T_3);
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___mem22wb.__PVT__io_Mem_trace_budleM_data 
         = vlSelf->__PVT___mem22wb_io_Mem_trace_budleM_data;
 }
@@ -1948,7 +1967,7 @@ VL_ATTR_COLD void Vmycpu_top_myCPU___stl_sequent__TOP__mycpu_top__u_riscv_cpu__4
     vlSelf->__PVT___ex2mem_io_mem_trace_budleE_addr 
         = vlSelf->__PVT__data_sram_addr;
     vlSelf->__PVT___ex2mem_io_mem_trace_budleE_data 
-        = VL_SEL_IQII(64, vlSelf->__PVT__data_sram_wdata, 0U, 0x20U);
+        = vlSelf->__PVT__data_sram_wdata;
     vlSymsp->TOP__mycpu_top__u_riscv_cpu___dmemreq.__PVT__io_en 
         = vlSelf->__PVT___dmemreq_io_en;
     vlSelf->__PVT__ready_to_branch = vlSelf->__PVT__fifo_with_bundle_io_point_write_en;

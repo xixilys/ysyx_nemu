@@ -76,375 +76,6 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                                                                 VL_CONCAT_III(9,1,8, 
                                                                                 (1U 
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), (IData)(vlSelf->__PVT__io_RD_lo_lo_13)))))))));
-}
-
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__1(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__1\n"); );
-    // Body
-    vlSelf->__PVT___io_RD_T_812 = VL_CONCAT_III(32,1,31, 
-                                                (1U 
-                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                VL_CONCAT_III(31,1,30, 
-                                                              (1U 
-                                                               & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                              VL_CONCAT_III(30,1,29, 
-                                                                            (1U 
-                                                                             & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                            VL_CONCAT_III(29,1,28, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                VL_CONCAT_III(28,1,27, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                VL_CONCAT_III(27,1,26, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                VL_CONCAT_III(26,1,25, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                VL_CONCAT_III(25,1,24, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                VL_CONCAT_III(24,8,16, (IData)(vlSelf->__PVT__io_RD_lo_lo_12), (IData)(vlSelf->__PVT__io_RD_lo_12))))))))));
-    vlSelf->__PVT___io_RD_T_852 = VL_CONCAT_III(32,1,31, 
-                                                (1U 
-                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                VL_CONCAT_III(31,1,30, 
-                                                              (1U 
-                                                               & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                              VL_CONCAT_III(30,1,29, 
-                                                                            (1U 
-                                                                             & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                            VL_CONCAT_III(29,1,28, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                VL_CONCAT_III(28,1,27, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                VL_CONCAT_III(27,1,26, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                VL_CONCAT_III(26,1,25, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                VL_CONCAT_III(25,1,24, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                VL_CONCAT_III(24,8,16, (IData)(vlSelf->__PVT__io_RD_lo_lo_13), (IData)(vlSelf->__PVT__io_RD_lo_13))))))))));
-}
-
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__2(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__2\n"); );
-    // Body
-    vlSelf->__PVT___io_RD_T_814 = VL_CONCAT_QII(64,32,32, vlSelf->__PVT___io_RD_T_812, 
-                                                VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x20U, 0x20U));
-    vlSelf->__PVT___io_RD_T_854 = VL_CONCAT_QII(64,32,32, vlSelf->__PVT___io_RD_T_852, 
-                                                VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0U, 0x20U));
-}
-
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__3(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__3\n"); );
-    // Body
-    vlSelf->__PVT___io_RD_T_817 = ((IData)(vlSelf->__PVT__io_SIGN)
-                                    ? vlSelf->__PVT___io_RD_T_814
-                                    : VL_EXTEND_QQ(64,33, vlSelf->__PVT___io_RD_T_816));
-    vlSelf->__PVT___io_RD_T_857 = ((IData)(vlSelf->__PVT__io_SIGN)
-                                    ? vlSelf->__PVT___io_RD_T_854
-                                    : VL_EXTEND_QQ(64,33, vlSelf->__PVT___io_RD_T_856));
-}
-
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__4(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__4\n"); );
-    // Body
-    vlSelf->__PVT___io_RD_T_858 = ((IData)(vlSelf->__PVT__third_ra)
-                                    ? vlSelf->__PVT___io_RD_T_817
-                                    : vlSelf->__PVT___io_RD_T_857);
-}
-
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__5(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__5\n"); );
-    // Body
-    vlSelf->__PVT___io_RD_T_253 = VL_EXTEND_II(9,8, 
-                                               (0xffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x38U, 8U)));
-    vlSelf->__PVT___io_RD_T_521 = VL_EXTEND_II(9,8, 
-                                               (0xffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x18U, 8U)));
-    vlSelf->__PVT___io_RD_T_648 = VL_EXTEND_II(17,16, 
-                                               (0xffffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x30U, 0x10U)));
-    vlSelf->__PVT___io_RD_T_768 = VL_EXTEND_II(17,16, 
-                                               (0xffffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x10U, 0x10U)));
-    vlSelf->__PVT___io_RD_T_190 = VL_EXTEND_II(9,8, 
-                                               (0xffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x30U, 8U)));
-    vlSelf->__PVT___io_RD_T_458 = VL_EXTEND_II(9,8, 
-                                               (0xffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x10U, 8U)));
-    vlSelf->__PVT___io_RD_T_593 = VL_EXTEND_II(17,16, 
-                                               (0xffffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x20U, 0x10U)));
-    vlSelf->__PVT___io_RD_T_713 = VL_EXTEND_II(17,16, 
-                                               (0xffffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0U, 0x10U)));
-    vlSelf->__PVT___io_RD_T_127 = VL_EXTEND_II(9,8, 
-                                               (0xffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x28U, 8U)));
-    vlSelf->__PVT___io_RD_T_395 = VL_EXTEND_II(9,8, 
-                                               (0xffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 8U, 8U)));
-    vlSelf->__PVT___io_RD_T_64 = VL_EXTEND_II(9,8, 
-                                              (0xffU 
-                                               & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x20U, 8U)));
-    vlSelf->__PVT___io_RD_T_332 = VL_EXTEND_II(9,8, 
-                                               (0xffU 
-                                                & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0U, 8U)));
-    vlSelf->__PVT__io_RD_lo_lo_lo_9 = VL_CONCAT_III(6,1,5, 
-                                                    (1U 
-                                                     & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                    VL_CONCAT_III(5,1,4, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                  VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo_11 = VL_CONCAT_III(6,1,5, 
-                                                     (1U 
-                                                      & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                     VL_CONCAT_III(5,1,4, 
-                                                                   (1U 
-                                                                    & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                   VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo_3 = VL_CONCAT_III(7,1,6, 
-                                                    (1U 
-                                                     & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                    VL_CONCAT_III(6,1,5, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                  VL_CONCAT_III(5,1,4, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU))))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo_7 = VL_CONCAT_III(7,1,6, 
-                                                    (1U 
-                                                     & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                    VL_CONCAT_III(6,1,5, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                  VL_CONCAT_III(5,1,4, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU))))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo_8 = VL_CONCAT_III(6,1,5, 
-                                                    (1U 
-                                                     & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                    VL_CONCAT_III(5,1,4, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                                  VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo_10 = VL_CONCAT_III(6,1,5, 
-                                                     (1U 
-                                                      & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                     VL_CONCAT_III(5,1,4, 
-                                                                   (1U 
-                                                                    & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                                   VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo_2 = VL_CONCAT_III(7,1,6, 
-                                                    (1U 
-                                                     & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x37U)), 
-                                                    VL_CONCAT_III(6,1,5, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x37U)), 
-                                                                  VL_CONCAT_III(5,1,4, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x37U)), 
-                                                                                VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x37U)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x37U)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x37U)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x37U))))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo_6 = VL_CONCAT_III(7,1,6, 
-                                                    (1U 
-                                                     & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x17U)), 
-                                                    VL_CONCAT_III(6,1,5, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x17U)), 
-                                                                  VL_CONCAT_III(5,1,4, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x17U)), 
-                                                                                VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x17U)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x17U)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x17U)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x17U))))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo_1 = VL_CONCAT_III(7,1,6, 
-                                                    (1U 
-                                                     & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                    VL_CONCAT_III(6,1,5, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                                  VL_CONCAT_III(5,1,4, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                                                VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x2fU))))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo_5 = VL_CONCAT_III(7,1,6, 
-                                                    (1U 
-                                                     & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                    VL_CONCAT_III(6,1,5, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                                  VL_CONCAT_III(5,1,4, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                                                VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0xfU))))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo = VL_CONCAT_III(7,1,6, 
-                                                  (1U 
-                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x27U)), 
-                                                  VL_CONCAT_III(6,1,5, 
-                                                                (1U 
-                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x27U)), 
-                                                                VL_CONCAT_III(5,1,4, 
-                                                                              (1U 
-                                                                               & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x27U)), 
-                                                                              VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x27U)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x27U)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x27U)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x27U))))))));
-    vlSelf->__PVT__io_RD_lo_lo_lo_4 = VL_CONCAT_III(7,1,6, 
-                                                    (1U 
-                                                     & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 7U)), 
-                                                    VL_CONCAT_III(6,1,5, 
-                                                                  (1U 
-                                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 7U)), 
-                                                                  VL_CONCAT_III(5,1,4, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 7U)), 
-                                                                                VL_CONCAT_III(4,1,3, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 7U)), 
-                                                                                VL_CONCAT_III(3,1,2, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 7U)), 
-                                                                                VL_CONCAT_III(2,1,1, 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 7U)), 
-                                                                                (1U 
-                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 7U))))))));
-}
-
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__6(Vmycpu_top_dmem* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__6\n"); );
-    // Body
     vlSelf->__PVT__io_RD_lo_lo_9 = VL_CONCAT_III(12,1,11, 
                                                  (1U 
                                                   & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
@@ -687,11 +318,61 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 7U)), (IData)(vlSelf->__PVT__io_RD_lo_lo_lo_4))))))));
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__7(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__1(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__7\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__1\n"); );
     // Body
+    vlSelf->__PVT___io_RD_T_812 = VL_CONCAT_III(32,1,31, 
+                                                (1U 
+                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
+                                                VL_CONCAT_III(31,1,30, 
+                                                              (1U 
+                                                               & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
+                                                              VL_CONCAT_III(30,1,29, 
+                                                                            (1U 
+                                                                             & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
+                                                                            VL_CONCAT_III(29,1,28, 
+                                                                                (1U 
+                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
+                                                                                VL_CONCAT_III(28,1,27, 
+                                                                                (1U 
+                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
+                                                                                VL_CONCAT_III(27,1,26, 
+                                                                                (1U 
+                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
+                                                                                VL_CONCAT_III(26,1,25, 
+                                                                                (1U 
+                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
+                                                                                VL_CONCAT_III(25,1,24, 
+                                                                                (1U 
+                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
+                                                                                VL_CONCAT_III(24,8,16, (IData)(vlSelf->__PVT__io_RD_lo_lo_12), (IData)(vlSelf->__PVT__io_RD_lo_12))))))))));
+    vlSelf->__PVT___io_RD_T_852 = VL_CONCAT_III(32,1,31, 
+                                                (1U 
+                                                 & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
+                                                VL_CONCAT_III(31,1,30, 
+                                                              (1U 
+                                                               & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
+                                                              VL_CONCAT_III(30,1,29, 
+                                                                            (1U 
+                                                                             & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
+                                                                            VL_CONCAT_III(29,1,28, 
+                                                                                (1U 
+                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
+                                                                                VL_CONCAT_III(28,1,27, 
+                                                                                (1U 
+                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
+                                                                                VL_CONCAT_III(27,1,26, 
+                                                                                (1U 
+                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
+                                                                                VL_CONCAT_III(26,1,25, 
+                                                                                (1U 
+                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
+                                                                                VL_CONCAT_III(25,1,24, 
+                                                                                (1U 
+                                                                                & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x1fU)), 
+                                                                                VL_CONCAT_III(24,8,16, (IData)(vlSelf->__PVT__io_RD_lo_lo_13), (IData)(vlSelf->__PVT__io_RD_lo_13))))))))));
     vlSelf->__PVT__io_RD_lo_9 = VL_CONCAT_III(24,1,23, 
                                               (1U & 
                                                VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
@@ -945,11 +626,15 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                                                                 VL_CONCAT_III(21,7,14, (IData)(vlSelf->__PVT__io_RD_lo_lo_lo_4), (IData)(vlSelf->__PVT__io_RD_lo_lo_4)))))))));
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__8(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__2(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__8\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__2\n"); );
     // Body
+    vlSelf->__PVT___io_RD_T_814 = VL_CONCAT_QII(64,32,32, vlSelf->__PVT___io_RD_T_812, 
+                                                VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0x20U, 0x20U));
+    vlSelf->__PVT___io_RD_T_854 = VL_CONCAT_QII(64,32,32, vlSelf->__PVT___io_RD_T_852, 
+                                                VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0U, 0x20U));
     vlSelf->__PVT___io_RD_T_645 = VL_CONCAT_QIQ(64,1,63, 
                                                 (1U 
                                                  & VL_BITSEL_IQII(64, vlSelf->__PVT__io_rdata, 0x3fU)), 
@@ -1228,10 +913,10 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                                                                 VL_CONCAT_QII(42,14,28, (IData)(vlSelf->__PVT__io_RD_lo_lo_4), vlSelf->__PVT__io_RD_lo_4)))))))));
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__9(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__3(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__9\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__3\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_250 = VL_CONCAT_QQI(64,56,8, vlSelf->__PVT___io_RD_T_248, 
                                                 (0xffU 
@@ -1259,11 +944,17 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                                  & VL_SEL_IQII(64, vlSelf->__PVT__io_rdata, 0U, 8U)));
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__10(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__4(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__10\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__4\n"); );
     // Body
+    vlSelf->__PVT___io_RD_T_817 = ((IData)(vlSelf->__PVT__io_SIGN)
+                                    ? vlSelf->__PVT___io_RD_T_814
+                                    : VL_EXTEND_QQ(64,33, vlSelf->__PVT___io_RD_T_816));
+    vlSelf->__PVT___io_RD_T_857 = ((IData)(vlSelf->__PVT__io_SIGN)
+                                    ? vlSelf->__PVT___io_RD_T_854
+                                    : VL_EXTEND_QQ(64,33, vlSelf->__PVT___io_RD_T_856));
     vlSelf->__PVT___io_RD_T_650 = ((1U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? vlSelf->__PVT___io_RD_T_590
                                     : 0ULL);
@@ -1272,11 +963,14 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                     : 0ULL);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__11(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__5(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__11\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__5\n"); );
     // Body
+    vlSelf->__PVT___io_RD_T_858 = ((IData)(vlSelf->__PVT__third_ra)
+                                    ? vlSelf->__PVT___io_RD_T_817
+                                    : vlSelf->__PVT___io_RD_T_857);
     vlSelf->__PVT___io_RD_T_652 = ((0U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? VL_EXTEND_QI(64,17, vlSelf->__PVT___io_RD_T_593)
                                     : vlSelf->__PVT___io_RD_T_650);
@@ -1291,10 +985,10 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                     : vlSelf->__PVT___io_RD_T_329);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__12(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__6(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__12\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__6\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_654 = ((5U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? vlSelf->__PVT___io_RD_T_645
@@ -1310,10 +1004,10 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                     : vlSelf->__PVT___io_RD_T_523);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__13(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__7(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__13\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__7\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_656 = ((4U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? VL_EXTEND_QI(64,17, vlSelf->__PVT___io_RD_T_648)
@@ -1329,10 +1023,10 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                     : vlSelf->__PVT___io_RD_T_525);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__14(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__8(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__14\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__8\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_777 = ((IData)(vlSelf->__PVT__third_ra)
                                     ? vlSelf->__PVT___io_RD_T_656
@@ -1345,10 +1039,10 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                     : vlSelf->__PVT___io_RD_T_527);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__15(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__9(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__15\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__9\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_263 = ((4U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? VL_EXTEND_QI(64,9, (IData)(vlSelf->__PVT___io_RD_T_190))
@@ -1358,10 +1052,10 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                     : vlSelf->__PVT___io_RD_T_529);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__16(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__10(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__16\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__10\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_265 = ((7U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? vlSelf->__PVT___io_RD_T_250
@@ -1371,10 +1065,10 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                     : vlSelf->__PVT___io_RD_T_531);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__17(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__11(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__17\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__11\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_267 = ((6U == (IData)(vlSelf->__PVT___io_RD_T_1))
                                     ? VL_EXTEND_QI(64,9, (IData)(vlSelf->__PVT___io_RD_T_253))
@@ -1384,40 +1078,40 @@ VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dme
                                     : vlSelf->__PVT___io_RD_T_533);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__18(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__12(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__18\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__12\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_536 = ((IData)(vlSelf->__PVT__third_ra)
                                     ? vlSelf->__PVT___io_RD_T_267
                                     : vlSelf->__PVT___io_RD_T_535);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__19(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__13(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__19\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__13\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_860 = ((1U == (IData)(vlSelf->__PVT__io_WIDTH))
                                     ? vlSelf->__PVT___io_RD_T_777
                                     : vlSelf->__PVT___io_RD_T_536);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__20(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__14(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__20\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__14\n"); );
     // Body
     vlSelf->__PVT___io_RD_T_862 = ((2U == (IData)(vlSelf->__PVT__io_WIDTH))
                                     ? vlSelf->__PVT___io_RD_T_858
                                     : vlSelf->__PVT___io_RD_T_860);
 }
 
-VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__21(Vmycpu_top_dmem* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__15(Vmycpu_top_dmem* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__21\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_dmem___nba_comb__TOP__mycpu_top__u_riscv_cpu___dmem__15\n"); );
     // Body
     vlSelf->__PVT__io_RD = ((3U == (IData)(vlSelf->__PVT__io_WIDTH))
                              ? vlSelf->__PVT__io_rdata

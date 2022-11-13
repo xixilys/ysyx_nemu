@@ -3,10 +3,11 @@
 !*/
 !Makefile
 !*.mk
-!*.[cSh]
+!include/*
 !*.v
-!*.cc
-!*.cpp
+!npc/*
+!npc_nemu/*
 !*.scala
+!*.py
 !.gitignore
 !README.md

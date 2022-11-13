@@ -383,89 +383,12 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___ico_sequent__TOP__mycpu_top__inst_cac
         = vlSelf->__PVT__icache_data_15_io_wdata;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__13(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__13\n"); );
-    // Body
-    if (vlSelf->__PVT__reset) {
-        vlSelf->__Vdly__stage1_addr_line_mapping = 0ULL;
-    } else if (vlSelf->__PVT__io_sram_req) {
-        vlSelf->__Vdly__stage1_addr_line_mapping = 
-            ((IData)(vlSelf->__PVT__stage1_flush) ? 0ULL
-              : vlSelf->__PVT__io_sram_addr);
-    }
-    vlSelf->__PVT__stage1_addr_line_mapping = vlSelf->__Vdly__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_tag_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_tag_1_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_tag.__PVT__io_addr 
-        = vlSelf->__PVT__icache_tag_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_tag_1.__PVT__io_addr 
-        = vlSelf->__PVT__icache_tag_1_io_addr;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__17(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__17\n"); );
-    // Body
-    vlSelf->__PVT__icache_data_7_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__io_rdata;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__18(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__18\n"); );
-    // Body
-    vlSelf->__PVT__icache_data_15_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__io_rdata;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__19(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__19\n"); );
-    // Body
-    vlSelf->__PVT__icache_data_6_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__io_rdata;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__20(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__20\n"); );
-    // Body
-    vlSelf->__PVT__icache_data_14_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__io_rdata;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__21(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__21\n"); );
-    // Body
-    vlSelf->__PVT__icache_data_5_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__io_rdata;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__22(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__22\n"); );
-    // Body
-    vlSelf->__PVT__icache_data_13_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__io_rdata;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__23(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__23\n"); );
-    // Body
-    vlSelf->__PVT__icache_data_4_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__io_rdata;
-}
-
 VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__24(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__24\n"); );
     // Body
-    vlSelf->__PVT__icache_data_12_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12.__PVT__io_rdata;
+    vlSelf->__PVT__icache_data_7_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__io_rdata;
 }
 
 VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__25(Vmycpu_top_inst_cache* vlSelf) {
@@ -473,7 +396,7 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__25\n"); );
     // Body
-    vlSelf->__PVT__icache_data_3_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__io_rdata;
+    vlSelf->__PVT__icache_data_15_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__io_rdata;
 }
 
 VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__26(Vmycpu_top_inst_cache* vlSelf) {
@@ -481,7 +404,7 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__26\n"); );
     // Body
-    vlSelf->__PVT__icache_data_11_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11.__PVT__io_rdata;
+    vlSelf->__PVT__icache_data_6_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__io_rdata;
 }
 
 VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__27(Vmycpu_top_inst_cache* vlSelf) {
@@ -489,7 +412,7 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__27\n"); );
     // Body
-    vlSelf->__PVT__icache_data_2_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2.__PVT__io_rdata;
+    vlSelf->__PVT__icache_data_14_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__io_rdata;
 }
 
 VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__28(Vmycpu_top_inst_cache* vlSelf) {
@@ -497,7 +420,7 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__28\n"); );
     // Body
-    vlSelf->__PVT__icache_data_10_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__io_rdata;
+    vlSelf->__PVT__icache_data_5_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__io_rdata;
 }
 
 VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__29(Vmycpu_top_inst_cache* vlSelf) {
@@ -505,7 +428,7 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__29\n"); );
     // Body
-    vlSelf->__PVT__icache_data_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__io_rdata;
+    vlSelf->__PVT__icache_data_13_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__io_rdata;
 }
 
 VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__30(Vmycpu_top_inst_cache* vlSelf) {
@@ -513,7 +436,7 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__30\n"); );
     // Body
-    vlSelf->__PVT__icache_data_1_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__io_rdata;
+    vlSelf->__PVT__icache_data_4_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__io_rdata;
 }
 
 VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__31(Vmycpu_top_inst_cache* vlSelf) {
@@ -521,7 +444,7 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__31\n"); );
     // Body
-    vlSelf->__PVT__icache_data_8_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__io_rdata;
+    vlSelf->__PVT__icache_data_12_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12.__PVT__io_rdata;
 }
 
 VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__32(Vmycpu_top_inst_cache* vlSelf) {
@@ -529,20 +452,178 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__32\n"); );
     // Body
+    vlSelf->__PVT__icache_data_3_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__io_rdata;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__33(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__33\n"); );
+    // Body
+    vlSelf->__PVT__icache_data_11_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11.__PVT__io_rdata;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__34(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__34\n"); );
+    // Body
+    vlSelf->__PVT__icache_data_2_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2.__PVT__io_rdata;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__35(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__35\n"); );
+    // Body
+    vlSelf->__PVT__icache_data_10_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__io_rdata;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__36(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__36\n"); );
+    // Body
+    vlSelf->__PVT__icache_data_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__io_rdata;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__37(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__37\n"); );
+    // Body
+    vlSelf->__PVT__icache_data_1_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__io_rdata;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__38(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__38\n"); );
+    // Body
+    vlSelf->__PVT__icache_data_8_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__io_rdata;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__39(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__39\n"); );
+    // Body
     vlSelf->__PVT__icache_data_9_io_rdata = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__io_rdata;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__53(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__72(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__53\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__72\n"); );
     // Body
-    if (vlSelf->__PVT__reset) {
-        vlSelf->__Vdly__stage1_sram_req_reg = 0U;
-    } else if (vlSelf->__PVT___stage1_sram_req_reg_T_1) {
-        vlSelf->__Vdly__stage1_sram_req_reg = ((~ (IData)(vlSelf->__PVT__stage1_flush)) 
-                                               & (IData)(vlSelf->__PVT__io_inst_ready_to_use));
-    }
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_2_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_9_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_10_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_11_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_12_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_15_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__io_addr, 5U, 7U));
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__73(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__73\n"); );
+    // Body
+    vlSelf->__PVT__icache_data_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_data_1_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_data_3_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_data_4_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_data_5_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_data_6_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_data_7_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_data_8_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_data_13_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_data_14_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_1_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_3_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_4_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_5_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_6_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_7_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_8_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_13_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__io_addr 
+        = vlSelf->__PVT__icache_data_14_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__icache_data_ram_0_io_addra 
+        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__io_addr, 5U, 7U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7__icache_data_ram_0.__PVT__io_addra 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__icache_data_ram_0_io_addra;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__io_addra 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__icache_data_ram_0_io_addra;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14__icache_data_ram_0.__PVT__io_addra 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__icache_data_ram_0_io_addra;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__io_addra 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__icache_data_ram_0_io_addra;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__io_addra 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__icache_data_ram_0_io_addra;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__io_addra 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__icache_data_ram_0_io_addra;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__io_addra 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__icache_data_ram_0_io_addra;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__io_addra 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__icache_data_ram_0_io_addra;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__io_addra 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__icache_data_ram_0_io_addra;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_addra 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__icache_data_ram_0_io_addra;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__77(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__77\n"); );
+    // Body
     vlSelf->__PVT__io_port_arburst = VL_EXTEND_II(2,1, (IData)(vlSelf->__PVT__stage1_sram_cache_reg));
     vlSelf->__PVT___io_port_arlen_T_1 = ((IData)(vlSelf->__PVT__stage1_sram_cache_reg)
                                           ? 7U : 0U);
@@ -551,32 +632,19 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
                                                         & VL_SEL_QQII(64, vlSelf->__PVT__stage1_sram_phy_addr_reg, 5U, 0x3bU)), 0U);
     vlSelf->__PVT___access_work_state_T = (2U == (IData)(vlSelf->__PVT__work_state));
     vlSelf->__PVT___access_work_state_T_35 = (5U == (IData)(vlSelf->__PVT__work_state));
-    vlSelf->__PVT___access_work_state_T_18 = ((IData)(vlSelf->__PVT__stage1_finished)
-                                               ? 4U
-                                               : 5U);
-    vlSelf->__PVT___access_work_state_T_28 = ((IData)(vlSelf->__PVT__stage1_sram_cache_reg)
-                                               ? 1U
-                                               : 2U);
-    vlSelf->__PVT___access_work_state_T_32 = ((IData)(vlSelf->__PVT__stage1_sram_cache_reg)
-                                               ? 5U
-                                               : 2U);
     vlSelf->__Vdly__stage1_stall_reg = ((~ (IData)(vlSelf->__PVT__reset)) 
                                         & (IData)(vlSelf->__PVT__io_sram_req));
-    vlSelf->__PVT___access_work_state_T_13 = ((IData)(vlSelf->__PVT__stage1_finished)
-                                               ? 4U
-                                               : 2U);
     vlSelf->__PVT___access_work_state_T_8 = (4U == (IData)(vlSelf->__PVT__work_state));
     vlSelf->__PVT___access_work_state_T_23 = (1U == (IData)(vlSelf->__PVT__work_state));
     vlSymsp->TOP__mycpu_top.__PVT__inst_cache_io_port_arburst 
         = vlSelf->__PVT__io_port_arburst;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__54(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__78(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__54\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__78\n"); );
     // Body
-    vlSelf->__PVT__stage1_sram_req_reg = vlSelf->__Vdly__stage1_sram_req_reg;
     vlSelf->__PVT__stage1_stall_reg = vlSelf->__Vdly__stage1_stall_reg;
     vlSelf->__PVT__io_port_arlen = VL_EXTEND_II(4,3, (IData)(vlSelf->__PVT___io_port_arlen_T_1));
     vlSelf->__PVT__io_port_arvalid = ((IData)(vlSelf->__PVT___access_work_state_T) 
@@ -601,10 +669,10 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
         = vlSelf->__PVT__io_port_arlen;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__55(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__79(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__55\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__79\n"); );
     // Body
     vlSelf->__PVT___access_work_state_T_29 = ((IData)(vlSelf->__PVT__stage1_sram_req_reg)
                                                ? (IData)(vlSelf->__PVT___access_work_state_T_28)
@@ -642,10 +710,10 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
         = vlSelf->__PVT__io_port_araddr;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__56(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__80(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__56\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__80\n"); );
     // Body
     vlSelf->__PVT___stage1_finished_T_2 = (3U == (IData)(vlSelf->__PVT__work_state));
     vlSelf->__PVT___access_work_state_T_38 = (6U == (IData)(vlSelf->__PVT__work_state));
@@ -654,10 +722,10 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     vlSymsp->TOP__mycpu_top.axi_mem_port_0_araddr = vlSymsp->TOP__mycpu_top.__PVT__inst_cache_io_port_araddr;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__57(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__81(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__57\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__81\n"); );
     // Body
     vlSelf->__PVT___write_counter_T_8 = (7U & ((IData)(1U) 
                                                + (IData)(vlSelf->__PVT__write_counter)));
@@ -682,18 +750,18 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     vlSelf->__PVT___wait_data_L_T_3 = (0U == (IData)(vlSelf->__PVT__write_counter));
     vlSelf->__PVT___wait_data_L_T_7 = ((IData)(vlSelf->__PVT___access_work_state_T_38) 
                                        & (IData)(vlSelf->__PVT__io_port_rvalid));
-    vlSelf->__PVT__icache_data_13_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_14_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_tag_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
+    vlSelf->__PVT__icache_tag_1_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
     vlSymsp->TOP.axi_mem_port_0_arvalid = vlSymsp->TOP__mycpu_top.axi_mem_port_0_arvalid;
     vlSymsp->TOP.axi_mem_port_0_arlen = vlSymsp->TOP__mycpu_top.axi_mem_port_0_arlen;
     vlSymsp->TOP__mycpu_top.__PVT__inst_cache_io_v_addr_for_tlb 
         = vlSelf->__PVT__io_v_addr_for_tlb;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__58(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__82(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__58\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__82\n"); );
     // Body
     vlSelf->__PVT__icache_tag_io_wdata = ((IData)(vlSelf->__PVT___stage1_finished_T_1)
                                            ? vlSelf->__PVT___T_13
@@ -704,23 +772,19 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     vlSelf->__PVT___access_work_state_T_42 = ((IData)(vlSelf->__PVT___access_work_state_T_6)
                                                ? 7U
                                                : (IData)(vlSelf->__PVT__work_state));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_13_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_14_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_tag.__PVT__io_addr 
+        = vlSelf->__PVT__icache_tag_io_addr;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_tag_1.__PVT__io_addr 
+        = vlSelf->__PVT__icache_tag_1_io_addr;
     vlSymsp->TOP.axi_mem_port_0_araddr = vlSymsp->TOP__mycpu_top.axi_mem_port_0_araddr;
     vlSymsp->TOP__mycpu_top.__PVT__inst_cache_io_p_addr_for_tlb 
         = vlSymsp->TOP__mycpu_top.__PVT__inst_cache_io_v_addr_for_tlb;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__io_addr, 5U, 7U));
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__59(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__83(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__59\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__83\n"); );
     // Body
     vlSymsp->TOP__mycpu_top__inst_cache__icache_tag.__PVT__io_wdata 
         = vlSelf->__PVT__icache_tag_io_wdata;
@@ -730,460 +794,26 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
                                                ? (IData)(vlSelf->__PVT___access_work_state_T_42)
                                                : (IData)(vlSelf->__PVT___access_work_state_T_44));
     vlSelf->__PVT__io_p_addr_for_tlb = vlSymsp->TOP__mycpu_top.__PVT__inst_cache_io_p_addr_for_tlb;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__icache_data_ram_0_io_addra;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__61(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__17(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__61\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__17\n"); );
     // Body
-    vlSelf->__PVT__icache_data_9_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_10_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_11_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_12_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_9_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_10_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_11_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_12_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_aw_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_aw_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_aw_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_aw_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_aw_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_ar_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_ar_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_ar_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_aw_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_aw_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_aw_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_aw_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_ar_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_ar_addr;
+    vlSelf->__PVT__io_sram_rdata_L = (((IData)(vlSelf->__PVT___stage2_stall_T_5) 
+                                       & (IData)(vlSelf->__PVT__has_stage2_stall))
+                                       ? vlSelf->__PVT__access_sram_rdata_L
+                                       : vlSelf->__PVT__sram_rdata_L_Reg);
+    vlSymsp->TOP__mycpu_top.__PVT__inst_cache_io_sram_rdata_L 
+        = vlSelf->__PVT__io_sram_rdata_L;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__62(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__87(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__62\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__87\n"); );
     // Body
-    vlSelf->__PVT__icache_data_5_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_6_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_7_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_8_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_5_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_6_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_7_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_8_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_aw_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_aw_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_aw_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_aw_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_ar_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_aw_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_aw_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_ar_addr 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_ar_addr;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__65(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__65\n"); );
-    // Body
-    vlSelf->__PVT___GEN_4 = ((1U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                              ? (IData)(vlSelf->__PVT__lru_1)
-                              : (IData)(vlSelf->__PVT__lru_0));
-    vlSelf->__PVT__icache_data_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_1_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_3_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_4_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT___GEN_5 = ((2U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                              ? (IData)(vlSelf->__PVT__lru_2)
-                              : (IData)(vlSelf->__PVT___GEN_4));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_1_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_3_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_4_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__io_addr, 5U, 7U));
-    vlSelf->__PVT___GEN_6 = ((3U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                              ? (IData)(vlSelf->__PVT__lru_3)
-                              : (IData)(vlSelf->__PVT___GEN_5));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__icache_data_ram_0_io_addra;
-    vlSelf->__PVT___GEN_7 = ((4U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                              ? (IData)(vlSelf->__PVT__lru_4)
-                              : (IData)(vlSelf->__PVT___GEN_6));
-    vlSelf->__PVT___GEN_8 = ((5U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                              ? (IData)(vlSelf->__PVT__lru_5)
-                              : (IData)(vlSelf->__PVT___GEN_7));
-    vlSelf->__PVT___GEN_9 = ((6U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                              ? (IData)(vlSelf->__PVT__lru_6)
-                              : (IData)(vlSelf->__PVT___GEN_8));
-    vlSelf->__PVT___GEN_10 = ((7U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_7)
-                               : (IData)(vlSelf->__PVT___GEN_9));
-    vlSelf->__PVT___GEN_11 = ((8U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_8)
-                               : (IData)(vlSelf->__PVT___GEN_10));
-    vlSelf->__PVT___GEN_12 = ((9U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_9)
-                               : (IData)(vlSelf->__PVT___GEN_11));
-    vlSelf->__PVT___GEN_13 = ((0xaU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_10)
-                               : (IData)(vlSelf->__PVT___GEN_12));
-    vlSelf->__PVT___GEN_14 = ((0xbU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_11)
-                               : (IData)(vlSelf->__PVT___GEN_13));
-    vlSelf->__PVT___GEN_15 = ((0xcU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_12)
-                               : (IData)(vlSelf->__PVT___GEN_14));
-    vlSelf->__PVT___GEN_16 = ((0xdU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_13)
-                               : (IData)(vlSelf->__PVT___GEN_15));
-    vlSelf->__PVT___GEN_17 = ((0xeU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_14)
-                               : (IData)(vlSelf->__PVT___GEN_16));
-    vlSelf->__PVT___GEN_18 = ((0xfU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_15)
-                               : (IData)(vlSelf->__PVT___GEN_17));
-    vlSelf->__PVT___GEN_19 = ((0x10U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_16)
-                               : (IData)(vlSelf->__PVT___GEN_18));
-    vlSelf->__PVT___GEN_20 = ((0x11U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_17)
-                               : (IData)(vlSelf->__PVT___GEN_19));
-    vlSelf->__PVT___GEN_21 = ((0x12U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_18)
-                               : (IData)(vlSelf->__PVT___GEN_20));
-    vlSelf->__PVT___GEN_22 = ((0x13U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_19)
-                               : (IData)(vlSelf->__PVT___GEN_21));
-    vlSelf->__PVT___GEN_23 = ((0x14U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_20)
-                               : (IData)(vlSelf->__PVT___GEN_22));
-    vlSelf->__PVT___GEN_24 = ((0x15U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_21)
-                               : (IData)(vlSelf->__PVT___GEN_23));
-    vlSelf->__PVT___GEN_25 = ((0x16U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_22)
-                               : (IData)(vlSelf->__PVT___GEN_24));
-    vlSelf->__PVT___GEN_26 = ((0x17U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_23)
-                               : (IData)(vlSelf->__PVT___GEN_25));
-    vlSelf->__PVT___GEN_27 = ((0x18U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_24)
-                               : (IData)(vlSelf->__PVT___GEN_26));
-    vlSelf->__PVT___GEN_28 = ((0x19U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_25)
-                               : (IData)(vlSelf->__PVT___GEN_27));
-    vlSelf->__PVT___GEN_29 = ((0x1aU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_26)
-                               : (IData)(vlSelf->__PVT___GEN_28));
-    vlSelf->__PVT___GEN_30 = ((0x1bU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_27)
-                               : (IData)(vlSelf->__PVT___GEN_29));
-    vlSelf->__PVT___GEN_31 = ((0x1cU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_28)
-                               : (IData)(vlSelf->__PVT___GEN_30));
-    vlSelf->__PVT___GEN_32 = ((0x1dU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_29)
-                               : (IData)(vlSelf->__PVT___GEN_31));
-    vlSelf->__PVT___GEN_33 = ((0x1eU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_30)
-                               : (IData)(vlSelf->__PVT___GEN_32));
-    vlSelf->__PVT___GEN_34 = ((0x1fU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_31)
-                               : (IData)(vlSelf->__PVT___GEN_33));
-    vlSelf->__PVT___GEN_35 = ((0x20U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_32)
-                               : (IData)(vlSelf->__PVT___GEN_34));
-    vlSelf->__PVT___GEN_36 = ((0x21U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_33)
-                               : (IData)(vlSelf->__PVT___GEN_35));
-    vlSelf->__PVT___GEN_37 = ((0x22U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_34)
-                               : (IData)(vlSelf->__PVT___GEN_36));
-    vlSelf->__PVT___GEN_38 = ((0x23U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_35)
-                               : (IData)(vlSelf->__PVT___GEN_37));
-    vlSelf->__PVT___GEN_39 = ((0x24U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_36)
-                               : (IData)(vlSelf->__PVT___GEN_38));
-    vlSelf->__PVT___GEN_40 = ((0x25U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_37)
-                               : (IData)(vlSelf->__PVT___GEN_39));
-    vlSelf->__PVT___GEN_41 = ((0x26U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_38)
-                               : (IData)(vlSelf->__PVT___GEN_40));
-    vlSelf->__PVT___GEN_42 = ((0x27U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_39)
-                               : (IData)(vlSelf->__PVT___GEN_41));
-    vlSelf->__PVT___GEN_43 = ((0x28U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_40)
-                               : (IData)(vlSelf->__PVT___GEN_42));
-    vlSelf->__PVT___GEN_44 = ((0x29U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_41)
-                               : (IData)(vlSelf->__PVT___GEN_43));
-    vlSelf->__PVT___GEN_45 = ((0x2aU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_42)
-                               : (IData)(vlSelf->__PVT___GEN_44));
-    vlSelf->__PVT___GEN_46 = ((0x2bU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_43)
-                               : (IData)(vlSelf->__PVT___GEN_45));
-    vlSelf->__PVT___GEN_47 = ((0x2cU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_44)
-                               : (IData)(vlSelf->__PVT___GEN_46));
-    vlSelf->__PVT___GEN_48 = ((0x2dU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_45)
-                               : (IData)(vlSelf->__PVT___GEN_47));
-    vlSelf->__PVT___GEN_49 = ((0x2eU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_46)
-                               : (IData)(vlSelf->__PVT___GEN_48));
-    vlSelf->__PVT___GEN_50 = ((0x2fU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_47)
-                               : (IData)(vlSelf->__PVT___GEN_49));
-    vlSelf->__PVT___GEN_51 = ((0x30U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_48)
-                               : (IData)(vlSelf->__PVT___GEN_50));
-    vlSelf->__PVT___GEN_52 = ((0x31U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_49)
-                               : (IData)(vlSelf->__PVT___GEN_51));
-    vlSelf->__PVT___GEN_53 = ((0x32U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_50)
-                               : (IData)(vlSelf->__PVT___GEN_52));
-    vlSelf->__PVT___GEN_54 = ((0x33U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_51)
-                               : (IData)(vlSelf->__PVT___GEN_53));
-    vlSelf->__PVT___GEN_55 = ((0x34U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_52)
-                               : (IData)(vlSelf->__PVT___GEN_54));
-    vlSelf->__PVT___GEN_56 = ((0x35U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_53)
-                               : (IData)(vlSelf->__PVT___GEN_55));
-    vlSelf->__PVT___GEN_57 = ((0x36U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_54)
-                               : (IData)(vlSelf->__PVT___GEN_56));
-    vlSelf->__PVT___GEN_58 = ((0x37U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_55)
-                               : (IData)(vlSelf->__PVT___GEN_57));
-    vlSelf->__PVT___GEN_59 = ((0x38U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_56)
-                               : (IData)(vlSelf->__PVT___GEN_58));
-    vlSelf->__PVT___GEN_60 = ((0x39U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_57)
-                               : (IData)(vlSelf->__PVT___GEN_59));
-    vlSelf->__PVT___GEN_61 = ((0x3aU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_58)
-                               : (IData)(vlSelf->__PVT___GEN_60));
-    vlSelf->__PVT___GEN_62 = ((0x3bU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_59)
-                               : (IData)(vlSelf->__PVT___GEN_61));
-    vlSelf->__PVT___GEN_63 = ((0x3cU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_60)
-                               : (IData)(vlSelf->__PVT___GEN_62));
-    vlSelf->__PVT___GEN_64 = ((0x3dU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_61)
-                               : (IData)(vlSelf->__PVT___GEN_63));
-    vlSelf->__PVT___GEN_65 = ((0x3eU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_62)
-                               : (IData)(vlSelf->__PVT___GEN_64));
-    vlSelf->__PVT___GEN_66 = ((0x3fU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_63)
-                               : (IData)(vlSelf->__PVT___GEN_65));
-    vlSelf->__PVT___GEN_67 = ((0x40U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_64)
-                               : (IData)(vlSelf->__PVT___GEN_66));
-    vlSelf->__PVT___GEN_68 = ((0x41U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_65)
-                               : (IData)(vlSelf->__PVT___GEN_67));
-    vlSelf->__PVT___GEN_69 = ((0x42U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_66)
-                               : (IData)(vlSelf->__PVT___GEN_68));
-    vlSelf->__PVT___GEN_70 = ((0x43U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_67)
-                               : (IData)(vlSelf->__PVT___GEN_69));
-    vlSelf->__PVT___GEN_71 = ((0x44U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_68)
-                               : (IData)(vlSelf->__PVT___GEN_70));
-    vlSelf->__PVT___GEN_72 = ((0x45U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_69)
-                               : (IData)(vlSelf->__PVT___GEN_71));
-    vlSelf->__PVT___GEN_73 = ((0x46U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_70)
-                               : (IData)(vlSelf->__PVT___GEN_72));
-    vlSelf->__PVT___GEN_74 = ((0x47U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_71)
-                               : (IData)(vlSelf->__PVT___GEN_73));
-    vlSelf->__PVT___GEN_75 = ((0x48U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_72)
-                               : (IData)(vlSelf->__PVT___GEN_74));
-    vlSelf->__PVT___GEN_76 = ((0x49U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_73)
-                               : (IData)(vlSelf->__PVT___GEN_75));
-    vlSelf->__PVT___GEN_77 = ((0x4aU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_74)
-                               : (IData)(vlSelf->__PVT___GEN_76));
-    vlSelf->__PVT___GEN_78 = ((0x4bU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_75)
-                               : (IData)(vlSelf->__PVT___GEN_77));
-    vlSelf->__PVT___GEN_79 = ((0x4cU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_76)
-                               : (IData)(vlSelf->__PVT___GEN_78));
-    vlSelf->__PVT___GEN_80 = ((0x4dU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_77)
-                               : (IData)(vlSelf->__PVT___GEN_79));
-    vlSelf->__PVT___GEN_81 = ((0x4eU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_78)
-                               : (IData)(vlSelf->__PVT___GEN_80));
-    vlSelf->__PVT___GEN_82 = ((0x4fU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_79)
-                               : (IData)(vlSelf->__PVT___GEN_81));
-    vlSelf->__PVT___GEN_83 = ((0x50U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_80)
-                               : (IData)(vlSelf->__PVT___GEN_82));
-    vlSelf->__PVT___GEN_84 = ((0x51U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_81)
-                               : (IData)(vlSelf->__PVT___GEN_83));
-    vlSelf->__PVT___GEN_85 = ((0x52U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_82)
-                               : (IData)(vlSelf->__PVT___GEN_84));
-    vlSelf->__PVT___GEN_86 = ((0x53U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_83)
-                               : (IData)(vlSelf->__PVT___GEN_85));
-    vlSelf->__PVT___GEN_87 = ((0x54U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_84)
-                               : (IData)(vlSelf->__PVT___GEN_86));
-    vlSelf->__PVT___GEN_88 = ((0x55U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_85)
-                               : (IData)(vlSelf->__PVT___GEN_87));
-    vlSelf->__PVT___GEN_89 = ((0x56U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_86)
-                               : (IData)(vlSelf->__PVT___GEN_88));
-    vlSelf->__PVT___GEN_90 = ((0x57U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_87)
-                               : (IData)(vlSelf->__PVT___GEN_89));
-    vlSelf->__PVT___GEN_91 = ((0x58U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_88)
-                               : (IData)(vlSelf->__PVT___GEN_90));
-    vlSelf->__PVT___GEN_92 = ((0x59U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_89)
-                               : (IData)(vlSelf->__PVT___GEN_91));
-    vlSelf->__PVT___GEN_93 = ((0x5aU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_90)
-                               : (IData)(vlSelf->__PVT___GEN_92));
-    vlSelf->__PVT___GEN_94 = ((0x5bU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_91)
-                               : (IData)(vlSelf->__PVT___GEN_93));
-    vlSelf->__PVT___GEN_95 = ((0x5cU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_92)
-                               : (IData)(vlSelf->__PVT___GEN_94));
-    vlSelf->__PVT___GEN_96 = ((0x5dU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_93)
-                               : (IData)(vlSelf->__PVT___GEN_95));
-    vlSelf->__PVT___GEN_97 = ((0x5eU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_94)
-                               : (IData)(vlSelf->__PVT___GEN_96));
-    vlSelf->__PVT___GEN_98 = ((0x5fU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_95)
-                               : (IData)(vlSelf->__PVT___GEN_97));
-    vlSelf->__PVT___GEN_99 = ((0x60U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                               ? (IData)(vlSelf->__PVT__lru_96)
-                               : (IData)(vlSelf->__PVT___GEN_98));
-    vlSelf->__PVT___GEN_100 = ((0x61U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                                ? (IData)(vlSelf->__PVT__lru_97)
-                                : (IData)(vlSelf->__PVT___GEN_99));
-    vlSelf->__PVT___GEN_101 = ((0x62U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                                ? (IData)(vlSelf->__PVT__lru_98)
-                                : (IData)(vlSelf->__PVT___GEN_100));
-    vlSelf->__PVT___GEN_102 = ((0x63U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
-                                ? (IData)(vlSelf->__PVT__lru_99)
-                                : (IData)(vlSelf->__PVT___GEN_101));
     vlSelf->__PVT___GEN_103 = ((0x64U == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
                                 ? (IData)(vlSelf->__PVT__lru_100)
                                 : (IData)(vlSelf->__PVT___GEN_102));
@@ -1268,55 +898,68 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     vlSelf->__PVT___GEN_130 = ((0x7fU == (0x7fU & VL_SEL_IQII(64, vlSelf->__PVT__stage1_addr_line_mapping, 5U, 7U)))
                                 ? (IData)(vlSelf->__PVT__lru_127)
                                 : (IData)(vlSelf->__PVT___GEN_129));
+    vlSelf->__PVT___icache_data_way1_0_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___GEN_130)) 
+                                                  & (IData)(vlSelf->__PVT___wait_data_L_T_3));
+    vlSelf->__PVT___icache_data_way1_1_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___GEN_130)) 
+                                                  & (IData)(vlSelf->__PVT___icache_data_way0_1_wen_T_6));
+    vlSelf->__PVT___icache_data_way1_2_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___GEN_130)) 
+                                                  & (IData)(vlSelf->__PVT___icache_data_way0_2_wen_T_6));
+    vlSelf->__PVT___icache_data_way1_3_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___GEN_130)) 
+                                                  & (IData)(vlSelf->__PVT___icache_data_way0_3_wen_T_6));
+    vlSelf->__PVT___icache_data_way1_4_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___GEN_130)) 
+                                                  & (IData)(vlSelf->__PVT___icache_data_way0_4_wen_T_6));
+    vlSelf->__PVT___icache_data_way1_5_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___GEN_130)) 
+                                                  & (IData)(vlSelf->__PVT___icache_data_way0_5_wen_T_6));
+    vlSelf->__PVT___icache_data_way1_7_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___GEN_130)) 
+                                                  & (IData)(vlSelf->__PVT___icache_data_way0_7_wen_T_6));
     vlSelf->__PVT___lru_T_8 = (1U & (~ (IData)(vlSelf->__PVT___GEN_130)));
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__66(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__66\n"); );
-    // Body
-    vlSelf->__PVT__icache_data_2_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSelf->__PVT__icache_data_15_io_addr = vlSelf->__PVT__stage1_addr_line_mapping;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_2_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__io_addr 
-        = vlSelf->__PVT__icache_data_15_io_addr;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2.__PVT__icache_data_ram_0_io_addra 
-        = (0x7fU & VL_SEL_IQII(64, vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2.__PVT__io_addr, 5U, 7U));
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__icache_data_ram_0_io_addra;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__io_addra 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2.__PVT__icache_data_ram_0_io_addra;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__17(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__17\n"); );
-    // Body
-    vlSelf->__PVT__io_sram_rdata_L = (((IData)(vlSelf->__PVT___stage2_stall_T_5) 
-                                       & (IData)(vlSelf->__PVT__has_stage2_stall))
-                                       ? vlSelf->__PVT__access_sram_rdata_L
-                                       : vlSelf->__PVT__sram_rdata_L_Reg);
-    vlSymsp->TOP__mycpu_top.__PVT__inst_cache_io_sram_rdata_L 
-        = vlSelf->__PVT__io_sram_rdata_L;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__73(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__73\n"); );
-    // Body
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_tag_1.__PVT__io_wen 
-        = vlSelf->__PVT__icache_tag_1_io_wen;
-    vlSelf->__PVT__icache_tag_io_wen = ((IData)(vlSelf->__PVT___stage1_finished_T_1) 
-                                        & (IData)(vlSelf->__PVT___lru_T_8));
     vlSelf->__PVT__icache_data_8_io_wen = ((IData)(vlSelf->__PVT___icache_data_way1_0_wen_T_7)
                                             ? 0x1fU
                                             : 0U);
+    vlSelf->__PVT__icache_data_9_io_wen = ((IData)(vlSelf->__PVT___icache_data_way1_1_wen_T_7)
+                                            ? 0x1fU
+                                            : 0U);
+    vlSelf->__PVT__icache_data_10_io_wen = ((IData)(vlSelf->__PVT___icache_data_way1_2_wen_T_7)
+                                             ? 0x1fU
+                                             : 0U);
+    vlSelf->__PVT__icache_data_11_io_wen = ((IData)(vlSelf->__PVT___icache_data_way1_3_wen_T_7)
+                                             ? 0x1fU
+                                             : 0U);
+    vlSelf->__PVT__icache_data_12_io_wen = ((IData)(vlSelf->__PVT___icache_data_way1_4_wen_T_7)
+                                             ? 0x1fU
+                                             : 0U);
+    vlSelf->__PVT__icache_data_13_io_wen = ((IData)(vlSelf->__PVT___icache_data_way1_5_wen_T_7)
+                                             ? 0x1fU
+                                             : 0U);
+    vlSelf->__PVT__icache_data_15_io_wen = ((IData)(vlSelf->__PVT___icache_data_way1_7_wen_T_7)
+                                             ? 0x1fU
+                                             : 0U);
+    vlSelf->__PVT___icache_data_way0_0_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___lru_T_8)) 
+                                                  & (IData)(vlSelf->__PVT___wait_data_L_T_3));
+    vlSelf->__PVT___icache_data_way0_1_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___lru_T_8)) 
+                                                  & (1U 
+                                                     == (IData)(vlSelf->__PVT__write_counter)));
+    vlSelf->__PVT___icache_data_way0_2_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___lru_T_8)) 
+                                                  & (2U 
+                                                     == (IData)(vlSelf->__PVT__write_counter)));
+    vlSelf->__PVT___icache_data_way0_3_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___lru_T_8)) 
+                                                  & (3U 
+                                                     == (IData)(vlSelf->__PVT__write_counter)));
+    vlSelf->__PVT___icache_data_way0_4_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___lru_T_8)) 
+                                                  & (4U 
+                                                     == (IData)(vlSelf->__PVT__write_counter)));
     vlSelf->__PVT___icache_data_way0_5_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
                                                    & (IData)(vlSelf->__PVT___lru_T_8)) 
                                                   & (5U 
@@ -1325,78 +968,8 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
                                                    & (IData)(vlSelf->__PVT___lru_T_8)) 
                                                   & (6U 
                                                      == (IData)(vlSelf->__PVT__write_counter)));
-    vlSelf->__PVT___icache_data_way0_7_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
-                                                   & (IData)(vlSelf->__PVT___lru_T_8)) 
-                                                  & (7U 
-                                                     == (IData)(vlSelf->__PVT__write_counter)));
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__74(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__74\n"); );
-    // Body
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_tag.__PVT__io_wen 
-        = vlSelf->__PVT__icache_tag_io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__io_wen 
         = vlSelf->__PVT__icache_data_8_io_wen;
-    vlSelf->__PVT__icache_data_5_io_wen = ((IData)(vlSelf->__PVT___icache_data_way0_5_wen_T_7)
-                                            ? 0x1fU
-                                            : 0U);
-    vlSelf->__PVT__icache_data_6_io_wen = ((IData)(vlSelf->__PVT___icache_data_way0_6_wen_T_7)
-                                            ? 0x1fU
-                                            : 0U);
-    vlSelf->__PVT__icache_data_7_io_wen = ((IData)(vlSelf->__PVT___icache_data_way0_7_wen_T_7)
-                                            ? 0x1fU
-                                            : 0U);
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__icache_data_ram_0_io_wea 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__io_wen;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__18(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__18\n"); );
-    // Body
-    vlSelf->__PVT__icache_tag_io_valid = vlSymsp->TOP__mycpu_top__inst_cache__icache_tag.__PVT__io_valid;
-    vlSelf->__PVT__icache_tag_io_hit = vlSymsp->TOP__mycpu_top__inst_cache__icache_tag.__PVT__io_hit;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__19(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__19\n"); );
-    // Body
-    vlSelf->__PVT__icache_tag_1_io_valid = vlSymsp->TOP__mycpu_top__inst_cache__icache_tag_1.__PVT__io_valid;
-    vlSelf->__PVT__icache_tag_1_io_hit = vlSymsp->TOP__mycpu_top__inst_cache__icache_tag_1.__PVT__io_hit;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__75(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__75\n"); );
-    // Body
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__io_wen 
-        = vlSelf->__PVT__icache_data_5_io_wen;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__io_wen 
-        = vlSelf->__PVT__icache_data_6_io_wen;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__io_wen 
-        = vlSelf->__PVT__icache_data_7_io_wen;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__icache_data_ram_0_io_wea 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__io_wen;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__icache_data_ram_0_io_wea 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__io_wen;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__icache_data_ram_0_io_wea 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__io_wen;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_wea 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__icache_data_ram_0_io_wea;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__78(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__78\n"); );
-    // Body
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__io_wen 
         = vlSelf->__PVT__icache_data_9_io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__io_wen 
@@ -1407,8 +980,6 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
         = vlSelf->__PVT__icache_data_12_io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__io_wen 
         = vlSelf->__PVT__icache_data_13_io_wen;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__io_wen 
-        = vlSelf->__PVT__icache_data_14_io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__io_wen 
         = vlSelf->__PVT__icache_data_15_io_wen;
     vlSelf->__PVT__icache_data_io_wen = ((IData)(vlSelf->__PVT___icache_data_way0_0_wen_T_7)
@@ -1425,10 +996,14 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
     vlSelf->__PVT__icache_data_4_io_wen = ((IData)(vlSelf->__PVT___icache_data_way0_4_wen_T_7)
                                             ? 0x1fU
                                             : 0U);
+    vlSelf->__PVT__icache_data_5_io_wen = ((IData)(vlSelf->__PVT___icache_data_way0_5_wen_T_7)
+                                            ? 0x1fU
+                                            : 0U);
+    vlSelf->__PVT__icache_data_6_io_wen = ((IData)(vlSelf->__PVT___icache_data_way0_6_wen_T_7)
+                                            ? 0x1fU
+                                            : 0U);
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__icache_data_ram_0_io_wea 
         = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__io_wen;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__icache_data_ram_0_io_wea 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__icache_data_ram_0_io_wea 
         = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12.__PVT__icache_data_ram_0_io_wea 
@@ -1437,15 +1012,10 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
         = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11.__PVT__io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__icache_data_ram_0_io_wea 
         = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10.__PVT__io_wen;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__icache_data_ram_0_io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__icache_data_ram_0_io_wea 
         = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__io_wen;
-}
-
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__79(Vmycpu_top_inst_cache* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__79\n"); );
-    // Body
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__io_wen 
         = vlSelf->__PVT__icache_data_io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__io_wen 
@@ -1456,10 +1026,16 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
         = vlSelf->__PVT__icache_data_3_io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__io_wen 
         = vlSelf->__PVT__icache_data_4_io_wen;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__io_wen 
+        = vlSelf->__PVT__icache_data_5_io_wen;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__io_wen 
+        = vlSelf->__PVT__icache_data_6_io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__io_wea 
         = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15.__PVT__icache_data_ram_0_io_wea;
-    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14__icache_data_ram_0.__PVT__io_wea 
-        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__icache_data_ram_0_io_wea;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__icache_data_ram_0_io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__io_wen;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__icache_data_ram_0_io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__io_wea 
         = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13.__PVT__icache_data_ram_0_io_wea;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__icache_data_ram_0_io_wea 
@@ -1478,14 +1054,310 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cac
         = vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__io_wen;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__icache_data_ram_0_io_wea 
         = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__io_wen;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8.__PVT__icache_data_ram_0_io_wea;
     vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__io_wea 
         = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9.__PVT__icache_data_ram_0_io_wea;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6.__PVT__icache_data_ram_0_io_wea;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5.__PVT__icache_data_ram_0_io_wea;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4.__PVT__icache_data_ram_0_io_wea;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3.__PVT__icache_data_ram_0_io_wea;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2.__PVT__icache_data_ram_0_io_wea;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data.__PVT__icache_data_ram_0_io_wea;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1.__PVT__icache_data_ram_0_io_wea;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_15__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_13__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_12__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_11__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_10__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__io_wea), 0U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__io_wea), 1U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__io_wea), 2U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__io_wea), 3U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write 
+        = (1U & VL_BITSEL_IIII(5, (IData)(vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__io_wea), 4U));
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_8__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_9__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_6__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_5__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_4__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_3__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_2__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0__Look_up_table_read_first_.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__Look_up_table_read_first___05Fio_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0__Look_up_table_read_first___05F1.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__Look_up_table_read_first___05F1_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0__Look_up_table_read_first___05F2.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__Look_up_table_read_first___05F2_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0__Look_up_table_read_first___05F3.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__Look_up_table_read_first___05F3_io_write;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0__Look_up_table_read_first___05F4.__PVT__io_write 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_1__icache_data_ram_0.__PVT__Look_up_table_read_first___05F4_io_write;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__24(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__18(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__24\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__18\n"); );
     // Body
     vlSelf->__PVT__io_sram_write_en = ((IData)(vlSelf->__PVT__io_inst_buffer_full)
                                         ? 0U : (IData)(vlSelf->__PVT___io_sram_write_en_T_5));
@@ -1493,10 +1365,75 @@ VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache_
         = vlSelf->__PVT__io_sram_write_en;
 }
 
-VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__28(Vmycpu_top_inst_cache* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__89(Vmycpu_top_inst_cache* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__28\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__89\n"); );
+    // Body
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_tag_1.__PVT__io_wen 
+        = vlSelf->__PVT__icache_tag_1_io_wen;
+    vlSelf->__PVT__icache_tag_io_wen = ((IData)(vlSelf->__PVT___stage1_finished_T_1) 
+                                        & (IData)(vlSelf->__PVT___lru_T_8));
+    vlSelf->__PVT__icache_data_14_io_wen = ((IData)(vlSelf->__PVT___icache_data_way1_6_wen_T_7)
+                                             ? 0x1fU
+                                             : 0U);
+    vlSelf->__PVT___icache_data_way0_7_wen_T_7 = (((IData)(vlSelf->__PVT___wait_data_L_T_7) 
+                                                   & (IData)(vlSelf->__PVT___lru_T_8)) 
+                                                  & (7U 
+                                                     == (IData)(vlSelf->__PVT__write_counter)));
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__90(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__90\n"); );
+    // Body
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_tag.__PVT__io_wen 
+        = vlSelf->__PVT__icache_tag_io_wen;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__io_wen 
+        = vlSelf->__PVT__icache_data_14_io_wen;
+    vlSelf->__PVT__icache_data_7_io_wen = ((IData)(vlSelf->__PVT___icache_data_way0_7_wen_T_7)
+                                            ? 0x1fU
+                                            : 0U);
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__icache_data_ram_0_io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__io_wen;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__19(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__19\n"); );
+    // Body
+    vlSelf->__PVT__icache_tag_io_valid = vlSymsp->TOP__mycpu_top__inst_cache__icache_tag.__PVT__io_valid;
+    vlSelf->__PVT__icache_tag_io_hit = vlSymsp->TOP__mycpu_top__inst_cache__icache_tag.__PVT__io_hit;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__20(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__20\n"); );
+    // Body
+    vlSelf->__PVT__icache_tag_1_io_valid = vlSymsp->TOP__mycpu_top__inst_cache__icache_tag_1.__PVT__io_valid;
+    vlSelf->__PVT__icache_tag_1_io_hit = vlSymsp->TOP__mycpu_top__inst_cache__icache_tag_1.__PVT__io_hit;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__91(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_sequent__TOP__mycpu_top__inst_cache__91\n"); );
+    // Body
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__io_wen 
+        = vlSelf->__PVT__icache_data_7_io_wen;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__icache_data_ram_0_io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_7.__PVT__io_wen;
+    vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14__icache_data_ram_0.__PVT__io_wea 
+        = vlSymsp->TOP__mycpu_top__inst_cache__icache_data_14.__PVT__icache_data_ram_0_io_wea;
+}
+
+VL_INLINE_OPT void Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__30(Vmycpu_top_inst_cache* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top_inst_cache___nba_comb__TOP__mycpu_top__inst_cache__30\n"); );
     // Body
     vlSelf->__PVT__stage2_stall = (((1U == (IData)(vlSelf->__PVT__access_work_state)) 
                                     | (4U == (IData)(vlSelf->__PVT__access_work_state))) 

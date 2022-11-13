@@ -43,6 +43,7 @@ VM_CLASSES_FAST += \
 	Vmycpu_top___024root__DepSet_h368ace38__14 \
 	Vmycpu_top___024root__DepSet_h368ace38__15 \
 	Vmycpu_top___024root__DepSet_h368ace38__16 \
+	Vmycpu_top___024root__DepSet_h368ace38__17 \
 	Vmycpu_top___024root__DepSet_hcf0db31f__0 \
 	Vmycpu_top_mycpu_top__DepSet_heb4658b1__0 \
 	Vmycpu_top_mycpu_top__DepSet_h02412096__0 \
@@ -57,7 +58,6 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_alu__DepSet_h838add17__0 \
 	Vmycpu_top_alu__DepSet_h1a0da638__0 \
 	Vmycpu_top_br__DepSet_he1bc4075__0 \
-	Vmycpu_top_cfu__DepSet_hfaab7013__0 \
 	Vmycpu_top_cfu__DepSet_h132bf934__0 \
 	Vmycpu_top_csr__DepSet_h930d1fd4__0 \
 	Vmycpu_top_cu__DepSet_h5647ed0a__0 \
@@ -73,17 +73,19 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_regfile__DepSet_h62b127e8__0 \
 	Vmycpu_top_fifo_with_bundle__DepSet_he0813532__0 \
 	Vmycpu_top_fifo_with_bundle__DepSet_hfd023e15__0 \
+	Vmycpu_top_pc_detail__DepSet_hf44d4e6a__0 \
 	Vmycpu_top_pc_detail__DepSet_h1146336d__0 \
 	Vmycpu_top_branch_prediction_with_blockram__DepSet_h21ccee08__0 \
 	Vmycpu_top_branch_prediction_with_blockram__DepSet_hbbc7934f__0 \
-	Vmycpu_top_bru_detail__DepSet_ha9d3d236__0 \
 	Vmycpu_top_bru_detail__DepSet_h43b49719__0 \
 	Vmycpu_top_icache_tag__DepSet_h88741ca9__0 \
 	Vmycpu_top_icache_tag__DepSet_h88741ca9__1 \
+	Vmycpu_top_icache_data__DepSet_h25446a87__0 \
 	Vmycpu_top_icache_data__DepSet_h56ee3c43__0 \
 	Vmycpu_top_icache_data__DepSet_hab97f743__0 \
 	Vmycpu_top_dcache_tag__DepSet_h9ea7671c__0 \
 	Vmycpu_top_dcache_tag__DepSet_h9ea7671c__1 \
+	Vmycpu_top_dcache_data__DepSet_h034a4cf4__0 \
 	Vmycpu_top_dcache_data__DepSet_hce7f39cc__0 \
 	Vmycpu_top_dcache_data__DepSet_hea5dff27__0 \
 	Vmycpu_top_difftest_commit__DepSet_hf87b8e72__0 \
@@ -112,7 +114,6 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_PHTS_with_block_ram__DepSet_h76890239__0 \
 	Vmycpu_top_BHT__DepSet_h9bd1e8d3__0 \
 	Vmycpu_top_BHT__DepSet_h4495c974__0 \
-	Vmycpu_top_btb_tag_with_block_ram__DepSet_h105903de__0 \
 	Vmycpu_top_btb_tag_with_block_ram__DepSet_hb228c3b0__0 \
 	Vmycpu_top_btb_tag_with_block_ram__DepSet_had3a6801__0 \
 	Vmycpu_top_btb_tag_with_block_ram__DepSet_haf394a36__0 \
@@ -197,10 +198,12 @@ VM_CLASSES_FAST += \
 	Vmycpu_top_Look_up_table_read_first___05F40__DepSet_hb05cc169__74 \
 	Vmycpu_top_Look_up_table_read_first___05F40__DepSet_hb05cc169__75 \
 	Vmycpu_top_Look_up_table_read_first___05F40__DepSet_hb05cc169__76 \
+	Vmycpu_top_Look_up_table_read_first___05F40__DepSet_hb05cc169__77 \
 	Vmycpu_top_Look_up_table_read_first___05F40__DepSet_hb7403c24__0 \
 	Vmycpu_top_pht_data_with_block_ram__DepSet_hac671538__0 \
 	Vmycpu_top_pht_data_with_block_ram__DepSet_h66b22fc8__0 \
 	Vmycpu_top_pht_data_with_block_ram__DepSet_h83135011__0 \
+	Vmycpu_top_data_ram_simple_two_ports_32__DepSet_h0c46c566__0 \
 	Vmycpu_top_data_ram_simple_two_ports_32__DepSet_h28b7ea9d__0 \
 	Vmycpu_top_data_ram_simple_two_ports_32__DepSet_h6db9e3d0__0 \
 	Vmycpu_top_data_ram_simple_two_ports_32__DepSet_h881a87f7__0 \

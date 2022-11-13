@@ -21,7 +21,7 @@ extern "C" {
     // DPI import at /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:5:30
     extern void cpu_ebreak();
     // DPI import at /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:6:30
-    extern void mem_trace_func(const svLogicVecVal* mem_write_state, const svLogicVecVal* addr, const svLogicVecVal* data, const svLogicVecVal* pc, const svLogicVecVal* size);
+    extern void mem_trace_func(const svOpenArrayHandle a, int mem_write_state, int size, int cache);
     // DPI import at /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:4:30
     extern void set_debug_pc_ptr(const svLogicVecVal* a);
     // DPI import at /home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/v_lib/difftest_lib.v:2:30

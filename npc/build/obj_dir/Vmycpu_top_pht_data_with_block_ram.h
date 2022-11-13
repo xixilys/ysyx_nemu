@@ -24,10 +24,10 @@ class Vmycpu_top_pht_data_with_block_ram final : public VerilatedModule {
     CData/*7:0*/ __PVT__btb_data_ram_0_io_dina;
     VL_IN8(__PVT__io_wen,0,0);
     CData/*0:0*/ __PVT__btb_data_ram_0_io_wea;
-    VL_OUT8(__PVT__io_rdata,7,0);
-    CData/*7:0*/ __PVT__btb_data_ram_0_io_doutb;
     VL_IN8(__PVT__io_waddr,4,0);
     CData/*4:0*/ __PVT__btb_data_ram_0_io_addra;
+    VL_OUT8(__PVT__io_rdata,7,0);
+    CData/*7:0*/ __PVT__btb_data_ram_0_io_doutb;
     VL_IN8(__PVT__clock,0,0);
     VL_IN8(__PVT__reset,0,0);
     CData/*0:0*/ __PVT__btb_data_ram_0_clock;

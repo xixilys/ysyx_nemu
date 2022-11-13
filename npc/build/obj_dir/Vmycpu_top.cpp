@@ -12,6 +12,13 @@
 Vmycpu_top::Vmycpu_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     : VerilatedModel{*_vcontextp__}
     , vlSymsp{new Vmycpu_top__Syms(contextp(), _vcname__, this)}
+    , axi_mem_port_1_arvalid{vlSymsp->TOP.axi_mem_port_1_arvalid}
+    , axi_mem_port_1_awvalid{vlSymsp->TOP.axi_mem_port_1_awvalid}
+    , axi_mem_port_1_wstrb{vlSymsp->TOP.axi_mem_port_1_wstrb}
+    , axi_mem_port_1_awaddr{vlSymsp->TOP.axi_mem_port_1_awaddr}
+    , axi_mem_port_1_wdata{vlSymsp->TOP.axi_mem_port_1_wdata}
+    , axi_mem_port_1_wlast{vlSymsp->TOP.axi_mem_port_1_wlast}
+    , axi_mem_port_1_wvalid{vlSymsp->TOP.axi_mem_port_1_wvalid}
     , axi_mem_port_0_arsize{vlSymsp->TOP.axi_mem_port_0_arsize}
     , axi_mem_port_0_arlock{vlSymsp->TOP.axi_mem_port_0_arlock}
     , axi_mem_port_0_arcache{vlSymsp->TOP.axi_mem_port_0_arcache}
@@ -20,6 +27,40 @@ Vmycpu_top::Vmycpu_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     , axi_mem_port_0_rresp{vlSymsp->TOP.axi_mem_port_0_rresp}
     , axi_mem_port_0_rready{vlSymsp->TOP.axi_mem_port_0_rready}
     , axi_mem_port_0_awid{vlSymsp->TOP.axi_mem_port_0_awid}
+    , axi_mem_port_1_arlen{vlSymsp->TOP.axi_mem_port_1_arlen}
+    , axi_mem_port_1_arsize{vlSymsp->TOP.axi_mem_port_1_arsize}
+    , axi_mem_port_1_arburst{vlSymsp->TOP.axi_mem_port_1_arburst}
+    , axi_mem_port_1_awlen{vlSymsp->TOP.axi_mem_port_1_awlen}
+    , axi_mem_port_1_awsize{vlSymsp->TOP.axi_mem_port_1_awsize}
+    , axi_mem_port_1_awburst{vlSymsp->TOP.axi_mem_port_1_awburst}
+    , debug_wb_rf_wnum{vlSymsp->TOP.debug_wb_rf_wnum}
+    , debug_wb_rf_wdata{vlSymsp->TOP.debug_wb_rf_wdata}
+    , axi_mem_port_1_araddr{vlSymsp->TOP.axi_mem_port_1_araddr}
+    , axi_mem_port_1_rdata{vlSymsp->TOP.axi_mem_port_1_rdata}
+    , axi_mem_port_0_arlen{vlSymsp->TOP.axi_mem_port_0_arlen}
+    , axi_mem_port_0_arburst{vlSymsp->TOP.axi_mem_port_0_arburst}
+    , axi_mem_port_0_arvalid{vlSymsp->TOP.axi_mem_port_0_arvalid}
+    , axi_mem_port_0_rlast{vlSymsp->TOP.axi_mem_port_0_rlast}
+    , axi_mem_port_0_rvalid{vlSymsp->TOP.axi_mem_port_0_rvalid}
+    , axi_mem_port_0_awready{vlSymsp->TOP.axi_mem_port_0_awready}
+    , axi_mem_port_0_wid{vlSymsp->TOP.axi_mem_port_0_wid}
+    , axi_mem_port_0_wstrb{vlSymsp->TOP.axi_mem_port_0_wstrb}
+    , axi_mem_port_0_araddr{vlSymsp->TOP.axi_mem_port_0_araddr}
+    , axi_mem_port_0_rdata{vlSymsp->TOP.axi_mem_port_0_rdata}
+    , axi_mem_port_0_wdata{vlSymsp->TOP.axi_mem_port_0_wdata}
+    , axi_mem_port_0_bresp{vlSymsp->TOP.axi_mem_port_0_bresp}
+    , axi_mem_port_0_bvalid{vlSymsp->TOP.axi_mem_port_0_bvalid}
+    , axi_mem_port_1_arready{vlSymsp->TOP.axi_mem_port_1_arready}
+    , axi_mem_port_1_awready{vlSymsp->TOP.axi_mem_port_1_awready}
+    , axi_mem_port_0_arready{vlSymsp->TOP.axi_mem_port_0_arready}
+    , debug_wb_rf_wen{vlSymsp->TOP.debug_wb_rf_wen}
+    , ext_int{vlSymsp->TOP.ext_int}
+    , axi_mem_port_1_rvalid{vlSymsp->TOP.axi_mem_port_1_rvalid}
+    , axi_mem_port_1_bvalid{vlSymsp->TOP.axi_mem_port_1_bvalid}
+    , axi_mem_port_1_rlast{vlSymsp->TOP.axi_mem_port_1_rlast}
+    , axi_mem_port_1_wready{vlSymsp->TOP.axi_mem_port_1_wready}
+    , debug_wb_pc{vlSymsp->TOP.debug_wb_pc}
+    , axi_mem_port_0_arid{vlSymsp->TOP.axi_mem_port_0_arid}
     , axi_mem_port_0_awlen{vlSymsp->TOP.axi_mem_port_0_awlen}
     , axi_mem_port_0_awsize{vlSymsp->TOP.axi_mem_port_0_awsize}
     , axi_mem_port_0_awburst{vlSymsp->TOP.axi_mem_port_0_awburst}
@@ -43,52 +84,11 @@ Vmycpu_top::Vmycpu_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     , axi_mem_port_1_awlock{vlSymsp->TOP.axi_mem_port_1_awlock}
     , axi_mem_port_1_awcache{vlSymsp->TOP.axi_mem_port_1_awcache}
     , axi_mem_port_1_awprot{vlSymsp->TOP.axi_mem_port_1_awprot}
-    , axi_mem_port_0_awaddr{vlSymsp->TOP.axi_mem_port_0_awaddr}
-    , axi_mem_port_0_arid{vlSymsp->TOP.axi_mem_port_0_arid}
     , axi_mem_port_1_wid{vlSymsp->TOP.axi_mem_port_1_wid}
     , axi_mem_port_1_bid{vlSymsp->TOP.axi_mem_port_1_bid}
     , axi_mem_port_1_bresp{vlSymsp->TOP.axi_mem_port_1_bresp}
     , axi_mem_port_1_bready{vlSymsp->TOP.axi_mem_port_1_bready}
-    , debug_wb_rf_wnum{vlSymsp->TOP.debug_wb_rf_wnum}
-    , debug_wb_rf_wdata{vlSymsp->TOP.debug_wb_rf_wdata}
-    , axi_mem_port_1_araddr{vlSymsp->TOP.axi_mem_port_1_araddr}
-    , axi_mem_port_0_arlen{vlSymsp->TOP.axi_mem_port_0_arlen}
-    , axi_mem_port_0_arburst{vlSymsp->TOP.axi_mem_port_0_arburst}
-    , axi_mem_port_0_arvalid{vlSymsp->TOP.axi_mem_port_0_arvalid}
-    , axi_mem_port_0_arready{vlSymsp->TOP.axi_mem_port_0_arready}
-    , axi_mem_port_0_rlast{vlSymsp->TOP.axi_mem_port_0_rlast}
-    , axi_mem_port_0_rvalid{vlSymsp->TOP.axi_mem_port_0_rvalid}
-    , axi_mem_port_0_awready{vlSymsp->TOP.axi_mem_port_0_awready}
-    , axi_mem_port_0_wid{vlSymsp->TOP.axi_mem_port_0_wid}
-    , axi_mem_port_0_wstrb{vlSymsp->TOP.axi_mem_port_0_wstrb}
-    , axi_mem_port_0_araddr{vlSymsp->TOP.axi_mem_port_0_araddr}
-    , axi_mem_port_0_rdata{vlSymsp->TOP.axi_mem_port_0_rdata}
-    , axi_mem_port_0_wdata{vlSymsp->TOP.axi_mem_port_0_wdata}
-    , axi_mem_port_1_wdata{vlSymsp->TOP.axi_mem_port_1_wdata}
-    , axi_mem_port_1_arready{vlSymsp->TOP.axi_mem_port_1_arready}
-    , axi_mem_port_1_awready{vlSymsp->TOP.axi_mem_port_1_awready}
-    , debug_wb_pc{vlSymsp->TOP.debug_wb_pc}
-    , axi_mem_port_1_awaddr{vlSymsp->TOP.axi_mem_port_1_awaddr}
-    , axi_mem_port_1_arlen{vlSymsp->TOP.axi_mem_port_1_arlen}
-    , axi_mem_port_1_arsize{vlSymsp->TOP.axi_mem_port_1_arsize}
-    , axi_mem_port_1_arburst{vlSymsp->TOP.axi_mem_port_1_arburst}
-    , axi_mem_port_1_arvalid{vlSymsp->TOP.axi_mem_port_1_arvalid}
-    , axi_mem_port_1_rvalid{vlSymsp->TOP.axi_mem_port_1_rvalid}
-    , axi_mem_port_1_awlen{vlSymsp->TOP.axi_mem_port_1_awlen}
-    , axi_mem_port_1_awsize{vlSymsp->TOP.axi_mem_port_1_awsize}
-    , axi_mem_port_1_awburst{vlSymsp->TOP.axi_mem_port_1_awburst}
-    , axi_mem_port_1_awvalid{vlSymsp->TOP.axi_mem_port_1_awvalid}
-    , axi_mem_port_1_wstrb{vlSymsp->TOP.axi_mem_port_1_wstrb}
-    , axi_mem_port_1_wlast{vlSymsp->TOP.axi_mem_port_1_wlast}
-    , axi_mem_port_1_wvalid{vlSymsp->TOP.axi_mem_port_1_wvalid}
-    , debug_wb_rf_wen{vlSymsp->TOP.debug_wb_rf_wen}
-    , axi_mem_port_1_rdata{vlSymsp->TOP.axi_mem_port_1_rdata}
-    , ext_int{vlSymsp->TOP.ext_int}
-    , axi_mem_port_1_rlast{vlSymsp->TOP.axi_mem_port_1_rlast}
-    , axi_mem_port_1_wready{vlSymsp->TOP.axi_mem_port_1_wready}
-    , axi_mem_port_1_bvalid{vlSymsp->TOP.axi_mem_port_1_bvalid}
-    , axi_mem_port_0_bresp{vlSymsp->TOP.axi_mem_port_0_bresp}
-    , axi_mem_port_0_bvalid{vlSymsp->TOP.axi_mem_port_0_bvalid}
+    , axi_mem_port_0_awaddr{vlSymsp->TOP.axi_mem_port_0_awaddr}
     , aresetn{vlSymsp->TOP.aresetn}
     , aclk{vlSymsp->TOP.aclk}
     , __PVT__mycpu_top{vlSymsp->TOP.__PVT__mycpu_top}

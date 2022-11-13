@@ -33,6 +33,7 @@ VL_ATTR_COLD void Vmycpu_top_ex2mem___stl_sequent__TOP__mycpu_top__u_riscv_cpu__
         = vlSelf->__PVT__mem_trace_budleReg_mem_fetch_type;
     vlSelf->__PVT__io_mem_trace_budleM_addr = vlSelf->__PVT__mem_trace_budleReg_addr;
     vlSelf->__PVT__io_mem_trace_budleM_len = vlSelf->__PVT__mem_trace_budleReg_len;
+    vlSelf->__PVT__io_mem_trace_budleM_cache = vlSelf->__PVT__mem_trace_budleReg_cache;
     vlSelf->__PVT__io_CsrWritedataM = vlSelf->__PVT__CsrWritedataReg;
     vlSelf->__PVT__io_ExceptionTypeM_Out = vlSelf->__PVT__ExceptionType_Reg;
     vlSelf->__PVT__io_Tlb_ControlM = vlSelf->__PVT__Tlb_Control_Reg;
@@ -64,6 +65,7 @@ VL_ATTR_COLD void Vmycpu_top_ex2mem___stl_sequent__TOP__mycpu_top__u_riscv_cpu__
     vlSelf->__PVT__io_mem_trace_budleM_pc = vlSelf->__PVT__mem_trace_budleReg_pc;
     vlSelf->__PVT__io_mem_trace_budleM_addr = vlSelf->__PVT__mem_trace_budleReg_addr;
     vlSelf->__PVT__io_mem_trace_budleM_len = vlSelf->__PVT__mem_trace_budleReg_len;
+    vlSelf->__PVT__io_mem_trace_budleM_cache = vlSelf->__PVT__mem_trace_budleReg_cache;
     vlSelf->__PVT__io_CsrWritedataM = vlSelf->__PVT__CsrWritedataReg;
     vlSelf->__PVT__io_mem_trace_budleM_data = vlSelf->__PVT__mem_trace_budleReg_data;
     vlSelf->__PVT__io_mem_trace_budleM_mem_fetch_type 
@@ -113,6 +115,7 @@ VL_ATTR_COLD void Vmycpu_top_ex2mem___ctor_var_reset(Vmycpu_top_ex2mem* vlSelf) 
     vlSelf->__PVT__io_mem_trace_budleE_mem_fetch_type = 0;
     vlSelf->__PVT__io_mem_trace_budleE_addr = 0;
     vlSelf->__PVT__io_mem_trace_budleE_len = 0;
+    vlSelf->__PVT__io_mem_trace_budleE_cache = 0;
     vlSelf->__PVT__io_RegWriteM = 0;
     vlSelf->__PVT__io_MemToRegM = 0;
     vlSelf->__PVT__io_WriteDataM = 0;
@@ -135,6 +138,7 @@ VL_ATTR_COLD void Vmycpu_top_ex2mem___ctor_var_reset(Vmycpu_top_ex2mem* vlSelf) 
     vlSelf->__PVT__io_mem_trace_budleM_mem_fetch_type = 0;
     vlSelf->__PVT__io_mem_trace_budleM_addr = 0;
     vlSelf->__PVT__io_mem_trace_budleM_len = 0;
+    vlSelf->__PVT__io_mem_trace_budleM_cache = 0;
     vlSelf->__PVT__io_CsrWritedataM = 0;
     vlSelf->__PVT__RegWrite_Reg = 0;
     vlSelf->__PVT__MemToReg_Reg = 0;
@@ -158,6 +162,7 @@ VL_ATTR_COLD void Vmycpu_top_ex2mem___ctor_var_reset(Vmycpu_top_ex2mem* vlSelf) 
     vlSelf->__PVT__mem_trace_budleReg_mem_fetch_type = 0;
     vlSelf->__PVT__mem_trace_budleReg_addr = 0;
     vlSelf->__PVT__mem_trace_budleReg_len = 0;
+    vlSelf->__PVT__mem_trace_budleReg_cache = 0;
     vlSelf->__PVT__CsrWritedataReg = 0;
     vlSelf->__Vdly__RegWrite_Reg = 0;
     vlSelf->__Vdly__MemToReg_Reg = 0;
@@ -181,5 +186,6 @@ VL_ATTR_COLD void Vmycpu_top_ex2mem___ctor_var_reset(Vmycpu_top_ex2mem* vlSelf) 
     vlSelf->__Vdly__mem_trace_budleReg_mem_fetch_type = 0;
     vlSelf->__Vdly__mem_trace_budleReg_addr = 0;
     vlSelf->__Vdly__mem_trace_budleReg_len = 0;
+    vlSelf->__Vdly__mem_trace_budleReg_cache = 0;
     vlSelf->__Vdly__CsrWritedataReg = 0;
 }

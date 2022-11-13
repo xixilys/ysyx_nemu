@@ -19,14 +19,6 @@ VL_INLINE_OPT void Vmycpu_top_btb_data_with_block_ram___ico_sequent__TOP__mycpu_
     vlSelf->__PVT__btb_data_ram_0->__PVT__reset = vlSelf->__PVT__btb_data_ram_0_reset;
 }
 
-VL_INLINE_OPT void Vmycpu_top_btb_data_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BTB_banks_oneissue_with_block_ram__btb_data_with_block_ram__0(Vmycpu_top_btb_data_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_btb_data_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BTB_banks_oneissue_with_block_ram__btb_data_with_block_ram__0\n"); );
-    // Body
-    vlSelf->__PVT__btb_data_ram_0_io_doutb = vlSelf->__PVT__btb_data_ram_0->__PVT__io_doutb;
-}
-
 VL_INLINE_OPT void Vmycpu_top_btb_data_with_block_ram___ico_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BTB_banks_oneissue_with_block_ram__btb_data_with_block_ram_1__0(Vmycpu_top_btb_data_with_block_ram* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -38,14 +30,6 @@ VL_INLINE_OPT void Vmycpu_top_btb_data_with_block_ram___ico_sequent__TOP__mycpu_
     vlSelf->__PVT__btb_data_ram_0->__PVT__reset = vlSelf->__PVT__btb_data_ram_0_reset;
 }
 
-VL_INLINE_OPT void Vmycpu_top_btb_data_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BTB_banks_oneissue_with_block_ram__btb_data_with_block_ram_1__0(Vmycpu_top_btb_data_with_block_ram* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_btb_data_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BTB_banks_oneissue_with_block_ram__btb_data_with_block_ram_1__0\n"); );
-    // Body
-    vlSelf->__PVT__btb_data_ram_0_io_doutb = vlSelf->__PVT__btb_data_ram_0->__PVT__io_doutb;
-}
-
 VL_INLINE_OPT void Vmycpu_top_btb_data_with_block_ram___ico_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BTB_banks_oneissue_with_block_ram__btb_data_with_block_ram_2__0(Vmycpu_top_btb_data_with_block_ram* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -55,6 +39,15 @@ VL_INLINE_OPT void Vmycpu_top_btb_data_with_block_ram___ico_sequent__TOP__mycpu_
     vlSelf->__PVT__btb_data_ram_0_reset = vlSelf->__PVT__reset;
     vlSelf->__PVT__btb_data_ram_0->__PVT__clock = vlSelf->__PVT__btb_data_ram_0_clock;
     vlSelf->__PVT__btb_data_ram_0->__PVT__reset = vlSelf->__PVT__btb_data_ram_0_reset;
+}
+
+VL_INLINE_OPT void Vmycpu_top_btb_data_with_block_ram___nba_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BTB_banks_oneissue_with_block_ram__btb_data_with_block_ram_2__3(Vmycpu_top_btb_data_with_block_ram* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_btb_data_with_block_ram___nba_sequent__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BTB_banks_oneissue_with_block_ram__btb_data_with_block_ram_2__3\n"); );
+    // Body
+    vlSelf->__PVT__btb_data_ram_0->__PVT__io_addrb 
+        = vlSelf->__PVT__btb_data_ram_0_io_addrb;
 }
 
 VL_INLINE_OPT void Vmycpu_top_btb_data_with_block_ram___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BTB_banks_oneissue_with_block_ram__btb_data_with_block_ram_2__0(Vmycpu_top_btb_data_with_block_ram* vlSelf) {

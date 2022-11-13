@@ -10,9 +10,9 @@ static uint8_t *pmem = NULL;
 static uint8_t pmem[CONFIG_MSIZE] PG_ALIGN = {};
 #endif
 #ifdef CONFIG_ITRACE_COND
-     #define MAX_MTRACE_LOOP_DEPTH  30
-  #define read_type 1
-  #define write_type  2
+    #define MAX_MTRACE_LOOP_DEPTH  30
+    #define read_type 1
+    #define write_type  2
 #endif
 
 

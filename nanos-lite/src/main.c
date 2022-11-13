@@ -8,8 +8,8 @@ void init_fs(void);
 void init_proc(void);
 
 int main() {
-  extern const char logo[];
-  printf("%s", logo);
+  // extern const char logo[];
+  // printf("%s", logo);
   // panic("Should not reach here");
   // printf("%p\n",0x20);
   // assert(0);

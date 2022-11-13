@@ -26,7 +26,7 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     val      csr_read_data = Output(UInt(data_length.W))
     val      csr_random = Output(UInt(data_length.W))
 
-    val      csr_status = Output(UInt(6.W))
+    val      csr_status = Output(UInt(7.W))
     val      Int_able = Output(Bool())
     val      asid    =  Output(UInt(8.W))
 
@@ -145,15 +145,15 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
        (io.csr_write_en.asBool && write_addr_sel === MEPC_NUM ) -> io.csr_write_data
     ))
     csr_status_to_be   := MuxCase(csr_status,Seq(
-        (io.csr_write_en.asBool && io.csr_write_addr === MCAUSE_NUM) -> io.csr_write_data
+        (io.csr_write_en.asBool && io.csr_write_addr === MSTATUS_NUM) -> io.csr_write_data
     ))
     csr_mtvec  := MuxCase(csr_mtvec,Seq(
         (io.csr_write_en.asBool && io.csr_write_addr === MTVEC_NUM)  -> io.csr_write_data
     ))
     csr_cause  := MuxCase(csr_cause,Seq(
         (io.csr_write_en.asBool && io.csr_write_addr === MCAUSE_NUM) -> io.csr_write_data,
-        commit_exception.asBool -> cause_exccode
-    ))
+        commit_exception.asBool -> cause_exccode))
+    
 
    csr_config0  := Cat(csr_config0(31,3),Mux((io.csr_write_en.asBool && write_addr_sel === csr_ADDR_SEL_CONFIG0),io.csr_write_data(2,0),csr_config0(2,0)))
 

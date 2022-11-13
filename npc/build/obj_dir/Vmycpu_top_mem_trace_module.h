@@ -18,6 +18,8 @@ class Vmycpu_top_mem_trace_module final : public VerilatedModule {
     VL_IN8(__PVT__mem_req,0,0);
     VL_IN8(__PVT__mem_size,2,0);
     VL_IN8(__PVT__mem_write_read,0,0);
+    VL_IN8(__PVT__mem_cached,0,0);
+    VlUnpacked<QData/*63:0*/, 3> __PVT__packed_data;
     VL_IN64(__PVT__addr,63,0);
     VL_IN64(__PVT__data,63,0);
     VL_IN64(__PVT__pc,63,0);

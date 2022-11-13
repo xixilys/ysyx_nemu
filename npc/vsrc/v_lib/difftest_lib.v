@@ -3,7 +3,7 @@ import "DPI-C" function void set_gpr_ptr(input logic [63:0] a []);
 import "DPI-C" function void set_pc_ptr(input logic [63:0] a);
 import "DPI-C" function void set_debug_pc_ptr(input logic [63:0] a);
 import "DPI-C" function void cpu_ebreak();
-import "DPI-C" function void mem_trace_func(input logic [0:0]mem_write_state,input logic [63:0] addr,input logic [63:0] data,input logic [63:0] pc,input logic [2:0]size);
+import "DPI-C" function void mem_trace_func(input logic [63:0] a [],input int  mem_write_state,input int size,input int cache);
 
 //二维数组打包为一维数组
 `define PACK_ARRAY(PK_WIDTH,PK_LEN,PK_SRC,PK_DEST) \
@@ -67,17 +67,22 @@ endmodule //difftest_commit_module
 module  mem_trace_module (
     input reset,
     input clock,
-    input [`data_length  - 1:0]addr,
-    input [`data_length - 1:0]data,
-    input [`data_length - 1 : 0]pc,
+    input [`data_length  - 1 : 0]addr,
+    input [`data_length  - 1 : 0]data,
+    input [`data_length  - 1 : 0]pc,
     input mem_req,
     input [2:0]mem_size,
-    input mem_write_read
+    input mem_write_read,
+    input mem_cached
 );
-  
+  wire [63 :0]packed_data [2:0];
+  assign packed_data[0] = addr;
+  assign packed_data[1] = data ;
+  assign packed_data[2] = pc;
+  // assign after_pc = pc << 32;
   always @(posedge clock ) begin
     if(reset == 1'b0 && mem_req == 1'b1) begin
-        mem_trace_func(mem_write_read,addr,data,pc,mem_size);
+        mem_trace_func(packed_data,{31'b0,mem_write_read},{29'b0,mem_size},{31'b0,mem_cached});
     end
   end
 

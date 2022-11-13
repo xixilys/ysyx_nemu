@@ -21,7 +21,9 @@ VL_ATTR_COLD void Vmycpu_top_csr___stl_sequent__TOP__mycpu_top__u_riscv_cpu___cs
     vlSelf->__PVT___csr_count_T_4 = (1ULL + vlSelf->__PVT__csr_count);
     vlSelf->__PVT__io_Int_able = (1U & ((~ VL_BITSEL_IQII(64, vlSelf->__PVT__csr_status, 1U)) 
                                         & VL_BITSEL_IQII(64, vlSelf->__PVT__csr_status, 0U)));
-    vlSelf->__PVT__io_csr_status = (0x3fU & VL_SEL_IQII(64, vlSelf->__PVT__csr_status, 0xaU, 6U));
+    vlSelf->__PVT__io_csr_status = VL_EXTEND_II(7,6, 
+                                                (0x3fU 
+                                                 & VL_SEL_IQII(64, vlSelf->__PVT__csr_status, 0xaU, 6U)));
     vlSelf->__PVT___timer_int_T = (0ULL != vlSelf->__PVT__csr_compare);
     vlSelf->__PVT___timer_int_T_1 = (vlSelf->__PVT__csr_count 
                                      == vlSelf->__PVT__csr_compare);
@@ -48,12 +50,14 @@ VL_ATTR_COLD void Vmycpu_top_csr___stl_sequent__TOP__mycpu_top__u_riscv_cpu___cs
                                                   (0x7fffffffU 
                                                    & VL_SEL_IIII(32, vlSelf->__PVT__io_exception_type_i, 1U, 0x1fU)), (IData)(vlSelf->__PVT__int_signal));
     vlSelf->__PVT___csr_status_to_be_T_2 = ((IData)(vlSelf->__PVT__io_csr_write_en) 
-                                            & (0x342U 
+                                            & (0x300U 
                                                == (IData)(vlSelf->__PVT__io_csr_write_addr)));
     vlSelf->__PVT___csr_epc_T_3 = ((IData)(vlSelf->__PVT__io_csr_write_en) 
                                    & (0x341U == (IData)(vlSelf->__PVT__io_csr_write_addr)));
     vlSelf->__PVT___csr_mtvec_T_2 = ((IData)(vlSelf->__PVT__io_csr_write_en) 
                                      & (0x305U == (IData)(vlSelf->__PVT__io_csr_write_addr)));
+    vlSelf->__PVT___csr_cause_T_2 = ((IData)(vlSelf->__PVT__io_csr_write_en) 
+                                     & (0x342U == (IData)(vlSelf->__PVT__io_csr_write_addr)));
     vlSelf->__PVT___csr_read_data_Wire_T_3 = ((0x342U 
                                                == (IData)(vlSelf->__PVT__io_csr_read_addr))
                                                ? vlSelf->__PVT__csr_cause
@@ -124,6 +128,7 @@ VL_ATTR_COLD void Vmycpu_top_csr___ctor_var_reset(Vmycpu_top_csr* vlSelf) {
     vlSelf->__PVT___timer_int_T_1 = 0;
     vlSelf->__PVT___csr_epc_T_3 = 0;
     vlSelf->__PVT___csr_mtvec_T_2 = 0;
+    vlSelf->__PVT___csr_cause_T_2 = 0;
     vlSelf->__Vdly__csr_status = 0;
     vlSelf->__Vdly__csr_count = 0;
     vlSelf->__Vdly__csr_compare = 0;

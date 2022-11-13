@@ -31,6 +31,7 @@ class mem_trace_module (data_length:Int) extends BlackBox {
         val mem_req  = Input(Bool())
         val mem_write_read = Input(Bool())
         val mem_size  = Input(UInt(3.W))
+        val mem_cached = Input(Bool())
     })
 
 }

@@ -16,7 +16,8 @@ class Vmycpu_top_dmem final : public VerilatedModule {
     // DESIGN SPECIFIC STATE
     // Anonymous structures to workaround compiler member-count bugs
     struct {
-        VL_IN8(__PVT__io_WIDTH,1,0);
+        VL_IN8(__PVT__io_SIGN,0,0);
+        CData/*2:0*/ __PVT___io_RD_T_1;
         CData/*6:0*/ __PVT__io_RD_lo_lo_lo;
         CData/*6:0*/ __PVT__io_RD_lo_lo_lo_1;
         CData/*6:0*/ __PVT__io_RD_lo_lo_lo_2;
@@ -29,6 +30,8 @@ class Vmycpu_top_dmem final : public VerilatedModule {
         CData/*5:0*/ __PVT__io_RD_lo_lo_lo_9;
         CData/*5:0*/ __PVT__io_RD_lo_lo_lo_10;
         CData/*5:0*/ __PVT__io_RD_lo_lo_lo_11;
+        CData/*7:0*/ __PVT__io_RD_lo_lo_12;
+        CData/*7:0*/ __PVT__io_RD_lo_lo_13;
         SData/*13:0*/ __PVT__io_RD_lo_lo;
         SData/*8:0*/ __PVT___io_RD_T_64;
         SData/*13:0*/ __PVT__io_RD_lo_lo_1;
@@ -49,6 +52,8 @@ class Vmycpu_top_dmem final : public VerilatedModule {
         SData/*11:0*/ __PVT__io_RD_lo_lo_9;
         SData/*11:0*/ __PVT__io_RD_lo_lo_10;
         SData/*11:0*/ __PVT__io_RD_lo_lo_11;
+        SData/*15:0*/ __PVT__io_RD_lo_12;
+        SData/*15:0*/ __PVT__io_RD_lo_13;
         IData/*27:0*/ __PVT__io_RD_lo;
         IData/*27:0*/ __PVT__io_RD_lo_1;
         IData/*27:0*/ __PVT__io_RD_lo_2;
@@ -65,7 +70,8 @@ class Vmycpu_top_dmem final : public VerilatedModule {
         IData/*16:0*/ __PVT___io_RD_T_713;
         IData/*23:0*/ __PVT__io_RD_lo_11;
         IData/*16:0*/ __PVT___io_RD_T_768;
-        VL_OUT64(__PVT__io_RD,63,0);
+        IData/*31:0*/ __PVT___io_RD_T_812;
+        IData/*31:0*/ __PVT___io_RD_T_852;
         QData/*55:0*/ __PVT___io_RD_T_59;
         QData/*63:0*/ __PVT___io_RD_T_61;
         QData/*55:0*/ __PVT___io_RD_T_122;
@@ -74,15 +80,14 @@ class Vmycpu_top_dmem final : public VerilatedModule {
         QData/*63:0*/ __PVT___io_RD_T_187;
         QData/*55:0*/ __PVT___io_RD_T_248;
         QData/*63:0*/ __PVT___io_RD_T_250;
+    };
+    struct {
         QData/*63:0*/ __PVT___io_RD_T_255;
         QData/*63:0*/ __PVT___io_RD_T_257;
         QData/*63:0*/ __PVT___io_RD_T_259;
         QData/*63:0*/ __PVT___io_RD_T_261;
         QData/*63:0*/ __PVT___io_RD_T_263;
         QData/*63:0*/ __PVT___io_RD_T_265;
-    };
-    struct {
-        QData/*63:0*/ __PVT___io_RD_T_267;
         QData/*55:0*/ __PVT___io_RD_T_327;
         QData/*63:0*/ __PVT___io_RD_T_329;
         QData/*55:0*/ __PVT___io_RD_T_390;
@@ -97,8 +102,6 @@ class Vmycpu_top_dmem final : public VerilatedModule {
         QData/*63:0*/ __PVT___io_RD_T_529;
         QData/*63:0*/ __PVT___io_RD_T_531;
         QData/*63:0*/ __PVT___io_RD_T_533;
-        QData/*63:0*/ __PVT___io_RD_T_535;
-        QData/*63:0*/ __PVT___io_RD_T_536;
         QData/*63:0*/ __PVT___io_RD_T_590;
         QData/*63:0*/ __PVT___io_RD_T_645;
         QData/*63:0*/ __PVT___io_RD_T_650;
@@ -111,30 +114,27 @@ class Vmycpu_top_dmem final : public VerilatedModule {
         QData/*63:0*/ __PVT___io_RD_T_772;
         QData/*63:0*/ __PVT___io_RD_T_774;
         QData/*63:0*/ __PVT___io_RD_T_776;
-        QData/*63:0*/ __PVT___io_RD_T_777;
-        QData/*63:0*/ __PVT___io_RD_T_860;
-        QData/*63:0*/ __PVT___io_RD_T_862;
-        CData/*2:0*/ __PVT___io_RD_T_1;
-        CData/*0:0*/ __PVT__third_ra;
-        VL_IN64(__PVT__io_rdata,63,0);
-        QData/*63:0*/ __PVT___io_RD_T_858;
-        CData/*7:0*/ __PVT__io_RD_lo_lo_12;
-        CData/*7:0*/ __PVT__io_RD_lo_lo_13;
-        SData/*15:0*/ __PVT__io_RD_lo_12;
-        SData/*15:0*/ __PVT__io_RD_lo_13;
-        IData/*31:0*/ __PVT___io_RD_T_812;
-        IData/*31:0*/ __PVT___io_RD_T_852;
         QData/*63:0*/ __PVT___io_RD_T_814;
         QData/*32:0*/ __PVT___io_RD_T_816;
         QData/*63:0*/ __PVT___io_RD_T_817;
         QData/*63:0*/ __PVT___io_RD_T_854;
         QData/*32:0*/ __PVT___io_RD_T_856;
         QData/*63:0*/ __PVT___io_RD_T_857;
-        VL_IN8(__PVT__io_SIGN,0,0);
-        CData/*1:0*/ __PVT__ra;
-        VL_IN64(__PVT__io_Physisc_Address,63,0);
         VL_IN8(__PVT__io_data_ok,0,0);
         VL_OUT8(__PVT__io_data_pending,0,0);
+        CData/*1:0*/ __PVT__ra;
+        VL_IN64(__PVT__io_Physisc_Address,63,0);
+        VL_IN8(__PVT__io_WIDTH,1,0);
+        CData/*0:0*/ __PVT__third_ra;
+        VL_IN64(__PVT__io_rdata,63,0);
+        QData/*63:0*/ __PVT___io_RD_T_267;
+        QData/*63:0*/ __PVT___io_RD_T_535;
+        QData/*63:0*/ __PVT___io_RD_T_777;
+        QData/*63:0*/ __PVT___io_RD_T_858;
+        VL_OUT64(__PVT__io_RD,63,0);
+        QData/*63:0*/ __PVT___io_RD_T_536;
+        QData/*63:0*/ __PVT___io_RD_T_860;
+        QData/*63:0*/ __PVT___io_RD_T_862;
     };
 
     // INTERNAL VARIABLES

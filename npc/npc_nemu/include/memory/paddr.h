@@ -24,8 +24,20 @@ static inline bool in_pmem(paddr_t addr) {
 
 word_t paddr_read(paddr_t addr, int len ,uint8_t mem_type,int skip);
 void paddr_write(paddr_t addr, int len, word_t data,int skip);
+
+typedef struct {
+  size_t debug_mem_size;
+  int debug_mem_write_state_get;
+  size_t debug_mem_addr ;
+  size_t debug_mem_pc;
+  size_t debug_mem_data;
+  int debug_mem_state;
+  int debug_mem_cache;
+}mem_debug_handle ;
+extern mem_debug_handle mtrace_debuger;
 #ifdef CONFIG_ITRACE_COND
 void mtrace_printf();
+
 #endif
 
 #ifdef __cplusplus

@@ -43,7 +43,7 @@ VL_ATTR_COLD void Vmycpu_top___024root___eval_settle(Vmycpu_top___024root* vlSel
 #ifdef VL_DEBUG
                 Vmycpu_top___024root___dump_triggers__stl(vlSelf);
 #endif
-                VL_FATAL_MT("/home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65190, "", "Settle region did not converge.");
+                VL_FATAL_MT("/home/ddddddd/my_learn/cpu_relative/ysyx-workbench/npc/vsrc/riscv64_ysyx/mycpu_top.v", 65295, "", "Settle region did not converge.");
             }
             __Vtemp_h501e287c__0 = ((IData)(1U) + vlSelf->__VstlIterCount);
             vlSelf->__VstlIterCount = __Vtemp_h501e287c__0;
@@ -2748,7 +2748,7 @@ VL_ATTR_COLD void Vmycpu_top___024root___ctor_var_reset(Vmycpu_top___024root* vl
     vlSelf->__VactContinue = 0;
     vlSelf->__VnbaIterCount = 0;
     vlSelf->__VnbaContinue = 0;
-    for (int __Vi0 = 0; __Vi0 < 993; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 1050; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
     }
 }

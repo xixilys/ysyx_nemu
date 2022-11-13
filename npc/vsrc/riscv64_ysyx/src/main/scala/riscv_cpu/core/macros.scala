@@ -523,10 +523,11 @@ def check_mapped(address : UInt) :Bool = {
     }
     class mtrace_relative_bundle extends Bundle {
         val pc = UInt(data_length.W)
-        val data = UInt(32.W)
+        val data = UInt(data_length.W)
         val mem_fetch_type = UInt((2.W))
         val addr = UInt(data_length.W)
         val len = UInt(3.W)
+        val cache = Bool()
         // val 
        
     }

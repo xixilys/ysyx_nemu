@@ -52,7 +52,15 @@ void cpu_ebreak(){
    NEMUTRAP(debug_pc, 0);
 }
 
-
+static int size_to_bytes_num(int axi_size) {
+    switch(axi_size) {
+        case 0:return 1;break;
+        case 1:return 2;break;
+        case 2:return 4;break;
+        case 3:return 8;break;
+        default: return 0;break;
+    }
+}
 static int decode_exec(Decode *s) {
   // printf("sbsbssbs\n");
   s->dnpc = s->snpc;
@@ -73,13 +81,20 @@ static int decode_exec(Decode *s) {
 
   }
   memcpy(cpu.gpr,cpu_gpr,sizeof(word_t) * 32);
-  if(debug_mem_state == 1) {
+  if(mtrace_debuger.debug_mem_state == 1) {
     // printf("come here\n");
     // printf("debug pc %lx\n",debug_mem_pc);
     // printf("debug mem_addr %lx\n",debug_mem_addr);
     // printf("debug mem write-state %d\n",debug_mem_write_state_get);
-    mmio_search_for_skip(debug_mem_addr);
-    debug_mem_state = 0;
+    // if()
+    //icache 和 dcache未同步
+    size_t sum_data = mtrace_debuger.debug_mem_data >> (8*(mtrace_debuger.debug_mem_addr % sizeof(size_t)));
+    if(mtrace_debuger.debug_mem_write_state_get  && mtrace_debuger.debug_mem_cache) {
+      paddr_write(mtrace_debuger.debug_mem_addr,size_to_bytes_num(mtrace_debuger.debug_mem_size),sum_data,0);
+    }else{
+      mmio_search_for_skip(mtrace_debuger.debug_mem_addr);
+    }
+    mtrace_debuger.debug_mem_state = 0;
   }
   
   // printf("debug pc = %lx\n",*debug_pc);

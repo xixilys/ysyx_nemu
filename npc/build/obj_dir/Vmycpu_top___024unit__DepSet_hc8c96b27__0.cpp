@@ -55,20 +55,19 @@ VL_INLINE_OPT void Vmycpu_top___024unit____Vdpiimwrap_cpu_ebreak_TOP____024unit(
     cpu_ebreak();
 }
 
-extern "C" void mem_trace_func(const svLogicVecVal* mem_write_state, const svLogicVecVal* addr, const svLogicVecVal* data, const svLogicVecVal* pc, const svLogicVecVal* size);
+extern "C" void mem_trace_func(const svOpenArrayHandle a, int mem_write_state, int size, int cache);
 
-VL_INLINE_OPT void Vmycpu_top___024unit____Vdpiimwrap_mem_trace_func_TOP____024unit(CData/*0:0*/ mem_write_state, QData/*63:0*/ addr, QData/*63:0*/ data, QData/*63:0*/ pc, CData/*2:0*/ size) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top___024unit____Vdpiimwrap_mem_trace_func_TOP____024unit\n"); );
+VL_INLINE_OPT void Vmycpu_top___024unit____Vdpiimwrap_mem_trace_func__Vdpioc2_TOP____024unit(const VlUnpacked<QData/*63:0*/, 3> &a, IData/*31:0*/ mem_write_state, IData/*31:0*/ size, IData/*31:0*/ cache) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vmycpu_top___024unit____Vdpiimwrap_mem_trace_func__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal mem_write_state__Vcvt[1];
-    for (size_t mem_write_state__Vidx = 0; mem_write_state__Vidx < 1; ++mem_write_state__Vidx) VL_SET_SVLV_I(1, mem_write_state__Vcvt + 1 * mem_write_state__Vidx, mem_write_state);
-    svLogicVecVal addr__Vcvt[2];
-    for (size_t addr__Vidx = 0; addr__Vidx < 1; ++addr__Vidx) VL_SET_SVLV_Q(64, addr__Vcvt + 2 * addr__Vidx, addr);
-    svLogicVecVal data__Vcvt[2];
-    for (size_t data__Vidx = 0; data__Vidx < 1; ++data__Vidx) VL_SET_SVLV_Q(64, data__Vcvt + 2 * data__Vidx, data);
-    svLogicVecVal pc__Vcvt[2];
-    for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) VL_SET_SVLV_Q(64, pc__Vcvt + 2 * pc__Vidx, pc);
-    svLogicVecVal size__Vcvt[1];
-    for (size_t size__Vidx = 0; size__Vidx < 1; ++size__Vidx) VL_SET_SVLV_I(3, size__Vcvt + 1 * size__Vidx, size);
-    mem_trace_func(mem_write_state__Vcvt, addr__Vcvt, data__Vcvt, pc__Vcvt, size__Vcvt);
+    static const int a__Vopenprops__ulims[2] = {2, 0};
+    static const VerilatedVarProps a__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0, VerilatedVarProps::Unpacked(), 1, a__Vopenprops__ulims);
+    VerilatedDpiOpenVar a__Vopenarray (&a__Vopenprops, &a);
+    int mem_write_state__Vcvt;
+    for (size_t mem_write_state__Vidx = 0; mem_write_state__Vidx < 1; ++mem_write_state__Vidx) mem_write_state__Vcvt = mem_write_state;
+    int size__Vcvt;
+    for (size_t size__Vidx = 0; size__Vidx < 1; ++size__Vidx) size__Vcvt = size;
+    int cache__Vcvt;
+    for (size_t cache__Vidx = 0; cache__Vidx < 1; ++cache__Vidx) cache__Vcvt = cache;
+    mem_trace_func(&a__Vopenarray, mem_write_state__Vcvt, size__Vcvt, cache__Vcvt);
 }

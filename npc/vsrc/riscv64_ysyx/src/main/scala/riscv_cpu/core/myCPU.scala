@@ -227,6 +227,7 @@ val stage_fec_1_pc = Wire(UInt(data_length.W))
     _mtrace_mod.io.addr     := _mem22wb.io.Mem_trace_budleW.addr
     _mtrace_mod.io.mem_size := _mem22wb.io.Mem_trace_budleW.len
     _mtrace_mod.io.data     := _mem22wb.io.Mem_trace_budleW.data
+    _mtrace_mod.io.mem_cached := _mem22wb.io.Mem_trace_budleW.cache
 
     data_req := ((_dmemreq.io.req.asBool  )&& !_dmem.io.data_pending)
 
@@ -936,6 +937,7 @@ inst_tlb_exceptionM := Mux(_cfu.io.FlushM.asBool,0.U,Mux(_cfu.io.StallM.asBool,i
     _ex2mem.io.mem_trace_budleE.mem_fetch_type := Cat(_id2ex.io2.MemToRegE ,_id2ex.io2.MemWriteE)
     _ex2mem.io.mem_trace_budleE.addr           := data_addr
     _ex2mem.io.mem_trace_budleE.len            := data_size
+    _ex2mem.io.mem_trace_budleE.cache          := data_cache
 
     val csr_src1 = Wire(UInt(data_length.W))
     val csr_src2 = Wire(UInt(data_length.W))
@@ -1120,6 +1122,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     ))
     _mem22wb.io.Mem_trace_budleM.len  := _mem2mem2.io.mem_trace_budleM.len
     _mem22wb.io.Mem_trace_budleM.addr := _mem2mem2.io.mem_trace_budleM.addr
+    _mem22wb.io.Mem_trace_budleM.cache:= _mem2mem2.io.mem_trace_budleM.cache
  
 
 

@@ -8,10 +8,10 @@
 #include "Vmycpu_top_BHT.h"
 #include "Vmycpu_top__Syms.h"
 
-VL_INLINE_OPT void Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT__97(Vmycpu_top_BHT* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT__126(Vmycpu_top_BHT* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT__97\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT__126\n"); );
     // Body
     vlSelf->__PVT__io_out = ((0x7fU == (IData)(vlSelf->__PVT__io_ar_addr))
                               ? (IData)(vlSelf->__PVT__bht_127)
@@ -20,10 +20,10 @@ VL_INLINE_OPT void Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branc
         = vlSelf->__PVT__io_out;
 }
 
-VL_INLINE_OPT void Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_1__125(Vmycpu_top_BHT* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_1__126(Vmycpu_top_BHT* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_1__125\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_1__126\n"); );
     // Body
     vlSelf->__PVT__io_out = ((0x7fU == (IData)(vlSelf->__PVT__io_ar_addr))
                               ? (IData)(vlSelf->__PVT__bht_127)
@@ -44,38 +44,11 @@ VL_INLINE_OPT void Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branc
         = vlSelf->__PVT__io_out;
 }
 
-VL_INLINE_OPT void Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_3__109(Vmycpu_top_BHT* vlSelf) {
+VL_INLINE_OPT void Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_3__118(Vmycpu_top_BHT* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_3__109\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+              Vmycpu_top_BHT___nba_comb__TOP__mycpu_top__u_riscv_cpu__branch_prediction_with_blockram__BHT_banks_oneissue__BHT_3__118\n"); );
     // Body
-    vlSelf->__PVT___GEN_110 = ((0x6eU == (IData)(vlSelf->__PVT__io_ar_addr))
-                                ? (IData)(vlSelf->__PVT__bht_110)
-                                : (IData)(vlSelf->__PVT___GEN_109));
-    vlSelf->__PVT___GEN_111 = ((0x6fU == (IData)(vlSelf->__PVT__io_ar_addr))
-                                ? (IData)(vlSelf->__PVT__bht_111)
-                                : (IData)(vlSelf->__PVT___GEN_110));
-    vlSelf->__PVT___GEN_112 = ((0x70U == (IData)(vlSelf->__PVT__io_ar_addr))
-                                ? (IData)(vlSelf->__PVT__bht_112)
-                                : (IData)(vlSelf->__PVT___GEN_111));
-    vlSelf->__PVT___GEN_113 = ((0x71U == (IData)(vlSelf->__PVT__io_ar_addr))
-                                ? (IData)(vlSelf->__PVT__bht_113)
-                                : (IData)(vlSelf->__PVT___GEN_112));
-    vlSelf->__PVT___GEN_114 = ((0x72U == (IData)(vlSelf->__PVT__io_ar_addr))
-                                ? (IData)(vlSelf->__PVT__bht_114)
-                                : (IData)(vlSelf->__PVT___GEN_113));
-    vlSelf->__PVT___GEN_115 = ((0x73U == (IData)(vlSelf->__PVT__io_ar_addr))
-                                ? (IData)(vlSelf->__PVT__bht_115)
-                                : (IData)(vlSelf->__PVT___GEN_114));
-    vlSelf->__PVT___GEN_116 = ((0x74U == (IData)(vlSelf->__PVT__io_ar_addr))
-                                ? (IData)(vlSelf->__PVT__bht_116)
-                                : (IData)(vlSelf->__PVT___GEN_115));
-    vlSelf->__PVT___GEN_117 = ((0x75U == (IData)(vlSelf->__PVT__io_ar_addr))
-                                ? (IData)(vlSelf->__PVT__bht_117)
-                                : (IData)(vlSelf->__PVT___GEN_116));
-    vlSelf->__PVT___GEN_118 = ((0x76U == (IData)(vlSelf->__PVT__io_ar_addr))
-                                ? (IData)(vlSelf->__PVT__bht_118)
-                                : (IData)(vlSelf->__PVT___GEN_117));
     vlSelf->__PVT___GEN_119 = ((0x77U == (IData)(vlSelf->__PVT__io_ar_addr))
                                 ? (IData)(vlSelf->__PVT__bht_119)
                                 : (IData)(vlSelf->__PVT___GEN_118));

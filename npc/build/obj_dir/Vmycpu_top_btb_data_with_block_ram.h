@@ -20,12 +20,12 @@ class Vmycpu_top_btb_data_with_block_ram final : public VerilatedModule {
     // DESIGN SPECIFIC STATE
     IData/*31:0*/ __PVT__btb_data_ram_0_io_doutb;
     VL_OUT64(__PVT__io_rdata,63,0);
-    VL_IN16(__PVT__io_waddr,8,0);
-    SData/*8:0*/ __PVT__btb_data_ram_0_io_addra;
-    VL_IN8(__PVT__io_wen,0,0);
-    CData/*0:0*/ __PVT__btb_data_ram_0_io_wea;
     IData/*31:0*/ __PVT__btb_data_ram_0_io_dina;
     VL_IN64(__PVT__io_wdata,63,0);
+    VL_IN8(__PVT__io_wen,0,0);
+    CData/*0:0*/ __PVT__btb_data_ram_0_io_wea;
+    VL_IN16(__PVT__io_waddr,8,0);
+    SData/*8:0*/ __PVT__btb_data_ram_0_io_addra;
     VL_IN16(__PVT__io_raddr,8,0);
     SData/*8:0*/ __PVT__btb_data_ram_0_io_addrb;
     VL_IN8(__PVT__clock,0,0);

@@ -29,22 +29,6 @@ VL_INLINE_OPT void Vmycpu_top_pc_detail___nba_sequent__TOP__mycpu_top__u_riscv_c
     }
 }
 
-VL_INLINE_OPT void Vmycpu_top_pc_detail___nba_sequent__TOP__mycpu_top__u_riscv_cpu__stage_fec_1_pc_L__2(Vmycpu_top_pc_detail* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_pc_detail___nba_sequent__TOP__mycpu_top__u_riscv_cpu__stage_fec_1_pc_L__2\n"); );
-    // Body
-    vlSelf->__PVT__pc_value = vlSelf->__Vdly__pc_value;
-}
-
-VL_INLINE_OPT void Vmycpu_top_pc_detail___nba_sequent__TOP__mycpu_top__u_riscv_cpu__stage_fec_1_pc_L__3(Vmycpu_top_pc_detail* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_pc_detail___nba_sequent__TOP__mycpu_top__u_riscv_cpu__stage_fec_1_pc_L__3\n"); );
-    // Body
-    vlSelf->__PVT__io_out_pc_value_out = vlSelf->__PVT__pc_value;
-}
-
 VL_INLINE_OPT void Vmycpu_top_pc_detail___nba_sequent__TOP__mycpu_top__u_riscv_cpu__stage_fec_1_pc_M__0(Vmycpu_top_pc_detail* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -149,13 +133,6 @@ VL_INLINE_OPT void Vmycpu_top_pc_detail___nba_sequent__TOP__mycpu_top__u_riscv_c
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_pc_detail___nba_sequent__TOP__mycpu_top__u_riscv_cpu__stage_fec_2_pc_L__2\n"); );
     // Body
     vlSelf->__PVT__pc_value = vlSelf->__Vdly__pc_value;
-}
-
-VL_INLINE_OPT void Vmycpu_top_pc_detail___nba_sequent__TOP__mycpu_top__u_riscv_cpu__stage_fec_2_pc_L__3(Vmycpu_top_pc_detail* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vmycpu_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+          Vmycpu_top_pc_detail___nba_sequent__TOP__mycpu_top__u_riscv_cpu__stage_fec_2_pc_L__3\n"); );
-    // Body
     vlSelf->__PVT__io_out_pc_value_out = vlSelf->__PVT__pc_value;
 }
 

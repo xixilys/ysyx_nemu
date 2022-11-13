@@ -49,41 +49,41 @@ void mtrace_loop_print(mtrace_type *loop, int index)
   int i = index;
   for (; i < MAX_MTRACE_LOOP_DEPTH; i++)
   {
-    printf("    pc -> %08lx mem_type ->", mtrace_loop[i].pc);
+    Log("    pc -> %08lx mem_type ->", mtrace_loop[i].pc);
     if (mtrace_loop[i].type == read_type)
     {
-      printf("mem read  ");
+      Log("mem read  ");
     }
     else if (mtrace_loop[i].type == write_type)
     {
-      printf("mem write ");
+      Log("mem write ");
     }
-    printf("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
-    //  printf("     inst ->  %08x __ pc ->  ",loop[i].isa.inst.val);
+    Log("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
+    //  Log("     inst ->  %08x __ pc ->  ",loop[i].isa.inst.val);
   }
   for (i = 0; i < index - 1; i++)
   {
-    printf("    pc -> %08lx mem_type ->", mtrace_loop[i].pc);
+    Log("    pc -> %08lx mem_type ->", mtrace_loop[i].pc);
     if (mtrace_loop[i].type == read_type)
     {
-      printf("mem read  ");
+      Log("mem read  ");
     }
     else if (mtrace_loop[i].type == write_type)
     {
-      printf("mem write ");
+      Log("mem write ");
     }
-    printf("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
+    Log("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
   }
-  printf("--->pc -> %08lx mem_type ->", mtrace_loop[i].pc);
+  Log("--->pc -> %08lx mem_type ->", mtrace_loop[i].pc);
   if (mtrace_loop[i].type == read_type)
   {
-    printf("mem read  ");
+    Log("mem read  ");
   }
   else if (mtrace_loop[i].type == write_type)
   {
-    printf("mem write ");
+    Log("mem write ");
   }
-  printf("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
+  Log("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
 }
 
 #endif
@@ -199,25 +199,25 @@ void mtrace_printf()
 }
 
 #endif
+mem_debug_handle mtrace_debuger = {};
 
-size_t debug_mem_size;
-int debug_mem_write_state_get;
-size_t debug_mem_addr ;
-size_t debug_mem_pc;
-size_t debug_mem_data;
-int debug_mem_state;
-void mem_trace_func(size_t mem_write_state, size_t addr, size_t data, size_t pc, size_t size)
-{ debug_mem_state = 1;
-  debug_mem_size = *(size_t *)size;
-  debug_mem_write_state_get = *(bool *)mem_write_state;
-  debug_mem_addr = *(size_t *)addr;
-  debug_mem_pc   = *(size_t *)pc;
-  debug_mem_data = *(size_t *)data;
+size_t* mtrace_data_tobe = NULL;
+void mem_trace_func(const svOpenArrayHandle r,size_t mem_write_state,size_t size,size_t cache)
+{ 
+  mtrace_data_tobe = (size_t *)(((VerilatedDpiOpenVar*)r)->datap());
+  mtrace_debuger.debug_mem_state = 1;
+  mtrace_debuger.debug_mem_size = size;
+  mtrace_debuger.debug_mem_write_state_get = mem_write_state;
+  mtrace_debuger.debug_mem_addr = mtrace_data_tobe[0];
+  mtrace_debuger.debug_mem_pc   = mtrace_data_tobe[2];
+  mtrace_debuger.debug_mem_data = mtrace_data_tobe[1];
+  mtrace_debuger.debug_mem_cache = cache;
+  // printf("pc data is %lx  and data data is %lx\n",mtrace_debuger.debug_mem_pc,mtrace_debuger.debug_mem_data);
 #ifdef CONFIG_ITRACE_COND
-  int mem_write_state_int = *(bool *)mem_write_state;
+  int mem_write_state_int = mem_write_state;
   mtrace_type mem_read_mtrace = {};
   mem_read_mtrace.type = mem_write_state_int + 1;
-  switch (*(size_t *)size)
+  switch (size)
   {
   case 0:
     mem_read_mtrace.len = 1;
@@ -236,9 +236,9 @@ void mem_trace_func(size_t mem_write_state, size_t addr, size_t data, size_t pc,
     break;
   }
 
-  mem_read_mtrace.paddr = *(size_t *)addr;
-  mem_read_mtrace.pc = *(size_t *)pc;
-  mem_read_mtrace.data = *(size_t *)data;
+  mem_read_mtrace.paddr = mtrace_debuger.debug_mem_addr;
+  mem_read_mtrace.pc = mtrace_debuger.debug_mem_pc;
+  mem_read_mtrace.data = mtrace_debuger.debug_mem_data;
   
 
   mtrace_loop_push(mtrace_loop, mem_read_mtrace, &mtrace_loop_index);
