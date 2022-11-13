@@ -1,3 +1,11 @@
 *.*
 *
-
+!*/
+!Makefile
+!include/*
+!npc/*
+!npc_nemu/*
+!vsrc/*
+!*.py
+!.gitignore
+!README.md
