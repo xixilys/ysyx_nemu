@@ -123,6 +123,8 @@ libs:
 $(APP): $(OBJS) libs
 	@echo + LD "->" $(shell realpath $@ --relative-to .)
 	@$(LD) $(LDFLAGS) -o $@ $(WL)--start-group $(LINKAGE) $(WL)--end-group
+	@cp $(APP) $(NANO_HOME)/build/ramdisk.img
+
 
 ### Rule (archive): objects (`*.o`) -> `ARCHIVE.a` (ar)
 $(ARCHIVE): $(OBJS) libs
@@ -181,6 +183,7 @@ $(RAMDISK): fsimg
 	@truncate -s \%512 $@
 	@echo "// file path, file size, offset in disk" > $(RAMDISK_H)
 	@wc -c $(FSIMG_FILES) | grep -v 'total$$' | sed -e 's+ ./fsimg+ +' | awk -v sum=0 '{print "\x7b\x22" $$2 "\x22\x2c " $$1 "\x2c " sum "\x7d\x2c";sum += $$1}' >> $(RAMDISK_H)
+	@cp $(RAMDISK) $(NANO_HOME)/build/ramdisk.img
 
 ramdisk: $(RAMDISK)
 

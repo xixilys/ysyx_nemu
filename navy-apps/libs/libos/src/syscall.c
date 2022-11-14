@@ -64,9 +64,25 @@ int _write(int fd, void *buf, size_t count) {
   return _syscall_(SYS_write,fd,buf,count);
    
 }
-
-void *_sbrk(intptr_t increment) {
-  return (void *)-1;
+extern char end;
+size_t _current_brk = NULL;
+void * _sbrk(intptr_t increment) {
+   size_t return_value  = _current_brk;
+  if(_current_brk == NULL) {
+    _current_brk = &end;
+    return_value = _current_brk;
+  }
+  // char sb_heap[100] = {};
+  // sprintf(sb_heap, "current is %016lx\n",_current_brk);
+  // write(1,sb_heap,30);
+  if(_syscall_(SYS_brk,(_current_brk + increment),0,0) == 0) {
+    _current_brk += increment;
+   
+  }else{
+    return_value = -1;
+  }
+  return return_value;
+  
 }
 
 int _read(int fd, void *buf, size_t count) {

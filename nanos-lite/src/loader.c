@@ -56,6 +56,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       ramdisk_read((void*)(elf_program_header[i].p_vaddr),elf_program_header[i].p_offset,elf_program_header[i].p_filesz);
     }
   }
+  
   return elf_header->e_entry;
 }
 

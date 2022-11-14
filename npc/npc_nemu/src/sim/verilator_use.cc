@@ -26,7 +26,6 @@ extern "C" void sim_init() {
 	Verilated::traceEverOn(true);
 	tfp = new VerilatedFstC;
 	top->trace(tfp, 0);
-	// printf("sbsbsbsbssbsb\n");
 	tfp->open("dump.fst");	
 	// printf("sbsbsb\n");
 }
