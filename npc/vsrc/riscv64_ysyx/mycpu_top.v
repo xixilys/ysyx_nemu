@@ -1,3 +1,12 @@
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
 module alu(
   input  [23:0] io_ctrl,
   input  [63:0] io_in1,
@@ -39977,7 +39986,7 @@ module myCPU(
   assign inst_sram_en = stage2_stall; // @[myCPU.scala 377:17]
   assign inst_sram_addr = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 370:19]
   assign stage2_flush = fifo_with_bundle_io_point_write_en & _stage_fec_2_data_valid_T | _stage_fec_2_branch_answer_T_7; // @[myCPU.scala 574:72]
-  assign stage1_valid_flush = ready_to_branch | stage_fec_2_branch_answer; // @[myCPU.scala 584:62]
+  assign stage1_valid_flush = _pc_next_wait_T | _stage_fec_2_branch_answer_T_7; // @[myCPU.scala 584:85]
   assign inst_ready_to_use = Pc_Next[1:0] == 2'h0; // @[myCPU.scala 378:39]
   assign inst_buffer_full = fifo_with_bundle_io_full; // @[myCPU.scala 593:22]
   assign data_sram_en = _dmemreq_io_req & ~_dmem_io_data_pending; // @[myCPU.scala 232:44]

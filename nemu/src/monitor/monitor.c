@@ -148,7 +148,11 @@ void ftrace_loop_print(ftrace_type * loop,int index) {
           ftrace_loop_push(ftrace_loop,temp_ftrace , &ftrace_loop_index);
           return;
         }
+        // printf("jal pc is %lx\n",now_pc);
+        // printf("target  pc is %lx\n",target_pc);
+        // printf("sec entry num is %lx\n",sec_entry_num);
         for(int i = 0;i < sec_entry_num ; i++) {
+            // printf("target  pc is %lx\n",target_pc);
             if(elf_symbol_table[i].st_value  == target_pc && ELF64_ST_TYPE(elf_symbol_table[i].st_info) == STT_FUNC) {
                // ftrace_type temp_ftrace = {};
                 temp_ftrace.pc = now_pc;
@@ -189,6 +193,7 @@ static void load_elf() {
 
 
     answer = fseek(fp,elf_header.e_shoff,SEEK_SET);
+    printf(" scetion  num is %d\n",elf_header.e_shnum );
     answer = fread(elf_section_header,elf_header.e_shnum * elf_header.e_shentsize,1,fp); 
 
     // int symble_table_index = 0;
@@ -210,13 +215,13 @@ static void load_elf() {
         }
           
       }else if(elf_section_header[i].sh_type == SHT_SYMTAB) { 
-        // symble_table_index = i;
-        // printf("index = %d\n",symble_table_index);
-        sec_entry_num =  elf_section_header[i].sh_entsize;
-        elf_symbol_table = malloc(sizeof(Elf64_Sym)* elf_section_header[i].sh_entsize);
+        
+        sec_entry_num = elf_section_header[i].sh_size /  elf_section_header[i].sh_entsize;
+        printf("sec_entry_num is %ld\n",sec_entry_num);
+        elf_symbol_table = malloc(elf_section_header[i].sh_size );
 
         answer = fseek(fp,elf_section_header[i].sh_offset,SEEK_SET);
-        answer = fread(elf_symbol_table,sizeof(Elf64_Sym) * elf_section_header[i].sh_entsize,1,fp); 
+        answer = fread(elf_symbol_table,elf_section_header[i].sh_size,1,fp); 
        
       }
     }

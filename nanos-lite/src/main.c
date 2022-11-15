@@ -33,6 +33,7 @@ int main() {
 #endif
 
   init_fs();
+  assert(0);
 
   init_proc();
 

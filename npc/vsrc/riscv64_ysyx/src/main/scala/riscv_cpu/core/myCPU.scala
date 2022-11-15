@@ -581,7 +581,7 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     _pre_cfu.io.stage2_stall := stage2_stall
     //同时也在写入，就不需要将上一个指令写入进行修改
     //只需要清空取指令部分所有的数据
-    stage1_valid_flush := inst_buffer.point_write_en.asBool  || ready_to_branch_pre
+    stage1_valid_flush := inst_buffer.point_write_en.asBool  || ready_to_branch_pre || _csr.io.exception.asBool
     // when(inst_buffer.point_write_en.asBool && inst_buffer.empty.asBool && inst_write_en === 0.U) {
     //     stage1_valid_flush := 2.U
     // }.elsewhen(((inst_buffer.point_write_en.asBool && (!inst_buffer.empty.asBool || (inst_buffer.empty.asBool && inst_write_en =/= 0.U))) || inst_buffer.point_flush.asBool) ){//此时fifo写入的任何数据都无用
