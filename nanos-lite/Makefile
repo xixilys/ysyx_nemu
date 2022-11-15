@@ -3,6 +3,10 @@ RAMDISK_FILE = build/ramdisk.img
 
 NAME = nanos-lite
 SRCS = $(shell find -L ./src/ -name "*.c" -o -name "*.cpp" -o -name "*.S")
+SB_WORD_SPACE = $(shell pwd)
+NEMUFLAGS +=  -f $(SB_WORD_SPACE)/$(RAMDISK_FILE)
+NPCFLAGS += -f $(SB_WORD_SPACE)/$(RAMDISK_FILE)
+
 include $(AM_HOME)/Makefile
 
 ifeq ($(ARCH),native)

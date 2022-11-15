@@ -141,22 +141,26 @@ typedef struct {
     uint64_t      st_size;
 } Elf64_Sym;
 
-
-
-extern ElfN_Ehdr elf_header;
-extern Elf64_Phdr * elf_program_header;
-extern Elf64_Shdr * elf_section_header;
-extern char  *elf_string_table ;
-extern char  *elf_sec_name_table ;
-extern size_t sec_entry_num ;
-extern  Elf64_Sym  * elf_symbol_table;
-
+typedef   struct elf_data{
+  char *elf_file ;
+  int has_use;
+  struct elf_data * next;
+  ElfN_Ehdr elf_header ;
+  Elf64_Phdr * elf_program_header ;
+  Elf64_Shdr * elf_section_header ;
+  char  *elf_string_table ;
+  char  *elf_sec_name_table ;
+  size_t sec_entry_num ;
+  Elf64_Sym  * elf_symbol_table ;
+}elf_list;
 
 typedef struct {
   size_t pc;
   size_t target_pc;
   int symbol_table_index;
   uint8_t type;
+  elf_list * elf_ptr;
+  
   // size_t pc;
 }ftrace_type;
 
