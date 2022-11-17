@@ -25,13 +25,16 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   // int max_size = ctl->w * ctl->h;
+  // printf("x = %d y = %d w = %d h = %d\n",ctl->x,ctl->y,ctl->w,ctl->h);
   for(int i = 0; i < ctl-> h; i++) {
     size_t x_start_ptr = (ctl->x + w*(ctl->y + i)) * 4 + FB_ADDR;
     for(int j = 0; j < ctl-> w; j++) {
+      // printf("data is %d\n",((uint32_t*)(ctl->pixels))[i*ctl-> w + j]);
       outl(x_start_ptr,((uint32_t*)(ctl->pixels))[i*ctl-> w + j]);
       x_start_ptr += 4;
     }
   }
+  // printf("ctl sync is %d\n",ctl->sync);
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
     // printf("read sync_addr = %d\n", inl(SYNC_ADDR));

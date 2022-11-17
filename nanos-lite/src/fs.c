@@ -19,7 +19,9 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 size_t serial_write(const void *buf, size_t offset, size_t len);
 size_t events_read(void *buf, size_t offset, size_t len) ;
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB,FD_EVENT};
+size_t dispinfo_read(void *buf, size_t offset, size_t len) ;
+size_t fb_write(const void *buf, size_t offset, size_t len) ;
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB,FD_EVENT,FD_DISPINFO};
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -37,8 +39,9 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
-  [FD_FB]  = {"/dev/fb",0,0,invalid_read,invalid_write},
+  [FD_FB]  = {"/dev/fb",0,0,invalid_read,fb_write},
   [FD_EVENT]  = {"/dev/events",0,0,events_read,invalid_write},
+  [FD_DISPINFO] = {"/proc/dispinfo",0,0,dispinfo_read,invalid_write},
 
 #include "files.h"
 };
@@ -64,7 +67,7 @@ size_t fs_write(int fd,const void * buf,size_t len) {
       return -1;
     }
   }else {
-    return file_table[fd].write( buf,0,len);
+    return file_table[fd].write( buf,file_table[fd].do_offset,len);
   }
 }
 
@@ -119,8 +122,11 @@ size_t fs_close(int fd){
   // }
   return 0;
 }
+extern int width ;
+extern int height;
 void init_fs() {
   printf("file size is %d\n",file_num);
+  file_table[FD_FB].size = width * height * 4;
   // TODO: initialize the size of /dev/fb
 }
 

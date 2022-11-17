@@ -39,17 +39,17 @@ static size_t sys_open(Context *c) {
 static size_t sys_lseek(Context *c) {
   return fs_lseek(c->GPR2,c->GPR3,c->GPR4);
 }
-void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) ;
+
 AM_TIMER_UPTIME_T uptime = {};
 static size_t sys_gettimeofday(Context * c) {
-  __am_timer_uptime(&uptime);
+  uint64_t us = io_read(AM_TIMER_UPTIME).us;
   //struct timeval 
-  ((struct timeval *)(c->GPR2))->tv_sec = uptime.us / 1000;
-  ((struct timeval*)(c->GPR2))->tv_usec = uptime.us ;
+  ((struct timeval *)(c->GPR2))->tv_sec = us / 1000;
+  ((struct timeval*)(c->GPR2))->tv_usec = us ;
   //struct timezone
-  ((struct timezone*)(c->GPR3)) -> tz_minuteswest = uptime.us / 1000 / 60;
-  ((struct timezone*)(c->GPR3)) -> tz_dsttime = uptime.us / 1000 / 60 / 60;
-  if(uptime.us < 0) {
+  ((struct timezone*)(c->GPR3)) -> tz_minuteswest = us / 1000 / 60;
+  ((struct timezone*)(c->GPR3)) -> tz_dsttime = us / 1000 / 60 / 60;
+  if(us < 0) {
     return -1;
   }else {
     return 0;
