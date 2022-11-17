@@ -11,6 +11,8 @@
 
 int main() {
   long get_ms = NDL_GetTicks();
+  //   int fd_data =  open("/dev/events",0);
+  // printf("open data is %d\n",fd_data);
   while(1) {
     if(NDL_GetTicks() == get_ms + 500)
     {

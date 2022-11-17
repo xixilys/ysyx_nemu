@@ -35,12 +35,14 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     printf("No elf is given");
     return (uintptr_t)NULL;
   }
+
   
 //打开elf文件
   Elf_Ehdr * elf_header = (Elf_Ehdr *)malloc(sizeof(Elf_Ehdr));
   
   int fs_fd = fs_open(filename,0,0);
   assert(fs_fd >= 0);
+  // assert(0);
   fs_read(fs_fd,elf_header,sizeof(Elf64_Ehdr));
   //通过魔数来判断是不是正常的elf文件
   assert(*(uint32_t *)(elf_header->e_ident) == 0x464C457F);

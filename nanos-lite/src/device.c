@@ -24,8 +24,21 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
   }
   return has_put_counter;
 }
-
+//键盘
+void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd);
 size_t events_read(void *buf, size_t offset, size_t len) {
+  AM_INPUT_KEYBRD_T kbd;
+  __am_input_keybrd(&kbd);
+  if(kbd.keydown){
+    int length = strlen(keyname[kbd.keycode]);
+    if(length > len) {
+      return -1;
+    }else {
+      memset(buf,0,len);
+      memcpy(buf,keyname[kbd.keycode],length);
+      return length;
+    }
+  }
   return 0;
 }
 
