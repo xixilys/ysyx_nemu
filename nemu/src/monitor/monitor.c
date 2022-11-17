@@ -169,9 +169,12 @@ void ftrace_loop_print(ftrace_type * loop,int index) {
         // printf("sec entry num is %lx\n",sec_entry_num);
         if(elf_read_list != NULL) {
           elf_list *p = elf_read_list;
+          // printf("target  pc is %lx ",target_pc);
           do{
+            
+            // printf("p->entry_num is %ld\n",p->sec_entry_num);
             for(int i = 0;i < p->sec_entry_num ; i++) {
-            // printf("target  pc is %lx\n",target_pc);
+       
               if(p->elf_symbol_table[i].st_value  == target_pc && ELF64_ST_TYPE(p->elf_symbol_table[i].st_info) == STT_FUNC) {
                 // ftrace_type temp_ftrace = {};
                   temp_ftrace.elf_ptr = p;
@@ -181,12 +184,14 @@ void ftrace_loop_print(ftrace_type * loop,int index) {
                   // printf("i = %d\n",i);
                   temp_ftrace.symbol_table_index = i;
                   ftrace_loop_push(ftrace_loop,temp_ftrace , &ftrace_loop_index);
+                  // printf("\n");
                   // printf("it is func!!! and pc = %lx  name = %s \n",target_pc,&elf_string_table[elf_symbol_table[i].st_name]);
                   return;
               }
             }
             p = p->next;
           }while(p != NULL);
+          // printf("not find func\n");
           
         }
         
@@ -215,7 +220,7 @@ static void load_elf() {
     answer = fread(p->elf_program_header,p->elf_header.e_phnum * p->elf_header.e_phentsize,1,fp); 
 
     printf("answer = %d\n",answer);
-
+    // printf("elf_header e_phnum is %d\n",p->elf_header.e_phnum);
 
     answer = fseek(fp,p->elf_header.e_shoff,SEEK_SET);
     answer = fread(p->elf_section_header,p->elf_header.e_shnum * p->elf_header.e_shentsize,1,fp); 
@@ -245,14 +250,12 @@ static void load_elf() {
        
       }
     }
-  
-
-  
-  fclose(fp);
-  p = p->next;
-
-  }while( p != NULL);
-
+    fclose(fp);
+    // for(int i = 0 ;i< p-> sec_entry_num;i++) {
+    //   printf("num %d symbol table is %lx and func is %d \n",i,p->elf_symbol_table[i].st_value,ELF64_ST_TYPE(p->elf_symbol_table[i].st_info));
+    // }
+    p = p->next;
+    }while( p != NULL);
 }
 static int parse_args(int argc, char *argv[]) {
   const struct option table[] = {

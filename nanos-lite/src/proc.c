@@ -25,7 +25,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(current,"sbhnm");
+  naive_uload(current,"/bin/time-test");
 }
 
 Context* schedule(Context *prev) {

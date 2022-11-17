@@ -56,14 +56,14 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  _exit(SYS_open);
-  return 0;
+  return _syscall_(SYS_open,path ,flags ,mode);
 }
 
 int _write(int fd, void *buf, size_t count) {
   return _syscall_(SYS_write,fd,buf,count);
    
 }
+
 extern char end;
 size_t _current_brk = NULL;
 void * _sbrk(intptr_t increment) {
@@ -72,9 +72,6 @@ void * _sbrk(intptr_t increment) {
     _current_brk = &end;
     return_value = _current_brk;
   }
-  // char sb_heap[100] = {};
-  // sprintf(sb_heap, "current is %016lx\n",_current_brk);
-  // write(1,sb_heap,30);
   if(_syscall_(SYS_brk,(_current_brk + increment),0,0) == 0) {
     _current_brk += increment;
    
@@ -86,23 +83,21 @@ void * _sbrk(intptr_t increment) {
 }
 
 int _read(int fd, void *buf, size_t count) {
-  _exit(SYS_read);
-  return 0;
+  return _syscall_(SYS_read,fd ,buf ,count);
 }
 
 int _close(int fd) {
-  _exit(SYS_close);
-  return 0;
+  return _syscall_(SYS_close,fd,0,0);
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  _exit(SYS_lseek);
-  return 0;
+  // printf("whenec is %d\n",whence);
+  return _syscall_(SYS_lseek,fd,offset,whence);
 }
 
 int _gettimeofday(struct timeval *tv, struct timezone *tz) {
-  _exit(SYS_gettimeofday);
-  return 0;
+  return _syscall_(SYS_gettimeofday,tv,tz,0);
+  // return 0;
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
@@ -180,7 +175,6 @@ unsigned int sleep(unsigned int seconds) {
   assert(0);
   return -1;
 }
-
 ssize_t readlink(const char *pathname, char *buf, size_t bufsiz) {
   assert(0);
   return -1;

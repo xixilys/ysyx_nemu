@@ -1,5 +1,6 @@
 #include <proc.h>
 #include <elf.h>
+#include <fs.h>
 // #include<stdio.h>
 
 #ifdef __LP64__
@@ -38,8 +39,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 //打开elf文件
   Elf_Ehdr * elf_header = (Elf_Ehdr *)malloc(sizeof(Elf_Ehdr));
   
-  size_t  read_ptr = 0;
-  ramdisk_read(elf_header,read_ptr,sizeof(Elf64_Ehdr));
+  int fs_fd = fs_open(filename,0,0);
+  assert(fs_fd >= 0);
+  fs_read(fs_fd,elf_header,sizeof(Elf64_Ehdr));
   //通过魔数来判断是不是正常的elf文件
   assert(*(uint32_t *)(elf_header->e_ident) == 0x464C457F);
 
@@ -48,14 +50,17 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr * elf_program_header = (Elf_Phdr *)malloc(elf_header->e_shnum * elf_header->e_shentsize);
  
   // ramdisk_read(elf_section_header,elf_header->e_shoff,elf_header->e_shnum * elf_header->e_shentsize);
-  ramdisk_read(elf_program_header,elf_header->e_phoff,elf_header->e_phnum * elf_header->e_phentsize);
+  fs_lseek(fs_fd,elf_header->e_phoff,0);
+  fs_read(fs_fd, elf_program_header, elf_header -> e_phnum * elf_header -> e_phentsize);
   for(int i = 0;i < elf_header->e_phnum;i++) {
-    // printf("sbhnm\n");
+    
     if(elf_program_header[i].p_type == PT_LOAD) {
-      memset((void*)elf_program_header[i].p_vaddr,0,elf_program_header[i].p_memsz);
-      ramdisk_read((void*)(elf_program_header[i].p_vaddr),elf_program_header[i].p_offset,elf_program_header[i].p_filesz);
+      fs_lseek(fs_fd,elf_program_header[i].p_offset,0);
+      fs_read(fs_fd,(void*)(elf_program_header[i].p_vaddr),elf_program_header[i].p_filesz);
+      memset(((void*)elf_program_header[i].p_vaddr + elf_program_header[i].p_filesz),0,(elf_program_header[i].p_memsz -  elf_program_header[i].p_filesz));
     }
   }
+  fs_close(fs_fd);
   
   return elf_header->e_entry;
 }

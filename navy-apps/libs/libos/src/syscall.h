@@ -23,5 +23,5 @@ enum {
   SYS_times,
   SYS_gettimeofday
 };
-
+extern char *syscall_names[];
 #endif
