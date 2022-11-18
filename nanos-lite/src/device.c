@@ -90,7 +90,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   int start_x = offset % width ;
   int start_y = offset / width ;
-  printf("start x is %d and len is %d\n",start_x,len);
+  // printf("start x is %d and len is %d\n",start_x,len);
   // printf("your printf is so large\n");
   //fist line、
   //所以我感觉其实不需要考虑这么多，直接莽画就行了，肯定不会超过一行的

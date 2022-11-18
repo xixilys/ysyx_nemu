@@ -120,6 +120,7 @@ typedef	__uint128_t fixedptud;
 #define FIXEDPT_HALF_PI	fixedpt_rconst(3.14159265358979323846 / 2)
 #define FIXEDPT_E	fixedpt_rconst(2.7182818284590452354)
 
+
 /* fixedpt is meant to be usable in environments without floating point support
  * (e.g. microcontrollers, kernels), so we can't use floating point types directly.
  * Putting them only in macros will effectively make them optional. */
@@ -127,35 +128,73 @@ typedef	__uint128_t fixedptud;
 
 /* Multiplies a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_muli(fixedpt A, int B) {
-	return 0;
+	return A * B;
 }
 
 /* Divides a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_divi(fixedpt A, int B) {
-	return 0;
+	return A / B;
 }
 
 /* Multiplies two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_mul(fixedpt A, fixedpt B) {
-	return 0;
+	return (A * B) << FIXEDPT_FBITS;
 }
 
 
 /* Divides two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_div(fixedpt A, fixedpt B) {
-	return 0;
+	return (A * B) >> FIXEDPT_FBITS;
 }
 
 static inline fixedpt fixedpt_abs(fixedpt A) {
-	return 0;
+	return A >= 0? A : -A;
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
-	return 0;
+	if((A & FIXEDPT_FMASK) == 0 ) {
+		return A;		
+	}else if(A > 0) {
+		
+		return A & (~(uint32_t)FIXEDPT_FMASK);
+		
+	}else {
+		return ((A >> FIXEDPT_FBITS)) << FIXEDPT_FBITS;
+	}
+	
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
-	return 0;
+	if((A & FIXEDPT_FMASK) == 0 ) {
+		return A;		
+	}else if(A > 0) {
+		printf("A is %d\n",A);
+		printf("after a is%d\n",(A >> FIXEDPT_FBITS ) + 1);
+		return  ((A >> FIXEDPT_FBITS)  + 1) << FIXEDPT_FBITS;
+	}else {
+		return (((A >> FIXEDPT_FBITS) + 1) << FIXEDPT_FBITS );
+	}
+}
+static inline fixedpt_fromfloat(void *p) {
+	uint32_t data = *(uint32_t*)p;
+	printf("data is %d\n",data);
+	//我选择用一个64位宽的数来存,小数点先放在第24位
+	uint64_t start_data = (1 << 23) |(data & ((1 <<23) -1));
+	printf("start_data is %lx\n",start_data);
+	int8_t shift_data = (int8_t)(data >> 23) - 127;
+	printf("shift_data is %d\n",shift_data);
+	uint32_t final_data = 0;
+	if(shift_data >= 0) {
+		final_data = (start_data << shift_data) >> 15;	
+	}else {
+		final_data = start_data >> (-shift_data) >> 15;
+	}
+	if((data >> 31) ==0) {
+		return (int)final_data;
+	}else {
+		return -(int)final_data;
+	}
+
 }
 
 /*

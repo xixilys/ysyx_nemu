@@ -125,7 +125,6 @@ size_t fs_close(int fd){
 extern int width ;
 extern int height;
 void init_fs() {
-  printf("file size is %d\n",file_num);
   file_table[FD_FB].size = width * height * 4;
   // TODO: initialize the size of /dev/fb
 }
