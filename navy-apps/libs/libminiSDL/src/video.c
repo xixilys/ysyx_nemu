@@ -10,9 +10,17 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
+  if(x == 0 && y == 0 && w == 0 && h == 0) {
+    // printf("w is %d and h is %d\n",s->w,s->h);
+    NDL_DrawRect(s->pixels,0,0,s->w,s->h);
+  }else {
+    assert(x >= 0 && y >= 0 && w > 1 && h > 1 );
+    NDL_DrawRect(s->pixels,x,y,w,h);
+  }
 }
 
 // APIs below are already implemented.

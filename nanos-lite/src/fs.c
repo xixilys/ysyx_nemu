@@ -50,8 +50,12 @@ int file_num = sizeof(file_table) / sizeof(Finfo);
 size_t fs_open(const char *pathname, int flags, int mode) {
   // 目前文件系统还比较简单
   int i = 0;
+  // printf("file num is %d\n",file_num);
+  // printf("path name is %s\n",pathname);
+  int length = strlen(pathname);
   for(; i < file_num ; i++) {
-    if(memcmp(pathname,file_table[i].name,strlen(pathname)) == 0 ) {
+    if(memcmp(pathname,file_table[i].name,length) == 0 ) {
+      // printf("fd is %d\n",i);
       return i;
     }
   }

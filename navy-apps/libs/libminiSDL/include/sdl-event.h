@@ -17,7 +17,10 @@ enum SDL_Keys {
   _KEYS(enumdef)
 };
 
+
+
 enum SDL_EventType {
+  SDL_NONE,
   SDL_KEYDOWN,
   SDL_KEYUP,
   SDL_USEREVENT,

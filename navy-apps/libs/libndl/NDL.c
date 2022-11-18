@@ -79,14 +79,14 @@ void NDL_OpenCanvas(int *w, int *h) {
       screen_w = (open_w - *w) / 2;
       screen_h = (open_h - *h) / 2;
       screen_offset = screen_w + screen_h * open_h;
-      printf("screen_w is %d screen_h is %d\n",screen_w,screen_h);
+      // printf("screen_w is %d screen_h is %d\n",screen_w,screen_h);
     }
-    printf("open w is %d open h is %d\n",open_w,open_h);
+    // printf("open w is %d open h is %d\n",open_w,open_h);
   }
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  printf("x = %d y = %d w = %d h = %d\n",x,y,w,h);
+  // printf("x = %d y = %d w = %d h = %d\n",x,y,w,h);
   for(int i = 0;i < h;i++) {
     // printf("offset is %d\n",(y*open_w + x + i*open_w ));
     // printf

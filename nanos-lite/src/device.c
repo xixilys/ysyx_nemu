@@ -97,7 +97,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   if(len == 0) {
     io_write(AM_GPU_FBDRAW, 0, 0, NULL, 0, 0, true);
   }
-  if(len >= width - start_x) {
+  if(len > width - start_x) {
     printf("your printf is so large\n");
     assert(0);
     return -1;
