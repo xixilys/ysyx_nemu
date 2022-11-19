@@ -73,23 +73,15 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     open_w = data[0];
     open_h = data[1];
-    if(open_w < *w || open_h < *h  ) {
-      assert(0);
-    }else{
-      screen_w = (open_w - *w) / 2;
-      screen_h = (open_h - *h) / 2;
-      screen_offset = screen_w + screen_h * open_h;
-      // printf("screen_w is %d screen_h is %d\n",screen_w,screen_h);
-    }
-    // printf("open w is %d open h is %d\n",open_w,open_h);
+    screen_h = 0;
+    screen_w = 0;
+    *w = open_w;
+    *h = open_h;
   }
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  // printf("x = %d y = %d w = %d h = %d\n",x,y,w,h);
   for(int i = 0;i < h;i++) {
-    // printf("offset is %d\n",(y*open_w + x + i*open_w ));
-    // printf
     assert(lseek(fbdev,((y + screen_h)*open_w + x + screen_w + i*open_w  ),0) != -1);
     write(fbdev,&pixels[w*i],w);
   }

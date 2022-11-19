@@ -70,13 +70,15 @@ static void clear_display(void) {
 int main(int argc, char *argv[], char *envp[]) {
   SDL_Init(0);
   screen = SDL_SetVideoMode(0, 0, 32, SDL_HWSURFACE);
+  printf("screen w is %d and screen h is %d\n",screen->w,screen->h);
 
   font = new BDF_Font(font_fname);
   logo_sf = SDL_LoadBMP("/share/pictures/projectn.bmp");
   assert(logo_sf);
   set_i_max();
-
+    // assert(0);
   while (1) {
+    
     display_menu(i_max);
 
     SDL_Event e;
@@ -140,8 +142,11 @@ static void draw_text_row(char *s, int r) {
 }
 
 static void display_menu(int n) {
+  // assert(0);
   clear_display();
+
   SDL_Rect rect = { .x = screen->w - logo_sf->w, .y = 0 };
+  // printf("x is %d\n",rect.x);
   SDL_BlitSurface(logo_sf, NULL, screen, &rect);
   printf("Available applications:\n");
   char buf[80];
@@ -175,6 +180,7 @@ static void display_menu(int n) {
   i ++;
 
   SDL_UpdateRect(screen, 0, 0, 0, 0);
+
 
   printf("========================================\n");
   printf("Please Choose.\n");

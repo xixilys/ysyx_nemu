@@ -5,17 +5,46 @@
 #include <stdlib.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
-  assert(dst && src);
+  assert(dst && src); 
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  // print
+  int src_w = srcrect == NULL ? src->w : srcrect -> w;
+  int src_h = srcrect == NULL ? src->h : srcrect -> h;
+  int src_x = srcrect == NULL ?  0 : srcrect->x;
+  int src_y = srcrect == NULL ?  0 : srcrect->y; 
+  int dst_x = dstrect == NULL ?  0 : dstrect->x;
+  int dst_y = dstrect == NULL ?  0 : dstrect->y;
+
+  if((src_y + src_h) <= src->h && (dst_y + src_h) <= dst->h &&  (src_x + src_w) <= src->w && (dst_x + src_w) <= dst->w) {
+    // printf("src x is %d src y is %d src w is %d src h is %d and dst_x is %d dst_y is %d\n",src_x,src_y,src_w,src_h,dst_x,dst_y);
+    for(int i = 0 ;i < src_h;i++) {
+        for(int j = 0; j < src_w; j++) {
+          ((uint32_t*)(dst->pixels))[( i + dst_y)* dst->w + j + dst_x] = ((uint32_t*)(src->pixels))[(i +  src_y) *src->w + j + src_x];
+        }
+    }
+  }
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-
+  int src_w = dstrect == NULL ? dst->w : dstrect -> w;
+  int src_h = dstrect == NULL ? dst->h : dstrect -> h;
+  int src_x = dstrect == NULL ?  0 : dstrect->x;
+  int src_y = dstrect == NULL ?  0 : dstrect->y; 
+  // printf("src x is %d src y is %d src w is %d src h is %d and dst h is %d dst w is %d\n",src_x,src_y,src_w,src_h,dst->h,dst->w);
+  if((dst->h >= (src_h + src_y)) && (dst->w >= (src_w + src_x))){
+      printf("surface size is %d\n",dst->w * dst->h);
+      for(int i = 0 ;i < src_h;i++) {
+        for(int j = src_x; j < src_w + src_x; j++) {
+          ((uint32_t*)(dst->pixels))[(i + src_y)*(dst->w) + j] = color;
+        }
+      }
+  }
+  // SDL_UpdateRect(dst,src_x,src_y,src_w,src_h);
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if(x == 0 && y == 0 && w == 0 && h == 0) {
-    // printf("w is %d and h is %d\n",s->w,s->h);
+    printf("w is %d and h is %d\n",s->w,s->h);
     NDL_DrawRect(s->pixels,0,0,s->w,s->h);
   }else {
     assert(x >= 0 && y >= 0 && w > 1 && h > 1 );
