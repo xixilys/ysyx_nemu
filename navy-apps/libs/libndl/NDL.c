@@ -31,7 +31,7 @@ int NDL_PollEvent(char *buf, int len) {
 
 
 void NDL_OpenCanvas(int *w, int *h) {
-  printf("I come here\n");
+  
   //下面这玩意是native用的，和咱们没啥关系
   
 

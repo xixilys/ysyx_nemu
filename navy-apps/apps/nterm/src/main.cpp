@@ -10,17 +10,24 @@ Terminal *term = NULL;
 void builtin_sh_run();
 void extern_app_run(const char *app_path);
 
+
+static void clear_display(void) {
+  SDL_FillRect(screen, NULL, 0xffffff);
+}
+
 int main(int argc, char *argv[]) {
   SDL_Init(0);
+ 
   font = new BDF_Font(font_fname);
 
   // setup display
   int win_w = font->w * W;
   int win_h = font->h * H;
+  printf("win w is %d and win h is %d\n",win_w,win_h);
   screen = SDL_SetVideoMode(win_w, win_h, 32, SDL_HWSURFACE);
-
+  clear_display();
   term = new Terminal(W, H);
-
+  printf("argc is %d\n",argc);
   if (argc < 2) { builtin_sh_run(); }
   else { extern_app_run(argv[1]); }
 
@@ -144,6 +151,7 @@ char handle_key(const char *buf) {
 char handle_key(SDL_Event *ev) {
   static int shift = 0;
   int key = ev->key.keysym.sym;
+  // printf("key is %d\n",key);
   if (key == SDLK_LSHIFT || key == SDLK_RSHIFT) { shift ^= 1; return '\0'; }
 
   if (ev->type == SDL_KEYDOWN) {

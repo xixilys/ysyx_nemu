@@ -23,15 +23,18 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
+  printf("cmd is %s\n",cmd);
 }
 
 void builtin_sh_run() {
   sh_banner();
   sh_prompt();
-
+  
   while (1) {
+    // printf("sbhxz wocaonima\n");
     SDL_Event ev;
     if (SDL_PollEvent(&ev)) {
+      // printf("event is ev.type  %d",ev.type);
       if (ev.type == SDL_KEYUP || ev.type == SDL_KEYDOWN) {
         const char *res = term->keypress(handle_key(&ev));
         if (res) {

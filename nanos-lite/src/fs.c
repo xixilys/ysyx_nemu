@@ -77,7 +77,7 @@ size_t fs_write(int fd,const void * buf,size_t len) {
 
 size_t fs_read(int fd,const void * buf,size_t len) {
   if(file_table[fd].read == NULL) {
-      size_t read_number = (len + file_table[fd].do_offset) >= file_table[fd].size ? (file_table[fd].size -1 - file_table[fd].do_offset ) : len;
+      size_t read_number = (len + file_table[fd].do_offset) >= file_table[fd].size ? (file_table[fd].size  - file_table[fd].do_offset ) : len;
       size_t has_read_len = ramdisk_read ((void*)buf,file_table[fd].disk_offset + file_table[fd].do_offset,read_number);
       file_table[fd].do_offset += has_read_len;
       return has_read_len;

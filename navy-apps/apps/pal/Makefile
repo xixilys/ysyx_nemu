@@ -7,7 +7,7 @@ endif
 NAME = pal
 SRCS = $(shell find $(REPO_PATH)/src/ -name "*.c" -or -name "*.cpp")
 INC_PATH = $(REPO_PATH)/include
-LIBS += libminiSDL libfixedptc
+LIBS += libminiSDL libfixedptc 
 include $(NAVY_HOME)/Makefile
 
 install: install-file

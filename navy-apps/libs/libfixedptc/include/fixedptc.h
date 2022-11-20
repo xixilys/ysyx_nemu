@@ -138,13 +138,15 @@ static inline fixedpt fixedpt_divi(fixedpt A, int B) {
 
 /* Multiplies two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_mul(fixedpt A, fixedpt B) {
-	return (A * B) << FIXEDPT_FBITS;
+	return (A * B) >> FIXEDPT_FBITS;
 }
 
 
 /* Divides two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_div(fixedpt A, fixedpt B) {
-	return (A * B) >> FIXEDPT_FBITS;
+	//考虑到咱们常用的数据范围不会特别大，为了➗法的精确性
+	// 先把被除数进行放大再运算
+	return ((A << FIXEDPT_FBITS) / B) ;
 }
 
 static inline fixedpt fixedpt_abs(fixedpt A) {
@@ -168,21 +170,21 @@ static inline fixedpt fixedpt_ceil(fixedpt A) {
 	if((A & FIXEDPT_FMASK) == 0 ) {
 		return A;		
 	}else if(A > 0) {
-		printf("A is %d\n",A);
-		printf("after a is%d\n",(A >> FIXEDPT_FBITS ) + 1);
+		// printf("A is %d\n",A);
+		// printf("after a is%d\n",(A >> FIXEDPT_FBITS ) + 1);
 		return  ((A >> FIXEDPT_FBITS)  + 1) << FIXEDPT_FBITS;
 	}else {
 		return (((A >> FIXEDPT_FBITS) + 1) << FIXEDPT_FBITS );
 	}
 }
-static inline fixedpt_fromfloat(void *p) {
+static inline fixedpt fixedpt_fromfloat(void *p) {
 	uint32_t data = *(uint32_t*)p;
-	printf("data is %d\n",data);
+	// printf("data is %d\n",data);
 	//我选择用一个64位宽的数来存,小数点先放在第24位
 	uint64_t start_data = (1 << 23) |(data & ((1 <<23) -1));
-	printf("start_data is %lx\n",start_data);
+	// printf("start_data is %lx\n",start_data);
 	int8_t shift_data = (int8_t)(data >> 23) - 127;
-	printf("shift_data is %d\n",shift_data);
+	// printf("shift_data is %d\n",shift_data);
 	uint32_t final_data = 0;
 	if(shift_data >= 0) {
 		final_data = (start_data << shift_data) >> 15;	

@@ -10,8 +10,8 @@ size_t fs_lseek(int fd,size_t offset,int whence) ;
 size_t fs_close(int fd);
 
 static size_t sys_exit(Context *c){
-    // panic("guabi le ");
-  halt(0);
+    panic("guabi le ");
+  // halt(0);
   return 0;
 }
 extern int fife_num ;
@@ -43,12 +43,18 @@ static size_t sys_lseek(Context *c) {
 AM_TIMER_UPTIME_T uptime = {};
 static size_t sys_gettimeofday(Context * c) {
   uint64_t us = io_read(AM_TIMER_UPTIME).us;
-  //struct timeval 
-  ((struct timeval *)(c->GPR2))->tv_sec = us / 1000;
+  // printf("i come here\n");
+  if(((struct timeval *)(c->GPR2)) != NULL) {
+      ((struct timeval *)(c->GPR2))->tv_sec = us / 1000;
   ((struct timeval*)(c->GPR2))->tv_usec = us ;
+  }
+
   //struct timezone
+  if(((struct timezone*)(c->GPR3)) != NULL) {
   ((struct timezone*)(c->GPR3)) -> tz_minuteswest = us / 1000 / 60;
-  ((struct timezone*)(c->GPR3)) -> tz_dsttime = us / 1000 / 60 / 60;
+    ((struct timezone*)(c->GPR3)) -> tz_dsttime = us / 1000 / 60 / 60;
+  }
+  
   if(us < 0) {
     return -1;
   }else {
