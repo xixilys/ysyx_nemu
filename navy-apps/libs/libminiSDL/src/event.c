@@ -11,7 +11,7 @@ static const char *keyname[] = {
   _KEYS(keyname)
 };
 
-static key_state [SDLK_PAGEDOWN] = {};
+uint8_t key_state [SDLK_PAGEDOWN] = {};
 
 int sdl_eventHandle(char * key_buf,SDL_Event *event) {
   if(key_string_length[0] == -1) {
@@ -34,6 +34,7 @@ int sdl_eventHandle(char * key_buf,SDL_Event *event) {
       sunm_length = sb_length >= key_string_length[i]?sb_length:key_string_length[i];
       if(memcmp(&(key_buf[3]),keyname[i],sunm_length) == 0) {
         event->key.keysym.sym = i;
+        // printf("do key is %s\n",keyname[i]);
         if(event->type == SDL_KEYDOWN) {
           key_state[i] = 1;
         }else if(event->type == SDL_KEYUP) {

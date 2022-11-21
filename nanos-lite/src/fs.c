@@ -54,8 +54,11 @@ size_t fs_open(const char *pathname, int flags, int mode) {
   // printf("path name is %s\n",pathname);
   int length = strlen(pathname);
   for(; i < file_num ; i++) {
-    if(memcmp(pathname,file_table[i].name,length) == 0 ) {
+    int file_length = strlen(file_table[i].name);
+    int sum_length = file_length >= length ? file_length:length;
+    if(memcmp(pathname,file_table[i].name,sum_length) == 0 ) {
       // printf("fd is %d\n",i);
+      file_table[i].do_offset = 0;
       return i;
     }
   }
@@ -77,6 +80,9 @@ size_t fs_write(int fd,const void * buf,size_t len) {
 
 size_t fs_read(int fd,const void * buf,size_t len) {
   if(file_table[fd].read == NULL) {
+      // if(len == 0x2e1c0) {
+        // printf("do offset is %x\n",file_table[fd].do_offset);
+      // }
       size_t read_number = (len + file_table[fd].do_offset) >= file_table[fd].size ? (file_table[fd].size  - file_table[fd].do_offset ) : len;
       size_t has_read_len = ramdisk_read ((void*)buf,file_table[fd].disk_offset + file_table[fd].do_offset,read_number);
       file_table[fd].do_offset += has_read_len;
@@ -108,6 +114,9 @@ size_t  fs_lseek(int fd,size_t offset,int whence) {
           }else {
             return -1;
           }break;
+          default : printf("guabile \n");
+          panic("not ok\n");
+          break;
         }
         return file_table[fd].do_offset;
         // file_table[fd].do_offset = offset;
@@ -120,7 +129,7 @@ size_t  fs_lseek(int fd,size_t offset,int whence) {
 }
 size_t fs_close(int fd){
   // if( fd >= 3 && fd < fife_num) {
-  //     file_table[fd].do_offset = 0;
+      file_table[fd].do_offset = 0;
   // }else {
   //   return -1;
   // }

@@ -81,6 +81,7 @@ static void checkregs(CPU_state *ref, vaddr_t pc) {
     // printf("MCAUSE is %lx\n",cpu.special_reg[MSTATUS]);
     nemu_state.state = NEMU_ABORT;
     nemu_state.halt_pc = pc;
+    nemu_state.halt_ret = 1;
     isa_reg_display();
   }
 }

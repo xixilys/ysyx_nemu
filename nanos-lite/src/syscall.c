@@ -10,8 +10,8 @@ size_t fs_lseek(int fd,size_t offset,int whence) ;
 size_t fs_close(int fd);
 
 static size_t sys_exit(Context *c){
-    panic("guabi le ");
-  // halt(0);
+    // panic("guabi le ");
+  halt(0);
   return 0;
 }
 extern int fife_num ;

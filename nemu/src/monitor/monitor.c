@@ -161,7 +161,28 @@ void ftrace_loop_print(ftrace_type * loop,int index) {
           temp_ftrace.pc = now_pc;
           temp_ftrace.target_pc = target_pc;
           temp_ftrace.type = func_ret;
+          //==================
+
+
+
+
+
+
+
+
+
           ftrace_loop_push(ftrace_loop,temp_ftrace , &ftrace_loop_index);
+
+
+
+
+
+
+
+
+
+
+                    //==================
           return;
         }
         // printf("jal pc is %lx\n",now_pc);
@@ -190,6 +211,9 @@ void ftrace_loop_print(ftrace_type * loop,int index) {
               }
             }
             p = p->next;
+            //for test 
+            //不比较操作系统的函数，就看在应用程序上的调用
+            break;
           }while(p != NULL);
           // printf("not find func\n");
           

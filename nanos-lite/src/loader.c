@@ -71,7 +71,7 @@ void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
   Log("Jump to entry = %p", entry);
   // sb_for_waiting();
-  printf("are you ok \n");
+  // printf("are you ok \n");
   ((void(*)())entry) ();
   
 }

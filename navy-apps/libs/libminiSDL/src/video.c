@@ -10,14 +10,14 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert(dst && src); 
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   // print
-  printf("depth is %d\n",src->format->BitsPerPixel);
+  // printf("depth is %d\n",src->format->BitsPerPixel);
   int src_w = srcrect == NULL ? src->w : srcrect -> w;
   int src_h = srcrect == NULL ? src->h : srcrect -> h;
   int src_x = srcrect == NULL ?  0 : srcrect->x;
   int src_y = srcrect == NULL ?  0 : srcrect->y; 
   int dst_x = dstrect == NULL ?  0 : dstrect->x;
   int dst_y = dstrect == NULL ?  0 : dstrect->y;
-
+  // printf("blit surface is going \n");
   if((src_y + src_h) <= src->h && (dst_y + src_h) <= dst->h &&  (src_x + src_w) <= src->w && (dst_x + src_w) <= dst->w) {
     // printf("src x is %d src y is %d src w is %d src h is %d and dst_x is %d dst_y is %d\n",src_x,src_y,src_w,src_h,dst_x,dst_y);
     if(dst->format->BitsPerPixel == 32) {
@@ -27,6 +27,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
           }
         }
     }else if (dst->format->BitsPerPixel == 8) {
+
       for(int i = 0 ;i < src_h;i++) {
           for(int j = 0; j < src_w; j++) {
             ((uint8_t*)(dst->pixels))[( i + dst_y)* dst->w + j + dst_x] = ((uint8_t*)(src->pixels))[(i +  src_y) *src->w + j + src_x];
@@ -37,7 +38,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-    printf("depth is %d\n",dst->format->BitsPerPixel);
+    // printf("depth is %d\n",dst->format->BitsPerPixel);
   int src_w = dstrect == NULL ? dst->w : dstrect -> w;
   int src_h = dstrect == NULL ? dst->h : dstrect -> h;
   int src_x = dstrect == NULL ?  0 : dstrect->x;
@@ -64,7 +65,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
-   printf("depth is %d\n",s->format->BitsPerPixel);
+  //  printf("depth is %d\n",s->format->BitsPerPixel);
   //  for(int i = 0;i<256;i++) {
   //   printf("color is %d\n",((s->format->palette->colors)[i].val));
   //  }
@@ -86,14 +87,14 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if(s->format->BitsPerPixel == 32) {
     NDL_DrawRect(s->pixels,x,y,w,h);
   }else if(s->format->BitsPerPixel == 8){
-    uint32_t *pixels_data = malloc(sizeof(uint32_t) *(s->w) * (s->h));
-    // for()
+    uint32_t *pixels_data = malloc(sizeof(uint32_t) *w * h);
     for(int i = 0 ;i <  h;i++) {
-        for(int j = x; j < x + w; j++) {  
-          pixels_data[(i + y)*(s->w) + j] = (s->format->palette->colors[(((uint8_t*)(s->pixels))[(i + y)*(s->w) + j])].val);
+        for(int j = 0; j <  w; j++) {  
+          pixels_data[(i)*(w) + j] = (s->format->palette->colors[(((uint8_t*)(s->pixels))[(i + y)*(s->w) + x + j])].val);
         }
     }
     NDL_DrawRect(pixels_data,x,y,w,h);
+    free(pixels_data);
 
   }
     
@@ -191,13 +192,16 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   int y = (srcrect == NULL ? 0 : srcrect->y);
   int w = (srcrect == NULL ? src->w : srcrect->w);
   int h = (srcrect == NULL ? src->h : srcrect->h);
-  printf("w = %d dstrect-> w is %d h is %d dstrect->h is %d\n",w,dstrect->w,h,dstrect->h);
+  // printf("w = %d dstrect-> w is %d h is %d dstrect->h is %d\n",w,dstrect->w,h,dstrect->h);
+  // printf("x = %d dstrect-> x is %d y is %d dstrect->y is %d\n",x,dstrect->x,y,dstrect->y);
   // for(int i = 0;i< 256 ; i++)
+  // printf("sbhxz\n");
   assert(dstrect);
-  if(w == dstrect->w && h == dstrect->h) {
+  if((w == dstrect->w && h == dstrect->h) ) {
     /* The source rectangle and the destination rectangle
      * are of the same size. If that is the case, there
      * is no need to stretch, just copy. */
+    printf("come here\n");
     SDL_Rect rect;
     rect.x = x;
     rect.y = y;
@@ -216,37 +220,64 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     int dst_x = dstrect->x;
     int dst_y = dstrect->y;
     //先完成源数据的比较，然后弄出一个大小为dst_w dst_h 的数据，然后给他复制过去就行了
-    printf("dst w is %d and src w is %d\n",dst_w_fixed,src_w_fixed);
-    fixedpt x_rate =  fixedpt_div(src_w_fixed, dst_w_fixed);
 
-    printf("x_rate is %d\n",x_rate);
+    fixedpt x_rate =  fixedpt_div(src_w_fixed, dst_w_fixed);
+    fixedpt y_rate =  fixedpt_div(src_h_fixed, dst_h_fixed);
+
+
     // assert(dstrect);
     // assert(0);
     for(int i = 0;i < dstrect->h;i++) {
       for(int j = 0; j < dstrect->w; j++) {
         // assert(0);
         fixedpt raw_w =  fixedpt_muli(x_rate,j);
-        fixedpt raw_h =  fixedpt_muli(x_rate,i);
+        fixedpt raw_h =  fixedpt_muli(y_rate,i);
         fixedpt u =  (raw_w - fixedpt_floor(raw_w));
         fixedpt v =  (raw_h - fixedpt_floor(raw_h));
-        fixedpt u_1 = 1- u;
-        fixedpt v_1 = 1- v;  
+        fixedpt u_1 = fixedpt_fromint(1)- u;
+        fixedpt v_1 = fixedpt_fromint(1)- v;  
+        // printf("raw_w is %d u is %d ||",raw_w,u);
+        // printf("raw_h is %d v is %d ||",raw_w,u);
         int src_j =  fixedpt_toint(fixedpt_floor(raw_w)) + x;
         int src_i =  fixedpt_toint(fixedpt_floor(raw_h)) + y;
         int src_j_next =  fixedpt_toint(fixedpt_ceil(raw_w)) + x;
         int src_i_next =  fixedpt_toint(fixedpt_ceil(raw_h)) + y;
+        // printf("src_i is %d src_i_next is %d\n",src_i,src_i_next);
+        // printf
+        uint8_t f_i_j             = src->pixels[src_i*src->w + src_j];
+        uint8_t f_i_next_j        = src->pixels[(src_i_next) *src->w + src_j];
 
-        int f_i_j             = src->pixels[src_i*src->w + src_j];
-        int f_i_next_j        = src->pixels[(src_i_next) *src->h + src_j];
-        int f_i_next_j_next   = src->pixels[(src_i_next) *src->h + src_j_next];
-        int f_i_j_next        = src->pixels[(src_i) *src->h + src_j_next];     
-        fixedpt sum_data = fixedpt_mul( fixedpt_mul(u_1,v_1),f_i_j)   + fixedpt_mul( fixedpt_mul(u_1,v),f_i_j_next)
-            + fixedpt_mul( fixedpt_mul(u,v_1),f_i_next_j) + fixedpt_mul( fixedpt_mul(u,v),f_i_next_j_next);
+        uint8_t f_i_next_j_next   = src->pixels[(src_i_next) *src->w + src_j_next];
+        uint8_t f_i_j_next        = src->pixels[(src_i) *src->w + src_j_next];  
+        uint8_t  sum_data = 0;
+        // printf("rconst 0.5 is %d\n",fixedpt_rconst(0.5));
+        if(u <= fixedpt_rconst(0.5)) {
+          if(v <=  fixedpt_rconst(0.5)) {
+            sum_data = (f_i_j);
+          }else {
+            sum_data = f_i_next_j;
+          }
+        }else{
+          if(v <=  fixedpt_rconst(0.5)) {
+            sum_data = (f_i_j_next);
+          }else {
+            sum_data = f_i_next_j_next;
+          }
+        }
+
+        // fixedpt_mul( fixedpt_mul(u_1,v_1),f_i_j)   + fixedpt_mul( fixedpt_mul(u_1,v),f_i_j_next)
+        //     + fixedpt_mul( fixedpt_mul(u,v_1),f_i_next_j) + fixedpt_mul( fixedpt_mul(u,v),f_i_next_j_next);
+        
         // if(fixedpt_toint(sum_data) != 0 ) {
         //   printf("sum_data is %d\n",fixedpt_toint(sum_data));
+        //   // assert(0);
         // }
-
-        dst->pixels[dst_x + (dst_y + i) * dst->w + j] = fixedpt_toint(sum_data);
+        // printf("sum data = %d  ",fixedpt_toint(sum_data));
+        // if(j % 10 == 1) {
+        //   printf("\n");
+        // }
+        // printf("")
+        dst->pixels[dst_x + (dst_y + i) * dst->w + j] = sum_data;
       }
     }
     // assert(0);
@@ -323,6 +354,7 @@ uint32_t SDL_MapRGBA(SDL_PixelFormat *fmt, uint8_t r, uint8_t g, uint8_t b, uint
 }
 
 int SDL_LockSurface(SDL_Surface *s) {
+  assert(0);
   return 0;
 }
 
