@@ -1139,7 +1139,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     _commit_difftest.io.cpu_ebreak_sign := _mem22wb.io.eBreakW
 
     pcw_reg :=  _mem22wb.io.PCW
-    // pcw_reg_reg := pcw_reg
+    pcw_reg_reg := pcw_reg
     //进行difftest时候方便
     _commit_difftest.io.inst_commit := _mem22wb.io.PCW =/= 0.U && pcw_reg =/= _mem22wb.io.PCW
     

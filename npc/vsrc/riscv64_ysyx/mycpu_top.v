@@ -1,29 +1,4 @@
 /* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
 module alu(
   input  [23:0] io_ctrl,
   input  [63:0] io_in1,
@@ -10495,14 +10470,14 @@ module data_ram_simple_two_ports(
   input  [4:0] io_addrb,
   output [7:0] io_doutb
 );
-  wire  Look_up_table_read_first__clock; // @[ip_user.scala 84:23]
-  wire  Look_up_table_read_first__reset; // @[ip_user.scala 84:23]
-  wire [4:0] Look_up_table_read_first__io_ar_addr; // @[ip_user.scala 84:23]
-  wire [4:0] Look_up_table_read_first__io_aw_addr; // @[ip_user.scala 84:23]
-  wire  Look_up_table_read_first__io_write; // @[ip_user.scala 84:23]
-  wire [7:0] Look_up_table_read_first__io_in; // @[ip_user.scala 84:23]
-  wire [7:0] Look_up_table_read_first__io_out; // @[ip_user.scala 84:23]
-  Look_up_table_read_first_ Look_up_table_read_first_ ( // @[ip_user.scala 84:23]
+  wire  Look_up_table_read_first__clock; // @[ip_user.scala 97:23]
+  wire  Look_up_table_read_first__reset; // @[ip_user.scala 97:23]
+  wire [4:0] Look_up_table_read_first__io_ar_addr; // @[ip_user.scala 97:23]
+  wire [4:0] Look_up_table_read_first__io_aw_addr; // @[ip_user.scala 97:23]
+  wire  Look_up_table_read_first__io_write; // @[ip_user.scala 97:23]
+  wire [7:0] Look_up_table_read_first__io_in; // @[ip_user.scala 97:23]
+  wire [7:0] Look_up_table_read_first__io_out; // @[ip_user.scala 97:23]
+  Look_up_table_read_first_ Look_up_table_read_first_ ( // @[ip_user.scala 97:23]
     .clock(Look_up_table_read_first__clock),
     .reset(Look_up_table_read_first__reset),
     .io_ar_addr(Look_up_table_read_first__io_ar_addr),
@@ -10511,13 +10486,13 @@ module data_ram_simple_two_ports(
     .io_in(Look_up_table_read_first__io_in),
     .io_out(Look_up_table_read_first__io_out)
   );
-  assign io_doutb = Look_up_table_read_first__io_out; // @[ip_user.scala 89:19]
+  assign io_doutb = Look_up_table_read_first__io_out; // @[ip_user.scala 102:19]
   assign Look_up_table_read_first__clock = clock;
   assign Look_up_table_read_first__reset = reset;
-  assign Look_up_table_read_first__io_ar_addr = io_addra; // @[ip_user.scala 85:19]
-  assign Look_up_table_read_first__io_aw_addr = io_addrb; // @[ip_user.scala 86:19]
-  assign Look_up_table_read_first__io_write = io_wea; // @[ip_user.scala 88:19]
-  assign Look_up_table_read_first__io_in = io_dina; // @[ip_user.scala 87:19]
+  assign Look_up_table_read_first__io_ar_addr = io_addra; // @[ip_user.scala 98:19]
+  assign Look_up_table_read_first__io_aw_addr = io_addrb; // @[ip_user.scala 99:19]
+  assign Look_up_table_read_first__io_write = io_wea; // @[ip_user.scala 101:19]
+  assign Look_up_table_read_first__io_in = io_dina; // @[ip_user.scala 100:19]
 endmodule
 module pht_data_with_block_ram(
   input        clock,
@@ -25467,14 +25442,14 @@ module data_ram_simple_two_ports_32(
   input  [8:0] io_addrb,
   output [7:0] io_doutb
 );
-  wire  Look_up_table_read_first__clock; // @[ip_user.scala 84:23]
-  wire  Look_up_table_read_first__reset; // @[ip_user.scala 84:23]
-  wire [8:0] Look_up_table_read_first__io_ar_addr; // @[ip_user.scala 84:23]
-  wire [8:0] Look_up_table_read_first__io_aw_addr; // @[ip_user.scala 84:23]
-  wire  Look_up_table_read_first__io_write; // @[ip_user.scala 84:23]
-  wire [7:0] Look_up_table_read_first__io_in; // @[ip_user.scala 84:23]
-  wire [7:0] Look_up_table_read_first__io_out; // @[ip_user.scala 84:23]
-  Look_up_table_read_first__32 Look_up_table_read_first_ ( // @[ip_user.scala 84:23]
+  wire  Look_up_table_read_first__clock; // @[ip_user.scala 97:23]
+  wire  Look_up_table_read_first__reset; // @[ip_user.scala 97:23]
+  wire [8:0] Look_up_table_read_first__io_ar_addr; // @[ip_user.scala 97:23]
+  wire [8:0] Look_up_table_read_first__io_aw_addr; // @[ip_user.scala 97:23]
+  wire  Look_up_table_read_first__io_write; // @[ip_user.scala 97:23]
+  wire [7:0] Look_up_table_read_first__io_in; // @[ip_user.scala 97:23]
+  wire [7:0] Look_up_table_read_first__io_out; // @[ip_user.scala 97:23]
+  Look_up_table_read_first__32 Look_up_table_read_first_ ( // @[ip_user.scala 97:23]
     .clock(Look_up_table_read_first__clock),
     .reset(Look_up_table_read_first__reset),
     .io_ar_addr(Look_up_table_read_first__io_ar_addr),
@@ -25483,13 +25458,13 @@ module data_ram_simple_two_ports_32(
     .io_in(Look_up_table_read_first__io_in),
     .io_out(Look_up_table_read_first__io_out)
   );
-  assign io_doutb = Look_up_table_read_first__io_out; // @[ip_user.scala 89:19]
+  assign io_doutb = Look_up_table_read_first__io_out; // @[ip_user.scala 102:19]
   assign Look_up_table_read_first__clock = clock;
   assign Look_up_table_read_first__reset = reset;
-  assign Look_up_table_read_first__io_ar_addr = io_addra; // @[ip_user.scala 85:19]
-  assign Look_up_table_read_first__io_aw_addr = io_addrb; // @[ip_user.scala 86:19]
-  assign Look_up_table_read_first__io_write = io_wea; // @[ip_user.scala 88:19]
-  assign Look_up_table_read_first__io_in = io_dina; // @[ip_user.scala 87:19]
+  assign Look_up_table_read_first__io_ar_addr = io_addra; // @[ip_user.scala 98:19]
+  assign Look_up_table_read_first__io_aw_addr = io_addrb; // @[ip_user.scala 99:19]
+  assign Look_up_table_read_first__io_write = io_wea; // @[ip_user.scala 101:19]
+  assign Look_up_table_read_first__io_in = io_dina; // @[ip_user.scala 100:19]
 endmodule
 module btb_tag_with_block_ram(
   input        clock,
@@ -37870,14 +37845,14 @@ module data_ram_simple_two_ports_36(
   input  [8:0]  io_addrb,
   output [31:0] io_doutb
 );
-  wire  Look_up_table_read_first__clock; // @[ip_user.scala 84:23]
-  wire  Look_up_table_read_first__reset; // @[ip_user.scala 84:23]
-  wire [8:0] Look_up_table_read_first__io_ar_addr; // @[ip_user.scala 84:23]
-  wire [8:0] Look_up_table_read_first__io_aw_addr; // @[ip_user.scala 84:23]
-  wire  Look_up_table_read_first__io_write; // @[ip_user.scala 84:23]
-  wire [31:0] Look_up_table_read_first__io_in; // @[ip_user.scala 84:23]
-  wire [31:0] Look_up_table_read_first__io_out; // @[ip_user.scala 84:23]
-  Look_up_table_read_first__36 Look_up_table_read_first_ ( // @[ip_user.scala 84:23]
+  wire  Look_up_table_read_first__clock; // @[ip_user.scala 97:23]
+  wire  Look_up_table_read_first__reset; // @[ip_user.scala 97:23]
+  wire [8:0] Look_up_table_read_first__io_ar_addr; // @[ip_user.scala 97:23]
+  wire [8:0] Look_up_table_read_first__io_aw_addr; // @[ip_user.scala 97:23]
+  wire  Look_up_table_read_first__io_write; // @[ip_user.scala 97:23]
+  wire [31:0] Look_up_table_read_first__io_in; // @[ip_user.scala 97:23]
+  wire [31:0] Look_up_table_read_first__io_out; // @[ip_user.scala 97:23]
+  Look_up_table_read_first__36 Look_up_table_read_first_ ( // @[ip_user.scala 97:23]
     .clock(Look_up_table_read_first__clock),
     .reset(Look_up_table_read_first__reset),
     .io_ar_addr(Look_up_table_read_first__io_ar_addr),
@@ -37886,13 +37861,13 @@ module data_ram_simple_two_ports_36(
     .io_in(Look_up_table_read_first__io_in),
     .io_out(Look_up_table_read_first__io_out)
   );
-  assign io_doutb = Look_up_table_read_first__io_out; // @[ip_user.scala 89:19]
+  assign io_doutb = Look_up_table_read_first__io_out; // @[ip_user.scala 102:19]
   assign Look_up_table_read_first__clock = clock;
   assign Look_up_table_read_first__reset = reset;
-  assign Look_up_table_read_first__io_ar_addr = io_addra; // @[ip_user.scala 85:19]
-  assign Look_up_table_read_first__io_aw_addr = io_addrb; // @[ip_user.scala 86:19]
-  assign Look_up_table_read_first__io_write = io_wea; // @[ip_user.scala 88:19]
-  assign Look_up_table_read_first__io_in = io_dina; // @[ip_user.scala 87:19]
+  assign Look_up_table_read_first__io_ar_addr = io_addra; // @[ip_user.scala 98:19]
+  assign Look_up_table_read_first__io_aw_addr = io_addrb; // @[ip_user.scala 99:19]
+  assign Look_up_table_read_first__io_write = io_wea; // @[ip_user.scala 101:19]
+  assign Look_up_table_read_first__io_in = io_dina; // @[ip_user.scala 100:19]
 endmodule
 module btb_data_with_block_ram(
   input         clock,
@@ -49930,50 +49905,50 @@ module data_ram_one_port_with_latency(
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
 `endif // RANDOMIZE_REG_INIT
-  wire  Look_up_table_read_first__clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__1_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__1_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__1_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__1_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__1_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__1_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__1_io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__2_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__2_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__2_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__2_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__2_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__2_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__2_io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__3_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__3_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__3_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__3_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__3_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__3_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__3_io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__4_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__4_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__4_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__4_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__4_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__4_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__4_io_out; // @[ip_user.scala 51:53]
-  wire [7:0] table_1_out = Look_up_table_read_first__1_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [7:0] table_0_out = Look_up_table_read_first__io_out; // @[ip_user.scala 51:{24,24}]
-  wire [15:0] io_douta_lo = {table_1_out,table_0_out}; // @[ip_user.scala 61:38]
-  wire [7:0] table_4_out = Look_up_table_read_first__4_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [7:0] table_3_out = Look_up_table_read_first__3_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [7:0] table_2_out = Look_up_table_read_first__2_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [23:0] io_douta_hi = {table_4_out,table_3_out,table_2_out}; // @[ip_user.scala 61:38]
-  reg [39:0] io_douta_REG; // @[ip_user.scala 61:24]
-  Look_up_table_read_first__40 Look_up_table_read_first_ ( // @[ip_user.scala 51:53]
+  wire  Look_up_table_read_first__clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__1_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__1_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__1_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__1_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__1_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__1_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__1_io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__2_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__2_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__2_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__2_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__2_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__2_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__2_io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__3_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__3_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__3_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__3_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__3_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__3_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__3_io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__4_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__4_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__4_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__4_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__4_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__4_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__4_io_out; // @[ip_user.scala 64:53]
+  wire [7:0] table_1_out = Look_up_table_read_first__1_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [7:0] table_0_out = Look_up_table_read_first__io_out; // @[ip_user.scala 64:{24,24}]
+  wire [15:0] io_douta_lo = {table_1_out,table_0_out}; // @[ip_user.scala 74:38]
+  wire [7:0] table_4_out = Look_up_table_read_first__4_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [7:0] table_3_out = Look_up_table_read_first__3_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [7:0] table_2_out = Look_up_table_read_first__2_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [23:0] io_douta_hi = {table_4_out,table_3_out,table_2_out}; // @[ip_user.scala 74:38]
+  reg [39:0] io_douta_REG; // @[ip_user.scala 74:24]
+  Look_up_table_read_first__40 Look_up_table_read_first_ ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__clock),
     .reset(Look_up_table_read_first__reset),
     .io_ar_addr(Look_up_table_read_first__io_ar_addr),
@@ -49982,7 +49957,7 @@ module data_ram_one_port_with_latency(
     .io_in(Look_up_table_read_first__io_in),
     .io_out(Look_up_table_read_first__io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__1 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__1 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__1_clock),
     .reset(Look_up_table_read_first__1_reset),
     .io_ar_addr(Look_up_table_read_first__1_io_ar_addr),
@@ -49991,7 +49966,7 @@ module data_ram_one_port_with_latency(
     .io_in(Look_up_table_read_first__1_io_in),
     .io_out(Look_up_table_read_first__1_io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__2 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__2 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__2_clock),
     .reset(Look_up_table_read_first__2_reset),
     .io_ar_addr(Look_up_table_read_first__2_io_ar_addr),
@@ -50000,7 +49975,7 @@ module data_ram_one_port_with_latency(
     .io_in(Look_up_table_read_first__2_io_in),
     .io_out(Look_up_table_read_first__2_io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__3 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__3 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__3_clock),
     .reset(Look_up_table_read_first__3_reset),
     .io_ar_addr(Look_up_table_read_first__3_io_ar_addr),
@@ -50009,7 +49984,7 @@ module data_ram_one_port_with_latency(
     .io_in(Look_up_table_read_first__3_io_in),
     .io_out(Look_up_table_read_first__3_io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__4 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__4 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__4_clock),
     .reset(Look_up_table_read_first__4_reset),
     .io_ar_addr(Look_up_table_read_first__4_io_ar_addr),
@@ -50018,39 +49993,39 @@ module data_ram_one_port_with_latency(
     .io_in(Look_up_table_read_first__4_io_in),
     .io_out(Look_up_table_read_first__4_io_out)
   );
-  assign io_douta = io_douta_REG; // @[ip_user.scala 61:14]
+  assign io_douta = io_douta_REG; // @[ip_user.scala 74:14]
   assign Look_up_table_read_first__clock = clock;
   assign Look_up_table_read_first__reset = reset;
-  assign Look_up_table_read_first__io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__io_write = io_wea[0]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__io_in = io_dina[7:0]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__io_write = io_wea[0]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__io_in = io_dina[7:0]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__1_clock = clock;
   assign Look_up_table_read_first__1_reset = reset;
-  assign Look_up_table_read_first__1_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__1_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__1_io_write = io_wea[1]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__1_io_in = io_dina[15:8]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__1_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__1_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__1_io_write = io_wea[1]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__1_io_in = io_dina[15:8]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__2_clock = clock;
   assign Look_up_table_read_first__2_reset = reset;
-  assign Look_up_table_read_first__2_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__2_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__2_io_write = io_wea[2]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__2_io_in = io_dina[23:16]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__2_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__2_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__2_io_write = io_wea[2]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__2_io_in = io_dina[23:16]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__3_clock = clock;
   assign Look_up_table_read_first__3_reset = reset;
-  assign Look_up_table_read_first__3_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__3_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__3_io_write = io_wea[3]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__3_io_in = io_dina[31:24]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__3_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__3_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__3_io_write = io_wea[3]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__3_io_in = io_dina[31:24]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__4_clock = clock;
   assign Look_up_table_read_first__4_reset = reset;
-  assign Look_up_table_read_first__4_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__4_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__4_io_write = io_wea[4]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__4_io_in = io_dina[39:32]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__4_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__4_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__4_io_write = io_wea[4]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__4_io_in = io_dina[39:32]; // @[ip_user.scala 70:36]
   always @(posedge clock) begin
-    io_douta_REG <= {io_douta_hi,io_douta_lo}; // @[ip_user.scala 61:38]
+    io_douta_REG <= {io_douta_hi,io_douta_lo}; // @[ip_user.scala 74:38]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -57009,74 +56984,74 @@ module data_ram_one_port_with_latency_16(
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
 `endif // RANDOMIZE_REG_INIT
-  wire  Look_up_table_read_first__clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__1_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__1_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__1_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__1_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__1_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__1_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__1_io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__2_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__2_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__2_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__2_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__2_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__2_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__2_io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__3_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__3_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__3_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__3_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__3_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__3_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__3_io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__4_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__4_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__4_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__4_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__4_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__4_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__4_io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__5_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__5_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__5_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__5_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__5_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__5_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__5_io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__6_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__6_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__6_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__6_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__6_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__6_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__6_io_out; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__7_clock; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__7_reset; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__7_io_ar_addr; // @[ip_user.scala 51:53]
-  wire [6:0] Look_up_table_read_first__7_io_aw_addr; // @[ip_user.scala 51:53]
-  wire  Look_up_table_read_first__7_io_write; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__7_io_in; // @[ip_user.scala 51:53]
-  wire [7:0] Look_up_table_read_first__7_io_out; // @[ip_user.scala 51:53]
-  wire [7:0] table_1_out = Look_up_table_read_first__1_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [7:0] table_0_out = Look_up_table_read_first__io_out; // @[ip_user.scala 51:{24,24}]
-  wire [7:0] table_3_out = Look_up_table_read_first__3_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [7:0] table_2_out = Look_up_table_read_first__2_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [31:0] io_douta_lo = {table_3_out,table_2_out,table_1_out,table_0_out}; // @[ip_user.scala 61:38]
-  wire [7:0] table_5_out = Look_up_table_read_first__5_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [7:0] table_4_out = Look_up_table_read_first__4_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [7:0] table_7_out = Look_up_table_read_first__7_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [7:0] table_6_out = Look_up_table_read_first__6_io_out; // @[ip_user.scala 51:{24,24}]
-  wire [31:0] io_douta_hi = {table_7_out,table_6_out,table_5_out,table_4_out}; // @[ip_user.scala 61:38]
-  reg [63:0] io_douta_REG; // @[ip_user.scala 61:24]
-  Look_up_table_read_first__40 Look_up_table_read_first_ ( // @[ip_user.scala 51:53]
+  wire  Look_up_table_read_first__clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__1_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__1_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__1_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__1_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__1_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__1_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__1_io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__2_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__2_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__2_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__2_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__2_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__2_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__2_io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__3_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__3_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__3_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__3_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__3_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__3_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__3_io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__4_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__4_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__4_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__4_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__4_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__4_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__4_io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__5_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__5_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__5_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__5_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__5_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__5_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__5_io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__6_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__6_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__6_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__6_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__6_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__6_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__6_io_out; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__7_clock; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__7_reset; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__7_io_ar_addr; // @[ip_user.scala 64:53]
+  wire [6:0] Look_up_table_read_first__7_io_aw_addr; // @[ip_user.scala 64:53]
+  wire  Look_up_table_read_first__7_io_write; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__7_io_in; // @[ip_user.scala 64:53]
+  wire [7:0] Look_up_table_read_first__7_io_out; // @[ip_user.scala 64:53]
+  wire [7:0] table_1_out = Look_up_table_read_first__1_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [7:0] table_0_out = Look_up_table_read_first__io_out; // @[ip_user.scala 64:{24,24}]
+  wire [7:0] table_3_out = Look_up_table_read_first__3_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [7:0] table_2_out = Look_up_table_read_first__2_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [31:0] io_douta_lo = {table_3_out,table_2_out,table_1_out,table_0_out}; // @[ip_user.scala 74:38]
+  wire [7:0] table_5_out = Look_up_table_read_first__5_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [7:0] table_4_out = Look_up_table_read_first__4_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [7:0] table_7_out = Look_up_table_read_first__7_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [7:0] table_6_out = Look_up_table_read_first__6_io_out; // @[ip_user.scala 64:{24,24}]
+  wire [31:0] io_douta_hi = {table_7_out,table_6_out,table_5_out,table_4_out}; // @[ip_user.scala 74:38]
+  reg [63:0] io_douta_REG; // @[ip_user.scala 74:24]
+  Look_up_table_read_first__40 Look_up_table_read_first_ ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__clock),
     .reset(Look_up_table_read_first__reset),
     .io_ar_addr(Look_up_table_read_first__io_ar_addr),
@@ -57085,7 +57060,7 @@ module data_ram_one_port_with_latency_16(
     .io_in(Look_up_table_read_first__io_in),
     .io_out(Look_up_table_read_first__io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__1 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__1 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__1_clock),
     .reset(Look_up_table_read_first__1_reset),
     .io_ar_addr(Look_up_table_read_first__1_io_ar_addr),
@@ -57094,7 +57069,7 @@ module data_ram_one_port_with_latency_16(
     .io_in(Look_up_table_read_first__1_io_in),
     .io_out(Look_up_table_read_first__1_io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__2 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__2 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__2_clock),
     .reset(Look_up_table_read_first__2_reset),
     .io_ar_addr(Look_up_table_read_first__2_io_ar_addr),
@@ -57103,7 +57078,7 @@ module data_ram_one_port_with_latency_16(
     .io_in(Look_up_table_read_first__2_io_in),
     .io_out(Look_up_table_read_first__2_io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__3 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__3 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__3_clock),
     .reset(Look_up_table_read_first__3_reset),
     .io_ar_addr(Look_up_table_read_first__3_io_ar_addr),
@@ -57112,7 +57087,7 @@ module data_ram_one_port_with_latency_16(
     .io_in(Look_up_table_read_first__3_io_in),
     .io_out(Look_up_table_read_first__3_io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__4 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__4 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__4_clock),
     .reset(Look_up_table_read_first__4_reset),
     .io_ar_addr(Look_up_table_read_first__4_io_ar_addr),
@@ -57121,7 +57096,7 @@ module data_ram_one_port_with_latency_16(
     .io_in(Look_up_table_read_first__4_io_in),
     .io_out(Look_up_table_read_first__4_io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__5 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__5 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__5_clock),
     .reset(Look_up_table_read_first__5_reset),
     .io_ar_addr(Look_up_table_read_first__5_io_ar_addr),
@@ -57130,7 +57105,7 @@ module data_ram_one_port_with_latency_16(
     .io_in(Look_up_table_read_first__5_io_in),
     .io_out(Look_up_table_read_first__5_io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__6 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__6 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__6_clock),
     .reset(Look_up_table_read_first__6_reset),
     .io_ar_addr(Look_up_table_read_first__6_io_ar_addr),
@@ -57139,7 +57114,7 @@ module data_ram_one_port_with_latency_16(
     .io_in(Look_up_table_read_first__6_io_in),
     .io_out(Look_up_table_read_first__6_io_out)
   );
-  Look_up_table_read_first__40 Look_up_table_read_first__7 ( // @[ip_user.scala 51:53]
+  Look_up_table_read_first__40 Look_up_table_read_first__7 ( // @[ip_user.scala 64:53]
     .clock(Look_up_table_read_first__7_clock),
     .reset(Look_up_table_read_first__7_reset),
     .io_ar_addr(Look_up_table_read_first__7_io_ar_addr),
@@ -57148,57 +57123,57 @@ module data_ram_one_port_with_latency_16(
     .io_in(Look_up_table_read_first__7_io_in),
     .io_out(Look_up_table_read_first__7_io_out)
   );
-  assign io_douta = io_douta_REG; // @[ip_user.scala 61:14]
+  assign io_douta = io_douta_REG; // @[ip_user.scala 74:14]
   assign Look_up_table_read_first__clock = clock;
   assign Look_up_table_read_first__reset = reset;
-  assign Look_up_table_read_first__io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__io_write = io_wea[0]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__io_in = io_dina[7:0]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__io_write = io_wea[0]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__io_in = io_dina[7:0]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__1_clock = clock;
   assign Look_up_table_read_first__1_reset = reset;
-  assign Look_up_table_read_first__1_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__1_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__1_io_write = io_wea[1]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__1_io_in = io_dina[15:8]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__1_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__1_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__1_io_write = io_wea[1]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__1_io_in = io_dina[15:8]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__2_clock = clock;
   assign Look_up_table_read_first__2_reset = reset;
-  assign Look_up_table_read_first__2_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__2_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__2_io_write = io_wea[2]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__2_io_in = io_dina[23:16]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__2_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__2_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__2_io_write = io_wea[2]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__2_io_in = io_dina[23:16]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__3_clock = clock;
   assign Look_up_table_read_first__3_reset = reset;
-  assign Look_up_table_read_first__3_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__3_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__3_io_write = io_wea[3]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__3_io_in = io_dina[31:24]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__3_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__3_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__3_io_write = io_wea[3]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__3_io_in = io_dina[31:24]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__4_clock = clock;
   assign Look_up_table_read_first__4_reset = reset;
-  assign Look_up_table_read_first__4_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__4_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__4_io_write = io_wea[4]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__4_io_in = io_dina[39:32]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__4_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__4_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__4_io_write = io_wea[4]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__4_io_in = io_dina[39:32]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__5_clock = clock;
   assign Look_up_table_read_first__5_reset = reset;
-  assign Look_up_table_read_first__5_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__5_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__5_io_write = io_wea[5]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__5_io_in = io_dina[47:40]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__5_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__5_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__5_io_write = io_wea[5]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__5_io_in = io_dina[47:40]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__6_clock = clock;
   assign Look_up_table_read_first__6_reset = reset;
-  assign Look_up_table_read_first__6_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__6_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__6_io_write = io_wea[6]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__6_io_in = io_dina[55:48]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__6_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__6_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__6_io_write = io_wea[6]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__6_io_in = io_dina[55:48]; // @[ip_user.scala 70:36]
   assign Look_up_table_read_first__7_clock = clock;
   assign Look_up_table_read_first__7_reset = reset;
-  assign Look_up_table_read_first__7_io_ar_addr = io_addra; // @[ip_user.scala 51:24 54:26]
-  assign Look_up_table_read_first__7_io_aw_addr = io_addra; // @[ip_user.scala 51:24 55:26]
-  assign Look_up_table_read_first__7_io_write = io_wea[7]; // @[ip_user.scala 56:35]
-  assign Look_up_table_read_first__7_io_in = io_dina[63:56]; // @[ip_user.scala 57:36]
+  assign Look_up_table_read_first__7_io_ar_addr = io_addra; // @[ip_user.scala 64:24 67:26]
+  assign Look_up_table_read_first__7_io_aw_addr = io_addra; // @[ip_user.scala 64:24 68:26]
+  assign Look_up_table_read_first__7_io_write = io_wea[7]; // @[ip_user.scala 69:35]
+  assign Look_up_table_read_first__7_io_in = io_dina[63:56]; // @[ip_user.scala 70:36]
   always @(posedge clock) begin
-    io_douta_REG <= {io_douta_hi,io_douta_lo}; // @[ip_user.scala 61:38]
+    io_douta_REG <= {io_douta_hi,io_douta_lo}; // @[ip_user.scala 74:38]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -58674,43 +58649,47 @@ module data_cache(
   wire [4:0] state_ready_lookup_will_to_be = hit ? _state_ready_lookup_will_to_be_T_7 :
     _state_ready_lookup_will_to_be_T_18; // @[data_cache.scala 209:42]
   wire [4:0] _access_work_state_T_1 = io_port_arready ? 5'h2 : work_state; // @[data_cache.scala 219:39]
-  wire [4:0] _access_work_state_T_5 = io_port_awready ? 5'h4 : work_state; // @[data_cache.scala 222:39]
-  wire [4:0] _access_work_state_T_7 = io_port_wready ? 5'h5 : work_state; // @[data_cache.scala 223:39]
-  wire [4:0] _access_work_state_T_9 = io_port_arready ? 5'hd : work_state; // @[data_cache.scala 226:44]
-  wire [4:0] _access_work_state_T_14 = stage1_sram_wr_reg ? 5'h10 : 5'he; // @[data_cache.scala 227:94]
-  wire [4:0] _access_work_state_T_15 = io_port_rlast & io_port_rvalid ? _access_work_state_T_14 : work_state; // @[data_cache.scala 227:44]
-  wire [4:0] _access_work_state_T_17 = io_port_awready ? 5'ha : work_state; // @[data_cache.scala 229:41]
-  wire  _access_work_state_T_19 = write_counter == 3'h7; // @[data_cache.scala 230:81]
-  wire  _access_work_state_T_20 = io_port_wready & write_counter == 3'h7; // @[data_cache.scala 230:64]
-  wire [4:0] _access_work_state_T_21 = io_port_wready & write_counter == 3'h7 ? 5'hb : work_state; // @[data_cache.scala 230:41]
-  wire [4:0] _access_work_state_T_23 = io_port_bvalid ? 5'hc : work_state; // @[data_cache.scala 231:41]
-  wire [4:0] _access_work_state_T_25 = io_port_arready ? 5'h0 : work_state; // @[data_cache.scala 233:44]
-  wire  _access_work_state_T_28 = io_port_rvalid & io_port_rlast; // @[data_cache.scala 234:68]
-  wire [4:0] _access_work_state_T_29 = io_port_rvalid & io_port_rlast ? 5'h10 : work_state; // @[data_cache.scala 234:44]
-  wire [4:0] _access_work_state_T_39 = 5'h1 == work_state ? _access_work_state_T_1 : work_state; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_41 = 5'h2 == work_state ? _access_work_state_for_stall_T_1 : _access_work_state_T_39; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_43 = 5'h18 == work_state ? state_ready_lookup_will_to_be : _access_work_state_T_41; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_45 = 5'h3 == work_state ? _access_work_state_T_5 : _access_work_state_T_43; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_47 = 5'h4 == work_state ? _access_work_state_T_7 : _access_work_state_T_45; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_49 = 5'h5 == work_state ? 5'h18 : _access_work_state_T_47; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_51 = 5'h19 == work_state ? state_ready_lookup_will_to_be : _access_work_state_T_49; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_53 = 5'hc == work_state ? _access_work_state_T_9 : _access_work_state_T_51; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_55 = 5'hd == work_state ? _access_work_state_T_15 : _access_work_state_T_53; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_57 = 5'he == work_state ? 5'h18 : _access_work_state_T_55; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_59 = 5'h9 == work_state ? _access_work_state_T_17 : _access_work_state_T_57; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_61 = 5'ha == work_state ? _access_work_state_T_21 : _access_work_state_T_59; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_63 = 5'hb == work_state ? _access_work_state_T_23 : _access_work_state_T_61; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_65 = 5'h8 == work_state ? _access_work_state_T_25 : _access_work_state_T_63; // @[Mux.scala 81:58]
-  wire [4:0] _access_work_state_T_67 = 5'h0 == work_state ? _access_work_state_T_29 : _access_work_state_T_65; // @[Mux.scala 81:58]
+  wire [2:0] _access_work_state_T_6 = io_port_wready ? 3'h5 : 3'h4; // @[data_cache.scala 222:66]
+  wire [4:0] _access_work_state_T_7 = io_port_awready ? {{2'd0}, _access_work_state_T_6} : work_state; // @[data_cache.scala 222:39]
+  wire [4:0] _access_work_state_T_9 = io_port_wready ? 5'h5 : work_state; // @[data_cache.scala 223:39]
+  wire [4:0] _access_work_state_T_11 = io_port_arready ? 5'hd : work_state; // @[data_cache.scala 226:44]
+  wire [4:0] _access_work_state_T_16 = stage1_sram_wr_reg ? 5'h10 : 5'he; // @[data_cache.scala 227:94]
+  wire [4:0] _access_work_state_T_17 = io_port_rlast & io_port_rvalid ? _access_work_state_T_16 : work_state; // @[data_cache.scala 227:44]
+  wire [4:0] _access_work_state_T_19 = io_port_awready ? 5'ha : work_state; // @[data_cache.scala 229:41]
+  wire  _access_work_state_T_21 = write_counter == 3'h7; // @[data_cache.scala 230:81]
+  wire  _access_work_state_T_22 = io_port_wready & write_counter == 3'h7; // @[data_cache.scala 230:64]
+  wire [4:0] _access_work_state_T_23 = io_port_wready & write_counter == 3'h7 ? 5'hb : work_state; // @[data_cache.scala 230:41]
+  wire [4:0] _access_work_state_T_25 = io_port_bvalid ? 5'hc : work_state; // @[data_cache.scala 231:41]
+  wire [4:0] _access_work_state_T_27 = io_port_arready ? 5'h0 : work_state; // @[data_cache.scala 233:44]
+  wire  _access_work_state_T_30 = io_port_rvalid & io_port_rlast; // @[data_cache.scala 234:68]
+  wire [4:0] _access_work_state_T_31 = io_port_rvalid & io_port_rlast ? 5'h10 : work_state; // @[data_cache.scala 234:44]
+  wire [4:0] _access_work_state_T_41 = 5'h1 == work_state ? _access_work_state_T_1 : work_state; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_43 = 5'h2 == work_state ? _access_work_state_for_stall_T_1 : _access_work_state_T_41; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_45 = 5'h18 == work_state ? state_ready_lookup_will_to_be : _access_work_state_T_43; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_47 = 5'h3 == work_state ? _access_work_state_T_7 : _access_work_state_T_45; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_49 = 5'h4 == work_state ? _access_work_state_T_9 : _access_work_state_T_47; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_51 = 5'h5 == work_state ? 5'h18 : _access_work_state_T_49; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_53 = 5'h19 == work_state ? state_ready_lookup_will_to_be : _access_work_state_T_51; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_55 = 5'hc == work_state ? _access_work_state_T_11 : _access_work_state_T_53; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_57 = 5'hd == work_state ? _access_work_state_T_17 : _access_work_state_T_55; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_59 = 5'he == work_state ? 5'h18 : _access_work_state_T_57; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_61 = 5'h9 == work_state ? _access_work_state_T_19 : _access_work_state_T_59; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_63 = 5'ha == work_state ? _access_work_state_T_23 : _access_work_state_T_61; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_65 = 5'hb == work_state ? _access_work_state_T_25 : _access_work_state_T_63; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_67 = 5'h8 == work_state ? _access_work_state_T_27 : _access_work_state_T_65; // @[Mux.scala 81:58]
+  wire [4:0] _access_work_state_T_69 = 5'h0 == work_state ? _access_work_state_T_31 : _access_work_state_T_67; // @[Mux.scala 81:58]
   wire  _wait_data_T_3 = work_state == 5'hd; // @[data_cache.scala 257:24]
   wire  _write_counter_T = work_state == 5'ha; // @[data_cache.scala 259:37]
-  wire [2:0] _write_counter_T_4 = write_counter + 3'h1; // @[data_cache.scala 259:139]
-  wire [2:0] _write_counter_T_5 = _access_work_state_T_19 ? 3'h0 : _write_counter_T_4; // @[data_cache.scala 259:94]
-  wire [2:0] _write_counter_T_6 = io_port_wready ? _write_counter_T_5 : write_counter; // @[data_cache.scala 259:68]
-  wire  _write_counter_T_7 = work_state == 5'h6; // @[data_cache.scala 260:24]
+  wire  _write_counter_T_1 = work_state == 5'h9; // @[data_cache.scala 259:79]
+  wire  _write_counter_T_2 = work_state == 5'ha | work_state == 5'h9; // @[data_cache.scala 259:65]
+  wire [2:0] _write_counter_T_6 = write_counter + 3'h1; // @[data_cache.scala 259:182]
+  wire [2:0] _write_counter_T_7 = _access_work_state_T_21 ? 3'h0 : _write_counter_T_6; // @[data_cache.scala 259:137]
+  wire [2:0] _write_counter_T_8 = io_port_wready ? _write_counter_T_7 : write_counter; // @[data_cache.scala 259:111]
+  wire  _write_counter_T_9 = work_state == 5'h6; // @[data_cache.scala 260:24]
+  wire  _write_counter_T_10 = work_state == 5'hf; // @[data_cache.scala 260:67]
   wire [2:0] _read_counter_T_6 = read_counter + 3'h1; // @[data_cache.scala 261:163]
   wire [2:0] _read_counter_T_7 = io_port_rvalid ? _read_counter_T_6 : read_counter; // @[data_cache.scala 261:128]
-  wire [2:0] _read_counter_T_8 = _access_work_state_T_28 ? 3'h0 : _read_counter_T_7; // @[data_cache.scala 261:72]
+  wire [2:0] _read_counter_T_8 = _access_work_state_T_30 ? 3'h0 : _read_counter_T_7; // @[data_cache.scala 261:72]
   wire  _read_counter_T_9 = work_state == 5'h0; // @[data_cache.scala 262:24]
   reg [63:0] stage2_sram_addr_reg; // @[Reg.scala 28:20]
   reg  stage2_hit0_reg; // @[data_cache.scala 284:34]
@@ -58849,15 +58828,19 @@ module data_cache(
   wire [63:0] _io_port_awaddr_T_2 = 5'h3 == work_state ? stage1_sram_phy_addr_reg : 64'h0; // @[Mux.scala 81:58]
   wire [63:0] _io_port_awaddr_T_4 = 5'h9 == work_state ? awaddr_miss_addr : _io_port_awaddr_T_2; // @[Mux.scala 81:58]
   wire  _io_port_wdata_T = work_state == 5'h4; // @[data_cache.scala 406:38]
-  wire  _io_port_wdata_T_3 = _write_counter_T | _write_counter_T_7; // @[data_cache.scala 406:132]
-  wire [63:0] _io_port_wdata_T_4 = _write_counter_T | _write_counter_T_7 ? writeback_data : 64'h0; // @[data_cache.scala 406:92]
-  wire [7:0] _io_port_wstrb_T_4 = _io_port_wdata_T_3 ? 8'hff : 8'h0; // @[data_cache.scala 408:87]
-  wire  _io_port_wlast_T_5 = _io_port_wdata_T_3 & _access_work_state_T_19; // @[data_cache.scala 411:9]
-  wire  _io_sram_data_ok_T_1 = work_state == 5'h18; // @[data_cache.scala 417:74]
-  reg [63:0] sram_rdata_reg; // @[data_cache.scala 418:33]
-  reg  stage2_stall_reg; // @[data_cache.scala 420:35]
-  wire [63:0] _io_sram_rdata_T_2 = _cache_wdata_T_3 ? hit_word : 64'h0; // @[data_cache.scala 422:92]
-  wire [63:0] _io_sram_rdata_T_3 = _io_sram_data_ok_T_1 ? wait_data : _io_sram_rdata_T_2; // @[data_cache.scala 422:46]
+  wire  _io_port_wdata_T_2 = work_state == 5'h4 | _T_29; // @[data_cache.scala 406:67]
+  wire  _io_port_wdata_T_7 = _write_counter_T_2 | _write_counter_T_10; // @[data_cache.scala 406:217]
+  wire  _io_port_wdata_T_9 = _io_port_wdata_T_7 | _write_counter_T_9; // @[data_cache.scala 407:49]
+  wire [63:0] _io_port_wdata_T_10 = _io_port_wdata_T_9 ? writeback_data : 64'h0; // @[data_cache.scala 406:135]
+  wire [7:0] _io_port_wstrb_T_10 = _io_port_wdata_T_9 ? 8'hff : 8'h0; // @[data_cache.scala 408:131]
+  wire  _io_port_wlast_T_7 = _write_counter_T | _write_counter_T_9; // @[data_cache.scala 410:176]
+  wire  _io_port_wlast_T_9 = _io_port_wlast_T_7 & _access_work_state_T_21; // @[data_cache.scala 411:9]
+  wire  _io_port_wvalid_T_8 = _io_port_wdata_T_2 | _write_counter_T | _write_counter_T_1 | _write_counter_T_10; // @[data_cache.scala 412:190]
+  wire  _io_sram_data_ok_T_1 = work_state == 5'h18; // @[data_cache.scala 418:74]
+  reg [63:0] sram_rdata_reg; // @[data_cache.scala 419:33]
+  reg  stage2_stall_reg; // @[data_cache.scala 421:35]
+  wire [63:0] _io_sram_rdata_T_2 = _cache_wdata_T_3 ? hit_word : 64'h0; // @[data_cache.scala 423:92]
+  wire [63:0] _io_sram_rdata_T_3 = _io_sram_data_ok_T_1 ? wait_data : _io_sram_rdata_T_2; // @[data_cache.scala 423:46]
   dcache_tag dcache_tag ( // @[data_cache.scala 57:30]
     .clock(dcache_tag_clock),
     .reset(dcache_tag_reset),
@@ -59017,15 +59000,15 @@ module data_cache(
   assign io_port_awlen = {{1'd0}, _io_port_arlen_T_1}; // @[data_cache.scala 394:21]
   assign io_port_awsize = {{1'd0}, _io_port_arsize_T_1}; // @[data_cache.scala 395:21]
   assign io_port_awburst = {{1'd0}, stage1_sram_cache_reg}; // @[data_cache.scala 399:21]
-  assign io_port_awvalid = _T_29 | work_state == 5'hf | work_state == 5'h9; // @[data_cache.scala 403:110]
-  assign io_port_wdata = work_state == 5'h4 ? stage1_sram_wdata_reg : _io_port_wdata_T_4; // @[data_cache.scala 406:26]
-  assign io_port_wstrb = _io_port_wdata_T ? stage1_wstrb_reg : _io_port_wstrb_T_4; // @[data_cache.scala 408:26]
-  assign io_port_wlast = _io_port_wdata_T | _io_port_wlast_T_5; // @[data_cache.scala 410:63]
-  assign io_port_wvalid = _io_port_wdata_T | _write_counter_T | _write_counter_T_7; // @[data_cache.scala 412:105]
+  assign io_port_awvalid = _T_29 | _write_counter_T_10 | _write_counter_T_1; // @[data_cache.scala 403:110]
+  assign io_port_wdata = work_state == 5'h4 | _T_29 ? stage1_sram_wdata_reg : _io_port_wdata_T_10; // @[data_cache.scala 406:26]
+  assign io_port_wstrb = _io_port_wdata_T_2 ? stage1_wstrb_reg : _io_port_wstrb_T_10; // @[data_cache.scala 408:26]
+  assign io_port_wlast = _io_port_wdata_T | _T_29 & io_port_wready | _io_port_wlast_T_9; // @[data_cache.scala 410:132]
+  assign io_port_wvalid = _io_port_wvalid_T_8 | _write_counter_T_9; // @[data_cache.scala 413:49]
   assign io_stage2_stall = access_work_state_for_stall[4:3] == 2'h3; // @[data_cache.scala 252:54]
   assign io_v_addr_for_tlb = stage1_addr_line_mapping; // @[data_cache.scala 194:23]
   assign io_tlb_req = _io_tlb_req_T_4 & stage1_sram_req_reg; // @[data_cache.scala 193:54]
-  assign io_sram_rdata = stage2_stall_reg ? _io_sram_rdata_T_3 : sram_rdata_reg; // @[data_cache.scala 422:25]
+  assign io_sram_rdata = stage2_stall_reg ? _io_sram_rdata_T_3 : sram_rdata_reg; // @[data_cache.scala 423:25]
   assign dcache_tag_clock = clock;
   assign dcache_tag_reset = reset;
   assign dcache_tag_io_wen = _way0_burst_read_wen_T_2 & _way0_dirty_T_7; // @[data_cache.scala 350:122]
@@ -59155,7 +59138,7 @@ module data_cache(
         work_state <= 5'h8;
       end
     end else if (5'h6 == work_state) begin // @[Mux.scala 81:58]
-      if (_access_work_state_T_20) begin // @[data_cache.scala 236:41]
+      if (_access_work_state_T_22) begin // @[data_cache.scala 236:41]
         work_state <= 5'h7;
       end
     end else if (5'hf == work_state) begin // @[Mux.scala 81:58]
@@ -59165,16 +59148,16 @@ module data_cache(
     end else if (5'h10 == work_state) begin
       work_state <= 5'h18;
     end else begin
-      work_state <= _access_work_state_T_67;
+      work_state <= _access_work_state_T_69;
     end
   end
   always @(posedge clock or posedge reset) begin
     if (reset) begin // @[data_cache.scala 259:25]
       write_counter <= 3'h0;
-    end else if (work_state == 5'ha) begin // @[data_cache.scala 260:12]
-      write_counter <= _write_counter_T_6;
-    end else if (work_state == 5'h6) begin
-      write_counter <= _write_counter_T_6;
+    end else if (work_state == 5'ha | work_state == 5'h9) begin // @[data_cache.scala 260:12]
+      write_counter <= _write_counter_T_8;
+    end else if (work_state == 5'h6 | work_state == 5'hf) begin
+      write_counter <= _write_counter_T_8;
     end
   end
   always @(posedge clock or posedge reset) begin
@@ -63157,9 +63140,9 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 419:27]
+    if (reset) begin // @[data_cache.scala 420:27]
       sram_rdata_reg <= 64'h0;
-    end else if (_io_sram_data_ok_T_1) begin // @[data_cache.scala 419:73]
+    end else if (_io_sram_data_ok_T_1) begin // @[data_cache.scala 420:73]
       sram_rdata_reg <= wait_data; // @[data_cache.scala 309:{23,23,23,23,23}]
     end else if (_cache_wdata_T_3) begin
       if (stage2_hit0_reg) begin
@@ -65261,171 +65244,391 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
+module axi_cross_bar(
+  input         clock,
+  input         reset,
+  input  [63:0] io_m_port_0_araddr,
+  input  [3:0]  io_m_port_0_arlen,
+  input  [1:0]  io_m_port_0_arburst,
+  input         io_m_port_0_arvalid,
+  output        io_m_port_0_arready,
+  output [63:0] io_m_port_0_rdata,
+  output        io_m_port_0_rlast,
+  output        io_m_port_0_rvalid,
+  input  [63:0] io_m_port_1_araddr,
+  input  [3:0]  io_m_port_1_arlen,
+  input  [2:0]  io_m_port_1_arsize,
+  input  [1:0]  io_m_port_1_arburst,
+  input         io_m_port_1_arvalid,
+  output        io_m_port_1_arready,
+  output [63:0] io_m_port_1_rdata,
+  output        io_m_port_1_rlast,
+  output        io_m_port_1_rvalid,
+  input  [63:0] io_m_port_1_awaddr,
+  input  [3:0]  io_m_port_1_awlen,
+  input  [2:0]  io_m_port_1_awsize,
+  input  [1:0]  io_m_port_1_awburst,
+  input         io_m_port_1_awvalid,
+  output        io_m_port_1_awready,
+  input  [63:0] io_m_port_1_wdata,
+  input  [7:0]  io_m_port_1_wstrb,
+  input         io_m_port_1_wlast,
+  input         io_m_port_1_wvalid,
+  output        io_m_port_1_wready,
+  output        io_m_port_1_bvalid,
+  output [3:0]  io_s_port_arid,
+  output [63:0] io_s_port_araddr,
+  output [3:0]  io_s_port_arlen,
+  output [2:0]  io_s_port_arsize,
+  output [1:0]  io_s_port_arburst,
+  output        io_s_port_arvalid,
+  input         io_s_port_arready,
+  input  [63:0] io_s_port_rdata,
+  input         io_s_port_rlast,
+  input         io_s_port_rvalid,
+  output        io_s_port_rready,
+  output [3:0]  io_s_port_awid,
+  output [63:0] io_s_port_awaddr,
+  output [3:0]  io_s_port_awlen,
+  output [2:0]  io_s_port_awsize,
+  output [1:0]  io_s_port_awburst,
+  output        io_s_port_awvalid,
+  input         io_s_port_awready,
+  output [3:0]  io_s_port_wid,
+  output [63:0] io_s_port_wdata,
+  output [7:0]  io_s_port_wstrb,
+  output        io_s_port_wlast,
+  output        io_s_port_wvalid,
+  input         io_s_port_wready,
+  input         io_s_port_bvalid,
+  output        io_s_port_bready
+);
+`ifdef RANDOMIZE_REG_INIT
+  reg [31:0] _RAND_0;
+  reg [31:0] _RAND_1;
+  reg [31:0] _RAND_2;
+`endif // RANDOMIZE_REG_INIT
+  reg  r_inuse_0; // @[axi_ram_port.scala 114:30]
+  reg  r_inuse_1; // @[axi_ram_port.scala 114:30]
+  reg  w_inuse_1; // @[axi_ram_port.scala 116:30]
+  wire [1:0] _T_3 = {w_inuse_1,1'h0}; // @[axi_ram_port.scala 120:93]
+  wire  _GEN_4 = io_s_port_bvalid & w_inuse_1 ? 1'h0 : w_inuse_1; // @[axi_ram_port.scala 123:67 124:41 126:41]
+  wire  w_inuse_wire_1 = (io_m_port_1_awvalid | io_m_port_1_wvalid) & _T_3 == 2'h0 | _GEN_4; // @[axi_ram_port.scala 120:110 122:41]
+  wire [1:0] _w_inuse_0_T = {w_inuse_wire_1,1'h0}; // @[axi_ram_port.scala 134:48]
+  wire [1:0] _w_inuse_0_T_6 = 2'h2 - 2'h1; // @[axi_ram_port.scala 134:117]
+  wire  _w_inuse_0_T_7 = 2'h0 == _w_inuse_0_T_6; // @[axi_ram_port.scala 134:95]
+  wire [1:0] _T_11 = {r_inuse_1,r_inuse_0}; // @[axi_ram_port.scala 136:93]
+  wire  _GEN_2 = io_s_port_rlast & r_inuse_0 ? 1'h0 : r_inuse_0; // @[axi_ram_port.scala 138:65 139:41 141:41]
+  wire  r_inuse_wire_0 = (io_m_port_0_arvalid | io_m_port_0_rvalid) & _T_11 == 2'h0 | _GEN_2; // @[axi_ram_port.scala 136:110 137:41]
+  wire  _GEN_6 = io_s_port_rlast & r_inuse_1 ? 1'h0 : r_inuse_1; // @[axi_ram_port.scala 138:65 139:41 141:41]
+  wire  r_inuse_wire_1 = (io_m_port_1_arvalid | io_m_port_1_rvalid) & _T_11 == 2'h0 | _GEN_6; // @[axi_ram_port.scala 136:110 137:41]
+  wire [1:0] _r_inuse_0_T = {r_inuse_wire_1,r_inuse_wire_0}; // @[axi_ram_port.scala 151:49]
+  wire [1:0] _r_inuse_0_T_3 = {{1'd0}, _r_inuse_0_T[1]}; // @[axi_ram_port.scala 151:56]
+  wire  _w_inuse_1_T_7 = 2'h1 == _w_inuse_0_T_6; // @[axi_ram_port.scala 134:95]
+  wire [2:0] _r_select_port_T_48 = r_inuse_0 ? 3'h2 : 3'h0; // @[Mux.scala 27:73]
+  wire [1:0] _r_select_port_T_93 = r_inuse_0 ? io_m_port_0_arburst : 2'h0; // @[Mux.scala 27:73]
+  wire [1:0] _r_select_port_T_94 = r_inuse_1 ? io_m_port_1_arburst : 2'h0; // @[Mux.scala 27:73]
+  wire [2:0] _r_select_port_T_97 = r_inuse_1 ? io_m_port_1_arsize : 3'h0; // @[Mux.scala 27:73]
+  wire [3:0] _r_select_port_T_99 = r_inuse_0 ? io_m_port_0_arlen : 4'h0; // @[Mux.scala 27:73]
+  wire [3:0] _r_select_port_T_100 = r_inuse_1 ? io_m_port_1_arlen : 4'h0; // @[Mux.scala 27:73]
+  wire [63:0] _r_select_port_T_102 = r_inuse_0 ? io_m_port_0_araddr : 64'h0; // @[Mux.scala 27:73]
+  wire [63:0] _r_select_port_T_103 = r_inuse_1 ? io_m_port_1_araddr : 64'h0; // @[Mux.scala 27:73]
+  assign io_m_port_0_arready = r_inuse_0 & io_s_port_arready; // @[axi_ram_port.scala 145:44]
+  assign io_m_port_0_rdata = r_inuse_0 ? io_s_port_rdata : 64'h0; // @[axi_ram_port.scala 147:44]
+  assign io_m_port_0_rlast = r_inuse_0 & io_s_port_rlast; // @[axi_ram_port.scala 149:44]
+  assign io_m_port_0_rvalid = r_inuse_0 & io_s_port_rvalid; // @[axi_ram_port.scala 150:44]
+  assign io_m_port_1_arready = r_inuse_1 & io_s_port_arready; // @[axi_ram_port.scala 145:44]
+  assign io_m_port_1_rdata = r_inuse_1 ? io_s_port_rdata : 64'h0; // @[axi_ram_port.scala 147:44]
+  assign io_m_port_1_rlast = r_inuse_1 & io_s_port_rlast; // @[axi_ram_port.scala 149:44]
+  assign io_m_port_1_rvalid = r_inuse_1 & io_s_port_rvalid; // @[axi_ram_port.scala 150:44]
+  assign io_m_port_1_awready = w_inuse_1 & io_s_port_awready; // @[axi_ram_port.scala 129:45]
+  assign io_m_port_1_wready = w_inuse_1 & io_s_port_wready; // @[axi_ram_port.scala 130:45]
+  assign io_m_port_1_bvalid = w_inuse_1 & io_s_port_bvalid; // @[axi_ram_port.scala 133:45]
+  assign io_s_port_arid = r_inuse_1 ? 4'h1 : 4'h0; // @[Mux.scala 27:73]
+  assign io_s_port_araddr = _r_select_port_T_102 | _r_select_port_T_103; // @[Mux.scala 27:73]
+  assign io_s_port_arlen = _r_select_port_T_99 | _r_select_port_T_100; // @[Mux.scala 27:73]
+  assign io_s_port_arsize = _r_select_port_T_48 | _r_select_port_T_97; // @[Mux.scala 27:73]
+  assign io_s_port_arburst = _r_select_port_T_93 | _r_select_port_T_94; // @[Mux.scala 27:73]
+  assign io_s_port_arvalid = r_inuse_0 & io_m_port_0_arvalid | r_inuse_1 & io_m_port_1_arvalid; // @[Mux.scala 27:73]
+  assign io_s_port_rready = r_inuse_0 | r_inuse_1; // @[Mux.scala 27:73]
+  assign io_s_port_awid = w_inuse_1 ? 4'h1 : 4'h0; // @[Mux.scala 27:73]
+  assign io_s_port_awaddr = w_inuse_1 ? io_m_port_1_awaddr : 64'h0; // @[Mux.scala 27:73]
+  assign io_s_port_awlen = w_inuse_1 ? io_m_port_1_awlen : 4'h0; // @[Mux.scala 27:73]
+  assign io_s_port_awsize = w_inuse_1 ? io_m_port_1_awsize : 3'h0; // @[Mux.scala 27:73]
+  assign io_s_port_awburst = w_inuse_1 ? io_m_port_1_awburst : 2'h0; // @[Mux.scala 27:73]
+  assign io_s_port_awvalid = w_inuse_1 & io_m_port_1_awvalid; // @[Mux.scala 27:73]
+  assign io_s_port_wid = w_inuse_1 ? 4'h1 : 4'h0; // @[Mux.scala 27:73]
+  assign io_s_port_wdata = w_inuse_1 ? io_m_port_1_wdata : 64'h0; // @[Mux.scala 27:73]
+  assign io_s_port_wstrb = w_inuse_1 ? io_m_port_1_wstrb : 8'h0; // @[Mux.scala 27:73]
+  assign io_s_port_wlast = w_inuse_1 & io_m_port_1_wlast; // @[Mux.scala 27:73]
+  assign io_s_port_wvalid = w_inuse_1 & io_m_port_1_wvalid; // @[Mux.scala 27:73]
+  assign io_s_port_bready = w_inuse_1 & io_m_port_1_bvalid; // @[Mux.scala 27:73]
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[axi_ram_port.scala 151:34]
+      r_inuse_0 <= 1'h0;
+    end else begin
+      r_inuse_0 <= (_r_inuse_0_T_3 == 2'h0 | _w_inuse_0_T_7) & r_inuse_wire_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[axi_ram_port.scala 151:34]
+      r_inuse_1 <= 1'h0;
+    end else begin
+      r_inuse_1 <= (_r_inuse_0_T == 2'h0 | _w_inuse_1_T_7) & r_inuse_wire_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[axi_ram_port.scala 134:34]
+      w_inuse_1 <= 1'h0;
+    end else begin
+      w_inuse_1 <= (_w_inuse_0_T == 2'h0 | 2'h1 == _w_inuse_0_T_6) & w_inuse_wire_1;
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {1{`RANDOM}};
+  r_inuse_0 = _RAND_0[0:0];
+  _RAND_1 = {1{`RANDOM}};
+  r_inuse_1 = _RAND_1[0:0];
+  _RAND_2 = {1{`RANDOM}};
+  w_inuse_1 = _RAND_2[0:0];
+`endif // RANDOMIZE_REG_INIT
+  if (reset) begin
+    r_inuse_0 = 1'h0;
+  end
+  if (reset) begin
+    r_inuse_1 = 1'h0;
+  end
+  if (reset) begin
+    w_inuse_1 = 1'h0;
+  end
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+endmodule
 module mycpu_top(
   input         aresetn,
   input         aclk,
   input  [5:0]  ext_int,
-  output [3:0]  axi_mem_port_0_arid,
-  output [63:0] axi_mem_port_0_araddr,
-  output [3:0]  axi_mem_port_0_arlen,
-  output [2:0]  axi_mem_port_0_arsize,
-  output [1:0]  axi_mem_port_0_arburst,
-  output [1:0]  axi_mem_port_0_arlock,
-  output [3:0]  axi_mem_port_0_arcache,
-  output [2:0]  axi_mem_port_0_arprot,
-  output        axi_mem_port_0_arvalid,
-  input         axi_mem_port_0_arready,
-  input  [3:0]  axi_mem_port_0_rid,
-  input  [63:0] axi_mem_port_0_rdata,
-  input  [1:0]  axi_mem_port_0_rresp,
-  input         axi_mem_port_0_rlast,
-  input         axi_mem_port_0_rvalid,
-  output        axi_mem_port_0_rready,
-  output [3:0]  axi_mem_port_0_awid,
-  output [63:0] axi_mem_port_0_awaddr,
-  output [3:0]  axi_mem_port_0_awlen,
-  output [2:0]  axi_mem_port_0_awsize,
-  output [1:0]  axi_mem_port_0_awburst,
-  output [1:0]  axi_mem_port_0_awlock,
-  output [3:0]  axi_mem_port_0_awcache,
-  output [2:0]  axi_mem_port_0_awprot,
-  output        axi_mem_port_0_awvalid,
-  input         axi_mem_port_0_awready,
-  output [3:0]  axi_mem_port_0_wid,
-  output [63:0] axi_mem_port_0_wdata,
-  output [7:0]  axi_mem_port_0_wstrb,
-  output        axi_mem_port_0_wlast,
-  output        axi_mem_port_0_wvalid,
-  input         axi_mem_port_0_wready,
-  input  [3:0]  axi_mem_port_0_bid,
-  input  [1:0]  axi_mem_port_0_bresp,
-  input         axi_mem_port_0_bvalid,
-  output        axi_mem_port_0_bready,
-  output [3:0]  axi_mem_port_1_arid,
-  output [63:0] axi_mem_port_1_araddr,
-  output [3:0]  axi_mem_port_1_arlen,
-  output [2:0]  axi_mem_port_1_arsize,
-  output [1:0]  axi_mem_port_1_arburst,
-  output [1:0]  axi_mem_port_1_arlock,
-  output [3:0]  axi_mem_port_1_arcache,
-  output [2:0]  axi_mem_port_1_arprot,
-  output        axi_mem_port_1_arvalid,
-  input         axi_mem_port_1_arready,
-  input  [3:0]  axi_mem_port_1_rid,
-  input  [63:0] axi_mem_port_1_rdata,
-  input  [1:0]  axi_mem_port_1_rresp,
-  input         axi_mem_port_1_rlast,
-  input         axi_mem_port_1_rvalid,
-  output        axi_mem_port_1_rready,
-  output [3:0]  axi_mem_port_1_awid,
-  output [63:0] axi_mem_port_1_awaddr,
-  output [3:0]  axi_mem_port_1_awlen,
-  output [2:0]  axi_mem_port_1_awsize,
-  output [1:0]  axi_mem_port_1_awburst,
-  output [1:0]  axi_mem_port_1_awlock,
-  output [3:0]  axi_mem_port_1_awcache,
-  output [2:0]  axi_mem_port_1_awprot,
-  output        axi_mem_port_1_awvalid,
-  input         axi_mem_port_1_awready,
-  output [3:0]  axi_mem_port_1_wid,
-  output [63:0] axi_mem_port_1_wdata,
-  output [7:0]  axi_mem_port_1_wstrb,
-  output        axi_mem_port_1_wlast,
-  output        axi_mem_port_1_wvalid,
-  input         axi_mem_port_1_wready,
-  input  [3:0]  axi_mem_port_1_bid,
-  input  [1:0]  axi_mem_port_1_bresp,
-  input         axi_mem_port_1_bvalid,
-  output        axi_mem_port_1_bready,
+  output [3:0]  axi_mem_port_arid,
+  output [63:0] axi_mem_port_araddr,
+  output [3:0]  axi_mem_port_arlen,
+  output [2:0]  axi_mem_port_arsize,
+  output [1:0]  axi_mem_port_arburst,
+  output [1:0]  axi_mem_port_arlock,
+  output [3:0]  axi_mem_port_arcache,
+  output [2:0]  axi_mem_port_arprot,
+  output        axi_mem_port_arvalid,
+  input         axi_mem_port_arready,
+  input  [3:0]  axi_mem_port_rid,
+  input  [63:0] axi_mem_port_rdata,
+  input  [1:0]  axi_mem_port_rresp,
+  input         axi_mem_port_rlast,
+  input         axi_mem_port_rvalid,
+  output        axi_mem_port_rready,
+  output [3:0]  axi_mem_port_awid,
+  output [63:0] axi_mem_port_awaddr,
+  output [3:0]  axi_mem_port_awlen,
+  output [2:0]  axi_mem_port_awsize,
+  output [1:0]  axi_mem_port_awburst,
+  output [1:0]  axi_mem_port_awlock,
+  output [3:0]  axi_mem_port_awcache,
+  output [2:0]  axi_mem_port_awprot,
+  output        axi_mem_port_awvalid,
+  input         axi_mem_port_awready,
+  output [3:0]  axi_mem_port_wid,
+  output [63:0] axi_mem_port_wdata,
+  output [7:0]  axi_mem_port_wstrb,
+  output        axi_mem_port_wlast,
+  output        axi_mem_port_wvalid,
+  input         axi_mem_port_wready,
+  input  [3:0]  axi_mem_port_bid,
+  input  [1:0]  axi_mem_port_bresp,
+  input         axi_mem_port_bvalid,
+  output        axi_mem_port_bready,
   output [31:0] debug_wb_pc,
   output [3:0]  debug_wb_rf_wen,
   output [4:0]  debug_wb_rf_wnum,
   output [31:0] debug_wb_rf_wdata
 );
-  wire [5:0] u_riscv_cpu_ext_int; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_resetn; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_clk; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_inst_sram_en; // @[my_cpu_top.scala 165:29]
-  wire [63:0] u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 165:29]
-  wire [39:0] u_riscv_cpu_inst_sram_rdata_L; // @[my_cpu_top.scala 165:29]
-  wire [1:0] u_riscv_cpu_inst_write_en; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_stage2_flush; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_stage2_stall; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_data_sram_en; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_data_sram_wen; // @[my_cpu_top.scala 165:29]
-  wire [1:0] u_riscv_cpu_data_size; // @[my_cpu_top.scala 165:29]
-  wire [63:0] u_riscv_cpu_data_sram_addr; // @[my_cpu_top.scala 165:29]
-  wire [63:0] u_riscv_cpu_data_sram_wdata; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_data_cache; // @[my_cpu_top.scala 165:29]
-  wire [63:0] u_riscv_cpu_data_sram_rdata; // @[my_cpu_top.scala 165:29]
-  wire  u_riscv_cpu_data_stage2_stall; // @[my_cpu_top.scala 165:29]
-  wire [7:0] u_riscv_cpu_data_wstrb; // @[my_cpu_top.scala 165:29]
-  wire [63:0] u_riscv_cpu_debug_wb_pc; // @[my_cpu_top.scala 165:29]
-  wire [3:0] u_riscv_cpu_debug_wb_rf_wen; // @[my_cpu_top.scala 165:29]
-  wire [4:0] u_riscv_cpu_debug_wb_rf_wnum; // @[my_cpu_top.scala 165:29]
-  wire [63:0] u_riscv_cpu_debug_wb_rf_wdata; // @[my_cpu_top.scala 165:29]
-  wire  inst_cache_clock; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_reset; // @[my_cpu_top.scala 166:30]
-  wire [63:0] inst_cache_io_port_araddr; // @[my_cpu_top.scala 166:30]
-  wire [3:0] inst_cache_io_port_arlen; // @[my_cpu_top.scala 166:30]
-  wire [1:0] inst_cache_io_port_arburst; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_port_arvalid; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_port_arready; // @[my_cpu_top.scala 166:30]
-  wire [63:0] inst_cache_io_port_rdata; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_port_rlast; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_port_rvalid; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_stage2_flush; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_stage2_stall; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_stage1_valid_flush; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_inst_ready_to_use; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_inst_buffer_full; // @[my_cpu_top.scala 166:30]
-  wire [63:0] inst_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 166:30]
-  wire [63:0] inst_cache_io_p_addr_for_tlb; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_sram_req; // @[my_cpu_top.scala 166:30]
-  wire [63:0] inst_cache_io_sram_addr; // @[my_cpu_top.scala 166:30]
-  wire [1:0] inst_cache_io_sram_write_en; // @[my_cpu_top.scala 166:30]
-  wire [39:0] inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 166:30]
-  wire  inst_cache_io_sram_cache; // @[my_cpu_top.scala 166:30]
-  wire  data_cache_clock; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_reset; // @[my_cpu_top.scala 168:30]
-  wire [63:0] data_cache_io_port_araddr; // @[my_cpu_top.scala 168:30]
-  wire [3:0] data_cache_io_port_arlen; // @[my_cpu_top.scala 168:30]
-  wire [2:0] data_cache_io_port_arsize; // @[my_cpu_top.scala 168:30]
-  wire [1:0] data_cache_io_port_arburst; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_port_arvalid; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_port_arready; // @[my_cpu_top.scala 168:30]
-  wire [63:0] data_cache_io_port_rdata; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_port_rlast; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_port_rvalid; // @[my_cpu_top.scala 168:30]
-  wire [63:0] data_cache_io_port_awaddr; // @[my_cpu_top.scala 168:30]
-  wire [3:0] data_cache_io_port_awlen; // @[my_cpu_top.scala 168:30]
-  wire [2:0] data_cache_io_port_awsize; // @[my_cpu_top.scala 168:30]
-  wire [1:0] data_cache_io_port_awburst; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_port_awvalid; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_port_awready; // @[my_cpu_top.scala 168:30]
-  wire [63:0] data_cache_io_port_wdata; // @[my_cpu_top.scala 168:30]
-  wire [7:0] data_cache_io_port_wstrb; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_port_wlast; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_port_wvalid; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_port_wready; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_port_bvalid; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_stage2_stall; // @[my_cpu_top.scala 168:30]
-  wire [63:0] data_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 168:30]
-  wire [63:0] data_cache_io_p_addr_for_tlb; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_tlb_req; // @[my_cpu_top.scala 168:30]
-  wire [7:0] data_cache_io_data_wstrb; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_sram_req; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_sram_wr; // @[my_cpu_top.scala 168:30]
-  wire [2:0] data_cache_io_sram_size; // @[my_cpu_top.scala 168:30]
-  wire [63:0] data_cache_io_sram_addr; // @[my_cpu_top.scala 168:30]
-  wire [63:0] data_cache_io_sram_wdata; // @[my_cpu_top.scala 168:30]
-  wire [63:0] data_cache_io_sram_rdata; // @[my_cpu_top.scala 168:30]
-  wire  data_cache_io_sram_cache; // @[my_cpu_top.scala 168:30]
-  myCPU u_riscv_cpu ( // @[my_cpu_top.scala 165:29]
+  wire [5:0] u_riscv_cpu_ext_int; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_resetn; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_clk; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_inst_sram_en; // @[my_cpu_top.scala 168:29]
+  wire [63:0] u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 168:29]
+  wire [39:0] u_riscv_cpu_inst_sram_rdata_L; // @[my_cpu_top.scala 168:29]
+  wire [1:0] u_riscv_cpu_inst_write_en; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_stage2_flush; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_stage2_stall; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_data_sram_en; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_data_sram_wen; // @[my_cpu_top.scala 168:29]
+  wire [1:0] u_riscv_cpu_data_size; // @[my_cpu_top.scala 168:29]
+  wire [63:0] u_riscv_cpu_data_sram_addr; // @[my_cpu_top.scala 168:29]
+  wire [63:0] u_riscv_cpu_data_sram_wdata; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_data_cache; // @[my_cpu_top.scala 168:29]
+  wire [63:0] u_riscv_cpu_data_sram_rdata; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_data_stage2_stall; // @[my_cpu_top.scala 168:29]
+  wire [7:0] u_riscv_cpu_data_wstrb; // @[my_cpu_top.scala 168:29]
+  wire [63:0] u_riscv_cpu_debug_wb_pc; // @[my_cpu_top.scala 168:29]
+  wire [3:0] u_riscv_cpu_debug_wb_rf_wen; // @[my_cpu_top.scala 168:29]
+  wire [4:0] u_riscv_cpu_debug_wb_rf_wnum; // @[my_cpu_top.scala 168:29]
+  wire [63:0] u_riscv_cpu_debug_wb_rf_wdata; // @[my_cpu_top.scala 168:29]
+  wire  inst_cache_clock; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_reset; // @[my_cpu_top.scala 169:30]
+  wire [63:0] inst_cache_io_port_araddr; // @[my_cpu_top.scala 169:30]
+  wire [3:0] inst_cache_io_port_arlen; // @[my_cpu_top.scala 169:30]
+  wire [1:0] inst_cache_io_port_arburst; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_port_arvalid; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_port_arready; // @[my_cpu_top.scala 169:30]
+  wire [63:0] inst_cache_io_port_rdata; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_port_rlast; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_port_rvalid; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_stage2_flush; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_stage2_stall; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_stage1_valid_flush; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_inst_ready_to_use; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_inst_buffer_full; // @[my_cpu_top.scala 169:30]
+  wire [63:0] inst_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 169:30]
+  wire [63:0] inst_cache_io_p_addr_for_tlb; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_sram_req; // @[my_cpu_top.scala 169:30]
+  wire [63:0] inst_cache_io_sram_addr; // @[my_cpu_top.scala 169:30]
+  wire [1:0] inst_cache_io_sram_write_en; // @[my_cpu_top.scala 169:30]
+  wire [39:0] inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_sram_cache; // @[my_cpu_top.scala 169:30]
+  wire  data_cache_clock; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_reset; // @[my_cpu_top.scala 171:30]
+  wire [63:0] data_cache_io_port_araddr; // @[my_cpu_top.scala 171:30]
+  wire [3:0] data_cache_io_port_arlen; // @[my_cpu_top.scala 171:30]
+  wire [2:0] data_cache_io_port_arsize; // @[my_cpu_top.scala 171:30]
+  wire [1:0] data_cache_io_port_arburst; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_port_arvalid; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_port_arready; // @[my_cpu_top.scala 171:30]
+  wire [63:0] data_cache_io_port_rdata; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_port_rlast; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_port_rvalid; // @[my_cpu_top.scala 171:30]
+  wire [63:0] data_cache_io_port_awaddr; // @[my_cpu_top.scala 171:30]
+  wire [3:0] data_cache_io_port_awlen; // @[my_cpu_top.scala 171:30]
+  wire [2:0] data_cache_io_port_awsize; // @[my_cpu_top.scala 171:30]
+  wire [1:0] data_cache_io_port_awburst; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_port_awvalid; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_port_awready; // @[my_cpu_top.scala 171:30]
+  wire [63:0] data_cache_io_port_wdata; // @[my_cpu_top.scala 171:30]
+  wire [7:0] data_cache_io_port_wstrb; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_port_wlast; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_port_wvalid; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_port_wready; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_port_bvalid; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_stage2_stall; // @[my_cpu_top.scala 171:30]
+  wire [63:0] data_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 171:30]
+  wire [63:0] data_cache_io_p_addr_for_tlb; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_tlb_req; // @[my_cpu_top.scala 171:30]
+  wire [7:0] data_cache_io_data_wstrb; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_sram_req; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_sram_wr; // @[my_cpu_top.scala 171:30]
+  wire [2:0] data_cache_io_sram_size; // @[my_cpu_top.scala 171:30]
+  wire [63:0] data_cache_io_sram_addr; // @[my_cpu_top.scala 171:30]
+  wire [63:0] data_cache_io_sram_wdata; // @[my_cpu_top.scala 171:30]
+  wire [63:0] data_cache_io_sram_rdata; // @[my_cpu_top.scala 171:30]
+  wire  data_cache_io_sram_cache; // @[my_cpu_top.scala 171:30]
+  wire  _axi_cross_bar_clock; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_reset; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_m_port_0_araddr; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_m_port_0_arlen; // @[my_cpu_top.scala 173:32]
+  wire [1:0] _axi_cross_bar_io_m_port_0_arburst; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_0_arvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_0_arready; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_m_port_0_rdata; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_0_rlast; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_0_rvalid; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_m_port_1_araddr; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_m_port_1_arlen; // @[my_cpu_top.scala 173:32]
+  wire [2:0] _axi_cross_bar_io_m_port_1_arsize; // @[my_cpu_top.scala 173:32]
+  wire [1:0] _axi_cross_bar_io_m_port_1_arburst; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_1_arvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_1_arready; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_m_port_1_rdata; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_1_rlast; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_1_rvalid; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_m_port_1_awaddr; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_m_port_1_awlen; // @[my_cpu_top.scala 173:32]
+  wire [2:0] _axi_cross_bar_io_m_port_1_awsize; // @[my_cpu_top.scala 173:32]
+  wire [1:0] _axi_cross_bar_io_m_port_1_awburst; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_1_awvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_1_awready; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_m_port_1_wdata; // @[my_cpu_top.scala 173:32]
+  wire [7:0] _axi_cross_bar_io_m_port_1_wstrb; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_1_wlast; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_1_wvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_1_wready; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_m_port_1_bvalid; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_s_port_arid; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_araddr; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_s_port_arlen; // @[my_cpu_top.scala 173:32]
+  wire [2:0] _axi_cross_bar_io_s_port_arsize; // @[my_cpu_top.scala 173:32]
+  wire [1:0] _axi_cross_bar_io_s_port_arburst; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_arvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_arready; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_rdata; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_rlast; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_rvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_rready; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_s_port_awid; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_awaddr; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_s_port_awlen; // @[my_cpu_top.scala 173:32]
+  wire [2:0] _axi_cross_bar_io_s_port_awsize; // @[my_cpu_top.scala 173:32]
+  wire [1:0] _axi_cross_bar_io_s_port_awburst; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_awvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_awready; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_s_port_wid; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_wdata; // @[my_cpu_top.scala 173:32]
+  wire [7:0] _axi_cross_bar_io_s_port_wstrb; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_wlast; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_wvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_wready; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_bvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_bready; // @[my_cpu_top.scala 173:32]
+  myCPU u_riscv_cpu ( // @[my_cpu_top.scala 168:29]
     .ext_int(u_riscv_cpu_ext_int),
     .resetn(u_riscv_cpu_resetn),
     .clk(u_riscv_cpu_clk),
@@ -65453,7 +65656,7 @@ module mycpu_top(
     .debug_wb_rf_wnum(u_riscv_cpu_debug_wb_rf_wnum),
     .debug_wb_rf_wdata(u_riscv_cpu_debug_wb_rf_wdata)
   );
-  inst_cache inst_cache ( // @[my_cpu_top.scala 166:30]
+  inst_cache inst_cache ( // @[my_cpu_top.scala 169:30]
     .clock(inst_cache_clock),
     .reset(inst_cache_reset),
     .io_port_araddr(inst_cache_io_port_araddr),
@@ -65477,7 +65680,7 @@ module mycpu_top(
     .io_sram_rdata_L(inst_cache_io_sram_rdata_L),
     .io_sram_cache(inst_cache_io_sram_cache)
   );
-  data_cache data_cache ( // @[my_cpu_top.scala 168:30]
+  data_cache data_cache ( // @[my_cpu_top.scala 171:30]
     .clock(data_cache_clock),
     .reset(data_cache_reset),
     .io_port_araddr(data_cache_io_port_araddr),
@@ -65514,97 +65717,158 @@ module mycpu_top(
     .io_sram_rdata(data_cache_io_sram_rdata),
     .io_sram_cache(data_cache_io_sram_cache)
   );
-  assign axi_mem_port_0_arid = 4'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_araddr = inst_cache_io_port_araddr; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_arlen = inst_cache_io_port_arlen; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_arsize = 3'h2; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_arburst = inst_cache_io_port_arburst; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_arlock = 2'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_arcache = 4'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_arprot = 3'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_arvalid = inst_cache_io_port_arvalid; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_rready = 1'h1; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_awid = 4'h1; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_awaddr = 64'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_awlen = 4'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_awsize = 3'h2; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_awburst = 2'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_awlock = 2'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_awcache = 4'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_awprot = 3'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_awvalid = 1'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_wid = 4'h1; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_wdata = 64'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_wstrb = 8'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_wlast = 1'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_wvalid = 1'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_0_bready = 1'h0; // @[my_cpu_top.scala 271:21]
-  assign axi_mem_port_1_arid = 4'h1; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_araddr = data_cache_io_port_araddr; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_arlen = data_cache_io_port_arlen; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_arsize = data_cache_io_port_arsize; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_arburst = data_cache_io_port_arburst; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_arlock = 2'h0; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_arcache = 4'h0; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_arprot = 3'h0; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_arvalid = data_cache_io_port_arvalid; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_rready = 1'h1; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_awid = 4'h1; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_awaddr = data_cache_io_port_awaddr; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_awlen = data_cache_io_port_awlen; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_awsize = data_cache_io_port_awsize; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_awburst = data_cache_io_port_awburst; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_awlock = 2'h0; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_awcache = 4'h0; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_awprot = 3'h0; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_awvalid = data_cache_io_port_awvalid; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_wid = 4'h1; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_wdata = data_cache_io_port_wdata; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_wstrb = data_cache_io_port_wstrb; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_wlast = data_cache_io_port_wlast; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_wvalid = data_cache_io_port_wvalid; // @[my_cpu_top.scala 272:21]
-  assign axi_mem_port_1_bready = 1'h1; // @[my_cpu_top.scala 272:21]
-  assign debug_wb_pc = u_riscv_cpu_debug_wb_pc[31:0]; // @[my_cpu_top.scala 259:29]
-  assign debug_wb_rf_wen = u_riscv_cpu_debug_wb_rf_wen; // @[my_cpu_top.scala 261:29]
-  assign debug_wb_rf_wnum = u_riscv_cpu_debug_wb_rf_wnum; // @[my_cpu_top.scala 262:29]
-  assign debug_wb_rf_wdata = u_riscv_cpu_debug_wb_rf_wdata[31:0]; // @[my_cpu_top.scala 260:29]
-  assign u_riscv_cpu_ext_int = ext_int; // @[my_cpu_top.scala 265:30]
-  assign u_riscv_cpu_resetn = aresetn; // @[my_cpu_top.scala 264:30]
-  assign u_riscv_cpu_clk = aclk; // @[my_cpu_top.scala 263:30]
-  assign u_riscv_cpu_inst_sram_rdata_L = inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 246:32]
-  assign u_riscv_cpu_inst_write_en = inst_cache_io_sram_write_en; // @[my_cpu_top.scala 254:31]
-  assign u_riscv_cpu_stage2_stall = inst_cache_io_stage2_stall; // @[my_cpu_top.scala 266:35]
-  assign u_riscv_cpu_data_sram_rdata = data_cache_io_sram_rdata; // @[my_cpu_top.scala 233:28]
-  assign u_riscv_cpu_data_stage2_stall = data_cache_io_stage2_stall; // @[my_cpu_top.scala 255:35]
-  assign inst_cache_clock = aclk; // @[my_cpu_top.scala 163:23]
-  assign inst_cache_reset = ~aresetn; // @[my_cpu_top.scala 163:42]
-  assign inst_cache_io_port_arready = axi_mem_port_0_arready; // @[my_cpu_top.scala 271:21]
-  assign inst_cache_io_port_rdata = axi_mem_port_0_rdata; // @[my_cpu_top.scala 271:21]
-  assign inst_cache_io_port_rlast = axi_mem_port_0_rlast; // @[my_cpu_top.scala 271:21]
-  assign inst_cache_io_port_rvalid = axi_mem_port_0_rvalid; // @[my_cpu_top.scala 271:21]
-  assign inst_cache_io_stage2_flush = u_riscv_cpu_stage2_flush; // @[my_cpu_top.scala 269:31]
-  assign inst_cache_io_stage1_valid_flush = u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 377:37]
-  assign inst_cache_io_inst_ready_to_use = u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 378:36]
-  assign inst_cache_io_inst_buffer_full = u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 379:37]
-  assign inst_cache_io_p_addr_for_tlb = inst_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 205:38]
-  assign inst_cache_io_sram_req = u_riscv_cpu_inst_sram_en; // @[my_cpu_top.scala 240:29]
-  assign inst_cache_io_sram_addr = u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 237:29]
-  assign inst_cache_io_sram_cache = u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 239:29]
-  assign data_cache_clock = aclk; // @[my_cpu_top.scala 163:23]
-  assign data_cache_reset = ~aresetn; // @[my_cpu_top.scala 163:42]
-  assign data_cache_io_port_arready = axi_mem_port_1_arready; // @[my_cpu_top.scala 272:21]
-  assign data_cache_io_port_rdata = axi_mem_port_1_rdata; // @[my_cpu_top.scala 272:21]
-  assign data_cache_io_port_rlast = axi_mem_port_1_rlast; // @[my_cpu_top.scala 272:21]
-  assign data_cache_io_port_rvalid = axi_mem_port_1_rvalid; // @[my_cpu_top.scala 272:21]
-  assign data_cache_io_port_awready = axi_mem_port_1_awready; // @[my_cpu_top.scala 272:21]
-  assign data_cache_io_port_wready = axi_mem_port_1_wready; // @[my_cpu_top.scala 272:21]
-  assign data_cache_io_port_bvalid = axi_mem_port_1_bvalid; // @[my_cpu_top.scala 272:21]
-  assign data_cache_io_p_addr_for_tlb = data_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 206:38]
-  assign data_cache_io_data_wstrb = u_riscv_cpu_data_wstrb; // @[my_cpu_top.scala 232:29]
-  assign data_cache_io_sram_req = u_riscv_cpu_data_sram_en; // @[my_cpu_top.scala 229:23]
-  assign data_cache_io_sram_wr = u_riscv_cpu_data_sram_wen; // @[my_cpu_top.scala 230:23]
-  assign data_cache_io_sram_size = {{1'd0}, u_riscv_cpu_data_size}; // @[my_cpu_top.scala 227:22]
-  assign data_cache_io_sram_addr = u_riscv_cpu_data_sram_addr; // @[my_cpu_top.scala 226:22]
-  assign data_cache_io_sram_wdata = u_riscv_cpu_data_sram_wdata; // @[my_cpu_top.scala 231:23]
-  assign data_cache_io_sram_cache = u_riscv_cpu_data_cache; // @[my_cpu_top.scala 228:23]
+  axi_cross_bar _axi_cross_bar ( // @[my_cpu_top.scala 173:32]
+    .clock(_axi_cross_bar_clock),
+    .reset(_axi_cross_bar_reset),
+    .io_m_port_0_araddr(_axi_cross_bar_io_m_port_0_araddr),
+    .io_m_port_0_arlen(_axi_cross_bar_io_m_port_0_arlen),
+    .io_m_port_0_arburst(_axi_cross_bar_io_m_port_0_arburst),
+    .io_m_port_0_arvalid(_axi_cross_bar_io_m_port_0_arvalid),
+    .io_m_port_0_arready(_axi_cross_bar_io_m_port_0_arready),
+    .io_m_port_0_rdata(_axi_cross_bar_io_m_port_0_rdata),
+    .io_m_port_0_rlast(_axi_cross_bar_io_m_port_0_rlast),
+    .io_m_port_0_rvalid(_axi_cross_bar_io_m_port_0_rvalid),
+    .io_m_port_1_araddr(_axi_cross_bar_io_m_port_1_araddr),
+    .io_m_port_1_arlen(_axi_cross_bar_io_m_port_1_arlen),
+    .io_m_port_1_arsize(_axi_cross_bar_io_m_port_1_arsize),
+    .io_m_port_1_arburst(_axi_cross_bar_io_m_port_1_arburst),
+    .io_m_port_1_arvalid(_axi_cross_bar_io_m_port_1_arvalid),
+    .io_m_port_1_arready(_axi_cross_bar_io_m_port_1_arready),
+    .io_m_port_1_rdata(_axi_cross_bar_io_m_port_1_rdata),
+    .io_m_port_1_rlast(_axi_cross_bar_io_m_port_1_rlast),
+    .io_m_port_1_rvalid(_axi_cross_bar_io_m_port_1_rvalid),
+    .io_m_port_1_awaddr(_axi_cross_bar_io_m_port_1_awaddr),
+    .io_m_port_1_awlen(_axi_cross_bar_io_m_port_1_awlen),
+    .io_m_port_1_awsize(_axi_cross_bar_io_m_port_1_awsize),
+    .io_m_port_1_awburst(_axi_cross_bar_io_m_port_1_awburst),
+    .io_m_port_1_awvalid(_axi_cross_bar_io_m_port_1_awvalid),
+    .io_m_port_1_awready(_axi_cross_bar_io_m_port_1_awready),
+    .io_m_port_1_wdata(_axi_cross_bar_io_m_port_1_wdata),
+    .io_m_port_1_wstrb(_axi_cross_bar_io_m_port_1_wstrb),
+    .io_m_port_1_wlast(_axi_cross_bar_io_m_port_1_wlast),
+    .io_m_port_1_wvalid(_axi_cross_bar_io_m_port_1_wvalid),
+    .io_m_port_1_wready(_axi_cross_bar_io_m_port_1_wready),
+    .io_m_port_1_bvalid(_axi_cross_bar_io_m_port_1_bvalid),
+    .io_s_port_arid(_axi_cross_bar_io_s_port_arid),
+    .io_s_port_araddr(_axi_cross_bar_io_s_port_araddr),
+    .io_s_port_arlen(_axi_cross_bar_io_s_port_arlen),
+    .io_s_port_arsize(_axi_cross_bar_io_s_port_arsize),
+    .io_s_port_arburst(_axi_cross_bar_io_s_port_arburst),
+    .io_s_port_arvalid(_axi_cross_bar_io_s_port_arvalid),
+    .io_s_port_arready(_axi_cross_bar_io_s_port_arready),
+    .io_s_port_rdata(_axi_cross_bar_io_s_port_rdata),
+    .io_s_port_rlast(_axi_cross_bar_io_s_port_rlast),
+    .io_s_port_rvalid(_axi_cross_bar_io_s_port_rvalid),
+    .io_s_port_rready(_axi_cross_bar_io_s_port_rready),
+    .io_s_port_awid(_axi_cross_bar_io_s_port_awid),
+    .io_s_port_awaddr(_axi_cross_bar_io_s_port_awaddr),
+    .io_s_port_awlen(_axi_cross_bar_io_s_port_awlen),
+    .io_s_port_awsize(_axi_cross_bar_io_s_port_awsize),
+    .io_s_port_awburst(_axi_cross_bar_io_s_port_awburst),
+    .io_s_port_awvalid(_axi_cross_bar_io_s_port_awvalid),
+    .io_s_port_awready(_axi_cross_bar_io_s_port_awready),
+    .io_s_port_wid(_axi_cross_bar_io_s_port_wid),
+    .io_s_port_wdata(_axi_cross_bar_io_s_port_wdata),
+    .io_s_port_wstrb(_axi_cross_bar_io_s_port_wstrb),
+    .io_s_port_wlast(_axi_cross_bar_io_s_port_wlast),
+    .io_s_port_wvalid(_axi_cross_bar_io_s_port_wvalid),
+    .io_s_port_wready(_axi_cross_bar_io_s_port_wready),
+    .io_s_port_bvalid(_axi_cross_bar_io_s_port_bvalid),
+    .io_s_port_bready(_axi_cross_bar_io_s_port_bready)
+  );
+  assign axi_mem_port_arid = _axi_cross_bar_io_s_port_arid; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_araddr = _axi_cross_bar_io_s_port_araddr; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_arlen = _axi_cross_bar_io_s_port_arlen; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_arsize = _axi_cross_bar_io_s_port_arsize; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_arburst = _axi_cross_bar_io_s_port_arburst; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_arlock = 2'h0; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_arcache = 4'h0; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_arprot = 3'h0; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_arvalid = _axi_cross_bar_io_s_port_arvalid; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_rready = _axi_cross_bar_io_s_port_rready; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_awid = _axi_cross_bar_io_s_port_awid; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_awaddr = _axi_cross_bar_io_s_port_awaddr; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_awlen = _axi_cross_bar_io_s_port_awlen; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_awsize = _axi_cross_bar_io_s_port_awsize; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_awburst = _axi_cross_bar_io_s_port_awburst; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_awlock = 2'h0; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_awcache = 4'h0; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_awprot = 3'h0; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_awvalid = _axi_cross_bar_io_s_port_awvalid; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_wid = _axi_cross_bar_io_s_port_wid; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_wdata = _axi_cross_bar_io_s_port_wdata; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_wstrb = _axi_cross_bar_io_s_port_wstrb; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_wlast = _axi_cross_bar_io_s_port_wlast; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_wvalid = _axi_cross_bar_io_s_port_wvalid; // @[my_cpu_top.scala 275:18]
+  assign axi_mem_port_bready = _axi_cross_bar_io_s_port_bready; // @[my_cpu_top.scala 275:18]
+  assign debug_wb_pc = u_riscv_cpu_debug_wb_pc[31:0]; // @[my_cpu_top.scala 263:29]
+  assign debug_wb_rf_wen = u_riscv_cpu_debug_wb_rf_wen; // @[my_cpu_top.scala 265:29]
+  assign debug_wb_rf_wnum = u_riscv_cpu_debug_wb_rf_wnum; // @[my_cpu_top.scala 266:29]
+  assign debug_wb_rf_wdata = u_riscv_cpu_debug_wb_rf_wdata[31:0]; // @[my_cpu_top.scala 264:29]
+  assign u_riscv_cpu_ext_int = ext_int; // @[my_cpu_top.scala 269:30]
+  assign u_riscv_cpu_resetn = aresetn; // @[my_cpu_top.scala 268:30]
+  assign u_riscv_cpu_clk = aclk; // @[my_cpu_top.scala 267:30]
+  assign u_riscv_cpu_inst_sram_rdata_L = inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 250:32]
+  assign u_riscv_cpu_inst_write_en = inst_cache_io_sram_write_en; // @[my_cpu_top.scala 258:31]
+  assign u_riscv_cpu_stage2_stall = inst_cache_io_stage2_stall; // @[my_cpu_top.scala 270:35]
+  assign u_riscv_cpu_data_sram_rdata = data_cache_io_sram_rdata; // @[my_cpu_top.scala 237:28]
+  assign u_riscv_cpu_data_stage2_stall = data_cache_io_stage2_stall; // @[my_cpu_top.scala 259:35]
+  assign inst_cache_clock = aclk; // @[my_cpu_top.scala 166:23]
+  assign inst_cache_reset = ~aresetn; // @[my_cpu_top.scala 166:42]
+  assign inst_cache_io_port_arready = _axi_cross_bar_io_m_port_0_arready; // @[my_cpu_top.scala 277:33]
+  assign inst_cache_io_port_rdata = _axi_cross_bar_io_m_port_0_rdata; // @[my_cpu_top.scala 277:33]
+  assign inst_cache_io_port_rlast = _axi_cross_bar_io_m_port_0_rlast; // @[my_cpu_top.scala 277:33]
+  assign inst_cache_io_port_rvalid = _axi_cross_bar_io_m_port_0_rvalid; // @[my_cpu_top.scala 277:33]
+  assign inst_cache_io_stage2_flush = u_riscv_cpu_stage2_flush; // @[my_cpu_top.scala 273:31]
+  assign inst_cache_io_stage1_valid_flush = u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 383:37]
+  assign inst_cache_io_inst_ready_to_use = u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 384:36]
+  assign inst_cache_io_inst_buffer_full = u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 385:37]
+  assign inst_cache_io_p_addr_for_tlb = inst_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 209:38]
+  assign inst_cache_io_sram_req = u_riscv_cpu_inst_sram_en; // @[my_cpu_top.scala 244:29]
+  assign inst_cache_io_sram_addr = u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 241:29]
+  assign inst_cache_io_sram_cache = u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 243:29]
+  assign data_cache_clock = aclk; // @[my_cpu_top.scala 166:23]
+  assign data_cache_reset = ~aresetn; // @[my_cpu_top.scala 166:42]
+  assign data_cache_io_port_arready = _axi_cross_bar_io_m_port_1_arready; // @[my_cpu_top.scala 278:33]
+  assign data_cache_io_port_rdata = _axi_cross_bar_io_m_port_1_rdata; // @[my_cpu_top.scala 278:33]
+  assign data_cache_io_port_rlast = _axi_cross_bar_io_m_port_1_rlast; // @[my_cpu_top.scala 278:33]
+  assign data_cache_io_port_rvalid = _axi_cross_bar_io_m_port_1_rvalid; // @[my_cpu_top.scala 278:33]
+  assign data_cache_io_port_awready = _axi_cross_bar_io_m_port_1_awready; // @[my_cpu_top.scala 278:33]
+  assign data_cache_io_port_wready = _axi_cross_bar_io_m_port_1_wready; // @[my_cpu_top.scala 278:33]
+  assign data_cache_io_port_bvalid = _axi_cross_bar_io_m_port_1_bvalid; // @[my_cpu_top.scala 278:33]
+  assign data_cache_io_p_addr_for_tlb = data_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 210:38]
+  assign data_cache_io_data_wstrb = u_riscv_cpu_data_wstrb; // @[my_cpu_top.scala 236:29]
+  assign data_cache_io_sram_req = u_riscv_cpu_data_sram_en; // @[my_cpu_top.scala 233:23]
+  assign data_cache_io_sram_wr = u_riscv_cpu_data_sram_wen; // @[my_cpu_top.scala 234:23]
+  assign data_cache_io_sram_size = {{1'd0}, u_riscv_cpu_data_size}; // @[my_cpu_top.scala 231:22]
+  assign data_cache_io_sram_addr = u_riscv_cpu_data_sram_addr; // @[my_cpu_top.scala 230:22]
+  assign data_cache_io_sram_wdata = u_riscv_cpu_data_sram_wdata; // @[my_cpu_top.scala 235:23]
+  assign data_cache_io_sram_cache = u_riscv_cpu_data_cache; // @[my_cpu_top.scala 232:23]
+  assign _axi_cross_bar_clock = aclk; // @[my_cpu_top.scala 166:23]
+  assign _axi_cross_bar_reset = ~aresetn; // @[my_cpu_top.scala 166:42]
+  assign _axi_cross_bar_io_m_port_0_araddr = inst_cache_io_port_araddr; // @[my_cpu_top.scala 277:33]
+  assign _axi_cross_bar_io_m_port_0_arlen = inst_cache_io_port_arlen; // @[my_cpu_top.scala 277:33]
+  assign _axi_cross_bar_io_m_port_0_arburst = inst_cache_io_port_arburst; // @[my_cpu_top.scala 277:33]
+  assign _axi_cross_bar_io_m_port_0_arvalid = inst_cache_io_port_arvalid; // @[my_cpu_top.scala 277:33]
+  assign _axi_cross_bar_io_m_port_1_araddr = data_cache_io_port_araddr; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_arlen = data_cache_io_port_arlen; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_arsize = data_cache_io_port_arsize; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_arburst = data_cache_io_port_arburst; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_arvalid = data_cache_io_port_arvalid; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_awaddr = data_cache_io_port_awaddr; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_awlen = data_cache_io_port_awlen; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_awsize = data_cache_io_port_awsize; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_awburst = data_cache_io_port_awburst; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_awvalid = data_cache_io_port_awvalid; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_wdata = data_cache_io_port_wdata; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_wstrb = data_cache_io_port_wstrb; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_wlast = data_cache_io_port_wlast; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_wvalid = data_cache_io_port_wvalid; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_s_port_arready = axi_mem_port_arready; // @[my_cpu_top.scala 275:18]
+  assign _axi_cross_bar_io_s_port_rdata = axi_mem_port_rdata; // @[my_cpu_top.scala 275:18]
+  assign _axi_cross_bar_io_s_port_rlast = axi_mem_port_rlast; // @[my_cpu_top.scala 275:18]
+  assign _axi_cross_bar_io_s_port_rvalid = axi_mem_port_rvalid; // @[my_cpu_top.scala 275:18]
+  assign _axi_cross_bar_io_s_port_awready = axi_mem_port_awready; // @[my_cpu_top.scala 275:18]
+  assign _axi_cross_bar_io_s_port_wready = axi_mem_port_wready; // @[my_cpu_top.scala 275:18]
+  assign _axi_cross_bar_io_s_port_bvalid = axi_mem_port_bvalid; // @[my_cpu_top.scala 275:18]
 endmodule

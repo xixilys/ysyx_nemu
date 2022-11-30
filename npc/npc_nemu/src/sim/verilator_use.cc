@@ -38,8 +38,8 @@ extern "C" void step_and_dump_wave(){
 extern "C" void single_cycle() {
 	// printf(contextp->time)
 	// cout << contextp->time() << endl;
-	top->aclk = 1; step_and_dump_wave();
 	top->aclk = 0; step_and_dump_wave();
+	top->aclk = 1; step_and_dump_wave();
 }
 extern "C" void reset(int n) {
 	top->aresetn = 0;

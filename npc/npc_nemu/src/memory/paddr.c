@@ -49,41 +49,41 @@ void mtrace_loop_print(mtrace_type *loop, int index)
   int i = index;
   for (; i < MAX_MTRACE_LOOP_DEPTH; i++)
   {
-    Log("    pc -> %08lx mem_type ->", mtrace_loop[i].pc);
+    printf("    pc -> %08lx mem_type ->", mtrace_loop[i].pc);
     if (mtrace_loop[i].type == read_type)
     {
-      Log("mem read  ");
+      printf("mem read  ");
     }
     else if (mtrace_loop[i].type == write_type)
     {
-      Log("mem write ");
+      printf("mem write ");
     }
-    Log("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
-    //  Log("     inst ->  %08x __ pc ->  ",loop[i].isa.inst.val);
+    printf("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
+    //  printf("     inst ->  %08x __ pc ->  ",loop[i].isa.inst.val);
   }
   for (i = 0; i < index - 1; i++)
   {
-    Log("    pc -> %08lx mem_type ->", mtrace_loop[i].pc);
+    printf("    pc -> %08lx mem_type ->", mtrace_loop[i].pc);
     if (mtrace_loop[i].type == read_type)
     {
-      Log("mem read  ");
+      printf("mem read  ");
     }
     else if (mtrace_loop[i].type == write_type)
     {
-      Log("mem write ");
+      printf("mem write ");
     }
-    Log("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
+    printf("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
   }
-  Log("--->pc -> %08lx mem_type ->", mtrace_loop[i].pc);
+  printf("--->pc -> %08lx mem_type ->", mtrace_loop[i].pc);
   if (mtrace_loop[i].type == read_type)
   {
-    Log("mem read  ");
+    printf("mem read  ");
   }
   else if (mtrace_loop[i].type == write_type)
   {
-    Log("mem write ");
+    printf("mem write ");
   }
-  Log("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
+  printf("mem_addr -> %lx  mem_data -> %016lx mem_len -> %x \n", mtrace_loop[i].paddr, mtrace_loop[i].data, mtrace_loop[i].len);
 }
 
 #endif

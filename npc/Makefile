@@ -30,7 +30,9 @@ VSRCS += $(shell find $(abspath ./vsrc/v_lib) -name "*.v")
 CSRCS = $(SRCS) $(CXXSRC)
 # CSRCS = $(NPC_NEMU_HOME)/nemu-main.c
 
-# rules for NVBoard
+# rules for lib
+# INC_PATH += $(NPC_HOME)/csrc/c_lib/include
+# CSRCS += $(shell find $(abspath ./csrc/c_lib) -name "*.c" -or -name "*.cc" -or -name "*.cpp") 
 
 # rules for verilator
 INCFLAGS = $(addprefix -I, $(INC_PATH))

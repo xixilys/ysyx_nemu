@@ -68,7 +68,7 @@ static int decode_exec(Decode *s) {
   // printf("cpu_commited = %d\n",cpu_commited);
   while(cpu_commited == 1) {
     // printf("counter = %d\n",counter);
-    AXI_ResponseHandler_Inst(&axi_inst_singal);
+
     AXI_ResponseHandler_Data(&axi_data_singal);
     single_cycle();
     counter++;
@@ -96,9 +96,6 @@ static int decode_exec(Decode *s) {
     }
     mtrace_debuger.debug_mem_state = 0;
   }
-  
-  // printf("debug pc = %lx\n",*debug_pc);
-  // printf("debug pc = %lx\n",debug_pc);
   cpu.pc = debug_pc;
   cpu_commited = 1;
   return 0;

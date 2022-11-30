@@ -35,6 +35,19 @@ class data_ram_one_port( length: Int,width:Int) extends Module {
 
 }
 
+class sram_data(length:Int ,width:Int) extends BlackBox (Map("sram_width"-> width,
+                                                                        "sram_length" -> length    )){
+    val io = IO(new Bundle {
+        val  reset = Input(Bool())
+        val  clock = Input(Bool())
+        val  en    = Input(Bool())
+        val  raddr  = Input(UInt((length * 8).W))
+        val  waddr  = Input(UInt((length * 8).W))
+        val  wdata  = Input(UInt((length * 8).W))
+        val  rdata  = Output(UInt((length * 8).W))
+        val  ena    = Input(UInt(width.W))
+    })
+}
 class data_ram_one_port_with_latency( length: Int,width:Int) extends Module {
     val addr_width = (log10(length)/log10(2)).toInt
     val width_width = width / 8//(log10(width)/log10(2)).toInt

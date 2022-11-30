@@ -38,15 +38,23 @@ module difftest_commit (
     input cpu_ebreak_sign
 );
     wire [`data_length - 1 :0] gpr [31:0];
-    wire [`data_length - 1 :0] pc_debug;
+    reg [`data_length - 1 :0] pc_debug;
     wire [`data_length - 1:0] commit_pc;
-    assign pc_debug = debug_pc;
+  
     
     `UNPACK_ARRAY(`data_length,32,gpr,gpr_wire)
     initial begin 
       set_gpr_ptr(gpr);
 
     end
+  always @(posedge clock) begin
+    if(reset ) begin
+      pc_debug <= 64'b0;
+    end  else begin
+      pc_debug <= debug_pc;
+      
+    end
+  end
   always @(posedge clock ) begin
     if(reset == 1'b0 && inst_commit == 1'b1) begin
         set_pc_ptr(pc);
@@ -56,6 +64,7 @@ module difftest_commit (
     if(cpu_ebreak_sign == 1'b1) begin
       cpu_ebreak();
     end
+    
     assign data_ok_ok = 1'b1;
 
   end
