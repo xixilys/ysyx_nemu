@@ -9,6 +9,13 @@ import os.write
 
 class inst_cache  extends Module with riscv_macros {
         //完全没用到chisel真正好的地方，我是废物呜呜呜呜
+    val inst_num_in_one_sram = 2
+
+    val inst_cache_size  = 4096;
+    val inst_cache_bank_num = 2;
+    // val inst_cache_
+    val inst_cache_ways_num = 2;
+
     val io = IO(new Bundle {
         val port = new axi_ram_port
         val     sram_hit   = Output(UInt(1.W))
@@ -76,8 +83,8 @@ class inst_cache  extends Module with riscv_macros {
     icache_tag_0.asid := io.csr_asid
     icache_tag_1.asid := io.csr_asid
 
-    val icache_data_way0 =  VecInit(Seq.fill(8)(Module(new icache_data).io))
-    val icache_data_way1 =  VecInit(Seq.fill(8)(Module(new icache_data).io))
+    val icache_data_way0 =  VecInit(Seq.fill(2)(Module(new icache_data).io))
+    val icache_data_way1 =  VecInit(Seq.fill(2)(Module(new icache_data).io))
     // icache_data_way0(0).
     val state_reset = 0.U
     val state_lookup = 1.U
@@ -92,8 +99,6 @@ class inst_cache  extends Module with riscv_macros {
     val access_work_state = Wire(UInt(4.W))
     val write_counter  = RegInit(0.U(3.W))
     val wait_data_L  = RegInit(0.U(40.W))
-    val wait_data_R  = RegInit(0.U(40.W))
-    val wait_data_M  = RegInit(0.U(40.W))
     val hit_reg = RegInit(0.U(1.W))
     //copy from thu llcl 
     //all control signals
@@ -127,12 +132,7 @@ class inst_cache  extends Module with riscv_macros {
 
     /**********段時間內向不用mmu************/
     stage1_sram_phy_addr_reg  :=  Mux(stage1_stall_reg,io.p_addr_for_tlb,stage1_sram_phy_addr_reg)
-    /*******************************************/
-    
-    stage1_exception  := Mux(stage1_stall,0.U,io.tlb_exception)
    
-    
-    
 
     stage1_finished := Mux(stage1_stall.asBool,0.U,Mux(work_state === state_miss_update || work_state === state_access_ram_1 ,1.U,0.U))
 
@@ -142,47 +142,43 @@ class inst_cache  extends Module with riscv_macros {
     stage2_stall := (access_work_state === state_lookup  || access_work_state === state_data_ready || stage1_exception =/= 0.U) &&
          (!io.inst_buffer_full  ) //有分支指令导致的挂逼
 
-
-
-
     icache_tag_0.op     := 0.U
     icache_tag_1.op     := 0.U
     
     icache_tag_0.addr   := stage1_sram_addr_reg
     icache_tag_1.addr   := stage1_sram_addr_reg
 
-    val decoder_inst_data = Cat(Branch_data_Decoder(io.port.rdata(31,0)),Jump_Decoder(io.port.rdata(31,0)),Branch_Decoder(io.port.rdata(31,0)),io.port.rdata(31,0))
+    val decoder_inst_data_0 = Cat(Branch_data_Decoder(io.port.rdata(31,0)),Jump_Decoder(io.port.rdata(31,0)),Branch_Decoder(io.port.rdata(31,0)),io.port.rdata(31,0))
+    val decoder_inst_data_1 = Cat(Branch_data_Decoder(io.port.rdata(63,32)),Jump_Decoder(io.port.rdata(63,32)),Branch_Decoder(io.port.rdata(63,32)),io.port.rdata(63,32))
+    val decoder_inst_data  = Mux(stage1_sram_addr_reg(2),decoder_inst_data_1,decoder_inst_data_0)
 
-    for(i <- 0 to 7 ) {
+    for(i <- 0 to (inst_cache_bank_num - 1) ) {
+        // pre decoder
+        // Cat(Branch_data_Decoder(io.port.rdata(31,0)),Jump_Decoder(io.port.rdata(31,0)),Branch_Decoder(io.port.rdata(31,0)),
         icache_data_way0(i).addr := stage1_sram_addr_reg
-        icache_data_way0(i).wdata := Cat(Branch_data_Decoder(io.port.rdata(31,0)),Jump_Decoder(io.port.rdata(31,0)),Branch_Decoder(io.port.rdata(31,0)),io.port.rdata(31,0))
+        icache_data_way0(i).wdata := Cat(io.port.rdata(63,32),io.port.rdata(31,0))
         icache_data_way0(i).en := 1.U
     }
-    for(i <- 0 to 7 ) {
+    for(i <- 0 to (inst_cache_bank_num - 1)  ) {
         icache_data_way1(i).addr := stage1_sram_addr_reg
-        icache_data_way1(i).wdata := Cat(Branch_data_Decoder(io.port.rdata(31,0)),Jump_Decoder(io.port.rdata(31,0)),Branch_Decoder(io.port.rdata(31,0)),io.port.rdata(31,0))
+        icache_data_way1(i).wdata := Cat(io.port.rdata(63,32),io.port.rdata(31,0))
         icache_data_way1(i).en := 1.U
     }
 
     val hit = (icache_tag_0.hit.asBool && icache_tag_0.valid.asBool) || 
         (icache_tag_1.hit.asBool && icache_tag_1.valid.asBool)
 
-    lru(stage1_sram_addr_reg(11,5)) := Mux(access_work_state === state_lookup,
+    lru(stage1_sram_addr_reg(10,4)) := Mux(access_work_state === state_lookup,
         Mux(icache_tag_0.hit.asBool /*&& icache_tag_0.valid.asBool*/,1.U.asBool,
-        Mux(icache_tag_1.hit.asBool /*&& icache_tag_1.valid.asBool*/,0.U.asBool,lru(stage1_sram_addr_reg(11,5)) )),
-        Mux(work_state === state_miss_update,~lru(stage1_sram_addr_reg(11,5)),  lru(stage1_sram_addr_reg(11,5)) ))
+        Mux(icache_tag_1.hit.asBool /*&& icache_tag_1.valid.asBool*/,0.U.asBool,lru(stage1_sram_addr_reg(10,4)) )),
+        Mux(work_state === state_miss_update,~lru(stage1_sram_addr_reg(10,4)),  lru(stage1_sram_addr_reg(10,4)) ))
 
     val hit0 = icache_tag_0.hit.asBool && icache_tag_0.valid.asBool
     val hit1 = icache_tag_1.hit.asBool && icache_tag_1.valid.asBool
-
-   
-    
+ 
     val stage2_sram_addr_reg = RegInit(0.U(data_length.W))//RegEnable(Mux(stage2_flush,0.U,stage1_sram_addr_reg),0.U,stage2_stall) //把这个加4的过程放到stage2，尽量减少stage1的逻辑层数
 
     stage2_sram_addr_reg :=  Mux(stage2_flush,0.U,Mux(stage2_stall,stage1_sram_addr_reg,stage2_sram_addr_reg))
-
-   
-    
 
     val stage2_sram_cache_reg = RegInit(0.U.asBool)
     stage2_sram_cache_reg := Mux(stage2_flush,0.U,Mux(stage2_stall,stage1_sram_cache_reg,stage2_sram_cache_reg))
@@ -206,8 +202,7 @@ class inst_cache  extends Module with riscv_macros {
     
     stage2_exception  := Mux(stage2_stall,stage1_exception,Mux(stage2_flush,0.U,stage2_exception))
 
-    stage2_data_valid_reg := Mux(stage2_flush,0.U,Mux(stage2_stall,Mux(!stage1_sram_cache_reg.asBool,"b001".U,Mux(stage1_sram_addr_reg(4,2) <= 5.U , "b001".U,
-        Mux(stage1_sram_addr_reg(4,2)  === 6.U,"b001".U,"b001".U))),stage2_data_valid_reg))
+    stage2_data_valid_reg := Mux(stage2_flush,0.U,Mux(stage2_stall,"b001".U,stage2_data_valid_reg))
 
     val stage2_write_en_reg = RegInit(0.U(2.W))
     //要分支并且inst_buffer并不是空的
@@ -216,8 +211,8 @@ class inst_cache  extends Module with riscv_macros {
     //stage 3  存入指令缓冲队列，在issue阶段前仍然为顺序结构
 
   
-    val word_L_selection0 = icache_data_way0(stage2_sram_addr_reg(4,2)).rdata
-    val word_L_selection1 = icache_data_way1(stage2_sram_addr_reg(4,2)).rdata
+    val word_L_selection0 = icache_data_way0(stage2_sram_addr_reg(3)).rdata
+    val word_L_selection1 = icache_data_way1(stage2_sram_addr_reg(3)).rdata
 
 
     val hit_word_L = Mux(stage2_hit0_reg.asBool,word_L_selection0,word_L_selection1) //如果没有命中可以通过data_ok来判断是否需要接受数据
@@ -232,8 +227,13 @@ class inst_cache  extends Module with riscv_macros {
   
 
     sram_rdata_L_Reg := Mux(has_stage2_stall,access_sram_rdata_L,sram_rdata_L_Reg)
-   
+    
+    io.sram_data_valid := stage2_data_valid_reg
 
+    for(i <- 0 to (inst_cache_bank_num - 1) ) {icache_data_way0(i).wen  := Mux(work_state === state_miss_access_ram_1 && io.port.rvalid.asBool
+        && lru(stage1_sram_addr_reg(10,4)) === 0.U && write_counter === i.asUInt,"b11111111".U,0.U) }
+    for(i <- 0 to (inst_cache_bank_num - 1) ) {icache_data_way1(i).wen  := Mux(work_state === state_miss_access_ram_1 && io.port.rvalid.asBool
+        && lru(stage1_sram_addr_reg(10,4)) === 1.U && write_counter === i.asUInt,"b11111111".U,0.U) }
     
     io.sram_rdata_L := Mux(!io.inst_buffer_full && has_stage2_stall,access_sram_rdata_L,sram_rdata_L_Reg)
   
@@ -253,26 +253,16 @@ class inst_cache  extends Module with riscv_macros {
     work_state := Mux(stage1_exception =/= 0.U,state_lookup,access_work_state)
 
     wait_data_L := Mux(work_state === state_access_ram_1 && io.port.rvalid.asBool && write_counter === 0.U,decoder_inst_data,
-         Mux(work_state === state_miss_access_ram_1 && io.port.rvalid.asBool && write_counter === stage1_sram_addr_reg(4,2),
+         Mux(work_state === state_miss_access_ram_1 && io.port.rvalid.asBool && write_counter === stage1_sram_addr_reg(3),
             decoder_inst_data,wait_data_L))
 
 
 
-    write_counter := Mux(work_state === state_miss_access_ram_1 || work_state === state_access_ram_1,Mux(io.port.rvalid.asBool && io.port.rlast.asBool,0.U,Mux(io.port.rvalid.asBool,write_counter+1.U,write_counter)),write_counter)
-    // val write_counter_same = write_counter === sram_addr_reg(4,2) && work_state === state_miss_access_ram_1 && io.port.rvalid.asBool && hit
-    
-    io.sram_data_valid := stage2_data_valid_reg
-    
-
-    for(i <- 0 to 7 ) {icache_data_way0(i).wen  := Mux(work_state === state_miss_access_ram_1 && io.port.rvalid.asBool
-        && lru(stage1_sram_addr_reg(11,5)) === 0.U && write_counter === i.asUInt,"b11111".U,0.U) }
-    for(i <- 0 to 7 ) {icache_data_way1(i).wen  := Mux(work_state === state_miss_access_ram_1 && io.port.rvalid.asBool
-        && lru(stage1_sram_addr_reg(11,5)) === 1.U && write_counter === i.asUInt,"b11111".U,0.U) }
-    
-    icache_tag_0.wen := Mux(work_state === state_miss_update && lru(stage1_sram_addr_reg(11,5)) === 0.U,1.U,0.U)
-    icache_tag_1.wen := Mux(work_state === state_miss_update  && lru(stage1_sram_addr_reg(11,5)) === 1.U,1.U,0.U)
-    icache_tag_0.wdata := Mux(work_state === state_miss_update  ,Cat(1.U(1.W),stage1_sram_addr_reg(31,12)),0.U)  
-    icache_tag_1.wdata := Mux(work_state === state_miss_update  ,Cat(1.U(1.W),stage1_sram_addr_reg(31,12)),0.U)
+    write_counter :=  Mux(work_state === state_miss_access_ram_1 || work_state === state_access_ram_1,Mux(io.port.rvalid.asBool && io.port.rlast.asBool,0.U,Mux(io.port.rvalid.asBool,write_counter+1.U,write_counter)),write_counter)
+    icache_tag_0.wen := Mux(work_state === state_miss_update  && lru(stage1_sram_addr_reg(10,4)) === 0.U,1.U,0.U)
+    icache_tag_1.wen := Mux(work_state === state_miss_update  && lru(stage1_sram_addr_reg(10,4)) === 1.U,1.U,0.U)
+    icache_tag_0.wdata := Mux(work_state === state_miss_update  ,Cat(1.U(1.W),stage1_sram_addr_reg(31,11)),0.U)  
+    icache_tag_1.wdata := Mux(work_state === state_miss_update  ,Cat(1.U(1.W),stage1_sram_addr_reg(31,11)),0.U)
 
        
     io.fec_1_pc_valid := Mux(!stage1_sram_cache_reg.asBool,"b111".U,Mux(stage1_sram_addr_reg(4,2) <= 5.U , "b111".U,
@@ -282,10 +272,10 @@ class inst_cache  extends Module with riscv_macros {
     //axi signal
     io.port.arid := 0.U
     io.port.araddr := Mux(work_state === state_access_ram_0,stage1_sram_phy_addr_reg,
-        Mux(work_state === state_miss_access_ram_0,Cat(stage1_sram_phy_addr_reg(63,5),0.U(5.W)),0.U))
+        Mux(work_state === state_miss_access_ram_0,Cat(stage1_sram_phy_addr_reg(63,4),0.U(4.W)),0.U))
     //io.port.arlen  := Mux(stage1_sram_cache_reg.asBool,"b111".U,"b010".U)
-    io.port.arlen  := Mux(stage1_sram_cache_reg.asBool,"b111".U,0.U)
-    io.port.arsize := "b010".U
+    io.port.arlen  := Mux(stage1_sram_cache_reg.asBool,"b001".U,0.U)
+    io.port.arsize := "b011".U
     io.port.arburst := Mux(stage1_sram_cache_reg.asBool,1.U,0.U)
     //io.port.arburst := 1.U//Mux(sram_cache_reg.asBool,1.U,0.U) //啥时候都得burst传输 如果都可以burst传输的话，不知道支持不支持burst
     io.port.arlock  := 0.U

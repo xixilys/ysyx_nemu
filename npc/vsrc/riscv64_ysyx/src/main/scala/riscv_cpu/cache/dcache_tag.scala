@@ -11,40 +11,31 @@ class dcache_tag  extends Module with riscv_macros {
 
     val io = IO(new Bundle {
      val        wen   = Input(UInt(1.W))
-     val        wdata   = Input(UInt((data_length  - 1 - 13 + 1 + 1).W))
+     val        wdata   = Input(UInt((data_length  - 1 - 11 + 1 + 1).W))
      val        raddr   = Input(UInt(data_length.W))
      val        waddr   = Input(UInt(data_length.W))
      val        hit   = Output(UInt(1.W))
      val        valid   = Output(UInt(1.W))
      val        op      = Input(UInt(1.W))
-     val        tag  =  Output(UInt((data_length  - 1 - 13 + 1 ).W))
+     val        tag  =  Output(UInt((data_length  - 1 - 11 + 1 ).W))
         
     })
-//     val tag_regs = RegInit(VecInit(Seq.fill(128)(0.U(21.W)))) //初始化寄存器
-//     // val addr_reg = RegInit(0.U(32.W))
-//     // addr_reg := io.addr
-//     tag_regs(io.waddr(11,5)) := Mux(io.op.asBool||io.wen.asBool,io.wdata, tag_regs(io.waddr(11,5)))
-//    // val tag_t = RegInit(0.U(32.W)) // 存疑
-//     val tag_t = tag_regs(io.raddr(11,5)) 
-//     io.tag := tag_t
-//     io.valid := tag_t(20) //tag_t(20)run
-//     io.hit := Mux(tag_t(19,0) === io.raddr(31,12),1.U,0.U)//addr前20位全为tag
-    val tag_regs0 = RegInit(VecInit(Seq.fill(64)(0.U((20 + 32).W)))) //初始化寄存器
-    val tag_regs1 = RegInit(VecInit(Seq.fill(64)(0.U((20 + 32).W)))) //初始化寄存器  
+    val tag_regs0 = RegInit(VecInit(Seq.fill(64)(0.U((22 + 32).W)))) //初始化寄存器
+    val tag_regs1 = RegInit(VecInit(Seq.fill(64)(0.U((22 + 32).W)))) //初始化寄存器  
     // val addr_reg = RegInit(0.U(32.W))
     // addr_reg := io.addr
-    tag_regs0(io.waddr(12,7)) := Mux((io.op.asBool||io.wen.asBool ) && !io.waddr(6),io.wdata, tag_regs0(io.waddr(12,7)))
-    tag_regs1(io.waddr(12,7)) := Mux((io.op.asBool||io.wen.asBool ) && io.waddr(6),io.wdata, tag_regs1(io.waddr(12,7)))
+    tag_regs0(io.waddr(10,5)) := Mux((io.op.asBool||io.wen.asBool ) && !io.waddr(4),io.wdata, tag_regs0(io.waddr(10,5)))
+    tag_regs1(io.waddr(10,5)) := Mux((io.op.asBool||io.wen.asBool ) && io.waddr(4),io.wdata, tag_regs1(io.waddr(10,5)))
    // val tag_t = RegInit(0.U(32.W)) // 存疑
-    val tag_t0_write = tag_regs0(io.waddr(12,7)) 
-    val tag_t1_write = tag_regs1(io.waddr(12,7))
+    val tag_t0_write = tag_regs0(io.waddr(10,5)) 
+    val tag_t1_write = tag_regs1(io.waddr(10,5))
 
-    val tag_t0_read = tag_regs0(io.raddr(12,7)) 
-    val tag_t1_read = tag_regs1(io.raddr(12,7))  
-    io.tag := Mux(io.waddr(6),tag_t1_write(20 + 32 - 2,0),tag_t0_write(20 + 32 - 2,0))
+    val tag_t0_read = tag_regs0(io.raddr(10,5)) 
+    val tag_t1_read = tag_regs1(io.raddr(10,5))  
+    io.tag := Mux(io.waddr(4),tag_t1_write(22 + 32 - 2,0),tag_t0_write(22 + 32 - 2,0))
 
-    io.valid := Mux(io.raddr(6),tag_t1_read(20 + 32 -1),tag_t0_read(20 + 32 -1)) //tag_t(20)run
-    io.hit := (io.raddr(6) && tag_t1_read(20 + 32 - 2,0) === io.raddr(data_length  - 1,13)) || (!io.raddr(6) && tag_t0_read(20 + 32 - 2,0) === io.raddr(data_length - 1,13))
+    io.valid := Mux(io.raddr(4),tag_t1_read(22 + 32 -1),tag_t0_read(22 + 32 -1)) //tag_t(20)run
+    io.hit := (io.raddr(4) && tag_t1_read(22 + 32 - 2,0) === io.raddr(data_length  - 1,11)) || (!io.raddr(4) && tag_t0_read(22 + 32 - 2,0) === io.raddr(data_length - 1,11))
 }
 
 // object dcache_tag_test extends App{

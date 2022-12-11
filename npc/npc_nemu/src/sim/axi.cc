@@ -186,10 +186,9 @@ extern "C" void AXI_ResponseHandler_Data(AXI_ResponseSignal* axi_handle){
     case AXI_DATA_WRITE:
         top->axi_mem_port_wready =  1;
         static int num_to_stop = 0;
-        // printf("write counter = %d\n", axi_handle->write_counter);
         if(top->axi_mem_port_wvalid){
             paddr_write(axi_handle->write_addr,axi_size_to_bytes_num(axi_handle->write_size),top->axi_mem_port_wdata,0);
-    
+            
             axi_handle->write_addr += axi_size_to_bytes_num(axi_handle->write_size );
             axi_handle->write_counter ++;
             if(axi_handle->write_counter > axi_handle->write_len || top->axi_mem_port_wlast) {

@@ -15,7 +15,7 @@
 #endif
 
 using namespace std;
-
+#define open_dump 1
 Vtop *top = new Vtop;
 VerilatedFstC* tfp = NULL;
 extern "C" void sim_init() {	
@@ -26,13 +26,17 @@ extern "C" void sim_init() {
 	Verilated::traceEverOn(true);
 	tfp = new VerilatedFstC;
 	top->trace(tfp, 0);
+	#if(open_dump) 
 	tfp->open("dump.fst");	
+	#endif
 	// printf("sbsbsb\n");
 }
 extern "C" void step_and_dump_wave(){
 	top->eval();
 	contextp->timeInc(1);
+	#if(open_dump) 
 	tfp->dump(contextp->time());
+		#endif
 }
 
 extern "C" void single_cycle() {

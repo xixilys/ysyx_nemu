@@ -29,15 +29,14 @@ class dcache_data  extends Module with riscv_macros {
     val        rdata  = Output(UInt(data_length.W))
   
     })
-    val dcache_data_ram_0 = Module(new data_ram_one_port_with_latency(128,data_length))
-    dcache_data_ram_0.io.clka := clock.asUInt
+
+    val dcache_data_ram_0 = Module(new ysyx_sram_with_mask(64))
     dcache_data_ram_0.io.ena   := io.en
     dcache_data_ram_0.io.wea  := io.wen
-    dcache_data_ram_0.io.addra := io.addr(12,6)
+    dcache_data_ram_0.io.addra := io.addr(10,4)
     dcache_data_ram_0.io.dina := io.wdata
-    io.rdata     := dcache_data_ram_0.io.douta 
 
-
+    io.rdata   := dcache_data_ram_0.io.douta
 }
 // object dcache_data_test extends App{
 //     (new ChiselStage).emitVerilog(new dcache_data)

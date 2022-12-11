@@ -57,7 +57,9 @@ static inline void update_screen() {
 
 void vga_update_screen() {
   //什么类型的指针+1等效于该指针加上他自己的长度
+  // printf("come here\n");
    if(*(vgactl_port_base + 1) == 1) {
+    // printf("here?");
     update_screen();
     *(vgactl_port_base + 1)  = 0;
   }

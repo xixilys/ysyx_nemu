@@ -130,14 +130,7 @@ static void execute(uint64_t n) {
     trace_and_difftest(&s, cpu.pc);
     if (nemu_state.state != NEMU_RUNNING) break;
     static uint64_t run_counter = 0;
-    if(run_counter >= 100000) {
-      IFDEF(CONFIG_DEVICE, device_update());
-      run_counter = 0;
-    }else{
-      run_counter ++;
-    }
-    
-    
+    IFDEF(CONFIG_DEVICE, device_update());
   }
 }
 

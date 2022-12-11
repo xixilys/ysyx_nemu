@@ -279,7 +279,7 @@ import chisel3.util._
 
 // }
 
-class muldiv extends Module with riscv_macros{ //觉得除法器那一块有很多可以改的东西，但是怕改了出问题，还是不要改了吧
+class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{ //觉得除法器那一块有很多可以改的东西，但是怕改了出问题，还是不要改了吧
 
     val io = IO(new Bundle { //有隐式的时钟与复位，并且复位为高电平复位
         //流水线中的延迟器
@@ -294,15 +294,70 @@ class muldiv extends Module with riscv_macros{ //觉得除法器那一块有很�
         val pending = Output(UInt(1.W))
 
     })
+    val cal_start_mul = RegInit(0.U.asBool)
+    val cal_end_mul = Wire(Bool())
+    val cal_mul =   io.en.asBool &&  (  io.ctrl(MULDIV_MUL) || io.ctrl(MULDIV_MULHSU) || 
+            io.ctrl(MULDIV_MULH)   || io.ctrl(MULDIV_MULHU) )
+    val cal_mulw = io.en.asBool &&   io.ctrl(MULDIV_MULW)  
+    val cal_mul_result = Wire(UInt(64.W))
+    val work_state  = RegInit(0.U(4.W))
+    val state_idle = 0.U
+    val state_cal_mul = 1.U
+    val state_cal_mulw = 2.U
+    val state_cal_div = 3.U
+    val state_cal_end = 4.U
+    val ctrl_data = RegInit(0.U(io.ctrl.getWidth.W))
+    work_state := MuxCase(work_state,Seq(
+        (cal_mul   && work_state === state_idle)->  state_cal_mul,
+        (cal_mulw  && work_state === state_idle)->  state_cal_mulw,
+        (cal_end_mul && (work_state === state_cal_mul || work_state === state_cal_mulw)) -> state_cal_end,
+        (work_state === state_cal_end)          ->  state_idle
+    ))
+    ctrl_data  := Mux(work_state === state_idle ,io.ctrl,ctrl_data)
+    
+    if(mul_type == "easy") {
+        val mul_module = Module(new mul_simple(64)).io
+        val mul_module_32_bit = Module(new mul_simple(32)).io
+        val cal_signed =  io.ctrl(MULDIV_MUL) || io.ctrl(MULDIV_MULH) || io.ctrl(MULDIV_MULW) || io.ctrl(MULDIV_MULHSU)
+        mul_module.signed := cal_signed
+        mul_module_32_bit.signed := cal_signed
+        mul_module.data(0) := io.in1
+        mul_module.data(1) := io.in2
+        mul_module_32_bit.data(0) := io.in1
+        mul_module_32_bit.data(1) := io.in2
+        mul_module.input_valid  := Mux(work_state === state_idle && cal_mul,1.U.asBool,0.U.asBool)
+        mul_module_32_bit.input_valid := Mux(work_state === state_idle && cal_mulw,1.U.asBool,0.U.asBool)
+        cal_end_mul := MuxCase(0.U.asBool,Seq(
+            (work_state === state_cal_mul && mul_module.Output_valid)  ->  1.U.asBool,
+            (work_state === state_cal_mulw && mul_module_32_bit.Output_valid) -> 1.U.asBool  
+        ))
+        cal_mul_result :=  Mux1H(Seq(
+                    ctrl_data(MULDIV_MUL)   -> mul_module.result(0),
+                    ctrl_data(MULDIV_MULH)  -> mul_module.result(1),
+                    ctrl_data(MULDIV_MULHU) -> mul_module.result(1),
+                    ctrl_data(MULDIV_MULHSU)-> mul_module.result(1),
+                    ctrl_data(MULDIV_MULW)  -> sign_extend(mul_module_32_bit.result(0),32)
+        ))
+        //     Mux1H(Seq(
+        //     (work_state === state_cal_mul )  ->  Mux1H(Seq(
+        //             ctrl_data(MULDIV_MUL)   -> mul_module.result(0),
+        //             ctrl_data(MULDIV_MULH)  -> mul_module.result(1),
+        //             ctrl_data(MULDIV_MULHU) -> mul_module.result(1),
+        //             ctrl_data(MULDIV_MULHSU)-> mul_module.result(1)
+        //         )),
+        //     (work_state === state_cal_mulw ) ->  sign_extend(mul_module_32_bit.result(0),32)
+        // ))
+    }else if(mul_type == "hard") {
 
+    }
 
-    val mulu_answer =  io.in1 * io.in2//Wire(UInt(64.W))
-    val mul_answer = io.in1.asSInt * io.in2.asSInt
-    val mulh_answer = mul_answer(data_length * 2 -1,data_length)
-    val mulhu_answer = mulu_answer(data_length * 2 -1 , data_length)
-    val mulhsu_answer = (io.in1.asSInt * io.in2.asUInt)(data_length * 2 -1 , data_length)
-    val mulw_answer  = sign_extend(mulu_answer(31,0),32)
-
+    // val mulu_answer =  io.in1 * io.in2//Wire(UInt(64.W))
+    // val mul_answer = io.in1.asSInt * io.in2.asSInt
+    // val mulh_answer = mul_answer(data_length * 2 -1,data_length)
+    // val mulhu_answer = mulu_answer(data_length * 2 -1 , data_length)
+    // val mulhsu_answer = (io.in1.asSInt * io.in2.asUInt)(data_length * 2 -1 , data_length)
+    // val mulw_answer  = sign_extend(mulu_answer(31,0),32)
+    
 
 
     val divu_answer  = (io.in1 / io.in2)(63,0) //Wire(UInt(64.W))
@@ -324,14 +379,16 @@ class muldiv extends Module with riscv_macros{ //觉得除法器那一块有很�
         io.ctrl(MULDIV_REMU)  -> remu_answer,
         io.ctrl(MULDIV_REMW)  -> remw_answer,
         io.ctrl(MULDIV_REMUW) -> remuw_answer,
-        io.ctrl(MULDIV_MUL)   -> mul_answer(data_length - 1 ,0),
-        io.ctrl(MULDIV_MULW)  -> mulw_answer(data_length - 1 ,0),
-        io.ctrl(MULDIV_MULH)  -> mulh_answer,
-        io.ctrl(MULDIV_MULHU) -> mulhu_answer,
-        io.ctrl(MULDIV_MULHSU)-> mulhsu_answer
+        io.ctrl(MULDIV_MUL)   -> cal_mul_result,
+        io.ctrl(MULDIV_MULW)  -> cal_mul_result,
+        io.ctrl(MULDIV_MULH)  -> cal_mul_result,
+        io.ctrl(MULDIV_MULHU) -> cal_mul_result,
+        io.ctrl(MULDIV_MULHSU)-> cal_mul_result
      ))
+    // val pending_reg = RegInit(0.U.asBool())
+    // pending_reg := Mux()
 
-    io.pending := 0.U
+    io.pending := (work_state =/= state_idle && work_state =/= state_cal_end) || (work_state === state_idle && (cal_mul || cal_mulw) ) 
 
   
 }

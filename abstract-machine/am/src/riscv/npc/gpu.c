@@ -10,16 +10,18 @@ void __am_gpu_init() {
   h = inw(VGACTL_ADDR);
   w = inw(VGACTL_ADDR + 2 );
   printf("h = %d, w = %d\n", h, w);
+  printf("SYSNC = %p\n",VGACTL_ADDR);
   //显存捏
-  // uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  // for (i = 0; i < w * h; i ++) {
-  //   fb[i] = i;
-  //   if(i % 100 == 0) {
+  uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
+  for (i = 0; i < h * w; i ++) {
+    fb[i] = i/2;
+    if(i % 5000 == 0) {
     printf("i = %d\n", i);
-  //   }
-  // }
+    }
+  }
   printf("end init\n");
   outl(SYNC_ADDR, 1);
+
 }
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {

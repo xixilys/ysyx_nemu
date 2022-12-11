@@ -125,7 +125,7 @@ withClockAndReset(clk.asClock,(~resetn).asAsyncReset) {
     // val _imem    = Module(new imem)
     val _mem22wb  = Module(new mem2wb)
     val _addr_cal     = Module(new addr_cal)
-    val _muldiv  = Module(new muldiv)
+    val _muldiv  = Module(new muldiv("easy","easy"))
     // val _pc2if   = Module(new pc2if)
     val _regfile = Module(new regfile)
     val _mtrace_mod = Module(new mem_trace_module(64))
@@ -722,8 +722,8 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     val target_addr_error = (pre_decoder_jump.asBool && target_neq_jumpD) || (_br.io.exe.asBool && target_neq_branchD)
 
     //这一块感觉有点问题
-    inst_buffer.point_write_en := _cfu.io.StallD.asBool &&( ((pre_decoder_jump.asBool  || _br.io.exe.asBool ) =/= id_true_branch_state) || target_addr_error) && !(ex_exception || mem_exception || mem2_exception || wb_exception) 
-
+    inst_buffer.point_write_en := _csr.io.exception.asBool || (_cfu.io.StallD.asBool &&( ((pre_decoder_jump.asBool  || _br.io.exe.asBool ) =/= id_true_branch_state) || target_addr_error) && !(ex_exception || mem_exception || mem2_exception || wb_exception)) 
+;.0
     val PC_nextD = MuxCase((_if2id.io.PCPlus4D ),Seq(
         pre_decoder_jump.asBool -> PCJumpD,
         _br.io.exe.asBool   -> PCBranchD

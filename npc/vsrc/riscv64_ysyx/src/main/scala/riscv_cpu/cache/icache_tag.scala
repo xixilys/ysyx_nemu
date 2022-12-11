@@ -18,16 +18,16 @@ class icache_tag  extends Module with riscv_macros {
      val        asid = Input(UInt(8.W))
         
     })
-    val tag_regs = RegInit(VecInit(Seq.fill(128)(0.U(21.W)))) //初始化寄存器
+    val tag_regs = RegInit(VecInit(Seq.fill(128)(0.U(22.W)))) //初始化寄存器
     val tag_asid_regs = RegInit(VecInit(Seq.fill(128)(0.U(8.W))))
     val addr_reg = RegInit(0.U(32.W))
     addr_reg := io.addr
-    tag_regs(io.addr(11,5)) := Mux(io.op.asBool||io.wen.asBool,io.wdata, tag_regs(io.addr(11,5)))
-    tag_asid_regs(io.addr(11,5)) := Mux(io.op.asBool||io.wen.asBool,io.asid,tag_asid_regs(io.addr(11,5)))
+    tag_regs(io.addr(10,4)) := Mux(io.op.asBool||io.wen.asBool,io.wdata, tag_regs(io.addr(10,4)))
+    tag_asid_regs(io.addr(10,4)) := Mux(io.op.asBool||io.wen.asBool,io.asid,tag_asid_regs(io.addr(10,4)))
    // val tag_t = RegInit(0.U(32.W)) // 存疑
-    val tag_t = tag_regs(io.addr(11,5)) 
+    val tag_t = tag_regs(io.addr(10,4)) 
     io.valid := tag_t(20) //tag_t(20)run
-    io.hit := Mux(tag_t(19,0) === io.addr(31,12) && tag_asid_regs(io.addr(11,5)) === io.asid,1.U,0.U)//addr前20位全为tag
+    io.hit := Mux(tag_t(20,0) === io.addr(31,11) && tag_asid_regs(io.addr(10,4)) === io.asid,1.U,0.U)//addr前20位全为tag
 }
 // object icache_tag_test extends App{
 //     (new ChiselStage).emitVerilog(new icache_tag)

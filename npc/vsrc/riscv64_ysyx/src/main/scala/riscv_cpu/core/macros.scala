@@ -416,6 +416,8 @@ val MEPC_NUM     = 0x341.U
 val MSTATUS_NUM  = 0x300.U
 val MCAUSE_NUM   = 0x342.U
 val MTVEC_NUM    = 0x305.U
+def sign_extend(value:UInt,length:Int,full_length:Int) = 
+    Cat(Cat(Seq.fill(full_length-length)(value(length-1))),value(length-1,0))
 
 def sign_extend(value:UInt,length:Int) = 
     Cat(Cat(Seq.fill(data_length-length)(value(length-1))),value(length-1,0))

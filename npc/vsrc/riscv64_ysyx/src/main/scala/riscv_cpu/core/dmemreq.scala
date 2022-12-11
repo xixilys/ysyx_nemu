@@ -111,7 +111,7 @@ class dmemreq extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存
     io.size     := (io.MemWidthE)
     io.addr     := io.VAddrE//Cat(io.VAddrE(data_length,2),Mux(io.memrl =/= 0.U,0.U,io.VAddrE(1,0)))
     io.wstrb    := get_wstrb(io.MemWidthE,ra,io.memrl)
-    io.wdata    := get_data(io.WriteDataE,ra,io.MemWidthE,io.memrl)
+    io.wdata    := Mux(check_cached(io.VAddrE).asBool,get_data(io.WriteDataE,ra,io.MemWidthE,io.memrl),io.WriteDataE)
     io.req      := io.en.asBool && (io.MemToRegE.asBool || io.MemWriteE.asBool)
 
 }
