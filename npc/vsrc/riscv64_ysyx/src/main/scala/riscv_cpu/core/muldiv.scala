@@ -296,21 +296,30 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
     })
     val cal_start_mul = RegInit(0.U.asBool)
     val cal_end_mul = Wire(Bool())
+    val cal_end_div = Wire(Bool())
     val cal_mul =   io.en.asBool &&  (  io.ctrl(MULDIV_MUL) || io.ctrl(MULDIV_MULHSU) || 
             io.ctrl(MULDIV_MULH)   || io.ctrl(MULDIV_MULHU) )
+    val cal_div =   io.en.asBool &&  (  io.ctrl(MULDIV_DIV) || io.ctrl(MULDIV_DIVU) || 
+             io.ctrl(MULDIV_REM)  || io.ctrl(MULDIV_REMU) )
+    val cal_divw = io.en.asBool && (io.ctrl(MULDIV_DIVW)  || io.ctrl(MULDIV_DIVUW)  ||     io.ctrl(MULDIV_REMW)   || io.ctrl(MULDIV_REMUW)) 
     val cal_mulw = io.en.asBool &&   io.ctrl(MULDIV_MULW)  
     val cal_mul_result = Wire(UInt(64.W))
+    val cal_div_result = Wire(UInt(64.W))
     val work_state  = RegInit(0.U(4.W))
     val state_idle = 0.U
     val state_cal_mul = 1.U
     val state_cal_mulw = 2.U
     val state_cal_div = 3.U
     val state_cal_end = 4.U
+    val state_cal_divw = 5.U
     val ctrl_data = RegInit(0.U(io.ctrl.getWidth.W))
     work_state := MuxCase(work_state,Seq(
         (cal_mul   && work_state === state_idle)->  state_cal_mul,
         (cal_mulw  && work_state === state_idle)->  state_cal_mulw,
+        (cal_div   && work_state === state_idle)->  state_cal_div,
+        (cal_divw  && work_state === state_idle)->  state_cal_divw,
         (cal_end_mul && (work_state === state_cal_mul || work_state === state_cal_mulw)) -> state_cal_end,
+        (cal_end_div  && (work_state === state_cal_div || work_state === state_cal_divw)) -> state_cal_end,
         (work_state === state_cal_end)          ->  state_idle
     ))
     ctrl_data  := Mux(work_state === state_idle ,io.ctrl,ctrl_data)
@@ -331,23 +340,53 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
             (work_state === state_cal_mul && mul_module.Output_valid)  ->  1.U.asBool,
             (work_state === state_cal_mulw && mul_module_32_bit.Output_valid) -> 1.U.asBool  
         ))
-        cal_mul_result :=  Mux1H(Seq(
+        val mul_cal_reg = RegInit(0.U(64.W))
+        val access_mul_result =  Mux1H(Seq(
                     ctrl_data(MULDIV_MUL)   -> mul_module.result(0),
                     ctrl_data(MULDIV_MULH)  -> mul_module.result(1),
                     ctrl_data(MULDIV_MULHU) -> mul_module.result(1),
                     ctrl_data(MULDIV_MULHSU)-> mul_module.result(1),
                     ctrl_data(MULDIV_MULW)  -> sign_extend(mul_module_32_bit.result(0),32)
         ))
-        //     Mux1H(Seq(
-        //     (work_state === state_cal_mul )  ->  Mux1H(Seq(
-        //             ctrl_data(MULDIV_MUL)   -> mul_module.result(0),
-        //             ctrl_data(MULDIV_MULH)  -> mul_module.result(1),
-        //             ctrl_data(MULDIV_MULHU) -> mul_module.result(1),
-        //             ctrl_data(MULDIV_MULHSU)-> mul_module.result(1)
-        //         )),
-        //     (work_state === state_cal_mulw ) ->  sign_extend(mul_module_32_bit.result(0),32)
-        // ))
+        cal_mul_result := Mux(cal_end_mul,access_mul_result,mul_cal_reg) 
+        mul_cal_reg := Mux(cal_end_mul,access_mul_result,mul_cal_reg) 
+
     }else if(mul_type == "hard") {
+
+    }
+
+    if(div_type == "easy") {
+        val div_module = Module(new div_simple(64)).io
+        val div_module_32_bit = Module(new div_simple(32)).io
+        val cal_signed =    io.ctrl(MULDIV_DIV) || io.ctrl(MULDIV_DIVW) || io.ctrl(MULDIV_REM) || io.ctrl(MULDIV_REMW) 
+        div_module.signed := cal_signed
+        div_module_32_bit.signed := cal_signed
+        div_module.data(0) := io.in1
+        div_module.data(1) := io.in2
+        div_module_32_bit.data(0) := io.in1
+        div_module_32_bit.data(1) := io.in2
+        div_module.input_valid  := Mux(work_state === state_idle && cal_div,1.U.asBool,0.U.asBool)
+        div_module_32_bit.input_valid := Mux(work_state === state_idle && cal_divw,1.U.asBool,0.U.asBool)
+        cal_end_div := MuxCase(0.U.asBool,Seq(
+            (work_state === state_cal_div && div_module.Output_valid)  ->  1.U.asBool,
+            (work_state === state_cal_divw && div_module_32_bit.Output_valid) -> 1.U.asBool  
+        ))
+        val div_cal_reg = RegInit(0.U(64.W))
+        val access_div_result =  Mux1H(Seq(
+                    ctrl_data(MULDIV_DIV)   -> div_module.result(0),
+                    ctrl_data(MULDIV_DIVU)  -> div_module.result(0),
+                    ctrl_data(MULDIV_REM)   -> div_module.result(1),
+                    ctrl_data(MULDIV_REMU)  -> div_module.result(1),
+                    ctrl_data(MULDIV_DIVW)   -> sign_extend(div_module_32_bit.result(0),32),
+                    ctrl_data(MULDIV_DIVUW)  -> sign_extend(div_module_32_bit.result(0),32),
+                    ctrl_data(MULDIV_REMW)   -> sign_extend(div_module_32_bit.result(1),32),
+                    ctrl_data(MULDIV_REMUW)  -> sign_extend(div_module_32_bit.result(1),32)
+
+        ))
+        cal_div_result := Mux(cal_end_div,access_div_result,div_cal_reg) 
+        div_cal_reg := Mux(cal_end_div,access_div_result,div_cal_reg) 
+
+    }else if(div_type == "hard") {
 
     }
 
@@ -371,14 +410,14 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
 
 
     io.data_out := Mux1H(Seq(
-        io.ctrl(MULDIV_DIV)   -> div_answer(data_length - 1,0),
-        io.ctrl(MULDIV_DIVU)  -> divu_answer(data_length - 1,0),
-        io.ctrl(MULDIV_DIVW)  -> divw_answer,
-        io.ctrl(MULDIV_DIVUW) -> divuw_answer,
-        io.ctrl(MULDIV_REM)   -> rem_answer,
-        io.ctrl(MULDIV_REMU)  -> remu_answer,
-        io.ctrl(MULDIV_REMW)  -> remw_answer,
-        io.ctrl(MULDIV_REMUW) -> remuw_answer,
+        io.ctrl(MULDIV_DIV)   -> cal_div_result,
+        io.ctrl(MULDIV_DIVU)  -> cal_div_result,
+        io.ctrl(MULDIV_DIVW)  -> cal_div_result,
+        io.ctrl(MULDIV_DIVUW) -> cal_div_result,
+        io.ctrl(MULDIV_REM)   -> cal_div_result,
+        io.ctrl(MULDIV_REMU)  -> cal_div_result,
+        io.ctrl(MULDIV_REMW)  -> cal_div_result,
+        io.ctrl(MULDIV_REMUW) -> cal_div_result,
         io.ctrl(MULDIV_MUL)   -> cal_mul_result,
         io.ctrl(MULDIV_MULW)  -> cal_mul_result,
         io.ctrl(MULDIV_MULH)  -> cal_mul_result,
@@ -388,7 +427,7 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
     // val pending_reg = RegInit(0.U.asBool())
     // pending_reg := Mux()
 
-    io.pending := (work_state =/= state_idle && work_state =/= state_cal_end) || (work_state === state_idle && (cal_mul || cal_mulw) ) 
+    io.pending := (work_state =/= state_idle && work_state =/= state_cal_end) || (work_state === state_idle && (cal_mul || cal_mulw || cal_div || cal_divw) ) 
 
   
 }

@@ -178,9 +178,9 @@ void paddr_write(paddr_t addr, int len, word_t data,int skip)
   mem_write_mtrace.pc = mem_pc;
   // mtrace_loop_push(mtrace_loop, mem_write_mtrace, &mtrace_loop_index);
 #endif
- if(addr == 0xa0000104) {
-            printf("data is %lx and len is %d\n",data,len);
-        }
+//  if(addr == 0xa0000104) {
+//             printf("data is %lx and len is %d\n",data,len);
+//         }
 // printf()
   if (likely(in_pmem(addr)))
   {

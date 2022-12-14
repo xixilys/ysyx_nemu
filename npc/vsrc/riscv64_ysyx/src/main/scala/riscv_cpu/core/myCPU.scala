@@ -883,7 +883,11 @@ inst_tlb_exceptionM := Mux(_cfu.io.FlushM.asBool,0.U,Mux(_cfu.io.StallM.asBool,i
     _alu.io.ctrl := _id2ex.io2.ALUCtrlE
     _alu.io.data_w := _id2ex.io.data_wE
     
-    _muldiv.io.en := !ex_exception//Mux(_id2ex.io.ExceptionTypeE_Out =/= 0.U , 0.U,1.U)
+    _muldiv.io.en := !ex_exception && !((_id2ex.io.R2E === _ex2mem.io.WriteRegM && _ex2mem.io.RegWriteM.asBool && _ex2mem.io.MemToRegM.asBool) || 
+                (_id2ex.io.R1E === _ex2mem.io.WriteRegM && _ex2mem.io.RegWriteM.asBool && _ex2mem.io.MemToRegM.asBool) ||//mem阶段出现mem2reg并且此时需要前递时，停止流水线
+                (_id2ex.io.R2E === _mem2mem2.io.WriteRegM && _mem2mem2.io.RegWriteM.asBool && _mem2mem2.io.MemToRegM.asBool) || 
+                (_id2ex.io.R1E === _mem2mem2.io.WriteRegM && _mem2mem2.io.RegWriteM.asBool && _mem2mem2.io.MemToRegM.asBool))//mem阶段出现mem2reg并且此时需要前递时，停止流水线
+                
     _muldiv.io.in1 := Src1E
     _muldiv.io.in2 := Src2E
     _muldiv.io.ctrl := _id2ex.io.muldiv_control

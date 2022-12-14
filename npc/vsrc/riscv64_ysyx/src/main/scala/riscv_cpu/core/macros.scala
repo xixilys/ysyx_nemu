@@ -424,6 +424,8 @@ def sign_extend(value:UInt,length:Int) =
 
 def unsign_extend(value:UInt,length:Int):UInt = 
     Cat(0.U(data_length-length),value(length-1,0))
+def unsign_extend(value:UInt,length:Int,full_length:Int) = 
+    Cat(0.U(full_length-length),value(length-1,0))
 def Mux2_4(sel:UInt,ch0:UInt,ch1:UInt,ch2:UInt,ch3:UInt):UInt = MuxLookup(sel,0.U,Seq(
     0.U -> ch0,1.U -> ch1,2.U -> ch2,3.U -> ch3))
 
