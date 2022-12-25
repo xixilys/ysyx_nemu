@@ -32,6 +32,7 @@ class decoder_port extends Bundle {
         val   csr_Imm       = Output(Bool())
         //用于进行difftest用的，告诉仿真环境这个指令可以跳过
         val   inst_should_skip = Output(Bool())
+        val   fence_i_control = Output(Bool())
         
         // val   BadInstrD=      Output(UInt(1.W))
         // val   BreakD=      Output(UInt(1.W))
@@ -50,7 +51,7 @@ class cu extends Module with riscv_macros {
         val   EretD   =   Output(UInt(1.W))
         val   Tlb_Control   =      Output(UInt(3.W))
         val   commit_cache_ins = Output(Bool()) //关闭cache和分支预测
-
+       
         val   dmem_addr_cal  = Output(Bool())
 
         // val   pcD             = Input(UInt(data_length.W))
@@ -164,7 +165,7 @@ class cu extends Module with riscv_macros {
             )),
             "b001".U  -> MuxLookup(Funct7D,id_null,Seq(
                 "b0000000".U -> id_sllw
-            )),
+                )),
             "b101".U  -> MuxLookup(Funct7D,id_null,Seq(
                 "b0000000".U -> id_srlw,
                 "b0100000".U -> id_sraw,
@@ -186,11 +187,16 @@ class cu extends Module with riscv_macros {
             "b101".U -> Cat(id_csrrwi,inst_type_I),
             "b110".U -> Cat(id_csrrsi,inst_type_I),
             "b111".U -> Cat(id_csrrci,inst_type_I)
+        )),
+        OP_FENCE -> MuxLookup(Funct3D,id_null,Seq(
+            "b001".U -> Cat(id_fence_i,inst_type_special)   
         ))))
 
     
     val ins_code  = inst_code_type(inst_code_type.getWidth - 1,3)
     val inst_type = inst_code_type(2,0)
+    
+    io.fence_i_control :=  io1.InstrD === "b0000_0000_0000_00000_001_00000_0001111".U
     
 
     io.csrToRegD :=    MuxLookup(ins_code ,0.U,Seq(id_csrrc  -> 1.U,

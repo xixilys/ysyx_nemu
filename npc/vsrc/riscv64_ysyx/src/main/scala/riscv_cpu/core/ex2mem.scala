@@ -54,6 +54,7 @@ class ex2mem extends Module with riscv_macros {//
         val   Pc_NextM       = Output(UInt(data_length.W))
         val   mem_trace_budleM = Output(new mtrace_relative_bundle)
         val   CsrWritedataM  = Output(UInt(data_length.W))
+        val   fence_i_controlM = Output(Bool())
     })
         val   RegWrite_Reg  = RegInit(0.U(1.W))
         val   MemToReg_Reg  = RegInit(0.U(1.W))
@@ -85,6 +86,9 @@ class ex2mem extends Module with riscv_macros {//
         val   pc_nextReg  = RegInit(0.U(data_length.W))
         val   mem_trace_budleReg = RegInit(0.U.asTypeOf(new mtrace_relative_bundle))
         val   CsrWritedataReg    = RegInit(0.U(data_length.W))
+
+        val   fence_i_controlReg = RegInit(0.U(io1.fence_i_control.getWidth))
+
   
         RegWrite_Reg:=            Mux(io.clr.asBool,0.U, Mux(io.en.asBool,io1.RegWriteE ,  RegWrite_Reg))
         MemWrite_Reg:=            Mux(io.clr.asBool,0.U, Mux(io.en.asBool,io1.MemWriteE,MemWrite_Reg))
@@ -114,7 +118,9 @@ class ex2mem extends Module with riscv_macros {//
         pc_nextReg           :=   Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.Pc_NextE,pc_nextReg)) 
         mem_trace_budleReg   :=   Mux(io.clr.asBool,0.U.asTypeOf(new mtrace_relative_bundle),Mux(io.en.asBool,io.mem_trace_budleE,mem_trace_budleReg))
         CsrWritedataReg      :=   Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.CsrWritedataE,CsrWritedataReg))
-       
+        fence_i_controlReg   :=   Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io1.fence_i_control,fence_i_controlReg))
+
+
         io.RegWriteM         := RegWrite_Reg
         io.MemToRegM         := MemToReg_Reg
         io.MemWriteM         := MemWrite_Reg
@@ -144,8 +150,8 @@ class ex2mem extends Module with riscv_macros {//
         io.Pc_NextM          := pc_nextReg
         io.mem_trace_budleM  := mem_trace_budleReg
         io.CsrWritedataM     := CsrWritedataReg 
-
-}
+        io.fence_i_controlM  := fence_i_controlReg
+}   
 // object ex2mem_test extends App{
 //     (new ChiselStage).emitVerilog(new ex2mem)
 // }

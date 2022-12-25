@@ -69,9 +69,14 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
 void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
+  #if(EXCEPT_TYPE  == EM_RISCV)
+  //内嵌一个fence.i 指令
+  asm volatile("FENCE.I");
+  #endif
   Log("Jump to entry = %p", entry);
+
   // sb_for_waiting();
-  // printf("are you ok \n");
+  printf("are you ok \n");
   ((void(*)())entry) ();
   
 }

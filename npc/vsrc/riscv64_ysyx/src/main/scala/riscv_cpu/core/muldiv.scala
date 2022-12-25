@@ -381,7 +381,6 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
                     ctrl_data(MULDIV_DIVUW)  -> sign_extend(div_module_32_bit.result(0),32),
                     ctrl_data(MULDIV_REMW)   -> sign_extend(div_module_32_bit.result(1),32),
                     ctrl_data(MULDIV_REMUW)  -> sign_extend(div_module_32_bit.result(1),32)
-
         ))
         cal_div_result := Mux(cal_end_div,access_div_result,div_cal_reg) 
         div_cal_reg := Mux(cal_end_div,access_div_result,div_cal_reg) 
@@ -399,14 +398,14 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
     
 
 
-    val divu_answer  = (io.in1 / io.in2)(63,0) //Wire(UInt(64.W))
-    val div_answer  =  (io.in1.asSInt / io.in2.asSInt).asUInt//Wire(UInt(64.W))
-    val divw_answer  = sign_extend((io.in1(31,0).asSInt / io.in2(31,0).asSInt).asUInt,32)
-    val divuw_answer = unsign_extend((io.in1(31,0) / io.in2(31,0)).asUInt,32)
-    val remu_answer  =  (io.in1 % io.in2).asUInt
-    val rem_answer   =  (io.in1.asSInt % io.in2.asSInt).asUInt
-    val remw_answer  =  sign_extend((io.in1(31,0).asSInt % io.in2(31,0).asSInt).asUInt,32)
-    val remuw_answer =  unsign_extend((io.in1(31,0) % io.in2(31,0)),32) 
+    // val divu_answer  = (io.in1 / io.in2)(63,0) //Wire(UInt(64.W))
+    // val div_answer  =  (io.in1.asSInt / io.in2.asSInt).asUInt//Wire(UInt(64.W))
+    // val divw_answer  = sign_extend((io.in1(31,0).asSInt / io.in2(31,0).asSInt).asUInt,32)
+    // val divuw_answer = unsign_extend((io.in1(31,0) / io.in2(31,0)).asUInt,32)
+    // val remu_answer  =  (io.in1 % io.in2).asUInt
+    // val rem_answer   =  (io.in1.asSInt % io.in2.asSInt).asUInt
+    // val remw_answer  =  sign_extend((io.in1(31,0).asSInt % io.in2(31,0).asSInt).asUInt,32)
+    // val remuw_answer =  unsign_extend((io.in1(31,0) % io.in2(31,0)),32) 
 
 
     io.data_out := Mux1H(Seq(

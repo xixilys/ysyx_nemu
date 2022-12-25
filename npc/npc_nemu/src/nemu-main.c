@@ -3,6 +3,7 @@
 #include <verilator_use.h>
 #include <cpu/cpu.h>
 #include <cpu/sdb.h>
+#include <isa.h>
 
 
 
@@ -23,17 +24,21 @@ int is_exit_status_bad();
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
-
+  // cpu.gpr = (word_t*)malloc(sizeof(word_t) * 32);
 #ifdef CONFIG_TARGET_AM
+
   am_init_monitor();
 #else
+
   init_monitor(argc, argv);
 #endif
 // printf("hxz sbsbsbsbsb\n");
 //verilator仿真开始了
+
   sim_init();
   // printf("sbsbsb\n");
   reset(10);
+
   engine_start();
 
   return is_exit_status_bad();

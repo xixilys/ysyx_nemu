@@ -28,7 +28,7 @@ enum {
 #define src2I(i) do { *src2 = i; } while (0)
 #define destI(i) do { *dest = i; } while (0).
 
-size_t *cpu_gpr = NULL;
+size_t * cpu_gpr = NULL;
 size_t debug_pc = 0;
 size_t now_pc = 0;
 int cpu_commited = 1;
@@ -37,7 +37,9 @@ void cpu_commited_func(void){
 }
 
 void set_gpr_ptr(const svOpenArrayHandle r){
-  cpu_gpr = (size_t *)(((VerilatedDpiOpenVar*)r)->datap());
+  cpu_gpr = (size_t*)(((VerilatedDpiOpenVar*)r)->datap());
+  // cpu.gpr =  (size_t * )cpu_gpr;
+
 }
 
 void set_debug_pc_ptr(size_t r){
@@ -73,13 +75,14 @@ static int decode_exec(Decode *s) {
     single_cycle();
     counter++;
     //不可能连续10000个周期还不能够有指令commit，除非已经挂逼了
-    if(counter >= 1000) {
+    if(counter >= 5000) {
 
       sim_end();
       panic("受不了了");
     }
 
   }
+  // printf("%p sbaddr ",d)
   memcpy(cpu.gpr,cpu_gpr,sizeof(word_t) * 32);
   if(mtrace_debuger.debug_mem_state == 1) {
     // printf("come here\n");
@@ -88,9 +91,9 @@ static int decode_exec(Decode *s) {
     // printf("debug mem write-state %d\n",debug_mem_write_state_get);
     // if()
     //icache 和 dcache未同步
-    size_t sum_data = mtrace_debuger.debug_mem_data >> (8*(mtrace_debuger.debug_mem_addr % sizeof(size_t)));
+    // size_t sum_data = mtrace_debuger.debug_mem_data >> (8*(mtrace_debuger.debug_mem_addr % sizeof(size_t)));
     if(mtrace_debuger.debug_mem_write_state_get  && mtrace_debuger.debug_mem_cache) {
-      paddr_write(mtrace_debuger.debug_mem_addr,size_to_bytes_num(mtrace_debuger.debug_mem_size),sum_data,0);
+    //   paddr_write(mtrace_debuger.debug_mem_addr,size_to_bytes_num(mtrace_debuger.debug_mem_size),sum_data,0);
     }else{
       mmio_search_for_skip(mtrace_debuger.debug_mem_addr);
     }
@@ -99,6 +102,7 @@ static int decode_exec(Decode *s) {
   cpu.pc = debug_pc;
   cpu_commited = 1;
   return 0;
+
 }
 
 int isa_exec_once(Decode *s) {

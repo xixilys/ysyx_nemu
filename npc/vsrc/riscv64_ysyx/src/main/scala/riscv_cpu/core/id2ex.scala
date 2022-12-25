@@ -28,6 +28,7 @@ class ex_in_and_out_port extends Bundle {
     val    BranchJump_JrE = Output(UInt(2.W))
     val    Tlb_Control    = Output(UInt(3.W))
     val    eBreakE        = Output(Bool())
+    val    fence_i_control = Output(Bool())
  
     
    
@@ -60,6 +61,7 @@ class id2ex extends Module with riscv_macros{ //觉得除法器那一块有很�
     val         PCD = Input(UInt(data_length.W))
     val         ExceptionTypeD= Input(UInt(32.W))
     val         Pc_NextD = Input(UInt(data_length.W))
+    // val         
 
 
     
@@ -170,6 +172,7 @@ class id2ex extends Module with riscv_macros{ //觉得除法器那一块有很�
     io2.Tlb_Control   := Tlb_Control_Reg
     io.data_wE        := decoder_port_reg.data_wD
     io2.eBreakE       := decoder_port_reg.ebreakD
+    io2.fence_i_control := decoder_port_reg.fence_i_control
     io.Pc_NextE       := Pc_NextReg
     io.muldiv_control := decoder_port_reg.muldiv_control
     io.inst_should_skipE  := decoder_port_reg.inst_should_skip

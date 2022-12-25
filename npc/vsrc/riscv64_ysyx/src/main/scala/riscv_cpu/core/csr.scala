@@ -79,8 +79,10 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     val exception_type   = Cat(io.exception_type_i(31,1),int_signal)//15-8分别是六根硬件中断线和两根软件中断线
 
     val exl_Reg     = Wire(UInt(1.W))//status 寄存器第1位 1表示例外级
-    val commit_exception =(exception_type(30,0) =/= 0.U) //不等和等于运算更加耗时
+    //不能是fence_i
+    val commit_exception =(exception_type(30,0) =/= 0.U) && !exception_type(EXCEP_FENCE_I)//不等和等于运算更加耗时
     val commit_eret  = Mux(exception_type(31) && !exception_type(EXCEP_AdELI),1.U(1.W),0.U(1.W) ) //判断到底是啥例外，如果是eret过程中的地址错乱的话，就不是eret例外
+    val commit_fence_i = exception_type(EXCEP_FENCE_I)
     io.exception     :=  commit_exception || commit_eret.asBool // 有没异常或者是回调的东西
     exl_Reg := csr_status(1)
 
@@ -94,7 +96,10 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
 
     val cause_exccode = Wire(UInt(data_length.W)) // cause(6,2)
     val commit_bvaddr_Wire = Wire(UInt(data_length.W))//badvaddr_pc
-    io.return_pc := Mux(commit_eret.asBool,csr_epc,csr_mtvec)
+    io.return_pc := MuxCase(csr_mtvec,Seq(
+        (commit_eret.asBool -> csr_epc),
+        (commit_fence_i)    -> (io.pc+4.U)
+    ))
     
     cause_exccode := Mux1H(Seq(//exception_type(EXCEP_INT)-> EXCEP_CODE_INT, //中断
         //(exception_type(EXCEP_AdELD) || exception_type(EXCEP_AdELI)) -> EXCEP_CODE_AdEL, //指令地址错误或者数据地址错误'

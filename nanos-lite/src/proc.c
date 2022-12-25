@@ -23,6 +23,8 @@ void init_proc() {
   switch_boot_pcb();
 
   Log("Initializing processes...");
+    //内嵌汇编呗
+
 
   // load program here
   naive_uload(current,"/bin/pal");

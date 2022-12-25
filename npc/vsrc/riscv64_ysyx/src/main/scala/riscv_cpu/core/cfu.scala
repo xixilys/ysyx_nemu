@@ -11,6 +11,7 @@ class cfu extends Module with riscv_macros {
         val     AddrPendingF = Input(UInt(1.W))
         val     DataPendingF = Input(UInt(1.W))
         val     Inst_Fifo_Empty = Input(UInt(1.W))
+        val     data_fence_i_control = Input(Bool())
 
         val     dmem_calD  = Input(Bool())
 
@@ -154,6 +155,7 @@ class cfu extends Module with riscv_macros {
     val has_Stall = /*lm_Stall ||*/br_Stall||jr_Stall||dmem_addr_cal_Stall||divStall.asBool||csrStall ||ifStall||dmemStall
     val excepStall = io.InException.asBool && has_Stall
     val excepFlush = io.InException.asBool 
+    // val fence_iFlush = io.data_fence_i_control
  //Stall 摊位，池子
     io.StallF := Mux(reset.asBool,1.U,!(/*lm_Stall||*/br_Stall||jr_Stall|| divStall||csrStall||dmemStall/*||excepStall||memrlStall*/||mem2regM_Stall || fifo_empty_stall))
     io.StallD := Mux(reset.asBool,1.U,!(/*lm_Stall||*/br_Stall||jr_Stall|| divStall||csrStall||dmemStall/*||excepStall||memrlStall */|| mem2regM_Stall))
@@ -162,8 +164,8 @@ class cfu extends Module with riscv_macros {
     io.StallM2 := Mux(reset.asBool,1.U,!(dmemStall/*||excepStall*/))
     io.StallW := Mux(reset.asBool,1.U,!(dmemStall/*excepStall*/))
 //flush冲洗
-    io.FlushD := Mux(reset.asBool,0.U, (io.StallD.asBool && 0.U.asBool) || ( excepFlush /*|| fifo_empty_stall*/ ))
-    io.FlushE := Mux(reset.asBool,0.U,((io.StallE.asBool && ( ifStall ||br_Stall|| jr_Stall  /*||memrlStall ||| lm_Stall | br_Stall || jr_Stall */  )))|| excepFlush)
+    io.FlushD := Mux(reset.asBool,0.U, (io.StallD.asBool && 0.U.asBool) || ( excepFlush  /*|| fifo_empty_stall*/ ))
+    io.FlushE := Mux(reset.asBool,0.U,((io.StallE.asBool && ( ifStall ||br_Stall|| jr_Stall  /*||memrlStall ||| lm_Stall | br_Stall || jr_Stall */  )))|| excepFlush  )
     io.FlushM := Mux(reset.asBool,0.U,((io.StallM.asBool && ( csrStall || divStall ||mem2regM_Stall.asBool)) || excepFlush))
     io.FlushM2 := Mux(reset.asBool,0.U,((io.StallM2.asBool && 0.U.asBool ) || excepFlush ))
     io.FlushW := Mux(reset.asBool,0.U,((io.StallW.asBool && ( dmemStall || excepFlush))))

@@ -233,6 +233,7 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     dcache.sram_req   := u_riscv_cpu.data_req
     dcache.sram_wr    := u_riscv_cpu.data_wr
     dcache.sram_wdata := u_riscv_cpu.data_wdata
+    dcache.fence_i_control := u_riscv_cpu.data_fence_i_control
     dcache_first.data_wstrb := u_riscv_cpu.data_wstrb
     u_riscv_cpu.data_rdata := dcache.sram_rdata
     u_riscv_cpu.data_addr_ok := dcache.sram_addr_ok

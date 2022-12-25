@@ -6,19 +6,19 @@
 int w = 0;  // TODO: get the correct width
 int h = 0;  // TODO: get the correct height
 void __am_gpu_init() {
-  int i = 0;
+  // int i = 0;
   h = inw(VGACTL_ADDR);
   w = inw(VGACTL_ADDR + 2 );
   printf("h = %d, w = %d\n", h, w);
   printf("SYSNC = %p\n",VGACTL_ADDR);
   //显存捏
-  uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  for (i = 0; i < h * w; i ++) {
-    fb[i] = i/2;
-    if(i % 5000 == 0) {
-    printf("i = %d\n", i);
-    }
-  }
+  // uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
+  // for (i = 0; i < h * w; i ++) {
+  //   fb[i] = i/2;
+  //   if(i % 5000 == 0) {
+  //   printf("i = %d\n", i);
+  //   }
+  // }
   printf("end init\n");
   outl(SYNC_ADDR, 1);
 

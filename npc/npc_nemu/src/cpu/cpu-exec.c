@@ -113,6 +113,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   itrace_loop_push(itrace_loop,*s,&itrace_loop_index);
 #endif
 
+
   
   // printf("index = %d\n",itrace_loop_index);
 // printf("inst ->  %08x __ pc ->  %08lx\n",itrace_loop[itrace_loop_index - 1].isa.inst.val,itrace_loop[itrace_loop_index - 1].pc);
@@ -127,7 +128,9 @@ static void execute(uint64_t n) {
     exec_once(&s, cpu.pc);
     
     g_nr_guest_inst ++;
+
     trace_and_difftest(&s, cpu.pc);
+
     if (nemu_state.state != NEMU_RUNNING) break;
     static uint64_t run_counter = 0;
     IFDEF(CONFIG_DEVICE, device_update());

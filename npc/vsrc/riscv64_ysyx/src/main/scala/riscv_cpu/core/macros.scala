@@ -32,6 +32,7 @@ val inst_type_S    = 3.U(3.W)
 val inst_type_SB   = 4.U(3.W)
 val inst_type_RR   = 5.U(3.W)
 val inst_type_UJ   = 6.U(3.W)
+val inst_type_special = 7.U(3.W)
 
 /************************* inst type up ****************/
 //opcode
@@ -58,6 +59,7 @@ val OP_BRANCH = "b1100011".U(7.W)
 
 //special inst
 val OP_SPECIAL  = "b1110011".U(7.W)
+val OP_FENCE    = "b0001111".U(7.W)
 
 
 
@@ -244,6 +246,9 @@ val id_csrrw   = 75.U
 val id_ecall   = 76.U
 val id_mret    = 77.U
 
+// fence inst
+val id_fence_i = id_mret + 1.U
+
 val id_mynop = 80.U
 
 // alu cmd def
@@ -378,6 +383,7 @@ val EXCEP_TLBRefill_L   = 0x3 .U
 val EXCEP_TLBInvalid_S  = 0x7 .U
 val EXCEP_TLBRefill_S   = 0x6 .U
 val EXCEP_TLBModified   = 0x1 .U
+val EXCEP_FENCE_I   = 0x18.U
 
 
 // // exception mask
@@ -396,6 +402,7 @@ val EXCEP_MASK_TLBRefill_L   ="b00000000_00000000_00000000_00001000".U
 val EXCEP_MASK_TLBInvalid_S  ="b00000000_00000000_00000000_10000000".U
 val EXCEP_MASK_TLBRefill_S   ="b00000000_00000000_00000000_01000000".U
 val EXCEP_MASK_TLBModified   ="b00000000_00000000_00000000_00000010".U
+val EXCEP_MASK_FENCE_I       ="b00000001_00000000_00000000_00000000".U
 
 // // exception code
 // val EXCEP_CODE_INT      = 0x0 .U     // interrupt

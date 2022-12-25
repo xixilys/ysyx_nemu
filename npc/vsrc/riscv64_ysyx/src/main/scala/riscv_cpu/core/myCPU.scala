@@ -45,6 +45,7 @@ class myCPU extends RawModule with riscv_macros {//
     val   inst_addr_ok = IO(Input(UInt(1.W)))
     val   inst_data_ok = IO(Input(UInt(1.W)))
     val   inst_rdata_L = IO(Input(UInt(40.W))).suggestName("inst_sram_rdata_L") 
+
     // val   inst_rdata_M = IO(Input(UInt(40.W))).suggestName("inst_sram_rdata_M") 
     // val   inst_rdata_R = IO(Input(UInt(40.W))).suggestName("inst_sram_rdata_R") 
 
@@ -80,6 +81,7 @@ class myCPU extends RawModule with riscv_macros {//
     val   data_stage2_stall = IO(Input(Bool()))
     val   data_tlb_exception = IO(Input(UInt(3.W)))
     val   data_wstrb = IO(Output(UInt((data_length / 8).W)))
+    val   data_fence_i_control = IO(Output(Bool()))
 
     val   tlbp_search_vaddr = IO(Output(UInt(data_length.W)))
     val   tlbp_search_en   = IO(Output(Bool()))
@@ -723,7 +725,7 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
 
     //这一块感觉有点问题
     inst_buffer.point_write_en := _csr.io.exception.asBool || (_cfu.io.StallD.asBool &&( ((pre_decoder_jump.asBool  || _br.io.exe.asBool ) =/= id_true_branch_state) || target_addr_error) && !(ex_exception || mem_exception || mem2_exception || wb_exception)) 
-;.0
+// ;.0
     val PC_nextD = MuxCase((_if2id.io.PCPlus4D ),Seq(
         pre_decoder_jump.asBool -> PCJumpD,
         _br.io.exe.asBool   -> PCBranchD
@@ -769,7 +771,8 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     ExceptionTypeD_Out := Mux1H(Seq(
         (_if2id.io.PCD(1,0) =/= 0.U) -> EXCEP_MASK_AdELI ,
         (_if2id.io.ExceptionTypeD_Out(0)) -> EXCEP_MASK_TLBRefill_L,
-        (_if2id.io.ExceptionTypeD_Out(1)) -> EXCEP_MASK_TLBInvalid_L 
+        (_if2id.io.ExceptionTypeD_Out(1)) -> EXCEP_MASK_TLBInvalid_L,
+        (_cu.io.fence_i_control)          -> EXCEP_MASK_FENCE_I 
     ))
     _br.io.en := 1.U.asBool//Mux(((id_exception | ex_exception |mem_exception | mem2_exception | wb_exception) === 0.U),1.U,0.U) //不允许触发分支//有例外的话
     _br.io.branch := pre_decoder_branchdata
@@ -859,7 +862,7 @@ inst_tlb_exceptionM := Mux(_cfu.io.FlushM.asBool,0.U,Mux(_cfu.io.StallM.asBool,i
         }
     }
 
-
+    
     val Inst_badvaddrE = Mux(_id2ex.io.ExceptionTypeE_Out(31),Forward_csr_data,_id2ex.io.BadVaddrE)//处于eret状态
 
     // WriteRegE  := 
@@ -942,6 +945,8 @@ inst_tlb_exceptionM := Mux(_cfu.io.FlushM.asBool,0.U,Mux(_cfu.io.StallM.asBool,i
     _ex2mem.io.mem_trace_budleE.addr           := data_addr
     _ex2mem.io.mem_trace_budleE.len            := data_size
     _ex2mem.io.mem_trace_budleE.cache          := data_cache
+
+    data_fence_i_control := _ex2mem.io.fence_i_controlM
 
     val csr_src1 = Wire(UInt(data_length.W))
     val csr_src2 = Wire(UInt(data_length.W))
@@ -1042,6 +1047,7 @@ _mem2mem2.io.csrWriteE := _ex2mem.io.csrWriteM.asBool || _ex2mem.io.Tlb_ControlM
 _mem2mem2.io.ExceptionTypeE := ExceptionM//_ex2mem.io.ExceptionTypeM_Out
 _mem2mem2.io.RtE := _ex2mem.io.RtM
 _mem2mem2.io.mem_trace_budleE := _ex2mem.io.mem_trace_budleM
+_mem2mem2.io1.fence_i_control := _ex2mem.io.fence_i_controlM
 
 _mem2mem2.io1.RegWriteE      := _ex2mem.io.RegWriteM
 _mem2mem2.io1.MemToRegE      := _ex2mem.io.MemToRegM
@@ -1262,6 +1268,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     _cfu.io.WriteRegM2  :=  _mem2mem2.io.WriteRegM
     _cfu.io.MemToRegM2  :=  _mem2mem2.io.MemToRegM
     _cfu.io.RegWriteM2  :=  _mem2mem2.io.RegWriteM
+    _cfu.io.data_fence_i_control := _ex2mem.io.fence_i_controlM
 
     
     // _cfu.io.data_cache_stage2_stall := data_stage2_stall
