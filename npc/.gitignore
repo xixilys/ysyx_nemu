@@ -6,6 +6,7 @@
 !npc/*
 !npc_nemu/*
 !vsrc/*
+!csrc/*
 !*.py
 !.gitignore
 !README.md

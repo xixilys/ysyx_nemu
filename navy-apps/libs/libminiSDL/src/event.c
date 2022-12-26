@@ -57,7 +57,7 @@ int SDL_PollEvent(SDL_Event *ev) {
   char key_buf[100] = {};
   NDL_PollEvent(key_buf,20);
   if(sdl_eventHandle(key_buf,ev) == 1) {
-    // printf("key buf is %s\n",key_buf);
+    printf("key buf is %s\n",key_buf);
     return 1;
   }
   return 0;

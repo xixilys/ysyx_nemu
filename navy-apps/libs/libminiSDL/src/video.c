@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <fixedptc.h>
 
+#define start_vedio 1
+
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   // printf()
   assert(dst && src); 
@@ -18,6 +20,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   int dst_x = dstrect == NULL ?  0 : dstrect->x;
   int dst_y = dstrect == NULL ?  0 : dstrect->y;
   // printf("blit surface is going \n");
+  #if(start_vedio)
   if((src_y + src_h) <= src->h && (dst_y + src_h) <= dst->h &&  (src_x + src_w) <= src->w && (dst_x + src_w) <= dst->w) {
     // printf("src x is %d src y is %d src w is %d src h is %d and dst_x is %d dst_y is %d\n",src_x,src_y,src_w,src_h,dst_x,dst_y);
     if(dst->format->BitsPerPixel == 32) {
@@ -35,6 +38,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
         }
     }
   }
+  #endif
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
@@ -44,6 +48,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   int src_x = dstrect == NULL ?  0 : dstrect->x;
   int src_y = dstrect == NULL ?  0 : dstrect->y; 
   // printf("src x is %d src y is %d src w is %d src h is %d and dst h is %d dst w is %d\n",src_x,src_y,src_w,src_h,dst->h,dst->w);
+   #if(start_vedio)
   if((dst->h >= (src_h + src_y)) && (dst->w >= (src_w + src_x))){
       // printf("surface size is %d\n",dst->w * dst->h);
       if(dst->format->BitsPerPixel == 32) {
@@ -61,6 +66,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
       }
      
   }
+  #endif
   // SDL_UpdateRect(dst,src_x,src_y,src_w,src_h);
 }
 
@@ -84,6 +90,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   //     printf("\n");
   //   }
   // }
+   #if(start_vedio)
   if(s->format->BitsPerPixel == 32) {
     NDL_DrawRect(s->pixels,x,y,w,h);
   }else if(s->format->BitsPerPixel == 8){
@@ -97,6 +104,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     free(pixels_data);
 
   }
+  #endif
     
 }
 
@@ -197,6 +205,7 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   // for(int i = 0;i< 256 ; i++)
   // printf("sbhxz\n");
   assert(dstrect);
+   #if(start_vedio)
   if((w == dstrect->w && h == dstrect->h) ) {
     /* The source rectangle and the destination rectangle
      * are of the same size. If that is the case, there
@@ -282,6 +291,7 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     }
     // assert(0);
   }
+  #endif
 }
 
 void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors, int firstcolor, int ncolors) {
