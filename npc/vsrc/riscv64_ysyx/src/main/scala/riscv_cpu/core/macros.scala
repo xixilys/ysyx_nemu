@@ -246,8 +246,14 @@ val id_csrrw   = 75.U
 val id_ecall   = 76.U
 val id_mret    = 77.U
 
+
+
+
 // fence inst
 val id_fence_i = id_mret + 1.U
+
+// my self_define  inst
+val id_accumulate = id_mret + 10.U
 
 val id_mynop = 80.U
 
@@ -274,6 +280,7 @@ val ALU_SUBU = 19.U
 val ALU_XOR  = 20.U
 
 //muldiv cmd def 
+//往里面塞一个累加器
 val MULDIV_DIVU   =  0.U
 val MULDIV_DIV    =  1.U
 val MULDIV_REMU   =  2.U
@@ -287,7 +294,8 @@ val MULDIV_MUL    =  9.U
 val MULDIV_MULH   =  10.U
 val MULDIV_MULHU  =  11.U
 val MULDIV_MULHSU =  12.U 
-
+// my self define cmd 
+val MULDIV_ACCUMULATE = 13.U
 
 
 

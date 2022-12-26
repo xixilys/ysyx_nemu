@@ -98,7 +98,10 @@ class cu extends Module with riscv_macros {
             "b000".U -> MuxLookup(Funct7D,id_null,Seq( 
                 "b0100000".U -> id_sub,
                 "b0000000".U -> id_add,
-                "b0000001".U -> id_mul
+                "b0000001".U -> id_mul,
+                //self_define inst change the func7
+                "b1100000".U -> id_accumulate
+                //self_define inst change the func7
             )),
             "b001".U -> MuxLookup(Funct7D,id_null,Seq( 
                 "b0000000".U -> id_sll,
@@ -288,6 +291,9 @@ io.RegWriteD := MuxLookup(ins_code,0.U,Seq(
         id_mulhsu -> 1.U,
         id_mulw   -> 1.U,
         id_add    -> 1.U,
+        //self define
+        id_accumulate -> 1.U,
+        //self define
         id_sll    -> 1.U,
         id_srl    -> 1.U,
         id_sra    -> 1.U,
@@ -485,7 +491,9 @@ io.RegWriteD := MuxLookup(ins_code,0.U,Seq(
         id_mul   -> MULDIV_MUL,
         id_mulh  -> MULDIV_MULH,
         id_mulhsu-> MULDIV_MULHSU,
-        id_mulhu -> MULDIV_MULHU
+        id_mulhu -> MULDIV_MULHU,
+        //self define inst
+        id_accumulate -> MULDIV_ACCUMULATE
     ).map{case(a,b) => (a,UIntToOH(b))})
 
     io.muldiv_cal := io.muldiv_control =/= 0.U
