@@ -280,7 +280,7 @@ import chisel3.util._
 // }
 
 class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{ //觉得除法器那一块有很多可以改的东西，但是怕改了出问题，还是不要改了吧
-
+    
     val io = IO(new Bundle { //有隐式的时钟与复位，并且复位为高电平复位
         //流水线中的延迟器
         val en  = Input(UInt(1.W))
@@ -295,16 +295,20 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
 
     })
     val cal_start_mul = RegInit(0.U.asBool)
+    val cal_start_accumulate = RegInit(0.U.asBool)
     val cal_end_mul = Wire(Bool())
     val cal_end_div = Wire(Bool())
+    val cal_end_accumulate = Wire(Bool())
     val cal_mul =   io.en.asBool &&  (  io.ctrl(MULDIV_MUL) || io.ctrl(MULDIV_MULHSU) || 
             io.ctrl(MULDIV_MULH)   || io.ctrl(MULDIV_MULHU) )
     val cal_div =   io.en.asBool &&  (  io.ctrl(MULDIV_DIV) || io.ctrl(MULDIV_DIVU) || 
              io.ctrl(MULDIV_REM)  || io.ctrl(MULDIV_REMU) )
     val cal_divw = io.en.asBool && (io.ctrl(MULDIV_DIVW)  || io.ctrl(MULDIV_DIVUW)  ||     io.ctrl(MULDIV_REMW)   || io.ctrl(MULDIV_REMUW)) 
-    val cal_mulw = io.en.asBool &&   io.ctrl(MULDIV_MULW)  
+    val cal_mulw = io.en.asBool &&   io.ctrl(MULDIV_MULW)
+    val cal_accumulate = io.en.asBool && io.ctrl(MULDIV_ACCUMULATE)  
     val cal_mul_result = Wire(UInt(64.W))
     val cal_div_result = Wire(UInt(64.W))
+    val cal_accumulate_result = Wire(UInt(64.W))
     val work_state  = RegInit(0.U(4.W))
     val state_idle = 0.U
     val state_cal_mul = 1.U
@@ -312,14 +316,18 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
     val state_cal_div = 3.U
     val state_cal_end = 4.U
     val state_cal_divw = 5.U
+    val state_cal_accumulate = 6.U
+
     val ctrl_data = RegInit(0.U(io.ctrl.getWidth.W))
     work_state := MuxCase(work_state,Seq(
         (cal_mul   && work_state === state_idle)->  state_cal_mul,
         (cal_mulw  && work_state === state_idle)->  state_cal_mulw,
         (cal_div   && work_state === state_idle)->  state_cal_div,
         (cal_divw  && work_state === state_idle)->  state_cal_divw,
+        (cal_accumulate && work_state === state_idle) -> state_cal_accumulate,
         (cal_end_mul && (work_state === state_cal_mul || work_state === state_cal_mulw)) -> state_cal_end,
         (cal_end_div  && (work_state === state_cal_div || work_state === state_cal_divw)) -> state_cal_end,
+        (cal_end_accumulate && (work_state === state_cal_accumulate))  -> state_cal_end,
         (work_state === state_cal_end)          ->  state_idle
     ))
     ctrl_data  := Mux(work_state === state_idle ,io.ctrl,ctrl_data)
@@ -388,14 +396,20 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
     }else if(div_type == "hard") {
 
     }
-
-    // val mulu_answer =  io.in1 * io.in2//Wire(UInt(64.W))
-    // val mul_answer = io.in1.asSInt * io.in2.asSInt
-    // val mulh_answer = mul_answer(data_length * 2 -1,data_length)
-    // val mulhu_answer = mulu_answer(data_length * 2 -1 , data_length)
-    // val mulhsu_answer = (io.in1.asSInt * io.in2.asUInt)(data_length * 2 -1 , data_length)
-    // val mulw_answer  = sign_extend(mulu_answer(31,0),32)
-    
+    val accumulate_module = Module(new accumulate_simple(64,4)).io
+    accumulate_module.signed := 1.U.asBool
+    accumulate_module.data(0) := io.in1
+    accumulate_module.data(1) := io.in2
+    accumulate_module.input_valid  := Mux(work_state === state_idle && cal_accumulate,1.U.asBool,0.U.asBool)
+    cal_end_accumulate := MuxCase(0.U.asBool,Seq(
+        (work_state === state_cal_accumulate && accumulate_module.Output_valid)   -> 1.U.asBool
+    ))
+    val cal_accumulate_reg = RegInit(0.U(64.W))
+    val access_accumulate_result = Mux1H(Seq(
+        ctrl_data(MULDIV_ACCUMULATE) -> accumulate_module.result
+    ))
+    cal_accumulate_result := Mux(cal_end_accumulate,access_accumulate_result,cal_accumulate_reg)
+    cal_accumulate_reg   := Mux(cal_end_accumulate,access_accumulate_result,cal_accumulate_reg)
 
 
     // val divu_answer  = (io.in1 / io.in2)(63,0) //Wire(UInt(64.W))
@@ -421,12 +435,13 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
         io.ctrl(MULDIV_MULW)  -> cal_mul_result,
         io.ctrl(MULDIV_MULH)  -> cal_mul_result,
         io.ctrl(MULDIV_MULHU) -> cal_mul_result,
-        io.ctrl(MULDIV_MULHSU)-> cal_mul_result
+        io.ctrl(MULDIV_MULHSU)-> cal_mul_result,
+        io.ctrl(MULDIV_ACCUMULATE)-> cal_accumulate_result
      ))
     // val pending_reg = RegInit(0.U.asBool())
     // pending_reg := Mux()
 
-    io.pending := (work_state =/= state_idle && work_state =/= state_cal_end) || (work_state === state_idle && (cal_mul || cal_mulw || cal_div || cal_divw) ) 
+    io.pending := (work_state =/= state_idle && work_state =/= state_cal_end) || (work_state === state_idle && (cal_mul || cal_mulw || cal_div || cal_divw || cal_accumulate) ) 
 
   
 }

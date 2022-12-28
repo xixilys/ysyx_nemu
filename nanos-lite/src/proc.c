@@ -27,7 +27,7 @@ void init_proc() {
 
 
   // load program here
-  naive_uload(current,"/bin/pal");
+  naive_uload(current,"/bin/accumulate_test");
 }
 
 Context* schedule(Context *prev) {
