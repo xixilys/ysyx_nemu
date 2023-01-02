@@ -145,7 +145,8 @@ class data_cache  extends Module with riscv_macros {
     // val all_invalid_counter = RegInit(0.U(sum_width.W))   
     //计数到满
     data_write_back_counter := MuxCase(data_write_back_counter,Seq(
-        (work_state === state_clear_all_cache_0 && !data_should_write_back) ->  (data_write_back_counter + 1.U),
+        (work_state === state_clear_all_cache_0 && !data_should_write_back && data_write_back_counter =/= 
+        (pow(2,data_write_back_counter.getWidth).toInt - 1).asUInt) ->  (data_write_back_counter + 1.U),
         (work_state === state_clear_all_cache_1)  ->   (data_write_back_counter + 1.U)
     ))//Mux(work_state === state_clear_all_cache_0 ,data_write_back_counter + 1.U,data_write_back_counter)
     // data

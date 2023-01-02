@@ -15,7 +15,7 @@
 #endif
 
 using namespace std;
-#define open_dump 0
+#define open_dump 1
 Vtop *top = new Vtop;
 VerilatedFstC* tfp = NULL;
 extern "C" void sim_init() {	

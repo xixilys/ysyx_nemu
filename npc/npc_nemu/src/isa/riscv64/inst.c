@@ -75,8 +75,7 @@ static int decode_exec(Decode *s) {
     single_cycle();
     counter++;
     //不可能连续10000个周期还不能够有指令commit，除非已经挂逼了
-    if(counter >= 5000) {
-
+    if(counter >= 100000) {
       sim_end();
       panic("受不了了");
     }

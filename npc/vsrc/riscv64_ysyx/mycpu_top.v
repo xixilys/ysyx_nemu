@@ -1,5 +1,8 @@
 /* verilator lint_off WIDTH */ 
 /* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
 module alu(
   input  [23:0] io_ctrl,
   input  [63:0] io_in1,
@@ -55751,274 +55754,275 @@ module data_cache(
   wire  _data_cache_under_write_back_T_4 = work_state == 5'h11 | work_state == 5'h15 | work_state == 5'h12; // @[data_cache.scala 143:121]
   wire  _data_cache_under_write_back_T_5 = work_state == 5'h13; // @[data_cache.scala 144:23]
   wire  data_cache_under_write_back = _data_cache_under_write_back_T_4 | work_state == 5'h13 | work_state == 5'h14; // @[data_cache.scala 144:53]
-  wire  _GEN_1 = 7'h1 == data_write_back_counter[6:0] ? way1_dirty_1 : way1_dirty_0; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_2 = 7'h2 == data_write_back_counter[6:0] ? way1_dirty_2 : _GEN_1; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_3 = 7'h3 == data_write_back_counter[6:0] ? way1_dirty_3 : _GEN_2; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_4 = 7'h4 == data_write_back_counter[6:0] ? way1_dirty_4 : _GEN_3; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_5 = 7'h5 == data_write_back_counter[6:0] ? way1_dirty_5 : _GEN_4; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_6 = 7'h6 == data_write_back_counter[6:0] ? way1_dirty_6 : _GEN_5; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_7 = 7'h7 == data_write_back_counter[6:0] ? way1_dirty_7 : _GEN_6; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_8 = 7'h8 == data_write_back_counter[6:0] ? way1_dirty_8 : _GEN_7; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_9 = 7'h9 == data_write_back_counter[6:0] ? way1_dirty_9 : _GEN_8; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_10 = 7'ha == data_write_back_counter[6:0] ? way1_dirty_10 : _GEN_9; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_11 = 7'hb == data_write_back_counter[6:0] ? way1_dirty_11 : _GEN_10; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_12 = 7'hc == data_write_back_counter[6:0] ? way1_dirty_12 : _GEN_11; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_13 = 7'hd == data_write_back_counter[6:0] ? way1_dirty_13 : _GEN_12; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_14 = 7'he == data_write_back_counter[6:0] ? way1_dirty_14 : _GEN_13; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_15 = 7'hf == data_write_back_counter[6:0] ? way1_dirty_15 : _GEN_14; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_16 = 7'h10 == data_write_back_counter[6:0] ? way1_dirty_16 : _GEN_15; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_17 = 7'h11 == data_write_back_counter[6:0] ? way1_dirty_17 : _GEN_16; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_18 = 7'h12 == data_write_back_counter[6:0] ? way1_dirty_18 : _GEN_17; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_19 = 7'h13 == data_write_back_counter[6:0] ? way1_dirty_19 : _GEN_18; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_20 = 7'h14 == data_write_back_counter[6:0] ? way1_dirty_20 : _GEN_19; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_21 = 7'h15 == data_write_back_counter[6:0] ? way1_dirty_21 : _GEN_20; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_22 = 7'h16 == data_write_back_counter[6:0] ? way1_dirty_22 : _GEN_21; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_23 = 7'h17 == data_write_back_counter[6:0] ? way1_dirty_23 : _GEN_22; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_24 = 7'h18 == data_write_back_counter[6:0] ? way1_dirty_24 : _GEN_23; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_25 = 7'h19 == data_write_back_counter[6:0] ? way1_dirty_25 : _GEN_24; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_26 = 7'h1a == data_write_back_counter[6:0] ? way1_dirty_26 : _GEN_25; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_27 = 7'h1b == data_write_back_counter[6:0] ? way1_dirty_27 : _GEN_26; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_28 = 7'h1c == data_write_back_counter[6:0] ? way1_dirty_28 : _GEN_27; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_29 = 7'h1d == data_write_back_counter[6:0] ? way1_dirty_29 : _GEN_28; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_30 = 7'h1e == data_write_back_counter[6:0] ? way1_dirty_30 : _GEN_29; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_31 = 7'h1f == data_write_back_counter[6:0] ? way1_dirty_31 : _GEN_30; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_32 = 7'h20 == data_write_back_counter[6:0] ? way1_dirty_32 : _GEN_31; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_33 = 7'h21 == data_write_back_counter[6:0] ? way1_dirty_33 : _GEN_32; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_34 = 7'h22 == data_write_back_counter[6:0] ? way1_dirty_34 : _GEN_33; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_35 = 7'h23 == data_write_back_counter[6:0] ? way1_dirty_35 : _GEN_34; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_36 = 7'h24 == data_write_back_counter[6:0] ? way1_dirty_36 : _GEN_35; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_37 = 7'h25 == data_write_back_counter[6:0] ? way1_dirty_37 : _GEN_36; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_38 = 7'h26 == data_write_back_counter[6:0] ? way1_dirty_38 : _GEN_37; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_39 = 7'h27 == data_write_back_counter[6:0] ? way1_dirty_39 : _GEN_38; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_40 = 7'h28 == data_write_back_counter[6:0] ? way1_dirty_40 : _GEN_39; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_41 = 7'h29 == data_write_back_counter[6:0] ? way1_dirty_41 : _GEN_40; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_42 = 7'h2a == data_write_back_counter[6:0] ? way1_dirty_42 : _GEN_41; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_43 = 7'h2b == data_write_back_counter[6:0] ? way1_dirty_43 : _GEN_42; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_44 = 7'h2c == data_write_back_counter[6:0] ? way1_dirty_44 : _GEN_43; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_45 = 7'h2d == data_write_back_counter[6:0] ? way1_dirty_45 : _GEN_44; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_46 = 7'h2e == data_write_back_counter[6:0] ? way1_dirty_46 : _GEN_45; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_47 = 7'h2f == data_write_back_counter[6:0] ? way1_dirty_47 : _GEN_46; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_48 = 7'h30 == data_write_back_counter[6:0] ? way1_dirty_48 : _GEN_47; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_49 = 7'h31 == data_write_back_counter[6:0] ? way1_dirty_49 : _GEN_48; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_50 = 7'h32 == data_write_back_counter[6:0] ? way1_dirty_50 : _GEN_49; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_51 = 7'h33 == data_write_back_counter[6:0] ? way1_dirty_51 : _GEN_50; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_52 = 7'h34 == data_write_back_counter[6:0] ? way1_dirty_52 : _GEN_51; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_53 = 7'h35 == data_write_back_counter[6:0] ? way1_dirty_53 : _GEN_52; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_54 = 7'h36 == data_write_back_counter[6:0] ? way1_dirty_54 : _GEN_53; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_55 = 7'h37 == data_write_back_counter[6:0] ? way1_dirty_55 : _GEN_54; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_56 = 7'h38 == data_write_back_counter[6:0] ? way1_dirty_56 : _GEN_55; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_57 = 7'h39 == data_write_back_counter[6:0] ? way1_dirty_57 : _GEN_56; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_58 = 7'h3a == data_write_back_counter[6:0] ? way1_dirty_58 : _GEN_57; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_59 = 7'h3b == data_write_back_counter[6:0] ? way1_dirty_59 : _GEN_58; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_60 = 7'h3c == data_write_back_counter[6:0] ? way1_dirty_60 : _GEN_59; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_61 = 7'h3d == data_write_back_counter[6:0] ? way1_dirty_61 : _GEN_60; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_62 = 7'h3e == data_write_back_counter[6:0] ? way1_dirty_62 : _GEN_61; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_63 = 7'h3f == data_write_back_counter[6:0] ? way1_dirty_63 : _GEN_62; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_64 = 7'h40 == data_write_back_counter[6:0] ? way1_dirty_64 : _GEN_63; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_65 = 7'h41 == data_write_back_counter[6:0] ? way1_dirty_65 : _GEN_64; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_66 = 7'h42 == data_write_back_counter[6:0] ? way1_dirty_66 : _GEN_65; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_67 = 7'h43 == data_write_back_counter[6:0] ? way1_dirty_67 : _GEN_66; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_68 = 7'h44 == data_write_back_counter[6:0] ? way1_dirty_68 : _GEN_67; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_69 = 7'h45 == data_write_back_counter[6:0] ? way1_dirty_69 : _GEN_68; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_70 = 7'h46 == data_write_back_counter[6:0] ? way1_dirty_70 : _GEN_69; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_71 = 7'h47 == data_write_back_counter[6:0] ? way1_dirty_71 : _GEN_70; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_72 = 7'h48 == data_write_back_counter[6:0] ? way1_dirty_72 : _GEN_71; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_73 = 7'h49 == data_write_back_counter[6:0] ? way1_dirty_73 : _GEN_72; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_74 = 7'h4a == data_write_back_counter[6:0] ? way1_dirty_74 : _GEN_73; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_75 = 7'h4b == data_write_back_counter[6:0] ? way1_dirty_75 : _GEN_74; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_76 = 7'h4c == data_write_back_counter[6:0] ? way1_dirty_76 : _GEN_75; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_77 = 7'h4d == data_write_back_counter[6:0] ? way1_dirty_77 : _GEN_76; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_78 = 7'h4e == data_write_back_counter[6:0] ? way1_dirty_78 : _GEN_77; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_79 = 7'h4f == data_write_back_counter[6:0] ? way1_dirty_79 : _GEN_78; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_80 = 7'h50 == data_write_back_counter[6:0] ? way1_dirty_80 : _GEN_79; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_81 = 7'h51 == data_write_back_counter[6:0] ? way1_dirty_81 : _GEN_80; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_82 = 7'h52 == data_write_back_counter[6:0] ? way1_dirty_82 : _GEN_81; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_83 = 7'h53 == data_write_back_counter[6:0] ? way1_dirty_83 : _GEN_82; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_84 = 7'h54 == data_write_back_counter[6:0] ? way1_dirty_84 : _GEN_83; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_85 = 7'h55 == data_write_back_counter[6:0] ? way1_dirty_85 : _GEN_84; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_86 = 7'h56 == data_write_back_counter[6:0] ? way1_dirty_86 : _GEN_85; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_87 = 7'h57 == data_write_back_counter[6:0] ? way1_dirty_87 : _GEN_86; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_88 = 7'h58 == data_write_back_counter[6:0] ? way1_dirty_88 : _GEN_87; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_89 = 7'h59 == data_write_back_counter[6:0] ? way1_dirty_89 : _GEN_88; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_90 = 7'h5a == data_write_back_counter[6:0] ? way1_dirty_90 : _GEN_89; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_91 = 7'h5b == data_write_back_counter[6:0] ? way1_dirty_91 : _GEN_90; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_92 = 7'h5c == data_write_back_counter[6:0] ? way1_dirty_92 : _GEN_91; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_93 = 7'h5d == data_write_back_counter[6:0] ? way1_dirty_93 : _GEN_92; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_94 = 7'h5e == data_write_back_counter[6:0] ? way1_dirty_94 : _GEN_93; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_95 = 7'h5f == data_write_back_counter[6:0] ? way1_dirty_95 : _GEN_94; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_96 = 7'h60 == data_write_back_counter[6:0] ? way1_dirty_96 : _GEN_95; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_97 = 7'h61 == data_write_back_counter[6:0] ? way1_dirty_97 : _GEN_96; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_98 = 7'h62 == data_write_back_counter[6:0] ? way1_dirty_98 : _GEN_97; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_99 = 7'h63 == data_write_back_counter[6:0] ? way1_dirty_99 : _GEN_98; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_100 = 7'h64 == data_write_back_counter[6:0] ? way1_dirty_100 : _GEN_99; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_101 = 7'h65 == data_write_back_counter[6:0] ? way1_dirty_101 : _GEN_100; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_102 = 7'h66 == data_write_back_counter[6:0] ? way1_dirty_102 : _GEN_101; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_103 = 7'h67 == data_write_back_counter[6:0] ? way1_dirty_103 : _GEN_102; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_104 = 7'h68 == data_write_back_counter[6:0] ? way1_dirty_104 : _GEN_103; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_105 = 7'h69 == data_write_back_counter[6:0] ? way1_dirty_105 : _GEN_104; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_106 = 7'h6a == data_write_back_counter[6:0] ? way1_dirty_106 : _GEN_105; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_107 = 7'h6b == data_write_back_counter[6:0] ? way1_dirty_107 : _GEN_106; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_108 = 7'h6c == data_write_back_counter[6:0] ? way1_dirty_108 : _GEN_107; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_109 = 7'h6d == data_write_back_counter[6:0] ? way1_dirty_109 : _GEN_108; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_110 = 7'h6e == data_write_back_counter[6:0] ? way1_dirty_110 : _GEN_109; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_111 = 7'h6f == data_write_back_counter[6:0] ? way1_dirty_111 : _GEN_110; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_112 = 7'h70 == data_write_back_counter[6:0] ? way1_dirty_112 : _GEN_111; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_113 = 7'h71 == data_write_back_counter[6:0] ? way1_dirty_113 : _GEN_112; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_114 = 7'h72 == data_write_back_counter[6:0] ? way1_dirty_114 : _GEN_113; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_115 = 7'h73 == data_write_back_counter[6:0] ? way1_dirty_115 : _GEN_114; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_116 = 7'h74 == data_write_back_counter[6:0] ? way1_dirty_116 : _GEN_115; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_117 = 7'h75 == data_write_back_counter[6:0] ? way1_dirty_117 : _GEN_116; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_118 = 7'h76 == data_write_back_counter[6:0] ? way1_dirty_118 : _GEN_117; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_119 = 7'h77 == data_write_back_counter[6:0] ? way1_dirty_119 : _GEN_118; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_120 = 7'h78 == data_write_back_counter[6:0] ? way1_dirty_120 : _GEN_119; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_121 = 7'h79 == data_write_back_counter[6:0] ? way1_dirty_121 : _GEN_120; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_122 = 7'h7a == data_write_back_counter[6:0] ? way1_dirty_122 : _GEN_121; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_123 = 7'h7b == data_write_back_counter[6:0] ? way1_dirty_123 : _GEN_122; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_124 = 7'h7c == data_write_back_counter[6:0] ? way1_dirty_124 : _GEN_123; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_125 = 7'h7d == data_write_back_counter[6:0] ? way1_dirty_125 : _GEN_124; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_126 = 7'h7e == data_write_back_counter[6:0] ? way1_dirty_126 : _GEN_125; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_127 = 7'h7f == data_write_back_counter[6:0] ? way1_dirty_127 : _GEN_126; // @[data_cache.scala 154:{149,149}]
-  wire  _GEN_129 = 7'h1 == data_write_back_counter[6:0] ? way0_dirty_1 : way0_dirty_0; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_130 = 7'h2 == data_write_back_counter[6:0] ? way0_dirty_2 : _GEN_129; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_131 = 7'h3 == data_write_back_counter[6:0] ? way0_dirty_3 : _GEN_130; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_132 = 7'h4 == data_write_back_counter[6:0] ? way0_dirty_4 : _GEN_131; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_133 = 7'h5 == data_write_back_counter[6:0] ? way0_dirty_5 : _GEN_132; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_134 = 7'h6 == data_write_back_counter[6:0] ? way0_dirty_6 : _GEN_133; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_135 = 7'h7 == data_write_back_counter[6:0] ? way0_dirty_7 : _GEN_134; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_136 = 7'h8 == data_write_back_counter[6:0] ? way0_dirty_8 : _GEN_135; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_137 = 7'h9 == data_write_back_counter[6:0] ? way0_dirty_9 : _GEN_136; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_138 = 7'ha == data_write_back_counter[6:0] ? way0_dirty_10 : _GEN_137; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_139 = 7'hb == data_write_back_counter[6:0] ? way0_dirty_11 : _GEN_138; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_140 = 7'hc == data_write_back_counter[6:0] ? way0_dirty_12 : _GEN_139; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_141 = 7'hd == data_write_back_counter[6:0] ? way0_dirty_13 : _GEN_140; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_142 = 7'he == data_write_back_counter[6:0] ? way0_dirty_14 : _GEN_141; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_143 = 7'hf == data_write_back_counter[6:0] ? way0_dirty_15 : _GEN_142; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_144 = 7'h10 == data_write_back_counter[6:0] ? way0_dirty_16 : _GEN_143; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_145 = 7'h11 == data_write_back_counter[6:0] ? way0_dirty_17 : _GEN_144; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_146 = 7'h12 == data_write_back_counter[6:0] ? way0_dirty_18 : _GEN_145; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_147 = 7'h13 == data_write_back_counter[6:0] ? way0_dirty_19 : _GEN_146; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_148 = 7'h14 == data_write_back_counter[6:0] ? way0_dirty_20 : _GEN_147; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_149 = 7'h15 == data_write_back_counter[6:0] ? way0_dirty_21 : _GEN_148; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_150 = 7'h16 == data_write_back_counter[6:0] ? way0_dirty_22 : _GEN_149; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_151 = 7'h17 == data_write_back_counter[6:0] ? way0_dirty_23 : _GEN_150; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_152 = 7'h18 == data_write_back_counter[6:0] ? way0_dirty_24 : _GEN_151; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_153 = 7'h19 == data_write_back_counter[6:0] ? way0_dirty_25 : _GEN_152; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_154 = 7'h1a == data_write_back_counter[6:0] ? way0_dirty_26 : _GEN_153; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_155 = 7'h1b == data_write_back_counter[6:0] ? way0_dirty_27 : _GEN_154; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_156 = 7'h1c == data_write_back_counter[6:0] ? way0_dirty_28 : _GEN_155; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_157 = 7'h1d == data_write_back_counter[6:0] ? way0_dirty_29 : _GEN_156; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_158 = 7'h1e == data_write_back_counter[6:0] ? way0_dirty_30 : _GEN_157; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_159 = 7'h1f == data_write_back_counter[6:0] ? way0_dirty_31 : _GEN_158; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_160 = 7'h20 == data_write_back_counter[6:0] ? way0_dirty_32 : _GEN_159; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_161 = 7'h21 == data_write_back_counter[6:0] ? way0_dirty_33 : _GEN_160; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_162 = 7'h22 == data_write_back_counter[6:0] ? way0_dirty_34 : _GEN_161; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_163 = 7'h23 == data_write_back_counter[6:0] ? way0_dirty_35 : _GEN_162; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_164 = 7'h24 == data_write_back_counter[6:0] ? way0_dirty_36 : _GEN_163; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_165 = 7'h25 == data_write_back_counter[6:0] ? way0_dirty_37 : _GEN_164; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_166 = 7'h26 == data_write_back_counter[6:0] ? way0_dirty_38 : _GEN_165; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_167 = 7'h27 == data_write_back_counter[6:0] ? way0_dirty_39 : _GEN_166; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_168 = 7'h28 == data_write_back_counter[6:0] ? way0_dirty_40 : _GEN_167; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_169 = 7'h29 == data_write_back_counter[6:0] ? way0_dirty_41 : _GEN_168; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_170 = 7'h2a == data_write_back_counter[6:0] ? way0_dirty_42 : _GEN_169; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_171 = 7'h2b == data_write_back_counter[6:0] ? way0_dirty_43 : _GEN_170; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_172 = 7'h2c == data_write_back_counter[6:0] ? way0_dirty_44 : _GEN_171; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_173 = 7'h2d == data_write_back_counter[6:0] ? way0_dirty_45 : _GEN_172; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_174 = 7'h2e == data_write_back_counter[6:0] ? way0_dirty_46 : _GEN_173; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_175 = 7'h2f == data_write_back_counter[6:0] ? way0_dirty_47 : _GEN_174; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_176 = 7'h30 == data_write_back_counter[6:0] ? way0_dirty_48 : _GEN_175; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_177 = 7'h31 == data_write_back_counter[6:0] ? way0_dirty_49 : _GEN_176; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_178 = 7'h32 == data_write_back_counter[6:0] ? way0_dirty_50 : _GEN_177; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_179 = 7'h33 == data_write_back_counter[6:0] ? way0_dirty_51 : _GEN_178; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_180 = 7'h34 == data_write_back_counter[6:0] ? way0_dirty_52 : _GEN_179; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_181 = 7'h35 == data_write_back_counter[6:0] ? way0_dirty_53 : _GEN_180; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_182 = 7'h36 == data_write_back_counter[6:0] ? way0_dirty_54 : _GEN_181; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_183 = 7'h37 == data_write_back_counter[6:0] ? way0_dirty_55 : _GEN_182; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_184 = 7'h38 == data_write_back_counter[6:0] ? way0_dirty_56 : _GEN_183; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_185 = 7'h39 == data_write_back_counter[6:0] ? way0_dirty_57 : _GEN_184; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_186 = 7'h3a == data_write_back_counter[6:0] ? way0_dirty_58 : _GEN_185; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_187 = 7'h3b == data_write_back_counter[6:0] ? way0_dirty_59 : _GEN_186; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_188 = 7'h3c == data_write_back_counter[6:0] ? way0_dirty_60 : _GEN_187; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_189 = 7'h3d == data_write_back_counter[6:0] ? way0_dirty_61 : _GEN_188; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_190 = 7'h3e == data_write_back_counter[6:0] ? way0_dirty_62 : _GEN_189; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_191 = 7'h3f == data_write_back_counter[6:0] ? way0_dirty_63 : _GEN_190; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_192 = 7'h40 == data_write_back_counter[6:0] ? way0_dirty_64 : _GEN_191; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_193 = 7'h41 == data_write_back_counter[6:0] ? way0_dirty_65 : _GEN_192; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_194 = 7'h42 == data_write_back_counter[6:0] ? way0_dirty_66 : _GEN_193; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_195 = 7'h43 == data_write_back_counter[6:0] ? way0_dirty_67 : _GEN_194; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_196 = 7'h44 == data_write_back_counter[6:0] ? way0_dirty_68 : _GEN_195; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_197 = 7'h45 == data_write_back_counter[6:0] ? way0_dirty_69 : _GEN_196; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_198 = 7'h46 == data_write_back_counter[6:0] ? way0_dirty_70 : _GEN_197; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_199 = 7'h47 == data_write_back_counter[6:0] ? way0_dirty_71 : _GEN_198; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_200 = 7'h48 == data_write_back_counter[6:0] ? way0_dirty_72 : _GEN_199; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_201 = 7'h49 == data_write_back_counter[6:0] ? way0_dirty_73 : _GEN_200; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_202 = 7'h4a == data_write_back_counter[6:0] ? way0_dirty_74 : _GEN_201; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_203 = 7'h4b == data_write_back_counter[6:0] ? way0_dirty_75 : _GEN_202; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_204 = 7'h4c == data_write_back_counter[6:0] ? way0_dirty_76 : _GEN_203; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_205 = 7'h4d == data_write_back_counter[6:0] ? way0_dirty_77 : _GEN_204; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_206 = 7'h4e == data_write_back_counter[6:0] ? way0_dirty_78 : _GEN_205; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_207 = 7'h4f == data_write_back_counter[6:0] ? way0_dirty_79 : _GEN_206; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_208 = 7'h50 == data_write_back_counter[6:0] ? way0_dirty_80 : _GEN_207; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_209 = 7'h51 == data_write_back_counter[6:0] ? way0_dirty_81 : _GEN_208; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_210 = 7'h52 == data_write_back_counter[6:0] ? way0_dirty_82 : _GEN_209; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_211 = 7'h53 == data_write_back_counter[6:0] ? way0_dirty_83 : _GEN_210; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_212 = 7'h54 == data_write_back_counter[6:0] ? way0_dirty_84 : _GEN_211; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_213 = 7'h55 == data_write_back_counter[6:0] ? way0_dirty_85 : _GEN_212; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_214 = 7'h56 == data_write_back_counter[6:0] ? way0_dirty_86 : _GEN_213; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_215 = 7'h57 == data_write_back_counter[6:0] ? way0_dirty_87 : _GEN_214; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_216 = 7'h58 == data_write_back_counter[6:0] ? way0_dirty_88 : _GEN_215; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_217 = 7'h59 == data_write_back_counter[6:0] ? way0_dirty_89 : _GEN_216; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_218 = 7'h5a == data_write_back_counter[6:0] ? way0_dirty_90 : _GEN_217; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_219 = 7'h5b == data_write_back_counter[6:0] ? way0_dirty_91 : _GEN_218; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_220 = 7'h5c == data_write_back_counter[6:0] ? way0_dirty_92 : _GEN_219; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_221 = 7'h5d == data_write_back_counter[6:0] ? way0_dirty_93 : _GEN_220; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_222 = 7'h5e == data_write_back_counter[6:0] ? way0_dirty_94 : _GEN_221; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_223 = 7'h5f == data_write_back_counter[6:0] ? way0_dirty_95 : _GEN_222; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_224 = 7'h60 == data_write_back_counter[6:0] ? way0_dirty_96 : _GEN_223; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_225 = 7'h61 == data_write_back_counter[6:0] ? way0_dirty_97 : _GEN_224; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_226 = 7'h62 == data_write_back_counter[6:0] ? way0_dirty_98 : _GEN_225; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_227 = 7'h63 == data_write_back_counter[6:0] ? way0_dirty_99 : _GEN_226; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_228 = 7'h64 == data_write_back_counter[6:0] ? way0_dirty_100 : _GEN_227; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_229 = 7'h65 == data_write_back_counter[6:0] ? way0_dirty_101 : _GEN_228; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_230 = 7'h66 == data_write_back_counter[6:0] ? way0_dirty_102 : _GEN_229; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_231 = 7'h67 == data_write_back_counter[6:0] ? way0_dirty_103 : _GEN_230; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_232 = 7'h68 == data_write_back_counter[6:0] ? way0_dirty_104 : _GEN_231; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_233 = 7'h69 == data_write_back_counter[6:0] ? way0_dirty_105 : _GEN_232; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_234 = 7'h6a == data_write_back_counter[6:0] ? way0_dirty_106 : _GEN_233; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_235 = 7'h6b == data_write_back_counter[6:0] ? way0_dirty_107 : _GEN_234; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_236 = 7'h6c == data_write_back_counter[6:0] ? way0_dirty_108 : _GEN_235; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_237 = 7'h6d == data_write_back_counter[6:0] ? way0_dirty_109 : _GEN_236; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_238 = 7'h6e == data_write_back_counter[6:0] ? way0_dirty_110 : _GEN_237; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_239 = 7'h6f == data_write_back_counter[6:0] ? way0_dirty_111 : _GEN_238; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_240 = 7'h70 == data_write_back_counter[6:0] ? way0_dirty_112 : _GEN_239; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_241 = 7'h71 == data_write_back_counter[6:0] ? way0_dirty_113 : _GEN_240; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_242 = 7'h72 == data_write_back_counter[6:0] ? way0_dirty_114 : _GEN_241; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_243 = 7'h73 == data_write_back_counter[6:0] ? way0_dirty_115 : _GEN_242; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_244 = 7'h74 == data_write_back_counter[6:0] ? way0_dirty_116 : _GEN_243; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_245 = 7'h75 == data_write_back_counter[6:0] ? way0_dirty_117 : _GEN_244; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_246 = 7'h76 == data_write_back_counter[6:0] ? way0_dirty_118 : _GEN_245; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_247 = 7'h77 == data_write_back_counter[6:0] ? way0_dirty_119 : _GEN_246; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_248 = 7'h78 == data_write_back_counter[6:0] ? way0_dirty_120 : _GEN_247; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_249 = 7'h79 == data_write_back_counter[6:0] ? way0_dirty_121 : _GEN_248; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_250 = 7'h7a == data_write_back_counter[6:0] ? way0_dirty_122 : _GEN_249; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_251 = 7'h7b == data_write_back_counter[6:0] ? way0_dirty_123 : _GEN_250; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_252 = 7'h7c == data_write_back_counter[6:0] ? way0_dirty_124 : _GEN_251; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_253 = 7'h7d == data_write_back_counter[6:0] ? way0_dirty_125 : _GEN_252; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_254 = 7'h7e == data_write_back_counter[6:0] ? way0_dirty_126 : _GEN_253; // @[data_cache.scala 155:{87,87}]
-  wire  _GEN_255 = 7'h7f == data_write_back_counter[6:0] ? way0_dirty_127 : _GEN_254; // @[data_cache.scala 155:{87,87}]
-  wire  _data_should_write_back_T_6 = dcache_tag_io_w_valid & _GEN_255; // @[data_cache.scala 155:30]
+  wire  _GEN_1 = 7'h1 == data_write_back_counter[6:0] ? way1_dirty_1 : way1_dirty_0; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_2 = 7'h2 == data_write_back_counter[6:0] ? way1_dirty_2 : _GEN_1; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_3 = 7'h3 == data_write_back_counter[6:0] ? way1_dirty_3 : _GEN_2; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_4 = 7'h4 == data_write_back_counter[6:0] ? way1_dirty_4 : _GEN_3; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_5 = 7'h5 == data_write_back_counter[6:0] ? way1_dirty_5 : _GEN_4; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_6 = 7'h6 == data_write_back_counter[6:0] ? way1_dirty_6 : _GEN_5; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_7 = 7'h7 == data_write_back_counter[6:0] ? way1_dirty_7 : _GEN_6; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_8 = 7'h8 == data_write_back_counter[6:0] ? way1_dirty_8 : _GEN_7; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_9 = 7'h9 == data_write_back_counter[6:0] ? way1_dirty_9 : _GEN_8; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_10 = 7'ha == data_write_back_counter[6:0] ? way1_dirty_10 : _GEN_9; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_11 = 7'hb == data_write_back_counter[6:0] ? way1_dirty_11 : _GEN_10; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_12 = 7'hc == data_write_back_counter[6:0] ? way1_dirty_12 : _GEN_11; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_13 = 7'hd == data_write_back_counter[6:0] ? way1_dirty_13 : _GEN_12; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_14 = 7'he == data_write_back_counter[6:0] ? way1_dirty_14 : _GEN_13; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_15 = 7'hf == data_write_back_counter[6:0] ? way1_dirty_15 : _GEN_14; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_16 = 7'h10 == data_write_back_counter[6:0] ? way1_dirty_16 : _GEN_15; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_17 = 7'h11 == data_write_back_counter[6:0] ? way1_dirty_17 : _GEN_16; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_18 = 7'h12 == data_write_back_counter[6:0] ? way1_dirty_18 : _GEN_17; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_19 = 7'h13 == data_write_back_counter[6:0] ? way1_dirty_19 : _GEN_18; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_20 = 7'h14 == data_write_back_counter[6:0] ? way1_dirty_20 : _GEN_19; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_21 = 7'h15 == data_write_back_counter[6:0] ? way1_dirty_21 : _GEN_20; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_22 = 7'h16 == data_write_back_counter[6:0] ? way1_dirty_22 : _GEN_21; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_23 = 7'h17 == data_write_back_counter[6:0] ? way1_dirty_23 : _GEN_22; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_24 = 7'h18 == data_write_back_counter[6:0] ? way1_dirty_24 : _GEN_23; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_25 = 7'h19 == data_write_back_counter[6:0] ? way1_dirty_25 : _GEN_24; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_26 = 7'h1a == data_write_back_counter[6:0] ? way1_dirty_26 : _GEN_25; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_27 = 7'h1b == data_write_back_counter[6:0] ? way1_dirty_27 : _GEN_26; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_28 = 7'h1c == data_write_back_counter[6:0] ? way1_dirty_28 : _GEN_27; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_29 = 7'h1d == data_write_back_counter[6:0] ? way1_dirty_29 : _GEN_28; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_30 = 7'h1e == data_write_back_counter[6:0] ? way1_dirty_30 : _GEN_29; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_31 = 7'h1f == data_write_back_counter[6:0] ? way1_dirty_31 : _GEN_30; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_32 = 7'h20 == data_write_back_counter[6:0] ? way1_dirty_32 : _GEN_31; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_33 = 7'h21 == data_write_back_counter[6:0] ? way1_dirty_33 : _GEN_32; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_34 = 7'h22 == data_write_back_counter[6:0] ? way1_dirty_34 : _GEN_33; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_35 = 7'h23 == data_write_back_counter[6:0] ? way1_dirty_35 : _GEN_34; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_36 = 7'h24 == data_write_back_counter[6:0] ? way1_dirty_36 : _GEN_35; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_37 = 7'h25 == data_write_back_counter[6:0] ? way1_dirty_37 : _GEN_36; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_38 = 7'h26 == data_write_back_counter[6:0] ? way1_dirty_38 : _GEN_37; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_39 = 7'h27 == data_write_back_counter[6:0] ? way1_dirty_39 : _GEN_38; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_40 = 7'h28 == data_write_back_counter[6:0] ? way1_dirty_40 : _GEN_39; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_41 = 7'h29 == data_write_back_counter[6:0] ? way1_dirty_41 : _GEN_40; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_42 = 7'h2a == data_write_back_counter[6:0] ? way1_dirty_42 : _GEN_41; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_43 = 7'h2b == data_write_back_counter[6:0] ? way1_dirty_43 : _GEN_42; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_44 = 7'h2c == data_write_back_counter[6:0] ? way1_dirty_44 : _GEN_43; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_45 = 7'h2d == data_write_back_counter[6:0] ? way1_dirty_45 : _GEN_44; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_46 = 7'h2e == data_write_back_counter[6:0] ? way1_dirty_46 : _GEN_45; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_47 = 7'h2f == data_write_back_counter[6:0] ? way1_dirty_47 : _GEN_46; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_48 = 7'h30 == data_write_back_counter[6:0] ? way1_dirty_48 : _GEN_47; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_49 = 7'h31 == data_write_back_counter[6:0] ? way1_dirty_49 : _GEN_48; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_50 = 7'h32 == data_write_back_counter[6:0] ? way1_dirty_50 : _GEN_49; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_51 = 7'h33 == data_write_back_counter[6:0] ? way1_dirty_51 : _GEN_50; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_52 = 7'h34 == data_write_back_counter[6:0] ? way1_dirty_52 : _GEN_51; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_53 = 7'h35 == data_write_back_counter[6:0] ? way1_dirty_53 : _GEN_52; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_54 = 7'h36 == data_write_back_counter[6:0] ? way1_dirty_54 : _GEN_53; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_55 = 7'h37 == data_write_back_counter[6:0] ? way1_dirty_55 : _GEN_54; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_56 = 7'h38 == data_write_back_counter[6:0] ? way1_dirty_56 : _GEN_55; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_57 = 7'h39 == data_write_back_counter[6:0] ? way1_dirty_57 : _GEN_56; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_58 = 7'h3a == data_write_back_counter[6:0] ? way1_dirty_58 : _GEN_57; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_59 = 7'h3b == data_write_back_counter[6:0] ? way1_dirty_59 : _GEN_58; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_60 = 7'h3c == data_write_back_counter[6:0] ? way1_dirty_60 : _GEN_59; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_61 = 7'h3d == data_write_back_counter[6:0] ? way1_dirty_61 : _GEN_60; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_62 = 7'h3e == data_write_back_counter[6:0] ? way1_dirty_62 : _GEN_61; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_63 = 7'h3f == data_write_back_counter[6:0] ? way1_dirty_63 : _GEN_62; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_64 = 7'h40 == data_write_back_counter[6:0] ? way1_dirty_64 : _GEN_63; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_65 = 7'h41 == data_write_back_counter[6:0] ? way1_dirty_65 : _GEN_64; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_66 = 7'h42 == data_write_back_counter[6:0] ? way1_dirty_66 : _GEN_65; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_67 = 7'h43 == data_write_back_counter[6:0] ? way1_dirty_67 : _GEN_66; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_68 = 7'h44 == data_write_back_counter[6:0] ? way1_dirty_68 : _GEN_67; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_69 = 7'h45 == data_write_back_counter[6:0] ? way1_dirty_69 : _GEN_68; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_70 = 7'h46 == data_write_back_counter[6:0] ? way1_dirty_70 : _GEN_69; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_71 = 7'h47 == data_write_back_counter[6:0] ? way1_dirty_71 : _GEN_70; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_72 = 7'h48 == data_write_back_counter[6:0] ? way1_dirty_72 : _GEN_71; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_73 = 7'h49 == data_write_back_counter[6:0] ? way1_dirty_73 : _GEN_72; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_74 = 7'h4a == data_write_back_counter[6:0] ? way1_dirty_74 : _GEN_73; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_75 = 7'h4b == data_write_back_counter[6:0] ? way1_dirty_75 : _GEN_74; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_76 = 7'h4c == data_write_back_counter[6:0] ? way1_dirty_76 : _GEN_75; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_77 = 7'h4d == data_write_back_counter[6:0] ? way1_dirty_77 : _GEN_76; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_78 = 7'h4e == data_write_back_counter[6:0] ? way1_dirty_78 : _GEN_77; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_79 = 7'h4f == data_write_back_counter[6:0] ? way1_dirty_79 : _GEN_78; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_80 = 7'h50 == data_write_back_counter[6:0] ? way1_dirty_80 : _GEN_79; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_81 = 7'h51 == data_write_back_counter[6:0] ? way1_dirty_81 : _GEN_80; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_82 = 7'h52 == data_write_back_counter[6:0] ? way1_dirty_82 : _GEN_81; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_83 = 7'h53 == data_write_back_counter[6:0] ? way1_dirty_83 : _GEN_82; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_84 = 7'h54 == data_write_back_counter[6:0] ? way1_dirty_84 : _GEN_83; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_85 = 7'h55 == data_write_back_counter[6:0] ? way1_dirty_85 : _GEN_84; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_86 = 7'h56 == data_write_back_counter[6:0] ? way1_dirty_86 : _GEN_85; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_87 = 7'h57 == data_write_back_counter[6:0] ? way1_dirty_87 : _GEN_86; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_88 = 7'h58 == data_write_back_counter[6:0] ? way1_dirty_88 : _GEN_87; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_89 = 7'h59 == data_write_back_counter[6:0] ? way1_dirty_89 : _GEN_88; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_90 = 7'h5a == data_write_back_counter[6:0] ? way1_dirty_90 : _GEN_89; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_91 = 7'h5b == data_write_back_counter[6:0] ? way1_dirty_91 : _GEN_90; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_92 = 7'h5c == data_write_back_counter[6:0] ? way1_dirty_92 : _GEN_91; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_93 = 7'h5d == data_write_back_counter[6:0] ? way1_dirty_93 : _GEN_92; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_94 = 7'h5e == data_write_back_counter[6:0] ? way1_dirty_94 : _GEN_93; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_95 = 7'h5f == data_write_back_counter[6:0] ? way1_dirty_95 : _GEN_94; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_96 = 7'h60 == data_write_back_counter[6:0] ? way1_dirty_96 : _GEN_95; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_97 = 7'h61 == data_write_back_counter[6:0] ? way1_dirty_97 : _GEN_96; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_98 = 7'h62 == data_write_back_counter[6:0] ? way1_dirty_98 : _GEN_97; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_99 = 7'h63 == data_write_back_counter[6:0] ? way1_dirty_99 : _GEN_98; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_100 = 7'h64 == data_write_back_counter[6:0] ? way1_dirty_100 : _GEN_99; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_101 = 7'h65 == data_write_back_counter[6:0] ? way1_dirty_101 : _GEN_100; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_102 = 7'h66 == data_write_back_counter[6:0] ? way1_dirty_102 : _GEN_101; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_103 = 7'h67 == data_write_back_counter[6:0] ? way1_dirty_103 : _GEN_102; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_104 = 7'h68 == data_write_back_counter[6:0] ? way1_dirty_104 : _GEN_103; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_105 = 7'h69 == data_write_back_counter[6:0] ? way1_dirty_105 : _GEN_104; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_106 = 7'h6a == data_write_back_counter[6:0] ? way1_dirty_106 : _GEN_105; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_107 = 7'h6b == data_write_back_counter[6:0] ? way1_dirty_107 : _GEN_106; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_108 = 7'h6c == data_write_back_counter[6:0] ? way1_dirty_108 : _GEN_107; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_109 = 7'h6d == data_write_back_counter[6:0] ? way1_dirty_109 : _GEN_108; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_110 = 7'h6e == data_write_back_counter[6:0] ? way1_dirty_110 : _GEN_109; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_111 = 7'h6f == data_write_back_counter[6:0] ? way1_dirty_111 : _GEN_110; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_112 = 7'h70 == data_write_back_counter[6:0] ? way1_dirty_112 : _GEN_111; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_113 = 7'h71 == data_write_back_counter[6:0] ? way1_dirty_113 : _GEN_112; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_114 = 7'h72 == data_write_back_counter[6:0] ? way1_dirty_114 : _GEN_113; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_115 = 7'h73 == data_write_back_counter[6:0] ? way1_dirty_115 : _GEN_114; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_116 = 7'h74 == data_write_back_counter[6:0] ? way1_dirty_116 : _GEN_115; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_117 = 7'h75 == data_write_back_counter[6:0] ? way1_dirty_117 : _GEN_116; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_118 = 7'h76 == data_write_back_counter[6:0] ? way1_dirty_118 : _GEN_117; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_119 = 7'h77 == data_write_back_counter[6:0] ? way1_dirty_119 : _GEN_118; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_120 = 7'h78 == data_write_back_counter[6:0] ? way1_dirty_120 : _GEN_119; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_121 = 7'h79 == data_write_back_counter[6:0] ? way1_dirty_121 : _GEN_120; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_122 = 7'h7a == data_write_back_counter[6:0] ? way1_dirty_122 : _GEN_121; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_123 = 7'h7b == data_write_back_counter[6:0] ? way1_dirty_123 : _GEN_122; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_124 = 7'h7c == data_write_back_counter[6:0] ? way1_dirty_124 : _GEN_123; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_125 = 7'h7d == data_write_back_counter[6:0] ? way1_dirty_125 : _GEN_124; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_126 = 7'h7e == data_write_back_counter[6:0] ? way1_dirty_126 : _GEN_125; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_127 = 7'h7f == data_write_back_counter[6:0] ? way1_dirty_127 : _GEN_126; // @[data_cache.scala 155:{149,149}]
+  wire  _GEN_129 = 7'h1 == data_write_back_counter[6:0] ? way0_dirty_1 : way0_dirty_0; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_130 = 7'h2 == data_write_back_counter[6:0] ? way0_dirty_2 : _GEN_129; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_131 = 7'h3 == data_write_back_counter[6:0] ? way0_dirty_3 : _GEN_130; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_132 = 7'h4 == data_write_back_counter[6:0] ? way0_dirty_4 : _GEN_131; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_133 = 7'h5 == data_write_back_counter[6:0] ? way0_dirty_5 : _GEN_132; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_134 = 7'h6 == data_write_back_counter[6:0] ? way0_dirty_6 : _GEN_133; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_135 = 7'h7 == data_write_back_counter[6:0] ? way0_dirty_7 : _GEN_134; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_136 = 7'h8 == data_write_back_counter[6:0] ? way0_dirty_8 : _GEN_135; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_137 = 7'h9 == data_write_back_counter[6:0] ? way0_dirty_9 : _GEN_136; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_138 = 7'ha == data_write_back_counter[6:0] ? way0_dirty_10 : _GEN_137; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_139 = 7'hb == data_write_back_counter[6:0] ? way0_dirty_11 : _GEN_138; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_140 = 7'hc == data_write_back_counter[6:0] ? way0_dirty_12 : _GEN_139; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_141 = 7'hd == data_write_back_counter[6:0] ? way0_dirty_13 : _GEN_140; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_142 = 7'he == data_write_back_counter[6:0] ? way0_dirty_14 : _GEN_141; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_143 = 7'hf == data_write_back_counter[6:0] ? way0_dirty_15 : _GEN_142; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_144 = 7'h10 == data_write_back_counter[6:0] ? way0_dirty_16 : _GEN_143; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_145 = 7'h11 == data_write_back_counter[6:0] ? way0_dirty_17 : _GEN_144; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_146 = 7'h12 == data_write_back_counter[6:0] ? way0_dirty_18 : _GEN_145; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_147 = 7'h13 == data_write_back_counter[6:0] ? way0_dirty_19 : _GEN_146; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_148 = 7'h14 == data_write_back_counter[6:0] ? way0_dirty_20 : _GEN_147; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_149 = 7'h15 == data_write_back_counter[6:0] ? way0_dirty_21 : _GEN_148; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_150 = 7'h16 == data_write_back_counter[6:0] ? way0_dirty_22 : _GEN_149; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_151 = 7'h17 == data_write_back_counter[6:0] ? way0_dirty_23 : _GEN_150; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_152 = 7'h18 == data_write_back_counter[6:0] ? way0_dirty_24 : _GEN_151; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_153 = 7'h19 == data_write_back_counter[6:0] ? way0_dirty_25 : _GEN_152; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_154 = 7'h1a == data_write_back_counter[6:0] ? way0_dirty_26 : _GEN_153; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_155 = 7'h1b == data_write_back_counter[6:0] ? way0_dirty_27 : _GEN_154; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_156 = 7'h1c == data_write_back_counter[6:0] ? way0_dirty_28 : _GEN_155; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_157 = 7'h1d == data_write_back_counter[6:0] ? way0_dirty_29 : _GEN_156; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_158 = 7'h1e == data_write_back_counter[6:0] ? way0_dirty_30 : _GEN_157; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_159 = 7'h1f == data_write_back_counter[6:0] ? way0_dirty_31 : _GEN_158; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_160 = 7'h20 == data_write_back_counter[6:0] ? way0_dirty_32 : _GEN_159; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_161 = 7'h21 == data_write_back_counter[6:0] ? way0_dirty_33 : _GEN_160; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_162 = 7'h22 == data_write_back_counter[6:0] ? way0_dirty_34 : _GEN_161; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_163 = 7'h23 == data_write_back_counter[6:0] ? way0_dirty_35 : _GEN_162; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_164 = 7'h24 == data_write_back_counter[6:0] ? way0_dirty_36 : _GEN_163; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_165 = 7'h25 == data_write_back_counter[6:0] ? way0_dirty_37 : _GEN_164; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_166 = 7'h26 == data_write_back_counter[6:0] ? way0_dirty_38 : _GEN_165; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_167 = 7'h27 == data_write_back_counter[6:0] ? way0_dirty_39 : _GEN_166; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_168 = 7'h28 == data_write_back_counter[6:0] ? way0_dirty_40 : _GEN_167; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_169 = 7'h29 == data_write_back_counter[6:0] ? way0_dirty_41 : _GEN_168; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_170 = 7'h2a == data_write_back_counter[6:0] ? way0_dirty_42 : _GEN_169; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_171 = 7'h2b == data_write_back_counter[6:0] ? way0_dirty_43 : _GEN_170; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_172 = 7'h2c == data_write_back_counter[6:0] ? way0_dirty_44 : _GEN_171; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_173 = 7'h2d == data_write_back_counter[6:0] ? way0_dirty_45 : _GEN_172; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_174 = 7'h2e == data_write_back_counter[6:0] ? way0_dirty_46 : _GEN_173; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_175 = 7'h2f == data_write_back_counter[6:0] ? way0_dirty_47 : _GEN_174; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_176 = 7'h30 == data_write_back_counter[6:0] ? way0_dirty_48 : _GEN_175; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_177 = 7'h31 == data_write_back_counter[6:0] ? way0_dirty_49 : _GEN_176; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_178 = 7'h32 == data_write_back_counter[6:0] ? way0_dirty_50 : _GEN_177; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_179 = 7'h33 == data_write_back_counter[6:0] ? way0_dirty_51 : _GEN_178; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_180 = 7'h34 == data_write_back_counter[6:0] ? way0_dirty_52 : _GEN_179; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_181 = 7'h35 == data_write_back_counter[6:0] ? way0_dirty_53 : _GEN_180; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_182 = 7'h36 == data_write_back_counter[6:0] ? way0_dirty_54 : _GEN_181; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_183 = 7'h37 == data_write_back_counter[6:0] ? way0_dirty_55 : _GEN_182; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_184 = 7'h38 == data_write_back_counter[6:0] ? way0_dirty_56 : _GEN_183; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_185 = 7'h39 == data_write_back_counter[6:0] ? way0_dirty_57 : _GEN_184; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_186 = 7'h3a == data_write_back_counter[6:0] ? way0_dirty_58 : _GEN_185; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_187 = 7'h3b == data_write_back_counter[6:0] ? way0_dirty_59 : _GEN_186; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_188 = 7'h3c == data_write_back_counter[6:0] ? way0_dirty_60 : _GEN_187; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_189 = 7'h3d == data_write_back_counter[6:0] ? way0_dirty_61 : _GEN_188; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_190 = 7'h3e == data_write_back_counter[6:0] ? way0_dirty_62 : _GEN_189; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_191 = 7'h3f == data_write_back_counter[6:0] ? way0_dirty_63 : _GEN_190; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_192 = 7'h40 == data_write_back_counter[6:0] ? way0_dirty_64 : _GEN_191; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_193 = 7'h41 == data_write_back_counter[6:0] ? way0_dirty_65 : _GEN_192; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_194 = 7'h42 == data_write_back_counter[6:0] ? way0_dirty_66 : _GEN_193; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_195 = 7'h43 == data_write_back_counter[6:0] ? way0_dirty_67 : _GEN_194; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_196 = 7'h44 == data_write_back_counter[6:0] ? way0_dirty_68 : _GEN_195; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_197 = 7'h45 == data_write_back_counter[6:0] ? way0_dirty_69 : _GEN_196; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_198 = 7'h46 == data_write_back_counter[6:0] ? way0_dirty_70 : _GEN_197; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_199 = 7'h47 == data_write_back_counter[6:0] ? way0_dirty_71 : _GEN_198; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_200 = 7'h48 == data_write_back_counter[6:0] ? way0_dirty_72 : _GEN_199; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_201 = 7'h49 == data_write_back_counter[6:0] ? way0_dirty_73 : _GEN_200; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_202 = 7'h4a == data_write_back_counter[6:0] ? way0_dirty_74 : _GEN_201; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_203 = 7'h4b == data_write_back_counter[6:0] ? way0_dirty_75 : _GEN_202; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_204 = 7'h4c == data_write_back_counter[6:0] ? way0_dirty_76 : _GEN_203; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_205 = 7'h4d == data_write_back_counter[6:0] ? way0_dirty_77 : _GEN_204; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_206 = 7'h4e == data_write_back_counter[6:0] ? way0_dirty_78 : _GEN_205; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_207 = 7'h4f == data_write_back_counter[6:0] ? way0_dirty_79 : _GEN_206; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_208 = 7'h50 == data_write_back_counter[6:0] ? way0_dirty_80 : _GEN_207; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_209 = 7'h51 == data_write_back_counter[6:0] ? way0_dirty_81 : _GEN_208; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_210 = 7'h52 == data_write_back_counter[6:0] ? way0_dirty_82 : _GEN_209; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_211 = 7'h53 == data_write_back_counter[6:0] ? way0_dirty_83 : _GEN_210; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_212 = 7'h54 == data_write_back_counter[6:0] ? way0_dirty_84 : _GEN_211; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_213 = 7'h55 == data_write_back_counter[6:0] ? way0_dirty_85 : _GEN_212; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_214 = 7'h56 == data_write_back_counter[6:0] ? way0_dirty_86 : _GEN_213; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_215 = 7'h57 == data_write_back_counter[6:0] ? way0_dirty_87 : _GEN_214; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_216 = 7'h58 == data_write_back_counter[6:0] ? way0_dirty_88 : _GEN_215; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_217 = 7'h59 == data_write_back_counter[6:0] ? way0_dirty_89 : _GEN_216; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_218 = 7'h5a == data_write_back_counter[6:0] ? way0_dirty_90 : _GEN_217; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_219 = 7'h5b == data_write_back_counter[6:0] ? way0_dirty_91 : _GEN_218; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_220 = 7'h5c == data_write_back_counter[6:0] ? way0_dirty_92 : _GEN_219; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_221 = 7'h5d == data_write_back_counter[6:0] ? way0_dirty_93 : _GEN_220; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_222 = 7'h5e == data_write_back_counter[6:0] ? way0_dirty_94 : _GEN_221; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_223 = 7'h5f == data_write_back_counter[6:0] ? way0_dirty_95 : _GEN_222; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_224 = 7'h60 == data_write_back_counter[6:0] ? way0_dirty_96 : _GEN_223; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_225 = 7'h61 == data_write_back_counter[6:0] ? way0_dirty_97 : _GEN_224; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_226 = 7'h62 == data_write_back_counter[6:0] ? way0_dirty_98 : _GEN_225; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_227 = 7'h63 == data_write_back_counter[6:0] ? way0_dirty_99 : _GEN_226; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_228 = 7'h64 == data_write_back_counter[6:0] ? way0_dirty_100 : _GEN_227; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_229 = 7'h65 == data_write_back_counter[6:0] ? way0_dirty_101 : _GEN_228; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_230 = 7'h66 == data_write_back_counter[6:0] ? way0_dirty_102 : _GEN_229; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_231 = 7'h67 == data_write_back_counter[6:0] ? way0_dirty_103 : _GEN_230; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_232 = 7'h68 == data_write_back_counter[6:0] ? way0_dirty_104 : _GEN_231; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_233 = 7'h69 == data_write_back_counter[6:0] ? way0_dirty_105 : _GEN_232; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_234 = 7'h6a == data_write_back_counter[6:0] ? way0_dirty_106 : _GEN_233; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_235 = 7'h6b == data_write_back_counter[6:0] ? way0_dirty_107 : _GEN_234; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_236 = 7'h6c == data_write_back_counter[6:0] ? way0_dirty_108 : _GEN_235; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_237 = 7'h6d == data_write_back_counter[6:0] ? way0_dirty_109 : _GEN_236; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_238 = 7'h6e == data_write_back_counter[6:0] ? way0_dirty_110 : _GEN_237; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_239 = 7'h6f == data_write_back_counter[6:0] ? way0_dirty_111 : _GEN_238; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_240 = 7'h70 == data_write_back_counter[6:0] ? way0_dirty_112 : _GEN_239; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_241 = 7'h71 == data_write_back_counter[6:0] ? way0_dirty_113 : _GEN_240; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_242 = 7'h72 == data_write_back_counter[6:0] ? way0_dirty_114 : _GEN_241; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_243 = 7'h73 == data_write_back_counter[6:0] ? way0_dirty_115 : _GEN_242; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_244 = 7'h74 == data_write_back_counter[6:0] ? way0_dirty_116 : _GEN_243; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_245 = 7'h75 == data_write_back_counter[6:0] ? way0_dirty_117 : _GEN_244; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_246 = 7'h76 == data_write_back_counter[6:0] ? way0_dirty_118 : _GEN_245; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_247 = 7'h77 == data_write_back_counter[6:0] ? way0_dirty_119 : _GEN_246; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_248 = 7'h78 == data_write_back_counter[6:0] ? way0_dirty_120 : _GEN_247; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_249 = 7'h79 == data_write_back_counter[6:0] ? way0_dirty_121 : _GEN_248; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_250 = 7'h7a == data_write_back_counter[6:0] ? way0_dirty_122 : _GEN_249; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_251 = 7'h7b == data_write_back_counter[6:0] ? way0_dirty_123 : _GEN_250; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_252 = 7'h7c == data_write_back_counter[6:0] ? way0_dirty_124 : _GEN_251; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_253 = 7'h7d == data_write_back_counter[6:0] ? way0_dirty_125 : _GEN_252; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_254 = 7'h7e == data_write_back_counter[6:0] ? way0_dirty_126 : _GEN_253; // @[data_cache.scala 156:{87,87}]
+  wire  _GEN_255 = 7'h7f == data_write_back_counter[6:0] ? way0_dirty_127 : _GEN_254; // @[data_cache.scala 156:{87,87}]
+  wire  _data_should_write_back_T_6 = dcache_tag_io_w_valid & _GEN_255; // @[data_cache.scala 156:30]
   wire  data_should_write_back = data_write_back_counter[7] ? dcache_tag_1_io_w_valid & _GEN_127 :
-    _data_should_write_back_T_6; // @[data_cache.scala 154:34]
-  wire  _data_write_back_counter_T_2 = _data_cache_under_write_back_T & ~data_should_write_back; // @[data_cache.scala 148:49]
-  wire [7:0] _data_write_back_counter_T_4 = data_write_back_counter + 8'h1; // @[data_cache.scala 148:106]
-  wire  data_all_write_back = data_write_back_counter == 8'hff; // @[data_cache.scala 153:55]
-  wire  _hit_T = stage1_sram_hit0_reg & stage1_sram_valid0_reg; // @[data_cache.scala 233:37]
-  wire  _hit_T_1 = stage1_sram_hit1_reg & stage1_sram_valid1_reg; // @[data_cache.scala 234:31]
-  wire  hit = stage1_sram_hit0_reg & stage1_sram_valid0_reg | _hit_T_1; // @[data_cache.scala 233:64]
-  wire [4:0] _state_ready_lookup_should_be_T_2 = stage1_sram_cache_reg ? 5'h19 : 5'h0; // @[data_cache.scala 244:82]
-  wire [4:0] _state_ready_lookup_should_be_T_3 = stage1_sram_req_reg ? _state_ready_lookup_should_be_T_2 : 5'h19; // @[data_cache.scala 244:51]
-  wire [4:0] _state_ready_lookup_should_be_T_5 = stage1_sram_req_reg ? 5'h0 : 5'h19; // @[data_cache.scala 245:16]
-  wire [4:0] state_ready_lookup_should_be = hit ? _state_ready_lookup_should_be_T_3 : _state_ready_lookup_should_be_T_5; // @[data_cache.scala 244:43]
-  wire [4:0] _access_work_state_for_stall_T_1 = io_port_rvalid ? 5'h18 : work_state; // @[data_cache.scala 277:39]
+    _data_should_write_back_T_6; // @[data_cache.scala 155:34]
+  wire  _data_write_back_counter_T_4 = _data_cache_under_write_back_T & ~data_should_write_back &
+    data_write_back_counter != 8'hff; // @[data_cache.scala 148:76]
+  wire [7:0] _data_write_back_counter_T_6 = data_write_back_counter + 8'h1; // @[data_cache.scala 149:98]
+  wire  data_all_write_back = data_write_back_counter == 8'hff; // @[data_cache.scala 154:55]
+  wire  _hit_T = stage1_sram_hit0_reg & stage1_sram_valid0_reg; // @[data_cache.scala 234:37]
+  wire  _hit_T_1 = stage1_sram_hit1_reg & stage1_sram_valid1_reg; // @[data_cache.scala 235:31]
+  wire  hit = stage1_sram_hit0_reg & stage1_sram_valid0_reg | _hit_T_1; // @[data_cache.scala 234:64]
+  wire [4:0] _state_ready_lookup_should_be_T_2 = stage1_sram_cache_reg ? 5'h19 : 5'h0; // @[data_cache.scala 245:82]
+  wire [4:0] _state_ready_lookup_should_be_T_3 = stage1_sram_req_reg ? _state_ready_lookup_should_be_T_2 : 5'h19; // @[data_cache.scala 245:51]
+  wire [4:0] _state_ready_lookup_should_be_T_5 = stage1_sram_req_reg ? 5'h0 : 5'h19; // @[data_cache.scala 246:16]
+  wire [4:0] state_ready_lookup_should_be = hit ? _state_ready_lookup_should_be_T_3 : _state_ready_lookup_should_be_T_5; // @[data_cache.scala 245:43]
+  wire [4:0] _access_work_state_for_stall_T_1 = io_port_rvalid ? 5'h18 : work_state; // @[data_cache.scala 278:39]
   wire [4:0] _access_work_state_for_stall_T_3 = 5'h2 == work_state ? _access_work_state_for_stall_T_1 : work_state; // @[Mux.scala 81:58]
   wire [4:0] _access_work_state_for_stall_T_5 = 5'h18 == work_state ? state_ready_lookup_should_be :
     _access_work_state_for_stall_T_3; // @[Mux.scala 81:58]
@@ -56027,453 +56031,453 @@ module data_cache(
     _access_work_state_for_stall_T_7; // @[Mux.scala 81:58]
   wire [4:0] _access_work_state_for_stall_T_11 = 5'he == work_state ? 5'h18 : _access_work_state_for_stall_T_9; // @[Mux.scala 81:58]
   wire [4:0] access_work_state_for_stall = 5'h10 == work_state ? 5'h18 : _access_work_state_for_stall_T_11; // @[Mux.scala 81:58]
-  wire  stage2_stall = access_work_state_for_stall[4:3] == 2'h3; // @[data_cache.scala 288:54]
-  reg  stage2_sram_write_reg; // @[data_cache.scala 171:40]
-  reg  stage1_stall_reg; // @[data_cache.scala 178:35]
-  reg  write_access_complete_reg; // @[data_cache.scala 181:44]
-  wire [2:0] _stage1_sram_size_reg_T_1 = io_sram_req ? io_sram_size : {{1'd0}, stage1_sram_size_reg}; // @[data_cache.scala 188:33]
-  wire  _stage1_sram_req_reg_T_1 = stage2_stall ? 1'h0 : stage1_sram_req_reg; // @[data_cache.scala 190:60]
+  wire  stage2_stall = access_work_state_for_stall[4:3] == 2'h3; // @[data_cache.scala 289:54]
+  reg  stage2_sram_write_reg; // @[data_cache.scala 172:40]
+  reg  stage1_stall_reg; // @[data_cache.scala 179:35]
+  reg  write_access_complete_reg; // @[data_cache.scala 182:44]
+  wire [2:0] _stage1_sram_size_reg_T_1 = io_sram_req ? io_sram_size : {{1'd0}, stage1_sram_size_reg}; // @[data_cache.scala 189:33]
+  wire  _stage1_sram_req_reg_T_1 = stage2_stall ? 1'h0 : stage1_sram_req_reg; // @[data_cache.scala 191:60]
   wire [4:0] _state_lookup_for_less_delay_T_1 = 5'h18 == work_state ? state_ready_lookup_should_be : work_state; // @[Mux.scala 81:58]
   wire [4:0] state_lookup_for_less_delay = 5'h19 == work_state ? state_ready_lookup_should_be :
     _state_lookup_for_less_delay_T_1; // @[Mux.scala 81:58]
-  wire  _way0_dirty_T = state_lookup_for_less_delay == 5'h19; // @[data_cache.scala 199:79]
-  wire  _way0_dirty_T_2 = state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg; // @[data_cache.scala 199:96]
+  wire  _way0_dirty_T = state_lookup_for_less_delay == 5'h19; // @[data_cache.scala 200:79]
+  wire  _way0_dirty_T_2 = state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg; // @[data_cache.scala 200:96]
   wire  _way0_dirty_T_4 = state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
-    stage1_sram_valid0_reg; // @[data_cache.scala 199:149]
-  wire  _way0_dirty_T_5 = work_state == 5'he; // @[data_cache.scala 200:24]
-  wire  _GEN_258 = 7'h1 == stage1_addr_line_mapping[10:4] ? lru_1 : lru_0; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_259 = 7'h2 == stage1_addr_line_mapping[10:4] ? lru_2 : _GEN_258; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_260 = 7'h3 == stage1_addr_line_mapping[10:4] ? lru_3 : _GEN_259; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_261 = 7'h4 == stage1_addr_line_mapping[10:4] ? lru_4 : _GEN_260; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_262 = 7'h5 == stage1_addr_line_mapping[10:4] ? lru_5 : _GEN_261; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_263 = 7'h6 == stage1_addr_line_mapping[10:4] ? lru_6 : _GEN_262; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_264 = 7'h7 == stage1_addr_line_mapping[10:4] ? lru_7 : _GEN_263; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_265 = 7'h8 == stage1_addr_line_mapping[10:4] ? lru_8 : _GEN_264; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_266 = 7'h9 == stage1_addr_line_mapping[10:4] ? lru_9 : _GEN_265; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_267 = 7'ha == stage1_addr_line_mapping[10:4] ? lru_10 : _GEN_266; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_268 = 7'hb == stage1_addr_line_mapping[10:4] ? lru_11 : _GEN_267; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_269 = 7'hc == stage1_addr_line_mapping[10:4] ? lru_12 : _GEN_268; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_270 = 7'hd == stage1_addr_line_mapping[10:4] ? lru_13 : _GEN_269; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_271 = 7'he == stage1_addr_line_mapping[10:4] ? lru_14 : _GEN_270; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_272 = 7'hf == stage1_addr_line_mapping[10:4] ? lru_15 : _GEN_271; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_273 = 7'h10 == stage1_addr_line_mapping[10:4] ? lru_16 : _GEN_272; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_274 = 7'h11 == stage1_addr_line_mapping[10:4] ? lru_17 : _GEN_273; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_275 = 7'h12 == stage1_addr_line_mapping[10:4] ? lru_18 : _GEN_274; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_276 = 7'h13 == stage1_addr_line_mapping[10:4] ? lru_19 : _GEN_275; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_277 = 7'h14 == stage1_addr_line_mapping[10:4] ? lru_20 : _GEN_276; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_278 = 7'h15 == stage1_addr_line_mapping[10:4] ? lru_21 : _GEN_277; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_279 = 7'h16 == stage1_addr_line_mapping[10:4] ? lru_22 : _GEN_278; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_280 = 7'h17 == stage1_addr_line_mapping[10:4] ? lru_23 : _GEN_279; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_281 = 7'h18 == stage1_addr_line_mapping[10:4] ? lru_24 : _GEN_280; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_282 = 7'h19 == stage1_addr_line_mapping[10:4] ? lru_25 : _GEN_281; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_283 = 7'h1a == stage1_addr_line_mapping[10:4] ? lru_26 : _GEN_282; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_284 = 7'h1b == stage1_addr_line_mapping[10:4] ? lru_27 : _GEN_283; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_285 = 7'h1c == stage1_addr_line_mapping[10:4] ? lru_28 : _GEN_284; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_286 = 7'h1d == stage1_addr_line_mapping[10:4] ? lru_29 : _GEN_285; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_287 = 7'h1e == stage1_addr_line_mapping[10:4] ? lru_30 : _GEN_286; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_288 = 7'h1f == stage1_addr_line_mapping[10:4] ? lru_31 : _GEN_287; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_289 = 7'h20 == stage1_addr_line_mapping[10:4] ? lru_32 : _GEN_288; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_290 = 7'h21 == stage1_addr_line_mapping[10:4] ? lru_33 : _GEN_289; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_291 = 7'h22 == stage1_addr_line_mapping[10:4] ? lru_34 : _GEN_290; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_292 = 7'h23 == stage1_addr_line_mapping[10:4] ? lru_35 : _GEN_291; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_293 = 7'h24 == stage1_addr_line_mapping[10:4] ? lru_36 : _GEN_292; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_294 = 7'h25 == stage1_addr_line_mapping[10:4] ? lru_37 : _GEN_293; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_295 = 7'h26 == stage1_addr_line_mapping[10:4] ? lru_38 : _GEN_294; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_296 = 7'h27 == stage1_addr_line_mapping[10:4] ? lru_39 : _GEN_295; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_297 = 7'h28 == stage1_addr_line_mapping[10:4] ? lru_40 : _GEN_296; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_298 = 7'h29 == stage1_addr_line_mapping[10:4] ? lru_41 : _GEN_297; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_299 = 7'h2a == stage1_addr_line_mapping[10:4] ? lru_42 : _GEN_298; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_300 = 7'h2b == stage1_addr_line_mapping[10:4] ? lru_43 : _GEN_299; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_301 = 7'h2c == stage1_addr_line_mapping[10:4] ? lru_44 : _GEN_300; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_302 = 7'h2d == stage1_addr_line_mapping[10:4] ? lru_45 : _GEN_301; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_303 = 7'h2e == stage1_addr_line_mapping[10:4] ? lru_46 : _GEN_302; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_304 = 7'h2f == stage1_addr_line_mapping[10:4] ? lru_47 : _GEN_303; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_305 = 7'h30 == stage1_addr_line_mapping[10:4] ? lru_48 : _GEN_304; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_306 = 7'h31 == stage1_addr_line_mapping[10:4] ? lru_49 : _GEN_305; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_307 = 7'h32 == stage1_addr_line_mapping[10:4] ? lru_50 : _GEN_306; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_308 = 7'h33 == stage1_addr_line_mapping[10:4] ? lru_51 : _GEN_307; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_309 = 7'h34 == stage1_addr_line_mapping[10:4] ? lru_52 : _GEN_308; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_310 = 7'h35 == stage1_addr_line_mapping[10:4] ? lru_53 : _GEN_309; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_311 = 7'h36 == stage1_addr_line_mapping[10:4] ? lru_54 : _GEN_310; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_312 = 7'h37 == stage1_addr_line_mapping[10:4] ? lru_55 : _GEN_311; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_313 = 7'h38 == stage1_addr_line_mapping[10:4] ? lru_56 : _GEN_312; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_314 = 7'h39 == stage1_addr_line_mapping[10:4] ? lru_57 : _GEN_313; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_315 = 7'h3a == stage1_addr_line_mapping[10:4] ? lru_58 : _GEN_314; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_316 = 7'h3b == stage1_addr_line_mapping[10:4] ? lru_59 : _GEN_315; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_317 = 7'h3c == stage1_addr_line_mapping[10:4] ? lru_60 : _GEN_316; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_318 = 7'h3d == stage1_addr_line_mapping[10:4] ? lru_61 : _GEN_317; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_319 = 7'h3e == stage1_addr_line_mapping[10:4] ? lru_62 : _GEN_318; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_320 = 7'h3f == stage1_addr_line_mapping[10:4] ? lru_63 : _GEN_319; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_321 = 7'h40 == stage1_addr_line_mapping[10:4] ? lru_64 : _GEN_320; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_322 = 7'h41 == stage1_addr_line_mapping[10:4] ? lru_65 : _GEN_321; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_323 = 7'h42 == stage1_addr_line_mapping[10:4] ? lru_66 : _GEN_322; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_324 = 7'h43 == stage1_addr_line_mapping[10:4] ? lru_67 : _GEN_323; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_325 = 7'h44 == stage1_addr_line_mapping[10:4] ? lru_68 : _GEN_324; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_326 = 7'h45 == stage1_addr_line_mapping[10:4] ? lru_69 : _GEN_325; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_327 = 7'h46 == stage1_addr_line_mapping[10:4] ? lru_70 : _GEN_326; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_328 = 7'h47 == stage1_addr_line_mapping[10:4] ? lru_71 : _GEN_327; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_329 = 7'h48 == stage1_addr_line_mapping[10:4] ? lru_72 : _GEN_328; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_330 = 7'h49 == stage1_addr_line_mapping[10:4] ? lru_73 : _GEN_329; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_331 = 7'h4a == stage1_addr_line_mapping[10:4] ? lru_74 : _GEN_330; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_332 = 7'h4b == stage1_addr_line_mapping[10:4] ? lru_75 : _GEN_331; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_333 = 7'h4c == stage1_addr_line_mapping[10:4] ? lru_76 : _GEN_332; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_334 = 7'h4d == stage1_addr_line_mapping[10:4] ? lru_77 : _GEN_333; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_335 = 7'h4e == stage1_addr_line_mapping[10:4] ? lru_78 : _GEN_334; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_336 = 7'h4f == stage1_addr_line_mapping[10:4] ? lru_79 : _GEN_335; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_337 = 7'h50 == stage1_addr_line_mapping[10:4] ? lru_80 : _GEN_336; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_338 = 7'h51 == stage1_addr_line_mapping[10:4] ? lru_81 : _GEN_337; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_339 = 7'h52 == stage1_addr_line_mapping[10:4] ? lru_82 : _GEN_338; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_340 = 7'h53 == stage1_addr_line_mapping[10:4] ? lru_83 : _GEN_339; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_341 = 7'h54 == stage1_addr_line_mapping[10:4] ? lru_84 : _GEN_340; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_342 = 7'h55 == stage1_addr_line_mapping[10:4] ? lru_85 : _GEN_341; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_343 = 7'h56 == stage1_addr_line_mapping[10:4] ? lru_86 : _GEN_342; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_344 = 7'h57 == stage1_addr_line_mapping[10:4] ? lru_87 : _GEN_343; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_345 = 7'h58 == stage1_addr_line_mapping[10:4] ? lru_88 : _GEN_344; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_346 = 7'h59 == stage1_addr_line_mapping[10:4] ? lru_89 : _GEN_345; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_347 = 7'h5a == stage1_addr_line_mapping[10:4] ? lru_90 : _GEN_346; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_348 = 7'h5b == stage1_addr_line_mapping[10:4] ? lru_91 : _GEN_347; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_349 = 7'h5c == stage1_addr_line_mapping[10:4] ? lru_92 : _GEN_348; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_350 = 7'h5d == stage1_addr_line_mapping[10:4] ? lru_93 : _GEN_349; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_351 = 7'h5e == stage1_addr_line_mapping[10:4] ? lru_94 : _GEN_350; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_352 = 7'h5f == stage1_addr_line_mapping[10:4] ? lru_95 : _GEN_351; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_353 = 7'h60 == stage1_addr_line_mapping[10:4] ? lru_96 : _GEN_352; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_354 = 7'h61 == stage1_addr_line_mapping[10:4] ? lru_97 : _GEN_353; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_355 = 7'h62 == stage1_addr_line_mapping[10:4] ? lru_98 : _GEN_354; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_356 = 7'h63 == stage1_addr_line_mapping[10:4] ? lru_99 : _GEN_355; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_357 = 7'h64 == stage1_addr_line_mapping[10:4] ? lru_100 : _GEN_356; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_358 = 7'h65 == stage1_addr_line_mapping[10:4] ? lru_101 : _GEN_357; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_359 = 7'h66 == stage1_addr_line_mapping[10:4] ? lru_102 : _GEN_358; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_360 = 7'h67 == stage1_addr_line_mapping[10:4] ? lru_103 : _GEN_359; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_361 = 7'h68 == stage1_addr_line_mapping[10:4] ? lru_104 : _GEN_360; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_362 = 7'h69 == stage1_addr_line_mapping[10:4] ? lru_105 : _GEN_361; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_363 = 7'h6a == stage1_addr_line_mapping[10:4] ? lru_106 : _GEN_362; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_364 = 7'h6b == stage1_addr_line_mapping[10:4] ? lru_107 : _GEN_363; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_365 = 7'h6c == stage1_addr_line_mapping[10:4] ? lru_108 : _GEN_364; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_366 = 7'h6d == stage1_addr_line_mapping[10:4] ? lru_109 : _GEN_365; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_367 = 7'h6e == stage1_addr_line_mapping[10:4] ? lru_110 : _GEN_366; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_368 = 7'h6f == stage1_addr_line_mapping[10:4] ? lru_111 : _GEN_367; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_369 = 7'h70 == stage1_addr_line_mapping[10:4] ? lru_112 : _GEN_368; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_370 = 7'h71 == stage1_addr_line_mapping[10:4] ? lru_113 : _GEN_369; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_371 = 7'h72 == stage1_addr_line_mapping[10:4] ? lru_114 : _GEN_370; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_372 = 7'h73 == stage1_addr_line_mapping[10:4] ? lru_115 : _GEN_371; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_373 = 7'h74 == stage1_addr_line_mapping[10:4] ? lru_116 : _GEN_372; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_374 = 7'h75 == stage1_addr_line_mapping[10:4] ? lru_117 : _GEN_373; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_375 = 7'h76 == stage1_addr_line_mapping[10:4] ? lru_118 : _GEN_374; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_376 = 7'h77 == stage1_addr_line_mapping[10:4] ? lru_119 : _GEN_375; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_377 = 7'h78 == stage1_addr_line_mapping[10:4] ? lru_120 : _GEN_376; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_378 = 7'h79 == stage1_addr_line_mapping[10:4] ? lru_121 : _GEN_377; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_379 = 7'h7a == stage1_addr_line_mapping[10:4] ? lru_122 : _GEN_378; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_380 = 7'h7b == stage1_addr_line_mapping[10:4] ? lru_123 : _GEN_379; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_381 = 7'h7c == stage1_addr_line_mapping[10:4] ? lru_124 : _GEN_380; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_382 = 7'h7d == stage1_addr_line_mapping[10:4] ? lru_125 : _GEN_381; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_383 = 7'h7e == stage1_addr_line_mapping[10:4] ? lru_126 : _GEN_382; // @[data_cache.scala 200:{86,86}]
-  wire  _GEN_384 = 7'h7f == stage1_addr_line_mapping[10:4] ? lru_127 : _GEN_383; // @[data_cache.scala 200:{86,86}]
-  wire  _way0_dirty_T_7 = ~_GEN_384; // @[data_cache.scala 200:86]
-  wire  _way0_dirty_T_9 = work_state == 5'h10; // @[data_cache.scala 201:24]
-  wire  _way0_dirty_T_12 = work_state == 5'h10 & _way0_dirty_T_7; // @[data_cache.scala 201:52]
-  wire  _GEN_514 = 7'h1 == stage1_addr_line_mapping[10:4] ? way0_dirty_1 : way0_dirty_0; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_515 = 7'h2 == stage1_addr_line_mapping[10:4] ? way0_dirty_2 : _GEN_514; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_516 = 7'h3 == stage1_addr_line_mapping[10:4] ? way0_dirty_3 : _GEN_515; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_517 = 7'h4 == stage1_addr_line_mapping[10:4] ? way0_dirty_4 : _GEN_516; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_518 = 7'h5 == stage1_addr_line_mapping[10:4] ? way0_dirty_5 : _GEN_517; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_519 = 7'h6 == stage1_addr_line_mapping[10:4] ? way0_dirty_6 : _GEN_518; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_520 = 7'h7 == stage1_addr_line_mapping[10:4] ? way0_dirty_7 : _GEN_519; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_521 = 7'h8 == stage1_addr_line_mapping[10:4] ? way0_dirty_8 : _GEN_520; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_522 = 7'h9 == stage1_addr_line_mapping[10:4] ? way0_dirty_9 : _GEN_521; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_523 = 7'ha == stage1_addr_line_mapping[10:4] ? way0_dirty_10 : _GEN_522; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_524 = 7'hb == stage1_addr_line_mapping[10:4] ? way0_dirty_11 : _GEN_523; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_525 = 7'hc == stage1_addr_line_mapping[10:4] ? way0_dirty_12 : _GEN_524; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_526 = 7'hd == stage1_addr_line_mapping[10:4] ? way0_dirty_13 : _GEN_525; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_527 = 7'he == stage1_addr_line_mapping[10:4] ? way0_dirty_14 : _GEN_526; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_528 = 7'hf == stage1_addr_line_mapping[10:4] ? way0_dirty_15 : _GEN_527; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_529 = 7'h10 == stage1_addr_line_mapping[10:4] ? way0_dirty_16 : _GEN_528; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_530 = 7'h11 == stage1_addr_line_mapping[10:4] ? way0_dirty_17 : _GEN_529; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_531 = 7'h12 == stage1_addr_line_mapping[10:4] ? way0_dirty_18 : _GEN_530; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_532 = 7'h13 == stage1_addr_line_mapping[10:4] ? way0_dirty_19 : _GEN_531; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_533 = 7'h14 == stage1_addr_line_mapping[10:4] ? way0_dirty_20 : _GEN_532; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_534 = 7'h15 == stage1_addr_line_mapping[10:4] ? way0_dirty_21 : _GEN_533; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_535 = 7'h16 == stage1_addr_line_mapping[10:4] ? way0_dirty_22 : _GEN_534; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_536 = 7'h17 == stage1_addr_line_mapping[10:4] ? way0_dirty_23 : _GEN_535; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_537 = 7'h18 == stage1_addr_line_mapping[10:4] ? way0_dirty_24 : _GEN_536; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_538 = 7'h19 == stage1_addr_line_mapping[10:4] ? way0_dirty_25 : _GEN_537; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_539 = 7'h1a == stage1_addr_line_mapping[10:4] ? way0_dirty_26 : _GEN_538; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_540 = 7'h1b == stage1_addr_line_mapping[10:4] ? way0_dirty_27 : _GEN_539; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_541 = 7'h1c == stage1_addr_line_mapping[10:4] ? way0_dirty_28 : _GEN_540; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_542 = 7'h1d == stage1_addr_line_mapping[10:4] ? way0_dirty_29 : _GEN_541; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_543 = 7'h1e == stage1_addr_line_mapping[10:4] ? way0_dirty_30 : _GEN_542; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_544 = 7'h1f == stage1_addr_line_mapping[10:4] ? way0_dirty_31 : _GEN_543; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_545 = 7'h20 == stage1_addr_line_mapping[10:4] ? way0_dirty_32 : _GEN_544; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_546 = 7'h21 == stage1_addr_line_mapping[10:4] ? way0_dirty_33 : _GEN_545; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_547 = 7'h22 == stage1_addr_line_mapping[10:4] ? way0_dirty_34 : _GEN_546; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_548 = 7'h23 == stage1_addr_line_mapping[10:4] ? way0_dirty_35 : _GEN_547; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_549 = 7'h24 == stage1_addr_line_mapping[10:4] ? way0_dirty_36 : _GEN_548; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_550 = 7'h25 == stage1_addr_line_mapping[10:4] ? way0_dirty_37 : _GEN_549; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_551 = 7'h26 == stage1_addr_line_mapping[10:4] ? way0_dirty_38 : _GEN_550; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_552 = 7'h27 == stage1_addr_line_mapping[10:4] ? way0_dirty_39 : _GEN_551; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_553 = 7'h28 == stage1_addr_line_mapping[10:4] ? way0_dirty_40 : _GEN_552; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_554 = 7'h29 == stage1_addr_line_mapping[10:4] ? way0_dirty_41 : _GEN_553; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_555 = 7'h2a == stage1_addr_line_mapping[10:4] ? way0_dirty_42 : _GEN_554; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_556 = 7'h2b == stage1_addr_line_mapping[10:4] ? way0_dirty_43 : _GEN_555; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_557 = 7'h2c == stage1_addr_line_mapping[10:4] ? way0_dirty_44 : _GEN_556; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_558 = 7'h2d == stage1_addr_line_mapping[10:4] ? way0_dirty_45 : _GEN_557; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_559 = 7'h2e == stage1_addr_line_mapping[10:4] ? way0_dirty_46 : _GEN_558; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_560 = 7'h2f == stage1_addr_line_mapping[10:4] ? way0_dirty_47 : _GEN_559; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_561 = 7'h30 == stage1_addr_line_mapping[10:4] ? way0_dirty_48 : _GEN_560; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_562 = 7'h31 == stage1_addr_line_mapping[10:4] ? way0_dirty_49 : _GEN_561; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_563 = 7'h32 == stage1_addr_line_mapping[10:4] ? way0_dirty_50 : _GEN_562; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_564 = 7'h33 == stage1_addr_line_mapping[10:4] ? way0_dirty_51 : _GEN_563; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_565 = 7'h34 == stage1_addr_line_mapping[10:4] ? way0_dirty_52 : _GEN_564; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_566 = 7'h35 == stage1_addr_line_mapping[10:4] ? way0_dirty_53 : _GEN_565; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_567 = 7'h36 == stage1_addr_line_mapping[10:4] ? way0_dirty_54 : _GEN_566; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_568 = 7'h37 == stage1_addr_line_mapping[10:4] ? way0_dirty_55 : _GEN_567; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_569 = 7'h38 == stage1_addr_line_mapping[10:4] ? way0_dirty_56 : _GEN_568; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_570 = 7'h39 == stage1_addr_line_mapping[10:4] ? way0_dirty_57 : _GEN_569; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_571 = 7'h3a == stage1_addr_line_mapping[10:4] ? way0_dirty_58 : _GEN_570; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_572 = 7'h3b == stage1_addr_line_mapping[10:4] ? way0_dirty_59 : _GEN_571; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_573 = 7'h3c == stage1_addr_line_mapping[10:4] ? way0_dirty_60 : _GEN_572; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_574 = 7'h3d == stage1_addr_line_mapping[10:4] ? way0_dirty_61 : _GEN_573; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_575 = 7'h3e == stage1_addr_line_mapping[10:4] ? way0_dirty_62 : _GEN_574; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_576 = 7'h3f == stage1_addr_line_mapping[10:4] ? way0_dirty_63 : _GEN_575; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_577 = 7'h40 == stage1_addr_line_mapping[10:4] ? way0_dirty_64 : _GEN_576; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_578 = 7'h41 == stage1_addr_line_mapping[10:4] ? way0_dirty_65 : _GEN_577; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_579 = 7'h42 == stage1_addr_line_mapping[10:4] ? way0_dirty_66 : _GEN_578; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_580 = 7'h43 == stage1_addr_line_mapping[10:4] ? way0_dirty_67 : _GEN_579; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_581 = 7'h44 == stage1_addr_line_mapping[10:4] ? way0_dirty_68 : _GEN_580; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_582 = 7'h45 == stage1_addr_line_mapping[10:4] ? way0_dirty_69 : _GEN_581; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_583 = 7'h46 == stage1_addr_line_mapping[10:4] ? way0_dirty_70 : _GEN_582; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_584 = 7'h47 == stage1_addr_line_mapping[10:4] ? way0_dirty_71 : _GEN_583; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_585 = 7'h48 == stage1_addr_line_mapping[10:4] ? way0_dirty_72 : _GEN_584; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_586 = 7'h49 == stage1_addr_line_mapping[10:4] ? way0_dirty_73 : _GEN_585; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_587 = 7'h4a == stage1_addr_line_mapping[10:4] ? way0_dirty_74 : _GEN_586; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_588 = 7'h4b == stage1_addr_line_mapping[10:4] ? way0_dirty_75 : _GEN_587; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_589 = 7'h4c == stage1_addr_line_mapping[10:4] ? way0_dirty_76 : _GEN_588; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_590 = 7'h4d == stage1_addr_line_mapping[10:4] ? way0_dirty_77 : _GEN_589; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_591 = 7'h4e == stage1_addr_line_mapping[10:4] ? way0_dirty_78 : _GEN_590; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_592 = 7'h4f == stage1_addr_line_mapping[10:4] ? way0_dirty_79 : _GEN_591; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_593 = 7'h50 == stage1_addr_line_mapping[10:4] ? way0_dirty_80 : _GEN_592; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_594 = 7'h51 == stage1_addr_line_mapping[10:4] ? way0_dirty_81 : _GEN_593; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_595 = 7'h52 == stage1_addr_line_mapping[10:4] ? way0_dirty_82 : _GEN_594; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_596 = 7'h53 == stage1_addr_line_mapping[10:4] ? way0_dirty_83 : _GEN_595; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_597 = 7'h54 == stage1_addr_line_mapping[10:4] ? way0_dirty_84 : _GEN_596; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_598 = 7'h55 == stage1_addr_line_mapping[10:4] ? way0_dirty_85 : _GEN_597; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_599 = 7'h56 == stage1_addr_line_mapping[10:4] ? way0_dirty_86 : _GEN_598; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_600 = 7'h57 == stage1_addr_line_mapping[10:4] ? way0_dirty_87 : _GEN_599; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_601 = 7'h58 == stage1_addr_line_mapping[10:4] ? way0_dirty_88 : _GEN_600; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_602 = 7'h59 == stage1_addr_line_mapping[10:4] ? way0_dirty_89 : _GEN_601; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_603 = 7'h5a == stage1_addr_line_mapping[10:4] ? way0_dirty_90 : _GEN_602; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_604 = 7'h5b == stage1_addr_line_mapping[10:4] ? way0_dirty_91 : _GEN_603; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_605 = 7'h5c == stage1_addr_line_mapping[10:4] ? way0_dirty_92 : _GEN_604; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_606 = 7'h5d == stage1_addr_line_mapping[10:4] ? way0_dirty_93 : _GEN_605; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_607 = 7'h5e == stage1_addr_line_mapping[10:4] ? way0_dirty_94 : _GEN_606; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_608 = 7'h5f == stage1_addr_line_mapping[10:4] ? way0_dirty_95 : _GEN_607; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_609 = 7'h60 == stage1_addr_line_mapping[10:4] ? way0_dirty_96 : _GEN_608; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_610 = 7'h61 == stage1_addr_line_mapping[10:4] ? way0_dirty_97 : _GEN_609; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_611 = 7'h62 == stage1_addr_line_mapping[10:4] ? way0_dirty_98 : _GEN_610; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_612 = 7'h63 == stage1_addr_line_mapping[10:4] ? way0_dirty_99 : _GEN_611; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_613 = 7'h64 == stage1_addr_line_mapping[10:4] ? way0_dirty_100 : _GEN_612; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_614 = 7'h65 == stage1_addr_line_mapping[10:4] ? way0_dirty_101 : _GEN_613; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_615 = 7'h66 == stage1_addr_line_mapping[10:4] ? way0_dirty_102 : _GEN_614; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_616 = 7'h67 == stage1_addr_line_mapping[10:4] ? way0_dirty_103 : _GEN_615; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_617 = 7'h68 == stage1_addr_line_mapping[10:4] ? way0_dirty_104 : _GEN_616; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_618 = 7'h69 == stage1_addr_line_mapping[10:4] ? way0_dirty_105 : _GEN_617; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_619 = 7'h6a == stage1_addr_line_mapping[10:4] ? way0_dirty_106 : _GEN_618; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_620 = 7'h6b == stage1_addr_line_mapping[10:4] ? way0_dirty_107 : _GEN_619; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_621 = 7'h6c == stage1_addr_line_mapping[10:4] ? way0_dirty_108 : _GEN_620; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_622 = 7'h6d == stage1_addr_line_mapping[10:4] ? way0_dirty_109 : _GEN_621; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_623 = 7'h6e == stage1_addr_line_mapping[10:4] ? way0_dirty_110 : _GEN_622; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_624 = 7'h6f == stage1_addr_line_mapping[10:4] ? way0_dirty_111 : _GEN_623; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_625 = 7'h70 == stage1_addr_line_mapping[10:4] ? way0_dirty_112 : _GEN_624; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_626 = 7'h71 == stage1_addr_line_mapping[10:4] ? way0_dirty_113 : _GEN_625; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_627 = 7'h72 == stage1_addr_line_mapping[10:4] ? way0_dirty_114 : _GEN_626; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_628 = 7'h73 == stage1_addr_line_mapping[10:4] ? way0_dirty_115 : _GEN_627; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_629 = 7'h74 == stage1_addr_line_mapping[10:4] ? way0_dirty_116 : _GEN_628; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_630 = 7'h75 == stage1_addr_line_mapping[10:4] ? way0_dirty_117 : _GEN_629; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_631 = 7'h76 == stage1_addr_line_mapping[10:4] ? way0_dirty_118 : _GEN_630; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_632 = 7'h77 == stage1_addr_line_mapping[10:4] ? way0_dirty_119 : _GEN_631; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_633 = 7'h78 == stage1_addr_line_mapping[10:4] ? way0_dirty_120 : _GEN_632; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_634 = 7'h79 == stage1_addr_line_mapping[10:4] ? way0_dirty_121 : _GEN_633; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_635 = 7'h7a == stage1_addr_line_mapping[10:4] ? way0_dirty_122 : _GEN_634; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_636 = 7'h7b == stage1_addr_line_mapping[10:4] ? way0_dirty_123 : _GEN_635; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_637 = 7'h7c == stage1_addr_line_mapping[10:4] ? way0_dirty_124 : _GEN_636; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_638 = 7'h7d == stage1_addr_line_mapping[10:4] ? way0_dirty_125 : _GEN_637; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_639 = 7'h7e == stage1_addr_line_mapping[10:4] ? way0_dirty_126 : _GEN_638; // @[data_cache.scala 201:{12,12}]
-  wire  _GEN_640 = 7'h7f == stage1_addr_line_mapping[10:4] ? way0_dirty_127 : _GEN_639; // @[data_cache.scala 201:{12,12}]
-  wire  _way0_dirty_T_14 = work_state == 5'h10 & _way0_dirty_T_7 | _GEN_640; // @[data_cache.scala 201:12]
-  wire  _way0_dirty_T_15 = work_state == 5'he & ~_GEN_384 ? 1'h0 : _way0_dirty_T_14; // @[data_cache.scala 200:12]
-  wire  _way1_dirty_T_4 = _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg; // @[data_cache.scala 203:149]
-  wire  _way1_dirty_T_12 = _way0_dirty_T_9 & _GEN_384; // @[data_cache.scala 205:52]
-  wire  _GEN_1026 = 7'h1 == stage1_addr_line_mapping[10:4] ? way1_dirty_1 : way1_dirty_0; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1027 = 7'h2 == stage1_addr_line_mapping[10:4] ? way1_dirty_2 : _GEN_1026; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1028 = 7'h3 == stage1_addr_line_mapping[10:4] ? way1_dirty_3 : _GEN_1027; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1029 = 7'h4 == stage1_addr_line_mapping[10:4] ? way1_dirty_4 : _GEN_1028; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1030 = 7'h5 == stage1_addr_line_mapping[10:4] ? way1_dirty_5 : _GEN_1029; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1031 = 7'h6 == stage1_addr_line_mapping[10:4] ? way1_dirty_6 : _GEN_1030; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1032 = 7'h7 == stage1_addr_line_mapping[10:4] ? way1_dirty_7 : _GEN_1031; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1033 = 7'h8 == stage1_addr_line_mapping[10:4] ? way1_dirty_8 : _GEN_1032; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1034 = 7'h9 == stage1_addr_line_mapping[10:4] ? way1_dirty_9 : _GEN_1033; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1035 = 7'ha == stage1_addr_line_mapping[10:4] ? way1_dirty_10 : _GEN_1034; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1036 = 7'hb == stage1_addr_line_mapping[10:4] ? way1_dirty_11 : _GEN_1035; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1037 = 7'hc == stage1_addr_line_mapping[10:4] ? way1_dirty_12 : _GEN_1036; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1038 = 7'hd == stage1_addr_line_mapping[10:4] ? way1_dirty_13 : _GEN_1037; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1039 = 7'he == stage1_addr_line_mapping[10:4] ? way1_dirty_14 : _GEN_1038; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1040 = 7'hf == stage1_addr_line_mapping[10:4] ? way1_dirty_15 : _GEN_1039; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1041 = 7'h10 == stage1_addr_line_mapping[10:4] ? way1_dirty_16 : _GEN_1040; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1042 = 7'h11 == stage1_addr_line_mapping[10:4] ? way1_dirty_17 : _GEN_1041; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1043 = 7'h12 == stage1_addr_line_mapping[10:4] ? way1_dirty_18 : _GEN_1042; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1044 = 7'h13 == stage1_addr_line_mapping[10:4] ? way1_dirty_19 : _GEN_1043; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1045 = 7'h14 == stage1_addr_line_mapping[10:4] ? way1_dirty_20 : _GEN_1044; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1046 = 7'h15 == stage1_addr_line_mapping[10:4] ? way1_dirty_21 : _GEN_1045; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1047 = 7'h16 == stage1_addr_line_mapping[10:4] ? way1_dirty_22 : _GEN_1046; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1048 = 7'h17 == stage1_addr_line_mapping[10:4] ? way1_dirty_23 : _GEN_1047; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1049 = 7'h18 == stage1_addr_line_mapping[10:4] ? way1_dirty_24 : _GEN_1048; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1050 = 7'h19 == stage1_addr_line_mapping[10:4] ? way1_dirty_25 : _GEN_1049; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1051 = 7'h1a == stage1_addr_line_mapping[10:4] ? way1_dirty_26 : _GEN_1050; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1052 = 7'h1b == stage1_addr_line_mapping[10:4] ? way1_dirty_27 : _GEN_1051; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1053 = 7'h1c == stage1_addr_line_mapping[10:4] ? way1_dirty_28 : _GEN_1052; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1054 = 7'h1d == stage1_addr_line_mapping[10:4] ? way1_dirty_29 : _GEN_1053; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1055 = 7'h1e == stage1_addr_line_mapping[10:4] ? way1_dirty_30 : _GEN_1054; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1056 = 7'h1f == stage1_addr_line_mapping[10:4] ? way1_dirty_31 : _GEN_1055; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1057 = 7'h20 == stage1_addr_line_mapping[10:4] ? way1_dirty_32 : _GEN_1056; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1058 = 7'h21 == stage1_addr_line_mapping[10:4] ? way1_dirty_33 : _GEN_1057; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1059 = 7'h22 == stage1_addr_line_mapping[10:4] ? way1_dirty_34 : _GEN_1058; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1060 = 7'h23 == stage1_addr_line_mapping[10:4] ? way1_dirty_35 : _GEN_1059; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1061 = 7'h24 == stage1_addr_line_mapping[10:4] ? way1_dirty_36 : _GEN_1060; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1062 = 7'h25 == stage1_addr_line_mapping[10:4] ? way1_dirty_37 : _GEN_1061; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1063 = 7'h26 == stage1_addr_line_mapping[10:4] ? way1_dirty_38 : _GEN_1062; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1064 = 7'h27 == stage1_addr_line_mapping[10:4] ? way1_dirty_39 : _GEN_1063; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1065 = 7'h28 == stage1_addr_line_mapping[10:4] ? way1_dirty_40 : _GEN_1064; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1066 = 7'h29 == stage1_addr_line_mapping[10:4] ? way1_dirty_41 : _GEN_1065; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1067 = 7'h2a == stage1_addr_line_mapping[10:4] ? way1_dirty_42 : _GEN_1066; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1068 = 7'h2b == stage1_addr_line_mapping[10:4] ? way1_dirty_43 : _GEN_1067; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1069 = 7'h2c == stage1_addr_line_mapping[10:4] ? way1_dirty_44 : _GEN_1068; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1070 = 7'h2d == stage1_addr_line_mapping[10:4] ? way1_dirty_45 : _GEN_1069; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1071 = 7'h2e == stage1_addr_line_mapping[10:4] ? way1_dirty_46 : _GEN_1070; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1072 = 7'h2f == stage1_addr_line_mapping[10:4] ? way1_dirty_47 : _GEN_1071; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1073 = 7'h30 == stage1_addr_line_mapping[10:4] ? way1_dirty_48 : _GEN_1072; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1074 = 7'h31 == stage1_addr_line_mapping[10:4] ? way1_dirty_49 : _GEN_1073; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1075 = 7'h32 == stage1_addr_line_mapping[10:4] ? way1_dirty_50 : _GEN_1074; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1076 = 7'h33 == stage1_addr_line_mapping[10:4] ? way1_dirty_51 : _GEN_1075; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1077 = 7'h34 == stage1_addr_line_mapping[10:4] ? way1_dirty_52 : _GEN_1076; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1078 = 7'h35 == stage1_addr_line_mapping[10:4] ? way1_dirty_53 : _GEN_1077; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1079 = 7'h36 == stage1_addr_line_mapping[10:4] ? way1_dirty_54 : _GEN_1078; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1080 = 7'h37 == stage1_addr_line_mapping[10:4] ? way1_dirty_55 : _GEN_1079; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1081 = 7'h38 == stage1_addr_line_mapping[10:4] ? way1_dirty_56 : _GEN_1080; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1082 = 7'h39 == stage1_addr_line_mapping[10:4] ? way1_dirty_57 : _GEN_1081; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1083 = 7'h3a == stage1_addr_line_mapping[10:4] ? way1_dirty_58 : _GEN_1082; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1084 = 7'h3b == stage1_addr_line_mapping[10:4] ? way1_dirty_59 : _GEN_1083; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1085 = 7'h3c == stage1_addr_line_mapping[10:4] ? way1_dirty_60 : _GEN_1084; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1086 = 7'h3d == stage1_addr_line_mapping[10:4] ? way1_dirty_61 : _GEN_1085; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1087 = 7'h3e == stage1_addr_line_mapping[10:4] ? way1_dirty_62 : _GEN_1086; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1088 = 7'h3f == stage1_addr_line_mapping[10:4] ? way1_dirty_63 : _GEN_1087; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1089 = 7'h40 == stage1_addr_line_mapping[10:4] ? way1_dirty_64 : _GEN_1088; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1090 = 7'h41 == stage1_addr_line_mapping[10:4] ? way1_dirty_65 : _GEN_1089; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1091 = 7'h42 == stage1_addr_line_mapping[10:4] ? way1_dirty_66 : _GEN_1090; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1092 = 7'h43 == stage1_addr_line_mapping[10:4] ? way1_dirty_67 : _GEN_1091; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1093 = 7'h44 == stage1_addr_line_mapping[10:4] ? way1_dirty_68 : _GEN_1092; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1094 = 7'h45 == stage1_addr_line_mapping[10:4] ? way1_dirty_69 : _GEN_1093; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1095 = 7'h46 == stage1_addr_line_mapping[10:4] ? way1_dirty_70 : _GEN_1094; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1096 = 7'h47 == stage1_addr_line_mapping[10:4] ? way1_dirty_71 : _GEN_1095; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1097 = 7'h48 == stage1_addr_line_mapping[10:4] ? way1_dirty_72 : _GEN_1096; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1098 = 7'h49 == stage1_addr_line_mapping[10:4] ? way1_dirty_73 : _GEN_1097; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1099 = 7'h4a == stage1_addr_line_mapping[10:4] ? way1_dirty_74 : _GEN_1098; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1100 = 7'h4b == stage1_addr_line_mapping[10:4] ? way1_dirty_75 : _GEN_1099; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1101 = 7'h4c == stage1_addr_line_mapping[10:4] ? way1_dirty_76 : _GEN_1100; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1102 = 7'h4d == stage1_addr_line_mapping[10:4] ? way1_dirty_77 : _GEN_1101; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1103 = 7'h4e == stage1_addr_line_mapping[10:4] ? way1_dirty_78 : _GEN_1102; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1104 = 7'h4f == stage1_addr_line_mapping[10:4] ? way1_dirty_79 : _GEN_1103; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1105 = 7'h50 == stage1_addr_line_mapping[10:4] ? way1_dirty_80 : _GEN_1104; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1106 = 7'h51 == stage1_addr_line_mapping[10:4] ? way1_dirty_81 : _GEN_1105; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1107 = 7'h52 == stage1_addr_line_mapping[10:4] ? way1_dirty_82 : _GEN_1106; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1108 = 7'h53 == stage1_addr_line_mapping[10:4] ? way1_dirty_83 : _GEN_1107; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1109 = 7'h54 == stage1_addr_line_mapping[10:4] ? way1_dirty_84 : _GEN_1108; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1110 = 7'h55 == stage1_addr_line_mapping[10:4] ? way1_dirty_85 : _GEN_1109; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1111 = 7'h56 == stage1_addr_line_mapping[10:4] ? way1_dirty_86 : _GEN_1110; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1112 = 7'h57 == stage1_addr_line_mapping[10:4] ? way1_dirty_87 : _GEN_1111; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1113 = 7'h58 == stage1_addr_line_mapping[10:4] ? way1_dirty_88 : _GEN_1112; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1114 = 7'h59 == stage1_addr_line_mapping[10:4] ? way1_dirty_89 : _GEN_1113; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1115 = 7'h5a == stage1_addr_line_mapping[10:4] ? way1_dirty_90 : _GEN_1114; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1116 = 7'h5b == stage1_addr_line_mapping[10:4] ? way1_dirty_91 : _GEN_1115; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1117 = 7'h5c == stage1_addr_line_mapping[10:4] ? way1_dirty_92 : _GEN_1116; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1118 = 7'h5d == stage1_addr_line_mapping[10:4] ? way1_dirty_93 : _GEN_1117; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1119 = 7'h5e == stage1_addr_line_mapping[10:4] ? way1_dirty_94 : _GEN_1118; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1120 = 7'h5f == stage1_addr_line_mapping[10:4] ? way1_dirty_95 : _GEN_1119; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1121 = 7'h60 == stage1_addr_line_mapping[10:4] ? way1_dirty_96 : _GEN_1120; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1122 = 7'h61 == stage1_addr_line_mapping[10:4] ? way1_dirty_97 : _GEN_1121; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1123 = 7'h62 == stage1_addr_line_mapping[10:4] ? way1_dirty_98 : _GEN_1122; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1124 = 7'h63 == stage1_addr_line_mapping[10:4] ? way1_dirty_99 : _GEN_1123; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1125 = 7'h64 == stage1_addr_line_mapping[10:4] ? way1_dirty_100 : _GEN_1124; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1126 = 7'h65 == stage1_addr_line_mapping[10:4] ? way1_dirty_101 : _GEN_1125; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1127 = 7'h66 == stage1_addr_line_mapping[10:4] ? way1_dirty_102 : _GEN_1126; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1128 = 7'h67 == stage1_addr_line_mapping[10:4] ? way1_dirty_103 : _GEN_1127; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1129 = 7'h68 == stage1_addr_line_mapping[10:4] ? way1_dirty_104 : _GEN_1128; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1130 = 7'h69 == stage1_addr_line_mapping[10:4] ? way1_dirty_105 : _GEN_1129; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1131 = 7'h6a == stage1_addr_line_mapping[10:4] ? way1_dirty_106 : _GEN_1130; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1132 = 7'h6b == stage1_addr_line_mapping[10:4] ? way1_dirty_107 : _GEN_1131; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1133 = 7'h6c == stage1_addr_line_mapping[10:4] ? way1_dirty_108 : _GEN_1132; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1134 = 7'h6d == stage1_addr_line_mapping[10:4] ? way1_dirty_109 : _GEN_1133; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1135 = 7'h6e == stage1_addr_line_mapping[10:4] ? way1_dirty_110 : _GEN_1134; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1136 = 7'h6f == stage1_addr_line_mapping[10:4] ? way1_dirty_111 : _GEN_1135; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1137 = 7'h70 == stage1_addr_line_mapping[10:4] ? way1_dirty_112 : _GEN_1136; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1138 = 7'h71 == stage1_addr_line_mapping[10:4] ? way1_dirty_113 : _GEN_1137; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1139 = 7'h72 == stage1_addr_line_mapping[10:4] ? way1_dirty_114 : _GEN_1138; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1140 = 7'h73 == stage1_addr_line_mapping[10:4] ? way1_dirty_115 : _GEN_1139; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1141 = 7'h74 == stage1_addr_line_mapping[10:4] ? way1_dirty_116 : _GEN_1140; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1142 = 7'h75 == stage1_addr_line_mapping[10:4] ? way1_dirty_117 : _GEN_1141; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1143 = 7'h76 == stage1_addr_line_mapping[10:4] ? way1_dirty_118 : _GEN_1142; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1144 = 7'h77 == stage1_addr_line_mapping[10:4] ? way1_dirty_119 : _GEN_1143; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1145 = 7'h78 == stage1_addr_line_mapping[10:4] ? way1_dirty_120 : _GEN_1144; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1146 = 7'h79 == stage1_addr_line_mapping[10:4] ? way1_dirty_121 : _GEN_1145; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1147 = 7'h7a == stage1_addr_line_mapping[10:4] ? way1_dirty_122 : _GEN_1146; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1148 = 7'h7b == stage1_addr_line_mapping[10:4] ? way1_dirty_123 : _GEN_1147; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1149 = 7'h7c == stage1_addr_line_mapping[10:4] ? way1_dirty_124 : _GEN_1148; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1150 = 7'h7d == stage1_addr_line_mapping[10:4] ? way1_dirty_125 : _GEN_1149; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1151 = 7'h7e == stage1_addr_line_mapping[10:4] ? way1_dirty_126 : _GEN_1150; // @[data_cache.scala 205:{12,12}]
-  wire  _GEN_1152 = 7'h7f == stage1_addr_line_mapping[10:4] ? way1_dirty_127 : _GEN_1151; // @[data_cache.scala 205:{12,12}]
-  wire  _way1_dirty_T_14 = _way0_dirty_T_9 & _GEN_384 | _GEN_1152; // @[data_cache.scala 205:12]
-  wire  _way1_dirty_T_15 = _way0_dirty_T_5 & _GEN_384 ? 1'h0 : _way1_dirty_T_14; // @[data_cache.scala 204:12]
-  wire  dirty_victim = _way0_dirty_T_7 ? _GEN_640 : _GEN_1152; // @[data_cache.scala 209:24]
+    stage1_sram_valid0_reg; // @[data_cache.scala 200:149]
+  wire  _way0_dirty_T_5 = work_state == 5'he; // @[data_cache.scala 201:24]
+  wire  _GEN_258 = 7'h1 == stage1_addr_line_mapping[10:4] ? lru_1 : lru_0; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_259 = 7'h2 == stage1_addr_line_mapping[10:4] ? lru_2 : _GEN_258; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_260 = 7'h3 == stage1_addr_line_mapping[10:4] ? lru_3 : _GEN_259; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_261 = 7'h4 == stage1_addr_line_mapping[10:4] ? lru_4 : _GEN_260; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_262 = 7'h5 == stage1_addr_line_mapping[10:4] ? lru_5 : _GEN_261; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_263 = 7'h6 == stage1_addr_line_mapping[10:4] ? lru_6 : _GEN_262; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_264 = 7'h7 == stage1_addr_line_mapping[10:4] ? lru_7 : _GEN_263; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_265 = 7'h8 == stage1_addr_line_mapping[10:4] ? lru_8 : _GEN_264; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_266 = 7'h9 == stage1_addr_line_mapping[10:4] ? lru_9 : _GEN_265; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_267 = 7'ha == stage1_addr_line_mapping[10:4] ? lru_10 : _GEN_266; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_268 = 7'hb == stage1_addr_line_mapping[10:4] ? lru_11 : _GEN_267; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_269 = 7'hc == stage1_addr_line_mapping[10:4] ? lru_12 : _GEN_268; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_270 = 7'hd == stage1_addr_line_mapping[10:4] ? lru_13 : _GEN_269; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_271 = 7'he == stage1_addr_line_mapping[10:4] ? lru_14 : _GEN_270; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_272 = 7'hf == stage1_addr_line_mapping[10:4] ? lru_15 : _GEN_271; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_273 = 7'h10 == stage1_addr_line_mapping[10:4] ? lru_16 : _GEN_272; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_274 = 7'h11 == stage1_addr_line_mapping[10:4] ? lru_17 : _GEN_273; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_275 = 7'h12 == stage1_addr_line_mapping[10:4] ? lru_18 : _GEN_274; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_276 = 7'h13 == stage1_addr_line_mapping[10:4] ? lru_19 : _GEN_275; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_277 = 7'h14 == stage1_addr_line_mapping[10:4] ? lru_20 : _GEN_276; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_278 = 7'h15 == stage1_addr_line_mapping[10:4] ? lru_21 : _GEN_277; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_279 = 7'h16 == stage1_addr_line_mapping[10:4] ? lru_22 : _GEN_278; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_280 = 7'h17 == stage1_addr_line_mapping[10:4] ? lru_23 : _GEN_279; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_281 = 7'h18 == stage1_addr_line_mapping[10:4] ? lru_24 : _GEN_280; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_282 = 7'h19 == stage1_addr_line_mapping[10:4] ? lru_25 : _GEN_281; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_283 = 7'h1a == stage1_addr_line_mapping[10:4] ? lru_26 : _GEN_282; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_284 = 7'h1b == stage1_addr_line_mapping[10:4] ? lru_27 : _GEN_283; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_285 = 7'h1c == stage1_addr_line_mapping[10:4] ? lru_28 : _GEN_284; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_286 = 7'h1d == stage1_addr_line_mapping[10:4] ? lru_29 : _GEN_285; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_287 = 7'h1e == stage1_addr_line_mapping[10:4] ? lru_30 : _GEN_286; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_288 = 7'h1f == stage1_addr_line_mapping[10:4] ? lru_31 : _GEN_287; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_289 = 7'h20 == stage1_addr_line_mapping[10:4] ? lru_32 : _GEN_288; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_290 = 7'h21 == stage1_addr_line_mapping[10:4] ? lru_33 : _GEN_289; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_291 = 7'h22 == stage1_addr_line_mapping[10:4] ? lru_34 : _GEN_290; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_292 = 7'h23 == stage1_addr_line_mapping[10:4] ? lru_35 : _GEN_291; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_293 = 7'h24 == stage1_addr_line_mapping[10:4] ? lru_36 : _GEN_292; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_294 = 7'h25 == stage1_addr_line_mapping[10:4] ? lru_37 : _GEN_293; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_295 = 7'h26 == stage1_addr_line_mapping[10:4] ? lru_38 : _GEN_294; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_296 = 7'h27 == stage1_addr_line_mapping[10:4] ? lru_39 : _GEN_295; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_297 = 7'h28 == stage1_addr_line_mapping[10:4] ? lru_40 : _GEN_296; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_298 = 7'h29 == stage1_addr_line_mapping[10:4] ? lru_41 : _GEN_297; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_299 = 7'h2a == stage1_addr_line_mapping[10:4] ? lru_42 : _GEN_298; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_300 = 7'h2b == stage1_addr_line_mapping[10:4] ? lru_43 : _GEN_299; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_301 = 7'h2c == stage1_addr_line_mapping[10:4] ? lru_44 : _GEN_300; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_302 = 7'h2d == stage1_addr_line_mapping[10:4] ? lru_45 : _GEN_301; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_303 = 7'h2e == stage1_addr_line_mapping[10:4] ? lru_46 : _GEN_302; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_304 = 7'h2f == stage1_addr_line_mapping[10:4] ? lru_47 : _GEN_303; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_305 = 7'h30 == stage1_addr_line_mapping[10:4] ? lru_48 : _GEN_304; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_306 = 7'h31 == stage1_addr_line_mapping[10:4] ? lru_49 : _GEN_305; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_307 = 7'h32 == stage1_addr_line_mapping[10:4] ? lru_50 : _GEN_306; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_308 = 7'h33 == stage1_addr_line_mapping[10:4] ? lru_51 : _GEN_307; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_309 = 7'h34 == stage1_addr_line_mapping[10:4] ? lru_52 : _GEN_308; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_310 = 7'h35 == stage1_addr_line_mapping[10:4] ? lru_53 : _GEN_309; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_311 = 7'h36 == stage1_addr_line_mapping[10:4] ? lru_54 : _GEN_310; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_312 = 7'h37 == stage1_addr_line_mapping[10:4] ? lru_55 : _GEN_311; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_313 = 7'h38 == stage1_addr_line_mapping[10:4] ? lru_56 : _GEN_312; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_314 = 7'h39 == stage1_addr_line_mapping[10:4] ? lru_57 : _GEN_313; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_315 = 7'h3a == stage1_addr_line_mapping[10:4] ? lru_58 : _GEN_314; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_316 = 7'h3b == stage1_addr_line_mapping[10:4] ? lru_59 : _GEN_315; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_317 = 7'h3c == stage1_addr_line_mapping[10:4] ? lru_60 : _GEN_316; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_318 = 7'h3d == stage1_addr_line_mapping[10:4] ? lru_61 : _GEN_317; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_319 = 7'h3e == stage1_addr_line_mapping[10:4] ? lru_62 : _GEN_318; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_320 = 7'h3f == stage1_addr_line_mapping[10:4] ? lru_63 : _GEN_319; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_321 = 7'h40 == stage1_addr_line_mapping[10:4] ? lru_64 : _GEN_320; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_322 = 7'h41 == stage1_addr_line_mapping[10:4] ? lru_65 : _GEN_321; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_323 = 7'h42 == stage1_addr_line_mapping[10:4] ? lru_66 : _GEN_322; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_324 = 7'h43 == stage1_addr_line_mapping[10:4] ? lru_67 : _GEN_323; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_325 = 7'h44 == stage1_addr_line_mapping[10:4] ? lru_68 : _GEN_324; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_326 = 7'h45 == stage1_addr_line_mapping[10:4] ? lru_69 : _GEN_325; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_327 = 7'h46 == stage1_addr_line_mapping[10:4] ? lru_70 : _GEN_326; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_328 = 7'h47 == stage1_addr_line_mapping[10:4] ? lru_71 : _GEN_327; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_329 = 7'h48 == stage1_addr_line_mapping[10:4] ? lru_72 : _GEN_328; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_330 = 7'h49 == stage1_addr_line_mapping[10:4] ? lru_73 : _GEN_329; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_331 = 7'h4a == stage1_addr_line_mapping[10:4] ? lru_74 : _GEN_330; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_332 = 7'h4b == stage1_addr_line_mapping[10:4] ? lru_75 : _GEN_331; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_333 = 7'h4c == stage1_addr_line_mapping[10:4] ? lru_76 : _GEN_332; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_334 = 7'h4d == stage1_addr_line_mapping[10:4] ? lru_77 : _GEN_333; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_335 = 7'h4e == stage1_addr_line_mapping[10:4] ? lru_78 : _GEN_334; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_336 = 7'h4f == stage1_addr_line_mapping[10:4] ? lru_79 : _GEN_335; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_337 = 7'h50 == stage1_addr_line_mapping[10:4] ? lru_80 : _GEN_336; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_338 = 7'h51 == stage1_addr_line_mapping[10:4] ? lru_81 : _GEN_337; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_339 = 7'h52 == stage1_addr_line_mapping[10:4] ? lru_82 : _GEN_338; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_340 = 7'h53 == stage1_addr_line_mapping[10:4] ? lru_83 : _GEN_339; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_341 = 7'h54 == stage1_addr_line_mapping[10:4] ? lru_84 : _GEN_340; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_342 = 7'h55 == stage1_addr_line_mapping[10:4] ? lru_85 : _GEN_341; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_343 = 7'h56 == stage1_addr_line_mapping[10:4] ? lru_86 : _GEN_342; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_344 = 7'h57 == stage1_addr_line_mapping[10:4] ? lru_87 : _GEN_343; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_345 = 7'h58 == stage1_addr_line_mapping[10:4] ? lru_88 : _GEN_344; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_346 = 7'h59 == stage1_addr_line_mapping[10:4] ? lru_89 : _GEN_345; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_347 = 7'h5a == stage1_addr_line_mapping[10:4] ? lru_90 : _GEN_346; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_348 = 7'h5b == stage1_addr_line_mapping[10:4] ? lru_91 : _GEN_347; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_349 = 7'h5c == stage1_addr_line_mapping[10:4] ? lru_92 : _GEN_348; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_350 = 7'h5d == stage1_addr_line_mapping[10:4] ? lru_93 : _GEN_349; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_351 = 7'h5e == stage1_addr_line_mapping[10:4] ? lru_94 : _GEN_350; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_352 = 7'h5f == stage1_addr_line_mapping[10:4] ? lru_95 : _GEN_351; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_353 = 7'h60 == stage1_addr_line_mapping[10:4] ? lru_96 : _GEN_352; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_354 = 7'h61 == stage1_addr_line_mapping[10:4] ? lru_97 : _GEN_353; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_355 = 7'h62 == stage1_addr_line_mapping[10:4] ? lru_98 : _GEN_354; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_356 = 7'h63 == stage1_addr_line_mapping[10:4] ? lru_99 : _GEN_355; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_357 = 7'h64 == stage1_addr_line_mapping[10:4] ? lru_100 : _GEN_356; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_358 = 7'h65 == stage1_addr_line_mapping[10:4] ? lru_101 : _GEN_357; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_359 = 7'h66 == stage1_addr_line_mapping[10:4] ? lru_102 : _GEN_358; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_360 = 7'h67 == stage1_addr_line_mapping[10:4] ? lru_103 : _GEN_359; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_361 = 7'h68 == stage1_addr_line_mapping[10:4] ? lru_104 : _GEN_360; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_362 = 7'h69 == stage1_addr_line_mapping[10:4] ? lru_105 : _GEN_361; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_363 = 7'h6a == stage1_addr_line_mapping[10:4] ? lru_106 : _GEN_362; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_364 = 7'h6b == stage1_addr_line_mapping[10:4] ? lru_107 : _GEN_363; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_365 = 7'h6c == stage1_addr_line_mapping[10:4] ? lru_108 : _GEN_364; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_366 = 7'h6d == stage1_addr_line_mapping[10:4] ? lru_109 : _GEN_365; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_367 = 7'h6e == stage1_addr_line_mapping[10:4] ? lru_110 : _GEN_366; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_368 = 7'h6f == stage1_addr_line_mapping[10:4] ? lru_111 : _GEN_367; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_369 = 7'h70 == stage1_addr_line_mapping[10:4] ? lru_112 : _GEN_368; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_370 = 7'h71 == stage1_addr_line_mapping[10:4] ? lru_113 : _GEN_369; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_371 = 7'h72 == stage1_addr_line_mapping[10:4] ? lru_114 : _GEN_370; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_372 = 7'h73 == stage1_addr_line_mapping[10:4] ? lru_115 : _GEN_371; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_373 = 7'h74 == stage1_addr_line_mapping[10:4] ? lru_116 : _GEN_372; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_374 = 7'h75 == stage1_addr_line_mapping[10:4] ? lru_117 : _GEN_373; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_375 = 7'h76 == stage1_addr_line_mapping[10:4] ? lru_118 : _GEN_374; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_376 = 7'h77 == stage1_addr_line_mapping[10:4] ? lru_119 : _GEN_375; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_377 = 7'h78 == stage1_addr_line_mapping[10:4] ? lru_120 : _GEN_376; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_378 = 7'h79 == stage1_addr_line_mapping[10:4] ? lru_121 : _GEN_377; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_379 = 7'h7a == stage1_addr_line_mapping[10:4] ? lru_122 : _GEN_378; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_380 = 7'h7b == stage1_addr_line_mapping[10:4] ? lru_123 : _GEN_379; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_381 = 7'h7c == stage1_addr_line_mapping[10:4] ? lru_124 : _GEN_380; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_382 = 7'h7d == stage1_addr_line_mapping[10:4] ? lru_125 : _GEN_381; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_383 = 7'h7e == stage1_addr_line_mapping[10:4] ? lru_126 : _GEN_382; // @[data_cache.scala 201:{86,86}]
+  wire  _GEN_384 = 7'h7f == stage1_addr_line_mapping[10:4] ? lru_127 : _GEN_383; // @[data_cache.scala 201:{86,86}]
+  wire  _way0_dirty_T_7 = ~_GEN_384; // @[data_cache.scala 201:86]
+  wire  _way0_dirty_T_9 = work_state == 5'h10; // @[data_cache.scala 202:24]
+  wire  _way0_dirty_T_12 = work_state == 5'h10 & _way0_dirty_T_7; // @[data_cache.scala 202:52]
+  wire  _GEN_514 = 7'h1 == stage1_addr_line_mapping[10:4] ? way0_dirty_1 : way0_dirty_0; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_515 = 7'h2 == stage1_addr_line_mapping[10:4] ? way0_dirty_2 : _GEN_514; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_516 = 7'h3 == stage1_addr_line_mapping[10:4] ? way0_dirty_3 : _GEN_515; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_517 = 7'h4 == stage1_addr_line_mapping[10:4] ? way0_dirty_4 : _GEN_516; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_518 = 7'h5 == stage1_addr_line_mapping[10:4] ? way0_dirty_5 : _GEN_517; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_519 = 7'h6 == stage1_addr_line_mapping[10:4] ? way0_dirty_6 : _GEN_518; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_520 = 7'h7 == stage1_addr_line_mapping[10:4] ? way0_dirty_7 : _GEN_519; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_521 = 7'h8 == stage1_addr_line_mapping[10:4] ? way0_dirty_8 : _GEN_520; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_522 = 7'h9 == stage1_addr_line_mapping[10:4] ? way0_dirty_9 : _GEN_521; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_523 = 7'ha == stage1_addr_line_mapping[10:4] ? way0_dirty_10 : _GEN_522; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_524 = 7'hb == stage1_addr_line_mapping[10:4] ? way0_dirty_11 : _GEN_523; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_525 = 7'hc == stage1_addr_line_mapping[10:4] ? way0_dirty_12 : _GEN_524; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_526 = 7'hd == stage1_addr_line_mapping[10:4] ? way0_dirty_13 : _GEN_525; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_527 = 7'he == stage1_addr_line_mapping[10:4] ? way0_dirty_14 : _GEN_526; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_528 = 7'hf == stage1_addr_line_mapping[10:4] ? way0_dirty_15 : _GEN_527; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_529 = 7'h10 == stage1_addr_line_mapping[10:4] ? way0_dirty_16 : _GEN_528; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_530 = 7'h11 == stage1_addr_line_mapping[10:4] ? way0_dirty_17 : _GEN_529; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_531 = 7'h12 == stage1_addr_line_mapping[10:4] ? way0_dirty_18 : _GEN_530; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_532 = 7'h13 == stage1_addr_line_mapping[10:4] ? way0_dirty_19 : _GEN_531; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_533 = 7'h14 == stage1_addr_line_mapping[10:4] ? way0_dirty_20 : _GEN_532; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_534 = 7'h15 == stage1_addr_line_mapping[10:4] ? way0_dirty_21 : _GEN_533; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_535 = 7'h16 == stage1_addr_line_mapping[10:4] ? way0_dirty_22 : _GEN_534; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_536 = 7'h17 == stage1_addr_line_mapping[10:4] ? way0_dirty_23 : _GEN_535; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_537 = 7'h18 == stage1_addr_line_mapping[10:4] ? way0_dirty_24 : _GEN_536; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_538 = 7'h19 == stage1_addr_line_mapping[10:4] ? way0_dirty_25 : _GEN_537; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_539 = 7'h1a == stage1_addr_line_mapping[10:4] ? way0_dirty_26 : _GEN_538; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_540 = 7'h1b == stage1_addr_line_mapping[10:4] ? way0_dirty_27 : _GEN_539; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_541 = 7'h1c == stage1_addr_line_mapping[10:4] ? way0_dirty_28 : _GEN_540; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_542 = 7'h1d == stage1_addr_line_mapping[10:4] ? way0_dirty_29 : _GEN_541; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_543 = 7'h1e == stage1_addr_line_mapping[10:4] ? way0_dirty_30 : _GEN_542; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_544 = 7'h1f == stage1_addr_line_mapping[10:4] ? way0_dirty_31 : _GEN_543; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_545 = 7'h20 == stage1_addr_line_mapping[10:4] ? way0_dirty_32 : _GEN_544; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_546 = 7'h21 == stage1_addr_line_mapping[10:4] ? way0_dirty_33 : _GEN_545; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_547 = 7'h22 == stage1_addr_line_mapping[10:4] ? way0_dirty_34 : _GEN_546; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_548 = 7'h23 == stage1_addr_line_mapping[10:4] ? way0_dirty_35 : _GEN_547; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_549 = 7'h24 == stage1_addr_line_mapping[10:4] ? way0_dirty_36 : _GEN_548; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_550 = 7'h25 == stage1_addr_line_mapping[10:4] ? way0_dirty_37 : _GEN_549; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_551 = 7'h26 == stage1_addr_line_mapping[10:4] ? way0_dirty_38 : _GEN_550; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_552 = 7'h27 == stage1_addr_line_mapping[10:4] ? way0_dirty_39 : _GEN_551; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_553 = 7'h28 == stage1_addr_line_mapping[10:4] ? way0_dirty_40 : _GEN_552; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_554 = 7'h29 == stage1_addr_line_mapping[10:4] ? way0_dirty_41 : _GEN_553; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_555 = 7'h2a == stage1_addr_line_mapping[10:4] ? way0_dirty_42 : _GEN_554; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_556 = 7'h2b == stage1_addr_line_mapping[10:4] ? way0_dirty_43 : _GEN_555; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_557 = 7'h2c == stage1_addr_line_mapping[10:4] ? way0_dirty_44 : _GEN_556; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_558 = 7'h2d == stage1_addr_line_mapping[10:4] ? way0_dirty_45 : _GEN_557; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_559 = 7'h2e == stage1_addr_line_mapping[10:4] ? way0_dirty_46 : _GEN_558; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_560 = 7'h2f == stage1_addr_line_mapping[10:4] ? way0_dirty_47 : _GEN_559; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_561 = 7'h30 == stage1_addr_line_mapping[10:4] ? way0_dirty_48 : _GEN_560; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_562 = 7'h31 == stage1_addr_line_mapping[10:4] ? way0_dirty_49 : _GEN_561; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_563 = 7'h32 == stage1_addr_line_mapping[10:4] ? way0_dirty_50 : _GEN_562; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_564 = 7'h33 == stage1_addr_line_mapping[10:4] ? way0_dirty_51 : _GEN_563; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_565 = 7'h34 == stage1_addr_line_mapping[10:4] ? way0_dirty_52 : _GEN_564; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_566 = 7'h35 == stage1_addr_line_mapping[10:4] ? way0_dirty_53 : _GEN_565; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_567 = 7'h36 == stage1_addr_line_mapping[10:4] ? way0_dirty_54 : _GEN_566; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_568 = 7'h37 == stage1_addr_line_mapping[10:4] ? way0_dirty_55 : _GEN_567; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_569 = 7'h38 == stage1_addr_line_mapping[10:4] ? way0_dirty_56 : _GEN_568; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_570 = 7'h39 == stage1_addr_line_mapping[10:4] ? way0_dirty_57 : _GEN_569; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_571 = 7'h3a == stage1_addr_line_mapping[10:4] ? way0_dirty_58 : _GEN_570; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_572 = 7'h3b == stage1_addr_line_mapping[10:4] ? way0_dirty_59 : _GEN_571; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_573 = 7'h3c == stage1_addr_line_mapping[10:4] ? way0_dirty_60 : _GEN_572; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_574 = 7'h3d == stage1_addr_line_mapping[10:4] ? way0_dirty_61 : _GEN_573; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_575 = 7'h3e == stage1_addr_line_mapping[10:4] ? way0_dirty_62 : _GEN_574; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_576 = 7'h3f == stage1_addr_line_mapping[10:4] ? way0_dirty_63 : _GEN_575; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_577 = 7'h40 == stage1_addr_line_mapping[10:4] ? way0_dirty_64 : _GEN_576; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_578 = 7'h41 == stage1_addr_line_mapping[10:4] ? way0_dirty_65 : _GEN_577; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_579 = 7'h42 == stage1_addr_line_mapping[10:4] ? way0_dirty_66 : _GEN_578; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_580 = 7'h43 == stage1_addr_line_mapping[10:4] ? way0_dirty_67 : _GEN_579; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_581 = 7'h44 == stage1_addr_line_mapping[10:4] ? way0_dirty_68 : _GEN_580; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_582 = 7'h45 == stage1_addr_line_mapping[10:4] ? way0_dirty_69 : _GEN_581; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_583 = 7'h46 == stage1_addr_line_mapping[10:4] ? way0_dirty_70 : _GEN_582; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_584 = 7'h47 == stage1_addr_line_mapping[10:4] ? way0_dirty_71 : _GEN_583; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_585 = 7'h48 == stage1_addr_line_mapping[10:4] ? way0_dirty_72 : _GEN_584; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_586 = 7'h49 == stage1_addr_line_mapping[10:4] ? way0_dirty_73 : _GEN_585; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_587 = 7'h4a == stage1_addr_line_mapping[10:4] ? way0_dirty_74 : _GEN_586; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_588 = 7'h4b == stage1_addr_line_mapping[10:4] ? way0_dirty_75 : _GEN_587; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_589 = 7'h4c == stage1_addr_line_mapping[10:4] ? way0_dirty_76 : _GEN_588; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_590 = 7'h4d == stage1_addr_line_mapping[10:4] ? way0_dirty_77 : _GEN_589; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_591 = 7'h4e == stage1_addr_line_mapping[10:4] ? way0_dirty_78 : _GEN_590; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_592 = 7'h4f == stage1_addr_line_mapping[10:4] ? way0_dirty_79 : _GEN_591; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_593 = 7'h50 == stage1_addr_line_mapping[10:4] ? way0_dirty_80 : _GEN_592; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_594 = 7'h51 == stage1_addr_line_mapping[10:4] ? way0_dirty_81 : _GEN_593; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_595 = 7'h52 == stage1_addr_line_mapping[10:4] ? way0_dirty_82 : _GEN_594; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_596 = 7'h53 == stage1_addr_line_mapping[10:4] ? way0_dirty_83 : _GEN_595; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_597 = 7'h54 == stage1_addr_line_mapping[10:4] ? way0_dirty_84 : _GEN_596; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_598 = 7'h55 == stage1_addr_line_mapping[10:4] ? way0_dirty_85 : _GEN_597; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_599 = 7'h56 == stage1_addr_line_mapping[10:4] ? way0_dirty_86 : _GEN_598; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_600 = 7'h57 == stage1_addr_line_mapping[10:4] ? way0_dirty_87 : _GEN_599; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_601 = 7'h58 == stage1_addr_line_mapping[10:4] ? way0_dirty_88 : _GEN_600; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_602 = 7'h59 == stage1_addr_line_mapping[10:4] ? way0_dirty_89 : _GEN_601; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_603 = 7'h5a == stage1_addr_line_mapping[10:4] ? way0_dirty_90 : _GEN_602; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_604 = 7'h5b == stage1_addr_line_mapping[10:4] ? way0_dirty_91 : _GEN_603; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_605 = 7'h5c == stage1_addr_line_mapping[10:4] ? way0_dirty_92 : _GEN_604; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_606 = 7'h5d == stage1_addr_line_mapping[10:4] ? way0_dirty_93 : _GEN_605; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_607 = 7'h5e == stage1_addr_line_mapping[10:4] ? way0_dirty_94 : _GEN_606; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_608 = 7'h5f == stage1_addr_line_mapping[10:4] ? way0_dirty_95 : _GEN_607; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_609 = 7'h60 == stage1_addr_line_mapping[10:4] ? way0_dirty_96 : _GEN_608; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_610 = 7'h61 == stage1_addr_line_mapping[10:4] ? way0_dirty_97 : _GEN_609; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_611 = 7'h62 == stage1_addr_line_mapping[10:4] ? way0_dirty_98 : _GEN_610; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_612 = 7'h63 == stage1_addr_line_mapping[10:4] ? way0_dirty_99 : _GEN_611; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_613 = 7'h64 == stage1_addr_line_mapping[10:4] ? way0_dirty_100 : _GEN_612; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_614 = 7'h65 == stage1_addr_line_mapping[10:4] ? way0_dirty_101 : _GEN_613; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_615 = 7'h66 == stage1_addr_line_mapping[10:4] ? way0_dirty_102 : _GEN_614; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_616 = 7'h67 == stage1_addr_line_mapping[10:4] ? way0_dirty_103 : _GEN_615; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_617 = 7'h68 == stage1_addr_line_mapping[10:4] ? way0_dirty_104 : _GEN_616; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_618 = 7'h69 == stage1_addr_line_mapping[10:4] ? way0_dirty_105 : _GEN_617; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_619 = 7'h6a == stage1_addr_line_mapping[10:4] ? way0_dirty_106 : _GEN_618; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_620 = 7'h6b == stage1_addr_line_mapping[10:4] ? way0_dirty_107 : _GEN_619; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_621 = 7'h6c == stage1_addr_line_mapping[10:4] ? way0_dirty_108 : _GEN_620; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_622 = 7'h6d == stage1_addr_line_mapping[10:4] ? way0_dirty_109 : _GEN_621; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_623 = 7'h6e == stage1_addr_line_mapping[10:4] ? way0_dirty_110 : _GEN_622; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_624 = 7'h6f == stage1_addr_line_mapping[10:4] ? way0_dirty_111 : _GEN_623; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_625 = 7'h70 == stage1_addr_line_mapping[10:4] ? way0_dirty_112 : _GEN_624; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_626 = 7'h71 == stage1_addr_line_mapping[10:4] ? way0_dirty_113 : _GEN_625; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_627 = 7'h72 == stage1_addr_line_mapping[10:4] ? way0_dirty_114 : _GEN_626; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_628 = 7'h73 == stage1_addr_line_mapping[10:4] ? way0_dirty_115 : _GEN_627; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_629 = 7'h74 == stage1_addr_line_mapping[10:4] ? way0_dirty_116 : _GEN_628; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_630 = 7'h75 == stage1_addr_line_mapping[10:4] ? way0_dirty_117 : _GEN_629; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_631 = 7'h76 == stage1_addr_line_mapping[10:4] ? way0_dirty_118 : _GEN_630; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_632 = 7'h77 == stage1_addr_line_mapping[10:4] ? way0_dirty_119 : _GEN_631; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_633 = 7'h78 == stage1_addr_line_mapping[10:4] ? way0_dirty_120 : _GEN_632; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_634 = 7'h79 == stage1_addr_line_mapping[10:4] ? way0_dirty_121 : _GEN_633; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_635 = 7'h7a == stage1_addr_line_mapping[10:4] ? way0_dirty_122 : _GEN_634; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_636 = 7'h7b == stage1_addr_line_mapping[10:4] ? way0_dirty_123 : _GEN_635; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_637 = 7'h7c == stage1_addr_line_mapping[10:4] ? way0_dirty_124 : _GEN_636; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_638 = 7'h7d == stage1_addr_line_mapping[10:4] ? way0_dirty_125 : _GEN_637; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_639 = 7'h7e == stage1_addr_line_mapping[10:4] ? way0_dirty_126 : _GEN_638; // @[data_cache.scala 202:{12,12}]
+  wire  _GEN_640 = 7'h7f == stage1_addr_line_mapping[10:4] ? way0_dirty_127 : _GEN_639; // @[data_cache.scala 202:{12,12}]
+  wire  _way0_dirty_T_14 = work_state == 5'h10 & _way0_dirty_T_7 | _GEN_640; // @[data_cache.scala 202:12]
+  wire  _way0_dirty_T_15 = work_state == 5'he & ~_GEN_384 ? 1'h0 : _way0_dirty_T_14; // @[data_cache.scala 201:12]
+  wire  _way1_dirty_T_4 = _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg; // @[data_cache.scala 204:149]
+  wire  _way1_dirty_T_12 = _way0_dirty_T_9 & _GEN_384; // @[data_cache.scala 206:52]
+  wire  _GEN_1026 = 7'h1 == stage1_addr_line_mapping[10:4] ? way1_dirty_1 : way1_dirty_0; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1027 = 7'h2 == stage1_addr_line_mapping[10:4] ? way1_dirty_2 : _GEN_1026; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1028 = 7'h3 == stage1_addr_line_mapping[10:4] ? way1_dirty_3 : _GEN_1027; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1029 = 7'h4 == stage1_addr_line_mapping[10:4] ? way1_dirty_4 : _GEN_1028; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1030 = 7'h5 == stage1_addr_line_mapping[10:4] ? way1_dirty_5 : _GEN_1029; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1031 = 7'h6 == stage1_addr_line_mapping[10:4] ? way1_dirty_6 : _GEN_1030; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1032 = 7'h7 == stage1_addr_line_mapping[10:4] ? way1_dirty_7 : _GEN_1031; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1033 = 7'h8 == stage1_addr_line_mapping[10:4] ? way1_dirty_8 : _GEN_1032; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1034 = 7'h9 == stage1_addr_line_mapping[10:4] ? way1_dirty_9 : _GEN_1033; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1035 = 7'ha == stage1_addr_line_mapping[10:4] ? way1_dirty_10 : _GEN_1034; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1036 = 7'hb == stage1_addr_line_mapping[10:4] ? way1_dirty_11 : _GEN_1035; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1037 = 7'hc == stage1_addr_line_mapping[10:4] ? way1_dirty_12 : _GEN_1036; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1038 = 7'hd == stage1_addr_line_mapping[10:4] ? way1_dirty_13 : _GEN_1037; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1039 = 7'he == stage1_addr_line_mapping[10:4] ? way1_dirty_14 : _GEN_1038; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1040 = 7'hf == stage1_addr_line_mapping[10:4] ? way1_dirty_15 : _GEN_1039; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1041 = 7'h10 == stage1_addr_line_mapping[10:4] ? way1_dirty_16 : _GEN_1040; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1042 = 7'h11 == stage1_addr_line_mapping[10:4] ? way1_dirty_17 : _GEN_1041; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1043 = 7'h12 == stage1_addr_line_mapping[10:4] ? way1_dirty_18 : _GEN_1042; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1044 = 7'h13 == stage1_addr_line_mapping[10:4] ? way1_dirty_19 : _GEN_1043; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1045 = 7'h14 == stage1_addr_line_mapping[10:4] ? way1_dirty_20 : _GEN_1044; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1046 = 7'h15 == stage1_addr_line_mapping[10:4] ? way1_dirty_21 : _GEN_1045; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1047 = 7'h16 == stage1_addr_line_mapping[10:4] ? way1_dirty_22 : _GEN_1046; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1048 = 7'h17 == stage1_addr_line_mapping[10:4] ? way1_dirty_23 : _GEN_1047; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1049 = 7'h18 == stage1_addr_line_mapping[10:4] ? way1_dirty_24 : _GEN_1048; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1050 = 7'h19 == stage1_addr_line_mapping[10:4] ? way1_dirty_25 : _GEN_1049; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1051 = 7'h1a == stage1_addr_line_mapping[10:4] ? way1_dirty_26 : _GEN_1050; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1052 = 7'h1b == stage1_addr_line_mapping[10:4] ? way1_dirty_27 : _GEN_1051; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1053 = 7'h1c == stage1_addr_line_mapping[10:4] ? way1_dirty_28 : _GEN_1052; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1054 = 7'h1d == stage1_addr_line_mapping[10:4] ? way1_dirty_29 : _GEN_1053; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1055 = 7'h1e == stage1_addr_line_mapping[10:4] ? way1_dirty_30 : _GEN_1054; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1056 = 7'h1f == stage1_addr_line_mapping[10:4] ? way1_dirty_31 : _GEN_1055; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1057 = 7'h20 == stage1_addr_line_mapping[10:4] ? way1_dirty_32 : _GEN_1056; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1058 = 7'h21 == stage1_addr_line_mapping[10:4] ? way1_dirty_33 : _GEN_1057; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1059 = 7'h22 == stage1_addr_line_mapping[10:4] ? way1_dirty_34 : _GEN_1058; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1060 = 7'h23 == stage1_addr_line_mapping[10:4] ? way1_dirty_35 : _GEN_1059; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1061 = 7'h24 == stage1_addr_line_mapping[10:4] ? way1_dirty_36 : _GEN_1060; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1062 = 7'h25 == stage1_addr_line_mapping[10:4] ? way1_dirty_37 : _GEN_1061; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1063 = 7'h26 == stage1_addr_line_mapping[10:4] ? way1_dirty_38 : _GEN_1062; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1064 = 7'h27 == stage1_addr_line_mapping[10:4] ? way1_dirty_39 : _GEN_1063; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1065 = 7'h28 == stage1_addr_line_mapping[10:4] ? way1_dirty_40 : _GEN_1064; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1066 = 7'h29 == stage1_addr_line_mapping[10:4] ? way1_dirty_41 : _GEN_1065; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1067 = 7'h2a == stage1_addr_line_mapping[10:4] ? way1_dirty_42 : _GEN_1066; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1068 = 7'h2b == stage1_addr_line_mapping[10:4] ? way1_dirty_43 : _GEN_1067; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1069 = 7'h2c == stage1_addr_line_mapping[10:4] ? way1_dirty_44 : _GEN_1068; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1070 = 7'h2d == stage1_addr_line_mapping[10:4] ? way1_dirty_45 : _GEN_1069; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1071 = 7'h2e == stage1_addr_line_mapping[10:4] ? way1_dirty_46 : _GEN_1070; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1072 = 7'h2f == stage1_addr_line_mapping[10:4] ? way1_dirty_47 : _GEN_1071; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1073 = 7'h30 == stage1_addr_line_mapping[10:4] ? way1_dirty_48 : _GEN_1072; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1074 = 7'h31 == stage1_addr_line_mapping[10:4] ? way1_dirty_49 : _GEN_1073; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1075 = 7'h32 == stage1_addr_line_mapping[10:4] ? way1_dirty_50 : _GEN_1074; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1076 = 7'h33 == stage1_addr_line_mapping[10:4] ? way1_dirty_51 : _GEN_1075; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1077 = 7'h34 == stage1_addr_line_mapping[10:4] ? way1_dirty_52 : _GEN_1076; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1078 = 7'h35 == stage1_addr_line_mapping[10:4] ? way1_dirty_53 : _GEN_1077; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1079 = 7'h36 == stage1_addr_line_mapping[10:4] ? way1_dirty_54 : _GEN_1078; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1080 = 7'h37 == stage1_addr_line_mapping[10:4] ? way1_dirty_55 : _GEN_1079; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1081 = 7'h38 == stage1_addr_line_mapping[10:4] ? way1_dirty_56 : _GEN_1080; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1082 = 7'h39 == stage1_addr_line_mapping[10:4] ? way1_dirty_57 : _GEN_1081; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1083 = 7'h3a == stage1_addr_line_mapping[10:4] ? way1_dirty_58 : _GEN_1082; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1084 = 7'h3b == stage1_addr_line_mapping[10:4] ? way1_dirty_59 : _GEN_1083; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1085 = 7'h3c == stage1_addr_line_mapping[10:4] ? way1_dirty_60 : _GEN_1084; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1086 = 7'h3d == stage1_addr_line_mapping[10:4] ? way1_dirty_61 : _GEN_1085; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1087 = 7'h3e == stage1_addr_line_mapping[10:4] ? way1_dirty_62 : _GEN_1086; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1088 = 7'h3f == stage1_addr_line_mapping[10:4] ? way1_dirty_63 : _GEN_1087; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1089 = 7'h40 == stage1_addr_line_mapping[10:4] ? way1_dirty_64 : _GEN_1088; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1090 = 7'h41 == stage1_addr_line_mapping[10:4] ? way1_dirty_65 : _GEN_1089; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1091 = 7'h42 == stage1_addr_line_mapping[10:4] ? way1_dirty_66 : _GEN_1090; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1092 = 7'h43 == stage1_addr_line_mapping[10:4] ? way1_dirty_67 : _GEN_1091; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1093 = 7'h44 == stage1_addr_line_mapping[10:4] ? way1_dirty_68 : _GEN_1092; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1094 = 7'h45 == stage1_addr_line_mapping[10:4] ? way1_dirty_69 : _GEN_1093; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1095 = 7'h46 == stage1_addr_line_mapping[10:4] ? way1_dirty_70 : _GEN_1094; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1096 = 7'h47 == stage1_addr_line_mapping[10:4] ? way1_dirty_71 : _GEN_1095; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1097 = 7'h48 == stage1_addr_line_mapping[10:4] ? way1_dirty_72 : _GEN_1096; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1098 = 7'h49 == stage1_addr_line_mapping[10:4] ? way1_dirty_73 : _GEN_1097; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1099 = 7'h4a == stage1_addr_line_mapping[10:4] ? way1_dirty_74 : _GEN_1098; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1100 = 7'h4b == stage1_addr_line_mapping[10:4] ? way1_dirty_75 : _GEN_1099; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1101 = 7'h4c == stage1_addr_line_mapping[10:4] ? way1_dirty_76 : _GEN_1100; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1102 = 7'h4d == stage1_addr_line_mapping[10:4] ? way1_dirty_77 : _GEN_1101; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1103 = 7'h4e == stage1_addr_line_mapping[10:4] ? way1_dirty_78 : _GEN_1102; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1104 = 7'h4f == stage1_addr_line_mapping[10:4] ? way1_dirty_79 : _GEN_1103; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1105 = 7'h50 == stage1_addr_line_mapping[10:4] ? way1_dirty_80 : _GEN_1104; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1106 = 7'h51 == stage1_addr_line_mapping[10:4] ? way1_dirty_81 : _GEN_1105; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1107 = 7'h52 == stage1_addr_line_mapping[10:4] ? way1_dirty_82 : _GEN_1106; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1108 = 7'h53 == stage1_addr_line_mapping[10:4] ? way1_dirty_83 : _GEN_1107; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1109 = 7'h54 == stage1_addr_line_mapping[10:4] ? way1_dirty_84 : _GEN_1108; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1110 = 7'h55 == stage1_addr_line_mapping[10:4] ? way1_dirty_85 : _GEN_1109; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1111 = 7'h56 == stage1_addr_line_mapping[10:4] ? way1_dirty_86 : _GEN_1110; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1112 = 7'h57 == stage1_addr_line_mapping[10:4] ? way1_dirty_87 : _GEN_1111; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1113 = 7'h58 == stage1_addr_line_mapping[10:4] ? way1_dirty_88 : _GEN_1112; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1114 = 7'h59 == stage1_addr_line_mapping[10:4] ? way1_dirty_89 : _GEN_1113; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1115 = 7'h5a == stage1_addr_line_mapping[10:4] ? way1_dirty_90 : _GEN_1114; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1116 = 7'h5b == stage1_addr_line_mapping[10:4] ? way1_dirty_91 : _GEN_1115; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1117 = 7'h5c == stage1_addr_line_mapping[10:4] ? way1_dirty_92 : _GEN_1116; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1118 = 7'h5d == stage1_addr_line_mapping[10:4] ? way1_dirty_93 : _GEN_1117; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1119 = 7'h5e == stage1_addr_line_mapping[10:4] ? way1_dirty_94 : _GEN_1118; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1120 = 7'h5f == stage1_addr_line_mapping[10:4] ? way1_dirty_95 : _GEN_1119; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1121 = 7'h60 == stage1_addr_line_mapping[10:4] ? way1_dirty_96 : _GEN_1120; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1122 = 7'h61 == stage1_addr_line_mapping[10:4] ? way1_dirty_97 : _GEN_1121; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1123 = 7'h62 == stage1_addr_line_mapping[10:4] ? way1_dirty_98 : _GEN_1122; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1124 = 7'h63 == stage1_addr_line_mapping[10:4] ? way1_dirty_99 : _GEN_1123; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1125 = 7'h64 == stage1_addr_line_mapping[10:4] ? way1_dirty_100 : _GEN_1124; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1126 = 7'h65 == stage1_addr_line_mapping[10:4] ? way1_dirty_101 : _GEN_1125; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1127 = 7'h66 == stage1_addr_line_mapping[10:4] ? way1_dirty_102 : _GEN_1126; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1128 = 7'h67 == stage1_addr_line_mapping[10:4] ? way1_dirty_103 : _GEN_1127; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1129 = 7'h68 == stage1_addr_line_mapping[10:4] ? way1_dirty_104 : _GEN_1128; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1130 = 7'h69 == stage1_addr_line_mapping[10:4] ? way1_dirty_105 : _GEN_1129; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1131 = 7'h6a == stage1_addr_line_mapping[10:4] ? way1_dirty_106 : _GEN_1130; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1132 = 7'h6b == stage1_addr_line_mapping[10:4] ? way1_dirty_107 : _GEN_1131; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1133 = 7'h6c == stage1_addr_line_mapping[10:4] ? way1_dirty_108 : _GEN_1132; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1134 = 7'h6d == stage1_addr_line_mapping[10:4] ? way1_dirty_109 : _GEN_1133; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1135 = 7'h6e == stage1_addr_line_mapping[10:4] ? way1_dirty_110 : _GEN_1134; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1136 = 7'h6f == stage1_addr_line_mapping[10:4] ? way1_dirty_111 : _GEN_1135; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1137 = 7'h70 == stage1_addr_line_mapping[10:4] ? way1_dirty_112 : _GEN_1136; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1138 = 7'h71 == stage1_addr_line_mapping[10:4] ? way1_dirty_113 : _GEN_1137; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1139 = 7'h72 == stage1_addr_line_mapping[10:4] ? way1_dirty_114 : _GEN_1138; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1140 = 7'h73 == stage1_addr_line_mapping[10:4] ? way1_dirty_115 : _GEN_1139; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1141 = 7'h74 == stage1_addr_line_mapping[10:4] ? way1_dirty_116 : _GEN_1140; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1142 = 7'h75 == stage1_addr_line_mapping[10:4] ? way1_dirty_117 : _GEN_1141; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1143 = 7'h76 == stage1_addr_line_mapping[10:4] ? way1_dirty_118 : _GEN_1142; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1144 = 7'h77 == stage1_addr_line_mapping[10:4] ? way1_dirty_119 : _GEN_1143; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1145 = 7'h78 == stage1_addr_line_mapping[10:4] ? way1_dirty_120 : _GEN_1144; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1146 = 7'h79 == stage1_addr_line_mapping[10:4] ? way1_dirty_121 : _GEN_1145; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1147 = 7'h7a == stage1_addr_line_mapping[10:4] ? way1_dirty_122 : _GEN_1146; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1148 = 7'h7b == stage1_addr_line_mapping[10:4] ? way1_dirty_123 : _GEN_1147; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1149 = 7'h7c == stage1_addr_line_mapping[10:4] ? way1_dirty_124 : _GEN_1148; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1150 = 7'h7d == stage1_addr_line_mapping[10:4] ? way1_dirty_125 : _GEN_1149; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1151 = 7'h7e == stage1_addr_line_mapping[10:4] ? way1_dirty_126 : _GEN_1150; // @[data_cache.scala 206:{12,12}]
+  wire  _GEN_1152 = 7'h7f == stage1_addr_line_mapping[10:4] ? way1_dirty_127 : _GEN_1151; // @[data_cache.scala 206:{12,12}]
+  wire  _way1_dirty_T_14 = _way0_dirty_T_9 & _GEN_384 | _GEN_1152; // @[data_cache.scala 206:12]
+  wire  _way1_dirty_T_15 = _way0_dirty_T_5 & _GEN_384 ? 1'h0 : _way1_dirty_T_14; // @[data_cache.scala 205:12]
+  wire  dirty_victim = _way0_dirty_T_7 ? _GEN_640 : _GEN_1152; // @[data_cache.scala 210:24]
   wire [10:0] _T_3 = {data_write_back_counter[6:0],4'h0}; // @[Cat.scala 31:58]
   wire  _io_tlb_req_T_4 = ~stage1_addr_line_mapping[31] | stage1_addr_line_mapping[31:30] == 2'h3; // @[macros.scala 490:18]
-  wire  _lru_T_4 = _hit_T_1 ? 1'h0 : _GEN_384; // @[data_cache.scala 230:12]
-  wire  _lru_T_5 = _hit_T | _lru_T_4; // @[data_cache.scala 229:12]
-  wire  _data_cache_under_write_all_back_T = work_state == 5'h18; // @[data_cache.scala 237:55]
-  wire  _data_cache_under_write_all_back_T_1 = work_state == 5'h19; // @[data_cache.scala 237:90]
-  wire [4:0] _state_ready_lookup_will_to_be_T_3 = stage1_sram_cache_reg ? 5'h19 : 5'h3; // @[data_cache.scala 240:16]
-  wire [4:0] _state_ready_lookup_will_to_be_T_5 = stage1_sram_cache_reg ? 5'h19 : 5'h1; // @[data_cache.scala 240:88]
+  wire  _lru_T_4 = _hit_T_1 ? 1'h0 : _GEN_384; // @[data_cache.scala 231:12]
+  wire  _lru_T_5 = _hit_T | _lru_T_4; // @[data_cache.scala 230:12]
+  wire  _data_cache_under_write_all_back_T = work_state == 5'h18; // @[data_cache.scala 238:55]
+  wire  _data_cache_under_write_all_back_T_1 = work_state == 5'h19; // @[data_cache.scala 238:90]
+  wire [4:0] _state_ready_lookup_will_to_be_T_3 = stage1_sram_cache_reg ? 5'h19 : 5'h3; // @[data_cache.scala 241:16]
+  wire [4:0] _state_ready_lookup_will_to_be_T_5 = stage1_sram_cache_reg ? 5'h19 : 5'h1; // @[data_cache.scala 241:88]
   wire [4:0] _state_ready_lookup_will_to_be_T_6 = stage1_sram_wr_reg ? _state_ready_lookup_will_to_be_T_3 :
-    _state_ready_lookup_will_to_be_T_5; // @[data_cache.scala 239:55]
-  wire [4:0] _state_ready_lookup_will_to_be_T_7 = stage1_sram_req_reg ? _state_ready_lookup_will_to_be_T_6 : 5'h19; // @[data_cache.scala 239:24]
-  wire [1:0] _state_ready_lookup_will_to_be_T_12 = stage1_sram_wr_reg ? 2'h3 : 2'h1; // @[data_cache.scala 241:81]
-  wire [3:0] _state_ready_lookup_will_to_be_T_15 = stage1_sram_wr_reg ? 4'h8 : 4'hc; // @[data_cache.scala 242:64]
-  wire [3:0] _state_ready_lookup_will_to_be_T_16 = dirty_victim ? 4'h9 : _state_ready_lookup_will_to_be_T_15; // @[data_cache.scala 242:16]
+    _state_ready_lookup_will_to_be_T_5; // @[data_cache.scala 240:55]
+  wire [4:0] _state_ready_lookup_will_to_be_T_7 = stage1_sram_req_reg ? _state_ready_lookup_will_to_be_T_6 : 5'h19; // @[data_cache.scala 240:24]
+  wire [1:0] _state_ready_lookup_will_to_be_T_12 = stage1_sram_wr_reg ? 2'h3 : 2'h1; // @[data_cache.scala 242:81]
+  wire [3:0] _state_ready_lookup_will_to_be_T_15 = stage1_sram_wr_reg ? 4'h8 : 4'hc; // @[data_cache.scala 243:64]
+  wire [3:0] _state_ready_lookup_will_to_be_T_16 = dirty_victim ? 4'h9 : _state_ready_lookup_will_to_be_T_15; // @[data_cache.scala 243:16]
   wire [3:0] _state_ready_lookup_will_to_be_T_17 = ~stage1_sram_cache_reg ? {{2'd0}, _state_ready_lookup_will_to_be_T_12
-    } : _state_ready_lookup_will_to_be_T_16; // @[data_cache.scala 241:47]
+    } : _state_ready_lookup_will_to_be_T_16; // @[data_cache.scala 242:47]
   wire [4:0] _state_ready_lookup_will_to_be_T_18 = stage1_sram_req_reg ? {{1'd0}, _state_ready_lookup_will_to_be_T_17}
-     : 5'h19; // @[data_cache.scala 241:16]
+     : 5'h19; // @[data_cache.scala 242:16]
   wire [4:0] _state_ready_lookup_will_to_be_T_19 = hit ? _state_ready_lookup_will_to_be_T_7 :
-    _state_ready_lookup_will_to_be_T_18; // @[data_cache.scala 239:16]
-  wire [4:0] state_ready_lookup_will_to_be = io_fence_i_control ? 5'h11 : _state_ready_lookup_will_to_be_T_19; // @[data_cache.scala 238:41]
-  wire [4:0] _access_work_state_T_1 = io_port_arready ? 5'h2 : work_state; // @[data_cache.scala 249:39]
-  wire [2:0] _access_work_state_T_6 = io_port_wready ? 3'h5 : 3'h4; // @[data_cache.scala 252:66]
-  wire [4:0] _access_work_state_T_7 = io_port_awready ? {{2'd0}, _access_work_state_T_6} : work_state; // @[data_cache.scala 252:39]
-  wire [4:0] _access_work_state_T_9 = io_port_wready ? 5'h5 : work_state; // @[data_cache.scala 253:39]
-  wire [4:0] _access_work_state_T_11 = io_port_arready ? 5'hd : work_state; // @[data_cache.scala 256:44]
-  wire [4:0] _access_work_state_T_16 = stage1_sram_wr_reg ? 5'h10 : 5'he; // @[data_cache.scala 257:94]
-  wire [4:0] _access_work_state_T_17 = io_port_rlast & io_port_rvalid ? _access_work_state_T_16 : work_state; // @[data_cache.scala 257:44]
-  wire [4:0] _access_work_state_T_19 = io_port_awready ? 5'ha : work_state; // @[data_cache.scala 259:41]
-  wire  _access_work_state_T_21 = write_counter == 3'h1; // @[data_cache.scala 260:81]
-  wire  _access_work_state_T_22 = io_port_wready & write_counter == 3'h1; // @[data_cache.scala 260:64]
-  wire [4:0] _access_work_state_T_23 = io_port_wready & write_counter == 3'h1 ? 5'hb : work_state; // @[data_cache.scala 260:41]
-  wire [4:0] _access_work_state_T_25 = io_port_bvalid ? 5'hc : work_state; // @[data_cache.scala 261:41]
-  wire [4:0] _access_work_state_T_27 = io_port_arready ? 5'h0 : work_state; // @[data_cache.scala 263:44]
-  wire  _access_work_state_T_30 = io_port_rvalid & io_port_rlast; // @[data_cache.scala 264:68]
-  wire [4:0] _access_work_state_T_31 = io_port_rvalid & io_port_rlast ? 5'h10 : work_state; // @[data_cache.scala 264:44]
-  wire [4:0] _access_work_state_T_33 = io_port_awready ? 5'h6 : work_state; // @[data_cache.scala 266:41]
-  wire [4:0] _access_work_state_T_37 = _access_work_state_T_22 ? 5'h7 : work_state; // @[data_cache.scala 267:41]
-  wire [4:0] _access_work_state_T_39 = io_port_bvalid ? 5'h8 : work_state; // @[data_cache.scala 268:41]
-  wire [4:0] _access_work_state_T_40 = data_all_write_back ? 5'h15 : work_state; // @[data_cache.scala 270:94]
-  wire [4:0] _access_work_state_T_41 = data_should_write_back ? 5'h12 : _access_work_state_T_40; // @[data_cache.scala 270:41]
-  wire [4:0] _access_work_state_T_43 = io_port_awready ? 5'h13 : work_state; // @[data_cache.scala 271:41]
+    _state_ready_lookup_will_to_be_T_18; // @[data_cache.scala 240:16]
+  wire [4:0] state_ready_lookup_will_to_be = io_fence_i_control ? 5'h11 : _state_ready_lookup_will_to_be_T_19; // @[data_cache.scala 239:41]
+  wire [4:0] _access_work_state_T_1 = io_port_arready ? 5'h2 : work_state; // @[data_cache.scala 250:39]
+  wire [2:0] _access_work_state_T_6 = io_port_wready ? 3'h5 : 3'h4; // @[data_cache.scala 253:66]
+  wire [4:0] _access_work_state_T_7 = io_port_awready ? {{2'd0}, _access_work_state_T_6} : work_state; // @[data_cache.scala 253:39]
+  wire [4:0] _access_work_state_T_9 = io_port_wready ? 5'h5 : work_state; // @[data_cache.scala 254:39]
+  wire [4:0] _access_work_state_T_11 = io_port_arready ? 5'hd : work_state; // @[data_cache.scala 257:44]
+  wire [4:0] _access_work_state_T_16 = stage1_sram_wr_reg ? 5'h10 : 5'he; // @[data_cache.scala 258:94]
+  wire [4:0] _access_work_state_T_17 = io_port_rlast & io_port_rvalid ? _access_work_state_T_16 : work_state; // @[data_cache.scala 258:44]
+  wire [4:0] _access_work_state_T_19 = io_port_awready ? 5'ha : work_state; // @[data_cache.scala 260:41]
+  wire  _access_work_state_T_21 = write_counter == 3'h1; // @[data_cache.scala 261:81]
+  wire  _access_work_state_T_22 = io_port_wready & write_counter == 3'h1; // @[data_cache.scala 261:64]
+  wire [4:0] _access_work_state_T_23 = io_port_wready & write_counter == 3'h1 ? 5'hb : work_state; // @[data_cache.scala 261:41]
+  wire [4:0] _access_work_state_T_25 = io_port_bvalid ? 5'hc : work_state; // @[data_cache.scala 262:41]
+  wire [4:0] _access_work_state_T_27 = io_port_arready ? 5'h0 : work_state; // @[data_cache.scala 264:44]
+  wire  _access_work_state_T_30 = io_port_rvalid & io_port_rlast; // @[data_cache.scala 265:68]
+  wire [4:0] _access_work_state_T_31 = io_port_rvalid & io_port_rlast ? 5'h10 : work_state; // @[data_cache.scala 265:44]
+  wire [4:0] _access_work_state_T_33 = io_port_awready ? 5'h6 : work_state; // @[data_cache.scala 267:41]
+  wire [4:0] _access_work_state_T_37 = _access_work_state_T_22 ? 5'h7 : work_state; // @[data_cache.scala 268:41]
+  wire [4:0] _access_work_state_T_39 = io_port_bvalid ? 5'h8 : work_state; // @[data_cache.scala 269:41]
+  wire [4:0] _access_work_state_T_40 = data_all_write_back ? 5'h15 : work_state; // @[data_cache.scala 271:94]
+  wire [4:0] _access_work_state_T_41 = data_should_write_back ? 5'h12 : _access_work_state_T_40; // @[data_cache.scala 271:41]
+  wire [4:0] _access_work_state_T_43 = io_port_awready ? 5'h13 : work_state; // @[data_cache.scala 272:41]
   wire [4:0] _access_work_state_T_52 = 5'h1 == work_state ? _access_work_state_T_1 : work_state; // @[Mux.scala 81:58]
   wire [4:0] _access_work_state_T_54 = 5'h2 == work_state ? _access_work_state_for_stall_T_1 : _access_work_state_T_52; // @[Mux.scala 81:58]
   wire [4:0] _access_work_state_T_56 = 5'h18 == work_state ? state_ready_lookup_will_to_be : _access_work_state_T_54; // @[Mux.scala 81:58]
@@ -56494,90 +56498,90 @@ module data_cache(
   wire [4:0] _access_work_state_T_86 = 5'h6 == work_state ? _access_work_state_T_37 : _access_work_state_T_84; // @[Mux.scala 81:58]
   wire [4:0] _access_work_state_T_88 = 5'h7 == work_state ? _access_work_state_T_39 : _access_work_state_T_86; // @[Mux.scala 81:58]
   wire [4:0] _access_work_state_T_90 = 5'h11 == work_state ? _access_work_state_T_41 : _access_work_state_T_88; // @[Mux.scala 81:58]
-  wire  _wait_data_T_3 = work_state == 5'hd; // @[data_cache.scala 293:24]
-  wire [2:0] _GEN_3468 = {{2'd0}, stage1_addr_line_mapping[3]}; // @[data_cache.scala 293:98]
-  wire  _write_counter_T = work_state == 5'ha; // @[data_cache.scala 295:37]
-  wire  _write_counter_T_1 = work_state == 5'h9; // @[data_cache.scala 295:79]
-  wire  _write_counter_T_2 = work_state == 5'ha | work_state == 5'h9; // @[data_cache.scala 295:65]
-  wire [2:0] _write_counter_T_6 = write_counter + 3'h1; // @[data_cache.scala 295:190]
-  wire [2:0] _write_counter_T_7 = _access_work_state_T_21 ? 3'h0 : _write_counter_T_6; // @[data_cache.scala 295:137]
-  wire [2:0] _write_counter_T_8 = io_port_wready ? _write_counter_T_7 : write_counter; // @[data_cache.scala 295:111]
-  wire  _write_counter_T_9 = work_state == 5'h6; // @[data_cache.scala 296:24]
-  wire  _write_counter_T_10 = work_state == 5'hf; // @[data_cache.scala 296:67]
-  wire  _write_counter_T_19 = work_state == 5'h3; // @[data_cache.scala 297:68]
-  wire [2:0] _read_counter_T_6 = read_counter + 3'h1; // @[data_cache.scala 298:163]
-  wire [2:0] _read_counter_T_7 = io_port_rvalid ? _read_counter_T_6 : read_counter; // @[data_cache.scala 298:128]
-  wire [2:0] _read_counter_T_8 = _access_work_state_T_30 ? 3'h0 : _read_counter_T_7; // @[data_cache.scala 298:72]
-  wire  _read_counter_T_9 = work_state == 5'h0; // @[data_cache.scala 299:24]
+  wire  _wait_data_T_3 = work_state == 5'hd; // @[data_cache.scala 294:24]
+  wire [2:0] _GEN_3468 = {{2'd0}, stage1_addr_line_mapping[3]}; // @[data_cache.scala 294:98]
+  wire  _write_counter_T = work_state == 5'ha; // @[data_cache.scala 296:37]
+  wire  _write_counter_T_1 = work_state == 5'h9; // @[data_cache.scala 296:79]
+  wire  _write_counter_T_2 = work_state == 5'ha | work_state == 5'h9; // @[data_cache.scala 296:65]
+  wire [2:0] _write_counter_T_6 = write_counter + 3'h1; // @[data_cache.scala 296:190]
+  wire [2:0] _write_counter_T_7 = _access_work_state_T_21 ? 3'h0 : _write_counter_T_6; // @[data_cache.scala 296:137]
+  wire [2:0] _write_counter_T_8 = io_port_wready ? _write_counter_T_7 : write_counter; // @[data_cache.scala 296:111]
+  wire  _write_counter_T_9 = work_state == 5'h6; // @[data_cache.scala 297:24]
+  wire  _write_counter_T_10 = work_state == 5'hf; // @[data_cache.scala 297:67]
+  wire  _write_counter_T_19 = work_state == 5'h3; // @[data_cache.scala 298:68]
+  wire [2:0] _read_counter_T_6 = read_counter + 3'h1; // @[data_cache.scala 299:163]
+  wire [2:0] _read_counter_T_7 = io_port_rvalid ? _read_counter_T_6 : read_counter; // @[data_cache.scala 299:128]
+  wire [2:0] _read_counter_T_8 = _access_work_state_T_30 ? 3'h0 : _read_counter_T_7; // @[data_cache.scala 299:72]
+  wire  _read_counter_T_9 = work_state == 5'h0; // @[data_cache.scala 300:24]
   reg [63:0] stage2_sram_addr_reg; // @[Reg.scala 28:20]
-  reg  stage2_hit0_reg; // @[data_cache.scala 321:34]
+  reg  stage2_hit0_reg; // @[data_cache.scala 322:34]
   wire [63:0] dcache_data_way0_0_rdata = dcache_data_io_rdata; // @[data_cache.scala 93:{36,36}]
   wire [63:0] dcache_data_way0_1_rdata = dcache_data_1_io_rdata; // @[data_cache.scala 93:{36,36}]
-  wire [63:0] _GEN_2179 = stage2_sram_addr_reg[3] ? dcache_data_way0_1_rdata : dcache_data_way0_0_rdata; // @[data_cache.scala 346:{23,23}]
+  wire [63:0] _GEN_2179 = stage2_sram_addr_reg[3] ? dcache_data_way0_1_rdata : dcache_data_way0_0_rdata; // @[data_cache.scala 347:{23,23}]
   wire [63:0] dcache_data_way1_0_rdata = dcache_data_2_io_rdata; // @[data_cache.scala 94:{36,36}]
   wire [63:0] dcache_data_way1_1_rdata = dcache_data_3_io_rdata; // @[data_cache.scala 94:{36,36}]
-  wire [63:0] _GEN_2181 = stage2_sram_addr_reg[3] ? dcache_data_way1_1_rdata : dcache_data_way1_0_rdata; // @[data_cache.scala 346:{23,23}]
-  wire [63:0] hit_word = stage2_hit0_reg ? _GEN_2179 : _GEN_2181; // @[data_cache.scala 346:23]
-  wire [63:0] _GEN_2183 = write_counter[0] ? dcache_data_way1_1_rdata : dcache_data_way1_0_rdata; // @[data_cache.scala 356:{29,29}]
-  wire [63:0] _GEN_2185 = write_counter[0] ? dcache_data_way0_1_rdata : dcache_data_way0_0_rdata; // @[data_cache.scala 356:{29,29}]
-  wire  data_write_back_way = data_cache_under_write_back ? data_write_back_counter[7] : _GEN_384; // @[data_cache.scala 357:31]
-  wire [63:0] writeback_data = data_write_back_way ? _GEN_2183 : _GEN_2185; // @[data_cache.scala 356:29]
-  wire  _way0_burst_read_wen_T_2 = _wait_data_T_3 | _read_counter_T_9; // @[data_cache.scala 359:76]
-  wire  _way0_burst_read_wen_T_4 = (_wait_data_T_3 | _read_counter_T_9) & io_port_rvalid; // @[data_cache.scala 359:124]
-  wire  way0_burst_read_wen = (_wait_data_T_3 | _read_counter_T_9) & io_port_rvalid & _way0_dirty_T_7; // @[data_cache.scala 359:149]
-  wire  way1_burst_read_wen = _way0_burst_read_wen_T_4 & _GEN_384; // @[data_cache.scala 360:149]
-  wire  _dcache_data_way0_0_wdata_T_2 = _way0_dirty_T_9 | _way0_dirty_T; // @[data_cache.scala 363:81]
-  wire [63:0] _dcache_data_way0_0_wdata_T_6 = _way0_burst_read_wen_T_2 ? io_port_rdata : 64'h0; // @[data_cache.scala 363:155]
-  wire  _wen_way0_wire_0_T_1 = ~stage1_addr_line_mapping[3]; // @[data_cache.scala 373:59]
-  wire  _way0_wen_0_T = 3'h0 == read_counter; // @[data_cache.scala 379:38]
-  wire  way0_wen_0 = 3'h0 == read_counter & way0_burst_read_wen; // @[data_cache.scala 379:28]
+  wire [63:0] _GEN_2181 = stage2_sram_addr_reg[3] ? dcache_data_way1_1_rdata : dcache_data_way1_0_rdata; // @[data_cache.scala 347:{23,23}]
+  wire [63:0] hit_word = stage2_hit0_reg ? _GEN_2179 : _GEN_2181; // @[data_cache.scala 347:23]
+  wire [63:0] _GEN_2183 = write_counter[0] ? dcache_data_way1_1_rdata : dcache_data_way1_0_rdata; // @[data_cache.scala 357:{29,29}]
+  wire [63:0] _GEN_2185 = write_counter[0] ? dcache_data_way0_1_rdata : dcache_data_way0_0_rdata; // @[data_cache.scala 357:{29,29}]
+  wire  data_write_back_way = data_cache_under_write_back ? data_write_back_counter[7] : _GEN_384; // @[data_cache.scala 358:31]
+  wire [63:0] writeback_data = data_write_back_way ? _GEN_2183 : _GEN_2185; // @[data_cache.scala 357:29]
+  wire  _way0_burst_read_wen_T_2 = _wait_data_T_3 | _read_counter_T_9; // @[data_cache.scala 360:76]
+  wire  _way0_burst_read_wen_T_4 = (_wait_data_T_3 | _read_counter_T_9) & io_port_rvalid; // @[data_cache.scala 360:124]
+  wire  way0_burst_read_wen = (_wait_data_T_3 | _read_counter_T_9) & io_port_rvalid & _way0_dirty_T_7; // @[data_cache.scala 360:149]
+  wire  way1_burst_read_wen = _way0_burst_read_wen_T_4 & _GEN_384; // @[data_cache.scala 361:149]
+  wire  _dcache_data_way0_0_wdata_T_2 = _way0_dirty_T_9 | _way0_dirty_T; // @[data_cache.scala 364:81]
+  wire [63:0] _dcache_data_way0_0_wdata_T_6 = _way0_burst_read_wen_T_2 ? io_port_rdata : 64'h0; // @[data_cache.scala 364:155]
+  wire  _wen_way0_wire_0_T_1 = ~stage1_addr_line_mapping[3]; // @[data_cache.scala 374:59]
+  wire  _way0_wen_0_T = 3'h0 == read_counter; // @[data_cache.scala 380:38]
+  wire  way0_wen_0 = 3'h0 == read_counter & way0_burst_read_wen; // @[data_cache.scala 380:28]
   wire [7:0] _wen_way0_wire_0_T_13 = {way0_wen_0,way0_wen_0,way0_wen_0,way0_wen_0,way0_wen_0,way0_wen_0,way0_wen_0,
     way0_wen_0}; // @[Cat.scala 31:58]
-  wire  way1_wen_0 = _way0_wen_0_T & way1_burst_read_wen; // @[data_cache.scala 380:28]
+  wire  way1_wen_0 = _way0_wen_0_T & way1_burst_read_wen; // @[data_cache.scala 381:28]
   wire [7:0] _wen_way1_wire_0_T_13 = {way1_wen_0,way1_wen_0,way1_wen_0,way1_wen_0,way1_wen_0,way1_wen_0,way1_wen_0,
     way1_wen_0}; // @[Cat.scala 31:58]
-  wire  _way0_wen_1_T = 3'h1 == read_counter; // @[data_cache.scala 379:38]
-  wire  way0_wen_1 = 3'h1 == read_counter & way0_burst_read_wen; // @[data_cache.scala 379:28]
+  wire  _way0_wen_1_T = 3'h1 == read_counter; // @[data_cache.scala 380:38]
+  wire  way0_wen_1 = 3'h1 == read_counter & way0_burst_read_wen; // @[data_cache.scala 380:28]
   wire [7:0] _wen_way0_wire_1_T_13 = {way0_wen_1,way0_wen_1,way0_wen_1,way0_wen_1,way0_wen_1,way0_wen_1,way0_wen_1,
     way0_wen_1}; // @[Cat.scala 31:58]
-  wire  way1_wen_1 = _way0_wen_1_T & way1_burst_read_wen; // @[data_cache.scala 380:28]
+  wire  way1_wen_1 = _way0_wen_1_T & way1_burst_read_wen; // @[data_cache.scala 381:28]
   wire [7:0] _wen_way1_wire_1_T_13 = {way1_wen_1,way1_wen_1,way1_wen_1,way1_wen_1,way1_wen_1,way1_wen_1,way1_wen_1,
     way1_wen_1}; // @[Cat.scala 31:58]
   wire [53:0] _T_27 = {1'h1,stage1_addr_line_mapping[63:11]}; // @[Cat.scala 31:58]
-  wire  _io_port_araddr_T = work_state == 5'h1; // @[data_cache.scala 399:38]
-  wire  _io_port_araddr_T_1 = work_state == 5'hc; // @[data_cache.scala 400:24]
-  wire  _io_port_araddr_T_2 = work_state == 5'h8; // @[data_cache.scala 400:71]
+  wire  _io_port_araddr_T = work_state == 5'h1; // @[data_cache.scala 400:38]
+  wire  _io_port_araddr_T_1 = work_state == 5'hc; // @[data_cache.scala 401:24]
+  wire  _io_port_araddr_T_2 = work_state == 5'h8; // @[data_cache.scala 401:71]
   wire [63:0] _io_port_araddr_T_5 = {stage1_sram_phy_addr_reg[63:4],4'h0}; // @[Cat.scala 31:58]
-  wire [63:0] _io_port_araddr_T_6 = work_state == 5'hc | work_state == 5'h8 ? _io_port_araddr_T_5 : 64'h0; // @[data_cache.scala 400:12]
-  wire [1:0] _io_port_arsize_T_1 = stage1_sram_cache_reg ? 2'h3 : stage1_sram_size_reg; // @[data_cache.scala 402:27]
-  wire  stage2_addr_same_as_stage1 = stage2_sram_addr_reg == stage1_addr_line_mapping; // @[data_cache.scala 411:56]
-  wire  stage2_write_stage1_read = stage2_sram_write_reg & ~stage1_sram_wr_reg; // @[data_cache.scala 412:58]
-  wire  _GEN_3338 = io_port_bvalid ? 1'h0 : write_access_complete_reg; // @[data_cache.scala 415:39 416:35 418:35]
-  wire [52:0] _awaddr_miss_addr_T_2 = _way0_dirty_T_7 ? dcache_tag_io_tag : dcache_tag_1_io_tag; // @[data_cache.scala 421:36]
+  wire [63:0] _io_port_araddr_T_6 = work_state == 5'hc | work_state == 5'h8 ? _io_port_araddr_T_5 : 64'h0; // @[data_cache.scala 401:12]
+  wire [1:0] _io_port_arsize_T_1 = stage1_sram_cache_reg ? 2'h3 : stage1_sram_size_reg; // @[data_cache.scala 403:27]
+  wire  stage2_addr_same_as_stage1 = stage2_sram_addr_reg == stage1_addr_line_mapping; // @[data_cache.scala 412:56]
+  wire  stage2_write_stage1_read = stage2_sram_write_reg & ~stage1_sram_wr_reg; // @[data_cache.scala 413:58]
+  wire  _GEN_3338 = io_port_bvalid ? 1'h0 : write_access_complete_reg; // @[data_cache.scala 416:39 417:35 419:35]
+  wire [52:0] _awaddr_miss_addr_T_2 = _way0_dirty_T_7 ? dcache_tag_io_tag : dcache_tag_1_io_tag; // @[data_cache.scala 422:36]
   wire [63:0] awaddr_miss_addr = {_awaddr_miss_addr_T_2,stage1_sram_phy_addr_reg[10:4],4'h0}; // @[Cat.scala 31:58]
-  wire  _io_port_arvalid_T_7 = ~(stage2_addr_same_as_stage1 & stage2_write_stage1_read & write_access_complete_reg); // @[data_cache.scala 424:53]
-  wire [52:0] _io_port_awaddr_T_1 = data_write_back_way ? dcache_tag_1_io_tag : dcache_tag_io_tag; // @[data_cache.scala 432:46]
+  wire  _io_port_arvalid_T_7 = ~(stage2_addr_same_as_stage1 & stage2_write_stage1_read & write_access_complete_reg); // @[data_cache.scala 425:53]
+  wire [52:0] _io_port_awaddr_T_1 = data_write_back_way ? dcache_tag_1_io_tag : dcache_tag_io_tag; // @[data_cache.scala 433:46]
   wire [63:0] _io_port_awaddr_T_3 = {_io_port_awaddr_T_1,data_write_back_counter[6:0],4'h0}; // @[Cat.scala 31:58]
   wire [63:0] _io_port_awaddr_T_5 = 5'h3 == work_state ? stage1_sram_phy_addr_reg : 64'h0; // @[Mux.scala 81:58]
   wire [63:0] _io_port_awaddr_T_7 = 5'h9 == work_state ? awaddr_miss_addr : _io_port_awaddr_T_5; // @[Mux.scala 81:58]
   wire [63:0] _io_port_awaddr_T_9 = 5'hf == work_state ? awaddr_miss_addr : _io_port_awaddr_T_7; // @[Mux.scala 81:58]
-  wire  _io_port_awlen_T_2 = stage1_sram_cache_reg | _data_cache_under_write_back_T_3; // @[data_cache.scala 433:57]
-  wire [1:0] _io_port_awsize_T_3 = _io_port_awlen_T_2 ? 2'h3 : stage1_sram_size_reg; // @[data_cache.scala 434:27]
-  wire  _io_port_awvalid_T_4 = _write_counter_T_19 | _write_counter_T_10 | _write_counter_T_1; // @[data_cache.scala 442:110]
-  wire  _io_port_wdata_T = work_state == 5'h4; // @[data_cache.scala 446:38]
-  wire  _io_port_wdata_T_2 = work_state == 5'h4 | _write_counter_T_19; // @[data_cache.scala 446:67]
-  wire  _io_port_wdata_T_7 = _write_counter_T_2 | _write_counter_T_10; // @[data_cache.scala 446:217]
-  wire  _io_port_wdata_T_9 = _io_port_wdata_T_7 | _write_counter_T_9; // @[data_cache.scala 447:49]
-  wire [63:0] _io_port_wdata_T_10 = _io_port_wdata_T_9 ? writeback_data : 64'h0; // @[data_cache.scala 446:135]
-  wire [7:0] _io_port_wstrb_T_10 = _io_port_wdata_T_9 ? 8'hff : 8'h0; // @[data_cache.scala 448:131]
-  wire  _io_port_wlast_T_7 = _write_counter_T | _write_counter_T_9; // @[data_cache.scala 450:176]
-  wire  _io_port_wlast_T_11 = _io_port_wlast_T_7 | _data_cache_under_write_back_T_3 | _data_cache_under_write_back_T_5; // @[data_cache.scala 451:53]
-  wire  _io_port_wlast_T_13 = _io_port_wlast_T_11 & _access_work_state_T_21; // @[data_cache.scala 452:9]
-  wire  _io_port_wvalid_T_8 = _io_port_wdata_T_2 | _write_counter_T | _write_counter_T_1 | _write_counter_T_10; // @[data_cache.scala 453:190]
-  reg [63:0] sram_rdata_reg; // @[data_cache.scala 460:33]
-  reg  stage2_stall_reg; // @[data_cache.scala 462:35]
-  wire [63:0] _io_sram_rdata_T_2 = _data_cache_under_write_all_back_T_1 ? hit_word : 64'h0; // @[data_cache.scala 464:92]
-  wire [63:0] _io_sram_rdata_T_3 = _data_cache_under_write_all_back_T ? wait_data : _io_sram_rdata_T_2; // @[data_cache.scala 464:46]
+  wire  _io_port_awlen_T_2 = stage1_sram_cache_reg | _data_cache_under_write_back_T_3; // @[data_cache.scala 434:57]
+  wire [1:0] _io_port_awsize_T_3 = _io_port_awlen_T_2 ? 2'h3 : stage1_sram_size_reg; // @[data_cache.scala 435:27]
+  wire  _io_port_awvalid_T_4 = _write_counter_T_19 | _write_counter_T_10 | _write_counter_T_1; // @[data_cache.scala 443:110]
+  wire  _io_port_wdata_T = work_state == 5'h4; // @[data_cache.scala 447:38]
+  wire  _io_port_wdata_T_2 = work_state == 5'h4 | _write_counter_T_19; // @[data_cache.scala 447:67]
+  wire  _io_port_wdata_T_7 = _write_counter_T_2 | _write_counter_T_10; // @[data_cache.scala 447:217]
+  wire  _io_port_wdata_T_9 = _io_port_wdata_T_7 | _write_counter_T_9; // @[data_cache.scala 448:49]
+  wire [63:0] _io_port_wdata_T_10 = _io_port_wdata_T_9 ? writeback_data : 64'h0; // @[data_cache.scala 447:135]
+  wire [7:0] _io_port_wstrb_T_10 = _io_port_wdata_T_9 ? 8'hff : 8'h0; // @[data_cache.scala 449:131]
+  wire  _io_port_wlast_T_7 = _write_counter_T | _write_counter_T_9; // @[data_cache.scala 451:176]
+  wire  _io_port_wlast_T_11 = _io_port_wlast_T_7 | _data_cache_under_write_back_T_3 | _data_cache_under_write_back_T_5; // @[data_cache.scala 452:53]
+  wire  _io_port_wlast_T_13 = _io_port_wlast_T_11 & _access_work_state_T_21; // @[data_cache.scala 453:9]
+  wire  _io_port_wvalid_T_8 = _io_port_wdata_T_2 | _write_counter_T | _write_counter_T_1 | _write_counter_T_10; // @[data_cache.scala 454:190]
+  reg [63:0] sram_rdata_reg; // @[data_cache.scala 461:33]
+  reg  stage2_stall_reg; // @[data_cache.scala 463:35]
+  wire [63:0] _io_sram_rdata_T_2 = _data_cache_under_write_all_back_T_1 ? hit_word : 64'h0; // @[data_cache.scala 465:92]
+  wire [63:0] _io_sram_rdata_T_3 = _data_cache_under_write_all_back_T ? wait_data : _io_sram_rdata_T_2; // @[data_cache.scala 465:46]
   dcache_tag dcache_tag ( // @[data_cache.scala 60:30]
     .clock(dcache_tag_clock),
     .reset(dcache_tag_reset),
@@ -56630,69 +56634,69 @@ module data_cache(
     .io_wdata(dcache_data_3_io_wdata),
     .io_rdata(dcache_data_3_io_rdata)
   );
-  assign io_port_araddr = work_state == 5'h1 ? stage1_sram_phy_addr_reg : _io_port_araddr_T_6; // @[data_cache.scala 399:26]
-  assign io_port_arlen = {{3'd0}, stage1_sram_cache_reg}; // @[data_cache.scala 401:20]
-  assign io_port_arsize = {{1'd0}, _io_port_arsize_T_1}; // @[data_cache.scala 402:20]
-  assign io_port_arburst = {{1'd0}, stage1_sram_cache_reg}; // @[data_cache.scala 406:21]
-  assign io_port_arvalid = (_io_port_araddr_T | _io_port_araddr_T_1 | _io_port_araddr_T_2) & _io_port_arvalid_T_7; // @[data_cache.scala 423:27]
+  assign io_port_araddr = work_state == 5'h1 ? stage1_sram_phy_addr_reg : _io_port_araddr_T_6; // @[data_cache.scala 400:26]
+  assign io_port_arlen = {{3'd0}, stage1_sram_cache_reg}; // @[data_cache.scala 402:20]
+  assign io_port_arsize = {{1'd0}, _io_port_arsize_T_1}; // @[data_cache.scala 403:20]
+  assign io_port_arburst = {{1'd0}, stage1_sram_cache_reg}; // @[data_cache.scala 407:21]
+  assign io_port_arvalid = (_io_port_araddr_T | _io_port_araddr_T_1 | _io_port_araddr_T_2) & _io_port_arvalid_T_7; // @[data_cache.scala 424:27]
   assign io_port_awaddr = 5'h12 == work_state ? _io_port_awaddr_T_3 : _io_port_awaddr_T_9; // @[Mux.scala 81:58]
-  assign io_port_awlen = {{3'd0}, _io_port_awlen_T_2}; // @[data_cache.scala 433:21]
-  assign io_port_awsize = {{1'd0}, _io_port_awsize_T_3}; // @[data_cache.scala 434:21]
-  assign io_port_awburst = {{1'd0}, _io_port_awlen_T_2}; // @[data_cache.scala 438:21]
-  assign io_port_awvalid = _io_port_awvalid_T_4 | _data_cache_under_write_back_T_3; // @[data_cache.scala 443:10]
-  assign io_port_wdata = work_state == 5'h4 | _write_counter_T_19 ? stage1_sram_wdata_reg : _io_port_wdata_T_10; // @[data_cache.scala 446:26]
-  assign io_port_wstrb = _io_port_wdata_T_2 ? stage1_wstrb_reg : _io_port_wstrb_T_10; // @[data_cache.scala 448:26]
-  assign io_port_wlast = _io_port_wdata_T | _write_counter_T_19 & io_port_wready | _io_port_wlast_T_13; // @[data_cache.scala 450:132]
+  assign io_port_awlen = {{3'd0}, _io_port_awlen_T_2}; // @[data_cache.scala 434:21]
+  assign io_port_awsize = {{1'd0}, _io_port_awsize_T_3}; // @[data_cache.scala 435:21]
+  assign io_port_awburst = {{1'd0}, _io_port_awlen_T_2}; // @[data_cache.scala 439:21]
+  assign io_port_awvalid = _io_port_awvalid_T_4 | _data_cache_under_write_back_T_3; // @[data_cache.scala 444:10]
+  assign io_port_wdata = work_state == 5'h4 | _write_counter_T_19 ? stage1_sram_wdata_reg : _io_port_wdata_T_10; // @[data_cache.scala 447:26]
+  assign io_port_wstrb = _io_port_wdata_T_2 ? stage1_wstrb_reg : _io_port_wstrb_T_10; // @[data_cache.scala 449:26]
+  assign io_port_wlast = _io_port_wdata_T | _write_counter_T_19 & io_port_wready | _io_port_wlast_T_13; // @[data_cache.scala 451:132]
   assign io_port_wvalid = _io_port_wvalid_T_8 | _write_counter_T_9 | _data_cache_under_write_back_T_3 |
-    _data_cache_under_write_back_T_5; // @[data_cache.scala 454:136]
-  assign io_stage2_stall = access_work_state_for_stall[4:3] == 2'h3; // @[data_cache.scala 288:54]
-  assign io_v_addr_for_tlb = stage1_addr_line_mapping; // @[data_cache.scala 222:23]
-  assign io_tlb_req = _io_tlb_req_T_4 & stage1_sram_req_reg; // @[data_cache.scala 221:54]
-  assign io_sram_rdata = stage2_stall_reg ? _io_sram_rdata_T_3 : sram_rdata_reg; // @[data_cache.scala 464:25]
+    _data_cache_under_write_back_T_5; // @[data_cache.scala 455:136]
+  assign io_stage2_stall = access_work_state_for_stall[4:3] == 2'h3; // @[data_cache.scala 289:54]
+  assign io_v_addr_for_tlb = stage1_addr_line_mapping; // @[data_cache.scala 223:23]
+  assign io_tlb_req = _io_tlb_req_T_4 & stage1_sram_req_reg; // @[data_cache.scala 222:54]
+  assign io_sram_rdata = stage2_stall_reg ? _io_sram_rdata_T_3 : sram_rdata_reg; // @[data_cache.scala 465:25]
   assign dcache_tag_clock = clock;
   assign dcache_tag_reset = reset;
-  assign dcache_tag_io_wen = _way0_burst_read_wen_T_2 & _way0_dirty_T_7; // @[data_cache.scala 389:122]
-  assign dcache_tag_io_wdata = _way0_burst_read_wen_T_2 ? _T_27 : 54'h0; // @[data_cache.scala 391:30]
-  assign dcache_tag_io_raddr = io_sram_addr; // @[data_cache.scala 216:24]
-  assign dcache_tag_io_waddr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 213:30]
+  assign dcache_tag_io_wen = _way0_burst_read_wen_T_2 & _way0_dirty_T_7; // @[data_cache.scala 390:122]
+  assign dcache_tag_io_wdata = _way0_burst_read_wen_T_2 ? _T_27 : 54'h0; // @[data_cache.scala 392:30]
+  assign dcache_tag_io_raddr = io_sram_addr; // @[data_cache.scala 217:24]
+  assign dcache_tag_io_waddr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 214:30]
   assign dcache_tag_1_clock = clock;
   assign dcache_tag_1_reset = reset;
-  assign dcache_tag_1_io_wen = _way0_burst_read_wen_T_2 & _GEN_384; // @[data_cache.scala 390:122]
-  assign dcache_tag_1_io_wdata = _way0_burst_read_wen_T_2 ? _T_27 : 54'h0; // @[data_cache.scala 392:30]
-  assign dcache_tag_1_io_raddr = io_sram_addr; // @[data_cache.scala 217:24]
-  assign dcache_tag_1_io_waddr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 214:30]
+  assign dcache_tag_1_io_wen = _way0_burst_read_wen_T_2 & _GEN_384; // @[data_cache.scala 391:122]
+  assign dcache_tag_1_io_wdata = _way0_burst_read_wen_T_2 ? _T_27 : 54'h0; // @[data_cache.scala 393:30]
+  assign dcache_tag_1_io_raddr = io_sram_addr; // @[data_cache.scala 218:24]
+  assign dcache_tag_1_io_waddr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 215:30]
   assign dcache_data_clock = clock;
   assign dcache_data_io_wen = ~stage1_addr_line_mapping[3] & (_way0_dirty_T_4 | _way0_dirty_T_12) ? stage1_wstrb_reg :
-    _wen_way0_wire_0_T_13; // @[data_cache.scala 373:33]
-  assign dcache_data_io_addr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 362:40]
-  assign dcache_data_io_wdata = _way0_dirty_T_9 | _way0_dirty_T ? stage1_sram_wdata_reg : _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 363:41]
+    _wen_way0_wire_0_T_13; // @[data_cache.scala 374:33]
+  assign dcache_data_io_addr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 363:40]
+  assign dcache_data_io_wdata = _way0_dirty_T_9 | _way0_dirty_T ? stage1_sram_wdata_reg : _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 364:41]
   assign dcache_data_1_clock = clock;
   assign dcache_data_1_io_wen = stage1_addr_line_mapping[3] & (_way0_dirty_T_4 | _way0_dirty_T_12) ? stage1_wstrb_reg :
-    _wen_way0_wire_1_T_13; // @[data_cache.scala 373:33]
-  assign dcache_data_1_io_addr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 362:40]
+    _wen_way0_wire_1_T_13; // @[data_cache.scala 374:33]
+  assign dcache_data_1_io_addr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 363:40]
   assign dcache_data_1_io_wdata = _way0_dirty_T_9 | _way0_dirty_T ? stage1_sram_wdata_reg :
-    _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 363:41]
+    _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 364:41]
   assign dcache_data_2_clock = clock;
   assign dcache_data_2_io_wen = _wen_way0_wire_0_T_1 & (_way1_dirty_T_4 | _way1_dirty_T_12) ? stage1_wstrb_reg :
-    _wen_way1_wire_0_T_13; // @[data_cache.scala 375:33]
-  assign dcache_data_2_io_addr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 366:40]
-  assign dcache_data_2_io_wdata = _dcache_data_way0_0_wdata_T_2 ? stage1_sram_wdata_reg : _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 367:41]
+    _wen_way1_wire_0_T_13; // @[data_cache.scala 376:33]
+  assign dcache_data_2_io_addr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 367:40]
+  assign dcache_data_2_io_wdata = _dcache_data_way0_0_wdata_T_2 ? stage1_sram_wdata_reg : _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 368:41]
   assign dcache_data_3_clock = clock;
   assign dcache_data_3_io_wen = stage1_addr_line_mapping[3] & (_way1_dirty_T_4 | _way1_dirty_T_12) ? stage1_wstrb_reg :
-    _wen_way1_wire_1_T_13; // @[data_cache.scala 375:33]
-  assign dcache_data_3_io_addr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 366:40]
-  assign dcache_data_3_io_wdata = _dcache_data_way0_0_wdata_T_2 ? stage1_sram_wdata_reg : _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 367:41]
+    _wen_way1_wire_1_T_13; // @[data_cache.scala 376:33]
+  assign dcache_data_3_io_addr = data_cache_under_write_back ? {{53'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 367:40]
+  assign dcache_data_3_io_wdata = _dcache_data_way0_0_wdata_T_2 ? stage1_sram_wdata_reg : _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 368:41]
   always @(posedge clock or posedge reset) begin
     if (reset) begin // @[Mux.scala 81:58]
-      work_state <= 5'h18; // @[data_cache.scala 274:41]
+      work_state <= 5'h18; // @[data_cache.scala 275:41]
     end else if (5'h15 == work_state) begin // @[Mux.scala 81:58]
-      if (data_all_write_back) begin // @[data_cache.scala 273:41]
+      if (data_all_write_back) begin // @[data_cache.scala 274:41]
         work_state <= 5'h18;
       end else begin
         work_state <= 5'h11;
       end
     end else if (5'h14 == work_state) begin // @[Mux.scala 81:58]
-      if (io_port_bvalid) begin // @[data_cache.scala 272:41]
+      if (io_port_bvalid) begin // @[data_cache.scala 273:41]
         work_state <= 5'h15;
       end
     end else if (5'h13 == work_state) begin // @[Mux.scala 81:58]
@@ -56706,37 +56710,37 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 295:25]
+    if (reset) begin // @[data_cache.scala 296:25]
       write_counter <= 3'h0;
-    end else if (work_state == 5'ha | work_state == 5'h9) begin // @[data_cache.scala 296:12]
+    end else if (work_state == 5'ha | work_state == 5'h9) begin // @[data_cache.scala 297:12]
       write_counter <= _write_counter_T_8;
-    end else if (work_state == 5'h6 | work_state == 5'hf) begin // @[data_cache.scala 297:12]
+    end else if (work_state == 5'h6 | work_state == 5'hf) begin // @[data_cache.scala 298:12]
       write_counter <= _write_counter_T_8;
     end else if (_data_cache_under_write_back_T_5 | work_state == 5'h3) begin
       write_counter <= _write_counter_T_8;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 298:24]
+    if (reset) begin // @[data_cache.scala 299:24]
       read_counter <= 3'h0;
-    end else if (_wait_data_T_3) begin // @[data_cache.scala 299:12]
+    end else if (_wait_data_T_3) begin // @[data_cache.scala 300:12]
       read_counter <= _read_counter_T_8;
     end else if (work_state == 5'h0) begin
       read_counter <= _read_counter_T_8;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 292:21]
+    if (reset) begin // @[data_cache.scala 293:21]
       wait_data <= 64'h0;
-    end else if (work_state == 5'h2 & io_port_rvalid) begin // @[data_cache.scala 293:12]
+    end else if (work_state == 5'h2 & io_port_rvalid) begin // @[data_cache.scala 294:12]
       wait_data <= io_port_rdata;
     end else if (work_state == 5'hd & io_port_rvalid & read_counter == _GEN_3468) begin
       wait_data <= io_port_rdata;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_0 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_0 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h0 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_0 <= _lru_T_5;
@@ -56750,8 +56754,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_1 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_1 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h1 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_1 <= _lru_T_5;
@@ -56765,8 +56769,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_2 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_2 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h2 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_2 <= _lru_T_5;
@@ -56780,8 +56784,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_3 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_3 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h3 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_3 <= _lru_T_5;
@@ -56795,8 +56799,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_4 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_4 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h4 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_4 <= _lru_T_5;
@@ -56810,8 +56814,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_5 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_5 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h5 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_5 <= _lru_T_5;
@@ -56825,8 +56829,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_6 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_6 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h6 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_6 <= _lru_T_5;
@@ -56840,8 +56844,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_7 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_7 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h7 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_7 <= _lru_T_5;
@@ -56855,8 +56859,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_8 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_8 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h8 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_8 <= _lru_T_5;
@@ -56870,8 +56874,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_9 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_9 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h9 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_9 <= _lru_T_5;
@@ -56885,8 +56889,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_10 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_10 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'ha == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_10 <= _lru_T_5;
@@ -56900,8 +56904,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_11 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_11 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'hb == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_11 <= _lru_T_5;
@@ -56915,8 +56919,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_12 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_12 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'hc == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_12 <= _lru_T_5;
@@ -56930,8 +56934,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_13 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_13 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'hd == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_13 <= _lru_T_5;
@@ -56945,8 +56949,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_14 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_14 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'he == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_14 <= _lru_T_5;
@@ -56960,8 +56964,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_15 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_15 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'hf == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_15 <= _lru_T_5;
@@ -56975,8 +56979,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_16 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_16 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h10 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_16 <= _lru_T_5;
@@ -56990,8 +56994,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_17 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_17 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h11 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_17 <= _lru_T_5;
@@ -57005,8 +57009,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_18 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_18 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h12 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_18 <= _lru_T_5;
@@ -57020,8 +57024,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_19 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_19 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h13 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_19 <= _lru_T_5;
@@ -57035,8 +57039,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_20 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_20 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h14 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_20 <= _lru_T_5;
@@ -57050,8 +57054,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_21 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_21 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h15 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_21 <= _lru_T_5;
@@ -57065,8 +57069,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_22 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_22 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h16 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_22 <= _lru_T_5;
@@ -57080,8 +57084,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_23 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_23 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h17 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_23 <= _lru_T_5;
@@ -57095,8 +57099,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_24 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_24 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h18 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_24 <= _lru_T_5;
@@ -57110,8 +57114,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_25 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_25 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h19 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_25 <= _lru_T_5;
@@ -57125,8 +57129,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_26 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_26 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h1a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_26 <= _lru_T_5;
@@ -57140,8 +57144,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_27 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_27 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h1b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_27 <= _lru_T_5;
@@ -57155,8 +57159,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_28 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_28 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h1c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_28 <= _lru_T_5;
@@ -57170,8 +57174,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_29 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_29 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h1d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_29 <= _lru_T_5;
@@ -57185,8 +57189,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_30 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_30 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h1e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_30 <= _lru_T_5;
@@ -57200,8 +57204,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_31 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_31 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h1f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_31 <= _lru_T_5;
@@ -57215,8 +57219,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_32 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_32 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h20 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_32 <= _lru_T_5;
@@ -57230,8 +57234,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_33 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_33 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h21 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_33 <= _lru_T_5;
@@ -57245,8 +57249,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_34 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_34 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h22 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_34 <= _lru_T_5;
@@ -57260,8 +57264,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_35 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_35 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h23 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_35 <= _lru_T_5;
@@ -57275,8 +57279,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_36 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_36 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h24 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_36 <= _lru_T_5;
@@ -57290,8 +57294,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_37 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_37 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h25 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_37 <= _lru_T_5;
@@ -57305,8 +57309,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_38 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_38 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h26 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_38 <= _lru_T_5;
@@ -57320,8 +57324,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_39 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_39 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h27 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_39 <= _lru_T_5;
@@ -57335,8 +57339,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_40 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_40 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h28 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_40 <= _lru_T_5;
@@ -57350,8 +57354,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_41 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_41 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h29 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_41 <= _lru_T_5;
@@ -57365,8 +57369,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_42 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_42 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h2a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_42 <= _lru_T_5;
@@ -57380,8 +57384,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_43 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_43 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h2b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_43 <= _lru_T_5;
@@ -57395,8 +57399,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_44 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_44 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h2c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_44 <= _lru_T_5;
@@ -57410,8 +57414,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_45 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_45 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h2d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_45 <= _lru_T_5;
@@ -57425,8 +57429,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_46 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_46 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h2e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_46 <= _lru_T_5;
@@ -57440,8 +57444,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_47 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_47 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h2f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_47 <= _lru_T_5;
@@ -57455,8 +57459,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_48 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_48 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h30 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_48 <= _lru_T_5;
@@ -57470,8 +57474,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_49 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_49 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h31 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_49 <= _lru_T_5;
@@ -57485,8 +57489,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_50 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_50 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h32 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_50 <= _lru_T_5;
@@ -57500,8 +57504,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_51 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_51 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h33 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_51 <= _lru_T_5;
@@ -57515,8 +57519,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_52 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_52 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h34 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_52 <= _lru_T_5;
@@ -57530,8 +57534,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_53 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_53 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h35 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_53 <= _lru_T_5;
@@ -57545,8 +57549,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_54 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_54 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h36 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_54 <= _lru_T_5;
@@ -57560,8 +57564,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_55 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_55 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h37 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_55 <= _lru_T_5;
@@ -57575,8 +57579,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_56 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_56 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h38 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_56 <= _lru_T_5;
@@ -57590,8 +57594,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_57 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_57 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h39 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_57 <= _lru_T_5;
@@ -57605,8 +57609,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_58 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_58 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h3a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_58 <= _lru_T_5;
@@ -57620,8 +57624,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_59 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_59 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h3b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_59 <= _lru_T_5;
@@ -57635,8 +57639,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_60 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_60 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h3c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_60 <= _lru_T_5;
@@ -57650,8 +57654,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_61 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_61 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h3d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_61 <= _lru_T_5;
@@ -57665,8 +57669,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_62 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_62 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h3e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_62 <= _lru_T_5;
@@ -57680,8 +57684,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_63 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_63 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h3f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_63 <= _lru_T_5;
@@ -57695,8 +57699,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_64 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_64 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h40 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_64 <= _lru_T_5;
@@ -57710,8 +57714,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_65 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_65 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h41 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_65 <= _lru_T_5;
@@ -57725,8 +57729,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_66 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_66 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h42 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_66 <= _lru_T_5;
@@ -57740,8 +57744,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_67 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_67 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h43 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_67 <= _lru_T_5;
@@ -57755,8 +57759,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_68 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_68 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h44 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_68 <= _lru_T_5;
@@ -57770,8 +57774,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_69 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_69 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h45 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_69 <= _lru_T_5;
@@ -57785,8 +57789,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_70 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_70 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h46 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_70 <= _lru_T_5;
@@ -57800,8 +57804,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_71 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_71 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h47 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_71 <= _lru_T_5;
@@ -57815,8 +57819,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_72 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_72 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h48 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_72 <= _lru_T_5;
@@ -57830,8 +57834,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_73 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_73 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h49 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_73 <= _lru_T_5;
@@ -57845,8 +57849,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_74 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_74 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h4a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_74 <= _lru_T_5;
@@ -57860,8 +57864,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_75 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_75 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h4b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_75 <= _lru_T_5;
@@ -57875,8 +57879,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_76 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_76 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h4c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_76 <= _lru_T_5;
@@ -57890,8 +57894,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_77 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_77 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h4d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_77 <= _lru_T_5;
@@ -57905,8 +57909,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_78 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_78 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h4e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_78 <= _lru_T_5;
@@ -57920,8 +57924,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_79 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_79 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h4f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_79 <= _lru_T_5;
@@ -57935,8 +57939,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_80 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_80 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h50 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_80 <= _lru_T_5;
@@ -57950,8 +57954,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_81 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_81 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h51 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_81 <= _lru_T_5;
@@ -57965,8 +57969,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_82 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_82 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h52 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_82 <= _lru_T_5;
@@ -57980,8 +57984,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_83 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_83 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h53 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_83 <= _lru_T_5;
@@ -57995,8 +57999,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_84 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_84 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h54 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_84 <= _lru_T_5;
@@ -58010,8 +58014,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_85 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_85 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h55 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_85 <= _lru_T_5;
@@ -58025,8 +58029,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_86 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_86 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h56 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_86 <= _lru_T_5;
@@ -58040,8 +58044,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_87 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_87 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h57 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_87 <= _lru_T_5;
@@ -58055,8 +58059,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_88 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_88 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h58 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_88 <= _lru_T_5;
@@ -58070,8 +58074,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_89 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_89 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h59 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_89 <= _lru_T_5;
@@ -58085,8 +58089,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_90 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_90 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h5a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_90 <= _lru_T_5;
@@ -58100,8 +58104,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_91 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_91 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h5b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_91 <= _lru_T_5;
@@ -58115,8 +58119,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_92 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_92 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h5c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_92 <= _lru_T_5;
@@ -58130,8 +58134,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_93 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_93 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h5d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_93 <= _lru_T_5;
@@ -58145,8 +58149,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_94 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_94 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h5e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_94 <= _lru_T_5;
@@ -58160,8 +58164,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_95 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_95 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h5f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_95 <= _lru_T_5;
@@ -58175,8 +58179,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_96 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_96 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h60 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_96 <= _lru_T_5;
@@ -58190,8 +58194,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_97 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_97 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h61 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_97 <= _lru_T_5;
@@ -58205,8 +58209,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_98 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_98 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h62 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_98 <= _lru_T_5;
@@ -58220,8 +58224,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_99 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_99 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h63 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_99 <= _lru_T_5;
@@ -58235,8 +58239,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_100 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_100 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h64 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_100 <= _lru_T_5;
@@ -58250,8 +58254,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_101 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_101 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h65 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_101 <= _lru_T_5;
@@ -58265,8 +58269,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_102 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_102 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h66 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_102 <= _lru_T_5;
@@ -58280,8 +58284,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_103 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_103 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h67 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_103 <= _lru_T_5;
@@ -58295,8 +58299,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_104 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_104 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h68 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_104 <= _lru_T_5;
@@ -58310,8 +58314,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_105 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_105 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h69 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_105 <= _lru_T_5;
@@ -58325,8 +58329,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_106 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_106 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h6a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_106 <= _lru_T_5;
@@ -58340,8 +58344,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_107 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_107 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h6b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_107 <= _lru_T_5;
@@ -58355,8 +58359,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_108 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_108 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h6c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_108 <= _lru_T_5;
@@ -58370,8 +58374,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_109 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_109 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h6d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_109 <= _lru_T_5;
@@ -58385,8 +58389,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_110 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_110 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h6e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_110 <= _lru_T_5;
@@ -58400,8 +58404,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_111 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_111 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h6f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_111 <= _lru_T_5;
@@ -58415,8 +58419,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_112 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_112 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h70 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_112 <= _lru_T_5;
@@ -58430,8 +58434,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_113 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_113 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h71 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_113 <= _lru_T_5;
@@ -58445,8 +58449,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_114 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_114 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h72 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_114 <= _lru_T_5;
@@ -58460,8 +58464,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_115 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_115 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h73 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_115 <= _lru_T_5;
@@ -58475,8 +58479,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_116 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_116 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h74 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_116 <= _lru_T_5;
@@ -58490,8 +58494,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_117 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_117 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h75 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_117 <= _lru_T_5;
@@ -58505,8 +58509,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_118 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_118 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h76 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_118 <= _lru_T_5;
@@ -58520,8 +58524,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_119 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_119 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h77 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_119 <= _lru_T_5;
@@ -58535,8 +58539,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_120 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_120 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h78 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_120 <= _lru_T_5;
@@ -58550,8 +58554,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_121 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_121 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h79 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_121 <= _lru_T_5;
@@ -58565,8 +58569,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_122 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_122 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h7a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_122 <= _lru_T_5;
@@ -58580,8 +58584,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_123 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_123 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h7b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_123 <= _lru_T_5;
@@ -58595,8 +58599,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_124 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_124 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h7c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_124 <= _lru_T_5;
@@ -58610,8 +58614,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_125 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_125 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h7d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_125 <= _lru_T_5;
@@ -58625,8 +58629,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_126 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_126 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h7e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_126 <= _lru_T_5;
@@ -58640,8 +58644,8 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 228:37]
-      lru_127 <= 1'h0; // @[data_cache.scala 228:43 231:12 200:{86,86}]
+    if (reset) begin // @[data_cache.scala 229:37]
+      lru_127 <= 1'h0; // @[data_cache.scala 229:43 232:12 201:{86,86}]
     end else if (7'h7f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 63:22]
       if (_way0_dirty_T) begin
         lru_127 <= _lru_T_5;
@@ -58653,1941 +58657,1941 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_0 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_0 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h0 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_0 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_1 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_1 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h1 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_1 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_2 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_2 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h2 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_2 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_3 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_3 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h3 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_3 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_4 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_4 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h4 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_4 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_5 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_5 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h5 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_5 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_6 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_6 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h6 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_6 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_7 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_7 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h7 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_7 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_8 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_8 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h8 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_8 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_9 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_9 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h9 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_9 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_10 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_10 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'ha == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_10 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_11 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_11 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'hb == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_11 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_12 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_12 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'hc == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_12 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_13 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_13 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'hd == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_13 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_14 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_14 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'he == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_14 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_15 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_15 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'hf == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_15 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_16 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_16 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h10 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_16 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_17 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_17 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h11 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_17 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_18 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_18 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h12 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_18 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_19 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_19 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h13 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_19 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_20 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_20 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h14 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_20 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_21 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_21 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h15 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_21 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_22 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_22 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h16 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_22 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_23 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_23 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h17 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_23 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_24 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_24 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h18 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_24 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_25 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_25 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h19 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_25 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_26 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_26 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h1a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_26 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_27 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_27 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h1b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_27 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_28 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_28 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h1c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_28 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_29 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_29 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h1d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_29 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_30 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_30 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h1e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_30 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_31 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_31 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h1f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_31 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_32 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_32 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h20 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_32 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_33 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_33 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h21 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_33 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_34 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_34 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h22 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_34 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_35 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_35 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h23 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_35 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_36 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_36 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h24 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_36 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_37 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_37 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h25 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_37 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_38 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_38 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h26 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_38 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_39 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_39 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h27 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_39 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_40 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_40 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h28 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_40 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_41 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_41 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h29 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_41 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_42 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_42 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h2a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_42 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_43 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_43 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h2b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_43 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_44 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_44 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h2c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_44 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_45 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_45 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h2d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_45 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_46 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_46 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h2e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_46 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_47 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_47 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h2f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_47 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_48 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_48 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h30 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_48 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_49 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_49 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h31 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_49 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_50 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_50 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h32 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_50 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_51 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_51 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h33 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_51 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_52 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_52 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h34 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_52 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_53 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_53 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h35 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_53 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_54 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_54 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h36 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_54 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_55 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_55 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h37 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_55 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_56 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_56 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h38 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_56 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_57 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_57 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h39 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_57 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_58 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_58 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h3a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_58 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_59 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_59 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h3b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_59 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_60 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_60 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h3c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_60 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_61 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_61 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h3d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_61 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_62 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_62 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h3e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_62 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_63 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_63 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h3f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_63 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_64 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_64 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h40 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_64 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_65 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_65 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h41 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_65 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_66 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_66 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h42 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_66 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_67 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_67 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h43 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_67 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_68 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_68 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h44 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_68 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_69 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_69 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h45 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_69 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_70 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_70 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h46 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_70 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_71 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_71 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h47 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_71 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_72 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_72 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h48 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_72 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_73 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_73 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h49 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_73 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_74 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_74 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h4a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_74 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_75 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_75 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h4b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_75 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_76 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_76 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h4c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_76 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_77 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_77 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h4d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_77 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_78 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_78 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h4e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_78 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_79 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_79 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h4f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_79 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_80 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_80 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h50 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_80 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_81 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_81 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h51 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_81 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_82 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_82 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h52 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_82 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_83 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_83 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h53 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_83 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_84 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_84 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h54 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_84 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_85 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_85 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h55 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_85 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_86 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_86 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h56 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_86 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_87 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_87 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h57 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_87 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_88 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_88 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h58 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_88 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_89 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_89 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h59 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_89 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_90 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_90 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h5a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_90 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_91 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_91 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h5b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_91 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_92 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_92 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h5c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_92 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_93 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_93 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h5d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_93 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_94 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_94 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h5e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_94 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_95 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_95 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h5f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_95 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_96 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_96 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h60 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_96 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_97 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_97 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h61 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_97 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_98 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_98 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h62 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_98 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_99 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_99 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h63 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_99 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_100 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_100 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h64 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_100 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_101 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_101 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h65 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_101 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_102 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_102 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h66 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_102 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_103 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_103 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h67 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_103 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_104 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_104 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h68 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_104 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_105 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_105 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h69 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_105 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_106 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_106 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h6a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_106 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_107 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_107 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h6b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_107 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_108 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_108 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h6c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_108 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_109 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_109 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h6d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_109 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_110 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_110 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h6e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_110 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_111 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_111 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h6f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_111 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_112 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_112 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h70 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_112 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_113 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_113 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h71 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_113 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_114 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_114 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h72 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_114 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_115 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_115 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h73 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_115 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_116 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_116 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h74 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_116 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_117 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_117 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h75 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_117 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_118 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_118 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h76 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_118 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_119 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_119 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h77 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_119 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_120 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_120 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h78 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_120 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_121 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_121 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h79 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_121 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_122 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_122 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h7a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_122 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_123 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_123 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h7b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_123 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_124 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_124 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h7c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_124 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_125 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_125 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h7d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_125 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_126 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_126 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h7e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_126 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 199:44]
-      way0_dirty_127 <= 1'h0; // @[data_cache.scala 199:44]
+    if (reset) begin // @[data_cache.scala 200:44]
+      way0_dirty_127 <= 1'h0; // @[data_cache.scala 200:44]
     end else if (7'h7f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 64:29]
       way0_dirty_127 <= state_lookup_for_less_delay == 5'h19 & stage1_sram_wr_reg & stage1_sram_hit0_reg &
         stage1_sram_valid0_reg | _way0_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_0 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_0 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h0 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_0 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_1 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_1 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h1 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_1 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_2 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_2 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h2 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_2 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_3 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_3 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h3 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_3 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_4 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_4 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h4 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_4 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_5 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_5 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h5 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_5 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_6 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_6 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h6 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_6 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_7 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_7 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h7 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_7 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_8 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_8 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h8 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_8 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_9 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_9 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h9 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_9 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_10 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_10 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'ha == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_10 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_11 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_11 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'hb == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_11 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_12 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_12 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'hc == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_12 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_13 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_13 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'hd == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_13 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_14 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_14 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'he == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_14 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_15 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_15 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'hf == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_15 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_16 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_16 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h10 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_16 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_17 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_17 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h11 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_17 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_18 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_18 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h12 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_18 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_19 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_19 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h13 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_19 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_20 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_20 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h14 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_20 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_21 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_21 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h15 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_21 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_22 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_22 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h16 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_22 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_23 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_23 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h17 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_23 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_24 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_24 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h18 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_24 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_25 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_25 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h19 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_25 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_26 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_26 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h1a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_26 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_27 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_27 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h1b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_27 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_28 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_28 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h1c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_28 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_29 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_29 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h1d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_29 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_30 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_30 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h1e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_30 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_31 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_31 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h1f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_31 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_32 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_32 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h20 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_32 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_33 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_33 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h21 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_33 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_34 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_34 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h22 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_34 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_35 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_35 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h23 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_35 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_36 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_36 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h24 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_36 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_37 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_37 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h25 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_37 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_38 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_38 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h26 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_38 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_39 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_39 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h27 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_39 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_40 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_40 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h28 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_40 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_41 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_41 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h29 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_41 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_42 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_42 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h2a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_42 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_43 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_43 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h2b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_43 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_44 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_44 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h2c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_44 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_45 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_45 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h2d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_45 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_46 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_46 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h2e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_46 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_47 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_47 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h2f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_47 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_48 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_48 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h30 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_48 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_49 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_49 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h31 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_49 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_50 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_50 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h32 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_50 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_51 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_51 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h33 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_51 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_52 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_52 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h34 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_52 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_53 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_53 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h35 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_53 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_54 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_54 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h36 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_54 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_55 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_55 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h37 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_55 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_56 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_56 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h38 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_56 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_57 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_57 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h39 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_57 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_58 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_58 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h3a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_58 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_59 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_59 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h3b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_59 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_60 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_60 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h3c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_60 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_61 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_61 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h3d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_61 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_62 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_62 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h3e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_62 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_63 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_63 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h3f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_63 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_64 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_64 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h40 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_64 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_65 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_65 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h41 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_65 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_66 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_66 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h42 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_66 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_67 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_67 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h43 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_67 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_68 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_68 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h44 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_68 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_69 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_69 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h45 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_69 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_70 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_70 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h46 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_70 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_71 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_71 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h47 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_71 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_72 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_72 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h48 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_72 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_73 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_73 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h49 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_73 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_74 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_74 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h4a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_74 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_75 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_75 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h4b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_75 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_76 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_76 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h4c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_76 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_77 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_77 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h4d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_77 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_78 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_78 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h4e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_78 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_79 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_79 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h4f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_79 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_80 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_80 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h50 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_80 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_81 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_81 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h51 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_81 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_82 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_82 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h52 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_82 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_83 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_83 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h53 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_83 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_84 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_84 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h54 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_84 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_85 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_85 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h55 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_85 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_86 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_86 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h56 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_86 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_87 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_87 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h57 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_87 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_88 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_88 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h58 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_88 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_89 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_89 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h59 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_89 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_90 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_90 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h5a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_90 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_91 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_91 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h5b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_91 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_92 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_92 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h5c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_92 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_93 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_93 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h5d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_93 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_94 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_94 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h5e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_94 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_95 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_95 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h5f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_95 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_96 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_96 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h60 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_96 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_97 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_97 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h61 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_97 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_98 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_98 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h62 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_98 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_99 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_99 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h63 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_99 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_100 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_100 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h64 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_100 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_101 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_101 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h65 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_101 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_102 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_102 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h66 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_102 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_103 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_103 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h67 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_103 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_104 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_104 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h68 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_104 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_105 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_105 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h69 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_105 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_106 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_106 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h6a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_106 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_107 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_107 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h6b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_107 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_108 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_108 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h6c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_108 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_109 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_109 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h6d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_109 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_110 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_110 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h6e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_110 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_111 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_111 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h6f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_111 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_112 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_112 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h70 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_112 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_113 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_113 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h71 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_113 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_114 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_114 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h72 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_114 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_115 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_115 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h73 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_115 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_116 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_116 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h74 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_116 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_117 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_117 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h75 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_117 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_118 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_118 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h76 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_118 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_119 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_119 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h77 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_119 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_120 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_120 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h78 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_120 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_121 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_121 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h79 == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_121 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_122 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_122 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h7a == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_122 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_123 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_123 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h7b == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_123 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_124 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_124 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h7c == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_124 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_125 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_125 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h7d == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_125 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_126 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_126 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h7e == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_126 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 203:44]
-      way1_dirty_127 <= 1'h0; // @[data_cache.scala 203:44]
+    if (reset) begin // @[data_cache.scala 204:44]
+      way1_dirty_127 <= 1'h0; // @[data_cache.scala 204:44]
     end else if (7'h7f == stage1_addr_line_mapping[10:4]) begin // @[data_cache.scala 65:29]
       way1_dirty_127 <= _way0_dirty_T_2 & stage1_sram_hit1_reg & stage1_sram_valid1_reg | _way1_dirty_T_15;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 185:32]
+    if (reset) begin // @[data_cache.scala 186:32]
       stage1_addr_line_mapping <= 64'h0;
     end else if (io_sram_req) begin
       stage1_addr_line_mapping <= io_sram_addr;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 186:33]
+    if (reset) begin // @[data_cache.scala 187:33]
       stage1_sram_cache_reg <= 1'h0;
     end else if (io_sram_req) begin
       stage1_sram_cache_reg <= io_sram_cache;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 187:33]
+    if (reset) begin // @[data_cache.scala 188:33]
       stage1_sram_wdata_reg <= 64'h0;
     end else if (io_sram_req) begin
       stage1_sram_wdata_reg <= io_sram_wdata;
@@ -60597,61 +60601,61 @@ module data_cache(
     if (reset) begin // @[data_cache.scala 72:39]
       stage1_sram_size_reg <= 2'h0; // @[data_cache.scala 72:39]
     end else begin
-      stage1_sram_size_reg <= _stage1_sram_size_reg_T_1[1:0]; // @[data_cache.scala 188:27]
+      stage1_sram_size_reg <= _stage1_sram_size_reg_T_1[1:0]; // @[data_cache.scala 189:27]
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 189:33]
+    if (reset) begin // @[data_cache.scala 190:33]
       stage1_sram_wr_reg <= 1'h0;
     end else if (io_sram_req) begin
       stage1_sram_wr_reg <= io_sram_wr;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 190:33]
+    if (reset) begin // @[data_cache.scala 191:33]
       stage1_sram_req_reg <= 1'h0;
     end else begin
       stage1_sram_req_reg <= io_sram_req | _stage1_sram_req_reg_T_1;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 193:32]
+    if (reset) begin // @[data_cache.scala 194:32]
       stage1_sram_hit0_reg <= 1'h0;
     end else if (io_sram_req) begin
       stage1_sram_hit0_reg <= dcache_tag_io_hit;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 194:32]
+    if (reset) begin // @[data_cache.scala 195:32]
       stage1_sram_hit1_reg <= 1'h0;
     end else if (io_sram_req) begin
       stage1_sram_hit1_reg <= dcache_tag_1_io_hit;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 195:34]
+    if (reset) begin // @[data_cache.scala 196:34]
       stage1_sram_valid0_reg <= 1'h0;
     end else if (io_sram_req) begin
       stage1_sram_valid0_reg <= dcache_tag_io_valid;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 196:34]
+    if (reset) begin // @[data_cache.scala 197:34]
       stage1_sram_valid1_reg <= 1'h0;
     end else if (io_sram_req) begin
       stage1_sram_valid1_reg <= dcache_tag_1_io_valid;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 191:33]
+    if (reset) begin // @[data_cache.scala 192:33]
       stage1_wstrb_reg <= 8'h0;
     end else if (io_sram_req) begin
       stage1_wstrb_reg <= io_data_wstrb;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 224:37]
-      stage1_sram_phy_addr_reg <= 64'h0; // @[data_cache.scala 224:73]
+    if (reset) begin // @[data_cache.scala 225:37]
+      stage1_sram_phy_addr_reg <= 64'h0; // @[data_cache.scala 225:73]
     end else if (stage1_stall_reg) begin
       if (io_tlb_req) begin
         stage1_sram_phy_addr_reg <= io_p_addr_for_tlb;
@@ -60663,29 +60667,29 @@ module data_cache(
   always @(posedge clock or posedge reset) begin
     if (reset) begin // @[Mux.scala 101:16]
       data_write_back_counter <= 8'h0;
-    end else if (_data_write_back_counter_T_2) begin // @[Mux.scala 101:16]
-      data_write_back_counter <= _data_write_back_counter_T_4;
+    end else if (_data_write_back_counter_T_4) begin // @[Mux.scala 101:16]
+      data_write_back_counter <= _data_write_back_counter_T_6;
     end else if (_data_cache_under_write_back_T_1) begin
-      data_write_back_counter <= _data_write_back_counter_T_4;
+      data_write_back_counter <= _data_write_back_counter_T_6;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 318:54]
+    if (reset) begin // @[data_cache.scala 319:54]
       stage2_sram_write_reg <= 1'h0;
     end else if (stage2_stall) begin
       stage2_sram_write_reg <= stage1_sram_wr_reg;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 179:37]
+    if (reset) begin // @[data_cache.scala 180:37]
       stage1_stall_reg <= 1'h0;
     end else begin
       stage1_stall_reg <= io_sram_req;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 413:52]
-      write_access_complete_reg <= 1'h0; // @[data_cache.scala 414:35]
+    if (reset) begin // @[data_cache.scala 414:52]
+      write_access_complete_reg <= 1'h0; // @[data_cache.scala 415:35]
     end else begin
       write_access_complete_reg <= _write_counter_T_19 | _GEN_3338;
     end
@@ -60698,17 +60702,17 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 322:48]
+    if (reset) begin // @[data_cache.scala 323:48]
       stage2_hit0_reg <= 1'h0;
     end else if (stage2_stall) begin
       stage2_hit0_reg <= _hit_T;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 461:27]
+    if (reset) begin // @[data_cache.scala 462:27]
       sram_rdata_reg <= 64'h0;
-    end else if (_data_cache_under_write_all_back_T) begin // @[data_cache.scala 461:73]
-      sram_rdata_reg <= wait_data; // @[data_cache.scala 346:{23,23,23,23,23}]
+    end else if (_data_cache_under_write_all_back_T) begin // @[data_cache.scala 462:73]
+      sram_rdata_reg <= wait_data; // @[data_cache.scala 347:{23,23,23,23,23}]
     end else if (_data_cache_under_write_all_back_T_1) begin
       if (stage2_hit0_reg) begin
         if (stage2_sram_addr_reg[3]) begin
@@ -60724,7 +60728,7 @@ module data_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[data_cache.scala 288:54]
+    if (reset) begin // @[data_cache.scala 289:54]
       stage2_stall_reg <= 1'h0;
     end else begin
       stage2_stall_reg <= access_work_state_for_stall[4:3] == 2'h3;
