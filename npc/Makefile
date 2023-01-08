@@ -42,7 +42,7 @@ LDFLAGS += -lSDL2 -lSDL2_image $(LIBS)
 $(BIN): $(VSRCS) $(CSRCS)
 	python3 $(NPC_HOME)/verilog_add_something.py
 	-rm $(NPC_NEMU_HOME)/include/generated/autoconf.h 
-	cp $(NPC_HOME)/include/generated/autoconf.h $(NPC_NEMU_HOME)/include/generated/
+	-cp $(NPC_HOME)/include/generated/autoconf.h $(NPC_NEMU_HOME)/include/generated/
 	@echo $(CSRCS)
 	@rm -rf $(OBJ_DIR)
 	$(VERILATOR) $(VERILATOR_CFLAGS) \

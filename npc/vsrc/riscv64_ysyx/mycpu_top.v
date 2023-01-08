@@ -1,6 +1,14 @@
 /* verilator lint_off WIDTH */ 
 /* verilator lint_off WIDTH */ 
 /* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
 module alu(
   input  [23:0] io_ctrl,
   input  [63:0] io_in1,
