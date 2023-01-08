@@ -1,14 +1,6 @@
 /* verilator lint_off WIDTH */ 
 /* verilator lint_off WIDTH */ 
 /* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
 module alu(
   input  [23:0] io_ctrl,
   input  [63:0] io_in1,
@@ -268,7 +260,8 @@ module csr(
   output        io_exception,
   output [63:0] io_csr_read_data,
   output [6:0]  io_csr_status,
-  output        io_Int_able
+  output        io_Int_able,
+  output        io_icache_tags_flush
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
@@ -279,58 +272,59 @@ module csr(
   reg [63:0] _RAND_5;
   reg [31:0] _RAND_6;
 `endif // RANDOMIZE_REG_INIT
-  reg [63:0] csr_count; // @[csr.scala 47:28]
-  reg [63:0] csr_compare; // @[csr.scala 49:30]
-  reg [63:0] csr_cause; // @[csr.scala 51:28]
-  reg [63:0] csr_status; // @[csr.scala 52:25]
-  wire  _csr_status_to_be_T_2 = io_csr_write_en & io_csr_write_addr == 12'h300; // @[csr.scala 153:33]
-  reg [63:0] csr_epc; // @[csr.scala 55:26]
-  reg [63:0] csr_mtvec; // @[csr.scala 56:28]
-  reg  csr_counter_half; // @[csr.scala 64:35]
-  wire  _io_Int_able_T_1 = ~csr_status[1]; // @[csr.scala 74:20]
-  wire [7:0] _int_signal_T_2 = csr_status[15:8] & csr_cause[15:8]; // @[csr.scala 78:41]
-  wire  int_signal = _int_signal_T_2 != 8'h0 & _io_Int_able_T_1 & csr_status[0]; // @[csr.scala 78:89]
+  reg [63:0] csr_count; // @[csr.scala 48:28]
+  reg [63:0] csr_compare; // @[csr.scala 50:30]
+  reg [63:0] csr_cause; // @[csr.scala 52:28]
+  reg [63:0] csr_status; // @[csr.scala 53:25]
+  wire  _csr_status_to_be_T_2 = io_csr_write_en & io_csr_write_addr == 12'h300; // @[csr.scala 155:33]
+  reg [63:0] csr_epc; // @[csr.scala 56:26]
+  reg [63:0] csr_mtvec; // @[csr.scala 57:28]
+  reg  csr_counter_half; // @[csr.scala 65:35]
+  wire  _io_Int_able_T_1 = ~csr_status[1]; // @[csr.scala 75:20]
+  wire [7:0] _int_signal_T_2 = csr_status[15:8] & csr_cause[15:8]; // @[csr.scala 79:41]
+  wire  int_signal = _int_signal_T_2 != 8'h0 & _io_Int_able_T_1 & csr_status[0]; // @[csr.scala 79:89]
   wire [31:0] exception_type = {io_exception_type_i[31:1],int_signal}; // @[Cat.scala 31:58]
-  wire [31:0] _commit_exception_T_2 = {{24'd0}, exception_type[31:24]}; // @[csr.scala 83:76]
-  wire  commit_exception = exception_type[30:0] != 31'h0 & ~_commit_exception_T_2[0]; // @[csr.scala 83:58]
-  wire [31:0] _commit_eret_T_1 = {{20'd0}, exception_type[31:20]}; // @[csr.scala 84:65]
-  wire  commit_eret = exception_type[31] & ~_commit_eret_T_1[0]; // @[csr.scala 84:47]
-  wire [63:0] _commit_next_pc_T_3 = io_pc + 64'h4; // @[csr.scala 89:93]
+  wire [31:0] _commit_exception_T_2 = {{24'd0}, exception_type[31:24]}; // @[csr.scala 84:76]
+  wire  commit_exception = exception_type[30:0] != 31'h0 & ~_commit_exception_T_2[0]; // @[csr.scala 84:58]
+  wire [31:0] _commit_eret_T_1 = {{20'd0}, exception_type[31:20]}; // @[csr.scala 85:65]
+  wire  commit_eret = exception_type[31] & ~_commit_eret_T_1[0]; // @[csr.scala 85:47]
+  wire [63:0] _commit_next_pc_T_3 = io_pc + 64'h4; // @[csr.scala 90:93]
   wire [63:0] _csr_read_data_Wire_T_1 = 12'h341 == io_csr_read_addr ? csr_epc : 64'h0; // @[Mux.scala 81:58]
   wire [63:0] _csr_read_data_Wire_T_3 = 12'h342 == io_csr_read_addr ? csr_cause : _csr_read_data_Wire_T_1; // @[Mux.scala 81:58]
   wire [63:0] _csr_read_data_Wire_T_5 = 12'h305 == io_csr_read_addr ? csr_mtvec : _csr_read_data_Wire_T_3; // @[Mux.scala 81:58]
   wire [63:0] csr_read_data_Wire = 12'h300 == io_csr_read_addr ? csr_status : _csr_read_data_Wire_T_5; // @[Mux.scala 81:58]
   wire [63:0] _io_return_pc_T_3 = _commit_exception_T_2[0] ? _commit_next_pc_T_3 : csr_mtvec; // @[Mux.scala 101:16]
-  wire [63:0] _csr_count_T_4 = csr_count + 64'h1; // @[csr.scala 134:147]
-  wire  _timer_int_T = csr_compare != 64'h0; // @[csr.scala 144:39]
-  wire  _timer_int_T_1 = csr_count == csr_compare; // @[csr.scala 144:60]
-  wire  _csr_epc_T_3 = io_csr_write_en & io_csr_write_addr == 12'h341; // @[csr.scala 150:32]
-  wire  _csr_mtvec_T_2 = io_csr_write_en & io_csr_write_addr == 12'h305; // @[csr.scala 156:33]
-  wire  _csr_cause_T_2 = io_csr_write_en & io_csr_write_addr == 12'h342; // @[csr.scala 159:33]
-  assign io_timer_int_has = _timer_int_T & _timer_int_T_1; // @[csr.scala 145:44]
+  wire [63:0] _csr_count_T_4 = csr_count + 64'h1; // @[csr.scala 136:147]
+  wire  _timer_int_T = csr_compare != 64'h0; // @[csr.scala 146:39]
+  wire  _timer_int_T_1 = csr_count == csr_compare; // @[csr.scala 146:60]
+  wire  _csr_epc_T_3 = io_csr_write_en & io_csr_write_addr == 12'h341; // @[csr.scala 152:32]
+  wire  _csr_mtvec_T_2 = io_csr_write_en & io_csr_write_addr == 12'h305; // @[csr.scala 158:33]
+  wire  _csr_cause_T_2 = io_csr_write_en & io_csr_write_addr == 12'h342; // @[csr.scala 161:33]
+  assign io_timer_int_has = _timer_int_T & _timer_int_T_1; // @[csr.scala 147:44]
   assign io_return_pc = commit_eret ? csr_epc : _io_return_pc_T_3; // @[Mux.scala 101:16]
-  assign io_exception = commit_exception | commit_eret; // @[csr.scala 86:43]
-  assign io_csr_read_data = reset ? 64'h0 : csr_read_data_Wire; // @[csr.scala 95:29]
-  assign io_csr_status = {{1'd0}, csr_status[15:10]}; // @[csr.scala 75:19]
-  assign io_Int_able = ~csr_status[1] & csr_status[0]; // @[csr.scala 74:36]
+  assign io_exception = commit_exception | commit_eret; // @[csr.scala 87:43]
+  assign io_csr_read_data = reset ? 64'h0 : csr_read_data_Wire; // @[csr.scala 96:29]
+  assign io_csr_status = {{1'd0}, csr_status[15:10]}; // @[csr.scala 76:19]
+  assign io_Int_able = ~csr_status[1] & csr_status[0]; // @[csr.scala 75:36]
+  assign io_icache_tags_flush = _commit_exception_T_2[0]; // @[csr.scala 86:40]
   always @(posedge clock) begin
-    if (reset) begin // @[csr.scala 54:22]
+    if (reset) begin // @[csr.scala 55:22]
       csr_status <= 64'ha00001800;
     end else if (_csr_status_to_be_T_2) begin // @[Mux.scala 101:16]
       csr_status <= io_csr_write_data;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[csr.scala 134:30]
+    if (reset) begin // @[csr.scala 136:30]
       csr_count <= 64'h0;
-    end else if (io_csr_write_en & io_csr_write_addr == 12'h12) begin // @[csr.scala 134:117]
+    end else if (io_csr_write_en & io_csr_write_addr == 12'h12) begin // @[csr.scala 136:117]
       csr_count <= io_csr_write_data;
     end else if (csr_counter_half) begin
       csr_count <= _csr_count_T_4;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[csr.scala 138:24]
+    if (reset) begin // @[csr.scala 140:24]
       csr_compare <= 64'h0;
     end else if (io_csr_write_en & io_csr_write_addr == 12'h16) begin
       csr_compare <= io_csr_write_data;
@@ -362,7 +356,7 @@ module csr(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[csr.scala 66:28]
+    if (reset) begin // @[csr.scala 67:28]
       csr_counter_half <= 1'h0;
     end else if (clock) begin
       csr_counter_half <= ~csr_counter_half;
@@ -2358,188 +2352,188 @@ module mem2wb(
   reg [31:0] _RAND_15;
   reg [63:0] _RAND_16;
 `endif // RANDOMIZE_REG_INIT
-  reg  RegWriteW; // @[mem2wb.scala 52:34]
-  reg [63:0] ResultW; // @[mem2wb.scala 55:32]
-  reg [4:0] WriteRegW; // @[mem2wb.scala 56:34]
-  reg  csrWriteW; // @[mem2wb.scala 58:34]
-  reg [11:0] WritecsrAddrW; // @[mem2wb.scala 59:38]
-  reg [63:0] PCW; // @[mem2wb.scala 61:28]
-  reg [31:0] ExceptionTypeW; // @[mem2wb.scala 63:39]
-  reg [1:0] BranchJump_JrW_Reg; // @[mem2wb.scala 65:43]
-  reg  ebreak_Reg; // @[mem2wb.scala 67:40]
-  reg [63:0] pc_nextReg; // @[mem2wb.scala 68:36]
-  reg [63:0] Mem_trace_budleReg_pc; // @[mem2wb.scala 69:43]
-  reg [63:0] Mem_trace_budleReg_data; // @[mem2wb.scala 69:43]
-  reg [1:0] Mem_trace_budleReg_mem_fetch_type; // @[mem2wb.scala 69:43]
-  reg [63:0] Mem_trace_budleReg_addr; // @[mem2wb.scala 69:43]
-  reg [2:0] Mem_trace_budleReg_len; // @[mem2wb.scala 69:43]
-  reg  Mem_trace_budleReg_cache; // @[mem2wb.scala 69:43]
-  reg [63:0] CsrWritedataReg; // @[mem2wb.scala 70:40]
-  assign io_RegWriteW_Out = RegWriteW; // @[mem2wb.scala 72:36]
-  assign io_ResultW = ResultW; // @[mem2wb.scala 75:32]
-  assign io_WriteRegW = WriteRegW; // @[mem2wb.scala 76:32]
-  assign io_csrWriteW = csrWriteW; // @[mem2wb.scala 77:32]
-  assign io_WritecsrAddrW = WritecsrAddrW; // @[mem2wb.scala 78:32]
-  assign io_PCW = PCW; // @[mem2wb.scala 80:32]
-  assign io_ExceptionTypeW_Out = ExceptionTypeW; // @[mem2wb.scala 82:32]
-  assign io_BranchJump_JrW = BranchJump_JrW_Reg; // @[mem2wb.scala 83:32]
-  assign io_eBreakW = ebreak_Reg; // @[mem2wb.scala 85:32]
-  assign io_Pc_NextW = pc_nextReg; // @[mem2wb.scala 86:32]
-  assign io_Mem_trace_budleW_pc = Mem_trace_budleReg_pc; // @[mem2wb.scala 87:33]
-  assign io_Mem_trace_budleW_data = Mem_trace_budleReg_data; // @[mem2wb.scala 87:33]
-  assign io_Mem_trace_budleW_mem_fetch_type = Mem_trace_budleReg_mem_fetch_type; // @[mem2wb.scala 87:33]
-  assign io_Mem_trace_budleW_addr = Mem_trace_budleReg_addr; // @[mem2wb.scala 87:33]
-  assign io_Mem_trace_budleW_len = Mem_trace_budleReg_len; // @[mem2wb.scala 87:33]
-  assign io_Mem_trace_budleW_cache = Mem_trace_budleReg_cache; // @[mem2wb.scala 87:33]
-  assign io_CsrWritedataW = CsrWritedataReg; // @[mem2wb.scala 108:28]
+  reg  RegWriteW; // @[mem2wb.scala 51:34]
+  reg [63:0] ResultW; // @[mem2wb.scala 54:32]
+  reg [4:0] WriteRegW; // @[mem2wb.scala 55:34]
+  reg  csrWriteW; // @[mem2wb.scala 57:34]
+  reg [11:0] WritecsrAddrW; // @[mem2wb.scala 58:38]
+  reg [63:0] PCW; // @[mem2wb.scala 60:28]
+  reg [31:0] ExceptionTypeW; // @[mem2wb.scala 62:39]
+  reg [1:0] BranchJump_JrW_Reg; // @[mem2wb.scala 64:43]
+  reg  ebreak_Reg; // @[mem2wb.scala 66:40]
+  reg [63:0] pc_nextReg; // @[mem2wb.scala 67:36]
+  reg [63:0] Mem_trace_budleReg_pc; // @[mem2wb.scala 68:43]
+  reg [63:0] Mem_trace_budleReg_data; // @[mem2wb.scala 68:43]
+  reg [1:0] Mem_trace_budleReg_mem_fetch_type; // @[mem2wb.scala 68:43]
+  reg [63:0] Mem_trace_budleReg_addr; // @[mem2wb.scala 68:43]
+  reg [2:0] Mem_trace_budleReg_len; // @[mem2wb.scala 68:43]
+  reg  Mem_trace_budleReg_cache; // @[mem2wb.scala 68:43]
+  reg [63:0] CsrWritedataReg; // @[mem2wb.scala 69:40]
+  assign io_RegWriteW_Out = RegWriteW; // @[mem2wb.scala 71:36]
+  assign io_ResultW = ResultW; // @[mem2wb.scala 74:32]
+  assign io_WriteRegW = WriteRegW; // @[mem2wb.scala 75:32]
+  assign io_csrWriteW = csrWriteW; // @[mem2wb.scala 76:32]
+  assign io_WritecsrAddrW = WritecsrAddrW; // @[mem2wb.scala 77:32]
+  assign io_PCW = PCW; // @[mem2wb.scala 79:32]
+  assign io_ExceptionTypeW_Out = ExceptionTypeW; // @[mem2wb.scala 81:32]
+  assign io_BranchJump_JrW = BranchJump_JrW_Reg; // @[mem2wb.scala 82:32]
+  assign io_eBreakW = ebreak_Reg; // @[mem2wb.scala 84:32]
+  assign io_Pc_NextW = pc_nextReg; // @[mem2wb.scala 85:32]
+  assign io_Mem_trace_budleW_pc = Mem_trace_budleReg_pc; // @[mem2wb.scala 86:33]
+  assign io_Mem_trace_budleW_data = Mem_trace_budleReg_data; // @[mem2wb.scala 86:33]
+  assign io_Mem_trace_budleW_mem_fetch_type = Mem_trace_budleReg_mem_fetch_type; // @[mem2wb.scala 86:33]
+  assign io_Mem_trace_budleW_addr = Mem_trace_budleReg_addr; // @[mem2wb.scala 86:33]
+  assign io_Mem_trace_budleW_len = Mem_trace_budleReg_len; // @[mem2wb.scala 86:33]
+  assign io_Mem_trace_budleW_cache = Mem_trace_budleReg_cache; // @[mem2wb.scala 86:33]
+  assign io_CsrWritedataW = CsrWritedataReg; // @[mem2wb.scala 107:28]
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 89:34]
+    if (reset) begin // @[mem2wb.scala 88:34]
       RegWriteW <= 1'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 89:56]
+    end else if (io_clr) begin // @[mem2wb.scala 88:56]
       RegWriteW <= 1'h0;
     end else if (io_en) begin
       RegWriteW <= io_RegWriteM;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 92:34]
+    if (reset) begin // @[mem2wb.scala 91:34]
       ResultW <= 64'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 92:56]
+    end else if (io_clr) begin // @[mem2wb.scala 91:56]
       ResultW <= 64'h0;
     end else if (io_en) begin
       ResultW <= io_ResultM;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 93:34]
+    if (reset) begin // @[mem2wb.scala 92:34]
       WriteRegW <= 5'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 93:56]
+    end else if (io_clr) begin // @[mem2wb.scala 92:56]
       WriteRegW <= 5'h0;
     end else if (io_en) begin
       WriteRegW <= io_WriteRegM;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 96:34]
+    if (reset) begin // @[mem2wb.scala 95:34]
       csrWriteW <= 1'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 96:56]
+    end else if (io_clr) begin // @[mem2wb.scala 95:56]
       csrWriteW <= 1'h0;
     end else if (io_en) begin
       csrWriteW <= io_csrWriteM;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 97:34]
+    if (reset) begin // @[mem2wb.scala 96:34]
       WritecsrAddrW <= 12'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 97:56]
+    end else if (io_clr) begin // @[mem2wb.scala 96:56]
       WritecsrAddrW <= 12'h0;
     end else if (io_en) begin
       WritecsrAddrW <= io_WritecsrAddrM;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 99:34]
+    if (reset) begin // @[mem2wb.scala 98:34]
       PCW <= 64'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 99:56]
+    end else if (io_clr) begin // @[mem2wb.scala 98:56]
       PCW <= 64'h0;
     end else if (io_en) begin
       PCW <= io_PCM;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 101:34]
+    if (reset) begin // @[mem2wb.scala 100:34]
       ExceptionTypeW <= 32'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 101:56]
+    end else if (io_clr) begin // @[mem2wb.scala 100:56]
       ExceptionTypeW <= 32'h0;
     end else if (io_en) begin
       ExceptionTypeW <= io_ExceptionTypeM;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 102:49]
+    if (reset) begin // @[mem2wb.scala 101:49]
       BranchJump_JrW_Reg <= 2'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 102:71]
+    end else if (io_clr) begin // @[mem2wb.scala 101:71]
       BranchJump_JrW_Reg <= 2'h0;
     end else if (io_en) begin
       BranchJump_JrW_Reg <= io_BranchJump_JrM;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 104:34]
+    if (reset) begin // @[mem2wb.scala 103:34]
       ebreak_Reg <= 1'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 104:56]
+    end else if (io_clr) begin // @[mem2wb.scala 103:56]
       ebreak_Reg <= 1'h0;
     end else if (io_en) begin
       ebreak_Reg <= io_eBreakM;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 105:34]
+    if (reset) begin // @[mem2wb.scala 104:34]
       pc_nextReg <= 64'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 105:56]
+    end else if (io_clr) begin // @[mem2wb.scala 104:56]
       pc_nextReg <= 64'h0;
     end else if (io_en) begin
       pc_nextReg <= io_Pc_NextM;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 106:34]
+    if (reset) begin // @[mem2wb.scala 105:34]
       Mem_trace_budleReg_pc <= 64'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 106:93]
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
       Mem_trace_budleReg_pc <= 64'h0;
     end else if (io_en) begin
       Mem_trace_budleReg_pc <= io_Mem_trace_budleM_pc;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 106:34]
+    if (reset) begin // @[mem2wb.scala 105:34]
       Mem_trace_budleReg_data <= 64'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 106:93]
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
       Mem_trace_budleReg_data <= 64'h0;
     end else if (io_en) begin
       Mem_trace_budleReg_data <= io_Mem_trace_budleM_data;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 106:34]
+    if (reset) begin // @[mem2wb.scala 105:34]
       Mem_trace_budleReg_mem_fetch_type <= 2'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 106:93]
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
       Mem_trace_budleReg_mem_fetch_type <= 2'h0;
     end else if (io_en) begin
       Mem_trace_budleReg_mem_fetch_type <= io_Mem_trace_budleM_mem_fetch_type;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 106:34]
+    if (reset) begin // @[mem2wb.scala 105:34]
       Mem_trace_budleReg_addr <= 64'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 106:93]
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
       Mem_trace_budleReg_addr <= 64'h0;
     end else if (io_en) begin
       Mem_trace_budleReg_addr <= io_Mem_trace_budleM_addr;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 106:34]
+    if (reset) begin // @[mem2wb.scala 105:34]
       Mem_trace_budleReg_len <= 3'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 106:93]
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
       Mem_trace_budleReg_len <= 3'h0;
     end else if (io_en) begin
       Mem_trace_budleReg_len <= io_Mem_trace_budleM_len;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 106:34]
+    if (reset) begin // @[mem2wb.scala 105:34]
       Mem_trace_budleReg_cache <= 1'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 106:93]
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
       Mem_trace_budleReg_cache <= 1'h0;
     end else if (io_en) begin
       Mem_trace_budleReg_cache <= io_Mem_trace_budleM_cache;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[mem2wb.scala 107:34]
+    if (reset) begin // @[mem2wb.scala 106:34]
       CsrWritedataReg <= 64'h0;
-    end else if (io_clr) begin // @[mem2wb.scala 107:56]
+    end else if (io_clr) begin // @[mem2wb.scala 106:56]
       CsrWritedataReg <= 64'h0;
     end else if (io_en) begin
       CsrWritedataReg <= io_CsrWritedataM;
@@ -10607,14 +10601,14 @@ module pc_detail(
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
 `endif // RANDOMIZE_REG_INIT
-  reg [63:0] pc_value; // @[myCPU.scala 320:25]
-  assign io_out_pc_value_out = pc_value; // @[myCPU.scala 323:25]
+  reg [63:0] pc_value; // @[myCPU.scala 321:25]
+  assign io_out_pc_value_out = pc_value; // @[myCPU.scala 324:25]
   always @(posedge clock) begin
-    if (reset) begin // @[myCPU.scala 322:20]
+    if (reset) begin // @[myCPU.scala 323:20]
       pc_value <= 64'h7ffffffc;
-    end else if (io_flush) begin // @[myCPU.scala 322:60]
+    end else if (io_flush) begin // @[myCPU.scala 323:60]
       pc_value <= 64'h0;
-    end else if (io_stall) begin // @[myCPU.scala 322:77]
+    end else if (io_stall) begin // @[myCPU.scala 323:77]
       pc_value <= io_in_pc_value_in;
     end
   end
@@ -39400,67 +39394,67 @@ module bru_detail(
   reg [31:0] _RAND_4;
   reg [31:0] _RAND_5;
 `endif // RANDOMIZE_REG_INIT
-  reg [1:0] pht_value; // @[myCPU.scala 655:34]
-  reg [6:0] bht_value; // @[myCPU.scala 656:34]
-  reg [3:0] hashcode_value; // @[myCPU.scala 657:39]
-  reg [63:0] target_pc_value; // @[myCPU.scala 658:40]
-  reg [6:0] lookup_data_value; // @[myCPU.scala 659:42]
-  reg [7:0] pht_lookup_value_data; // @[myCPU.scala 660:46]
-  assign io_out_pht = pht_value; // @[myCPU.scala 669:20]
-  assign io_out_bht = bht_value; // @[myCPU.scala 670:20]
-  assign io_out_hashcode = hashcode_value; // @[myCPU.scala 671:25]
-  assign io_out_target_pc = target_pc_value; // @[myCPU.scala 672:26]
-  assign io_out_lookup_data = lookup_data_value; // @[myCPU.scala 673:28]
-  assign io_out_pht_lookup_value = pht_lookup_value_data; // @[myCPU.scala 674:33]
+  reg [1:0] pht_value; // @[myCPU.scala 656:34]
+  reg [6:0] bht_value; // @[myCPU.scala 657:34]
+  reg [3:0] hashcode_value; // @[myCPU.scala 658:39]
+  reg [63:0] target_pc_value; // @[myCPU.scala 659:40]
+  reg [6:0] lookup_data_value; // @[myCPU.scala 660:42]
+  reg [7:0] pht_lookup_value_data; // @[myCPU.scala 661:46]
+  assign io_out_pht = pht_value; // @[myCPU.scala 670:20]
+  assign io_out_bht = bht_value; // @[myCPU.scala 671:20]
+  assign io_out_hashcode = hashcode_value; // @[myCPU.scala 672:25]
+  assign io_out_target_pc = target_pc_value; // @[myCPU.scala 673:26]
+  assign io_out_lookup_data = lookup_data_value; // @[myCPU.scala 674:28]
+  assign io_out_pht_lookup_value = pht_lookup_value_data; // @[myCPU.scala 675:33]
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 661:25]
+    if (reset) begin // @[myCPU.scala 662:25]
       pht_value <= 2'h0;
-    end else if (io_flush) begin // @[myCPU.scala 661:42]
+    end else if (io_flush) begin // @[myCPU.scala 662:42]
       pht_value <= 2'h0;
     end else if (io_stall) begin
       pht_value <= io_in_pht;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 662:25]
+    if (reset) begin // @[myCPU.scala 663:25]
       bht_value <= 7'h0;
-    end else if (io_flush) begin // @[myCPU.scala 662:42]
+    end else if (io_flush) begin // @[myCPU.scala 663:42]
       bht_value <= 7'h0;
     end else if (io_stall) begin
       bht_value <= io_in_bht;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 663:30]
+    if (reset) begin // @[myCPU.scala 664:30]
       hashcode_value <= 4'h0;
-    end else if (io_flush) begin // @[myCPU.scala 663:47]
+    end else if (io_flush) begin // @[myCPU.scala 664:47]
       hashcode_value <= 4'h0;
     end else if (io_stall) begin
       hashcode_value <= io_in_hashcode;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 664:31]
+    if (reset) begin // @[myCPU.scala 665:31]
       target_pc_value <= 64'h0;
-    end else if (io_flush) begin // @[myCPU.scala 664:48]
+    end else if (io_flush) begin // @[myCPU.scala 665:48]
       target_pc_value <= 64'h0;
     end else if (io_stall) begin
       target_pc_value <= io_in_target_pc;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 665:33]
+    if (reset) begin // @[myCPU.scala 666:33]
       lookup_data_value <= 7'h0;
-    end else if (io_flush) begin // @[myCPU.scala 665:50]
+    end else if (io_flush) begin // @[myCPU.scala 666:50]
       lookup_data_value <= 7'h0;
     end else if (io_stall) begin
       lookup_data_value <= io_in_lookup_data;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 666:37]
+    if (reset) begin // @[myCPU.scala 667:37]
       pht_lookup_value_data <= 8'h0;
-    end else if (io_flush) begin // @[myCPU.scala 666:54]
+    end else if (io_flush) begin // @[myCPU.scala 667:54]
       pht_lookup_value_data <= 8'h0;
     end else if (io_stall) begin
       pht_lookup_value_data <= io_in_pht_lookup_value;
@@ -39567,7 +39561,8 @@ module myCPU(
   output [63:0] debug_wb_pc,
   output [3:0]  debug_wb_rf_wen,
   output [4:0]  debug_wb_rf_wnum,
-  output [63:0] debug_wb_rf_wdata
+  output [63:0] debug_wb_rf_wdata,
+  output        icache_tag_flush
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -39604,565 +39599,566 @@ module myCPU(
   reg [31:0] _RAND_31;
   reg [63:0] _RAND_32;
 `endif // RANDOMIZE_REG_INIT
-  wire [23:0] _alu_io_ctrl; // @[myCPU.scala 115:22]
-  wire [63:0] _alu_io_in1; // @[myCPU.scala 115:22]
-  wire [63:0] _alu_io_in2; // @[myCPU.scala 115:22]
-  wire [63:0] _alu_io_result; // @[myCPU.scala 115:22]
-  wire  _alu_io_overflow; // @[myCPU.scala 115:22]
-  wire  _alu_io_data_w; // @[myCPU.scala 115:22]
-  wire  _br_reset; // @[myCPU.scala 116:22]
-  wire [63:0] _br_io_r1; // @[myCPU.scala 116:22]
-  wire [63:0] _br_io_r2; // @[myCPU.scala 116:22]
-  wire [5:0] _br_io_branch; // @[myCPU.scala 116:22]
-  wire  _br_io_exe; // @[myCPU.scala 116:22]
-  wire  _cfu_reset; // @[myCPU.scala 117:22]
-  wire  _cfu_io_Inst_Fifo_Empty; // @[myCPU.scala 117:22]
-  wire  _cfu_io_dmem_calD; // @[myCPU.scala 117:22]
-  wire  _cfu_io_BranchD_Flag; // @[myCPU.scala 117:22]
-  wire  _cfu_io_JRD; // @[myCPU.scala 117:22]
-  wire  _cfu_io_CanBranchD; // @[myCPU.scala 117:22]
-  wire  _cfu_io_DivPendingE; // @[myCPU.scala 117:22]
-  wire  _cfu_io_DataPendingM; // @[myCPU.scala 117:22]
-  wire  _cfu_io_InException; // @[myCPU.scala 117:22]
-  wire [4:0] _cfu_io_WriteRegE; // @[myCPU.scala 117:22]
-  wire  _cfu_io_RegWriteE; // @[myCPU.scala 117:22]
-  wire  _cfu_io_csrToRegE; // @[myCPU.scala 117:22]
-  wire [4:0] _cfu_io_WriteRegM; // @[myCPU.scala 117:22]
-  wire  _cfu_io_MemToRegM; // @[myCPU.scala 117:22]
-  wire  _cfu_io_RegWriteM; // @[myCPU.scala 117:22]
-  wire  _cfu_io_csrWriteM; // @[myCPU.scala 117:22]
-  wire [4:0] _cfu_io_WriteRegM2; // @[myCPU.scala 117:22]
-  wire  _cfu_io_MemToRegM2; // @[myCPU.scala 117:22]
-  wire  _cfu_io_RegWriteM2; // @[myCPU.scala 117:22]
-  wire  _cfu_io_csrWriteM2; // @[myCPU.scala 117:22]
-  wire [4:0] _cfu_io_WriteRegW; // @[myCPU.scala 117:22]
-  wire  _cfu_io_RegWriteW; // @[myCPU.scala 117:22]
-  wire [11:0] _cfu_io_ReadcsrAddrE; // @[myCPU.scala 117:22]
-  wire [11:0] _cfu_io_WritecsrAddrM; // @[myCPU.scala 117:22]
-  wire [11:0] _cfu_io_WritecsrAddrM2; // @[myCPU.scala 117:22]
-  wire [4:0] _cfu_io_R2D; // @[myCPU.scala 117:22]
-  wire [4:0] _cfu_io_R1D; // @[myCPU.scala 117:22]
-  wire [4:0] _cfu_io_R2E; // @[myCPU.scala 117:22]
-  wire [4:0] _cfu_io_R1E; // @[myCPU.scala 117:22]
-  wire  _cfu_io_StallF; // @[myCPU.scala 117:22]
-  wire  _cfu_io_StallD; // @[myCPU.scala 117:22]
-  wire  _cfu_io_StallE; // @[myCPU.scala 117:22]
-  wire  _cfu_io_StallM; // @[myCPU.scala 117:22]
-  wire  _cfu_io_StallM2; // @[myCPU.scala 117:22]
-  wire  _cfu_io_StallW; // @[myCPU.scala 117:22]
-  wire  _cfu_io_FlushD; // @[myCPU.scala 117:22]
-  wire  _cfu_io_FlushE; // @[myCPU.scala 117:22]
-  wire  _cfu_io_FlushM; // @[myCPU.scala 117:22]
-  wire  _cfu_io_FlushM2; // @[myCPU.scala 117:22]
-  wire  _cfu_io_FlushW; // @[myCPU.scala 117:22]
-  wire [1:0] _cfu_io_Forward1E; // @[myCPU.scala 117:22]
-  wire [1:0] _cfu_io_Forward2E; // @[myCPU.scala 117:22]
-  wire [1:0] _cfu_io_Forward1D; // @[myCPU.scala 117:22]
-  wire [1:0] _cfu_io_Forward2D; // @[myCPU.scala 117:22]
-  wire [1:0] _cfu_io_ForwardcsrE; // @[myCPU.scala 117:22]
-  wire  _csr_clock; // @[myCPU.scala 118:22]
-  wire  _csr_reset; // @[myCPU.scala 118:22]
-  wire [11:0] _csr_io_csr_read_addr; // @[myCPU.scala 118:22]
-  wire [11:0] _csr_io_csr_write_addr; // @[myCPU.scala 118:22]
-  wire [63:0] _csr_io_csr_write_data; // @[myCPU.scala 118:22]
-  wire  _csr_io_csr_write_en; // @[myCPU.scala 118:22]
-  wire  _csr_io_timer_int_has; // @[myCPU.scala 118:22]
-  wire [63:0] _csr_io_pc; // @[myCPU.scala 118:22]
-  wire [31:0] _csr_io_exception_type_i; // @[myCPU.scala 118:22]
-  wire [63:0] _csr_io_return_pc; // @[myCPU.scala 118:22]
-  wire  _csr_io_exception; // @[myCPU.scala 118:22]
-  wire [63:0] _csr_io_csr_read_data; // @[myCPU.scala 118:22]
-  wire [6:0] _csr_io_csr_status; // @[myCPU.scala 118:22]
-  wire  _csr_io_Int_able; // @[myCPU.scala 118:22]
-  wire [31:0] _cu_io1_InstrD; // @[myCPU.scala 119:22]
-  wire  _cu_io1_BadInstrD; // @[myCPU.scala 119:22]
-  wire  _cu_io1_SysCallD; // @[myCPU.scala 119:22]
-  wire  _cu_io1_EretD; // @[myCPU.scala 119:22]
-  wire  _cu_io1_dmem_addr_cal; // @[myCPU.scala 119:22]
-  wire  _cu_io_RegWriteD; // @[myCPU.scala 119:22]
-  wire  _cu_io_MemToRegD; // @[myCPU.scala 119:22]
-  wire  _cu_io_MemWriteD; // @[myCPU.scala 119:22]
-  wire [23:0] _cu_io_ALUCtrlD; // @[myCPU.scala 119:22]
-  wire [1:0] _cu_io_ALUSrcD_0; // @[myCPU.scala 119:22]
-  wire [1:0] _cu_io_ALUSrcD_1; // @[myCPU.scala 119:22]
-  wire [4:0] _cu_io_RegDstD; // @[myCPU.scala 119:22]
-  wire  _cu_io_LinkD; // @[myCPU.scala 119:22]
-  wire  _cu_io_csrWriteD; // @[myCPU.scala 119:22]
-  wire  _cu_io_csrToRegD; // @[myCPU.scala 119:22]
-  wire  _cu_io_LoadUnsignedD; // @[myCPU.scala 119:22]
-  wire [1:0] _cu_io_MemWidthD; // @[myCPU.scala 119:22]
-  wire [63:0] _cu_io_ImmD; // @[myCPU.scala 119:22]
-  wire  _cu_io_ebreakD; // @[myCPU.scala 119:22]
-  wire  _cu_io_data_wD; // @[myCPU.scala 119:22]
-  wire [23:0] _cu_io_muldiv_control; // @[myCPU.scala 119:22]
-  wire  _cu_io_muldiv_cal; // @[myCPU.scala 119:22]
-  wire  _cu_io_alu_cal; // @[myCPU.scala 119:22]
-  wire [5:0] _cu_io_csr_control; // @[myCPU.scala 119:22]
-  wire  _cu_io_csr_Imm; // @[myCPU.scala 119:22]
-  wire  _cu_io_fence_i_control; // @[myCPU.scala 119:22]
-  wire  _dmem_io_data_ok; // @[myCPU.scala 120:23]
-  wire [63:0] _dmem_io_rdata; // @[myCPU.scala 120:23]
-  wire [63:0] _dmem_io_Physisc_Address; // @[myCPU.scala 120:23]
-  wire [1:0] _dmem_io_WIDTH; // @[myCPU.scala 120:23]
-  wire  _dmem_io_SIGN; // @[myCPU.scala 120:23]
-  wire [63:0] _dmem_io_RD; // @[myCPU.scala 120:23]
-  wire  _dmem_io_data_pending; // @[myCPU.scala 120:23]
-  wire  _dmemreq_io_en; // @[myCPU.scala 121:26]
-  wire  _dmemreq_io_MemWriteE; // @[myCPU.scala 121:26]
-  wire  _dmemreq_io_MemToRegE; // @[myCPU.scala 121:26]
-  wire [1:0] _dmemreq_io_MemWidthE; // @[myCPU.scala 121:26]
-  wire [63:0] _dmemreq_io_VAddrE; // @[myCPU.scala 121:26]
-  wire [63:0] _dmemreq_io_WriteDataE; // @[myCPU.scala 121:26]
-  wire  _dmemreq_io_req; // @[myCPU.scala 121:26]
-  wire  _dmemreq_io_wr; // @[myCPU.scala 121:26]
-  wire [1:0] _dmemreq_io_size; // @[myCPU.scala 121:26]
-  wire [63:0] _dmemreq_io_addr; // @[myCPU.scala 121:26]
-  wire [63:0] _dmemreq_io_wdata; // @[myCPU.scala 121:26]
-  wire [7:0] _dmemreq_io_wstrb; // @[myCPU.scala 121:26]
-  wire  _ex2mem_clock; // @[myCPU.scala 122:26]
-  wire  _ex2mem_reset; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io1_RegWriteE; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io1_MemToRegE; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io1_LoadUnsignedE; // @[myCPU.scala 122:26]
-  wire [1:0] _ex2mem_io1_MemWidthE; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io1_csrWriteE; // @[myCPU.scala 122:26]
-  wire [11:0] _ex2mem_io1_WritecsrAddrE; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io1_PCE; // @[myCPU.scala 122:26]
-  wire [1:0] _ex2mem_io1_MemRLE; // @[myCPU.scala 122:26]
-  wire [1:0] _ex2mem_io1_BranchJump_JrE; // @[myCPU.scala 122:26]
-  wire [2:0] _ex2mem_io1_Tlb_Control; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io1_eBreakE; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io1_fence_i_control; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io_en; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io_clr; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_WriteDataE; // @[myCPU.scala 122:26]
-  wire [4:0] _ex2mem_io_WriteRegE; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_PhyAddrE; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_CsrWritedataE; // @[myCPU.scala 122:26]
-  wire [31:0] _ex2mem_io_ExceptionTypeE; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_RtE; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_Pc_NextE; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleE_pc; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleE_data; // @[myCPU.scala 122:26]
-  wire [1:0] _ex2mem_io_mem_trace_budleE_mem_fetch_type; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleE_addr; // @[myCPU.scala 122:26]
-  wire [2:0] _ex2mem_io_mem_trace_budleE_len; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io_mem_trace_budleE_cache; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io_RegWriteM; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io_MemToRegM; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_WriteDataM; // @[myCPU.scala 122:26]
-  wire [4:0] _ex2mem_io_WriteRegM; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io_LoadUnsignedM; // @[myCPU.scala 122:26]
-  wire [1:0] _ex2mem_io_MemWidthM; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_PhyAddrM; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io_csrWriteM; // @[myCPU.scala 122:26]
-  wire [11:0] _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_PCM; // @[myCPU.scala 122:26]
-  wire [31:0] _ex2mem_io_ExceptionTypeM_Out; // @[myCPU.scala 122:26]
-  wire [1:0] _ex2mem_io_MemRLM; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_RtM; // @[myCPU.scala 122:26]
-  wire [1:0] _ex2mem_io_BranchJump_JrM; // @[myCPU.scala 122:26]
-  wire [2:0] _ex2mem_io_Tlb_ControlM; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io_eBreakM; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_Pc_NextM; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleM_pc; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleM_data; // @[myCPU.scala 122:26]
-  wire [1:0] _ex2mem_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleM_addr; // @[myCPU.scala 122:26]
-  wire [2:0] _ex2mem_io_mem_trace_budleM_len; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io_mem_trace_budleM_cache; // @[myCPU.scala 122:26]
-  wire [63:0] _ex2mem_io_CsrWritedataM; // @[myCPU.scala 122:26]
-  wire  _ex2mem_io_fence_i_controlM; // @[myCPU.scala 122:26]
-  wire  _mem2mem2_clock; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_reset; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io1_RegWriteE; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io1_MemToRegE; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io1_LoadUnsignedE; // @[myCPU.scala 123:28]
-  wire [1:0] _mem2mem2_io1_MemWidthE; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io1_csrWriteE; // @[myCPU.scala 123:28]
-  wire [11:0] _mem2mem2_io1_WritecsrAddrE; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io1_PCE; // @[myCPU.scala 123:28]
-  wire [1:0] _mem2mem2_io1_MemRLE; // @[myCPU.scala 123:28]
-  wire [1:0] _mem2mem2_io1_BranchJump_JrE; // @[myCPU.scala 123:28]
-  wire [2:0] _mem2mem2_io1_Tlb_Control; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io1_eBreakE; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io1_fence_i_control; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io_en; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io_clr; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_WriteDataE; // @[myCPU.scala 123:28]
-  wire [4:0] _mem2mem2_io_WriteRegE; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_PhyAddrE; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_CsrWritedataE; // @[myCPU.scala 123:28]
-  wire [31:0] _mem2mem2_io_ExceptionTypeE; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_RtE; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_Pc_NextE; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleE_pc; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleE_data; // @[myCPU.scala 123:28]
-  wire [1:0] _mem2mem2_io_mem_trace_budleE_mem_fetch_type; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleE_addr; // @[myCPU.scala 123:28]
-  wire [2:0] _mem2mem2_io_mem_trace_budleE_len; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io_mem_trace_budleE_cache; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io_RegWriteM; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io_MemToRegM; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_WriteDataM; // @[myCPU.scala 123:28]
-  wire [4:0] _mem2mem2_io_WriteRegM; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io_LoadUnsignedM; // @[myCPU.scala 123:28]
-  wire [1:0] _mem2mem2_io_MemWidthM; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_PhyAddrM; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io_csrWriteM; // @[myCPU.scala 123:28]
-  wire [11:0] _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_PCM; // @[myCPU.scala 123:28]
-  wire [31:0] _mem2mem2_io_ExceptionTypeM_Out; // @[myCPU.scala 123:28]
-  wire [1:0] _mem2mem2_io_MemRLM; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_RtM; // @[myCPU.scala 123:28]
-  wire [1:0] _mem2mem2_io_BranchJump_JrM; // @[myCPU.scala 123:28]
-  wire [2:0] _mem2mem2_io_Tlb_ControlM; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io_eBreakM; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_Pc_NextM; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleM_pc; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleM_data; // @[myCPU.scala 123:28]
-  wire [1:0] _mem2mem2_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleM_addr; // @[myCPU.scala 123:28]
-  wire [2:0] _mem2mem2_io_mem_trace_budleM_len; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io_mem_trace_budleM_cache; // @[myCPU.scala 123:28]
-  wire [63:0] _mem2mem2_io_CsrWritedataM; // @[myCPU.scala 123:28]
-  wire  _mem2mem2_io_fence_i_controlM; // @[myCPU.scala 123:28]
-  wire  _id2ex_clock; // @[myCPU.scala 125:26]
-  wire  _id2ex_reset; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_RegWriteD; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_MemToRegD; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_MemWriteD; // @[myCPU.scala 125:26]
-  wire [23:0] _id2ex_io1_ALUCtrlD; // @[myCPU.scala 125:26]
-  wire [1:0] _id2ex_io1_ALUSrcD_0; // @[myCPU.scala 125:26]
-  wire [1:0] _id2ex_io1_ALUSrcD_1; // @[myCPU.scala 125:26]
-  wire [4:0] _id2ex_io1_RegDstD; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_LinkD; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_csrWriteD; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_csrToRegD; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_LoadUnsignedD; // @[myCPU.scala 125:26]
-  wire [1:0] _id2ex_io1_MemWidthD; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_ebreakD; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_data_wD; // @[myCPU.scala 125:26]
-  wire [23:0] _id2ex_io1_muldiv_control; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_muldiv_cal; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_alu_cal; // @[myCPU.scala 125:26]
-  wire [5:0] _id2ex_io1_csr_control; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_csr_Imm; // @[myCPU.scala 125:26]
-  wire  _id2ex_io1_fence_i_control; // @[myCPU.scala 125:26]
-  wire  _id2ex_io2_RegWriteE; // @[myCPU.scala 125:26]
-  wire  _id2ex_io2_MemToRegE; // @[myCPU.scala 125:26]
-  wire  _id2ex_io2_MemWriteE; // @[myCPU.scala 125:26]
-  wire [23:0] _id2ex_io2_ALUCtrlE; // @[myCPU.scala 125:26]
-  wire  _id2ex_io2_ALUSrcE_0; // @[myCPU.scala 125:26]
-  wire  _id2ex_io2_ALUSrcE_1; // @[myCPU.scala 125:26]
-  wire [4:0] _id2ex_io2_RegDstE; // @[myCPU.scala 125:26]
-  wire  _id2ex_io2_LinkE; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io2_PCPlus4E; // @[myCPU.scala 125:26]
-  wire  _id2ex_io2_LoadUnsignedE; // @[myCPU.scala 125:26]
-  wire [1:0] _id2ex_io2_MemWidthE; // @[myCPU.scala 125:26]
-  wire  _id2ex_io2_csrWriteE; // @[myCPU.scala 125:26]
-  wire [11:0] _id2ex_io2_WritecsrAddrE; // @[myCPU.scala 125:26]
-  wire [11:0] _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io2_PCE; // @[myCPU.scala 125:26]
-  wire [1:0] _id2ex_io2_BranchJump_JrE; // @[myCPU.scala 125:26]
-  wire  _id2ex_io2_eBreakE; // @[myCPU.scala 125:26]
-  wire  _id2ex_io2_fence_i_control; // @[myCPU.scala 125:26]
-  wire  _id2ex_io_en; // @[myCPU.scala 125:26]
-  wire  _id2ex_io_clr; // @[myCPU.scala 125:26]
-  wire  _id2ex_io_csrToRegE_Out; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io_RD1D; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io_RD2D; // @[myCPU.scala 125:26]
-  wire [4:0] _id2ex_io_R2D; // @[myCPU.scala 125:26]
-  wire [4:0] _id2ex_io_R1D; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io_ImmD; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io_PCPlus4D; // @[myCPU.scala 125:26]
-  wire [11:0] _id2ex_io_WritecsrAddrD; // @[myCPU.scala 125:26]
-  wire [11:0] _id2ex_io_ReadcsrAddrD; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io_PCD; // @[myCPU.scala 125:26]
-  wire [31:0] _id2ex_io_ExceptionTypeD; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io_Pc_NextD; // @[myCPU.scala 125:26]
-  wire [1:0] _id2ex_io_BranchJump_JrD; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io_RD1E; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io_RD2E; // @[myCPU.scala 125:26]
-  wire [4:0] _id2ex_io_R2E; // @[myCPU.scala 125:26]
-  wire [4:0] _id2ex_io_R1E; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io_ImmE; // @[myCPU.scala 125:26]
-  wire  _id2ex_io_data_wE; // @[myCPU.scala 125:26]
-  wire [63:0] _id2ex_io_Pc_NextE; // @[myCPU.scala 125:26]
-  wire [23:0] _id2ex_io_muldiv_control; // @[myCPU.scala 125:26]
-  wire  _id2ex_io_alu_calE; // @[myCPU.scala 125:26]
-  wire  _id2ex_io_muldiv_calE; // @[myCPU.scala 125:26]
-  wire [31:0] _id2ex_io_ExceptionTypeE_Out; // @[myCPU.scala 125:26]
-  wire [5:0] _id2ex_io_csr_controlE; // @[myCPU.scala 125:26]
-  wire  _id2ex_io_csr_ImmE; // @[myCPU.scala 125:26]
-  wire  _if2id_clock; // @[myCPU.scala 126:26]
-  wire  _if2id_reset; // @[myCPU.scala 126:26]
-  wire  _if2id_io_en; // @[myCPU.scala 126:26]
-  wire  _if2id_io_clr; // @[myCPU.scala 126:26]
-  wire [63:0] _if2id_io_InstrF; // @[myCPU.scala 126:26]
-  wire [63:0] _if2id_io_PCPlus4F; // @[myCPU.scala 126:26]
-  wire [63:0] _if2id_io_PCF; // @[myCPU.scala 126:26]
-  wire [1:0] _if2id_io_ExceptionTypeF; // @[myCPU.scala 126:26]
-  wire [31:0] _if2id_io_InstrD; // @[myCPU.scala 126:26]
-  wire [63:0] _if2id_io_PCPlus4D; // @[myCPU.scala 126:26]
-  wire [63:0] _if2id_io_PCD; // @[myCPU.scala 126:26]
-  wire [1:0] _if2id_io_ExceptionTypeD_Out; // @[myCPU.scala 126:26]
-  wire  _mem22wb_clock; // @[myCPU.scala 128:27]
-  wire  _mem22wb_reset; // @[myCPU.scala 128:27]
-  wire  _mem22wb_io_en; // @[myCPU.scala 128:27]
-  wire  _mem22wb_io_clr; // @[myCPU.scala 128:27]
-  wire  _mem22wb_io_RegWriteM; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_ResultM; // @[myCPU.scala 128:27]
-  wire [4:0] _mem22wb_io_WriteRegM; // @[myCPU.scala 128:27]
-  wire  _mem22wb_io_csrWriteM; // @[myCPU.scala 128:27]
-  wire [11:0] _mem22wb_io_WritecsrAddrM; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_CsrWritedataM; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_PCM; // @[myCPU.scala 128:27]
-  wire [31:0] _mem22wb_io_ExceptionTypeM; // @[myCPU.scala 128:27]
-  wire [1:0] _mem22wb_io_BranchJump_JrM; // @[myCPU.scala 128:27]
-  wire  _mem22wb_io_eBreakM; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_Pc_NextM; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleM_pc; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleM_data; // @[myCPU.scala 128:27]
-  wire [1:0] _mem22wb_io_Mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleM_addr; // @[myCPU.scala 128:27]
-  wire [2:0] _mem22wb_io_Mem_trace_budleM_len; // @[myCPU.scala 128:27]
-  wire  _mem22wb_io_Mem_trace_budleM_cache; // @[myCPU.scala 128:27]
-  wire  _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_ResultW; // @[myCPU.scala 128:27]
-  wire [4:0] _mem22wb_io_WriteRegW; // @[myCPU.scala 128:27]
-  wire  _mem22wb_io_csrWriteW; // @[myCPU.scala 128:27]
-  wire [11:0] _mem22wb_io_WritecsrAddrW; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_PCW; // @[myCPU.scala 128:27]
-  wire [31:0] _mem22wb_io_ExceptionTypeW_Out; // @[myCPU.scala 128:27]
-  wire [1:0] _mem22wb_io_BranchJump_JrW; // @[myCPU.scala 128:27]
-  wire  _mem22wb_io_eBreakW; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_Pc_NextW; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleW_pc; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleW_data; // @[myCPU.scala 128:27]
-  wire [1:0] _mem22wb_io_Mem_trace_budleW_mem_fetch_type; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleW_addr; // @[myCPU.scala 128:27]
-  wire [2:0] _mem22wb_io_Mem_trace_budleW_len; // @[myCPU.scala 128:27]
-  wire  _mem22wb_io_Mem_trace_budleW_cache; // @[myCPU.scala 128:27]
-  wire [63:0] _mem22wb_io_CsrWritedataW; // @[myCPU.scala 128:27]
-  wire [63:0] _addr_cal_io_d_vaddr; // @[myCPU.scala 129:31]
-  wire [63:0] _addr_cal_io_d_paddr; // @[myCPU.scala 129:31]
-  wire  _addr_cal_io_d_cached; // @[myCPU.scala 129:31]
-  wire  _muldiv_clock; // @[myCPU.scala 130:26]
-  wire  _muldiv_reset; // @[myCPU.scala 130:26]
-  wire  _muldiv_io_en; // @[myCPU.scala 130:26]
-  wire [23:0] _muldiv_io_ctrl; // @[myCPU.scala 130:26]
-  wire [63:0] _muldiv_io_in1; // @[myCPU.scala 130:26]
-  wire [63:0] _muldiv_io_in2; // @[myCPU.scala 130:26]
-  wire [63:0] _muldiv_io_data_out; // @[myCPU.scala 130:26]
-  wire  _muldiv_io_pending; // @[myCPU.scala 130:26]
-  wire  _regfile_clock; // @[myCPU.scala 132:26]
-  wire  _regfile_reset; // @[myCPU.scala 132:26]
-  wire [4:0] _regfile_io_A1; // @[myCPU.scala 132:26]
-  wire [4:0] _regfile_io_A2; // @[myCPU.scala 132:26]
-  wire  _regfile_io_WE3; // @[myCPU.scala 132:26]
-  wire [4:0] _regfile_io_A3; // @[myCPU.scala 132:26]
-  wire [63:0] _regfile_io_WD3; // @[myCPU.scala 132:26]
-  wire [63:0] _regfile_io_RD1; // @[myCPU.scala 132:26]
-  wire [63:0] _regfile_io_RD2; // @[myCPU.scala 132:26]
-  wire [2047:0] _regfile_io_reg_file_alL_out; // @[myCPU.scala 132:26]
-  wire  _mtrace_mod_reset; // @[myCPU.scala 133:29]
-  wire  _mtrace_mod_clock; // @[myCPU.scala 133:29]
-  wire [63:0] _mtrace_mod_data; // @[myCPU.scala 133:29]
-  wire [63:0] _mtrace_mod_pc; // @[myCPU.scala 133:29]
-  wire [63:0] _mtrace_mod_addr; // @[myCPU.scala 133:29]
-  wire  _mtrace_mod_mem_req; // @[myCPU.scala 133:29]
-  wire  _mtrace_mod_mem_write_read; // @[myCPU.scala 133:29]
-  wire [2:0] _mtrace_mod_mem_size; // @[myCPU.scala 133:29]
-  wire  _mtrace_mod_mem_cached; // @[myCPU.scala 133:29]
-  wire  fifo_with_bundle_clock; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_reset; // @[myCPU.scala 154:29]
-  wire [1:0] fifo_with_bundle_io_read_en; // @[myCPU.scala 154:29]
-  wire [1:0] fifo_with_bundle_io_write_en; // @[myCPU.scala 154:29]
-  wire [63:0] fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 154:29]
-  wire [31:0] fifo_with_bundle_io_read_out_0_inst; // @[myCPU.scala 154:29]
-  wire [1:0] fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 154:29]
-  wire [63:0] fifo_with_bundle_io_read_out_0_pre_pc_target; // @[myCPU.scala 154:29]
-  wire [6:0] fifo_with_bundle_io_read_out_0_pre_lookup_data; // @[myCPU.scala 154:29]
-  wire [3:0] fifo_with_bundle_io_read_out_0_pre_hashcode; // @[myCPU.scala 154:29]
-  wire [1:0] fifo_with_bundle_io_read_out_0_pre_pht; // @[myCPU.scala 154:29]
-  wire [6:0] fifo_with_bundle_io_read_out_0_pre_bht; // @[myCPU.scala 154:29]
-  wire [7:0] fifo_with_bundle_io_read_out_0_pre_lookup_value; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_read_out_0_pre_decoder_branchD_flag; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_read_out_0_pre_decoder_jump; // @[myCPU.scala 154:29]
-  wire [5:0] fifo_with_bundle_io_read_out_0_pre_decoder_branchdata; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_read_out_0_pre_decoder_jr; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_read_out_0_true_branch_state; // @[myCPU.scala 154:29]
-  wire [63:0] fifo_with_bundle_io_write_in_0_pc; // @[myCPU.scala 154:29]
-  wire [31:0] fifo_with_bundle_io_write_in_0_inst; // @[myCPU.scala 154:29]
-  wire [63:0] fifo_with_bundle_io_write_in_0_pre_pc_target; // @[myCPU.scala 154:29]
-  wire [6:0] fifo_with_bundle_io_write_in_0_pre_lookup_data; // @[myCPU.scala 154:29]
-  wire [3:0] fifo_with_bundle_io_write_in_0_pre_hashcode; // @[myCPU.scala 154:29]
-  wire [1:0] fifo_with_bundle_io_write_in_0_pre_pht; // @[myCPU.scala 154:29]
-  wire [6:0] fifo_with_bundle_io_write_in_0_pre_bht; // @[myCPU.scala 154:29]
-  wire [7:0] fifo_with_bundle_io_write_in_0_pre_lookup_value; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_write_in_0_pre_decoder_branchD_flag; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_write_in_0_pre_decoder_jump; // @[myCPU.scala 154:29]
-  wire [5:0] fifo_with_bundle_io_write_in_0_pre_decoder_branchdata; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_write_in_0_pre_decoder_jr; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_write_in_0_true_branch_state; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_full; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_empty; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_point_write_en; // @[myCPU.scala 154:29]
-  wire  fifo_with_bundle_io_point_flush; // @[myCPU.scala 154:29]
-  wire  stage_fec_1_pc_L_clock; // @[myCPU.scala 416:34]
-  wire  stage_fec_1_pc_L_reset; // @[myCPU.scala 416:34]
-  wire  stage_fec_1_pc_L_io_stall; // @[myCPU.scala 416:34]
-  wire  stage_fec_1_pc_L_io_flush; // @[myCPU.scala 416:34]
-  wire [63:0] stage_fec_1_pc_L_io_in_pc_value_in; // @[myCPU.scala 416:34]
-  wire [63:0] stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 416:34]
-  wire  stage_fec_1_pc_M_clock; // @[myCPU.scala 417:34]
-  wire  stage_fec_1_pc_M_reset; // @[myCPU.scala 417:34]
-  wire  stage_fec_1_pc_M_io_stall; // @[myCPU.scala 417:34]
-  wire  stage_fec_1_pc_M_io_flush; // @[myCPU.scala 417:34]
-  wire [63:0] stage_fec_1_pc_M_io_in_pc_value_in; // @[myCPU.scala 417:34]
-  wire [63:0] stage_fec_1_pc_M_io_out_pc_value_out; // @[myCPU.scala 417:34]
-  wire  stage_fec_1_pc_R_clock; // @[myCPU.scala 418:34]
-  wire  stage_fec_1_pc_R_reset; // @[myCPU.scala 418:34]
-  wire  stage_fec_1_pc_R_io_stall; // @[myCPU.scala 418:34]
-  wire  stage_fec_1_pc_R_io_flush; // @[myCPU.scala 418:34]
-  wire [63:0] stage_fec_1_pc_R_io_in_pc_value_in; // @[myCPU.scala 418:34]
-  wire [63:0] stage_fec_1_pc_R_io_out_pc_value_out; // @[myCPU.scala 418:34]
-  wire  branch_prediction_with_blockram_clock; // @[myCPU.scala 447:21]
-  wire  branch_prediction_with_blockram_reset; // @[myCPU.scala 447:21]
-  wire [63:0] branch_prediction_with_blockram_io_pc; // @[myCPU.scala 447:21]
-  wire [63:0] branch_prediction_with_blockram_io_write_pc; // @[myCPU.scala 447:21]
-  wire [3:0] branch_prediction_with_blockram_io_aw_pht_ways_addr; // @[myCPU.scala 447:21]
-  wire [6:0] branch_prediction_with_blockram_io_aw_pht_addr; // @[myCPU.scala 447:21]
-  wire [6:0] branch_prediction_with_blockram_io_aw_bht_addr; // @[myCPU.scala 447:21]
-  wire [63:0] branch_prediction_with_blockram_io_aw_target_addr; // @[myCPU.scala 447:21]
-  wire  branch_prediction_with_blockram_io_btb_write; // @[myCPU.scala 447:21]
-  wire  branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 447:21]
-  wire  branch_prediction_with_blockram_io_pht_write; // @[myCPU.scala 447:21]
-  wire [6:0] branch_prediction_with_blockram_io_bht_in; // @[myCPU.scala 447:21]
-  wire [7:0] branch_prediction_with_blockram_io_pht_in; // @[myCPU.scala 447:21]
-  wire [1:0] branch_prediction_with_blockram_io_out_L; // @[myCPU.scala 447:21]
-  wire  branch_prediction_with_blockram_io_pre_L; // @[myCPU.scala 447:21]
-  wire [6:0] branch_prediction_with_blockram_io_bht_L; // @[myCPU.scala 447:21]
-  wire  branch_prediction_with_blockram_io_btb_hit_0; // @[myCPU.scala 447:21]
-  wire [63:0] branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 447:21]
-  wire  branch_prediction_with_blockram_io_stage2_stall; // @[myCPU.scala 447:21]
-  wire  branch_prediction_with_blockram_io_stage2_flush; // @[myCPU.scala 447:21]
-  wire [7:0] branch_prediction_with_blockram_io_pht_lookup_value_out; // @[myCPU.scala 447:21]
-  wire [6:0] branch_prediction_with_blockram_io_lookup_data_0; // @[myCPU.scala 447:21]
-  wire  stage_fec_2_pc_L_clock; // @[myCPU.scala 516:34]
-  wire  stage_fec_2_pc_L_reset; // @[myCPU.scala 516:34]
-  wire  stage_fec_2_pc_L_io_stall; // @[myCPU.scala 516:34]
-  wire  stage_fec_2_pc_L_io_flush; // @[myCPU.scala 516:34]
-  wire [63:0] stage_fec_2_pc_L_io_in_pc_value_in; // @[myCPU.scala 516:34]
-  wire [63:0] stage_fec_2_pc_L_io_out_pc_value_out; // @[myCPU.scala 516:34]
-  wire  stage_fec_2_pc_M_clock; // @[myCPU.scala 517:34]
-  wire  stage_fec_2_pc_M_reset; // @[myCPU.scala 517:34]
-  wire  stage_fec_2_pc_M_io_stall; // @[myCPU.scala 517:34]
-  wire  stage_fec_2_pc_M_io_flush; // @[myCPU.scala 517:34]
-  wire [63:0] stage_fec_2_pc_M_io_in_pc_value_in; // @[myCPU.scala 517:34]
-  wire [63:0] stage_fec_2_pc_M_io_out_pc_value_out; // @[myCPU.scala 517:34]
-  wire  stage_fec_2_pc_R_clock; // @[myCPU.scala 518:34]
-  wire  stage_fec_2_pc_R_reset; // @[myCPU.scala 518:34]
-  wire  stage_fec_2_pc_R_io_stall; // @[myCPU.scala 518:34]
-  wire  stage_fec_2_pc_R_io_flush; // @[myCPU.scala 518:34]
-  wire [63:0] stage_fec_2_pc_R_io_in_pc_value_in; // @[myCPU.scala 518:34]
-  wire [63:0] stage_fec_2_pc_R_io_out_pc_value_out; // @[myCPU.scala 518:34]
-  wire  id_bru_state_clock; // @[myCPU.scala 680:31]
-  wire  id_bru_state_reset; // @[myCPU.scala 680:31]
-  wire  id_bru_state_io_stall; // @[myCPU.scala 680:31]
-  wire  id_bru_state_io_flush; // @[myCPU.scala 680:31]
-  wire [1:0] id_bru_state_io_in_pht; // @[myCPU.scala 680:31]
-  wire [6:0] id_bru_state_io_in_bht; // @[myCPU.scala 680:31]
-  wire [3:0] id_bru_state_io_in_hashcode; // @[myCPU.scala 680:31]
-  wire [63:0] id_bru_state_io_in_target_pc; // @[myCPU.scala 680:31]
-  wire [6:0] id_bru_state_io_in_lookup_data; // @[myCPU.scala 680:31]
-  wire [7:0] id_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 680:31]
-  wire [1:0] id_bru_state_io_out_pht; // @[myCPU.scala 680:31]
-  wire [6:0] id_bru_state_io_out_bht; // @[myCPU.scala 680:31]
-  wire [3:0] id_bru_state_io_out_hashcode; // @[myCPU.scala 680:31]
-  wire [63:0] id_bru_state_io_out_target_pc; // @[myCPU.scala 680:31]
-  wire [6:0] id_bru_state_io_out_lookup_data; // @[myCPU.scala 680:31]
-  wire [7:0] id_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 680:31]
-  wire  ex_bru_state_clock; // @[myCPU.scala 684:31]
-  wire  ex_bru_state_reset; // @[myCPU.scala 684:31]
-  wire  ex_bru_state_io_stall; // @[myCPU.scala 684:31]
-  wire  ex_bru_state_io_flush; // @[myCPU.scala 684:31]
-  wire [1:0] ex_bru_state_io_in_pht; // @[myCPU.scala 684:31]
-  wire [6:0] ex_bru_state_io_in_bht; // @[myCPU.scala 684:31]
-  wire [3:0] ex_bru_state_io_in_hashcode; // @[myCPU.scala 684:31]
-  wire [63:0] ex_bru_state_io_in_target_pc; // @[myCPU.scala 684:31]
-  wire [6:0] ex_bru_state_io_in_lookup_data; // @[myCPU.scala 684:31]
-  wire [7:0] ex_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 684:31]
-  wire [1:0] ex_bru_state_io_out_pht; // @[myCPU.scala 684:31]
-  wire [6:0] ex_bru_state_io_out_bht; // @[myCPU.scala 684:31]
-  wire [3:0] ex_bru_state_io_out_hashcode; // @[myCPU.scala 684:31]
-  wire [63:0] ex_bru_state_io_out_target_pc; // @[myCPU.scala 684:31]
-  wire [6:0] ex_bru_state_io_out_lookup_data; // @[myCPU.scala 684:31]
-  wire [7:0] ex_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 684:31]
-  wire  mem_bru_state_clock; // @[myCPU.scala 688:32]
-  wire  mem_bru_state_reset; // @[myCPU.scala 688:32]
-  wire  mem_bru_state_io_stall; // @[myCPU.scala 688:32]
-  wire  mem_bru_state_io_flush; // @[myCPU.scala 688:32]
-  wire [1:0] mem_bru_state_io_in_pht; // @[myCPU.scala 688:32]
-  wire [6:0] mem_bru_state_io_in_bht; // @[myCPU.scala 688:32]
-  wire [3:0] mem_bru_state_io_in_hashcode; // @[myCPU.scala 688:32]
-  wire [63:0] mem_bru_state_io_in_target_pc; // @[myCPU.scala 688:32]
-  wire [6:0] mem_bru_state_io_in_lookup_data; // @[myCPU.scala 688:32]
-  wire [7:0] mem_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 688:32]
-  wire [1:0] mem_bru_state_io_out_pht; // @[myCPU.scala 688:32]
-  wire [6:0] mem_bru_state_io_out_bht; // @[myCPU.scala 688:32]
-  wire [3:0] mem_bru_state_io_out_hashcode; // @[myCPU.scala 688:32]
-  wire [63:0] mem_bru_state_io_out_target_pc; // @[myCPU.scala 688:32]
-  wire [6:0] mem_bru_state_io_out_lookup_data; // @[myCPU.scala 688:32]
-  wire [7:0] mem_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 688:32]
-  wire  mem2_bru_state_clock; // @[myCPU.scala 692:33]
-  wire  mem2_bru_state_reset; // @[myCPU.scala 692:33]
-  wire  mem2_bru_state_io_stall; // @[myCPU.scala 692:33]
-  wire  mem2_bru_state_io_flush; // @[myCPU.scala 692:33]
-  wire [1:0] mem2_bru_state_io_in_pht; // @[myCPU.scala 692:33]
-  wire [6:0] mem2_bru_state_io_in_bht; // @[myCPU.scala 692:33]
-  wire [3:0] mem2_bru_state_io_in_hashcode; // @[myCPU.scala 692:33]
-  wire [63:0] mem2_bru_state_io_in_target_pc; // @[myCPU.scala 692:33]
-  wire [6:0] mem2_bru_state_io_in_lookup_data; // @[myCPU.scala 692:33]
-  wire [7:0] mem2_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 692:33]
-  wire [1:0] mem2_bru_state_io_out_pht; // @[myCPU.scala 692:33]
-  wire [6:0] mem2_bru_state_io_out_bht; // @[myCPU.scala 692:33]
-  wire [3:0] mem2_bru_state_io_out_hashcode; // @[myCPU.scala 692:33]
-  wire [63:0] mem2_bru_state_io_out_target_pc; // @[myCPU.scala 692:33]
-  wire [6:0] mem2_bru_state_io_out_lookup_data; // @[myCPU.scala 692:33]
-  wire [7:0] mem2_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 692:33]
-  wire  wb_bru_state_clock; // @[myCPU.scala 696:31]
-  wire  wb_bru_state_reset; // @[myCPU.scala 696:31]
-  wire  wb_bru_state_io_stall; // @[myCPU.scala 696:31]
-  wire  wb_bru_state_io_flush; // @[myCPU.scala 696:31]
-  wire [1:0] wb_bru_state_io_in_pht; // @[myCPU.scala 696:31]
-  wire [6:0] wb_bru_state_io_in_bht; // @[myCPU.scala 696:31]
-  wire [3:0] wb_bru_state_io_in_hashcode; // @[myCPU.scala 696:31]
-  wire [63:0] wb_bru_state_io_in_target_pc; // @[myCPU.scala 696:31]
-  wire [6:0] wb_bru_state_io_in_lookup_data; // @[myCPU.scala 696:31]
-  wire [7:0] wb_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 696:31]
-  wire [1:0] wb_bru_state_io_out_pht; // @[myCPU.scala 696:31]
-  wire [6:0] wb_bru_state_io_out_bht; // @[myCPU.scala 696:31]
-  wire [3:0] wb_bru_state_io_out_hashcode; // @[myCPU.scala 696:31]
-  wire [63:0] wb_bru_state_io_out_target_pc; // @[myCPU.scala 696:31]
-  wire [6:0] wb_bru_state_io_out_lookup_data; // @[myCPU.scala 696:31]
-  wire [7:0] wb_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 696:31]
-  wire  _commit_difftest_reset; // @[myCPU.scala 1143:34]
-  wire  _commit_difftest_clock; // @[myCPU.scala 1143:34]
-  wire [2047:0] _commit_difftest_gpr_wire; // @[myCPU.scala 1143:34]
-  wire [63:0] _commit_difftest_pc; // @[myCPU.scala 1143:34]
-  wire [63:0] _commit_difftest_debug_pc; // @[myCPU.scala 1143:34]
-  wire  _commit_difftest_inst_commit; // @[myCPU.scala 1143:34]
-  wire  _commit_difftest_data_ok_ok; // @[myCPU.scala 1143:34]
-  wire  _commit_difftest_cpu_ebreak_sign; // @[myCPU.scala 1143:34]
-  wire  _T_2 = ~resetn; // @[myCPU.scala 109:41]
-  wire  stage_fec_2_inst_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 174:45]
-  wire  stage_fec_2_inst_branch = inst_sram_rdata_L[32]; // @[myCPU.scala 175:47]
-  reg  pre_decoder_branchD_flag; // @[myCPU.scala 177:44]
-  reg [5:0] pre_decoder_branchdata; // @[myCPU.scala 178:43]
-  reg  pre_decoder_jump; // @[myCPU.scala 179:40]
-  reg  pre_decoder_jr; // @[myCPU.scala 180:40]
+  wire [23:0] _alu_io_ctrl; // @[myCPU.scala 116:22]
+  wire [63:0] _alu_io_in1; // @[myCPU.scala 116:22]
+  wire [63:0] _alu_io_in2; // @[myCPU.scala 116:22]
+  wire [63:0] _alu_io_result; // @[myCPU.scala 116:22]
+  wire  _alu_io_overflow; // @[myCPU.scala 116:22]
+  wire  _alu_io_data_w; // @[myCPU.scala 116:22]
+  wire  _br_reset; // @[myCPU.scala 117:22]
+  wire [63:0] _br_io_r1; // @[myCPU.scala 117:22]
+  wire [63:0] _br_io_r2; // @[myCPU.scala 117:22]
+  wire [5:0] _br_io_branch; // @[myCPU.scala 117:22]
+  wire  _br_io_exe; // @[myCPU.scala 117:22]
+  wire  _cfu_reset; // @[myCPU.scala 118:22]
+  wire  _cfu_io_Inst_Fifo_Empty; // @[myCPU.scala 118:22]
+  wire  _cfu_io_dmem_calD; // @[myCPU.scala 118:22]
+  wire  _cfu_io_BranchD_Flag; // @[myCPU.scala 118:22]
+  wire  _cfu_io_JRD; // @[myCPU.scala 118:22]
+  wire  _cfu_io_CanBranchD; // @[myCPU.scala 118:22]
+  wire  _cfu_io_DivPendingE; // @[myCPU.scala 118:22]
+  wire  _cfu_io_DataPendingM; // @[myCPU.scala 118:22]
+  wire  _cfu_io_InException; // @[myCPU.scala 118:22]
+  wire [4:0] _cfu_io_WriteRegE; // @[myCPU.scala 118:22]
+  wire  _cfu_io_RegWriteE; // @[myCPU.scala 118:22]
+  wire  _cfu_io_csrToRegE; // @[myCPU.scala 118:22]
+  wire [4:0] _cfu_io_WriteRegM; // @[myCPU.scala 118:22]
+  wire  _cfu_io_MemToRegM; // @[myCPU.scala 118:22]
+  wire  _cfu_io_RegWriteM; // @[myCPU.scala 118:22]
+  wire  _cfu_io_csrWriteM; // @[myCPU.scala 118:22]
+  wire [4:0] _cfu_io_WriteRegM2; // @[myCPU.scala 118:22]
+  wire  _cfu_io_MemToRegM2; // @[myCPU.scala 118:22]
+  wire  _cfu_io_RegWriteM2; // @[myCPU.scala 118:22]
+  wire  _cfu_io_csrWriteM2; // @[myCPU.scala 118:22]
+  wire [4:0] _cfu_io_WriteRegW; // @[myCPU.scala 118:22]
+  wire  _cfu_io_RegWriteW; // @[myCPU.scala 118:22]
+  wire [11:0] _cfu_io_ReadcsrAddrE; // @[myCPU.scala 118:22]
+  wire [11:0] _cfu_io_WritecsrAddrM; // @[myCPU.scala 118:22]
+  wire [11:0] _cfu_io_WritecsrAddrM2; // @[myCPU.scala 118:22]
+  wire [4:0] _cfu_io_R2D; // @[myCPU.scala 118:22]
+  wire [4:0] _cfu_io_R1D; // @[myCPU.scala 118:22]
+  wire [4:0] _cfu_io_R2E; // @[myCPU.scala 118:22]
+  wire [4:0] _cfu_io_R1E; // @[myCPU.scala 118:22]
+  wire  _cfu_io_StallF; // @[myCPU.scala 118:22]
+  wire  _cfu_io_StallD; // @[myCPU.scala 118:22]
+  wire  _cfu_io_StallE; // @[myCPU.scala 118:22]
+  wire  _cfu_io_StallM; // @[myCPU.scala 118:22]
+  wire  _cfu_io_StallM2; // @[myCPU.scala 118:22]
+  wire  _cfu_io_StallW; // @[myCPU.scala 118:22]
+  wire  _cfu_io_FlushD; // @[myCPU.scala 118:22]
+  wire  _cfu_io_FlushE; // @[myCPU.scala 118:22]
+  wire  _cfu_io_FlushM; // @[myCPU.scala 118:22]
+  wire  _cfu_io_FlushM2; // @[myCPU.scala 118:22]
+  wire  _cfu_io_FlushW; // @[myCPU.scala 118:22]
+  wire [1:0] _cfu_io_Forward1E; // @[myCPU.scala 118:22]
+  wire [1:0] _cfu_io_Forward2E; // @[myCPU.scala 118:22]
+  wire [1:0] _cfu_io_Forward1D; // @[myCPU.scala 118:22]
+  wire [1:0] _cfu_io_Forward2D; // @[myCPU.scala 118:22]
+  wire [1:0] _cfu_io_ForwardcsrE; // @[myCPU.scala 118:22]
+  wire  _csr_clock; // @[myCPU.scala 119:22]
+  wire  _csr_reset; // @[myCPU.scala 119:22]
+  wire [11:0] _csr_io_csr_read_addr; // @[myCPU.scala 119:22]
+  wire [11:0] _csr_io_csr_write_addr; // @[myCPU.scala 119:22]
+  wire [63:0] _csr_io_csr_write_data; // @[myCPU.scala 119:22]
+  wire  _csr_io_csr_write_en; // @[myCPU.scala 119:22]
+  wire  _csr_io_timer_int_has; // @[myCPU.scala 119:22]
+  wire [63:0] _csr_io_pc; // @[myCPU.scala 119:22]
+  wire [31:0] _csr_io_exception_type_i; // @[myCPU.scala 119:22]
+  wire [63:0] _csr_io_return_pc; // @[myCPU.scala 119:22]
+  wire  _csr_io_exception; // @[myCPU.scala 119:22]
+  wire [63:0] _csr_io_csr_read_data; // @[myCPU.scala 119:22]
+  wire [6:0] _csr_io_csr_status; // @[myCPU.scala 119:22]
+  wire  _csr_io_Int_able; // @[myCPU.scala 119:22]
+  wire  _csr_io_icache_tags_flush; // @[myCPU.scala 119:22]
+  wire [31:0] _cu_io1_InstrD; // @[myCPU.scala 120:22]
+  wire  _cu_io1_BadInstrD; // @[myCPU.scala 120:22]
+  wire  _cu_io1_SysCallD; // @[myCPU.scala 120:22]
+  wire  _cu_io1_EretD; // @[myCPU.scala 120:22]
+  wire  _cu_io1_dmem_addr_cal; // @[myCPU.scala 120:22]
+  wire  _cu_io_RegWriteD; // @[myCPU.scala 120:22]
+  wire  _cu_io_MemToRegD; // @[myCPU.scala 120:22]
+  wire  _cu_io_MemWriteD; // @[myCPU.scala 120:22]
+  wire [23:0] _cu_io_ALUCtrlD; // @[myCPU.scala 120:22]
+  wire [1:0] _cu_io_ALUSrcD_0; // @[myCPU.scala 120:22]
+  wire [1:0] _cu_io_ALUSrcD_1; // @[myCPU.scala 120:22]
+  wire [4:0] _cu_io_RegDstD; // @[myCPU.scala 120:22]
+  wire  _cu_io_LinkD; // @[myCPU.scala 120:22]
+  wire  _cu_io_csrWriteD; // @[myCPU.scala 120:22]
+  wire  _cu_io_csrToRegD; // @[myCPU.scala 120:22]
+  wire  _cu_io_LoadUnsignedD; // @[myCPU.scala 120:22]
+  wire [1:0] _cu_io_MemWidthD; // @[myCPU.scala 120:22]
+  wire [63:0] _cu_io_ImmD; // @[myCPU.scala 120:22]
+  wire  _cu_io_ebreakD; // @[myCPU.scala 120:22]
+  wire  _cu_io_data_wD; // @[myCPU.scala 120:22]
+  wire [23:0] _cu_io_muldiv_control; // @[myCPU.scala 120:22]
+  wire  _cu_io_muldiv_cal; // @[myCPU.scala 120:22]
+  wire  _cu_io_alu_cal; // @[myCPU.scala 120:22]
+  wire [5:0] _cu_io_csr_control; // @[myCPU.scala 120:22]
+  wire  _cu_io_csr_Imm; // @[myCPU.scala 120:22]
+  wire  _cu_io_fence_i_control; // @[myCPU.scala 120:22]
+  wire  _dmem_io_data_ok; // @[myCPU.scala 121:23]
+  wire [63:0] _dmem_io_rdata; // @[myCPU.scala 121:23]
+  wire [63:0] _dmem_io_Physisc_Address; // @[myCPU.scala 121:23]
+  wire [1:0] _dmem_io_WIDTH; // @[myCPU.scala 121:23]
+  wire  _dmem_io_SIGN; // @[myCPU.scala 121:23]
+  wire [63:0] _dmem_io_RD; // @[myCPU.scala 121:23]
+  wire  _dmem_io_data_pending; // @[myCPU.scala 121:23]
+  wire  _dmemreq_io_en; // @[myCPU.scala 122:26]
+  wire  _dmemreq_io_MemWriteE; // @[myCPU.scala 122:26]
+  wire  _dmemreq_io_MemToRegE; // @[myCPU.scala 122:26]
+  wire [1:0] _dmemreq_io_MemWidthE; // @[myCPU.scala 122:26]
+  wire [63:0] _dmemreq_io_VAddrE; // @[myCPU.scala 122:26]
+  wire [63:0] _dmemreq_io_WriteDataE; // @[myCPU.scala 122:26]
+  wire  _dmemreq_io_req; // @[myCPU.scala 122:26]
+  wire  _dmemreq_io_wr; // @[myCPU.scala 122:26]
+  wire [1:0] _dmemreq_io_size; // @[myCPU.scala 122:26]
+  wire [63:0] _dmemreq_io_addr; // @[myCPU.scala 122:26]
+  wire [63:0] _dmemreq_io_wdata; // @[myCPU.scala 122:26]
+  wire [7:0] _dmemreq_io_wstrb; // @[myCPU.scala 122:26]
+  wire  _ex2mem_clock; // @[myCPU.scala 123:26]
+  wire  _ex2mem_reset; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io1_RegWriteE; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io1_MemToRegE; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io1_LoadUnsignedE; // @[myCPU.scala 123:26]
+  wire [1:0] _ex2mem_io1_MemWidthE; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io1_csrWriteE; // @[myCPU.scala 123:26]
+  wire [11:0] _ex2mem_io1_WritecsrAddrE; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io1_PCE; // @[myCPU.scala 123:26]
+  wire [1:0] _ex2mem_io1_MemRLE; // @[myCPU.scala 123:26]
+  wire [1:0] _ex2mem_io1_BranchJump_JrE; // @[myCPU.scala 123:26]
+  wire [2:0] _ex2mem_io1_Tlb_Control; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io1_eBreakE; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io1_fence_i_control; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io_en; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io_clr; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_WriteDataE; // @[myCPU.scala 123:26]
+  wire [4:0] _ex2mem_io_WriteRegE; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_PhyAddrE; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_CsrWritedataE; // @[myCPU.scala 123:26]
+  wire [31:0] _ex2mem_io_ExceptionTypeE; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_RtE; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_Pc_NextE; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleE_pc; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleE_data; // @[myCPU.scala 123:26]
+  wire [1:0] _ex2mem_io_mem_trace_budleE_mem_fetch_type; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleE_addr; // @[myCPU.scala 123:26]
+  wire [2:0] _ex2mem_io_mem_trace_budleE_len; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io_mem_trace_budleE_cache; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io_RegWriteM; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io_MemToRegM; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_WriteDataM; // @[myCPU.scala 123:26]
+  wire [4:0] _ex2mem_io_WriteRegM; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io_LoadUnsignedM; // @[myCPU.scala 123:26]
+  wire [1:0] _ex2mem_io_MemWidthM; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_PhyAddrM; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io_csrWriteM; // @[myCPU.scala 123:26]
+  wire [11:0] _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_PCM; // @[myCPU.scala 123:26]
+  wire [31:0] _ex2mem_io_ExceptionTypeM_Out; // @[myCPU.scala 123:26]
+  wire [1:0] _ex2mem_io_MemRLM; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_RtM; // @[myCPU.scala 123:26]
+  wire [1:0] _ex2mem_io_BranchJump_JrM; // @[myCPU.scala 123:26]
+  wire [2:0] _ex2mem_io_Tlb_ControlM; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io_eBreakM; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_Pc_NextM; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleM_pc; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleM_data; // @[myCPU.scala 123:26]
+  wire [1:0] _ex2mem_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleM_addr; // @[myCPU.scala 123:26]
+  wire [2:0] _ex2mem_io_mem_trace_budleM_len; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io_mem_trace_budleM_cache; // @[myCPU.scala 123:26]
+  wire [63:0] _ex2mem_io_CsrWritedataM; // @[myCPU.scala 123:26]
+  wire  _ex2mem_io_fence_i_controlM; // @[myCPU.scala 123:26]
+  wire  _mem2mem2_clock; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_reset; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io1_RegWriteE; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io1_MemToRegE; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io1_LoadUnsignedE; // @[myCPU.scala 124:28]
+  wire [1:0] _mem2mem2_io1_MemWidthE; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io1_csrWriteE; // @[myCPU.scala 124:28]
+  wire [11:0] _mem2mem2_io1_WritecsrAddrE; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io1_PCE; // @[myCPU.scala 124:28]
+  wire [1:0] _mem2mem2_io1_MemRLE; // @[myCPU.scala 124:28]
+  wire [1:0] _mem2mem2_io1_BranchJump_JrE; // @[myCPU.scala 124:28]
+  wire [2:0] _mem2mem2_io1_Tlb_Control; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io1_eBreakE; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io1_fence_i_control; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io_en; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io_clr; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_WriteDataE; // @[myCPU.scala 124:28]
+  wire [4:0] _mem2mem2_io_WriteRegE; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_PhyAddrE; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_CsrWritedataE; // @[myCPU.scala 124:28]
+  wire [31:0] _mem2mem2_io_ExceptionTypeE; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_RtE; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_Pc_NextE; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleE_pc; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleE_data; // @[myCPU.scala 124:28]
+  wire [1:0] _mem2mem2_io_mem_trace_budleE_mem_fetch_type; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleE_addr; // @[myCPU.scala 124:28]
+  wire [2:0] _mem2mem2_io_mem_trace_budleE_len; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io_mem_trace_budleE_cache; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io_RegWriteM; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io_MemToRegM; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_WriteDataM; // @[myCPU.scala 124:28]
+  wire [4:0] _mem2mem2_io_WriteRegM; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io_LoadUnsignedM; // @[myCPU.scala 124:28]
+  wire [1:0] _mem2mem2_io_MemWidthM; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_PhyAddrM; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io_csrWriteM; // @[myCPU.scala 124:28]
+  wire [11:0] _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_PCM; // @[myCPU.scala 124:28]
+  wire [31:0] _mem2mem2_io_ExceptionTypeM_Out; // @[myCPU.scala 124:28]
+  wire [1:0] _mem2mem2_io_MemRLM; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_RtM; // @[myCPU.scala 124:28]
+  wire [1:0] _mem2mem2_io_BranchJump_JrM; // @[myCPU.scala 124:28]
+  wire [2:0] _mem2mem2_io_Tlb_ControlM; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io_eBreakM; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_Pc_NextM; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleM_pc; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleM_data; // @[myCPU.scala 124:28]
+  wire [1:0] _mem2mem2_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleM_addr; // @[myCPU.scala 124:28]
+  wire [2:0] _mem2mem2_io_mem_trace_budleM_len; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io_mem_trace_budleM_cache; // @[myCPU.scala 124:28]
+  wire [63:0] _mem2mem2_io_CsrWritedataM; // @[myCPU.scala 124:28]
+  wire  _mem2mem2_io_fence_i_controlM; // @[myCPU.scala 124:28]
+  wire  _id2ex_clock; // @[myCPU.scala 126:26]
+  wire  _id2ex_reset; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_RegWriteD; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_MemToRegD; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_MemWriteD; // @[myCPU.scala 126:26]
+  wire [23:0] _id2ex_io1_ALUCtrlD; // @[myCPU.scala 126:26]
+  wire [1:0] _id2ex_io1_ALUSrcD_0; // @[myCPU.scala 126:26]
+  wire [1:0] _id2ex_io1_ALUSrcD_1; // @[myCPU.scala 126:26]
+  wire [4:0] _id2ex_io1_RegDstD; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_LinkD; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_csrWriteD; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_csrToRegD; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_LoadUnsignedD; // @[myCPU.scala 126:26]
+  wire [1:0] _id2ex_io1_MemWidthD; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_ebreakD; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_data_wD; // @[myCPU.scala 126:26]
+  wire [23:0] _id2ex_io1_muldiv_control; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_muldiv_cal; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_alu_cal; // @[myCPU.scala 126:26]
+  wire [5:0] _id2ex_io1_csr_control; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_csr_Imm; // @[myCPU.scala 126:26]
+  wire  _id2ex_io1_fence_i_control; // @[myCPU.scala 126:26]
+  wire  _id2ex_io2_RegWriteE; // @[myCPU.scala 126:26]
+  wire  _id2ex_io2_MemToRegE; // @[myCPU.scala 126:26]
+  wire  _id2ex_io2_MemWriteE; // @[myCPU.scala 126:26]
+  wire [23:0] _id2ex_io2_ALUCtrlE; // @[myCPU.scala 126:26]
+  wire  _id2ex_io2_ALUSrcE_0; // @[myCPU.scala 126:26]
+  wire  _id2ex_io2_ALUSrcE_1; // @[myCPU.scala 126:26]
+  wire [4:0] _id2ex_io2_RegDstE; // @[myCPU.scala 126:26]
+  wire  _id2ex_io2_LinkE; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io2_PCPlus4E; // @[myCPU.scala 126:26]
+  wire  _id2ex_io2_LoadUnsignedE; // @[myCPU.scala 126:26]
+  wire [1:0] _id2ex_io2_MemWidthE; // @[myCPU.scala 126:26]
+  wire  _id2ex_io2_csrWriteE; // @[myCPU.scala 126:26]
+  wire [11:0] _id2ex_io2_WritecsrAddrE; // @[myCPU.scala 126:26]
+  wire [11:0] _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io2_PCE; // @[myCPU.scala 126:26]
+  wire [1:0] _id2ex_io2_BranchJump_JrE; // @[myCPU.scala 126:26]
+  wire  _id2ex_io2_eBreakE; // @[myCPU.scala 126:26]
+  wire  _id2ex_io2_fence_i_control; // @[myCPU.scala 126:26]
+  wire  _id2ex_io_en; // @[myCPU.scala 126:26]
+  wire  _id2ex_io_clr; // @[myCPU.scala 126:26]
+  wire  _id2ex_io_csrToRegE_Out; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io_RD1D; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io_RD2D; // @[myCPU.scala 126:26]
+  wire [4:0] _id2ex_io_R2D; // @[myCPU.scala 126:26]
+  wire [4:0] _id2ex_io_R1D; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io_ImmD; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io_PCPlus4D; // @[myCPU.scala 126:26]
+  wire [11:0] _id2ex_io_WritecsrAddrD; // @[myCPU.scala 126:26]
+  wire [11:0] _id2ex_io_ReadcsrAddrD; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io_PCD; // @[myCPU.scala 126:26]
+  wire [31:0] _id2ex_io_ExceptionTypeD; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io_Pc_NextD; // @[myCPU.scala 126:26]
+  wire [1:0] _id2ex_io_BranchJump_JrD; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io_RD1E; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io_RD2E; // @[myCPU.scala 126:26]
+  wire [4:0] _id2ex_io_R2E; // @[myCPU.scala 126:26]
+  wire [4:0] _id2ex_io_R1E; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io_ImmE; // @[myCPU.scala 126:26]
+  wire  _id2ex_io_data_wE; // @[myCPU.scala 126:26]
+  wire [63:0] _id2ex_io_Pc_NextE; // @[myCPU.scala 126:26]
+  wire [23:0] _id2ex_io_muldiv_control; // @[myCPU.scala 126:26]
+  wire  _id2ex_io_alu_calE; // @[myCPU.scala 126:26]
+  wire  _id2ex_io_muldiv_calE; // @[myCPU.scala 126:26]
+  wire [31:0] _id2ex_io_ExceptionTypeE_Out; // @[myCPU.scala 126:26]
+  wire [5:0] _id2ex_io_csr_controlE; // @[myCPU.scala 126:26]
+  wire  _id2ex_io_csr_ImmE; // @[myCPU.scala 126:26]
+  wire  _if2id_clock; // @[myCPU.scala 127:26]
+  wire  _if2id_reset; // @[myCPU.scala 127:26]
+  wire  _if2id_io_en; // @[myCPU.scala 127:26]
+  wire  _if2id_io_clr; // @[myCPU.scala 127:26]
+  wire [63:0] _if2id_io_InstrF; // @[myCPU.scala 127:26]
+  wire [63:0] _if2id_io_PCPlus4F; // @[myCPU.scala 127:26]
+  wire [63:0] _if2id_io_PCF; // @[myCPU.scala 127:26]
+  wire [1:0] _if2id_io_ExceptionTypeF; // @[myCPU.scala 127:26]
+  wire [31:0] _if2id_io_InstrD; // @[myCPU.scala 127:26]
+  wire [63:0] _if2id_io_PCPlus4D; // @[myCPU.scala 127:26]
+  wire [63:0] _if2id_io_PCD; // @[myCPU.scala 127:26]
+  wire [1:0] _if2id_io_ExceptionTypeD_Out; // @[myCPU.scala 127:26]
+  wire  _mem22wb_clock; // @[myCPU.scala 129:27]
+  wire  _mem22wb_reset; // @[myCPU.scala 129:27]
+  wire  _mem22wb_io_en; // @[myCPU.scala 129:27]
+  wire  _mem22wb_io_clr; // @[myCPU.scala 129:27]
+  wire  _mem22wb_io_RegWriteM; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_ResultM; // @[myCPU.scala 129:27]
+  wire [4:0] _mem22wb_io_WriteRegM; // @[myCPU.scala 129:27]
+  wire  _mem22wb_io_csrWriteM; // @[myCPU.scala 129:27]
+  wire [11:0] _mem22wb_io_WritecsrAddrM; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_CsrWritedataM; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_PCM; // @[myCPU.scala 129:27]
+  wire [31:0] _mem22wb_io_ExceptionTypeM; // @[myCPU.scala 129:27]
+  wire [1:0] _mem22wb_io_BranchJump_JrM; // @[myCPU.scala 129:27]
+  wire  _mem22wb_io_eBreakM; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_Pc_NextM; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleM_pc; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleM_data; // @[myCPU.scala 129:27]
+  wire [1:0] _mem22wb_io_Mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleM_addr; // @[myCPU.scala 129:27]
+  wire [2:0] _mem22wb_io_Mem_trace_budleM_len; // @[myCPU.scala 129:27]
+  wire  _mem22wb_io_Mem_trace_budleM_cache; // @[myCPU.scala 129:27]
+  wire  _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_ResultW; // @[myCPU.scala 129:27]
+  wire [4:0] _mem22wb_io_WriteRegW; // @[myCPU.scala 129:27]
+  wire  _mem22wb_io_csrWriteW; // @[myCPU.scala 129:27]
+  wire [11:0] _mem22wb_io_WritecsrAddrW; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_PCW; // @[myCPU.scala 129:27]
+  wire [31:0] _mem22wb_io_ExceptionTypeW_Out; // @[myCPU.scala 129:27]
+  wire [1:0] _mem22wb_io_BranchJump_JrW; // @[myCPU.scala 129:27]
+  wire  _mem22wb_io_eBreakW; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_Pc_NextW; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleW_pc; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleW_data; // @[myCPU.scala 129:27]
+  wire [1:0] _mem22wb_io_Mem_trace_budleW_mem_fetch_type; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleW_addr; // @[myCPU.scala 129:27]
+  wire [2:0] _mem22wb_io_Mem_trace_budleW_len; // @[myCPU.scala 129:27]
+  wire  _mem22wb_io_Mem_trace_budleW_cache; // @[myCPU.scala 129:27]
+  wire [63:0] _mem22wb_io_CsrWritedataW; // @[myCPU.scala 129:27]
+  wire [63:0] _addr_cal_io_d_vaddr; // @[myCPU.scala 130:31]
+  wire [63:0] _addr_cal_io_d_paddr; // @[myCPU.scala 130:31]
+  wire  _addr_cal_io_d_cached; // @[myCPU.scala 130:31]
+  wire  _muldiv_clock; // @[myCPU.scala 131:26]
+  wire  _muldiv_reset; // @[myCPU.scala 131:26]
+  wire  _muldiv_io_en; // @[myCPU.scala 131:26]
+  wire [23:0] _muldiv_io_ctrl; // @[myCPU.scala 131:26]
+  wire [63:0] _muldiv_io_in1; // @[myCPU.scala 131:26]
+  wire [63:0] _muldiv_io_in2; // @[myCPU.scala 131:26]
+  wire [63:0] _muldiv_io_data_out; // @[myCPU.scala 131:26]
+  wire  _muldiv_io_pending; // @[myCPU.scala 131:26]
+  wire  _regfile_clock; // @[myCPU.scala 133:26]
+  wire  _regfile_reset; // @[myCPU.scala 133:26]
+  wire [4:0] _regfile_io_A1; // @[myCPU.scala 133:26]
+  wire [4:0] _regfile_io_A2; // @[myCPU.scala 133:26]
+  wire  _regfile_io_WE3; // @[myCPU.scala 133:26]
+  wire [4:0] _regfile_io_A3; // @[myCPU.scala 133:26]
+  wire [63:0] _regfile_io_WD3; // @[myCPU.scala 133:26]
+  wire [63:0] _regfile_io_RD1; // @[myCPU.scala 133:26]
+  wire [63:0] _regfile_io_RD2; // @[myCPU.scala 133:26]
+  wire [2047:0] _regfile_io_reg_file_alL_out; // @[myCPU.scala 133:26]
+  wire  _mtrace_mod_reset; // @[myCPU.scala 134:29]
+  wire  _mtrace_mod_clock; // @[myCPU.scala 134:29]
+  wire [63:0] _mtrace_mod_data; // @[myCPU.scala 134:29]
+  wire [63:0] _mtrace_mod_pc; // @[myCPU.scala 134:29]
+  wire [63:0] _mtrace_mod_addr; // @[myCPU.scala 134:29]
+  wire  _mtrace_mod_mem_req; // @[myCPU.scala 134:29]
+  wire  _mtrace_mod_mem_write_read; // @[myCPU.scala 134:29]
+  wire [2:0] _mtrace_mod_mem_size; // @[myCPU.scala 134:29]
+  wire  _mtrace_mod_mem_cached; // @[myCPU.scala 134:29]
+  wire  fifo_with_bundle_clock; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_reset; // @[myCPU.scala 155:29]
+  wire [1:0] fifo_with_bundle_io_read_en; // @[myCPU.scala 155:29]
+  wire [1:0] fifo_with_bundle_io_write_en; // @[myCPU.scala 155:29]
+  wire [63:0] fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 155:29]
+  wire [31:0] fifo_with_bundle_io_read_out_0_inst; // @[myCPU.scala 155:29]
+  wire [1:0] fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 155:29]
+  wire [63:0] fifo_with_bundle_io_read_out_0_pre_pc_target; // @[myCPU.scala 155:29]
+  wire [6:0] fifo_with_bundle_io_read_out_0_pre_lookup_data; // @[myCPU.scala 155:29]
+  wire [3:0] fifo_with_bundle_io_read_out_0_pre_hashcode; // @[myCPU.scala 155:29]
+  wire [1:0] fifo_with_bundle_io_read_out_0_pre_pht; // @[myCPU.scala 155:29]
+  wire [6:0] fifo_with_bundle_io_read_out_0_pre_bht; // @[myCPU.scala 155:29]
+  wire [7:0] fifo_with_bundle_io_read_out_0_pre_lookup_value; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_read_out_0_pre_decoder_branchD_flag; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_read_out_0_pre_decoder_jump; // @[myCPU.scala 155:29]
+  wire [5:0] fifo_with_bundle_io_read_out_0_pre_decoder_branchdata; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_read_out_0_pre_decoder_jr; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_read_out_0_true_branch_state; // @[myCPU.scala 155:29]
+  wire [63:0] fifo_with_bundle_io_write_in_0_pc; // @[myCPU.scala 155:29]
+  wire [31:0] fifo_with_bundle_io_write_in_0_inst; // @[myCPU.scala 155:29]
+  wire [63:0] fifo_with_bundle_io_write_in_0_pre_pc_target; // @[myCPU.scala 155:29]
+  wire [6:0] fifo_with_bundle_io_write_in_0_pre_lookup_data; // @[myCPU.scala 155:29]
+  wire [3:0] fifo_with_bundle_io_write_in_0_pre_hashcode; // @[myCPU.scala 155:29]
+  wire [1:0] fifo_with_bundle_io_write_in_0_pre_pht; // @[myCPU.scala 155:29]
+  wire [6:0] fifo_with_bundle_io_write_in_0_pre_bht; // @[myCPU.scala 155:29]
+  wire [7:0] fifo_with_bundle_io_write_in_0_pre_lookup_value; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_write_in_0_pre_decoder_branchD_flag; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_write_in_0_pre_decoder_jump; // @[myCPU.scala 155:29]
+  wire [5:0] fifo_with_bundle_io_write_in_0_pre_decoder_branchdata; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_write_in_0_pre_decoder_jr; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_write_in_0_true_branch_state; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_full; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_empty; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_point_write_en; // @[myCPU.scala 155:29]
+  wire  fifo_with_bundle_io_point_flush; // @[myCPU.scala 155:29]
+  wire  stage_fec_1_pc_L_clock; // @[myCPU.scala 417:34]
+  wire  stage_fec_1_pc_L_reset; // @[myCPU.scala 417:34]
+  wire  stage_fec_1_pc_L_io_stall; // @[myCPU.scala 417:34]
+  wire  stage_fec_1_pc_L_io_flush; // @[myCPU.scala 417:34]
+  wire [63:0] stage_fec_1_pc_L_io_in_pc_value_in; // @[myCPU.scala 417:34]
+  wire [63:0] stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 417:34]
+  wire  stage_fec_1_pc_M_clock; // @[myCPU.scala 418:34]
+  wire  stage_fec_1_pc_M_reset; // @[myCPU.scala 418:34]
+  wire  stage_fec_1_pc_M_io_stall; // @[myCPU.scala 418:34]
+  wire  stage_fec_1_pc_M_io_flush; // @[myCPU.scala 418:34]
+  wire [63:0] stage_fec_1_pc_M_io_in_pc_value_in; // @[myCPU.scala 418:34]
+  wire [63:0] stage_fec_1_pc_M_io_out_pc_value_out; // @[myCPU.scala 418:34]
+  wire  stage_fec_1_pc_R_clock; // @[myCPU.scala 419:34]
+  wire  stage_fec_1_pc_R_reset; // @[myCPU.scala 419:34]
+  wire  stage_fec_1_pc_R_io_stall; // @[myCPU.scala 419:34]
+  wire  stage_fec_1_pc_R_io_flush; // @[myCPU.scala 419:34]
+  wire [63:0] stage_fec_1_pc_R_io_in_pc_value_in; // @[myCPU.scala 419:34]
+  wire [63:0] stage_fec_1_pc_R_io_out_pc_value_out; // @[myCPU.scala 419:34]
+  wire  branch_prediction_with_blockram_clock; // @[myCPU.scala 448:21]
+  wire  branch_prediction_with_blockram_reset; // @[myCPU.scala 448:21]
+  wire [63:0] branch_prediction_with_blockram_io_pc; // @[myCPU.scala 448:21]
+  wire [63:0] branch_prediction_with_blockram_io_write_pc; // @[myCPU.scala 448:21]
+  wire [3:0] branch_prediction_with_blockram_io_aw_pht_ways_addr; // @[myCPU.scala 448:21]
+  wire [6:0] branch_prediction_with_blockram_io_aw_pht_addr; // @[myCPU.scala 448:21]
+  wire [6:0] branch_prediction_with_blockram_io_aw_bht_addr; // @[myCPU.scala 448:21]
+  wire [63:0] branch_prediction_with_blockram_io_aw_target_addr; // @[myCPU.scala 448:21]
+  wire  branch_prediction_with_blockram_io_btb_write; // @[myCPU.scala 448:21]
+  wire  branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 448:21]
+  wire  branch_prediction_with_blockram_io_pht_write; // @[myCPU.scala 448:21]
+  wire [6:0] branch_prediction_with_blockram_io_bht_in; // @[myCPU.scala 448:21]
+  wire [7:0] branch_prediction_with_blockram_io_pht_in; // @[myCPU.scala 448:21]
+  wire [1:0] branch_prediction_with_blockram_io_out_L; // @[myCPU.scala 448:21]
+  wire  branch_prediction_with_blockram_io_pre_L; // @[myCPU.scala 448:21]
+  wire [6:0] branch_prediction_with_blockram_io_bht_L; // @[myCPU.scala 448:21]
+  wire  branch_prediction_with_blockram_io_btb_hit_0; // @[myCPU.scala 448:21]
+  wire [63:0] branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 448:21]
+  wire  branch_prediction_with_blockram_io_stage2_stall; // @[myCPU.scala 448:21]
+  wire  branch_prediction_with_blockram_io_stage2_flush; // @[myCPU.scala 448:21]
+  wire [7:0] branch_prediction_with_blockram_io_pht_lookup_value_out; // @[myCPU.scala 448:21]
+  wire [6:0] branch_prediction_with_blockram_io_lookup_data_0; // @[myCPU.scala 448:21]
+  wire  stage_fec_2_pc_L_clock; // @[myCPU.scala 517:34]
+  wire  stage_fec_2_pc_L_reset; // @[myCPU.scala 517:34]
+  wire  stage_fec_2_pc_L_io_stall; // @[myCPU.scala 517:34]
+  wire  stage_fec_2_pc_L_io_flush; // @[myCPU.scala 517:34]
+  wire [63:0] stage_fec_2_pc_L_io_in_pc_value_in; // @[myCPU.scala 517:34]
+  wire [63:0] stage_fec_2_pc_L_io_out_pc_value_out; // @[myCPU.scala 517:34]
+  wire  stage_fec_2_pc_M_clock; // @[myCPU.scala 518:34]
+  wire  stage_fec_2_pc_M_reset; // @[myCPU.scala 518:34]
+  wire  stage_fec_2_pc_M_io_stall; // @[myCPU.scala 518:34]
+  wire  stage_fec_2_pc_M_io_flush; // @[myCPU.scala 518:34]
+  wire [63:0] stage_fec_2_pc_M_io_in_pc_value_in; // @[myCPU.scala 518:34]
+  wire [63:0] stage_fec_2_pc_M_io_out_pc_value_out; // @[myCPU.scala 518:34]
+  wire  stage_fec_2_pc_R_clock; // @[myCPU.scala 519:34]
+  wire  stage_fec_2_pc_R_reset; // @[myCPU.scala 519:34]
+  wire  stage_fec_2_pc_R_io_stall; // @[myCPU.scala 519:34]
+  wire  stage_fec_2_pc_R_io_flush; // @[myCPU.scala 519:34]
+  wire [63:0] stage_fec_2_pc_R_io_in_pc_value_in; // @[myCPU.scala 519:34]
+  wire [63:0] stage_fec_2_pc_R_io_out_pc_value_out; // @[myCPU.scala 519:34]
+  wire  id_bru_state_clock; // @[myCPU.scala 681:31]
+  wire  id_bru_state_reset; // @[myCPU.scala 681:31]
+  wire  id_bru_state_io_stall; // @[myCPU.scala 681:31]
+  wire  id_bru_state_io_flush; // @[myCPU.scala 681:31]
+  wire [1:0] id_bru_state_io_in_pht; // @[myCPU.scala 681:31]
+  wire [6:0] id_bru_state_io_in_bht; // @[myCPU.scala 681:31]
+  wire [3:0] id_bru_state_io_in_hashcode; // @[myCPU.scala 681:31]
+  wire [63:0] id_bru_state_io_in_target_pc; // @[myCPU.scala 681:31]
+  wire [6:0] id_bru_state_io_in_lookup_data; // @[myCPU.scala 681:31]
+  wire [7:0] id_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 681:31]
+  wire [1:0] id_bru_state_io_out_pht; // @[myCPU.scala 681:31]
+  wire [6:0] id_bru_state_io_out_bht; // @[myCPU.scala 681:31]
+  wire [3:0] id_bru_state_io_out_hashcode; // @[myCPU.scala 681:31]
+  wire [63:0] id_bru_state_io_out_target_pc; // @[myCPU.scala 681:31]
+  wire [6:0] id_bru_state_io_out_lookup_data; // @[myCPU.scala 681:31]
+  wire [7:0] id_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 681:31]
+  wire  ex_bru_state_clock; // @[myCPU.scala 685:31]
+  wire  ex_bru_state_reset; // @[myCPU.scala 685:31]
+  wire  ex_bru_state_io_stall; // @[myCPU.scala 685:31]
+  wire  ex_bru_state_io_flush; // @[myCPU.scala 685:31]
+  wire [1:0] ex_bru_state_io_in_pht; // @[myCPU.scala 685:31]
+  wire [6:0] ex_bru_state_io_in_bht; // @[myCPU.scala 685:31]
+  wire [3:0] ex_bru_state_io_in_hashcode; // @[myCPU.scala 685:31]
+  wire [63:0] ex_bru_state_io_in_target_pc; // @[myCPU.scala 685:31]
+  wire [6:0] ex_bru_state_io_in_lookup_data; // @[myCPU.scala 685:31]
+  wire [7:0] ex_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 685:31]
+  wire [1:0] ex_bru_state_io_out_pht; // @[myCPU.scala 685:31]
+  wire [6:0] ex_bru_state_io_out_bht; // @[myCPU.scala 685:31]
+  wire [3:0] ex_bru_state_io_out_hashcode; // @[myCPU.scala 685:31]
+  wire [63:0] ex_bru_state_io_out_target_pc; // @[myCPU.scala 685:31]
+  wire [6:0] ex_bru_state_io_out_lookup_data; // @[myCPU.scala 685:31]
+  wire [7:0] ex_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 685:31]
+  wire  mem_bru_state_clock; // @[myCPU.scala 689:32]
+  wire  mem_bru_state_reset; // @[myCPU.scala 689:32]
+  wire  mem_bru_state_io_stall; // @[myCPU.scala 689:32]
+  wire  mem_bru_state_io_flush; // @[myCPU.scala 689:32]
+  wire [1:0] mem_bru_state_io_in_pht; // @[myCPU.scala 689:32]
+  wire [6:0] mem_bru_state_io_in_bht; // @[myCPU.scala 689:32]
+  wire [3:0] mem_bru_state_io_in_hashcode; // @[myCPU.scala 689:32]
+  wire [63:0] mem_bru_state_io_in_target_pc; // @[myCPU.scala 689:32]
+  wire [6:0] mem_bru_state_io_in_lookup_data; // @[myCPU.scala 689:32]
+  wire [7:0] mem_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 689:32]
+  wire [1:0] mem_bru_state_io_out_pht; // @[myCPU.scala 689:32]
+  wire [6:0] mem_bru_state_io_out_bht; // @[myCPU.scala 689:32]
+  wire [3:0] mem_bru_state_io_out_hashcode; // @[myCPU.scala 689:32]
+  wire [63:0] mem_bru_state_io_out_target_pc; // @[myCPU.scala 689:32]
+  wire [6:0] mem_bru_state_io_out_lookup_data; // @[myCPU.scala 689:32]
+  wire [7:0] mem_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 689:32]
+  wire  mem2_bru_state_clock; // @[myCPU.scala 693:33]
+  wire  mem2_bru_state_reset; // @[myCPU.scala 693:33]
+  wire  mem2_bru_state_io_stall; // @[myCPU.scala 693:33]
+  wire  mem2_bru_state_io_flush; // @[myCPU.scala 693:33]
+  wire [1:0] mem2_bru_state_io_in_pht; // @[myCPU.scala 693:33]
+  wire [6:0] mem2_bru_state_io_in_bht; // @[myCPU.scala 693:33]
+  wire [3:0] mem2_bru_state_io_in_hashcode; // @[myCPU.scala 693:33]
+  wire [63:0] mem2_bru_state_io_in_target_pc; // @[myCPU.scala 693:33]
+  wire [6:0] mem2_bru_state_io_in_lookup_data; // @[myCPU.scala 693:33]
+  wire [7:0] mem2_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 693:33]
+  wire [1:0] mem2_bru_state_io_out_pht; // @[myCPU.scala 693:33]
+  wire [6:0] mem2_bru_state_io_out_bht; // @[myCPU.scala 693:33]
+  wire [3:0] mem2_bru_state_io_out_hashcode; // @[myCPU.scala 693:33]
+  wire [63:0] mem2_bru_state_io_out_target_pc; // @[myCPU.scala 693:33]
+  wire [6:0] mem2_bru_state_io_out_lookup_data; // @[myCPU.scala 693:33]
+  wire [7:0] mem2_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 693:33]
+  wire  wb_bru_state_clock; // @[myCPU.scala 697:31]
+  wire  wb_bru_state_reset; // @[myCPU.scala 697:31]
+  wire  wb_bru_state_io_stall; // @[myCPU.scala 697:31]
+  wire  wb_bru_state_io_flush; // @[myCPU.scala 697:31]
+  wire [1:0] wb_bru_state_io_in_pht; // @[myCPU.scala 697:31]
+  wire [6:0] wb_bru_state_io_in_bht; // @[myCPU.scala 697:31]
+  wire [3:0] wb_bru_state_io_in_hashcode; // @[myCPU.scala 697:31]
+  wire [63:0] wb_bru_state_io_in_target_pc; // @[myCPU.scala 697:31]
+  wire [6:0] wb_bru_state_io_in_lookup_data; // @[myCPU.scala 697:31]
+  wire [7:0] wb_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 697:31]
+  wire [1:0] wb_bru_state_io_out_pht; // @[myCPU.scala 697:31]
+  wire [6:0] wb_bru_state_io_out_bht; // @[myCPU.scala 697:31]
+  wire [3:0] wb_bru_state_io_out_hashcode; // @[myCPU.scala 697:31]
+  wire [63:0] wb_bru_state_io_out_target_pc; // @[myCPU.scala 697:31]
+  wire [6:0] wb_bru_state_io_out_lookup_data; // @[myCPU.scala 697:31]
+  wire [7:0] wb_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 697:31]
+  wire  _commit_difftest_reset; // @[myCPU.scala 1144:34]
+  wire  _commit_difftest_clock; // @[myCPU.scala 1144:34]
+  wire [2047:0] _commit_difftest_gpr_wire; // @[myCPU.scala 1144:34]
+  wire [63:0] _commit_difftest_pc; // @[myCPU.scala 1144:34]
+  wire [63:0] _commit_difftest_debug_pc; // @[myCPU.scala 1144:34]
+  wire  _commit_difftest_inst_commit; // @[myCPU.scala 1144:34]
+  wire  _commit_difftest_data_ok_ok; // @[myCPU.scala 1144:34]
+  wire  _commit_difftest_cpu_ebreak_sign; // @[myCPU.scala 1144:34]
+  wire  _T_2 = ~resetn; // @[myCPU.scala 110:41]
+  wire  stage_fec_2_inst_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 175:45]
+  wire  stage_fec_2_inst_branch = inst_sram_rdata_L[32]; // @[myCPU.scala 176:47]
+  reg  pre_decoder_branchD_flag; // @[myCPU.scala 178:44]
+  reg [5:0] pre_decoder_branchdata; // @[myCPU.scala 179:43]
+  reg  pre_decoder_jump; // @[myCPU.scala 180:40]
+  reg  pre_decoder_jr; // @[myCPU.scala 181:40]
   wire [12:0] _immSB_T_4 = {_if2id_io_InstrD[31],_if2id_io_InstrD[7],_if2id_io_InstrD[30:25],_if2id_io_InstrD[11:8],1'h0
     }; // @[Cat.scala 31:58]
   wire [5:0] immSB_lo_lo_lo = {_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12]
@@ -40177,9 +40173,9 @@ module myCPU(
     _immSB_T_4[12],immSB_lo_lo_lo,immSB_lo_hi,immSB_lo_1}; // @[Cat.scala 31:58]
   wire [63:0] immSB = {_immSB_T_56,_if2id_io_InstrD[31],_if2id_io_InstrD[7],_if2id_io_InstrD[30:25],_if2id_io_InstrD[11:
     8],1'h0}; // @[Cat.scala 31:58]
-  wire  _PCSrcD_T_1 = _cfu_io_StallD; // @[myCPU.scala 195:66]
-  wire  _PCSrcD_T_3 = _br_io_exe; // @[myCPU.scala 195:85]
-  wire [63:0] PCBranchD = immSB + _if2id_io_PCD; // @[myCPU.scala 196:27]
+  wire  _PCSrcD_T_1 = _cfu_io_StallD; // @[myCPU.scala 196:66]
+  wire  _PCSrcD_T_3 = _br_io_exe; // @[myCPU.scala 196:85]
+  wire [63:0] PCBranchD = immSB + _if2id_io_PCD; // @[myCPU.scala 197:27]
   wire [20:0] _immUJ_T_4 = {_if2id_io_InstrD[31],_if2id_io_InstrD[19:12],_if2id_io_InstrD[20],_if2id_io_InstrD[30:21],1'h0
     }; // @[Cat.scala 31:58]
   wire [4:0] immUJ_lo_lo_lo = {_immUJ_T_4[20],_immUJ_T_4[20],_immUJ_T_4[20],_immUJ_T_4[20],_immUJ_T_4[20]}; // @[Cat.scala 31:58]
@@ -40200,98 +40196,98 @@ module myCPU(
   wire [51:0] _PCJumpD_T_54 = {_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],
     _if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],PCJumpD_lo_lo_lo,PCJumpD_lo_lo,PCJumpD_lo}; // @[Cat.scala 31:58]
   wire [63:0] _PCJumpD_T_56 = {_PCJumpD_T_54,_if2id_io_InstrD[31:20]}; // @[Cat.scala 31:58]
-  reg [63:0] resultE2M_Reg; // @[myCPU.scala 976:32]
-  reg [63:0] ResultM2_Reg; // @[myCPU.scala 1030:29]
-  wire [63:0] _BranchR1D_T_2 = _cfu_io_Forward1D[1] ? ResultM2_Reg : _regfile_io_RD1; // @[myCPU.scala 768:61]
-  wire [63:0] BranchR1D = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 768:20]
-  wire [63:0] _PCJumpD_T_58 = BranchR1D + _PCJumpD_T_56; // @[myCPU.scala 199:58]
-  wire [63:0] _PCJumpD_T_60 = immUJ + _if2id_io_PCD; // @[myCPU.scala 199:107]
-  wire [63:0] PCJumpD = pre_decoder_jr ? _PCJumpD_T_58 : _PCJumpD_T_60; // @[myCPU.scala 199:24]
-  reg [63:0] PCW_Reg; // @[myCPU.scala 287:26]
-  wire  _PCW_Reg_T = _mem22wb_io_PCW != 64'h0; // @[myCPU.scala 291:36]
-  reg [63:0] reg_pc; // @[myCPU.scala 296:25]
-  reg  wb_exception; // @[myCPU.scala 632:31]
-  wire  RegWriteW = wb_exception ? 1'h0 : _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 1157:21]
-  wire [3:0] _debug_wb_rf_wen_T_2 = RegWriteW ? 4'hf : 4'h0; // @[myCPU.scala 299:62]
-  reg [63:0] pc_next_wait; // @[myCPU.scala 337:31]
-  wire  ready_to_branch = fifo_with_bundle_io_point_write_en; // @[myCPU.scala 339:31 594:21]
-  reg  stage_fec_2_stall_reg; // @[myCPU.scala 503:40]
-  reg  stage_fec_2_valid; // @[myCPU.scala 474:36]
-  wire  _stage_fec_2_branch_answer_T_7 = _csr_io_exception; // @[myCPU.scala 506:209]
-  wire  _stage_fec_2_branch_answer_T_8 = ~_csr_io_exception; // @[myCPU.scala 506:190]
+  reg [63:0] resultE2M_Reg; // @[myCPU.scala 977:32]
+  reg [63:0] ResultM2_Reg; // @[myCPU.scala 1031:29]
+  wire [63:0] _BranchR1D_T_2 = _cfu_io_Forward1D[1] ? ResultM2_Reg : _regfile_io_RD1; // @[myCPU.scala 769:61]
+  wire [63:0] BranchR1D = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 769:20]
+  wire [63:0] _PCJumpD_T_58 = BranchR1D + _PCJumpD_T_56; // @[myCPU.scala 200:58]
+  wire [63:0] _PCJumpD_T_60 = immUJ + _if2id_io_PCD; // @[myCPU.scala 200:107]
+  wire [63:0] PCJumpD = pre_decoder_jr ? _PCJumpD_T_58 : _PCJumpD_T_60; // @[myCPU.scala 200:24]
+  reg [63:0] PCW_Reg; // @[myCPU.scala 288:26]
+  wire  _PCW_Reg_T = _mem22wb_io_PCW != 64'h0; // @[myCPU.scala 292:36]
+  reg [63:0] reg_pc; // @[myCPU.scala 297:25]
+  reg  wb_exception; // @[myCPU.scala 633:31]
+  wire  RegWriteW = wb_exception ? 1'h0 : _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 1158:21]
+  wire [3:0] _debug_wb_rf_wen_T_2 = RegWriteW ? 4'hf : 4'h0; // @[myCPU.scala 300:62]
+  reg [63:0] pc_next_wait; // @[myCPU.scala 338:31]
+  wire  ready_to_branch = fifo_with_bundle_io_point_write_en; // @[myCPU.scala 340:31 595:21]
+  reg  stage_fec_2_stall_reg; // @[myCPU.scala 504:40]
+  reg  stage_fec_2_valid; // @[myCPU.scala 475:36]
+  wire  _stage_fec_2_branch_answer_T_7 = _csr_io_exception; // @[myCPU.scala 507:209]
+  wire  _stage_fec_2_branch_answer_T_8 = ~_csr_io_exception; // @[myCPU.scala 507:190]
   wire  stage_fec_2_branch_answer = branch_prediction_with_blockram_io_pre_L & (stage_fec_2_inst_branch |
     stage_fec_2_inst_jump) & branch_prediction_with_blockram_io_btb_hit_0 & stage_fec_2_stall_reg & stage_fec_2_valid &
-    ~_csr_io_exception; // @[myCPU.scala 506:187]
-  wire  _pc_next_wait_T = ready_to_branch | stage_fec_2_branch_answer; // @[myCPU.scala 340:41]
+    ~_csr_io_exception; // @[myCPU.scala 507:187]
+  wire  _pc_next_wait_T = ready_to_branch | stage_fec_2_branch_answer; // @[myCPU.scala 341:41]
   wire [63:0] _PC_nextD_T_2 = _PCSrcD_T_3 ? PCBranchD : _if2id_io_PCPlus4D; // @[Mux.scala 101:16]
   wire [63:0] PC_nextD = pre_decoder_jump ? PCJumpD : _PC_nextD_T_2; // @[Mux.scala 101:16]
-  wire [63:0] stage_fec_2_pre_target_0 = branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 479:38 495:31]
-  wire [63:0] stage_fec_1_pc = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 171:26 444:20]
-  wire [63:0] _stage_fec_1_pc_next_T_1 = stage_fec_1_pc + 64'h4; // @[myCPU.scala 411:93]
-  wire [63:0] stage_fec_1_pc_next = stage_fec_2_branch_answer ? stage_fec_2_pre_target_0 : _stage_fec_1_pc_next_T_1; // @[myCPU.scala 411:31]
-  wire [63:0] Pc_Next_normal = fifo_with_bundle_io_point_write_en ? PC_nextD : stage_fec_1_pc_next; // @[myCPU.scala 760:26]
-  reg  pc_req_wait; // @[myCPU.scala 341:30]
-  wire  _T_4 = ~inst_sram_en; // @[myCPU.scala 345:10]
+  wire [63:0] stage_fec_2_pre_target_0 = branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 480:38 496:31]
+  wire [63:0] stage_fec_1_pc = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 172:26 445:20]
+  wire [63:0] _stage_fec_1_pc_next_T_1 = stage_fec_1_pc + 64'h4; // @[myCPU.scala 412:93]
+  wire [63:0] stage_fec_1_pc_next = stage_fec_2_branch_answer ? stage_fec_2_pre_target_0 : _stage_fec_1_pc_next_T_1; // @[myCPU.scala 412:31]
+  wire [63:0] Pc_Next_normal = fifo_with_bundle_io_point_write_en ? PC_nextD : stage_fec_1_pc_next; // @[myCPU.scala 761:26]
+  reg  pc_req_wait; // @[myCPU.scala 342:30]
+  wire  _T_4 = ~inst_sram_en; // @[myCPU.scala 346:10]
   wire  _GEN_0 = pc_req_wait & inst_sram_en | _stage_fec_2_branch_answer_T_7 | ready_to_branch & inst_sram_en ? 1'h0 :
-    pc_req_wait; // @[myCPU.scala 347:119 348:21 350:21]
-  reg [63:0] exception_Pc_reg; // @[myCPU.scala 354:35]
-  reg  returnPc_req_wait; // @[myCPU.scala 357:36]
-  wire  _GEN_2 = returnPc_req_wait & inst_sram_en ? 1'h0 : returnPc_req_wait; // @[myCPU.scala 362:54 363:27 365:27]
-  wire [63:0] _Pc_Next_T_1 = pc_req_wait ? pc_next_wait : Pc_Next_normal; // @[myCPU.scala 372:140]
-  wire [63:0] _Pc_Next_T_2 = ready_to_branch ? Pc_Next_normal : _Pc_Next_T_1; // @[myCPU.scala 372:105]
-  wire [63:0] _Pc_Next_T_3 = returnPc_req_wait ? exception_Pc_reg : _Pc_Next_T_2; // @[myCPU.scala 372:66]
-  wire [63:0] Pc_Next = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 372:19]
-  wire  _commit_cache_reg_T = _cfu_io_StallE; // @[myCPU.scala 394:40]
-  reg  stage_fec_1_valid; // @[myCPU.scala 453:36]
-  wire  _stage_fec_1_valid_T_2 = _pc_next_wait_T ? 1'h0 : stage_fec_1_valid; // @[myCPU.scala 457:55]
-  wire  stage_fec_2_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 467:42]
-  reg [6:0] stage_fec_2_bht_0; // @[myCPU.scala 477:35]
-  reg [3:0] stage_fec_2_hascode_0; // @[myCPU.scala 481:39]
+    pc_req_wait; // @[myCPU.scala 348:119 349:21 351:21]
+  reg [63:0] exception_Pc_reg; // @[myCPU.scala 355:35]
+  reg  returnPc_req_wait; // @[myCPU.scala 358:36]
+  wire  _GEN_2 = returnPc_req_wait & inst_sram_en ? 1'h0 : returnPc_req_wait; // @[myCPU.scala 363:54 364:27 366:27]
+  wire [63:0] _Pc_Next_T_1 = pc_req_wait ? pc_next_wait : Pc_Next_normal; // @[myCPU.scala 373:140]
+  wire [63:0] _Pc_Next_T_2 = ready_to_branch ? Pc_Next_normal : _Pc_Next_T_1; // @[myCPU.scala 373:105]
+  wire [63:0] _Pc_Next_T_3 = returnPc_req_wait ? exception_Pc_reg : _Pc_Next_T_2; // @[myCPU.scala 373:66]
+  wire [63:0] Pc_Next = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 373:19]
+  wire  _commit_cache_reg_T = _cfu_io_StallE; // @[myCPU.scala 395:40]
+  reg  stage_fec_1_valid; // @[myCPU.scala 454:36]
+  wire  _stage_fec_1_valid_T_2 = _pc_next_wait_T ? 1'h0 : stage_fec_1_valid; // @[myCPU.scala 458:55]
+  wire  stage_fec_2_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 468:42]
+  reg [6:0] stage_fec_2_bht_0; // @[myCPU.scala 478:35]
+  reg [3:0] stage_fec_2_hascode_0; // @[myCPU.scala 482:39]
   wire  stage_fec_2_hascode_0_num_array_0 = ^branch_prediction_with_blockram_io_pc[7:4]; // @[macros.scala 445:45]
   wire  stage_fec_2_hascode_0_num_array_1 = ^branch_prediction_with_blockram_io_pc[11:8]; // @[macros.scala 445:45]
   wire  stage_fec_2_hascode_0_num_array_2 = ^branch_prediction_with_blockram_io_pc[15:12]; // @[macros.scala 445:45]
   wire  stage_fec_2_hascode_0_num_array_3 = ^branch_prediction_with_blockram_io_pc[19:16]; // @[macros.scala 445:45]
   wire [3:0] _stage_fec_2_hascode_0_T_1 = {stage_fec_2_hascode_0_num_array_3,stage_fec_2_hascode_0_num_array_2,
     stage_fec_2_hascode_0_num_array_1,stage_fec_2_hascode_0_num_array_0}; // @[macros.scala 447:13]
-  wire  _stage_fec_2_data_valid_T = ~fifo_with_bundle_io_empty; // @[myCPU.scala 524:88]
-  wire [31:0] inst_buffer_write_bundle_inst = inst_sram_rdata_L[31:0]; // @[myCPU.scala 546:60]
+  wire  _stage_fec_2_data_valid_T = ~fifo_with_bundle_io_empty; // @[myCPU.scala 525:88]
+  wire [31:0] inst_buffer_write_bundle_inst = inst_sram_rdata_L[31:0]; // @[myCPU.scala 547:60]
   wire [6:0] inst_buffer_write_bundle_pre_decoder_jr_opD = inst_buffer_write_bundle_inst[6:0]; // @[macros.scala 493:24]
   wire [2:0] inst_buffer_write_bundle_pre_decoder_jr_Funct3D = inst_buffer_write_bundle_inst[14:12]; // @[macros.scala 494:28]
-  wire  _T_25 = _cfu_io_StallF; // @[myCPU.scala 572:51]
-  wire  _pre_decoder_branchD_flag_T = _cfu_io_FlushD; // @[myCPU.scala 601:52]
-  wire  inst_buffer_read_out_pre_decoder_branchD_flag = fifo_with_bundle_io_read_out_0_pre_decoder_branchD_flag; // @[myCPU.scala 597:36 598:26]
-  wire  inst_buffer_read_out_pre_decoder_jump = fifo_with_bundle_io_read_out_0_pre_decoder_jump; // @[myCPU.scala 597:36 598:26]
-  wire [5:0] inst_buffer_read_out_pre_decoder_branchdata = fifo_with_bundle_io_read_out_0_pre_decoder_branchdata; // @[myCPU.scala 597:36 598:26]
-  wire  inst_buffer_read_out_pre_decoder_jr = fifo_with_bundle_io_read_out_0_pre_decoder_jr; // @[myCPU.scala 597:36 598:26]
-  wire  __if2id_io_InstrF_T = _cu_io1_BadInstrD; // @[myCPU.scala 616:52]
-  wire  __if2id_io_InstrF_T_1 = _cu_io1_SysCallD; // @[myCPU.scala 616:79]
-  wire  __if2id_io_InstrF_T_3 = _cu_io1_EretD; // @[myCPU.scala 617:47]
-  wire [31:0] inst_buffer_read_out_inst = fifo_with_bundle_io_read_out_0_inst; // @[myCPU.scala 597:36 598:26]
+  wire  _T_25 = _cfu_io_StallF; // @[myCPU.scala 573:51]
+  wire  _pre_decoder_branchD_flag_T = _cfu_io_FlushD; // @[myCPU.scala 602:52]
+  wire  inst_buffer_read_out_pre_decoder_branchD_flag = fifo_with_bundle_io_read_out_0_pre_decoder_branchD_flag; // @[myCPU.scala 598:36 599:26]
+  wire  inst_buffer_read_out_pre_decoder_jump = fifo_with_bundle_io_read_out_0_pre_decoder_jump; // @[myCPU.scala 598:36 599:26]
+  wire [5:0] inst_buffer_read_out_pre_decoder_branchdata = fifo_with_bundle_io_read_out_0_pre_decoder_branchdata; // @[myCPU.scala 598:36 599:26]
+  wire  inst_buffer_read_out_pre_decoder_jr = fifo_with_bundle_io_read_out_0_pre_decoder_jr; // @[myCPU.scala 598:36 599:26]
+  wire  __if2id_io_InstrF_T = _cu_io1_BadInstrD; // @[myCPU.scala 617:52]
+  wire  __if2id_io_InstrF_T_1 = _cu_io1_SysCallD; // @[myCPU.scala 617:79]
+  wire  __if2id_io_InstrF_T_3 = _cu_io1_EretD; // @[myCPU.scala 618:47]
+  wire [31:0] inst_buffer_read_out_inst = fifo_with_bundle_io_read_out_0_inst; // @[myCPU.scala 598:36 599:26]
   wire [31:0] __if2id_io_InstrF_T_5 = _cu_io1_BadInstrD | _cu_io1_SysCallD | __if2id_io_InstrF_T_3 ? 32'h0 :
-    inst_buffer_read_out_inst; // @[myCPU.scala 616:33]
-  reg  id_exception; // @[myCPU.scala 620:31]
-  wire [63:0] inst_buffer_read_out_pc = fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 597:36 598:26]
-  wire [1:0] inst_buffer_read_out_exception_type = fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 597:36 598:26]
-  reg  ex_exception; // @[myCPU.scala 623:31]
-  wire  _ex_exception_T = _cfu_io_FlushE; // @[myCPU.scala 624:40]
-  reg  mem_exception; // @[myCPU.scala 626:32]
-  wire  _mem_exception_T = _cfu_io_FlushM; // @[myCPU.scala 627:41]
-  wire  _mem_exception_T_1 = _cfu_io_StallM; // @[myCPU.scala 627:71]
-  reg  mem2_exception; // @[myCPU.scala 629:33]
-  wire  _mem2_exception_T = _cfu_io_FlushM2; // @[myCPU.scala 630:43]
-  wire  _mem2_exception_T_1 = _cfu_io_StallM2; // @[myCPU.scala 630:74]
-  wire  _wb_exception_T = _cfu_io_FlushW; // @[myCPU.scala 633:40]
-  wire  _wb_exception_T_1 = _cfu_io_StallW; // @[myCPU.scala 633:70]
-  reg  id_true_branch_state; // @[myCPU.scala 677:39]
-  wire  inst_buffer_read_out_true_branch_state = fifo_with_bundle_io_read_out_0_true_branch_state; // @[myCPU.scala 597:36 598:26]
-  reg  inst_tlb_exceptionE; // @[myCPU.scala 707:38]
-  wire  target_neq_branchD = id_bru_state_io_out_target_pc != PCBranchD; // @[myCPU.scala 721:62]
-  wire  target_neq_jumpD = id_bru_state_io_out_target_pc != PCJumpD; // @[myCPU.scala 722:62]
-  wire  target_addr_error = pre_decoder_jump & target_neq_jumpD | _PCSrcD_T_3 & target_neq_branchD; // @[myCPU.scala 724:75]
-  wire  _T_31 = pre_decoder_jump | _PCSrcD_T_3; // @[myCPU.scala 727:117]
-  wire  _T_37 = ex_exception | mem_exception | mem2_exception | wb_exception; // @[myCPU.scala 727:241]
+    inst_buffer_read_out_inst; // @[myCPU.scala 617:33]
+  reg  id_exception; // @[myCPU.scala 621:31]
+  wire [63:0] inst_buffer_read_out_pc = fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 598:36 599:26]
+  wire [1:0] inst_buffer_read_out_exception_type = fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 598:36 599:26]
+  reg  ex_exception; // @[myCPU.scala 624:31]
+  wire  _ex_exception_T = _cfu_io_FlushE; // @[myCPU.scala 625:40]
+  reg  mem_exception; // @[myCPU.scala 627:32]
+  wire  _mem_exception_T = _cfu_io_FlushM; // @[myCPU.scala 628:41]
+  wire  _mem_exception_T_1 = _cfu_io_StallM; // @[myCPU.scala 628:71]
+  reg  mem2_exception; // @[myCPU.scala 630:33]
+  wire  _mem2_exception_T = _cfu_io_FlushM2; // @[myCPU.scala 631:43]
+  wire  _mem2_exception_T_1 = _cfu_io_StallM2; // @[myCPU.scala 631:74]
+  wire  _wb_exception_T = _cfu_io_FlushW; // @[myCPU.scala 634:40]
+  wire  _wb_exception_T_1 = _cfu_io_StallW; // @[myCPU.scala 634:70]
+  reg  id_true_branch_state; // @[myCPU.scala 678:39]
+  wire  inst_buffer_read_out_true_branch_state = fifo_with_bundle_io_read_out_0_true_branch_state; // @[myCPU.scala 598:36 599:26]
+  reg  inst_tlb_exceptionE; // @[myCPU.scala 708:38]
+  wire  target_neq_branchD = id_bru_state_io_out_target_pc != PCBranchD; // @[myCPU.scala 722:62]
+  wire  target_neq_jumpD = id_bru_state_io_out_target_pc != PCJumpD; // @[myCPU.scala 723:62]
+  wire  target_addr_error = pre_decoder_jump & target_neq_jumpD | _PCSrcD_T_3 & target_neq_branchD; // @[myCPU.scala 725:75]
+  wire  _T_31 = pre_decoder_jump | _PCSrcD_T_3; // @[myCPU.scala 728:117]
+  wire  _T_37 = ex_exception | mem_exception | mem2_exception | wb_exception; // @[myCPU.scala 728:241]
   wire [63:0] _Pc_targetD_T_2 = pre_decoder_jump ? PCJumpD : 64'h0; // @[Mux.scala 101:16]
-  reg  true_branch_stateE; // @[myCPU.scala 738:37]
+  reg  true_branch_stateE; // @[myCPU.scala 739:37]
   wire [1:0] _pht_tobeE_T_1 = true_branch_stateE ? 2'h3 : 2'h2; // @[macros.scala 466:30]
   wire [1:0] _pht_tobeE_T_2 = true_branch_stateE ? 2'h2 : 2'h0; // @[macros.scala 467:32]
   wire [1:0] _pht_tobeE_T_3 = true_branch_stateE ? 2'h3 : 2'h1; // @[macros.scala 468:30]
@@ -40308,8 +40304,8 @@ module myCPU(
      : _pht_lookup_value_tobeE_T_2; // @[Mux.scala 81:58]
   wire [7:0] _pht_lookup_value_tobeE_T_14 = 2'h2 == ex_bru_state_io_out_lookup_data[1:0] ? _pht_lookup_value_tobeE_T_8
      : _pht_lookup_value_tobeE_T_12; // @[Mux.scala 81:58]
-  wire [63:0] _BranchR2D_T_2 = _cfu_io_Forward2D[1] ? ResultM2_Reg : _regfile_io_RD2; // @[myCPU.scala 770:61]
-  wire  _ExceptionTypeD_Out_T_1 = _if2id_io_PCD[1:0] != 2'h0; // @[myCPU.scala 772:29]
+  wire [63:0] _BranchR2D_T_2 = _cfu_io_Forward2D[1] ? ResultM2_Reg : _regfile_io_RD2; // @[myCPU.scala 771:61]
+  wire  _ExceptionTypeD_Out_T_1 = _if2id_io_PCD[1:0] != 2'h0; // @[myCPU.scala 773:29]
   wire [20:0] _ExceptionTypeD_Out_T_4 = _ExceptionTypeD_Out_T_1 ? 21'h100000 : 21'h0; // @[Mux.scala 27:73]
   wire [3:0] _ExceptionTypeD_Out_T_5 = _if2id_io_ExceptionTypeD_Out[0] ? 4'h8 : 4'h0; // @[Mux.scala 27:73]
   wire [2:0] _ExceptionTypeD_Out_T_6 = _if2id_io_ExceptionTypeD_Out[1] ? 3'h4 : 3'h0; // @[Mux.scala 27:73]
@@ -40320,70 +40316,70 @@ module myCPU(
   wire [20:0] _ExceptionTypeD_Out_T_9 = _ExceptionTypeD_Out_T_8 | _GEN_13; // @[Mux.scala 27:73]
   wire [24:0] _GEN_14 = {{4'd0}, _ExceptionTypeD_Out_T_9}; // @[Mux.scala 27:73]
   wire [24:0] _ExceptionTypeD_Out_T_10 = _GEN_14 | _ExceptionTypeD_Out_T_7; // @[Mux.scala 27:73]
-  wire  _int_with_timer_int_T_1 = _csr_io_timer_int_has | ext_int[5]; // @[myCPU.scala 786:56]
+  wire  _int_with_timer_int_T_1 = _csr_io_timer_int_has | ext_int[5]; // @[myCPU.scala 787:56]
   wire [5:0] int_with_timer_int = {_int_with_timer_int_T_1,ext_int[4:0]}; // @[Cat.scala 31:58]
-  wire [6:0] _GEN_15 = {{1'd0}, int_with_timer_int}; // @[myCPU.scala 797:59]
-  wire [6:0] __id2ex_io_ExceptionTypeD_T = _GEN_15 & _csr_io_csr_status; // @[myCPU.scala 797:59]
-  wire [63:0] ExceptionTypeD_Out = {{39'd0}, _ExceptionTypeD_Out_T_10}; // @[myCPU.scala 187:34 771:24]
-  wire [10:0] __id2ex_io_ExceptionTypeD_T_6 = __if2id_io_InstrF_T ? 11'h400 : 11'h0; // @[myCPU.scala 798:13]
-  wire [8:0] __id2ex_io_ExceptionTypeD_T_8 = __if2id_io_InstrF_T_1 ? 9'h100 : 9'h0; // @[myCPU.scala 799:13]
-  wire [10:0] _GEN_16 = {{2'd0}, __id2ex_io_ExceptionTypeD_T_8}; // @[myCPU.scala 798:59]
-  wire [10:0] __id2ex_io_ExceptionTypeD_T_9 = __id2ex_io_ExceptionTypeD_T_6 | _GEN_16; // @[myCPU.scala 798:59]
-  wire [31:0] __id2ex_io_ExceptionTypeD_T_11 = __if2id_io_InstrF_T_3 ? 32'h80000000 : 32'h0; // @[myCPU.scala 801:13]
-  wire [31:0] _GEN_17 = {{21'd0}, __id2ex_io_ExceptionTypeD_T_9}; // @[myCPU.scala 799:59]
-  wire [31:0] __id2ex_io_ExceptionTypeD_T_12 = _GEN_17 | __id2ex_io_ExceptionTypeD_T_11; // @[myCPU.scala 799:59]
+  wire [6:0] _GEN_15 = {{1'd0}, int_with_timer_int}; // @[myCPU.scala 798:59]
+  wire [6:0] __id2ex_io_ExceptionTypeD_T = _GEN_15 & _csr_io_csr_status; // @[myCPU.scala 798:59]
+  wire [63:0] ExceptionTypeD_Out = {{39'd0}, _ExceptionTypeD_Out_T_10}; // @[myCPU.scala 188:34 772:24]
+  wire [10:0] __id2ex_io_ExceptionTypeD_T_6 = __if2id_io_InstrF_T ? 11'h400 : 11'h0; // @[myCPU.scala 799:13]
+  wire [8:0] __id2ex_io_ExceptionTypeD_T_8 = __if2id_io_InstrF_T_1 ? 9'h100 : 9'h0; // @[myCPU.scala 800:13]
+  wire [10:0] _GEN_16 = {{2'd0}, __id2ex_io_ExceptionTypeD_T_8}; // @[myCPU.scala 799:59]
+  wire [10:0] __id2ex_io_ExceptionTypeD_T_9 = __id2ex_io_ExceptionTypeD_T_6 | _GEN_16; // @[myCPU.scala 799:59]
+  wire [31:0] __id2ex_io_ExceptionTypeD_T_11 = __if2id_io_InstrF_T_3 ? 32'h80000000 : 32'h0; // @[myCPU.scala 802:13]
+  wire [31:0] _GEN_17 = {{21'd0}, __id2ex_io_ExceptionTypeD_T_9}; // @[myCPU.scala 800:59]
+  wire [31:0] __id2ex_io_ExceptionTypeD_T_12 = _GEN_17 | __id2ex_io_ExceptionTypeD_T_11; // @[myCPU.scala 800:59]
   wire [63:0] __id2ex_io_ExceptionTypeD_T_13 = ExceptionTypeD_Out == 64'h0 ? {{32'd0}, __id2ex_io_ExceptionTypeD_T_12}
-     : ExceptionTypeD_Out; // @[myCPU.scala 797:135]
+     : ExceptionTypeD_Out; // @[myCPU.scala 798:135]
   wire [63:0] __id2ex_io_ExceptionTypeD_T_14 = __id2ex_io_ExceptionTypeD_T != 7'h0 & _csr_io_Int_able ? 64'h1 :
-    __id2ex_io_ExceptionTypeD_T_13; // @[myCPU.scala 797:37]
-  wire  __id2ex_io_BranchJump_JrD_T_2 = pre_decoder_branchD_flag | pre_decoder_jump; // @[myCPU.scala 823:79]
-  reg  inst_tlb_exceptionM; // @[myCPU.scala 836:34]
-  wire [63:0] ResultW = _mem22wb_io_ResultW; // @[myCPU.scala 1156:15 284:26]
+    __id2ex_io_ExceptionTypeD_T_13; // @[myCPU.scala 798:37]
+  wire  __id2ex_io_BranchJump_JrD_T_2 = pre_decoder_branchD_flag | pre_decoder_jump; // @[myCPU.scala 824:79]
+  reg  inst_tlb_exceptionM; // @[myCPU.scala 837:34]
+  wire [63:0] ResultW = _mem22wb_io_ResultW; // @[myCPU.scala 1157:15 285:26]
   wire [63:0] _RD1ForWardE_p_T_1 = 2'h1 == _cfu_io_Forward1E ? ResultW : _id2ex_io_RD1E; // @[Mux.scala 81:58]
   wire [63:0] _RD1ForWardE_p_T_3 = 2'h2 == _cfu_io_Forward1E ? resultE2M_Reg : _RD1ForWardE_p_T_1; // @[Mux.scala 81:58]
   wire [63:0] RD1ForWardE_p = 2'h3 == _cfu_io_Forward1E ? ResultM2_Reg : _RD1ForWardE_p_T_3; // @[Mux.scala 81:58]
   wire [63:0] _RD2ForWardE_p_T_1 = 2'h1 == _cfu_io_Forward2E ? ResultW : _id2ex_io_RD2E; // @[Mux.scala 81:58]
   wire [63:0] _RD2ForWardE_p_T_3 = 2'h2 == _cfu_io_Forward2E ? resultE2M_Reg : _RD2ForWardE_p_T_1; // @[Mux.scala 81:58]
   wire [63:0] RD2ForWardE_p = 2'h3 == _cfu_io_Forward2E ? ResultM2_Reg : _RD2ForWardE_p_T_3; // @[Mux.scala 81:58]
-  reg [63:0] RD1ForWardE_r; // @[myCPU.scala 841:34]
-  reg [63:0] RD2ForWardE_r; // @[myCPU.scala 842:34]
-  reg  Forward_Lock1E; // @[myCPU.scala 843:34]
-  reg  Forward_Lock2E; // @[myCPU.scala 844:34]
+  reg [63:0] RD1ForWardE_r; // @[myCPU.scala 842:34]
+  reg [63:0] RD2ForWardE_r; // @[myCPU.scala 843:34]
+  reg  Forward_Lock1E; // @[myCPU.scala 844:34]
+  reg  Forward_Lock2E; // @[myCPU.scala 845:34]
   wire [63:0] _Forward_csr_data_T_1 = 2'h1 == _cfu_io_ForwardcsrE ? _ex2mem_io_WriteDataM : _csr_io_csr_read_data; // @[Mux.scala 81:58]
   wire [63:0] Forward_csr_data = 2'h2 == _cfu_io_ForwardcsrE ? _mem2mem2_io_WriteDataM : _Forward_csr_data_T_1; // @[Mux.scala 81:58]
-  wire [63:0] RD1ForWardE = Forward_Lock1E ? RD1ForWardE_r : RD1ForWardE_p; // @[myCPU.scala 849:23]
-  wire [63:0] RD2ForWardE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 850:23]
-  wire  _Forward_Lock1E_T = _ex2mem_io_MemToRegM; // @[myCPU.scala 856:54]
-  wire  _Forward_Lock1E_T_1 = _mem2mem2_io_MemToRegM; // @[myCPU.scala 856:87]
-  wire  _Forward_Lock1E_T_3 = ~(_ex2mem_io_MemToRegM | _mem2mem2_io_MemToRegM); // @[myCPU.scala 856:31]
-  wire [63:0] Src1E = _id2ex_io2_ALUSrcE_0 ? _id2ex_io2_PCE : RD1ForWardE; // @[myCPU.scala 871:20]
-  wire [63:0] Src2E = _id2ex_io2_ALUSrcE_1 ? _id2ex_io_ImmE : RD2ForWardE; // @[myCPU.scala 878:20]
-  wire  csrToRegE = _id2ex_io_ExceptionTypeE_Out == 32'h0 & _id2ex_io_csrToRegE_Out; // @[myCPU.scala 882:24]
-  wire  __muldiv_io_en_T_2 = _ex2mem_io_RegWriteM; // @[myCPU.scala 889:105]
-  wire  __muldiv_io_en_T_10 = _id2ex_io_R1E == _ex2mem_io_WriteRegM & __muldiv_io_en_T_2 & _Forward_Lock1E_T; // @[myCPU.scala 890:88]
+  wire [63:0] RD1ForWardE = Forward_Lock1E ? RD1ForWardE_r : RD1ForWardE_p; // @[myCPU.scala 850:23]
+  wire [63:0] RD2ForWardE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 851:23]
+  wire  _Forward_Lock1E_T = _ex2mem_io_MemToRegM; // @[myCPU.scala 857:54]
+  wire  _Forward_Lock1E_T_1 = _mem2mem2_io_MemToRegM; // @[myCPU.scala 857:87]
+  wire  _Forward_Lock1E_T_3 = ~(_ex2mem_io_MemToRegM | _mem2mem2_io_MemToRegM); // @[myCPU.scala 857:31]
+  wire [63:0] Src1E = _id2ex_io2_ALUSrcE_0 ? _id2ex_io2_PCE : RD1ForWardE; // @[myCPU.scala 872:20]
+  wire [63:0] Src2E = _id2ex_io2_ALUSrcE_1 ? _id2ex_io_ImmE : RD2ForWardE; // @[myCPU.scala 879:20]
+  wire  csrToRegE = _id2ex_io_ExceptionTypeE_Out == 32'h0 & _id2ex_io_csrToRegE_Out; // @[myCPU.scala 883:24]
+  wire  __muldiv_io_en_T_2 = _ex2mem_io_RegWriteM; // @[myCPU.scala 890:105]
+  wire  __muldiv_io_en_T_10 = _id2ex_io_R1E == _ex2mem_io_WriteRegM & __muldiv_io_en_T_2 & _Forward_Lock1E_T; // @[myCPU.scala 891:88]
   wire  __muldiv_io_en_T_11 = _id2ex_io_R2E == _ex2mem_io_WriteRegM & _ex2mem_io_RegWriteM & _Forward_Lock1E_T |
-    __muldiv_io_en_T_10; // @[myCPU.scala 889:144]
-  wire  __muldiv_io_en_T_13 = _mem2mem2_io_RegWriteM; // @[myCPU.scala 891:85]
-  wire  __muldiv_io_en_T_16 = _id2ex_io_R2E == _mem2mem2_io_WriteRegM & _mem2mem2_io_RegWriteM & _Forward_Lock1E_T_1; // @[myCPU.scala 891:92]
-  wire  __muldiv_io_en_T_17 = __muldiv_io_en_T_11 | __muldiv_io_en_T_16; // @[myCPU.scala 890:120]
-  wire  __muldiv_io_en_T_22 = _id2ex_io_R1E == _mem2mem2_io_WriteRegM & __muldiv_io_en_T_13 & _Forward_Lock1E_T_1; // @[myCPU.scala 892:92]
-  wire  __muldiv_io_en_T_23 = __muldiv_io_en_T_17 | __muldiv_io_en_T_22; // @[myCPU.scala 891:126]
-  wire [12:0] _temp_exceptionE_T_11 = _alu_io_overflow ? 13'h1000 : 13'h0; // @[myCPU.scala 924:13]
+    __muldiv_io_en_T_10; // @[myCPU.scala 890:144]
+  wire  __muldiv_io_en_T_13 = _mem2mem2_io_RegWriteM; // @[myCPU.scala 892:85]
+  wire  __muldiv_io_en_T_16 = _id2ex_io_R2E == _mem2mem2_io_WriteRegM & _mem2mem2_io_RegWriteM & _Forward_Lock1E_T_1; // @[myCPU.scala 892:92]
+  wire  __muldiv_io_en_T_17 = __muldiv_io_en_T_11 | __muldiv_io_en_T_16; // @[myCPU.scala 891:120]
+  wire  __muldiv_io_en_T_22 = _id2ex_io_R1E == _mem2mem2_io_WriteRegM & __muldiv_io_en_T_13 & _Forward_Lock1E_T_1; // @[myCPU.scala 893:92]
+  wire  __muldiv_io_en_T_23 = __muldiv_io_en_T_17 | __muldiv_io_en_T_22; // @[myCPU.scala 892:126]
+  wire [12:0] _temp_exceptionE_T_11 = _alu_io_overflow ? 13'h1000 : 13'h0; // @[myCPU.scala 925:13]
   wire [4:0] _csr_src1_T = _id2ex_io_R1E; // @[macros.scala 433:38]
   wire [5:0] _csr_src1_T_1 = {1'h0,_csr_src1_T}; // @[Cat.scala 31:58]
-  wire [63:0] csr_src1 = _id2ex_io_csr_ImmE ? {{58'd0}, _csr_src1_T_1} : RD1ForWardE; // @[myCPU.scala 954:20]
-  wire [5:0] _CalCsrDataE_T = _id2ex_io_csr_controlE; // @[myCPU.scala 957:31]
-  wire [63:0] _CalCsrDataE_T_2 = Forward_csr_data | csr_src1; // @[myCPU.scala 957:64]
-  wire [5:0] _CalCsrDataE_T_3 = {{1'd0}, _id2ex_io_csr_controlE[5:1]}; // @[myCPU.scala 958:31]
-  wire [63:0] _CalCsrDataE_T_5 = ~csr_src1; // @[myCPU.scala 958:68]
-  wire [63:0] _CalCsrDataE_T_6 = Forward_csr_data & _CalCsrDataE_T_5; // @[myCPU.scala 958:64]
-  wire [5:0] _CalCsrDataE_T_7 = {{2'd0}, _id2ex_io_csr_controlE[5:2]}; // @[myCPU.scala 959:31]
+  wire [63:0] csr_src1 = _id2ex_io_csr_ImmE ? {{58'd0}, _csr_src1_T_1} : RD1ForWardE; // @[myCPU.scala 955:20]
+  wire [5:0] _CalCsrDataE_T = _id2ex_io_csr_controlE; // @[myCPU.scala 958:31]
+  wire [63:0] _CalCsrDataE_T_2 = Forward_csr_data | csr_src1; // @[myCPU.scala 958:64]
+  wire [5:0] _CalCsrDataE_T_3 = {{1'd0}, _id2ex_io_csr_controlE[5:1]}; // @[myCPU.scala 959:31]
+  wire [63:0] _CalCsrDataE_T_5 = ~csr_src1; // @[myCPU.scala 959:68]
+  wire [63:0] _CalCsrDataE_T_6 = Forward_csr_data & _CalCsrDataE_T_5; // @[myCPU.scala 959:64]
+  wire [5:0] _CalCsrDataE_T_7 = {{2'd0}, _id2ex_io_csr_controlE[5:2]}; // @[myCPU.scala 960:31]
   wire [63:0] _CalCsrDataE_T_9 = _CalCsrDataE_T[0] ? _CalCsrDataE_T_2 : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _CalCsrDataE_T_10 = _CalCsrDataE_T_3[0] ? _CalCsrDataE_T_6 : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _CalCsrDataE_T_11 = _CalCsrDataE_T_7[0] ? csr_src1 : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _CalCsrDataE_T_12 = _CalCsrDataE_T_9 | _CalCsrDataE_T_10; // @[Mux.scala 27:73]
   wire [63:0] CalCsrDataE = _CalCsrDataE_T_12 | _CalCsrDataE_T_11; // @[Mux.scala 27:73]
-  wire  _resultE_T_1 = _id2ex_io2_LinkE; // @[myCPU.scala 972:25]
+  wire  _resultE_T_1 = _id2ex_io2_LinkE; // @[myCPU.scala 973:25]
   wire [63:0] _resultE_T_2 = _id2ex_io_alu_calE ? _alu_io_result : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _resultE_T_3 = csrToRegE ? CalCsrDataE : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _resultE_T_4 = _resultE_T_1 ? _id2ex_io2_PCPlus4E : 64'h0; // @[Mux.scala 27:73]
@@ -40391,9 +40387,9 @@ module myCPU(
   wire [63:0] _resultE_T_6 = _resultE_T_2 | _resultE_T_3; // @[Mux.scala 27:73]
   wire [63:0] _resultE_T_7 = _resultE_T_6 | _resultE_T_4; // @[Mux.scala 27:73]
   wire [63:0] resultE = _resultE_T_7 | _resultE_T_5; // @[Mux.scala 27:73]
-  wire  __mem2mem2_io_csrWriteE_T = _ex2mem_io_csrWriteM; // @[myCPU.scala 1044:48]
-  reg  tlb_exception_csr_writeM2; // @[myCPU.scala 1078:40]
-  reg  tlb_exception_co0_writeW; // @[myCPU.scala 1079:40]
+  wire  __mem2mem2_io_csrWriteE_T = _ex2mem_io_csrWriteM; // @[myCPU.scala 1045:48]
+  reg  tlb_exception_csr_writeM2; // @[myCPU.scala 1079:40]
+  reg  tlb_exception_co0_writeW; // @[myCPU.scala 1080:40]
   wire [31:0] _Mem_withRL_Data_T_25 = {_mem2mem2_io_RtM[31:8],_dmem_io_RD[31:24]}; // @[Cat.scala 31:58]
   wire [31:0] _Mem_withRL_Data_T_22 = {_mem2mem2_io_RtM[31:16],_dmem_io_RD[31:16]}; // @[Cat.scala 31:58]
   wire [31:0] _Mem_withRL_Data_T_19 = {_mem2mem2_io_RtM[31:24],_dmem_io_RD[31:8]}; // @[Cat.scala 31:58]
@@ -40418,9 +40414,9 @@ module myCPU(
     _mem2mem2_io_mem_trace_budleM_data : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] __mem22wb_io_Mem_trace_budleM_data_T_3 = _mem2mem2_io_mem_trace_budleM_mem_fetch_type[1] ? Mem_withRL_Data
      : 64'h0; // @[Mux.scala 27:73]
-  reg [63:0] pcw_reg; // @[myCPU.scala 1141:26]
-  wire  csrWriteW = wb_exception ? 1'h0 : _mem22wb_io_csrWriteW; // @[myCPU.scala 1159:25]
-  alu _alu ( // @[myCPU.scala 115:22]
+  reg [63:0] pcw_reg; // @[myCPU.scala 1142:26]
+  wire  csrWriteW = wb_exception ? 1'h0 : _mem22wb_io_csrWriteW; // @[myCPU.scala 1160:25]
+  alu _alu ( // @[myCPU.scala 116:22]
     .io_ctrl(_alu_io_ctrl),
     .io_in1(_alu_io_in1),
     .io_in2(_alu_io_in2),
@@ -40428,14 +40424,14 @@ module myCPU(
     .io_overflow(_alu_io_overflow),
     .io_data_w(_alu_io_data_w)
   );
-  br _br ( // @[myCPU.scala 116:22]
+  br _br ( // @[myCPU.scala 117:22]
     .reset(_br_reset),
     .io_r1(_br_io_r1),
     .io_r2(_br_io_r2),
     .io_branch(_br_io_branch),
     .io_exe(_br_io_exe)
   );
-  cfu _cfu ( // @[myCPU.scala 117:22]
+  cfu _cfu ( // @[myCPU.scala 118:22]
     .reset(_cfu_reset),
     .io_Inst_Fifo_Empty(_cfu_io_Inst_Fifo_Empty),
     .io_dmem_calD(_cfu_io_dmem_calD),
@@ -40482,7 +40478,7 @@ module myCPU(
     .io_Forward2D(_cfu_io_Forward2D),
     .io_ForwardcsrE(_cfu_io_ForwardcsrE)
   );
-  csr _csr ( // @[myCPU.scala 118:22]
+  csr _csr ( // @[myCPU.scala 119:22]
     .clock(_csr_clock),
     .reset(_csr_reset),
     .io_csr_read_addr(_csr_io_csr_read_addr),
@@ -40496,9 +40492,10 @@ module myCPU(
     .io_exception(_csr_io_exception),
     .io_csr_read_data(_csr_io_csr_read_data),
     .io_csr_status(_csr_io_csr_status),
-    .io_Int_able(_csr_io_Int_able)
+    .io_Int_able(_csr_io_Int_able),
+    .io_icache_tags_flush(_csr_io_icache_tags_flush)
   );
-  cu _cu ( // @[myCPU.scala 119:22]
+  cu _cu ( // @[myCPU.scala 120:22]
     .io1_InstrD(_cu_io1_InstrD),
     .io1_BadInstrD(_cu_io1_BadInstrD),
     .io1_SysCallD(_cu_io1_SysCallD),
@@ -40526,7 +40523,7 @@ module myCPU(
     .io_csr_Imm(_cu_io_csr_Imm),
     .io_fence_i_control(_cu_io_fence_i_control)
   );
-  dmem _dmem ( // @[myCPU.scala 120:23]
+  dmem _dmem ( // @[myCPU.scala 121:23]
     .io_data_ok(_dmem_io_data_ok),
     .io_rdata(_dmem_io_rdata),
     .io_Physisc_Address(_dmem_io_Physisc_Address),
@@ -40535,7 +40532,7 @@ module myCPU(
     .io_RD(_dmem_io_RD),
     .io_data_pending(_dmem_io_data_pending)
   );
-  dmemreq _dmemreq ( // @[myCPU.scala 121:26]
+  dmemreq _dmemreq ( // @[myCPU.scala 122:26]
     .io_en(_dmemreq_io_en),
     .io_MemWriteE(_dmemreq_io_MemWriteE),
     .io_MemToRegE(_dmemreq_io_MemToRegE),
@@ -40549,7 +40546,7 @@ module myCPU(
     .io_wdata(_dmemreq_io_wdata),
     .io_wstrb(_dmemreq_io_wstrb)
   );
-  ex2mem _ex2mem ( // @[myCPU.scala 122:26]
+  ex2mem _ex2mem ( // @[myCPU.scala 123:26]
     .clock(_ex2mem_clock),
     .reset(_ex2mem_reset),
     .io1_RegWriteE(_ex2mem_io1_RegWriteE),
@@ -40605,7 +40602,7 @@ module myCPU(
     .io_CsrWritedataM(_ex2mem_io_CsrWritedataM),
     .io_fence_i_controlM(_ex2mem_io_fence_i_controlM)
   );
-  ex2mem _mem2mem2 ( // @[myCPU.scala 123:28]
+  ex2mem _mem2mem2 ( // @[myCPU.scala 124:28]
     .clock(_mem2mem2_clock),
     .reset(_mem2mem2_reset),
     .io1_RegWriteE(_mem2mem2_io1_RegWriteE),
@@ -40661,7 +40658,7 @@ module myCPU(
     .io_CsrWritedataM(_mem2mem2_io_CsrWritedataM),
     .io_fence_i_controlM(_mem2mem2_io_fence_i_controlM)
   );
-  id2ex _id2ex ( // @[myCPU.scala 125:26]
+  id2ex _id2ex ( // @[myCPU.scala 126:26]
     .clock(_id2ex_clock),
     .reset(_id2ex_reset),
     .io1_RegWriteD(_id2ex_io1_RegWriteD),
@@ -40731,7 +40728,7 @@ module myCPU(
     .io_csr_controlE(_id2ex_io_csr_controlE),
     .io_csr_ImmE(_id2ex_io_csr_ImmE)
   );
-  if2id _if2id ( // @[myCPU.scala 126:26]
+  if2id _if2id ( // @[myCPU.scala 127:26]
     .clock(_if2id_clock),
     .reset(_if2id_reset),
     .io_en(_if2id_io_en),
@@ -40745,7 +40742,7 @@ module myCPU(
     .io_PCD(_if2id_io_PCD),
     .io_ExceptionTypeD_Out(_if2id_io_ExceptionTypeD_Out)
   );
-  mem2wb _mem22wb ( // @[myCPU.scala 128:27]
+  mem2wb _mem22wb ( // @[myCPU.scala 129:27]
     .clock(_mem22wb_clock),
     .reset(_mem22wb_reset),
     .io_en(_mem22wb_io_en),
@@ -40785,12 +40782,12 @@ module myCPU(
     .io_Mem_trace_budleW_cache(_mem22wb_io_Mem_trace_budleW_cache),
     .io_CsrWritedataW(_mem22wb_io_CsrWritedataW)
   );
-  addr_cal _addr_cal ( // @[myCPU.scala 129:31]
+  addr_cal _addr_cal ( // @[myCPU.scala 130:31]
     .io_d_vaddr(_addr_cal_io_d_vaddr),
     .io_d_paddr(_addr_cal_io_d_paddr),
     .io_d_cached(_addr_cal_io_d_cached)
   );
-  muldiv _muldiv ( // @[myCPU.scala 130:26]
+  muldiv _muldiv ( // @[myCPU.scala 131:26]
     .clock(_muldiv_clock),
     .reset(_muldiv_reset),
     .io_en(_muldiv_io_en),
@@ -40800,7 +40797,7 @@ module myCPU(
     .io_data_out(_muldiv_io_data_out),
     .io_pending(_muldiv_io_pending)
   );
-  regfile _regfile ( // @[myCPU.scala 132:26]
+  regfile _regfile ( // @[myCPU.scala 133:26]
     .clock(_regfile_clock),
     .reset(_regfile_reset),
     .io_A1(_regfile_io_A1),
@@ -40812,7 +40809,7 @@ module myCPU(
     .io_RD2(_regfile_io_RD2),
     .io_reg_file_alL_out(_regfile_io_reg_file_alL_out)
   );
-  mem_trace_module _mtrace_mod ( // @[myCPU.scala 133:29]
+  mem_trace_module _mtrace_mod ( // @[myCPU.scala 134:29]
     .reset(_mtrace_mod_reset),
     .clock(_mtrace_mod_clock),
     .data(_mtrace_mod_data),
@@ -40823,7 +40820,7 @@ module myCPU(
     .mem_size(_mtrace_mod_mem_size),
     .mem_cached(_mtrace_mod_mem_cached)
   );
-  fifo_with_bundle fifo_with_bundle ( // @[myCPU.scala 154:29]
+  fifo_with_bundle fifo_with_bundle ( // @[myCPU.scala 155:29]
     .clock(fifo_with_bundle_clock),
     .reset(fifo_with_bundle_reset),
     .io_read_en(fifo_with_bundle_io_read_en),
@@ -40860,7 +40857,7 @@ module myCPU(
     .io_point_write_en(fifo_with_bundle_io_point_write_en),
     .io_point_flush(fifo_with_bundle_io_point_flush)
   );
-  pc_detail stage_fec_1_pc_L ( // @[myCPU.scala 416:34]
+  pc_detail stage_fec_1_pc_L ( // @[myCPU.scala 417:34]
     .clock(stage_fec_1_pc_L_clock),
     .reset(stage_fec_1_pc_L_reset),
     .io_stall(stage_fec_1_pc_L_io_stall),
@@ -40868,7 +40865,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_1_pc_L_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_1_pc_L_io_out_pc_value_out)
   );
-  pc_detail stage_fec_1_pc_M ( // @[myCPU.scala 417:34]
+  pc_detail stage_fec_1_pc_M ( // @[myCPU.scala 418:34]
     .clock(stage_fec_1_pc_M_clock),
     .reset(stage_fec_1_pc_M_reset),
     .io_stall(stage_fec_1_pc_M_io_stall),
@@ -40876,7 +40873,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_1_pc_M_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_1_pc_M_io_out_pc_value_out)
   );
-  pc_detail stage_fec_1_pc_R ( // @[myCPU.scala 418:34]
+  pc_detail stage_fec_1_pc_R ( // @[myCPU.scala 419:34]
     .clock(stage_fec_1_pc_R_clock),
     .reset(stage_fec_1_pc_R_reset),
     .io_stall(stage_fec_1_pc_R_io_stall),
@@ -40884,7 +40881,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_1_pc_R_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_1_pc_R_io_out_pc_value_out)
   );
-  branch_prediction_with_blockram branch_prediction_with_blockram ( // @[myCPU.scala 447:21]
+  branch_prediction_with_blockram branch_prediction_with_blockram ( // @[myCPU.scala 448:21]
     .clock(branch_prediction_with_blockram_clock),
     .reset(branch_prediction_with_blockram_reset),
     .io_pc(branch_prediction_with_blockram_io_pc),
@@ -40908,7 +40905,7 @@ module myCPU(
     .io_pht_lookup_value_out(branch_prediction_with_blockram_io_pht_lookup_value_out),
     .io_lookup_data_0(branch_prediction_with_blockram_io_lookup_data_0)
   );
-  pc_detail stage_fec_2_pc_L ( // @[myCPU.scala 516:34]
+  pc_detail stage_fec_2_pc_L ( // @[myCPU.scala 517:34]
     .clock(stage_fec_2_pc_L_clock),
     .reset(stage_fec_2_pc_L_reset),
     .io_stall(stage_fec_2_pc_L_io_stall),
@@ -40916,7 +40913,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_2_pc_L_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_2_pc_L_io_out_pc_value_out)
   );
-  pc_detail stage_fec_2_pc_M ( // @[myCPU.scala 517:34]
+  pc_detail stage_fec_2_pc_M ( // @[myCPU.scala 518:34]
     .clock(stage_fec_2_pc_M_clock),
     .reset(stage_fec_2_pc_M_reset),
     .io_stall(stage_fec_2_pc_M_io_stall),
@@ -40924,7 +40921,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_2_pc_M_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_2_pc_M_io_out_pc_value_out)
   );
-  pc_detail stage_fec_2_pc_R ( // @[myCPU.scala 518:34]
+  pc_detail stage_fec_2_pc_R ( // @[myCPU.scala 519:34]
     .clock(stage_fec_2_pc_R_clock),
     .reset(stage_fec_2_pc_R_reset),
     .io_stall(stage_fec_2_pc_R_io_stall),
@@ -40932,7 +40929,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_2_pc_R_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_2_pc_R_io_out_pc_value_out)
   );
-  bru_detail id_bru_state ( // @[myCPU.scala 680:31]
+  bru_detail id_bru_state ( // @[myCPU.scala 681:31]
     .clock(id_bru_state_clock),
     .reset(id_bru_state_reset),
     .io_stall(id_bru_state_io_stall),
@@ -40950,7 +40947,7 @@ module myCPU(
     .io_out_lookup_data(id_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(id_bru_state_io_out_pht_lookup_value)
   );
-  bru_detail ex_bru_state ( // @[myCPU.scala 684:31]
+  bru_detail ex_bru_state ( // @[myCPU.scala 685:31]
     .clock(ex_bru_state_clock),
     .reset(ex_bru_state_reset),
     .io_stall(ex_bru_state_io_stall),
@@ -40968,7 +40965,7 @@ module myCPU(
     .io_out_lookup_data(ex_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(ex_bru_state_io_out_pht_lookup_value)
   );
-  bru_detail mem_bru_state ( // @[myCPU.scala 688:32]
+  bru_detail mem_bru_state ( // @[myCPU.scala 689:32]
     .clock(mem_bru_state_clock),
     .reset(mem_bru_state_reset),
     .io_stall(mem_bru_state_io_stall),
@@ -40986,7 +40983,7 @@ module myCPU(
     .io_out_lookup_data(mem_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(mem_bru_state_io_out_pht_lookup_value)
   );
-  bru_detail mem2_bru_state ( // @[myCPU.scala 692:33]
+  bru_detail mem2_bru_state ( // @[myCPU.scala 693:33]
     .clock(mem2_bru_state_clock),
     .reset(mem2_bru_state_reset),
     .io_stall(mem2_bru_state_io_stall),
@@ -41004,7 +41001,7 @@ module myCPU(
     .io_out_lookup_data(mem2_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(mem2_bru_state_io_out_pht_lookup_value)
   );
-  bru_detail wb_bru_state ( // @[myCPU.scala 696:31]
+  bru_detail wb_bru_state ( // @[myCPU.scala 697:31]
     .clock(wb_bru_state_clock),
     .reset(wb_bru_state_reset),
     .io_stall(wb_bru_state_io_stall),
@@ -41022,7 +41019,7 @@ module myCPU(
     .io_out_lookup_data(wb_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(wb_bru_state_io_out_pht_lookup_value)
   );
-  difftest_commit _commit_difftest ( // @[myCPU.scala 1143:34]
+  difftest_commit _commit_difftest ( // @[myCPU.scala 1144:34]
     .reset(_commit_difftest_reset),
     .clock(_commit_difftest_clock),
     .gpr_wire(_commit_difftest_gpr_wire),
@@ -41033,436 +41030,437 @@ module myCPU(
     .cpu_ebreak_sign(_commit_difftest_cpu_ebreak_sign)
   );
   assign inst_cache = Pc_Next[31:29] == 3'h4; // @[macros.scala 477:55]
-  assign inst_sram_en = stage2_stall; // @[myCPU.scala 379:17]
-  assign inst_sram_addr = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 372:19]
-  assign stage2_flush = fifo_with_bundle_io_point_write_en & _stage_fec_2_data_valid_T | _stage_fec_2_branch_answer_T_7; // @[myCPU.scala 576:72]
-  assign stage1_valid_flush = _pc_next_wait_T | _stage_fec_2_branch_answer_T_7; // @[myCPU.scala 586:85]
-  assign inst_ready_to_use = Pc_Next[1:0] == 2'h0; // @[myCPU.scala 380:39]
-  assign inst_buffer_full = fifo_with_bundle_io_full; // @[myCPU.scala 595:22]
-  assign data_sram_en = _dmemreq_io_req & ~_dmem_io_data_pending; // @[myCPU.scala 234:44]
-  assign data_sram_wen = _dmemreq_io_wr; // @[myCPU.scala 240:13]
-  assign data_size = _dmemreq_io_size; // @[myCPU.scala 1200:15]
-  assign data_sram_addr = _dmemreq_io_addr; // @[myCPU.scala 236:15]
-  assign data_sram_wdata = _dmemreq_io_wdata; // @[myCPU.scala 237:16]
-  assign data_cache = _addr_cal_io_d_cached; // @[myCPU.scala 1199:63]
-  assign data_wstrb = _dmemreq_io_wstrb; // @[myCPU.scala 238:16]
-  assign data_fence_i_control = _ex2mem_io_fence_i_controlM; // @[myCPU.scala 949:26]
-  assign debug_wb_pc = _mem22wb_io_PCW; // @[myCPU.scala 298:17]
-  assign debug_wb_rf_wen = reg_pc == _mem22wb_io_PCW ? 4'h0 : _debug_wb_rf_wen_T_2; // @[myCPU.scala 299:27]
-  assign debug_wb_rf_wnum = _regfile_io_A3; // @[myCPU.scala 300:22]
-  assign debug_wb_rf_wdata = _regfile_io_WD3; // @[myCPU.scala 301:23]
-  assign _alu_io_ctrl = _id2ex_io2_ALUCtrlE; // @[myCPU.scala 886:18]
+  assign inst_sram_en = stage2_stall; // @[myCPU.scala 380:17]
+  assign inst_sram_addr = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 373:19]
+  assign stage2_flush = fifo_with_bundle_io_point_write_en & _stage_fec_2_data_valid_T | _stage_fec_2_branch_answer_T_7; // @[myCPU.scala 577:72]
+  assign stage1_valid_flush = _pc_next_wait_T | _stage_fec_2_branch_answer_T_7; // @[myCPU.scala 587:85]
+  assign inst_ready_to_use = Pc_Next[1:0] == 2'h0; // @[myCPU.scala 381:39]
+  assign inst_buffer_full = fifo_with_bundle_io_full; // @[myCPU.scala 596:22]
+  assign data_sram_en = _dmemreq_io_req & ~_dmem_io_data_pending; // @[myCPU.scala 235:44]
+  assign data_sram_wen = _dmemreq_io_wr; // @[myCPU.scala 241:13]
+  assign data_size = _dmemreq_io_size; // @[myCPU.scala 1201:15]
+  assign data_sram_addr = _dmemreq_io_addr; // @[myCPU.scala 237:15]
+  assign data_sram_wdata = _dmemreq_io_wdata; // @[myCPU.scala 238:16]
+  assign data_cache = _addr_cal_io_d_cached; // @[myCPU.scala 1200:63]
+  assign data_wstrb = _dmemreq_io_wstrb; // @[myCPU.scala 239:16]
+  assign data_fence_i_control = _ex2mem_io_fence_i_controlM; // @[myCPU.scala 950:26]
+  assign debug_wb_pc = _mem22wb_io_PCW; // @[myCPU.scala 299:17]
+  assign debug_wb_rf_wen = reg_pc == _mem22wb_io_PCW ? 4'h0 : _debug_wb_rf_wen_T_2; // @[myCPU.scala 300:27]
+  assign debug_wb_rf_wnum = _regfile_io_A3; // @[myCPU.scala 301:22]
+  assign debug_wb_rf_wdata = _regfile_io_WD3; // @[myCPU.scala 302:23]
+  assign icache_tag_flush = _csr_io_icache_tags_flush; // @[myCPU.scala 1211:22]
+  assign _alu_io_ctrl = _id2ex_io2_ALUCtrlE; // @[myCPU.scala 887:18]
   assign _alu_io_in1 = {Src1E[63:32],Src1E[31:0]}; // @[Cat.scala 31:58]
   assign _alu_io_in2 = {Src2E[63:32],Src2E[31:0]}; // @[Cat.scala 31:58]
-  assign _alu_io_data_w = _id2ex_io_data_wE; // @[myCPU.scala 887:20]
-  assign _br_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign _br_io_r1 = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 768:20]
-  assign _br_io_r2 = _cfu_io_Forward2D[0] ? resultE2M_Reg : _BranchR2D_T_2; // @[myCPU.scala 770:20]
-  assign _br_io_branch = pre_decoder_branchdata; // @[myCPU.scala 778:19]
-  assign _cfu_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign _cfu_io_Inst_Fifo_Empty = fifo_with_bundle_io_empty; // @[myCPU.scala 579:29]
-  assign _cfu_io_dmem_calD = _cu_io1_dmem_addr_cal; // @[myCPU.scala 830:23]
-  assign _cfu_io_BranchD_Flag = pre_decoder_branchD_flag; // @[myCPU.scala 1231:26]
-  assign _cfu_io_JRD = pre_decoder_jr; // @[myCPU.scala 1227:25]
-  assign _cfu_io_CanBranchD = ~(id_exception | ex_exception | mem_exception | mem2_exception | wb_exception); // @[myCPU.scala 1228:111]
-  assign _cfu_io_DivPendingE = _muldiv_io_pending; // @[myCPU.scala 1232:33]
-  assign _cfu_io_DataPendingM = _dmem_io_data_pending; // @[myCPU.scala 1234:33]
-  assign _cfu_io_InException = _csr_io_exception; // @[myCPU.scala 1221:25]
-  assign _cfu_io_WriteRegE = _id2ex_io2_RegDstE; // @[myCPU.scala 1238:33]
-  assign _cfu_io_RegWriteE = _id2ex_io2_RegWriteE; // @[myCPU.scala 1240:33]
-  assign _cfu_io_csrToRegE = _id2ex_io_ExceptionTypeE_Out == 32'h0 & _id2ex_io_csrToRegE_Out; // @[myCPU.scala 882:24]
-  assign _cfu_io_WriteRegM = _ex2mem_io_WriteRegM; // @[myCPU.scala 1244:33]
-  assign _cfu_io_MemToRegM = _ex2mem_io_MemToRegM; // @[myCPU.scala 1245:33]
-  assign _cfu_io_RegWriteM = _ex2mem_io_RegWriteM; // @[myCPU.scala 1246:33]
-  assign _cfu_io_csrWriteM = _ex2mem_io_csrWriteM; // @[myCPU.scala 1247:33]
-  assign _cfu_io_WriteRegM2 = _mem2mem2_io_WriteRegM; // @[myCPU.scala 1268:25]
-  assign _cfu_io_MemToRegM2 = _mem2mem2_io_MemToRegM; // @[myCPU.scala 1269:25]
-  assign _cfu_io_RegWriteM2 = _mem2mem2_io_RegWriteM; // @[myCPU.scala 1270:25]
-  assign _cfu_io_csrWriteM2 = _mem2mem2_io_csrWriteM; // @[myCPU.scala 1266:24]
-  assign _cfu_io_WriteRegW = _mem22wb_io_WriteRegW; // @[myCPU.scala 1257:33]
-  assign _cfu_io_RegWriteW = wb_exception ? 1'h0 : _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 1157:21]
-  assign _cfu_io_ReadcsrAddrE = _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 1249:34]
-  assign _cfu_io_WritecsrAddrM = _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 1252:34]
-  assign _cfu_io_WritecsrAddrM2 = _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 1267:28]
-  assign _cfu_io_R2D = _if2id_io_InstrD[24:20]; // @[myCPU.scala 200:27]
-  assign _cfu_io_R1D = _if2id_io_InstrD[19:15]; // @[myCPU.scala 201:27]
-  assign _cfu_io_R2E = _id2ex_io_R2E; // @[myCPU.scala 1263:33]
-  assign _cfu_io_R1E = _id2ex_io_R1E; // @[myCPU.scala 1262:33]
-  assign _csr_clock = clk; // @[myCPU.scala 109:23]
-  assign _csr_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign _csr_io_csr_read_addr = _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 965:27]
-  assign _csr_io_csr_write_addr = _mem22wb_io_WritecsrAddrW; // @[myCPU.scala 966:28]
-  assign _csr_io_csr_write_data = _mem22wb_io_CsrWritedataW; // @[myCPU.scala 1216:30]
-  assign _csr_io_csr_write_en = csrWriteW | tlb_exception_co0_writeW; // @[myCPU.scala 1207:47]
-  assign _csr_io_pc = _PCW_Reg_T ? _mem22wb_io_PCW : PCW_Reg; // @[myCPU.scala 1205:25]
-  assign _csr_io_exception_type_i = _mem22wb_io_ExceptionTypeW_Out; // @[myCPU.scala 1208:30]
-  assign _cu_io1_InstrD = _if2id_io_InstrD; // @[myCPU.scala 766:20]
-  assign _dmem_io_data_ok = data_stage2_stall; // @[myCPU.scala 261:25]
-  assign _dmem_io_rdata = data_sram_rdata; // @[myCPU.scala 262:25]
-  assign _dmem_io_Physisc_Address = _mem2mem2_io_PhyAddrM; // @[myCPU.scala 266:30]
-  assign _dmem_io_WIDTH = _mem2mem2_io_MemWidthM; // @[myCPU.scala 264:25]
-  assign _dmem_io_SIGN = ~_mem2mem2_io_LoadUnsignedM; // @[myCPU.scala 265:22]
-  assign _dmemreq_io_en = _T_37 ? 1'h0 : _commit_cache_reg_T; // @[myCPU.scala 904:26]
-  assign _dmemreq_io_MemWriteE = _id2ex_io2_MemWriteE; // @[myCPU.scala 910:27]
-  assign _dmemreq_io_MemToRegE = _id2ex_io2_MemToRegE; // @[myCPU.scala 907:27]
-  assign _dmemreq_io_MemWidthE = _id2ex_io2_MemWidthE; // @[myCPU.scala 908:27]
-  assign _dmemreq_io_VAddrE = _addr_cal_io_d_paddr; // @[myCPU.scala 1194:23]
-  assign _dmemreq_io_WriteDataE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 850:23]
-  assign _ex2mem_clock = clk; // @[myCPU.scala 109:23]
-  assign _ex2mem_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign _ex2mem_io1_RegWriteE = _id2ex_io2_RegWriteE; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_MemToRegE = _id2ex_io2_MemToRegE; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_LoadUnsignedE = _id2ex_io2_LoadUnsignedE; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_MemWidthE = _id2ex_io2_MemWidthE; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_csrWriteE = _id2ex_io2_csrWriteE; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_WritecsrAddrE = _id2ex_io2_WritecsrAddrE; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_PCE = _id2ex_io2_PCE; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_MemRLE = 2'h0; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_BranchJump_JrE = _id2ex_io2_BranchJump_JrE; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_Tlb_Control = 3'h0; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_eBreakE = _id2ex_io2_eBreakE; // @[myCPU.scala 160:15]
-  assign _ex2mem_io1_fence_i_control = _id2ex_io2_fence_i_control; // @[myCPU.scala 160:15]
-  assign _ex2mem_io_en = _cfu_io_StallE; // @[myCPU.scala 207:30]
-  assign _ex2mem_io_clr = _cfu_io_FlushM; // @[myCPU.scala 208:30]
-  assign _ex2mem_io_WriteDataE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 850:23]
-  assign _ex2mem_io_WriteRegE = _id2ex_io2_RegDstE; // @[myCPU.scala 937:26]
-  assign _ex2mem_io_PhyAddrE = _addr_cal_io_d_paddr; // @[myCPU.scala 940:27]
+  assign _alu_io_data_w = _id2ex_io_data_wE; // @[myCPU.scala 888:20]
+  assign _br_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign _br_io_r1 = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 769:20]
+  assign _br_io_r2 = _cfu_io_Forward2D[0] ? resultE2M_Reg : _BranchR2D_T_2; // @[myCPU.scala 771:20]
+  assign _br_io_branch = pre_decoder_branchdata; // @[myCPU.scala 779:19]
+  assign _cfu_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign _cfu_io_Inst_Fifo_Empty = fifo_with_bundle_io_empty; // @[myCPU.scala 580:29]
+  assign _cfu_io_dmem_calD = _cu_io1_dmem_addr_cal; // @[myCPU.scala 831:23]
+  assign _cfu_io_BranchD_Flag = pre_decoder_branchD_flag; // @[myCPU.scala 1233:26]
+  assign _cfu_io_JRD = pre_decoder_jr; // @[myCPU.scala 1229:25]
+  assign _cfu_io_CanBranchD = ~(id_exception | ex_exception | mem_exception | mem2_exception | wb_exception); // @[myCPU.scala 1230:111]
+  assign _cfu_io_DivPendingE = _muldiv_io_pending; // @[myCPU.scala 1234:33]
+  assign _cfu_io_DataPendingM = _dmem_io_data_pending; // @[myCPU.scala 1236:33]
+  assign _cfu_io_InException = _csr_io_exception; // @[myCPU.scala 1223:25]
+  assign _cfu_io_WriteRegE = _id2ex_io2_RegDstE; // @[myCPU.scala 1240:33]
+  assign _cfu_io_RegWriteE = _id2ex_io2_RegWriteE; // @[myCPU.scala 1242:33]
+  assign _cfu_io_csrToRegE = _id2ex_io_ExceptionTypeE_Out == 32'h0 & _id2ex_io_csrToRegE_Out; // @[myCPU.scala 883:24]
+  assign _cfu_io_WriteRegM = _ex2mem_io_WriteRegM; // @[myCPU.scala 1246:33]
+  assign _cfu_io_MemToRegM = _ex2mem_io_MemToRegM; // @[myCPU.scala 1247:33]
+  assign _cfu_io_RegWriteM = _ex2mem_io_RegWriteM; // @[myCPU.scala 1248:33]
+  assign _cfu_io_csrWriteM = _ex2mem_io_csrWriteM; // @[myCPU.scala 1249:33]
+  assign _cfu_io_WriteRegM2 = _mem2mem2_io_WriteRegM; // @[myCPU.scala 1270:25]
+  assign _cfu_io_MemToRegM2 = _mem2mem2_io_MemToRegM; // @[myCPU.scala 1271:25]
+  assign _cfu_io_RegWriteM2 = _mem2mem2_io_RegWriteM; // @[myCPU.scala 1272:25]
+  assign _cfu_io_csrWriteM2 = _mem2mem2_io_csrWriteM; // @[myCPU.scala 1268:24]
+  assign _cfu_io_WriteRegW = _mem22wb_io_WriteRegW; // @[myCPU.scala 1259:33]
+  assign _cfu_io_RegWriteW = wb_exception ? 1'h0 : _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 1158:21]
+  assign _cfu_io_ReadcsrAddrE = _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 1251:34]
+  assign _cfu_io_WritecsrAddrM = _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 1254:34]
+  assign _cfu_io_WritecsrAddrM2 = _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 1269:28]
+  assign _cfu_io_R2D = _if2id_io_InstrD[24:20]; // @[myCPU.scala 201:27]
+  assign _cfu_io_R1D = _if2id_io_InstrD[19:15]; // @[myCPU.scala 202:27]
+  assign _cfu_io_R2E = _id2ex_io_R2E; // @[myCPU.scala 1265:33]
+  assign _cfu_io_R1E = _id2ex_io_R1E; // @[myCPU.scala 1264:33]
+  assign _csr_clock = clk; // @[myCPU.scala 110:23]
+  assign _csr_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign _csr_io_csr_read_addr = _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 966:27]
+  assign _csr_io_csr_write_addr = _mem22wb_io_WritecsrAddrW; // @[myCPU.scala 967:28]
+  assign _csr_io_csr_write_data = _mem22wb_io_CsrWritedataW; // @[myCPU.scala 1218:30]
+  assign _csr_io_csr_write_en = csrWriteW | tlb_exception_co0_writeW; // @[myCPU.scala 1208:47]
+  assign _csr_io_pc = _PCW_Reg_T ? _mem22wb_io_PCW : PCW_Reg; // @[myCPU.scala 1206:25]
+  assign _csr_io_exception_type_i = _mem22wb_io_ExceptionTypeW_Out; // @[myCPU.scala 1209:30]
+  assign _cu_io1_InstrD = _if2id_io_InstrD; // @[myCPU.scala 767:20]
+  assign _dmem_io_data_ok = data_stage2_stall; // @[myCPU.scala 262:25]
+  assign _dmem_io_rdata = data_sram_rdata; // @[myCPU.scala 263:25]
+  assign _dmem_io_Physisc_Address = _mem2mem2_io_PhyAddrM; // @[myCPU.scala 267:30]
+  assign _dmem_io_WIDTH = _mem2mem2_io_MemWidthM; // @[myCPU.scala 265:25]
+  assign _dmem_io_SIGN = ~_mem2mem2_io_LoadUnsignedM; // @[myCPU.scala 266:22]
+  assign _dmemreq_io_en = _T_37 ? 1'h0 : _commit_cache_reg_T; // @[myCPU.scala 905:26]
+  assign _dmemreq_io_MemWriteE = _id2ex_io2_MemWriteE; // @[myCPU.scala 911:27]
+  assign _dmemreq_io_MemToRegE = _id2ex_io2_MemToRegE; // @[myCPU.scala 908:27]
+  assign _dmemreq_io_MemWidthE = _id2ex_io2_MemWidthE; // @[myCPU.scala 909:27]
+  assign _dmemreq_io_VAddrE = _addr_cal_io_d_paddr; // @[myCPU.scala 1195:23]
+  assign _dmemreq_io_WriteDataE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 851:23]
+  assign _ex2mem_clock = clk; // @[myCPU.scala 110:23]
+  assign _ex2mem_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign _ex2mem_io1_RegWriteE = _id2ex_io2_RegWriteE; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_MemToRegE = _id2ex_io2_MemToRegE; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_LoadUnsignedE = _id2ex_io2_LoadUnsignedE; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_MemWidthE = _id2ex_io2_MemWidthE; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_csrWriteE = _id2ex_io2_csrWriteE; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_WritecsrAddrE = _id2ex_io2_WritecsrAddrE; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_PCE = _id2ex_io2_PCE; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_MemRLE = 2'h0; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_BranchJump_JrE = _id2ex_io2_BranchJump_JrE; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_Tlb_Control = 3'h0; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_eBreakE = _id2ex_io2_eBreakE; // @[myCPU.scala 161:15]
+  assign _ex2mem_io1_fence_i_control = _id2ex_io2_fence_i_control; // @[myCPU.scala 161:15]
+  assign _ex2mem_io_en = _cfu_io_StallE; // @[myCPU.scala 208:30]
+  assign _ex2mem_io_clr = _cfu_io_FlushM; // @[myCPU.scala 209:30]
+  assign _ex2mem_io_WriteDataE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 851:23]
+  assign _ex2mem_io_WriteRegE = _id2ex_io2_RegDstE; // @[myCPU.scala 938:26]
+  assign _ex2mem_io_PhyAddrE = _addr_cal_io_d_paddr; // @[myCPU.scala 941:27]
   assign _ex2mem_io_CsrWritedataE = _CalCsrDataE_T_12 | _CalCsrDataE_T_11; // @[Mux.scala 27:73]
   assign _ex2mem_io_ExceptionTypeE = _id2ex_io_ExceptionTypeE_Out != 32'h0 ? _id2ex_io_ExceptionTypeE_Out : {{19'd0},
-    _temp_exceptionE_T_11}; // @[myCPU.scala 921:30]
-  assign _ex2mem_io_RtE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 850:23]
-  assign _ex2mem_io_Pc_NextE = _id2ex_io_Pc_NextE; // @[myCPU.scala 929:25]
-  assign _ex2mem_io_mem_trace_budleE_pc = _id2ex_io2_PCE; // @[myCPU.scala 942:36]
-  assign _ex2mem_io_mem_trace_budleE_data = data_sram_wdata; // @[myCPU.scala 943:38]
+    _temp_exceptionE_T_11}; // @[myCPU.scala 922:30]
+  assign _ex2mem_io_RtE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 851:23]
+  assign _ex2mem_io_Pc_NextE = _id2ex_io_Pc_NextE; // @[myCPU.scala 930:25]
+  assign _ex2mem_io_mem_trace_budleE_pc = _id2ex_io2_PCE; // @[myCPU.scala 943:36]
+  assign _ex2mem_io_mem_trace_budleE_data = data_sram_wdata; // @[myCPU.scala 944:38]
   assign _ex2mem_io_mem_trace_budleE_mem_fetch_type = {_id2ex_io2_MemToRegE,_id2ex_io2_MemWriteE}; // @[Cat.scala 31:58]
-  assign _ex2mem_io_mem_trace_budleE_addr = data_sram_addr; // @[myCPU.scala 945:48]
-  assign _ex2mem_io_mem_trace_budleE_len = {{1'd0}, data_size}; // @[myCPU.scala 946:48]
-  assign _ex2mem_io_mem_trace_budleE_cache = data_cache; // @[myCPU.scala 947:48]
-  assign _mem2mem2_clock = clk; // @[myCPU.scala 109:23]
-  assign _mem2mem2_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign _mem2mem2_io1_RegWriteE = _ex2mem_io_RegWriteM; // @[myCPU.scala 1052:30]
-  assign _mem2mem2_io1_MemToRegE = _ex2mem_io_MemToRegM; // @[myCPU.scala 1053:30]
-  assign _mem2mem2_io1_LoadUnsignedE = _ex2mem_io_LoadUnsignedM; // @[myCPU.scala 1057:30]
-  assign _mem2mem2_io1_MemWidthE = _ex2mem_io_MemWidthM; // @[myCPU.scala 1058:30]
-  assign _mem2mem2_io1_csrWriteE = __mem2mem2_io_csrWriteE_T | _ex2mem_io_Tlb_ControlM[2]; // @[myCPU.scala 1061:61]
-  assign _mem2mem2_io1_WritecsrAddrE = inst_tlb_exceptionM ? 12'ha : _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 1062:36]
-  assign _mem2mem2_io1_PCE = _ex2mem_io_PCM; // @[myCPU.scala 1063:30]
-  assign _mem2mem2_io1_MemRLE = _ex2mem_io_MemRLM; // @[myCPU.scala 1065:30]
-  assign _mem2mem2_io1_BranchJump_JrE = _ex2mem_io_BranchJump_JrM; // @[myCPU.scala 1066:30]
-  assign _mem2mem2_io1_Tlb_Control = _ex2mem_io_Tlb_ControlM; // @[myCPU.scala 1075:27]
-  assign _mem2mem2_io1_eBreakE = _ex2mem_io1_eBreakE; // @[myCPU.scala 1040:24]
-  assign _mem2mem2_io1_fence_i_control = _ex2mem_io_fence_i_controlM; // @[myCPU.scala 1050:31]
-  assign _mem2mem2_io_en = _cfu_io_StallM2; // @[myCPU.scala 1094:20]
-  assign _mem2mem2_io_clr = _cfu_io_FlushM2; // @[myCPU.scala 1093:20]
-  assign _mem2mem2_io_WriteDataE = _ex2mem_io_WriteDataM; // @[myCPU.scala 1090:30]
-  assign _mem2mem2_io_WriteRegE = _ex2mem_io_WriteRegM; // @[myCPU.scala 1041:24]
-  assign _mem2mem2_io_PhyAddrE = _ex2mem_io_PhyAddrM; // @[myCPU.scala 1042:23]
-  assign _mem2mem2_io_CsrWritedataE = _ex2mem_io_CsrWritedataM; // @[myCPU.scala 1076:29]
-  assign _mem2mem2_io_ExceptionTypeE = mem_exception ? _ex2mem_io_ExceptionTypeM_Out : 32'h0; // @[myCPU.scala 1034:21]
-  assign _mem2mem2_io_RtE = _ex2mem_io_RtM; // @[myCPU.scala 1048:18]
-  assign _mem2mem2_io_Pc_NextE = _ex2mem_io_Pc_NextM; // @[myCPU.scala 1039:24]
-  assign _mem2mem2_io_mem_trace_budleE_pc = _ex2mem_io_mem_trace_budleM_pc; // @[myCPU.scala 1049:31]
-  assign _mem2mem2_io_mem_trace_budleE_data = _ex2mem_io_mem_trace_budleM_data; // @[myCPU.scala 1049:31]
-  assign _mem2mem2_io_mem_trace_budleE_mem_fetch_type = _ex2mem_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 1049:31]
-  assign _mem2mem2_io_mem_trace_budleE_addr = _ex2mem_io_mem_trace_budleM_addr; // @[myCPU.scala 1049:31]
-  assign _mem2mem2_io_mem_trace_budleE_len = _ex2mem_io_mem_trace_budleM_len; // @[myCPU.scala 1049:31]
-  assign _mem2mem2_io_mem_trace_budleE_cache = _ex2mem_io_mem_trace_budleM_cache; // @[myCPU.scala 1049:31]
-  assign _id2ex_clock = clk; // @[myCPU.scala 109:23]
-  assign _id2ex_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign _id2ex_io1_RegWriteD = _cu_io_RegWriteD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_MemToRegD = _cu_io_MemToRegD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_MemWriteD = _cu_io_MemWriteD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_ALUCtrlD = _cu_io_ALUCtrlD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_ALUSrcD_0 = _cu_io_ALUSrcD_0; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_ALUSrcD_1 = _cu_io_ALUSrcD_1; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_RegDstD = _cu_io_RegDstD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_LinkD = _cu_io_LinkD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_csrWriteD = _cu_io_csrWriteD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_csrToRegD = _cu_io_csrToRegD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_LoadUnsignedD = _cu_io_LoadUnsignedD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_MemWidthD = _cu_io_MemWidthD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_ebreakD = _cu_io_ebreakD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_data_wD = _cu_io_data_wD; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_muldiv_control = _cu_io_muldiv_control; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_muldiv_cal = _cu_io_muldiv_cal; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_alu_cal = _cu_io_alu_cal; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_csr_control = _cu_io_csr_control; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_csr_Imm = _cu_io_csr_Imm; // @[myCPU.scala 159:15]
-  assign _id2ex_io1_fence_i_control = _cu_io_fence_i_control; // @[myCPU.scala 159:15]
-  assign _id2ex_io_en = _cfu_io_StallD; // @[myCPU.scala 188:29]
-  assign _id2ex_io_clr = _cfu_io_FlushE; // @[myCPU.scala 189:29]
-  assign _id2ex_io_RD1D = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 808:25]
-  assign _id2ex_io_RD2D = _cfu_io_Forward2D[0] ? resultE2M_Reg : _BranchR2D_T_2; // @[myCPU.scala 809:25]
-  assign _id2ex_io_R2D = _if2id_io_InstrD[24:20]; // @[myCPU.scala 200:27]
-  assign _id2ex_io_R1D = _if2id_io_InstrD[19:15]; // @[myCPU.scala 201:27]
-  assign _id2ex_io_ImmD = _cu_io_ImmD; // @[myCPU.scala 807:19]
-  assign _id2ex_io_PCPlus4D = _if2id_io_PCPlus4D; // @[myCPU.scala 820:29]
-  assign _id2ex_io_WritecsrAddrD = _if2id_io_InstrD[31:20]; // @[myCPU.scala 810:38]
-  assign _id2ex_io_ReadcsrAddrD = _if2id_io_InstrD[31:20]; // @[myCPU.scala 812:38]
-  assign _id2ex_io_PCD = _if2id_io_PCD; // @[myCPU.scala 821:28]
-  assign _id2ex_io_ExceptionTypeD = __id2ex_io_ExceptionTypeD_T_14[31:0]; // @[myCPU.scala 797:31]
+  assign _ex2mem_io_mem_trace_budleE_addr = data_sram_addr; // @[myCPU.scala 946:48]
+  assign _ex2mem_io_mem_trace_budleE_len = {{1'd0}, data_size}; // @[myCPU.scala 947:48]
+  assign _ex2mem_io_mem_trace_budleE_cache = data_cache; // @[myCPU.scala 948:48]
+  assign _mem2mem2_clock = clk; // @[myCPU.scala 110:23]
+  assign _mem2mem2_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign _mem2mem2_io1_RegWriteE = _ex2mem_io_RegWriteM; // @[myCPU.scala 1053:30]
+  assign _mem2mem2_io1_MemToRegE = _ex2mem_io_MemToRegM; // @[myCPU.scala 1054:30]
+  assign _mem2mem2_io1_LoadUnsignedE = _ex2mem_io_LoadUnsignedM; // @[myCPU.scala 1058:30]
+  assign _mem2mem2_io1_MemWidthE = _ex2mem_io_MemWidthM; // @[myCPU.scala 1059:30]
+  assign _mem2mem2_io1_csrWriteE = __mem2mem2_io_csrWriteE_T | _ex2mem_io_Tlb_ControlM[2]; // @[myCPU.scala 1062:61]
+  assign _mem2mem2_io1_WritecsrAddrE = inst_tlb_exceptionM ? 12'ha : _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 1063:36]
+  assign _mem2mem2_io1_PCE = _ex2mem_io_PCM; // @[myCPU.scala 1064:30]
+  assign _mem2mem2_io1_MemRLE = _ex2mem_io_MemRLM; // @[myCPU.scala 1066:30]
+  assign _mem2mem2_io1_BranchJump_JrE = _ex2mem_io_BranchJump_JrM; // @[myCPU.scala 1067:30]
+  assign _mem2mem2_io1_Tlb_Control = _ex2mem_io_Tlb_ControlM; // @[myCPU.scala 1076:27]
+  assign _mem2mem2_io1_eBreakE = _ex2mem_io1_eBreakE; // @[myCPU.scala 1041:24]
+  assign _mem2mem2_io1_fence_i_control = _ex2mem_io_fence_i_controlM; // @[myCPU.scala 1051:31]
+  assign _mem2mem2_io_en = _cfu_io_StallM2; // @[myCPU.scala 1095:20]
+  assign _mem2mem2_io_clr = _cfu_io_FlushM2; // @[myCPU.scala 1094:20]
+  assign _mem2mem2_io_WriteDataE = _ex2mem_io_WriteDataM; // @[myCPU.scala 1091:30]
+  assign _mem2mem2_io_WriteRegE = _ex2mem_io_WriteRegM; // @[myCPU.scala 1042:24]
+  assign _mem2mem2_io_PhyAddrE = _ex2mem_io_PhyAddrM; // @[myCPU.scala 1043:23]
+  assign _mem2mem2_io_CsrWritedataE = _ex2mem_io_CsrWritedataM; // @[myCPU.scala 1077:29]
+  assign _mem2mem2_io_ExceptionTypeE = mem_exception ? _ex2mem_io_ExceptionTypeM_Out : 32'h0; // @[myCPU.scala 1035:21]
+  assign _mem2mem2_io_RtE = _ex2mem_io_RtM; // @[myCPU.scala 1049:18]
+  assign _mem2mem2_io_Pc_NextE = _ex2mem_io_Pc_NextM; // @[myCPU.scala 1040:24]
+  assign _mem2mem2_io_mem_trace_budleE_pc = _ex2mem_io_mem_trace_budleM_pc; // @[myCPU.scala 1050:31]
+  assign _mem2mem2_io_mem_trace_budleE_data = _ex2mem_io_mem_trace_budleM_data; // @[myCPU.scala 1050:31]
+  assign _mem2mem2_io_mem_trace_budleE_mem_fetch_type = _ex2mem_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 1050:31]
+  assign _mem2mem2_io_mem_trace_budleE_addr = _ex2mem_io_mem_trace_budleM_addr; // @[myCPU.scala 1050:31]
+  assign _mem2mem2_io_mem_trace_budleE_len = _ex2mem_io_mem_trace_budleM_len; // @[myCPU.scala 1050:31]
+  assign _mem2mem2_io_mem_trace_budleE_cache = _ex2mem_io_mem_trace_budleM_cache; // @[myCPU.scala 1050:31]
+  assign _id2ex_clock = clk; // @[myCPU.scala 110:23]
+  assign _id2ex_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign _id2ex_io1_RegWriteD = _cu_io_RegWriteD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_MemToRegD = _cu_io_MemToRegD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_MemWriteD = _cu_io_MemWriteD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_ALUCtrlD = _cu_io_ALUCtrlD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_ALUSrcD_0 = _cu_io_ALUSrcD_0; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_ALUSrcD_1 = _cu_io_ALUSrcD_1; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_RegDstD = _cu_io_RegDstD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_LinkD = _cu_io_LinkD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_csrWriteD = _cu_io_csrWriteD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_csrToRegD = _cu_io_csrToRegD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_LoadUnsignedD = _cu_io_LoadUnsignedD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_MemWidthD = _cu_io_MemWidthD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_ebreakD = _cu_io_ebreakD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_data_wD = _cu_io_data_wD; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_muldiv_control = _cu_io_muldiv_control; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_muldiv_cal = _cu_io_muldiv_cal; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_alu_cal = _cu_io_alu_cal; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_csr_control = _cu_io_csr_control; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_csr_Imm = _cu_io_csr_Imm; // @[myCPU.scala 160:15]
+  assign _id2ex_io1_fence_i_control = _cu_io_fence_i_control; // @[myCPU.scala 160:15]
+  assign _id2ex_io_en = _cfu_io_StallD; // @[myCPU.scala 189:29]
+  assign _id2ex_io_clr = _cfu_io_FlushE; // @[myCPU.scala 190:29]
+  assign _id2ex_io_RD1D = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 809:25]
+  assign _id2ex_io_RD2D = _cfu_io_Forward2D[0] ? resultE2M_Reg : _BranchR2D_T_2; // @[myCPU.scala 810:25]
+  assign _id2ex_io_R2D = _if2id_io_InstrD[24:20]; // @[myCPU.scala 201:27]
+  assign _id2ex_io_R1D = _if2id_io_InstrD[19:15]; // @[myCPU.scala 202:27]
+  assign _id2ex_io_ImmD = _cu_io_ImmD; // @[myCPU.scala 808:19]
+  assign _id2ex_io_PCPlus4D = _if2id_io_PCPlus4D; // @[myCPU.scala 821:29]
+  assign _id2ex_io_WritecsrAddrD = _if2id_io_InstrD[31:20]; // @[myCPU.scala 811:38]
+  assign _id2ex_io_ReadcsrAddrD = _if2id_io_InstrD[31:20]; // @[myCPU.scala 813:38]
+  assign _id2ex_io_PCD = _if2id_io_PCD; // @[myCPU.scala 822:28]
+  assign _id2ex_io_ExceptionTypeD = __id2ex_io_ExceptionTypeD_T_14[31:0]; // @[myCPU.scala 798:31]
   assign _id2ex_io_Pc_NextD = pre_decoder_jump ? PCJumpD : _PC_nextD_T_2; // @[Mux.scala 101:16]
   assign _id2ex_io_BranchJump_JrD = {1'h0,__id2ex_io_BranchJump_JrD_T_2}; // @[Cat.scala 31:58]
-  assign _if2id_clock = clk; // @[myCPU.scala 109:23]
-  assign _if2id_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign _if2id_io_en = _cfu_io_StallD; // @[myCPU.scala 612:30]
-  assign _if2id_io_clr = _cfu_io_FlushD; // @[myCPU.scala 613:30]
-  assign _if2id_io_InstrF = {{32'd0}, __if2id_io_InstrF_T_5}; // @[myCPU.scala 616:27]
-  assign _if2id_io_PCPlus4F = _if2id_io_PCF + 64'h4; // @[myCPU.scala 610:48]
-  assign _if2id_io_PCF = fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 597:36 598:26]
-  assign _if2id_io_ExceptionTypeF = fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 597:36 598:26]
-  assign _mem22wb_clock = clk; // @[myCPU.scala 109:23]
-  assign _mem22wb_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign _mem22wb_io_en = _cfu_io_StallW; // @[myCPU.scala 270:31]
-  assign _mem22wb_io_clr = _cfu_io_FlushW; // @[myCPU.scala 271:31]
-  assign _mem22wb_io_RegWriteM = _mem2mem2_io_RegWriteM; // @[myCPU.scala 273:38]
-  assign _mem22wb_io_ResultM = _Forward_Lock1E_T_1 ? Mem_withRL_Data : ResultM2_Reg; // @[myCPU.scala 1100:25]
-  assign _mem22wb_io_WriteRegM = _mem2mem2_io_WriteRegM; // @[myCPU.scala 275:38]
-  assign _mem22wb_io_csrWriteM = _mem2mem2_io_csrWriteM; // @[myCPU.scala 277:38]
-  assign _mem22wb_io_WritecsrAddrM = _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 278:38]
-  assign _mem22wb_io_CsrWritedataM = _mem2mem2_io_CsrWritedataM; // @[myCPU.scala 1121:33]
-  assign _mem22wb_io_PCM = _mem2mem2_io_PCM; // @[myCPU.scala 276:38]
-  assign _mem22wb_io_ExceptionTypeM = _mem2mem2_io_ExceptionTypeM_Out; // @[myCPU.scala 1116:33]
-  assign _mem22wb_io_BranchJump_JrM = _mem2mem2_io_BranchJump_JrM; // @[myCPU.scala 1120:33]
-  assign _mem22wb_io_eBreakM = _mem2mem2_io_eBreakM; // @[myCPU.scala 1117:33]
-  assign _mem22wb_io_Pc_NextM = _mem2mem2_io_Pc_NextM; // @[myCPU.scala 1118:33]
-  assign _mem22wb_io_Mem_trace_budleM_pc = _mem2mem2_io_mem_trace_budleM_pc; // @[myCPU.scala 1125:37]
+  assign _if2id_clock = clk; // @[myCPU.scala 110:23]
+  assign _if2id_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign _if2id_io_en = _cfu_io_StallD; // @[myCPU.scala 613:30]
+  assign _if2id_io_clr = _cfu_io_FlushD; // @[myCPU.scala 614:30]
+  assign _if2id_io_InstrF = {{32'd0}, __if2id_io_InstrF_T_5}; // @[myCPU.scala 617:27]
+  assign _if2id_io_PCPlus4F = _if2id_io_PCF + 64'h4; // @[myCPU.scala 611:48]
+  assign _if2id_io_PCF = fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 598:36 599:26]
+  assign _if2id_io_ExceptionTypeF = fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 598:36 599:26]
+  assign _mem22wb_clock = clk; // @[myCPU.scala 110:23]
+  assign _mem22wb_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign _mem22wb_io_en = _cfu_io_StallW; // @[myCPU.scala 271:31]
+  assign _mem22wb_io_clr = _cfu_io_FlushW; // @[myCPU.scala 272:31]
+  assign _mem22wb_io_RegWriteM = _mem2mem2_io_RegWriteM; // @[myCPU.scala 274:38]
+  assign _mem22wb_io_ResultM = _Forward_Lock1E_T_1 ? Mem_withRL_Data : ResultM2_Reg; // @[myCPU.scala 1101:25]
+  assign _mem22wb_io_WriteRegM = _mem2mem2_io_WriteRegM; // @[myCPU.scala 276:38]
+  assign _mem22wb_io_csrWriteM = _mem2mem2_io_csrWriteM; // @[myCPU.scala 278:38]
+  assign _mem22wb_io_WritecsrAddrM = _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 279:38]
+  assign _mem22wb_io_CsrWritedataM = _mem2mem2_io_CsrWritedataM; // @[myCPU.scala 1122:33]
+  assign _mem22wb_io_PCM = _mem2mem2_io_PCM; // @[myCPU.scala 277:38]
+  assign _mem22wb_io_ExceptionTypeM = _mem2mem2_io_ExceptionTypeM_Out; // @[myCPU.scala 1117:33]
+  assign _mem22wb_io_BranchJump_JrM = _mem2mem2_io_BranchJump_JrM; // @[myCPU.scala 1121:33]
+  assign _mem22wb_io_eBreakM = _mem2mem2_io_eBreakM; // @[myCPU.scala 1118:33]
+  assign _mem22wb_io_Pc_NextM = _mem2mem2_io_Pc_NextM; // @[myCPU.scala 1119:33]
+  assign _mem22wb_io_Mem_trace_budleM_pc = _mem2mem2_io_mem_trace_budleM_pc; // @[myCPU.scala 1126:37]
   assign _mem22wb_io_Mem_trace_budleM_data = __mem22wb_io_Mem_trace_budleM_data_T_2 |
     __mem22wb_io_Mem_trace_budleM_data_T_3; // @[Mux.scala 27:73]
-  assign _mem22wb_io_Mem_trace_budleM_mem_fetch_type = _mem2mem2_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 1126:49]
-  assign _mem22wb_io_Mem_trace_budleM_addr = _mem2mem2_io_mem_trace_budleM_addr; // @[myCPU.scala 1134:39]
-  assign _mem22wb_io_Mem_trace_budleM_len = _mem2mem2_io_mem_trace_budleM_len; // @[myCPU.scala 1133:39]
-  assign _mem22wb_io_Mem_trace_budleM_cache = _mem2mem2_io_mem_trace_budleM_cache; // @[myCPU.scala 1135:39]
-  assign _addr_cal_io_d_vaddr = _id2ex_io_ImmE + RD1ForWardE; // @[myCPU.scala 1192:44]
-  assign _muldiv_clock = clk; // @[myCPU.scala 109:23]
-  assign _muldiv_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign _muldiv_io_en = ~ex_exception & ~__muldiv_io_en_T_23; // @[myCPU.scala 889:36]
-  assign _muldiv_io_ctrl = _id2ex_io_muldiv_control; // @[myCPU.scala 896:21]
-  assign _muldiv_io_in1 = _id2ex_io2_ALUSrcE_0 ? _id2ex_io2_PCE : RD1ForWardE; // @[myCPU.scala 871:20]
-  assign _muldiv_io_in2 = _id2ex_io2_ALUSrcE_1 ? _id2ex_io_ImmE : RD2ForWardE; // @[myCPU.scala 878:20]
-  assign _regfile_clock = clk; // @[myCPU.scala 109:23]
-  assign _regfile_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign _regfile_io_A1 = _if2id_io_InstrD[19:15]; // @[myCPU.scala 764:29]
-  assign _regfile_io_A2 = _if2id_io_InstrD[24:20]; // @[myCPU.scala 765:29]
-  assign _regfile_io_WE3 = RegWriteW & _commit_difftest_data_ok_ok; // @[myCPU.scala 1164:41]
-  assign _regfile_io_A3 = _mem22wb_io_WriteRegW; // @[myCPU.scala 1163:21]
-  assign _regfile_io_WD3 = _mem22wb_io_ResultW; // @[myCPU.scala 1156:15 284:26]
-  assign _mtrace_mod_reset = ~resetn; // @[myCPU.scala 222:29]
-  assign _mtrace_mod_clock = clk; // @[myCPU.scala 221:26]
-  assign _mtrace_mod_data = _mem22wb_io_Mem_trace_budleW_data; // @[myCPU.scala 231:29]
-  assign _mtrace_mod_pc = _mem22wb_io_Mem_trace_budleW_pc; // @[myCPU.scala 223:26]
-  assign _mtrace_mod_addr = _mem22wb_io_Mem_trace_budleW_addr; // @[myCPU.scala 229:29]
-  assign _mtrace_mod_mem_req = _mem22wb_io_Mem_trace_budleW_mem_fetch_type != 2'h0; // @[myCPU.scala 224:75]
-  assign _mtrace_mod_mem_write_read = _mem22wb_io_Mem_trace_budleW_mem_fetch_type[0]; // @[myCPU.scala 226:52]
-  assign _mtrace_mod_mem_size = _mem22wb_io_Mem_trace_budleW_len; // @[myCPU.scala 230:29]
-  assign _mtrace_mod_mem_cached = _mem22wb_io_Mem_trace_budleW_cache; // @[myCPU.scala 232:31]
-  assign fifo_with_bundle_clock = clk; // @[myCPU.scala 109:23]
-  assign fifo_with_bundle_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign fifo_with_bundle_io_read_en = {{1'd0}, _T_25}; // @[myCPU.scala 572:29]
-  assign fifo_with_bundle_io_write_en = inst_write_en; // @[myCPU.scala 566:35]
-  assign fifo_with_bundle_io_write_in_0_pc = stage_fec_2_pc_L_io_out_pc_value_out; // @[myCPU.scala 544:40 547:45]
-  assign fifo_with_bundle_io_write_in_0_inst = inst_sram_rdata_L[31:0]; // @[myCPU.scala 546:60]
-  assign fifo_with_bundle_io_write_in_0_pre_pc_target = branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 479:38 495:31]
-  assign fifo_with_bundle_io_write_in_0_pre_lookup_data = branch_prediction_with_blockram_io_lookup_data_0; // @[myCPU.scala 482:40 484:29]
-  assign fifo_with_bundle_io_write_in_0_pre_hashcode = stage_fec_2_hascode_0; // @[myCPU.scala 544:40 559:55]
-  assign fifo_with_bundle_io_write_in_0_pre_pht = branch_prediction_with_blockram_io_out_L; // @[myCPU.scala 478:32 491:24]
-  assign fifo_with_bundle_io_write_in_0_pre_bht = stage_fec_2_bht_0; // @[myCPU.scala 544:40 549:45]
-  assign fifo_with_bundle_io_write_in_0_pre_lookup_value = branch_prediction_with_blockram_io_pht_lookup_value_out; // @[myCPU.scala 544:40 551:47]
-  assign fifo_with_bundle_io_write_in_0_pre_decoder_branchD_flag = inst_sram_rdata_L[32]; // @[myCPU.scala 554:70]
-  assign fifo_with_bundle_io_write_in_0_pre_decoder_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 555:70]
-  assign fifo_with_bundle_io_write_in_0_pre_decoder_branchdata = inst_sram_rdata_L[39:34]; // @[myCPU.scala 557:70]
+  assign _mem22wb_io_Mem_trace_budleM_mem_fetch_type = _mem2mem2_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 1127:49]
+  assign _mem22wb_io_Mem_trace_budleM_addr = _mem2mem2_io_mem_trace_budleM_addr; // @[myCPU.scala 1135:39]
+  assign _mem22wb_io_Mem_trace_budleM_len = _mem2mem2_io_mem_trace_budleM_len; // @[myCPU.scala 1134:39]
+  assign _mem22wb_io_Mem_trace_budleM_cache = _mem2mem2_io_mem_trace_budleM_cache; // @[myCPU.scala 1136:39]
+  assign _addr_cal_io_d_vaddr = _id2ex_io_ImmE + RD1ForWardE; // @[myCPU.scala 1193:44]
+  assign _muldiv_clock = clk; // @[myCPU.scala 110:23]
+  assign _muldiv_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign _muldiv_io_en = ~ex_exception & ~__muldiv_io_en_T_23; // @[myCPU.scala 890:36]
+  assign _muldiv_io_ctrl = _id2ex_io_muldiv_control; // @[myCPU.scala 897:21]
+  assign _muldiv_io_in1 = _id2ex_io2_ALUSrcE_0 ? _id2ex_io2_PCE : RD1ForWardE; // @[myCPU.scala 872:20]
+  assign _muldiv_io_in2 = _id2ex_io2_ALUSrcE_1 ? _id2ex_io_ImmE : RD2ForWardE; // @[myCPU.scala 879:20]
+  assign _regfile_clock = clk; // @[myCPU.scala 110:23]
+  assign _regfile_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign _regfile_io_A1 = _if2id_io_InstrD[19:15]; // @[myCPU.scala 765:29]
+  assign _regfile_io_A2 = _if2id_io_InstrD[24:20]; // @[myCPU.scala 766:29]
+  assign _regfile_io_WE3 = RegWriteW & _commit_difftest_data_ok_ok; // @[myCPU.scala 1165:41]
+  assign _regfile_io_A3 = _mem22wb_io_WriteRegW; // @[myCPU.scala 1164:21]
+  assign _regfile_io_WD3 = _mem22wb_io_ResultW; // @[myCPU.scala 1157:15 285:26]
+  assign _mtrace_mod_reset = ~resetn; // @[myCPU.scala 223:29]
+  assign _mtrace_mod_clock = clk; // @[myCPU.scala 222:26]
+  assign _mtrace_mod_data = _mem22wb_io_Mem_trace_budleW_data; // @[myCPU.scala 232:29]
+  assign _mtrace_mod_pc = _mem22wb_io_Mem_trace_budleW_pc; // @[myCPU.scala 224:26]
+  assign _mtrace_mod_addr = _mem22wb_io_Mem_trace_budleW_addr; // @[myCPU.scala 230:29]
+  assign _mtrace_mod_mem_req = _mem22wb_io_Mem_trace_budleW_mem_fetch_type != 2'h0; // @[myCPU.scala 225:75]
+  assign _mtrace_mod_mem_write_read = _mem22wb_io_Mem_trace_budleW_mem_fetch_type[0]; // @[myCPU.scala 227:52]
+  assign _mtrace_mod_mem_size = _mem22wb_io_Mem_trace_budleW_len; // @[myCPU.scala 231:29]
+  assign _mtrace_mod_mem_cached = _mem22wb_io_Mem_trace_budleW_cache; // @[myCPU.scala 233:31]
+  assign fifo_with_bundle_clock = clk; // @[myCPU.scala 110:23]
+  assign fifo_with_bundle_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign fifo_with_bundle_io_read_en = {{1'd0}, _T_25}; // @[myCPU.scala 573:29]
+  assign fifo_with_bundle_io_write_en = inst_write_en; // @[myCPU.scala 567:35]
+  assign fifo_with_bundle_io_write_in_0_pc = stage_fec_2_pc_L_io_out_pc_value_out; // @[myCPU.scala 545:40 548:45]
+  assign fifo_with_bundle_io_write_in_0_inst = inst_sram_rdata_L[31:0]; // @[myCPU.scala 547:60]
+  assign fifo_with_bundle_io_write_in_0_pre_pc_target = branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 480:38 496:31]
+  assign fifo_with_bundle_io_write_in_0_pre_lookup_data = branch_prediction_with_blockram_io_lookup_data_0; // @[myCPU.scala 483:40 485:29]
+  assign fifo_with_bundle_io_write_in_0_pre_hashcode = stage_fec_2_hascode_0; // @[myCPU.scala 545:40 560:55]
+  assign fifo_with_bundle_io_write_in_0_pre_pht = branch_prediction_with_blockram_io_out_L; // @[myCPU.scala 479:32 492:24]
+  assign fifo_with_bundle_io_write_in_0_pre_bht = stage_fec_2_bht_0; // @[myCPU.scala 545:40 550:45]
+  assign fifo_with_bundle_io_write_in_0_pre_lookup_value = branch_prediction_with_blockram_io_pht_lookup_value_out; // @[myCPU.scala 545:40 552:47]
+  assign fifo_with_bundle_io_write_in_0_pre_decoder_branchD_flag = inst_sram_rdata_L[32]; // @[myCPU.scala 555:70]
+  assign fifo_with_bundle_io_write_in_0_pre_decoder_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 556:70]
+  assign fifo_with_bundle_io_write_in_0_pre_decoder_branchdata = inst_sram_rdata_L[39:34]; // @[myCPU.scala 558:70]
   assign fifo_with_bundle_io_write_in_0_pre_decoder_jr = inst_buffer_write_bundle_pre_decoder_jr_opD == 7'h67 &
     inst_buffer_write_bundle_pre_decoder_jr_Funct3D == 3'h0; // @[macros.scala 495:30]
   assign fifo_with_bundle_io_write_in_0_true_branch_state = branch_prediction_with_blockram_io_pre_L & (
     stage_fec_2_inst_branch | stage_fec_2_inst_jump) & branch_prediction_with_blockram_io_btb_hit_0 &
-    stage_fec_2_stall_reg & stage_fec_2_valid & ~_csr_io_exception; // @[myCPU.scala 506:187]
+    stage_fec_2_stall_reg & stage_fec_2_valid & ~_csr_io_exception; // @[myCPU.scala 507:187]
   assign fifo_with_bundle_io_point_write_en = _stage_fec_2_branch_answer_T_7 | _PCSrcD_T_1 & ((pre_decoder_jump |
     _PCSrcD_T_3) != id_true_branch_state | target_addr_error) & ~(ex_exception | mem_exception | mem2_exception |
-    wb_exception); // @[myCPU.scala 727:60]
-  assign fifo_with_bundle_io_point_flush = _csr_io_exception; // @[myCPU.scala 573:29]
-  assign stage_fec_1_pc_L_clock = clk; // @[myCPU.scala 109:23]
-  assign stage_fec_1_pc_L_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign stage_fec_1_pc_L_io_stall = stage2_stall; // @[myCPU.scala 439:31]
-  assign stage_fec_1_pc_L_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 397:54]
-  assign stage_fec_1_pc_L_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 372:19]
-  assign stage_fec_1_pc_M_clock = clk; // @[myCPU.scala 109:23]
-  assign stage_fec_1_pc_M_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign stage_fec_1_pc_M_io_stall = stage2_stall; // @[myCPU.scala 440:31]
-  assign stage_fec_1_pc_M_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 397:54]
-  assign stage_fec_1_pc_M_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 372:19]
-  assign stage_fec_1_pc_R_clock = clk; // @[myCPU.scala 109:23]
-  assign stage_fec_1_pc_R_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign stage_fec_1_pc_R_io_stall = stage2_stall; // @[myCPU.scala 441:31]
-  assign stage_fec_1_pc_R_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 397:54]
-  assign stage_fec_1_pc_R_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 372:19]
-  assign branch_prediction_with_blockram_clock = clk; // @[myCPU.scala 109:23]
-  assign branch_prediction_with_blockram_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign branch_prediction_with_blockram_io_pc = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 448:12]
-  assign branch_prediction_with_blockram_io_write_pc = _mem22wb_io_PCW; // @[myCPU.scala 1181:17]
-  assign branch_prediction_with_blockram_io_aw_pht_ways_addr = wb_bru_state_io_out_hashcode; // @[myCPU.scala 1180:25]
-  assign branch_prediction_with_blockram_io_aw_pht_addr = wb_bru_state_io_out_lookup_data; // @[myCPU.scala 1178:20]
-  assign branch_prediction_with_blockram_io_aw_bht_addr = _mem22wb_io_PCW[10:4]; // @[myCPU.scala 1177:38]
-  assign branch_prediction_with_blockram_io_aw_target_addr = wb_bru_state_io_out_target_pc; // @[myCPU.scala 1179:23]
-  assign branch_prediction_with_blockram_io_btb_write = branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 1176:18]
-  assign branch_prediction_with_blockram_io_bht_write = _mem22wb_io_BranchJump_JrW[0]; // @[myCPU.scala 1174:47]
-  assign branch_prediction_with_blockram_io_pht_write = branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 1175:18]
-  assign branch_prediction_with_blockram_io_bht_in = wb_bru_state_io_out_bht; // @[myCPU.scala 1172:15]
-  assign branch_prediction_with_blockram_io_pht_in = wb_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 1173:15]
-  assign branch_prediction_with_blockram_io_stage2_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 467:42]
-  assign branch_prediction_with_blockram_io_stage2_flush = stage2_flush; // @[myCPU.scala 470:22]
-  assign stage_fec_2_pc_L_clock = clk; // @[myCPU.scala 109:23]
-  assign stage_fec_2_pc_L_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign stage_fec_2_pc_L_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 467:42]
-  assign stage_fec_2_pc_L_io_flush = stage2_flush; // @[myCPU.scala 536:31]
-  assign stage_fec_2_pc_L_io_in_pc_value_in = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 527:40]
-  assign stage_fec_2_pc_M_clock = clk; // @[myCPU.scala 109:23]
-  assign stage_fec_2_pc_M_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign stage_fec_2_pc_M_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 467:42]
-  assign stage_fec_2_pc_M_io_flush = stage2_flush; // @[myCPU.scala 537:31]
-  assign stage_fec_2_pc_M_io_in_pc_value_in = stage_fec_1_pc_M_io_out_pc_value_out; // @[myCPU.scala 530:40]
-  assign stage_fec_2_pc_R_clock = clk; // @[myCPU.scala 109:23]
-  assign stage_fec_2_pc_R_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign stage_fec_2_pc_R_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 467:42]
-  assign stage_fec_2_pc_R_io_flush = stage2_flush; // @[myCPU.scala 538:31]
-  assign stage_fec_2_pc_R_io_in_pc_value_in = stage_fec_1_pc_R_io_out_pc_value_out; // @[myCPU.scala 533:40]
-  assign id_bru_state_clock = clk; // @[myCPU.scala 109:23]
-  assign id_bru_state_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign id_bru_state_io_stall = _cfu_io_StallD; // @[myCPU.scala 682:27]
-  assign id_bru_state_io_flush = _cfu_io_FlushD; // @[myCPU.scala 681:27]
-  assign id_bru_state_io_in_pht = fifo_with_bundle_io_read_out_0_pre_pht; // @[myCPU.scala 597:36 598:26]
-  assign id_bru_state_io_in_bht = fifo_with_bundle_io_read_out_0_pre_bht; // @[myCPU.scala 597:36 598:26]
-  assign id_bru_state_io_in_hashcode = fifo_with_bundle_io_read_out_0_pre_hashcode; // @[myCPU.scala 597:36 598:26]
-  assign id_bru_state_io_in_target_pc = fifo_with_bundle_io_read_out_0_pre_pc_target; // @[myCPU.scala 597:36 598:26]
-  assign id_bru_state_io_in_lookup_data = fifo_with_bundle_io_read_out_0_pre_lookup_data; // @[myCPU.scala 597:36 598:26]
-  assign id_bru_state_io_in_pht_lookup_value = fifo_with_bundle_io_read_out_0_pre_lookup_value; // @[myCPU.scala 597:36 598:26]
-  assign ex_bru_state_clock = clk; // @[myCPU.scala 109:23]
-  assign ex_bru_state_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign ex_bru_state_io_stall = _cfu_io_StallE; // @[myCPU.scala 686:27]
-  assign ex_bru_state_io_flush = _cfu_io_FlushE; // @[myCPU.scala 685:27]
-  assign ex_bru_state_io_in_pht = id_bru_state_io_out_pht; // @[myCPU.scala 744:28]
-  assign ex_bru_state_io_in_bht = id_bru_state_io_out_bht; // @[myCPU.scala 743:28]
-  assign ex_bru_state_io_in_hashcode = id_bru_state_io_out_hashcode; // @[myCPU.scala 745:33]
+    wb_exception); // @[myCPU.scala 728:60]
+  assign fifo_with_bundle_io_point_flush = _csr_io_exception; // @[myCPU.scala 574:29]
+  assign stage_fec_1_pc_L_clock = clk; // @[myCPU.scala 110:23]
+  assign stage_fec_1_pc_L_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign stage_fec_1_pc_L_io_stall = stage2_stall; // @[myCPU.scala 440:31]
+  assign stage_fec_1_pc_L_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 398:54]
+  assign stage_fec_1_pc_L_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 373:19]
+  assign stage_fec_1_pc_M_clock = clk; // @[myCPU.scala 110:23]
+  assign stage_fec_1_pc_M_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign stage_fec_1_pc_M_io_stall = stage2_stall; // @[myCPU.scala 441:31]
+  assign stage_fec_1_pc_M_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 398:54]
+  assign stage_fec_1_pc_M_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 373:19]
+  assign stage_fec_1_pc_R_clock = clk; // @[myCPU.scala 110:23]
+  assign stage_fec_1_pc_R_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign stage_fec_1_pc_R_io_stall = stage2_stall; // @[myCPU.scala 442:31]
+  assign stage_fec_1_pc_R_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 398:54]
+  assign stage_fec_1_pc_R_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 373:19]
+  assign branch_prediction_with_blockram_clock = clk; // @[myCPU.scala 110:23]
+  assign branch_prediction_with_blockram_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign branch_prediction_with_blockram_io_pc = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 449:12]
+  assign branch_prediction_with_blockram_io_write_pc = _mem22wb_io_PCW; // @[myCPU.scala 1182:17]
+  assign branch_prediction_with_blockram_io_aw_pht_ways_addr = wb_bru_state_io_out_hashcode; // @[myCPU.scala 1181:25]
+  assign branch_prediction_with_blockram_io_aw_pht_addr = wb_bru_state_io_out_lookup_data; // @[myCPU.scala 1179:20]
+  assign branch_prediction_with_blockram_io_aw_bht_addr = _mem22wb_io_PCW[10:4]; // @[myCPU.scala 1178:38]
+  assign branch_prediction_with_blockram_io_aw_target_addr = wb_bru_state_io_out_target_pc; // @[myCPU.scala 1180:23]
+  assign branch_prediction_with_blockram_io_btb_write = branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 1177:18]
+  assign branch_prediction_with_blockram_io_bht_write = _mem22wb_io_BranchJump_JrW[0]; // @[myCPU.scala 1175:47]
+  assign branch_prediction_with_blockram_io_pht_write = branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 1176:18]
+  assign branch_prediction_with_blockram_io_bht_in = wb_bru_state_io_out_bht; // @[myCPU.scala 1173:15]
+  assign branch_prediction_with_blockram_io_pht_in = wb_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 1174:15]
+  assign branch_prediction_with_blockram_io_stage2_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 468:42]
+  assign branch_prediction_with_blockram_io_stage2_flush = stage2_flush; // @[myCPU.scala 471:22]
+  assign stage_fec_2_pc_L_clock = clk; // @[myCPU.scala 110:23]
+  assign stage_fec_2_pc_L_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign stage_fec_2_pc_L_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 468:42]
+  assign stage_fec_2_pc_L_io_flush = stage2_flush; // @[myCPU.scala 537:31]
+  assign stage_fec_2_pc_L_io_in_pc_value_in = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 528:40]
+  assign stage_fec_2_pc_M_clock = clk; // @[myCPU.scala 110:23]
+  assign stage_fec_2_pc_M_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign stage_fec_2_pc_M_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 468:42]
+  assign stage_fec_2_pc_M_io_flush = stage2_flush; // @[myCPU.scala 538:31]
+  assign stage_fec_2_pc_M_io_in_pc_value_in = stage_fec_1_pc_M_io_out_pc_value_out; // @[myCPU.scala 531:40]
+  assign stage_fec_2_pc_R_clock = clk; // @[myCPU.scala 110:23]
+  assign stage_fec_2_pc_R_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign stage_fec_2_pc_R_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 468:42]
+  assign stage_fec_2_pc_R_io_flush = stage2_flush; // @[myCPU.scala 539:31]
+  assign stage_fec_2_pc_R_io_in_pc_value_in = stage_fec_1_pc_R_io_out_pc_value_out; // @[myCPU.scala 534:40]
+  assign id_bru_state_clock = clk; // @[myCPU.scala 110:23]
+  assign id_bru_state_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign id_bru_state_io_stall = _cfu_io_StallD; // @[myCPU.scala 683:27]
+  assign id_bru_state_io_flush = _cfu_io_FlushD; // @[myCPU.scala 682:27]
+  assign id_bru_state_io_in_pht = fifo_with_bundle_io_read_out_0_pre_pht; // @[myCPU.scala 598:36 599:26]
+  assign id_bru_state_io_in_bht = fifo_with_bundle_io_read_out_0_pre_bht; // @[myCPU.scala 598:36 599:26]
+  assign id_bru_state_io_in_hashcode = fifo_with_bundle_io_read_out_0_pre_hashcode; // @[myCPU.scala 598:36 599:26]
+  assign id_bru_state_io_in_target_pc = fifo_with_bundle_io_read_out_0_pre_pc_target; // @[myCPU.scala 598:36 599:26]
+  assign id_bru_state_io_in_lookup_data = fifo_with_bundle_io_read_out_0_pre_lookup_data; // @[myCPU.scala 598:36 599:26]
+  assign id_bru_state_io_in_pht_lookup_value = fifo_with_bundle_io_read_out_0_pre_lookup_value; // @[myCPU.scala 598:36 599:26]
+  assign ex_bru_state_clock = clk; // @[myCPU.scala 110:23]
+  assign ex_bru_state_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign ex_bru_state_io_stall = _cfu_io_StallE; // @[myCPU.scala 687:27]
+  assign ex_bru_state_io_flush = _cfu_io_FlushE; // @[myCPU.scala 686:27]
+  assign ex_bru_state_io_in_pht = id_bru_state_io_out_pht; // @[myCPU.scala 745:28]
+  assign ex_bru_state_io_in_bht = id_bru_state_io_out_bht; // @[myCPU.scala 744:28]
+  assign ex_bru_state_io_in_hashcode = id_bru_state_io_out_hashcode; // @[myCPU.scala 746:33]
   assign ex_bru_state_io_in_target_pc = pre_decoder_branchD_flag ? PCBranchD : _Pc_targetD_T_2; // @[Mux.scala 101:16]
-  assign ex_bru_state_io_in_lookup_data = id_bru_state_io_out_lookup_data; // @[myCPU.scala 746:36]
-  assign ex_bru_state_io_in_pht_lookup_value = id_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 747:41]
-  assign mem_bru_state_clock = clk; // @[myCPU.scala 109:23]
-  assign mem_bru_state_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign mem_bru_state_io_stall = _cfu_io_StallM; // @[myCPU.scala 690:28]
-  assign mem_bru_state_io_flush = _cfu_io_FlushM; // @[myCPU.scala 689:28]
+  assign ex_bru_state_io_in_lookup_data = id_bru_state_io_out_lookup_data; // @[myCPU.scala 747:36]
+  assign ex_bru_state_io_in_pht_lookup_value = id_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 748:41]
+  assign mem_bru_state_clock = clk; // @[myCPU.scala 110:23]
+  assign mem_bru_state_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign mem_bru_state_io_stall = _cfu_io_StallM; // @[myCPU.scala 691:28]
+  assign mem_bru_state_io_flush = _cfu_io_FlushM; // @[myCPU.scala 690:28]
   assign mem_bru_state_io_in_pht = 2'h2 == ex_bru_state_io_out_pht ? _pht_tobeE_T_3 : _pht_tobeE_T_7; // @[Mux.scala 81:58]
   assign mem_bru_state_io_in_bht = {ex_bru_state_io_out_bht[5:0],true_branch_stateE}; // @[Cat.scala 31:58]
-  assign mem_bru_state_io_in_hashcode = ex_bru_state_io_out_hashcode; // @[myCPU.scala 701:26]
-  assign mem_bru_state_io_in_target_pc = ex_bru_state_io_out_target_pc; // @[myCPU.scala 701:26]
-  assign mem_bru_state_io_in_lookup_data = ex_bru_state_io_out_lookup_data; // @[myCPU.scala 701:26]
+  assign mem_bru_state_io_in_hashcode = ex_bru_state_io_out_hashcode; // @[myCPU.scala 702:26]
+  assign mem_bru_state_io_in_target_pc = ex_bru_state_io_out_target_pc; // @[myCPU.scala 702:26]
+  assign mem_bru_state_io_in_lookup_data = ex_bru_state_io_out_lookup_data; // @[myCPU.scala 702:26]
   assign mem_bru_state_io_in_pht_lookup_value = 2'h3 == ex_bru_state_io_out_lookup_data[1:0] ?
     _pht_lookup_value_tobeE_T_10 : _pht_lookup_value_tobeE_T_14; // @[Mux.scala 81:58]
-  assign mem2_bru_state_clock = clk; // @[myCPU.scala 109:23]
-  assign mem2_bru_state_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign mem2_bru_state_io_stall = _cfu_io_StallM2; // @[myCPU.scala 694:29]
-  assign mem2_bru_state_io_flush = _cfu_io_FlushM2; // @[myCPU.scala 693:29]
-  assign mem2_bru_state_io_in_pht = mem_bru_state_io_out_pht; // @[myCPU.scala 702:26]
-  assign mem2_bru_state_io_in_bht = mem_bru_state_io_out_bht; // @[myCPU.scala 702:26]
-  assign mem2_bru_state_io_in_hashcode = mem_bru_state_io_out_hashcode; // @[myCPU.scala 702:26]
-  assign mem2_bru_state_io_in_target_pc = mem_bru_state_io_out_target_pc; // @[myCPU.scala 702:26]
-  assign mem2_bru_state_io_in_lookup_data = mem_bru_state_io_out_lookup_data; // @[myCPU.scala 702:26]
-  assign mem2_bru_state_io_in_pht_lookup_value = mem_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 702:26]
-  assign wb_bru_state_clock = clk; // @[myCPU.scala 109:23]
-  assign wb_bru_state_reset = ~resetn; // @[myCPU.scala 109:41]
-  assign wb_bru_state_io_stall = _cfu_io_StallW; // @[myCPU.scala 698:27]
-  assign wb_bru_state_io_flush = _cfu_io_FlushW; // @[myCPU.scala 697:27]
-  assign wb_bru_state_io_in_pht = mem2_bru_state_io_out_pht; // @[myCPU.scala 703:26]
-  assign wb_bru_state_io_in_bht = mem2_bru_state_io_out_bht; // @[myCPU.scala 703:26]
-  assign wb_bru_state_io_in_hashcode = mem2_bru_state_io_out_hashcode; // @[myCPU.scala 703:26]
-  assign wb_bru_state_io_in_target_pc = mem2_bru_state_io_out_target_pc; // @[myCPU.scala 703:26]
-  assign wb_bru_state_io_in_lookup_data = mem2_bru_state_io_out_lookup_data; // @[myCPU.scala 703:26]
-  assign wb_bru_state_io_in_pht_lookup_value = mem2_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 703:26]
-  assign _commit_difftest_reset = ~resetn; // @[myCPU.scala 1145:34]
-  assign _commit_difftest_clock = clk; // @[myCPU.scala 1144:31]
-  assign _commit_difftest_gpr_wire = _regfile_io_reg_file_alL_out; // @[myCPU.scala 1146:34]
-  assign _commit_difftest_pc = _mem22wb_io_PCW; // @[myCPU.scala 1148:40]
-  assign _commit_difftest_debug_pc = wb_exception ? _csr_io_return_pc : _mem22wb_io_Pc_NextW; // @[myCPU.scala 1147:46]
-  assign _commit_difftest_inst_commit = _PCW_Reg_T & pcw_reg != _mem22wb_io_PCW; // @[myCPU.scala 1154:64]
-  assign _commit_difftest_cpu_ebreak_sign = _mem22wb_io_eBreakW; // @[myCPU.scala 1149:41]
+  assign mem2_bru_state_clock = clk; // @[myCPU.scala 110:23]
+  assign mem2_bru_state_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign mem2_bru_state_io_stall = _cfu_io_StallM2; // @[myCPU.scala 695:29]
+  assign mem2_bru_state_io_flush = _cfu_io_FlushM2; // @[myCPU.scala 694:29]
+  assign mem2_bru_state_io_in_pht = mem_bru_state_io_out_pht; // @[myCPU.scala 703:26]
+  assign mem2_bru_state_io_in_bht = mem_bru_state_io_out_bht; // @[myCPU.scala 703:26]
+  assign mem2_bru_state_io_in_hashcode = mem_bru_state_io_out_hashcode; // @[myCPU.scala 703:26]
+  assign mem2_bru_state_io_in_target_pc = mem_bru_state_io_out_target_pc; // @[myCPU.scala 703:26]
+  assign mem2_bru_state_io_in_lookup_data = mem_bru_state_io_out_lookup_data; // @[myCPU.scala 703:26]
+  assign mem2_bru_state_io_in_pht_lookup_value = mem_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 703:26]
+  assign wb_bru_state_clock = clk; // @[myCPU.scala 110:23]
+  assign wb_bru_state_reset = ~resetn; // @[myCPU.scala 110:41]
+  assign wb_bru_state_io_stall = _cfu_io_StallW; // @[myCPU.scala 699:27]
+  assign wb_bru_state_io_flush = _cfu_io_FlushW; // @[myCPU.scala 698:27]
+  assign wb_bru_state_io_in_pht = mem2_bru_state_io_out_pht; // @[myCPU.scala 704:26]
+  assign wb_bru_state_io_in_bht = mem2_bru_state_io_out_bht; // @[myCPU.scala 704:26]
+  assign wb_bru_state_io_in_hashcode = mem2_bru_state_io_out_hashcode; // @[myCPU.scala 704:26]
+  assign wb_bru_state_io_in_target_pc = mem2_bru_state_io_out_target_pc; // @[myCPU.scala 704:26]
+  assign wb_bru_state_io_in_lookup_data = mem2_bru_state_io_out_lookup_data; // @[myCPU.scala 704:26]
+  assign wb_bru_state_io_in_pht_lookup_value = mem2_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 704:26]
+  assign _commit_difftest_reset = ~resetn; // @[myCPU.scala 1146:34]
+  assign _commit_difftest_clock = clk; // @[myCPU.scala 1145:31]
+  assign _commit_difftest_gpr_wire = _regfile_io_reg_file_alL_out; // @[myCPU.scala 1147:34]
+  assign _commit_difftest_pc = _mem22wb_io_PCW; // @[myCPU.scala 1149:40]
+  assign _commit_difftest_debug_pc = wb_exception ? _csr_io_return_pc : _mem22wb_io_Pc_NextW; // @[myCPU.scala 1148:46]
+  assign _commit_difftest_inst_commit = _PCW_Reg_T & pcw_reg != _mem22wb_io_PCW; // @[myCPU.scala 1155:64]
+  assign _commit_difftest_cpu_ebreak_sign = _mem22wb_io_eBreakW; // @[myCPU.scala 1150:41]
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 601:36]
+    if (_T_2) begin // @[myCPU.scala 602:36]
       pre_decoder_branchD_flag <= 1'h0;
-    end else if (_cfu_io_FlushD) begin // @[myCPU.scala 601:66]
+    end else if (_cfu_io_FlushD) begin // @[myCPU.scala 602:66]
       pre_decoder_branchD_flag <= 1'h0;
     end else if (_PCSrcD_T_1) begin
       pre_decoder_branchD_flag <= inst_buffer_read_out_pre_decoder_branchD_flag;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 603:34]
+    if (_T_2) begin // @[myCPU.scala 604:34]
       pre_decoder_branchdata <= 6'h0;
-    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 603:64]
+    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 604:64]
       pre_decoder_branchdata <= 6'h0;
     end else if (_PCSrcD_T_1) begin
       pre_decoder_branchdata <= inst_buffer_read_out_pre_decoder_branchdata;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 602:28]
+    if (_T_2) begin // @[myCPU.scala 603:28]
       pre_decoder_jump <= 1'h0;
-    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 602:58]
+    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 603:58]
       pre_decoder_jump <= 1'h0;
     end else if (_PCSrcD_T_1) begin
       pre_decoder_jump <= inst_buffer_read_out_pre_decoder_jump;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 604:26]
+    if (_T_2) begin // @[myCPU.scala 605:26]
       pre_decoder_jr <= 1'h0;
-    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 604:56]
+    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 605:56]
       pre_decoder_jr <= 1'h0;
     end else if (_PCSrcD_T_1) begin
       pre_decoder_jr <= inst_buffer_read_out_pre_decoder_jr;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 981:25]
+    if (_T_2) begin // @[myCPU.scala 982:25]
       resultE2M_Reg <= 64'h0;
-    end else if (_mem_exception_T) begin // @[myCPU.scala 981:55]
+    end else if (_mem_exception_T) begin // @[myCPU.scala 982:55]
       resultE2M_Reg <= 64'h0;
     end else if (_mem_exception_T_1) begin
       resultE2M_Reg <= resultE;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 1032:24]
+    if (_T_2) begin // @[myCPU.scala 1033:24]
       ResultM2_Reg <= 64'h0;
-    end else if (_mem2_exception_T) begin // @[myCPU.scala 1032:55]
+    end else if (_mem2_exception_T) begin // @[myCPU.scala 1033:55]
       ResultM2_Reg <= 64'h0;
     end else if (_mem2_exception_T_1) begin
       ResultM2_Reg <= resultE2M_Reg;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 291:19]
+    if (_T_2) begin // @[myCPU.scala 292:19]
       PCW_Reg <= 64'h0;
     end else if (_mem22wb_io_PCW != 64'h0) begin
       PCW_Reg <= _mem22wb_io_PCW;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 296:25]
-      reg_pc <= 64'h0; // @[myCPU.scala 296:25]
+    if (_T_2) begin // @[myCPU.scala 297:25]
+      reg_pc <= 64'h0; // @[myCPU.scala 297:25]
     end else begin
-      reg_pc <= _mem22wb_io_PCW; // @[myCPU.scala 297:12]
+      reg_pc <= _mem22wb_io_PCW; // @[myCPU.scala 298:12]
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 633:24]
+    if (_T_2) begin // @[myCPU.scala 634:24]
       wb_exception <= 1'h0;
-    end else if (_cfu_io_FlushW) begin // @[myCPU.scala 633:54]
+    end else if (_cfu_io_FlushW) begin // @[myCPU.scala 634:54]
       wb_exception <= 1'h0;
     end else if (_cfu_io_StallW) begin
       wb_exception <= _mem22wb_io_ExceptionTypeM != 32'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 340:24]
-      pc_next_wait <= 64'h0; // @[Mux.scala 101:{16,16} myCPU.scala 199:24 760:26 411:31]
+    if (_T_2) begin // @[myCPU.scala 341:24]
+      pc_next_wait <= 64'h0; // @[Mux.scala 101:{16,16} myCPU.scala 200:24 761:26 412:31]
     end else if (ready_to_branch | stage_fec_2_branch_answer) begin
       if (fifo_with_bundle_io_point_write_en) begin
         if (pre_decoder_jump) begin
@@ -41484,15 +41482,15 @@ module myCPU(
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 467:42]
+    if (_T_2) begin // @[myCPU.scala 468:42]
       stage_fec_2_stall_reg <= 1'h0;
     end else begin
       stage_fec_2_stall_reg <= stage2_stall & ~_pc_next_wait_T;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 475:29]
-      stage_fec_2_valid <= 1'h0; // @[myCPU.scala 475:51]
+    if (_T_2) begin // @[myCPU.scala 476:29]
+      stage_fec_2_valid <= 1'h0; // @[myCPU.scala 476:51]
     end else if (stage_fec_2_stall) begin
       if (fifo_with_bundle_io_point_write_en) begin
         stage_fec_2_valid <= 1'h0;
@@ -41502,128 +41500,128 @@ module myCPU(
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 345:102]
-      pc_req_wait <= 1'h0; // @[myCPU.scala 346:21]
+    if (_T_2) begin // @[myCPU.scala 346:102]
+      pc_req_wait <= 1'h0; // @[myCPU.scala 347:21]
     end else begin
       pc_req_wait <= ~inst_sram_en & _pc_next_wait_T & _stage_fec_2_branch_answer_T_8 | _GEN_0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 355:28]
+    if (_T_2) begin // @[myCPU.scala 356:28]
       exception_Pc_reg <= 64'h0;
     end else if (_stage_fec_2_branch_answer_T_7) begin
       exception_Pc_reg <= _csr_io_return_pc;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 360:58]
-      returnPc_req_wait <= 1'h0; // @[myCPU.scala 361:27]
+    if (_T_2) begin // @[myCPU.scala 361:58]
+      returnPc_req_wait <= 1'h0; // @[myCPU.scala 362:27]
     end else begin
       returnPc_req_wait <= _T_4 & _stage_fec_2_branch_answer_T_7 | _GEN_2;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 457:29]
+    if (_T_2) begin // @[myCPU.scala 458:29]
       stage_fec_1_valid <= 1'h0;
     end else begin
       stage_fec_1_valid <= stage2_stall | _stage_fec_1_valid_T_2;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 487:30]
+    if (_T_2) begin // @[myCPU.scala 488:30]
       stage_fec_2_bht_0 <= 7'h0;
-    end else if (stage2_flush) begin // @[myCPU.scala 487:51]
+    end else if (stage2_flush) begin // @[myCPU.scala 488:51]
       stage_fec_2_bht_0 <= 7'h0;
     end else if (stage2_stall) begin
       stage_fec_2_bht_0 <= branch_prediction_with_blockram_io_bht_L;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 499:36]
+    if (_T_2) begin // @[myCPU.scala 500:36]
       stage_fec_2_hascode_0 <= 4'h0;
-    end else if (stage2_flush) begin // @[myCPU.scala 499:57]
+    end else if (stage2_flush) begin // @[myCPU.scala 500:57]
       stage_fec_2_hascode_0 <= 4'h0;
     end else if (stage2_stall) begin
       stage_fec_2_hascode_0 <= _stage_fec_2_hascode_0_T_1;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 621:24]
+    if (_T_2) begin // @[myCPU.scala 622:24]
       id_exception <= 1'h0;
-    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 621:54]
+    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 622:54]
       id_exception <= 1'h0;
     end else if (_PCSrcD_T_1) begin
       id_exception <= inst_buffer_read_out_pc[1:0] != 2'h0 | inst_buffer_read_out_exception_type != 2'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 624:24]
+    if (_T_2) begin // @[myCPU.scala 625:24]
       ex_exception <= 1'h0;
-    end else if (_cfu_io_FlushE) begin // @[myCPU.scala 624:54]
+    end else if (_cfu_io_FlushE) begin // @[myCPU.scala 625:54]
       ex_exception <= 1'h0;
     end else if (_commit_cache_reg_T) begin
       ex_exception <= _id2ex_io_ExceptionTypeD != 32'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 627:25]
+    if (_T_2) begin // @[myCPU.scala 628:25]
       mem_exception <= 1'h0;
-    end else if (_cfu_io_FlushM) begin // @[myCPU.scala 627:55]
+    end else if (_cfu_io_FlushM) begin // @[myCPU.scala 628:55]
       mem_exception <= 1'h0;
     end else if (_cfu_io_StallM) begin
       mem_exception <= _ex2mem_io_ExceptionTypeE != 32'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 630:26]
+    if (_T_2) begin // @[myCPU.scala 631:26]
       mem2_exception <= 1'h0;
-    end else if (_cfu_io_FlushM2) begin // @[myCPU.scala 630:57]
+    end else if (_cfu_io_FlushM2) begin // @[myCPU.scala 631:57]
       mem2_exception <= 1'h0;
     end else if (_cfu_io_StallM2) begin
       mem2_exception <= _mem2mem2_io_ExceptionTypeE != 32'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 678:32]
+    if (_T_2) begin // @[myCPU.scala 679:32]
       id_true_branch_state <= 1'h0;
-    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 678:62]
+    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 679:62]
       id_true_branch_state <= 1'h0;
     end else if (_PCSrcD_T_1) begin
       id_true_branch_state <= inst_buffer_read_out_true_branch_state;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 708:31]
+    if (_T_2) begin // @[myCPU.scala 709:31]
       inst_tlb_exceptionE <= 1'h0;
-    end else if (_ex_exception_T) begin // @[myCPU.scala 708:61]
+    end else if (_ex_exception_T) begin // @[myCPU.scala 709:61]
       inst_tlb_exceptionE <= 1'h0;
     end else if (_commit_cache_reg_T) begin
       inst_tlb_exceptionE <= _if2id_io_ExceptionTypeD_Out != 2'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 740:30]
+    if (_T_2) begin // @[myCPU.scala 741:30]
       true_branch_stateE <= 1'h0;
-    end else if (_ex_exception_T) begin // @[myCPU.scala 740:61]
+    end else if (_ex_exception_T) begin // @[myCPU.scala 741:61]
       true_branch_stateE <= 1'h0;
     end else if (_commit_cache_reg_T) begin
       true_branch_stateE <= _T_31;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 837:27]
+    if (_T_2) begin // @[myCPU.scala 838:27]
       inst_tlb_exceptionM <= 1'h0;
-    end else if (_mem_exception_T) begin // @[myCPU.scala 837:57]
+    end else if (_mem_exception_T) begin // @[myCPU.scala 838:57]
       inst_tlb_exceptionM <= 1'h0;
     end else if (_mem_exception_T_1) begin
       inst_tlb_exceptionM <= inst_tlb_exceptionE;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 851:33]
-      RD1ForWardE_r <= 64'h0; // @[myCPU.scala 841:34]
-    end else if (!(_commit_cache_reg_T)) begin // @[myCPU.scala 855:88]
-      if ((_cfu_io_Forward1E[0] | _cfu_io_Forward1E[1]) & ~Forward_Lock1E) begin // @[myCPU.scala 841:34]
+    if (_T_2) begin // @[myCPU.scala 852:33]
+      RD1ForWardE_r <= 64'h0; // @[myCPU.scala 842:34]
+    end else if (!(_commit_cache_reg_T)) begin // @[myCPU.scala 856:88]
+      if ((_cfu_io_Forward1E[0] | _cfu_io_Forward1E[1]) & ~Forward_Lock1E) begin // @[myCPU.scala 842:34]
         if (2'h3 == _cfu_io_Forward1E) begin
           RD1ForWardE_r <= ResultM2_Reg;
         end else if (2'h2 == _cfu_io_Forward1E) begin
@@ -41635,10 +41633,10 @@ module myCPU(
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 851:33]
-      RD2ForWardE_r <= 64'h0; // @[myCPU.scala 842:34]
-    end else if (!(_commit_cache_reg_T)) begin // @[myCPU.scala 859:87]
-      if ((_cfu_io_Forward2E[0] | _cfu_io_Forward2E[1]) & ~Forward_Lock2E) begin // @[myCPU.scala 842:34]
+    if (_T_2) begin // @[myCPU.scala 852:33]
+      RD2ForWardE_r <= 64'h0; // @[myCPU.scala 843:34]
+    end else if (!(_commit_cache_reg_T)) begin // @[myCPU.scala 860:87]
+      if ((_cfu_io_Forward2E[0] | _cfu_io_Forward2E[1]) & ~Forward_Lock2E) begin // @[myCPU.scala 843:34]
         if (2'h3 == _cfu_io_Forward2E) begin
           RD2ForWardE_r <= ResultM2_Reg;
         end else if (2'h2 == _cfu_io_Forward2E) begin
@@ -41650,46 +41648,46 @@ module myCPU(
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 851:33]
-      Forward_Lock1E <= 1'h0; // @[myCPU.scala 852:24]
-    end else if (_commit_cache_reg_T) begin // @[myCPU.scala 855:88]
-      Forward_Lock1E <= 1'h0; // @[myCPU.scala 856:28]
-    end else if ((_cfu_io_Forward1E[0] | _cfu_io_Forward1E[1]) & ~Forward_Lock1E) begin // @[myCPU.scala 843:34]
+    if (_T_2) begin // @[myCPU.scala 852:33]
+      Forward_Lock1E <= 1'h0; // @[myCPU.scala 853:24]
+    end else if (_commit_cache_reg_T) begin // @[myCPU.scala 856:88]
+      Forward_Lock1E <= 1'h0; // @[myCPU.scala 857:28]
+    end else if ((_cfu_io_Forward1E[0] | _cfu_io_Forward1E[1]) & ~Forward_Lock1E) begin // @[myCPU.scala 844:34]
       Forward_Lock1E <= ~(_ex2mem_io_MemToRegM | _mem2mem2_io_MemToRegM);
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 851:33]
-      Forward_Lock2E <= 1'h0; // @[myCPU.scala 853:24]
-    end else if (_commit_cache_reg_T) begin // @[myCPU.scala 859:87]
-      Forward_Lock2E <= 1'h0; // @[myCPU.scala 860:28]
-    end else if ((_cfu_io_Forward2E[0] | _cfu_io_Forward2E[1]) & ~Forward_Lock2E) begin // @[myCPU.scala 844:34]
+    if (_T_2) begin // @[myCPU.scala 852:33]
+      Forward_Lock2E <= 1'h0; // @[myCPU.scala 854:24]
+    end else if (_commit_cache_reg_T) begin // @[myCPU.scala 860:87]
+      Forward_Lock2E <= 1'h0; // @[myCPU.scala 861:28]
+    end else if ((_cfu_io_Forward2E[0] | _cfu_io_Forward2E[1]) & ~Forward_Lock2E) begin // @[myCPU.scala 845:34]
       Forward_Lock2E <= _Forward_Lock1E_T_3;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 1080:33]
+    if (_T_2) begin // @[myCPU.scala 1081:33]
       tlb_exception_csr_writeM2 <= 1'h0;
-    end else if (_mem2_exception_T) begin // @[myCPU.scala 1080:64]
+    end else if (_mem2_exception_T) begin // @[myCPU.scala 1081:64]
       tlb_exception_csr_writeM2 <= 1'h0;
     end else if (_mem2_exception_T_1) begin
       tlb_exception_csr_writeM2 <= inst_tlb_exceptionM;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 1081:33]
+    if (_T_2) begin // @[myCPU.scala 1082:33]
       tlb_exception_co0_writeW <= 1'h0;
-    end else if (_wb_exception_T) begin // @[myCPU.scala 1081:63]
+    end else if (_wb_exception_T) begin // @[myCPU.scala 1082:63]
       tlb_exception_co0_writeW <= 1'h0;
     end else if (_wb_exception_T_1) begin
       tlb_exception_co0_writeW <= tlb_exception_csr_writeM2;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 1141:26]
-      pcw_reg <= 64'h0; // @[myCPU.scala 1141:26]
+    if (_T_2) begin // @[myCPU.scala 1142:26]
+      pcw_reg <= 64'h0; // @[myCPU.scala 1142:26]
     end else begin
-      pcw_reg <= _mem22wb_io_PCW; // @[myCPU.scala 1151:13]
+      pcw_reg <= _mem22wb_io_PCW; // @[myCPU.scala 1152:13]
     end
   end
 // Register and memory initialization
@@ -41908,7 +41906,8 @@ module icache_tag(
   input  [20:0] io_wdata,
   input  [63:0] io_addr,
   output        io_hit,
-  output        io_valid
+  output        io_valid,
+  input         io_tag_all_flush
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -42424,2183 +42423,1801 @@ module icache_tag(
   reg [7:0] tag_asid_regs_125; // @[icache_tag.scala 22:32]
   reg [7:0] tag_asid_regs_126; // @[icache_tag.scala 22:32]
   reg [7:0] tag_asid_regs_127; // @[icache_tag.scala 22:32]
-  wire [21:0] _GEN_1 = 7'h1 == io_addr[10:4] ? tag_regs_1 : tag_regs_0; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_2 = 7'h2 == io_addr[10:4] ? tag_regs_2 : _GEN_1; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_3 = 7'h3 == io_addr[10:4] ? tag_regs_3 : _GEN_2; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_4 = 7'h4 == io_addr[10:4] ? tag_regs_4 : _GEN_3; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_5 = 7'h5 == io_addr[10:4] ? tag_regs_5 : _GEN_4; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_6 = 7'h6 == io_addr[10:4] ? tag_regs_6 : _GEN_5; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_7 = 7'h7 == io_addr[10:4] ? tag_regs_7 : _GEN_6; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_8 = 7'h8 == io_addr[10:4] ? tag_regs_8 : _GEN_7; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_9 = 7'h9 == io_addr[10:4] ? tag_regs_9 : _GEN_8; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_10 = 7'ha == io_addr[10:4] ? tag_regs_10 : _GEN_9; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_11 = 7'hb == io_addr[10:4] ? tag_regs_11 : _GEN_10; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_12 = 7'hc == io_addr[10:4] ? tag_regs_12 : _GEN_11; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_13 = 7'hd == io_addr[10:4] ? tag_regs_13 : _GEN_12; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_14 = 7'he == io_addr[10:4] ? tag_regs_14 : _GEN_13; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_15 = 7'hf == io_addr[10:4] ? tag_regs_15 : _GEN_14; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_16 = 7'h10 == io_addr[10:4] ? tag_regs_16 : _GEN_15; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_17 = 7'h11 == io_addr[10:4] ? tag_regs_17 : _GEN_16; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_18 = 7'h12 == io_addr[10:4] ? tag_regs_18 : _GEN_17; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_19 = 7'h13 == io_addr[10:4] ? tag_regs_19 : _GEN_18; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_20 = 7'h14 == io_addr[10:4] ? tag_regs_20 : _GEN_19; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_21 = 7'h15 == io_addr[10:4] ? tag_regs_21 : _GEN_20; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_22 = 7'h16 == io_addr[10:4] ? tag_regs_22 : _GEN_21; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_23 = 7'h17 == io_addr[10:4] ? tag_regs_23 : _GEN_22; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_24 = 7'h18 == io_addr[10:4] ? tag_regs_24 : _GEN_23; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_25 = 7'h19 == io_addr[10:4] ? tag_regs_25 : _GEN_24; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_26 = 7'h1a == io_addr[10:4] ? tag_regs_26 : _GEN_25; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_27 = 7'h1b == io_addr[10:4] ? tag_regs_27 : _GEN_26; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_28 = 7'h1c == io_addr[10:4] ? tag_regs_28 : _GEN_27; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_29 = 7'h1d == io_addr[10:4] ? tag_regs_29 : _GEN_28; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_30 = 7'h1e == io_addr[10:4] ? tag_regs_30 : _GEN_29; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_31 = 7'h1f == io_addr[10:4] ? tag_regs_31 : _GEN_30; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_32 = 7'h20 == io_addr[10:4] ? tag_regs_32 : _GEN_31; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_33 = 7'h21 == io_addr[10:4] ? tag_regs_33 : _GEN_32; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_34 = 7'h22 == io_addr[10:4] ? tag_regs_34 : _GEN_33; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_35 = 7'h23 == io_addr[10:4] ? tag_regs_35 : _GEN_34; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_36 = 7'h24 == io_addr[10:4] ? tag_regs_36 : _GEN_35; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_37 = 7'h25 == io_addr[10:4] ? tag_regs_37 : _GEN_36; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_38 = 7'h26 == io_addr[10:4] ? tag_regs_38 : _GEN_37; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_39 = 7'h27 == io_addr[10:4] ? tag_regs_39 : _GEN_38; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_40 = 7'h28 == io_addr[10:4] ? tag_regs_40 : _GEN_39; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_41 = 7'h29 == io_addr[10:4] ? tag_regs_41 : _GEN_40; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_42 = 7'h2a == io_addr[10:4] ? tag_regs_42 : _GEN_41; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_43 = 7'h2b == io_addr[10:4] ? tag_regs_43 : _GEN_42; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_44 = 7'h2c == io_addr[10:4] ? tag_regs_44 : _GEN_43; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_45 = 7'h2d == io_addr[10:4] ? tag_regs_45 : _GEN_44; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_46 = 7'h2e == io_addr[10:4] ? tag_regs_46 : _GEN_45; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_47 = 7'h2f == io_addr[10:4] ? tag_regs_47 : _GEN_46; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_48 = 7'h30 == io_addr[10:4] ? tag_regs_48 : _GEN_47; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_49 = 7'h31 == io_addr[10:4] ? tag_regs_49 : _GEN_48; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_50 = 7'h32 == io_addr[10:4] ? tag_regs_50 : _GEN_49; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_51 = 7'h33 == io_addr[10:4] ? tag_regs_51 : _GEN_50; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_52 = 7'h34 == io_addr[10:4] ? tag_regs_52 : _GEN_51; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_53 = 7'h35 == io_addr[10:4] ? tag_regs_53 : _GEN_52; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_54 = 7'h36 == io_addr[10:4] ? tag_regs_54 : _GEN_53; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_55 = 7'h37 == io_addr[10:4] ? tag_regs_55 : _GEN_54; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_56 = 7'h38 == io_addr[10:4] ? tag_regs_56 : _GEN_55; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_57 = 7'h39 == io_addr[10:4] ? tag_regs_57 : _GEN_56; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_58 = 7'h3a == io_addr[10:4] ? tag_regs_58 : _GEN_57; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_59 = 7'h3b == io_addr[10:4] ? tag_regs_59 : _GEN_58; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_60 = 7'h3c == io_addr[10:4] ? tag_regs_60 : _GEN_59; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_61 = 7'h3d == io_addr[10:4] ? tag_regs_61 : _GEN_60; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_62 = 7'h3e == io_addr[10:4] ? tag_regs_62 : _GEN_61; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_63 = 7'h3f == io_addr[10:4] ? tag_regs_63 : _GEN_62; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_64 = 7'h40 == io_addr[10:4] ? tag_regs_64 : _GEN_63; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_65 = 7'h41 == io_addr[10:4] ? tag_regs_65 : _GEN_64; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_66 = 7'h42 == io_addr[10:4] ? tag_regs_66 : _GEN_65; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_67 = 7'h43 == io_addr[10:4] ? tag_regs_67 : _GEN_66; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_68 = 7'h44 == io_addr[10:4] ? tag_regs_68 : _GEN_67; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_69 = 7'h45 == io_addr[10:4] ? tag_regs_69 : _GEN_68; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_70 = 7'h46 == io_addr[10:4] ? tag_regs_70 : _GEN_69; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_71 = 7'h47 == io_addr[10:4] ? tag_regs_71 : _GEN_70; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_72 = 7'h48 == io_addr[10:4] ? tag_regs_72 : _GEN_71; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_73 = 7'h49 == io_addr[10:4] ? tag_regs_73 : _GEN_72; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_74 = 7'h4a == io_addr[10:4] ? tag_regs_74 : _GEN_73; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_75 = 7'h4b == io_addr[10:4] ? tag_regs_75 : _GEN_74; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_76 = 7'h4c == io_addr[10:4] ? tag_regs_76 : _GEN_75; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_77 = 7'h4d == io_addr[10:4] ? tag_regs_77 : _GEN_76; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_78 = 7'h4e == io_addr[10:4] ? tag_regs_78 : _GEN_77; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_79 = 7'h4f == io_addr[10:4] ? tag_regs_79 : _GEN_78; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_80 = 7'h50 == io_addr[10:4] ? tag_regs_80 : _GEN_79; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_81 = 7'h51 == io_addr[10:4] ? tag_regs_81 : _GEN_80; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_82 = 7'h52 == io_addr[10:4] ? tag_regs_82 : _GEN_81; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_83 = 7'h53 == io_addr[10:4] ? tag_regs_83 : _GEN_82; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_84 = 7'h54 == io_addr[10:4] ? tag_regs_84 : _GEN_83; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_85 = 7'h55 == io_addr[10:4] ? tag_regs_85 : _GEN_84; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_86 = 7'h56 == io_addr[10:4] ? tag_regs_86 : _GEN_85; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_87 = 7'h57 == io_addr[10:4] ? tag_regs_87 : _GEN_86; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_88 = 7'h58 == io_addr[10:4] ? tag_regs_88 : _GEN_87; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_89 = 7'h59 == io_addr[10:4] ? tag_regs_89 : _GEN_88; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_90 = 7'h5a == io_addr[10:4] ? tag_regs_90 : _GEN_89; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_91 = 7'h5b == io_addr[10:4] ? tag_regs_91 : _GEN_90; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_92 = 7'h5c == io_addr[10:4] ? tag_regs_92 : _GEN_91; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_93 = 7'h5d == io_addr[10:4] ? tag_regs_93 : _GEN_92; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_94 = 7'h5e == io_addr[10:4] ? tag_regs_94 : _GEN_93; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_95 = 7'h5f == io_addr[10:4] ? tag_regs_95 : _GEN_94; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_96 = 7'h60 == io_addr[10:4] ? tag_regs_96 : _GEN_95; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_97 = 7'h61 == io_addr[10:4] ? tag_regs_97 : _GEN_96; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_98 = 7'h62 == io_addr[10:4] ? tag_regs_98 : _GEN_97; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_99 = 7'h63 == io_addr[10:4] ? tag_regs_99 : _GEN_98; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_100 = 7'h64 == io_addr[10:4] ? tag_regs_100 : _GEN_99; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_101 = 7'h65 == io_addr[10:4] ? tag_regs_101 : _GEN_100; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_102 = 7'h66 == io_addr[10:4] ? tag_regs_102 : _GEN_101; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_103 = 7'h67 == io_addr[10:4] ? tag_regs_103 : _GEN_102; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_104 = 7'h68 == io_addr[10:4] ? tag_regs_104 : _GEN_103; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_105 = 7'h69 == io_addr[10:4] ? tag_regs_105 : _GEN_104; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_106 = 7'h6a == io_addr[10:4] ? tag_regs_106 : _GEN_105; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_107 = 7'h6b == io_addr[10:4] ? tag_regs_107 : _GEN_106; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_108 = 7'h6c == io_addr[10:4] ? tag_regs_108 : _GEN_107; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_109 = 7'h6d == io_addr[10:4] ? tag_regs_109 : _GEN_108; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_110 = 7'h6e == io_addr[10:4] ? tag_regs_110 : _GEN_109; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_111 = 7'h6f == io_addr[10:4] ? tag_regs_111 : _GEN_110; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_112 = 7'h70 == io_addr[10:4] ? tag_regs_112 : _GEN_111; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_113 = 7'h71 == io_addr[10:4] ? tag_regs_113 : _GEN_112; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_114 = 7'h72 == io_addr[10:4] ? tag_regs_114 : _GEN_113; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_115 = 7'h73 == io_addr[10:4] ? tag_regs_115 : _GEN_114; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_116 = 7'h74 == io_addr[10:4] ? tag_regs_116 : _GEN_115; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_117 = 7'h75 == io_addr[10:4] ? tag_regs_117 : _GEN_116; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_118 = 7'h76 == io_addr[10:4] ? tag_regs_118 : _GEN_117; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_119 = 7'h77 == io_addr[10:4] ? tag_regs_119 : _GEN_118; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_120 = 7'h78 == io_addr[10:4] ? tag_regs_120 : _GEN_119; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_121 = 7'h79 == io_addr[10:4] ? tag_regs_121 : _GEN_120; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_122 = 7'h7a == io_addr[10:4] ? tag_regs_122 : _GEN_121; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_123 = 7'h7b == io_addr[10:4] ? tag_regs_123 : _GEN_122; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_124 = 7'h7c == io_addr[10:4] ? tag_regs_124 : _GEN_123; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_125 = 7'h7d == io_addr[10:4] ? tag_regs_125 : _GEN_124; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_126 = 7'h7e == io_addr[10:4] ? tag_regs_126 : _GEN_125; // @[icache_tag.scala 25:{35,35}]
-  wire [21:0] _GEN_127 = 7'h7f == io_addr[10:4] ? tag_regs_127 : _GEN_126; // @[icache_tag.scala 25:{35,35}]
-  wire [7:0] _GEN_257 = 7'h1 == io_addr[10:4] ? tag_asid_regs_1 : tag_asid_regs_0; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_258 = 7'h2 == io_addr[10:4] ? tag_asid_regs_2 : _GEN_257; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_259 = 7'h3 == io_addr[10:4] ? tag_asid_regs_3 : _GEN_258; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_260 = 7'h4 == io_addr[10:4] ? tag_asid_regs_4 : _GEN_259; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_261 = 7'h5 == io_addr[10:4] ? tag_asid_regs_5 : _GEN_260; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_262 = 7'h6 == io_addr[10:4] ? tag_asid_regs_6 : _GEN_261; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_263 = 7'h7 == io_addr[10:4] ? tag_asid_regs_7 : _GEN_262; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_264 = 7'h8 == io_addr[10:4] ? tag_asid_regs_8 : _GEN_263; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_265 = 7'h9 == io_addr[10:4] ? tag_asid_regs_9 : _GEN_264; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_266 = 7'ha == io_addr[10:4] ? tag_asid_regs_10 : _GEN_265; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_267 = 7'hb == io_addr[10:4] ? tag_asid_regs_11 : _GEN_266; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_268 = 7'hc == io_addr[10:4] ? tag_asid_regs_12 : _GEN_267; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_269 = 7'hd == io_addr[10:4] ? tag_asid_regs_13 : _GEN_268; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_270 = 7'he == io_addr[10:4] ? tag_asid_regs_14 : _GEN_269; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_271 = 7'hf == io_addr[10:4] ? tag_asid_regs_15 : _GEN_270; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_272 = 7'h10 == io_addr[10:4] ? tag_asid_regs_16 : _GEN_271; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_273 = 7'h11 == io_addr[10:4] ? tag_asid_regs_17 : _GEN_272; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_274 = 7'h12 == io_addr[10:4] ? tag_asid_regs_18 : _GEN_273; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_275 = 7'h13 == io_addr[10:4] ? tag_asid_regs_19 : _GEN_274; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_276 = 7'h14 == io_addr[10:4] ? tag_asid_regs_20 : _GEN_275; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_277 = 7'h15 == io_addr[10:4] ? tag_asid_regs_21 : _GEN_276; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_278 = 7'h16 == io_addr[10:4] ? tag_asid_regs_22 : _GEN_277; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_279 = 7'h17 == io_addr[10:4] ? tag_asid_regs_23 : _GEN_278; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_280 = 7'h18 == io_addr[10:4] ? tag_asid_regs_24 : _GEN_279; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_281 = 7'h19 == io_addr[10:4] ? tag_asid_regs_25 : _GEN_280; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_282 = 7'h1a == io_addr[10:4] ? tag_asid_regs_26 : _GEN_281; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_283 = 7'h1b == io_addr[10:4] ? tag_asid_regs_27 : _GEN_282; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_284 = 7'h1c == io_addr[10:4] ? tag_asid_regs_28 : _GEN_283; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_285 = 7'h1d == io_addr[10:4] ? tag_asid_regs_29 : _GEN_284; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_286 = 7'h1e == io_addr[10:4] ? tag_asid_regs_30 : _GEN_285; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_287 = 7'h1f == io_addr[10:4] ? tag_asid_regs_31 : _GEN_286; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_288 = 7'h20 == io_addr[10:4] ? tag_asid_regs_32 : _GEN_287; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_289 = 7'h21 == io_addr[10:4] ? tag_asid_regs_33 : _GEN_288; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_290 = 7'h22 == io_addr[10:4] ? tag_asid_regs_34 : _GEN_289; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_291 = 7'h23 == io_addr[10:4] ? tag_asid_regs_35 : _GEN_290; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_292 = 7'h24 == io_addr[10:4] ? tag_asid_regs_36 : _GEN_291; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_293 = 7'h25 == io_addr[10:4] ? tag_asid_regs_37 : _GEN_292; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_294 = 7'h26 == io_addr[10:4] ? tag_asid_regs_38 : _GEN_293; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_295 = 7'h27 == io_addr[10:4] ? tag_asid_regs_39 : _GEN_294; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_296 = 7'h28 == io_addr[10:4] ? tag_asid_regs_40 : _GEN_295; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_297 = 7'h29 == io_addr[10:4] ? tag_asid_regs_41 : _GEN_296; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_298 = 7'h2a == io_addr[10:4] ? tag_asid_regs_42 : _GEN_297; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_299 = 7'h2b == io_addr[10:4] ? tag_asid_regs_43 : _GEN_298; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_300 = 7'h2c == io_addr[10:4] ? tag_asid_regs_44 : _GEN_299; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_301 = 7'h2d == io_addr[10:4] ? tag_asid_regs_45 : _GEN_300; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_302 = 7'h2e == io_addr[10:4] ? tag_asid_regs_46 : _GEN_301; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_303 = 7'h2f == io_addr[10:4] ? tag_asid_regs_47 : _GEN_302; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_304 = 7'h30 == io_addr[10:4] ? tag_asid_regs_48 : _GEN_303; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_305 = 7'h31 == io_addr[10:4] ? tag_asid_regs_49 : _GEN_304; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_306 = 7'h32 == io_addr[10:4] ? tag_asid_regs_50 : _GEN_305; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_307 = 7'h33 == io_addr[10:4] ? tag_asid_regs_51 : _GEN_306; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_308 = 7'h34 == io_addr[10:4] ? tag_asid_regs_52 : _GEN_307; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_309 = 7'h35 == io_addr[10:4] ? tag_asid_regs_53 : _GEN_308; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_310 = 7'h36 == io_addr[10:4] ? tag_asid_regs_54 : _GEN_309; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_311 = 7'h37 == io_addr[10:4] ? tag_asid_regs_55 : _GEN_310; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_312 = 7'h38 == io_addr[10:4] ? tag_asid_regs_56 : _GEN_311; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_313 = 7'h39 == io_addr[10:4] ? tag_asid_regs_57 : _GEN_312; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_314 = 7'h3a == io_addr[10:4] ? tag_asid_regs_58 : _GEN_313; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_315 = 7'h3b == io_addr[10:4] ? tag_asid_regs_59 : _GEN_314; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_316 = 7'h3c == io_addr[10:4] ? tag_asid_regs_60 : _GEN_315; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_317 = 7'h3d == io_addr[10:4] ? tag_asid_regs_61 : _GEN_316; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_318 = 7'h3e == io_addr[10:4] ? tag_asid_regs_62 : _GEN_317; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_319 = 7'h3f == io_addr[10:4] ? tag_asid_regs_63 : _GEN_318; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_320 = 7'h40 == io_addr[10:4] ? tag_asid_regs_64 : _GEN_319; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_321 = 7'h41 == io_addr[10:4] ? tag_asid_regs_65 : _GEN_320; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_322 = 7'h42 == io_addr[10:4] ? tag_asid_regs_66 : _GEN_321; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_323 = 7'h43 == io_addr[10:4] ? tag_asid_regs_67 : _GEN_322; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_324 = 7'h44 == io_addr[10:4] ? tag_asid_regs_68 : _GEN_323; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_325 = 7'h45 == io_addr[10:4] ? tag_asid_regs_69 : _GEN_324; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_326 = 7'h46 == io_addr[10:4] ? tag_asid_regs_70 : _GEN_325; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_327 = 7'h47 == io_addr[10:4] ? tag_asid_regs_71 : _GEN_326; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_328 = 7'h48 == io_addr[10:4] ? tag_asid_regs_72 : _GEN_327; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_329 = 7'h49 == io_addr[10:4] ? tag_asid_regs_73 : _GEN_328; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_330 = 7'h4a == io_addr[10:4] ? tag_asid_regs_74 : _GEN_329; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_331 = 7'h4b == io_addr[10:4] ? tag_asid_regs_75 : _GEN_330; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_332 = 7'h4c == io_addr[10:4] ? tag_asid_regs_76 : _GEN_331; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_333 = 7'h4d == io_addr[10:4] ? tag_asid_regs_77 : _GEN_332; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_334 = 7'h4e == io_addr[10:4] ? tag_asid_regs_78 : _GEN_333; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_335 = 7'h4f == io_addr[10:4] ? tag_asid_regs_79 : _GEN_334; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_336 = 7'h50 == io_addr[10:4] ? tag_asid_regs_80 : _GEN_335; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_337 = 7'h51 == io_addr[10:4] ? tag_asid_regs_81 : _GEN_336; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_338 = 7'h52 == io_addr[10:4] ? tag_asid_regs_82 : _GEN_337; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_339 = 7'h53 == io_addr[10:4] ? tag_asid_regs_83 : _GEN_338; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_340 = 7'h54 == io_addr[10:4] ? tag_asid_regs_84 : _GEN_339; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_341 = 7'h55 == io_addr[10:4] ? tag_asid_regs_85 : _GEN_340; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_342 = 7'h56 == io_addr[10:4] ? tag_asid_regs_86 : _GEN_341; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_343 = 7'h57 == io_addr[10:4] ? tag_asid_regs_87 : _GEN_342; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_344 = 7'h58 == io_addr[10:4] ? tag_asid_regs_88 : _GEN_343; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_345 = 7'h59 == io_addr[10:4] ? tag_asid_regs_89 : _GEN_344; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_346 = 7'h5a == io_addr[10:4] ? tag_asid_regs_90 : _GEN_345; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_347 = 7'h5b == io_addr[10:4] ? tag_asid_regs_91 : _GEN_346; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_348 = 7'h5c == io_addr[10:4] ? tag_asid_regs_92 : _GEN_347; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_349 = 7'h5d == io_addr[10:4] ? tag_asid_regs_93 : _GEN_348; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_350 = 7'h5e == io_addr[10:4] ? tag_asid_regs_94 : _GEN_349; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_351 = 7'h5f == io_addr[10:4] ? tag_asid_regs_95 : _GEN_350; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_352 = 7'h60 == io_addr[10:4] ? tag_asid_regs_96 : _GEN_351; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_353 = 7'h61 == io_addr[10:4] ? tag_asid_regs_97 : _GEN_352; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_354 = 7'h62 == io_addr[10:4] ? tag_asid_regs_98 : _GEN_353; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_355 = 7'h63 == io_addr[10:4] ? tag_asid_regs_99 : _GEN_354; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_356 = 7'h64 == io_addr[10:4] ? tag_asid_regs_100 : _GEN_355; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_357 = 7'h65 == io_addr[10:4] ? tag_asid_regs_101 : _GEN_356; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_358 = 7'h66 == io_addr[10:4] ? tag_asid_regs_102 : _GEN_357; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_359 = 7'h67 == io_addr[10:4] ? tag_asid_regs_103 : _GEN_358; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_360 = 7'h68 == io_addr[10:4] ? tag_asid_regs_104 : _GEN_359; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_361 = 7'h69 == io_addr[10:4] ? tag_asid_regs_105 : _GEN_360; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_362 = 7'h6a == io_addr[10:4] ? tag_asid_regs_106 : _GEN_361; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_363 = 7'h6b == io_addr[10:4] ? tag_asid_regs_107 : _GEN_362; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_364 = 7'h6c == io_addr[10:4] ? tag_asid_regs_108 : _GEN_363; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_365 = 7'h6d == io_addr[10:4] ? tag_asid_regs_109 : _GEN_364; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_366 = 7'h6e == io_addr[10:4] ? tag_asid_regs_110 : _GEN_365; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_367 = 7'h6f == io_addr[10:4] ? tag_asid_regs_111 : _GEN_366; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_368 = 7'h70 == io_addr[10:4] ? tag_asid_regs_112 : _GEN_367; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_369 = 7'h71 == io_addr[10:4] ? tag_asid_regs_113 : _GEN_368; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_370 = 7'h72 == io_addr[10:4] ? tag_asid_regs_114 : _GEN_369; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_371 = 7'h73 == io_addr[10:4] ? tag_asid_regs_115 : _GEN_370; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_372 = 7'h74 == io_addr[10:4] ? tag_asid_regs_116 : _GEN_371; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_373 = 7'h75 == io_addr[10:4] ? tag_asid_regs_117 : _GEN_372; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_374 = 7'h76 == io_addr[10:4] ? tag_asid_regs_118 : _GEN_373; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_375 = 7'h77 == io_addr[10:4] ? tag_asid_regs_119 : _GEN_374; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_376 = 7'h78 == io_addr[10:4] ? tag_asid_regs_120 : _GEN_375; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_377 = 7'h79 == io_addr[10:4] ? tag_asid_regs_121 : _GEN_376; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_378 = 7'h7a == io_addr[10:4] ? tag_asid_regs_122 : _GEN_377; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_379 = 7'h7b == io_addr[10:4] ? tag_asid_regs_123 : _GEN_378; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_380 = 7'h7c == io_addr[10:4] ? tag_asid_regs_124 : _GEN_379; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_381 = 7'h7d == io_addr[10:4] ? tag_asid_regs_125 : _GEN_380; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_382 = 7'h7e == io_addr[10:4] ? tag_asid_regs_126 : _GEN_381; // @[icache_tag.scala 26:{40,40}]
-  wire [7:0] _GEN_383 = 7'h7f == io_addr[10:4] ? tag_asid_regs_127 : _GEN_382; // @[icache_tag.scala 26:{40,40}]
-  assign io_hit = _GEN_127[20:0] == io_addr[31:11] & _GEN_383 == 8'h0; // @[icache_tag.scala 30:50]
-  assign io_valid = _GEN_127[20]; // @[icache_tag.scala 29:22]
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_0 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h0 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_0 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_0 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_0 <= tag_regs_126;
-      end else begin
-        tag_regs_0 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_1 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h1 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_1 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_1 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_1 <= tag_regs_126;
-      end else begin
-        tag_regs_1 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_2 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h2 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_2 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_2 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_2 <= tag_regs_126;
-      end else begin
-        tag_regs_2 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_3 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h3 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_3 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_3 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_3 <= tag_regs_126;
-      end else begin
-        tag_regs_3 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_4 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h4 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_4 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_4 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_4 <= tag_regs_126;
-      end else begin
-        tag_regs_4 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_5 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h5 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_5 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_5 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_5 <= tag_regs_126;
-      end else begin
-        tag_regs_5 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_6 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h6 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_6 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_6 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_6 <= tag_regs_126;
-      end else begin
-        tag_regs_6 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_7 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h7 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_7 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_7 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_7 <= tag_regs_126;
-      end else begin
-        tag_regs_7 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_8 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h8 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_8 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_8 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_8 <= tag_regs_126;
-      end else begin
-        tag_regs_8 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_9 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h9 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_9 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_9 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_9 <= tag_regs_126;
-      end else begin
-        tag_regs_9 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_10 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'ha == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_10 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_10 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_10 <= tag_regs_126;
-      end else begin
-        tag_regs_10 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_11 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'hb == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_11 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_11 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_11 <= tag_regs_126;
-      end else begin
-        tag_regs_11 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_12 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'hc == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_12 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_12 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_12 <= tag_regs_126;
-      end else begin
-        tag_regs_12 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_13 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'hd == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_13 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_13 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_13 <= tag_regs_126;
-      end else begin
-        tag_regs_13 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_14 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'he == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_14 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_14 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_14 <= tag_regs_126;
-      end else begin
-        tag_regs_14 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_15 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'hf == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_15 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_15 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_15 <= tag_regs_126;
-      end else begin
-        tag_regs_15 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_16 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h10 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_16 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_16 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_16 <= tag_regs_126;
-      end else begin
-        tag_regs_16 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_17 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h11 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_17 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_17 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_17 <= tag_regs_126;
-      end else begin
-        tag_regs_17 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_18 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h12 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_18 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_18 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_18 <= tag_regs_126;
-      end else begin
-        tag_regs_18 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_19 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h13 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_19 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_19 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_19 <= tag_regs_126;
-      end else begin
-        tag_regs_19 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_20 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h14 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_20 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_20 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_20 <= tag_regs_126;
-      end else begin
-        tag_regs_20 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_21 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h15 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_21 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_21 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_21 <= tag_regs_126;
-      end else begin
-        tag_regs_21 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_22 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h16 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_22 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_22 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_22 <= tag_regs_126;
-      end else begin
-        tag_regs_22 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_23 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h17 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_23 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_23 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_23 <= tag_regs_126;
-      end else begin
-        tag_regs_23 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_24 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h18 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_24 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_24 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_24 <= tag_regs_126;
-      end else begin
-        tag_regs_24 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_25 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h19 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_25 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_25 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_25 <= tag_regs_126;
-      end else begin
-        tag_regs_25 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_26 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h1a == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_26 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_26 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_26 <= tag_regs_126;
-      end else begin
-        tag_regs_26 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_27 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h1b == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_27 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_27 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_27 <= tag_regs_126;
-      end else begin
-        tag_regs_27 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_28 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h1c == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_28 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_28 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_28 <= tag_regs_126;
-      end else begin
-        tag_regs_28 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_29 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h1d == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_29 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_29 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_29 <= tag_regs_126;
-      end else begin
-        tag_regs_29 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_30 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h1e == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_30 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_30 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_30 <= tag_regs_126;
-      end else begin
-        tag_regs_30 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_31 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h1f == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_31 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_31 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_31 <= tag_regs_126;
-      end else begin
-        tag_regs_31 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_32 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h20 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_32 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_32 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_32 <= tag_regs_126;
-      end else begin
-        tag_regs_32 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_33 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h21 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_33 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_33 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_33 <= tag_regs_126;
-      end else begin
-        tag_regs_33 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_34 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h22 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_34 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_34 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_34 <= tag_regs_126;
-      end else begin
-        tag_regs_34 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_35 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h23 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_35 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_35 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_35 <= tag_regs_126;
-      end else begin
-        tag_regs_35 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_36 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h24 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_36 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_36 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_36 <= tag_regs_126;
-      end else begin
-        tag_regs_36 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_37 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h25 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_37 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_37 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_37 <= tag_regs_126;
-      end else begin
-        tag_regs_37 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_38 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h26 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_38 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_38 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_38 <= tag_regs_126;
-      end else begin
-        tag_regs_38 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_39 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h27 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_39 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_39 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_39 <= tag_regs_126;
-      end else begin
-        tag_regs_39 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_40 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h28 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_40 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_40 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_40 <= tag_regs_126;
-      end else begin
-        tag_regs_40 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_41 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h29 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_41 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_41 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_41 <= tag_regs_126;
-      end else begin
-        tag_regs_41 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_42 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h2a == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_42 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_42 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_42 <= tag_regs_126;
-      end else begin
-        tag_regs_42 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_43 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h2b == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_43 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_43 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_43 <= tag_regs_126;
-      end else begin
-        tag_regs_43 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_44 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h2c == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_44 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_44 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_44 <= tag_regs_126;
-      end else begin
-        tag_regs_44 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_45 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h2d == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_45 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_45 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_45 <= tag_regs_126;
-      end else begin
-        tag_regs_45 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_46 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h2e == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_46 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_46 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_46 <= tag_regs_126;
-      end else begin
-        tag_regs_46 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_47 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h2f == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_47 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_47 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_47 <= tag_regs_126;
-      end else begin
-        tag_regs_47 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_48 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h30 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_48 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_48 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_48 <= tag_regs_126;
-      end else begin
-        tag_regs_48 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_49 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h31 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_49 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_49 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_49 <= tag_regs_126;
-      end else begin
-        tag_regs_49 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_50 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h32 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_50 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_50 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_50 <= tag_regs_126;
-      end else begin
-        tag_regs_50 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_51 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h33 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_51 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_51 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_51 <= tag_regs_126;
-      end else begin
-        tag_regs_51 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_52 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h34 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_52 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_52 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_52 <= tag_regs_126;
-      end else begin
-        tag_regs_52 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_53 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h35 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_53 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_53 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_53 <= tag_regs_126;
-      end else begin
-        tag_regs_53 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_54 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h36 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_54 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_54 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_54 <= tag_regs_126;
-      end else begin
-        tag_regs_54 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_55 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h37 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_55 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_55 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_55 <= tag_regs_126;
-      end else begin
-        tag_regs_55 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_56 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h38 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_56 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_56 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_56 <= tag_regs_126;
-      end else begin
-        tag_regs_56 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_57 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h39 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_57 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_57 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_57 <= tag_regs_126;
-      end else begin
-        tag_regs_57 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_58 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h3a == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_58 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_58 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_58 <= tag_regs_126;
-      end else begin
-        tag_regs_58 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_59 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h3b == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_59 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_59 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_59 <= tag_regs_126;
-      end else begin
-        tag_regs_59 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_60 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h3c == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_60 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_60 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_60 <= tag_regs_126;
-      end else begin
-        tag_regs_60 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_61 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h3d == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_61 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_61 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_61 <= tag_regs_126;
-      end else begin
-        tag_regs_61 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_62 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h3e == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_62 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_62 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_62 <= tag_regs_126;
-      end else begin
-        tag_regs_62 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_63 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h3f == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_63 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_63 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_63 <= tag_regs_126;
-      end else begin
-        tag_regs_63 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_64 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h40 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_64 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_64 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_64 <= tag_regs_126;
-      end else begin
-        tag_regs_64 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_65 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h41 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_65 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_65 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_65 <= tag_regs_126;
-      end else begin
-        tag_regs_65 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_66 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h42 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_66 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_66 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_66 <= tag_regs_126;
-      end else begin
-        tag_regs_66 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_67 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h43 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_67 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_67 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_67 <= tag_regs_126;
-      end else begin
-        tag_regs_67 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_68 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h44 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_68 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_68 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_68 <= tag_regs_126;
-      end else begin
-        tag_regs_68 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_69 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h45 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_69 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_69 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_69 <= tag_regs_126;
-      end else begin
-        tag_regs_69 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_70 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h46 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_70 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_70 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_70 <= tag_regs_126;
-      end else begin
-        tag_regs_70 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_71 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h47 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_71 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_71 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_71 <= tag_regs_126;
-      end else begin
-        tag_regs_71 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_72 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h48 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_72 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_72 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_72 <= tag_regs_126;
-      end else begin
-        tag_regs_72 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_73 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h49 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_73 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_73 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_73 <= tag_regs_126;
-      end else begin
-        tag_regs_73 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_74 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h4a == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_74 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_74 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_74 <= tag_regs_126;
-      end else begin
-        tag_regs_74 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_75 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h4b == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_75 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_75 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_75 <= tag_regs_126;
-      end else begin
-        tag_regs_75 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_76 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h4c == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_76 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_76 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_76 <= tag_regs_126;
-      end else begin
-        tag_regs_76 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_77 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h4d == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_77 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_77 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_77 <= tag_regs_126;
-      end else begin
-        tag_regs_77 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_78 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h4e == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_78 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_78 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_78 <= tag_regs_126;
-      end else begin
-        tag_regs_78 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_79 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h4f == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_79 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_79 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_79 <= tag_regs_126;
-      end else begin
-        tag_regs_79 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_80 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h50 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_80 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_80 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_80 <= tag_regs_126;
-      end else begin
-        tag_regs_80 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_81 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h51 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_81 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_81 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_81 <= tag_regs_126;
-      end else begin
-        tag_regs_81 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_82 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h52 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_82 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_82 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_82 <= tag_regs_126;
-      end else begin
-        tag_regs_82 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_83 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h53 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_83 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_83 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_83 <= tag_regs_126;
-      end else begin
-        tag_regs_83 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_84 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h54 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_84 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_84 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_84 <= tag_regs_126;
-      end else begin
-        tag_regs_84 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_85 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h55 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_85 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_85 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_85 <= tag_regs_126;
-      end else begin
-        tag_regs_85 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_86 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h56 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_86 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_86 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_86 <= tag_regs_126;
-      end else begin
-        tag_regs_86 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_87 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h57 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_87 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_87 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_87 <= tag_regs_126;
-      end else begin
-        tag_regs_87 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_88 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h58 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_88 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_88 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_88 <= tag_regs_126;
-      end else begin
-        tag_regs_88 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_89 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h59 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_89 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_89 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_89 <= tag_regs_126;
-      end else begin
-        tag_regs_89 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_90 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h5a == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_90 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_90 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_90 <= tag_regs_126;
-      end else begin
-        tag_regs_90 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_91 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h5b == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_91 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_91 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_91 <= tag_regs_126;
-      end else begin
-        tag_regs_91 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_92 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h5c == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_92 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_92 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_92 <= tag_regs_126;
-      end else begin
-        tag_regs_92 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_93 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h5d == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_93 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_93 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_93 <= tag_regs_126;
-      end else begin
-        tag_regs_93 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_94 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h5e == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_94 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_94 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_94 <= tag_regs_126;
-      end else begin
-        tag_regs_94 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_95 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h5f == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_95 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_95 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_95 <= tag_regs_126;
-      end else begin
-        tag_regs_95 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_96 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h60 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_96 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_96 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_96 <= tag_regs_126;
-      end else begin
-        tag_regs_96 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_97 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h61 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_97 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_97 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_97 <= tag_regs_126;
-      end else begin
-        tag_regs_97 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_98 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h62 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_98 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_98 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_98 <= tag_regs_126;
-      end else begin
-        tag_regs_98 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_99 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h63 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_99 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_99 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_99 <= tag_regs_126;
-      end else begin
-        tag_regs_99 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_100 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h64 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_100 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_100 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_100 <= tag_regs_126;
-      end else begin
-        tag_regs_100 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_101 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h65 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_101 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_101 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_101 <= tag_regs_126;
-      end else begin
-        tag_regs_101 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_102 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h66 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_102 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_102 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_102 <= tag_regs_126;
-      end else begin
-        tag_regs_102 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_103 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h67 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_103 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_103 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_103 <= tag_regs_126;
-      end else begin
-        tag_regs_103 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_104 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h68 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_104 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_104 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_104 <= tag_regs_126;
-      end else begin
-        tag_regs_104 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_105 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h69 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_105 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_105 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_105 <= tag_regs_126;
-      end else begin
-        tag_regs_105 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_106 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h6a == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_106 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_106 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_106 <= tag_regs_126;
-      end else begin
-        tag_regs_106 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_107 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h6b == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_107 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_107 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_107 <= tag_regs_126;
-      end else begin
-        tag_regs_107 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_108 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h6c == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_108 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_108 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_108 <= tag_regs_126;
-      end else begin
-        tag_regs_108 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_109 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h6d == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_109 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_109 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_109 <= tag_regs_126;
-      end else begin
-        tag_regs_109 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_110 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h6e == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_110 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_110 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_110 <= tag_regs_126;
-      end else begin
-        tag_regs_110 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_111 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h6f == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_111 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_111 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_111 <= tag_regs_126;
-      end else begin
-        tag_regs_111 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_112 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h70 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_112 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_112 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_112 <= tag_regs_126;
-      end else begin
-        tag_regs_112 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_113 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h71 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_113 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_113 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_113 <= tag_regs_126;
-      end else begin
-        tag_regs_113 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_114 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h72 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_114 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_114 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_114 <= tag_regs_126;
-      end else begin
-        tag_regs_114 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_115 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h73 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_115 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_115 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_115 <= tag_regs_126;
-      end else begin
-        tag_regs_115 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_116 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h74 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_116 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_116 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_116 <= tag_regs_126;
-      end else begin
-        tag_regs_116 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_117 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h75 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_117 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_117 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_117 <= tag_regs_126;
-      end else begin
-        tag_regs_117 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_118 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h76 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_118 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_118 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_118 <= tag_regs_126;
-      end else begin
-        tag_regs_118 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_119 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h77 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_119 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_119 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_119 <= tag_regs_126;
-      end else begin
-        tag_regs_119 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_120 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h78 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_120 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_120 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_120 <= tag_regs_126;
-      end else begin
-        tag_regs_120 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_121 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h79 == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_121 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_121 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_121 <= tag_regs_126;
-      end else begin
-        tag_regs_121 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_122 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h7a == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_122 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_122 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_122 <= tag_regs_126;
-      end else begin
-        tag_regs_122 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_123 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h7b == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_123 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_123 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_123 <= tag_regs_126;
-      end else begin
-        tag_regs_123 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_124 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h7c == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_124 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_124 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_124 <= tag_regs_126;
-      end else begin
-        tag_regs_124 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_125 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h7d == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_125 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_125 <= tag_regs_127;
-      end else if (7'h7e == io_addr[10:4]) begin
-        tag_regs_125 <= tag_regs_126;
-      end else begin
-        tag_regs_125 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_126 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h7e == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_126 <= {{1'd0}, io_wdata};
-      end else if (7'h7f == io_addr[10:4]) begin
-        tag_regs_126 <= tag_regs_127;
-      end else if (!(7'h7e == io_addr[10:4])) begin
-        tag_regs_126 <= _GEN_125;
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 25:29]
-      tag_regs_127 <= 22'h0; // @[icache_tag.scala 25:{35,35,35,35,35}]
-    end else if (7'h7f == io_addr[10:4]) begin // @[icache_tag.scala 21:27]
-      if (io_wen) begin
-        tag_regs_127 <= {{1'd0}, io_wdata};
-      end else if (!(7'h7f == io_addr[10:4])) begin
-        if (7'h7e == io_addr[10:4]) begin
-          tag_regs_127 <= tag_regs_126;
-        end else begin
-          tag_regs_127 <= _GEN_125;
-        end
-      end
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_0 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+  wire  _valid_to_be_T_5 = io_wen & io_addr[10:4] == 7'h0; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_8 = io_wen & io_addr[10:4] == 7'h0 ? io_wdata[20] : tag_regs_0[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be = io_tag_all_flush ? 1'h0 : _valid_to_be_T_8; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be = _valid_to_be_T_5 ? io_wdata[19:0] : tag_regs_0[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_0_T = {valid_to_be,tag_to_be}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_14 = io_wen & io_addr[10:4] == 7'h1; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_17 = io_wen & io_addr[10:4] == 7'h1 ? io_wdata[20] : tag_regs_1[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_1 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_17; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_1 = _valid_to_be_T_14 ? io_wdata[19:0] : tag_regs_1[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_1_T = {valid_to_be_1,tag_to_be_1}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_23 = io_wen & io_addr[10:4] == 7'h2; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_26 = io_wen & io_addr[10:4] == 7'h2 ? io_wdata[20] : tag_regs_2[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_2 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_26; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_2 = _valid_to_be_T_23 ? io_wdata[19:0] : tag_regs_2[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_2_T = {valid_to_be_2,tag_to_be_2}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_32 = io_wen & io_addr[10:4] == 7'h3; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_35 = io_wen & io_addr[10:4] == 7'h3 ? io_wdata[20] : tag_regs_3[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_3 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_35; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_3 = _valid_to_be_T_32 ? io_wdata[19:0] : tag_regs_3[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_3_T = {valid_to_be_3,tag_to_be_3}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_41 = io_wen & io_addr[10:4] == 7'h4; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_44 = io_wen & io_addr[10:4] == 7'h4 ? io_wdata[20] : tag_regs_4[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_4 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_44; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_4 = _valid_to_be_T_41 ? io_wdata[19:0] : tag_regs_4[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_4_T = {valid_to_be_4,tag_to_be_4}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_50 = io_wen & io_addr[10:4] == 7'h5; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_53 = io_wen & io_addr[10:4] == 7'h5 ? io_wdata[20] : tag_regs_5[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_5 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_53; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_5 = _valid_to_be_T_50 ? io_wdata[19:0] : tag_regs_5[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_5_T = {valid_to_be_5,tag_to_be_5}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_59 = io_wen & io_addr[10:4] == 7'h6; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_62 = io_wen & io_addr[10:4] == 7'h6 ? io_wdata[20] : tag_regs_6[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_6 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_62; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_6 = _valid_to_be_T_59 ? io_wdata[19:0] : tag_regs_6[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_6_T = {valid_to_be_6,tag_to_be_6}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_68 = io_wen & io_addr[10:4] == 7'h7; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_71 = io_wen & io_addr[10:4] == 7'h7 ? io_wdata[20] : tag_regs_7[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_7 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_71; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_7 = _valid_to_be_T_68 ? io_wdata[19:0] : tag_regs_7[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_7_T = {valid_to_be_7,tag_to_be_7}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_77 = io_wen & io_addr[10:4] == 7'h8; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_80 = io_wen & io_addr[10:4] == 7'h8 ? io_wdata[20] : tag_regs_8[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_8 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_80; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_8 = _valid_to_be_T_77 ? io_wdata[19:0] : tag_regs_8[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_8_T = {valid_to_be_8,tag_to_be_8}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_86 = io_wen & io_addr[10:4] == 7'h9; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_89 = io_wen & io_addr[10:4] == 7'h9 ? io_wdata[20] : tag_regs_9[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_9 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_89; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_9 = _valid_to_be_T_86 ? io_wdata[19:0] : tag_regs_9[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_9_T = {valid_to_be_9,tag_to_be_9}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_95 = io_wen & io_addr[10:4] == 7'ha; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_98 = io_wen & io_addr[10:4] == 7'ha ? io_wdata[20] : tag_regs_10[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_10 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_98; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_10 = _valid_to_be_T_95 ? io_wdata[19:0] : tag_regs_10[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_10_T = {valid_to_be_10,tag_to_be_10}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_104 = io_wen & io_addr[10:4] == 7'hb; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_107 = io_wen & io_addr[10:4] == 7'hb ? io_wdata[20] : tag_regs_11[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_11 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_107; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_11 = _valid_to_be_T_104 ? io_wdata[19:0] : tag_regs_11[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_11_T = {valid_to_be_11,tag_to_be_11}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_113 = io_wen & io_addr[10:4] == 7'hc; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_116 = io_wen & io_addr[10:4] == 7'hc ? io_wdata[20] : tag_regs_12[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_12 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_116; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_12 = _valid_to_be_T_113 ? io_wdata[19:0] : tag_regs_12[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_12_T = {valid_to_be_12,tag_to_be_12}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_122 = io_wen & io_addr[10:4] == 7'hd; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_125 = io_wen & io_addr[10:4] == 7'hd ? io_wdata[20] : tag_regs_13[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_13 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_125; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_13 = _valid_to_be_T_122 ? io_wdata[19:0] : tag_regs_13[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_13_T = {valid_to_be_13,tag_to_be_13}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_131 = io_wen & io_addr[10:4] == 7'he; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_134 = io_wen & io_addr[10:4] == 7'he ? io_wdata[20] : tag_regs_14[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_14 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_134; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_14 = _valid_to_be_T_131 ? io_wdata[19:0] : tag_regs_14[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_14_T = {valid_to_be_14,tag_to_be_14}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_140 = io_wen & io_addr[10:4] == 7'hf; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_143 = io_wen & io_addr[10:4] == 7'hf ? io_wdata[20] : tag_regs_15[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_15 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_143; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_15 = _valid_to_be_T_140 ? io_wdata[19:0] : tag_regs_15[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_15_T = {valid_to_be_15,tag_to_be_15}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_149 = io_wen & io_addr[10:4] == 7'h10; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_152 = io_wen & io_addr[10:4] == 7'h10 ? io_wdata[20] : tag_regs_16[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_16 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_152; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_16 = _valid_to_be_T_149 ? io_wdata[19:0] : tag_regs_16[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_16_T = {valid_to_be_16,tag_to_be_16}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_158 = io_wen & io_addr[10:4] == 7'h11; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_161 = io_wen & io_addr[10:4] == 7'h11 ? io_wdata[20] : tag_regs_17[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_17 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_161; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_17 = _valid_to_be_T_158 ? io_wdata[19:0] : tag_regs_17[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_17_T = {valid_to_be_17,tag_to_be_17}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_167 = io_wen & io_addr[10:4] == 7'h12; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_170 = io_wen & io_addr[10:4] == 7'h12 ? io_wdata[20] : tag_regs_18[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_18 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_170; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_18 = _valid_to_be_T_167 ? io_wdata[19:0] : tag_regs_18[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_18_T = {valid_to_be_18,tag_to_be_18}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_176 = io_wen & io_addr[10:4] == 7'h13; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_179 = io_wen & io_addr[10:4] == 7'h13 ? io_wdata[20] : tag_regs_19[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_19 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_179; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_19 = _valid_to_be_T_176 ? io_wdata[19:0] : tag_regs_19[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_19_T = {valid_to_be_19,tag_to_be_19}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_185 = io_wen & io_addr[10:4] == 7'h14; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_188 = io_wen & io_addr[10:4] == 7'h14 ? io_wdata[20] : tag_regs_20[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_20 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_188; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_20 = _valid_to_be_T_185 ? io_wdata[19:0] : tag_regs_20[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_20_T = {valid_to_be_20,tag_to_be_20}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_194 = io_wen & io_addr[10:4] == 7'h15; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_197 = io_wen & io_addr[10:4] == 7'h15 ? io_wdata[20] : tag_regs_21[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_21 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_197; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_21 = _valid_to_be_T_194 ? io_wdata[19:0] : tag_regs_21[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_21_T = {valid_to_be_21,tag_to_be_21}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_203 = io_wen & io_addr[10:4] == 7'h16; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_206 = io_wen & io_addr[10:4] == 7'h16 ? io_wdata[20] : tag_regs_22[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_22 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_206; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_22 = _valid_to_be_T_203 ? io_wdata[19:0] : tag_regs_22[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_22_T = {valid_to_be_22,tag_to_be_22}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_212 = io_wen & io_addr[10:4] == 7'h17; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_215 = io_wen & io_addr[10:4] == 7'h17 ? io_wdata[20] : tag_regs_23[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_23 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_215; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_23 = _valid_to_be_T_212 ? io_wdata[19:0] : tag_regs_23[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_23_T = {valid_to_be_23,tag_to_be_23}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_221 = io_wen & io_addr[10:4] == 7'h18; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_224 = io_wen & io_addr[10:4] == 7'h18 ? io_wdata[20] : tag_regs_24[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_24 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_224; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_24 = _valid_to_be_T_221 ? io_wdata[19:0] : tag_regs_24[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_24_T = {valid_to_be_24,tag_to_be_24}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_230 = io_wen & io_addr[10:4] == 7'h19; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_233 = io_wen & io_addr[10:4] == 7'h19 ? io_wdata[20] : tag_regs_25[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_25 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_233; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_25 = _valid_to_be_T_230 ? io_wdata[19:0] : tag_regs_25[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_25_T = {valid_to_be_25,tag_to_be_25}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_239 = io_wen & io_addr[10:4] == 7'h1a; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_242 = io_wen & io_addr[10:4] == 7'h1a ? io_wdata[20] : tag_regs_26[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_26 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_242; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_26 = _valid_to_be_T_239 ? io_wdata[19:0] : tag_regs_26[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_26_T = {valid_to_be_26,tag_to_be_26}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_248 = io_wen & io_addr[10:4] == 7'h1b; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_251 = io_wen & io_addr[10:4] == 7'h1b ? io_wdata[20] : tag_regs_27[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_27 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_251; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_27 = _valid_to_be_T_248 ? io_wdata[19:0] : tag_regs_27[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_27_T = {valid_to_be_27,tag_to_be_27}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_257 = io_wen & io_addr[10:4] == 7'h1c; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_260 = io_wen & io_addr[10:4] == 7'h1c ? io_wdata[20] : tag_regs_28[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_28 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_260; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_28 = _valid_to_be_T_257 ? io_wdata[19:0] : tag_regs_28[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_28_T = {valid_to_be_28,tag_to_be_28}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_266 = io_wen & io_addr[10:4] == 7'h1d; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_269 = io_wen & io_addr[10:4] == 7'h1d ? io_wdata[20] : tag_regs_29[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_29 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_269; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_29 = _valid_to_be_T_266 ? io_wdata[19:0] : tag_regs_29[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_29_T = {valid_to_be_29,tag_to_be_29}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_275 = io_wen & io_addr[10:4] == 7'h1e; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_278 = io_wen & io_addr[10:4] == 7'h1e ? io_wdata[20] : tag_regs_30[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_30 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_278; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_30 = _valid_to_be_T_275 ? io_wdata[19:0] : tag_regs_30[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_30_T = {valid_to_be_30,tag_to_be_30}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_284 = io_wen & io_addr[10:4] == 7'h1f; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_287 = io_wen & io_addr[10:4] == 7'h1f ? io_wdata[20] : tag_regs_31[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_31 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_287; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_31 = _valid_to_be_T_284 ? io_wdata[19:0] : tag_regs_31[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_31_T = {valid_to_be_31,tag_to_be_31}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_293 = io_wen & io_addr[10:4] == 7'h20; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_296 = io_wen & io_addr[10:4] == 7'h20 ? io_wdata[20] : tag_regs_32[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_32 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_296; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_32 = _valid_to_be_T_293 ? io_wdata[19:0] : tag_regs_32[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_32_T = {valid_to_be_32,tag_to_be_32}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_302 = io_wen & io_addr[10:4] == 7'h21; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_305 = io_wen & io_addr[10:4] == 7'h21 ? io_wdata[20] : tag_regs_33[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_33 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_305; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_33 = _valid_to_be_T_302 ? io_wdata[19:0] : tag_regs_33[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_33_T = {valid_to_be_33,tag_to_be_33}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_311 = io_wen & io_addr[10:4] == 7'h22; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_314 = io_wen & io_addr[10:4] == 7'h22 ? io_wdata[20] : tag_regs_34[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_34 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_314; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_34 = _valid_to_be_T_311 ? io_wdata[19:0] : tag_regs_34[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_34_T = {valid_to_be_34,tag_to_be_34}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_320 = io_wen & io_addr[10:4] == 7'h23; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_323 = io_wen & io_addr[10:4] == 7'h23 ? io_wdata[20] : tag_regs_35[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_35 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_323; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_35 = _valid_to_be_T_320 ? io_wdata[19:0] : tag_regs_35[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_35_T = {valid_to_be_35,tag_to_be_35}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_329 = io_wen & io_addr[10:4] == 7'h24; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_332 = io_wen & io_addr[10:4] == 7'h24 ? io_wdata[20] : tag_regs_36[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_36 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_332; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_36 = _valid_to_be_T_329 ? io_wdata[19:0] : tag_regs_36[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_36_T = {valid_to_be_36,tag_to_be_36}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_338 = io_wen & io_addr[10:4] == 7'h25; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_341 = io_wen & io_addr[10:4] == 7'h25 ? io_wdata[20] : tag_regs_37[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_37 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_341; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_37 = _valid_to_be_T_338 ? io_wdata[19:0] : tag_regs_37[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_37_T = {valid_to_be_37,tag_to_be_37}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_347 = io_wen & io_addr[10:4] == 7'h26; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_350 = io_wen & io_addr[10:4] == 7'h26 ? io_wdata[20] : tag_regs_38[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_38 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_350; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_38 = _valid_to_be_T_347 ? io_wdata[19:0] : tag_regs_38[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_38_T = {valid_to_be_38,tag_to_be_38}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_356 = io_wen & io_addr[10:4] == 7'h27; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_359 = io_wen & io_addr[10:4] == 7'h27 ? io_wdata[20] : tag_regs_39[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_39 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_359; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_39 = _valid_to_be_T_356 ? io_wdata[19:0] : tag_regs_39[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_39_T = {valid_to_be_39,tag_to_be_39}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_365 = io_wen & io_addr[10:4] == 7'h28; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_368 = io_wen & io_addr[10:4] == 7'h28 ? io_wdata[20] : tag_regs_40[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_40 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_368; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_40 = _valid_to_be_T_365 ? io_wdata[19:0] : tag_regs_40[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_40_T = {valid_to_be_40,tag_to_be_40}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_374 = io_wen & io_addr[10:4] == 7'h29; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_377 = io_wen & io_addr[10:4] == 7'h29 ? io_wdata[20] : tag_regs_41[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_41 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_377; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_41 = _valid_to_be_T_374 ? io_wdata[19:0] : tag_regs_41[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_41_T = {valid_to_be_41,tag_to_be_41}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_383 = io_wen & io_addr[10:4] == 7'h2a; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_386 = io_wen & io_addr[10:4] == 7'h2a ? io_wdata[20] : tag_regs_42[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_42 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_386; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_42 = _valid_to_be_T_383 ? io_wdata[19:0] : tag_regs_42[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_42_T = {valid_to_be_42,tag_to_be_42}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_392 = io_wen & io_addr[10:4] == 7'h2b; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_395 = io_wen & io_addr[10:4] == 7'h2b ? io_wdata[20] : tag_regs_43[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_43 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_395; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_43 = _valid_to_be_T_392 ? io_wdata[19:0] : tag_regs_43[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_43_T = {valid_to_be_43,tag_to_be_43}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_401 = io_wen & io_addr[10:4] == 7'h2c; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_404 = io_wen & io_addr[10:4] == 7'h2c ? io_wdata[20] : tag_regs_44[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_44 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_404; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_44 = _valid_to_be_T_401 ? io_wdata[19:0] : tag_regs_44[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_44_T = {valid_to_be_44,tag_to_be_44}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_410 = io_wen & io_addr[10:4] == 7'h2d; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_413 = io_wen & io_addr[10:4] == 7'h2d ? io_wdata[20] : tag_regs_45[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_45 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_413; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_45 = _valid_to_be_T_410 ? io_wdata[19:0] : tag_regs_45[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_45_T = {valid_to_be_45,tag_to_be_45}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_419 = io_wen & io_addr[10:4] == 7'h2e; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_422 = io_wen & io_addr[10:4] == 7'h2e ? io_wdata[20] : tag_regs_46[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_46 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_422; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_46 = _valid_to_be_T_419 ? io_wdata[19:0] : tag_regs_46[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_46_T = {valid_to_be_46,tag_to_be_46}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_428 = io_wen & io_addr[10:4] == 7'h2f; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_431 = io_wen & io_addr[10:4] == 7'h2f ? io_wdata[20] : tag_regs_47[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_47 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_431; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_47 = _valid_to_be_T_428 ? io_wdata[19:0] : tag_regs_47[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_47_T = {valid_to_be_47,tag_to_be_47}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_437 = io_wen & io_addr[10:4] == 7'h30; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_440 = io_wen & io_addr[10:4] == 7'h30 ? io_wdata[20] : tag_regs_48[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_48 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_440; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_48 = _valid_to_be_T_437 ? io_wdata[19:0] : tag_regs_48[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_48_T = {valid_to_be_48,tag_to_be_48}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_446 = io_wen & io_addr[10:4] == 7'h31; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_449 = io_wen & io_addr[10:4] == 7'h31 ? io_wdata[20] : tag_regs_49[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_49 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_449; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_49 = _valid_to_be_T_446 ? io_wdata[19:0] : tag_regs_49[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_49_T = {valid_to_be_49,tag_to_be_49}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_455 = io_wen & io_addr[10:4] == 7'h32; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_458 = io_wen & io_addr[10:4] == 7'h32 ? io_wdata[20] : tag_regs_50[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_50 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_458; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_50 = _valid_to_be_T_455 ? io_wdata[19:0] : tag_regs_50[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_50_T = {valid_to_be_50,tag_to_be_50}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_464 = io_wen & io_addr[10:4] == 7'h33; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_467 = io_wen & io_addr[10:4] == 7'h33 ? io_wdata[20] : tag_regs_51[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_51 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_467; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_51 = _valid_to_be_T_464 ? io_wdata[19:0] : tag_regs_51[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_51_T = {valid_to_be_51,tag_to_be_51}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_473 = io_wen & io_addr[10:4] == 7'h34; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_476 = io_wen & io_addr[10:4] == 7'h34 ? io_wdata[20] : tag_regs_52[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_52 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_476; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_52 = _valid_to_be_T_473 ? io_wdata[19:0] : tag_regs_52[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_52_T = {valid_to_be_52,tag_to_be_52}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_482 = io_wen & io_addr[10:4] == 7'h35; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_485 = io_wen & io_addr[10:4] == 7'h35 ? io_wdata[20] : tag_regs_53[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_53 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_485; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_53 = _valid_to_be_T_482 ? io_wdata[19:0] : tag_regs_53[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_53_T = {valid_to_be_53,tag_to_be_53}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_491 = io_wen & io_addr[10:4] == 7'h36; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_494 = io_wen & io_addr[10:4] == 7'h36 ? io_wdata[20] : tag_regs_54[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_54 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_494; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_54 = _valid_to_be_T_491 ? io_wdata[19:0] : tag_regs_54[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_54_T = {valid_to_be_54,tag_to_be_54}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_500 = io_wen & io_addr[10:4] == 7'h37; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_503 = io_wen & io_addr[10:4] == 7'h37 ? io_wdata[20] : tag_regs_55[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_55 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_503; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_55 = _valid_to_be_T_500 ? io_wdata[19:0] : tag_regs_55[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_55_T = {valid_to_be_55,tag_to_be_55}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_509 = io_wen & io_addr[10:4] == 7'h38; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_512 = io_wen & io_addr[10:4] == 7'h38 ? io_wdata[20] : tag_regs_56[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_56 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_512; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_56 = _valid_to_be_T_509 ? io_wdata[19:0] : tag_regs_56[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_56_T = {valid_to_be_56,tag_to_be_56}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_518 = io_wen & io_addr[10:4] == 7'h39; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_521 = io_wen & io_addr[10:4] == 7'h39 ? io_wdata[20] : tag_regs_57[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_57 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_521; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_57 = _valid_to_be_T_518 ? io_wdata[19:0] : tag_regs_57[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_57_T = {valid_to_be_57,tag_to_be_57}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_527 = io_wen & io_addr[10:4] == 7'h3a; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_530 = io_wen & io_addr[10:4] == 7'h3a ? io_wdata[20] : tag_regs_58[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_58 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_530; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_58 = _valid_to_be_T_527 ? io_wdata[19:0] : tag_regs_58[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_58_T = {valid_to_be_58,tag_to_be_58}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_536 = io_wen & io_addr[10:4] == 7'h3b; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_539 = io_wen & io_addr[10:4] == 7'h3b ? io_wdata[20] : tag_regs_59[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_59 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_539; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_59 = _valid_to_be_T_536 ? io_wdata[19:0] : tag_regs_59[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_59_T = {valid_to_be_59,tag_to_be_59}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_545 = io_wen & io_addr[10:4] == 7'h3c; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_548 = io_wen & io_addr[10:4] == 7'h3c ? io_wdata[20] : tag_regs_60[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_60 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_548; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_60 = _valid_to_be_T_545 ? io_wdata[19:0] : tag_regs_60[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_60_T = {valid_to_be_60,tag_to_be_60}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_554 = io_wen & io_addr[10:4] == 7'h3d; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_557 = io_wen & io_addr[10:4] == 7'h3d ? io_wdata[20] : tag_regs_61[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_61 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_557; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_61 = _valid_to_be_T_554 ? io_wdata[19:0] : tag_regs_61[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_61_T = {valid_to_be_61,tag_to_be_61}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_563 = io_wen & io_addr[10:4] == 7'h3e; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_566 = io_wen & io_addr[10:4] == 7'h3e ? io_wdata[20] : tag_regs_62[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_62 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_566; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_62 = _valid_to_be_T_563 ? io_wdata[19:0] : tag_regs_62[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_62_T = {valid_to_be_62,tag_to_be_62}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_572 = io_wen & io_addr[10:4] == 7'h3f; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_575 = io_wen & io_addr[10:4] == 7'h3f ? io_wdata[20] : tag_regs_63[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_63 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_575; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_63 = _valid_to_be_T_572 ? io_wdata[19:0] : tag_regs_63[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_63_T = {valid_to_be_63,tag_to_be_63}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_581 = io_wen & io_addr[10:4] == 7'h40; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_584 = io_wen & io_addr[10:4] == 7'h40 ? io_wdata[20] : tag_regs_64[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_64 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_584; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_64 = _valid_to_be_T_581 ? io_wdata[19:0] : tag_regs_64[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_64_T = {valid_to_be_64,tag_to_be_64}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_590 = io_wen & io_addr[10:4] == 7'h41; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_593 = io_wen & io_addr[10:4] == 7'h41 ? io_wdata[20] : tag_regs_65[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_65 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_593; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_65 = _valid_to_be_T_590 ? io_wdata[19:0] : tag_regs_65[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_65_T = {valid_to_be_65,tag_to_be_65}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_599 = io_wen & io_addr[10:4] == 7'h42; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_602 = io_wen & io_addr[10:4] == 7'h42 ? io_wdata[20] : tag_regs_66[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_66 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_602; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_66 = _valid_to_be_T_599 ? io_wdata[19:0] : tag_regs_66[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_66_T = {valid_to_be_66,tag_to_be_66}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_608 = io_wen & io_addr[10:4] == 7'h43; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_611 = io_wen & io_addr[10:4] == 7'h43 ? io_wdata[20] : tag_regs_67[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_67 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_611; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_67 = _valid_to_be_T_608 ? io_wdata[19:0] : tag_regs_67[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_67_T = {valid_to_be_67,tag_to_be_67}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_617 = io_wen & io_addr[10:4] == 7'h44; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_620 = io_wen & io_addr[10:4] == 7'h44 ? io_wdata[20] : tag_regs_68[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_68 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_620; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_68 = _valid_to_be_T_617 ? io_wdata[19:0] : tag_regs_68[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_68_T = {valid_to_be_68,tag_to_be_68}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_626 = io_wen & io_addr[10:4] == 7'h45; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_629 = io_wen & io_addr[10:4] == 7'h45 ? io_wdata[20] : tag_regs_69[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_69 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_629; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_69 = _valid_to_be_T_626 ? io_wdata[19:0] : tag_regs_69[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_69_T = {valid_to_be_69,tag_to_be_69}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_635 = io_wen & io_addr[10:4] == 7'h46; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_638 = io_wen & io_addr[10:4] == 7'h46 ? io_wdata[20] : tag_regs_70[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_70 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_638; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_70 = _valid_to_be_T_635 ? io_wdata[19:0] : tag_regs_70[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_70_T = {valid_to_be_70,tag_to_be_70}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_644 = io_wen & io_addr[10:4] == 7'h47; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_647 = io_wen & io_addr[10:4] == 7'h47 ? io_wdata[20] : tag_regs_71[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_71 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_647; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_71 = _valid_to_be_T_644 ? io_wdata[19:0] : tag_regs_71[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_71_T = {valid_to_be_71,tag_to_be_71}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_653 = io_wen & io_addr[10:4] == 7'h48; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_656 = io_wen & io_addr[10:4] == 7'h48 ? io_wdata[20] : tag_regs_72[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_72 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_656; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_72 = _valid_to_be_T_653 ? io_wdata[19:0] : tag_regs_72[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_72_T = {valid_to_be_72,tag_to_be_72}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_662 = io_wen & io_addr[10:4] == 7'h49; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_665 = io_wen & io_addr[10:4] == 7'h49 ? io_wdata[20] : tag_regs_73[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_73 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_665; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_73 = _valid_to_be_T_662 ? io_wdata[19:0] : tag_regs_73[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_73_T = {valid_to_be_73,tag_to_be_73}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_671 = io_wen & io_addr[10:4] == 7'h4a; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_674 = io_wen & io_addr[10:4] == 7'h4a ? io_wdata[20] : tag_regs_74[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_74 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_674; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_74 = _valid_to_be_T_671 ? io_wdata[19:0] : tag_regs_74[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_74_T = {valid_to_be_74,tag_to_be_74}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_680 = io_wen & io_addr[10:4] == 7'h4b; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_683 = io_wen & io_addr[10:4] == 7'h4b ? io_wdata[20] : tag_regs_75[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_75 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_683; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_75 = _valid_to_be_T_680 ? io_wdata[19:0] : tag_regs_75[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_75_T = {valid_to_be_75,tag_to_be_75}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_689 = io_wen & io_addr[10:4] == 7'h4c; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_692 = io_wen & io_addr[10:4] == 7'h4c ? io_wdata[20] : tag_regs_76[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_76 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_692; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_76 = _valid_to_be_T_689 ? io_wdata[19:0] : tag_regs_76[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_76_T = {valid_to_be_76,tag_to_be_76}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_698 = io_wen & io_addr[10:4] == 7'h4d; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_701 = io_wen & io_addr[10:4] == 7'h4d ? io_wdata[20] : tag_regs_77[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_77 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_701; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_77 = _valid_to_be_T_698 ? io_wdata[19:0] : tag_regs_77[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_77_T = {valid_to_be_77,tag_to_be_77}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_707 = io_wen & io_addr[10:4] == 7'h4e; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_710 = io_wen & io_addr[10:4] == 7'h4e ? io_wdata[20] : tag_regs_78[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_78 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_710; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_78 = _valid_to_be_T_707 ? io_wdata[19:0] : tag_regs_78[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_78_T = {valid_to_be_78,tag_to_be_78}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_716 = io_wen & io_addr[10:4] == 7'h4f; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_719 = io_wen & io_addr[10:4] == 7'h4f ? io_wdata[20] : tag_regs_79[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_79 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_719; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_79 = _valid_to_be_T_716 ? io_wdata[19:0] : tag_regs_79[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_79_T = {valid_to_be_79,tag_to_be_79}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_725 = io_wen & io_addr[10:4] == 7'h50; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_728 = io_wen & io_addr[10:4] == 7'h50 ? io_wdata[20] : tag_regs_80[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_80 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_728; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_80 = _valid_to_be_T_725 ? io_wdata[19:0] : tag_regs_80[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_80_T = {valid_to_be_80,tag_to_be_80}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_734 = io_wen & io_addr[10:4] == 7'h51; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_737 = io_wen & io_addr[10:4] == 7'h51 ? io_wdata[20] : tag_regs_81[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_81 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_737; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_81 = _valid_to_be_T_734 ? io_wdata[19:0] : tag_regs_81[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_81_T = {valid_to_be_81,tag_to_be_81}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_743 = io_wen & io_addr[10:4] == 7'h52; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_746 = io_wen & io_addr[10:4] == 7'h52 ? io_wdata[20] : tag_regs_82[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_82 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_746; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_82 = _valid_to_be_T_743 ? io_wdata[19:0] : tag_regs_82[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_82_T = {valid_to_be_82,tag_to_be_82}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_752 = io_wen & io_addr[10:4] == 7'h53; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_755 = io_wen & io_addr[10:4] == 7'h53 ? io_wdata[20] : tag_regs_83[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_83 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_755; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_83 = _valid_to_be_T_752 ? io_wdata[19:0] : tag_regs_83[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_83_T = {valid_to_be_83,tag_to_be_83}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_761 = io_wen & io_addr[10:4] == 7'h54; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_764 = io_wen & io_addr[10:4] == 7'h54 ? io_wdata[20] : tag_regs_84[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_84 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_764; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_84 = _valid_to_be_T_761 ? io_wdata[19:0] : tag_regs_84[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_84_T = {valid_to_be_84,tag_to_be_84}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_770 = io_wen & io_addr[10:4] == 7'h55; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_773 = io_wen & io_addr[10:4] == 7'h55 ? io_wdata[20] : tag_regs_85[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_85 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_773; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_85 = _valid_to_be_T_770 ? io_wdata[19:0] : tag_regs_85[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_85_T = {valid_to_be_85,tag_to_be_85}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_779 = io_wen & io_addr[10:4] == 7'h56; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_782 = io_wen & io_addr[10:4] == 7'h56 ? io_wdata[20] : tag_regs_86[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_86 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_782; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_86 = _valid_to_be_T_779 ? io_wdata[19:0] : tag_regs_86[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_86_T = {valid_to_be_86,tag_to_be_86}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_788 = io_wen & io_addr[10:4] == 7'h57; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_791 = io_wen & io_addr[10:4] == 7'h57 ? io_wdata[20] : tag_regs_87[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_87 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_791; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_87 = _valid_to_be_T_788 ? io_wdata[19:0] : tag_regs_87[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_87_T = {valid_to_be_87,tag_to_be_87}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_797 = io_wen & io_addr[10:4] == 7'h58; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_800 = io_wen & io_addr[10:4] == 7'h58 ? io_wdata[20] : tag_regs_88[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_88 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_800; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_88 = _valid_to_be_T_797 ? io_wdata[19:0] : tag_regs_88[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_88_T = {valid_to_be_88,tag_to_be_88}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_806 = io_wen & io_addr[10:4] == 7'h59; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_809 = io_wen & io_addr[10:4] == 7'h59 ? io_wdata[20] : tag_regs_89[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_89 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_809; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_89 = _valid_to_be_T_806 ? io_wdata[19:0] : tag_regs_89[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_89_T = {valid_to_be_89,tag_to_be_89}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_815 = io_wen & io_addr[10:4] == 7'h5a; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_818 = io_wen & io_addr[10:4] == 7'h5a ? io_wdata[20] : tag_regs_90[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_90 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_818; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_90 = _valid_to_be_T_815 ? io_wdata[19:0] : tag_regs_90[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_90_T = {valid_to_be_90,tag_to_be_90}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_824 = io_wen & io_addr[10:4] == 7'h5b; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_827 = io_wen & io_addr[10:4] == 7'h5b ? io_wdata[20] : tag_regs_91[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_91 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_827; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_91 = _valid_to_be_T_824 ? io_wdata[19:0] : tag_regs_91[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_91_T = {valid_to_be_91,tag_to_be_91}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_833 = io_wen & io_addr[10:4] == 7'h5c; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_836 = io_wen & io_addr[10:4] == 7'h5c ? io_wdata[20] : tag_regs_92[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_92 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_836; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_92 = _valid_to_be_T_833 ? io_wdata[19:0] : tag_regs_92[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_92_T = {valid_to_be_92,tag_to_be_92}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_842 = io_wen & io_addr[10:4] == 7'h5d; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_845 = io_wen & io_addr[10:4] == 7'h5d ? io_wdata[20] : tag_regs_93[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_93 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_845; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_93 = _valid_to_be_T_842 ? io_wdata[19:0] : tag_regs_93[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_93_T = {valid_to_be_93,tag_to_be_93}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_851 = io_wen & io_addr[10:4] == 7'h5e; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_854 = io_wen & io_addr[10:4] == 7'h5e ? io_wdata[20] : tag_regs_94[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_94 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_854; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_94 = _valid_to_be_T_851 ? io_wdata[19:0] : tag_regs_94[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_94_T = {valid_to_be_94,tag_to_be_94}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_860 = io_wen & io_addr[10:4] == 7'h5f; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_863 = io_wen & io_addr[10:4] == 7'h5f ? io_wdata[20] : tag_regs_95[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_95 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_863; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_95 = _valid_to_be_T_860 ? io_wdata[19:0] : tag_regs_95[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_95_T = {valid_to_be_95,tag_to_be_95}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_869 = io_wen & io_addr[10:4] == 7'h60; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_872 = io_wen & io_addr[10:4] == 7'h60 ? io_wdata[20] : tag_regs_96[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_96 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_872; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_96 = _valid_to_be_T_869 ? io_wdata[19:0] : tag_regs_96[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_96_T = {valid_to_be_96,tag_to_be_96}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_878 = io_wen & io_addr[10:4] == 7'h61; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_881 = io_wen & io_addr[10:4] == 7'h61 ? io_wdata[20] : tag_regs_97[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_97 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_881; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_97 = _valid_to_be_T_878 ? io_wdata[19:0] : tag_regs_97[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_97_T = {valid_to_be_97,tag_to_be_97}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_887 = io_wen & io_addr[10:4] == 7'h62; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_890 = io_wen & io_addr[10:4] == 7'h62 ? io_wdata[20] : tag_regs_98[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_98 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_890; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_98 = _valid_to_be_T_887 ? io_wdata[19:0] : tag_regs_98[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_98_T = {valid_to_be_98,tag_to_be_98}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_896 = io_wen & io_addr[10:4] == 7'h63; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_899 = io_wen & io_addr[10:4] == 7'h63 ? io_wdata[20] : tag_regs_99[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_99 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_899; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_99 = _valid_to_be_T_896 ? io_wdata[19:0] : tag_regs_99[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_99_T = {valid_to_be_99,tag_to_be_99}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_905 = io_wen & io_addr[10:4] == 7'h64; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_908 = io_wen & io_addr[10:4] == 7'h64 ? io_wdata[20] : tag_regs_100[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_100 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_908; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_100 = _valid_to_be_T_905 ? io_wdata[19:0] : tag_regs_100[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_100_T = {valid_to_be_100,tag_to_be_100}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_914 = io_wen & io_addr[10:4] == 7'h65; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_917 = io_wen & io_addr[10:4] == 7'h65 ? io_wdata[20] : tag_regs_101[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_101 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_917; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_101 = _valid_to_be_T_914 ? io_wdata[19:0] : tag_regs_101[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_101_T = {valid_to_be_101,tag_to_be_101}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_923 = io_wen & io_addr[10:4] == 7'h66; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_926 = io_wen & io_addr[10:4] == 7'h66 ? io_wdata[20] : tag_regs_102[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_102 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_926; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_102 = _valid_to_be_T_923 ? io_wdata[19:0] : tag_regs_102[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_102_T = {valid_to_be_102,tag_to_be_102}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_932 = io_wen & io_addr[10:4] == 7'h67; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_935 = io_wen & io_addr[10:4] == 7'h67 ? io_wdata[20] : tag_regs_103[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_103 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_935; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_103 = _valid_to_be_T_932 ? io_wdata[19:0] : tag_regs_103[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_103_T = {valid_to_be_103,tag_to_be_103}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_941 = io_wen & io_addr[10:4] == 7'h68; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_944 = io_wen & io_addr[10:4] == 7'h68 ? io_wdata[20] : tag_regs_104[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_104 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_944; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_104 = _valid_to_be_T_941 ? io_wdata[19:0] : tag_regs_104[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_104_T = {valid_to_be_104,tag_to_be_104}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_950 = io_wen & io_addr[10:4] == 7'h69; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_953 = io_wen & io_addr[10:4] == 7'h69 ? io_wdata[20] : tag_regs_105[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_105 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_953; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_105 = _valid_to_be_T_950 ? io_wdata[19:0] : tag_regs_105[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_105_T = {valid_to_be_105,tag_to_be_105}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_959 = io_wen & io_addr[10:4] == 7'h6a; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_962 = io_wen & io_addr[10:4] == 7'h6a ? io_wdata[20] : tag_regs_106[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_106 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_962; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_106 = _valid_to_be_T_959 ? io_wdata[19:0] : tag_regs_106[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_106_T = {valid_to_be_106,tag_to_be_106}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_968 = io_wen & io_addr[10:4] == 7'h6b; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_971 = io_wen & io_addr[10:4] == 7'h6b ? io_wdata[20] : tag_regs_107[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_107 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_971; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_107 = _valid_to_be_T_968 ? io_wdata[19:0] : tag_regs_107[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_107_T = {valid_to_be_107,tag_to_be_107}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_977 = io_wen & io_addr[10:4] == 7'h6c; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_980 = io_wen & io_addr[10:4] == 7'h6c ? io_wdata[20] : tag_regs_108[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_108 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_980; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_108 = _valid_to_be_T_977 ? io_wdata[19:0] : tag_regs_108[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_108_T = {valid_to_be_108,tag_to_be_108}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_986 = io_wen & io_addr[10:4] == 7'h6d; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_989 = io_wen & io_addr[10:4] == 7'h6d ? io_wdata[20] : tag_regs_109[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_109 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_989; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_109 = _valid_to_be_T_986 ? io_wdata[19:0] : tag_regs_109[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_109_T = {valid_to_be_109,tag_to_be_109}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_995 = io_wen & io_addr[10:4] == 7'h6e; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_998 = io_wen & io_addr[10:4] == 7'h6e ? io_wdata[20] : tag_regs_110[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_110 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_998; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_110 = _valid_to_be_T_995 ? io_wdata[19:0] : tag_regs_110[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_110_T = {valid_to_be_110,tag_to_be_110}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1004 = io_wen & io_addr[10:4] == 7'h6f; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1007 = io_wen & io_addr[10:4] == 7'h6f ? io_wdata[20] : tag_regs_111[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_111 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1007; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_111 = _valid_to_be_T_1004 ? io_wdata[19:0] : tag_regs_111[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_111_T = {valid_to_be_111,tag_to_be_111}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1013 = io_wen & io_addr[10:4] == 7'h70; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1016 = io_wen & io_addr[10:4] == 7'h70 ? io_wdata[20] : tag_regs_112[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_112 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1016; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_112 = _valid_to_be_T_1013 ? io_wdata[19:0] : tag_regs_112[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_112_T = {valid_to_be_112,tag_to_be_112}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1022 = io_wen & io_addr[10:4] == 7'h71; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1025 = io_wen & io_addr[10:4] == 7'h71 ? io_wdata[20] : tag_regs_113[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_113 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1025; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_113 = _valid_to_be_T_1022 ? io_wdata[19:0] : tag_regs_113[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_113_T = {valid_to_be_113,tag_to_be_113}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1031 = io_wen & io_addr[10:4] == 7'h72; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1034 = io_wen & io_addr[10:4] == 7'h72 ? io_wdata[20] : tag_regs_114[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_114 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1034; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_114 = _valid_to_be_T_1031 ? io_wdata[19:0] : tag_regs_114[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_114_T = {valid_to_be_114,tag_to_be_114}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1040 = io_wen & io_addr[10:4] == 7'h73; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1043 = io_wen & io_addr[10:4] == 7'h73 ? io_wdata[20] : tag_regs_115[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_115 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1043; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_115 = _valid_to_be_T_1040 ? io_wdata[19:0] : tag_regs_115[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_115_T = {valid_to_be_115,tag_to_be_115}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1049 = io_wen & io_addr[10:4] == 7'h74; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1052 = io_wen & io_addr[10:4] == 7'h74 ? io_wdata[20] : tag_regs_116[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_116 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1052; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_116 = _valid_to_be_T_1049 ? io_wdata[19:0] : tag_regs_116[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_116_T = {valid_to_be_116,tag_to_be_116}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1058 = io_wen & io_addr[10:4] == 7'h75; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1061 = io_wen & io_addr[10:4] == 7'h75 ? io_wdata[20] : tag_regs_117[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_117 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1061; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_117 = _valid_to_be_T_1058 ? io_wdata[19:0] : tag_regs_117[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_117_T = {valid_to_be_117,tag_to_be_117}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1067 = io_wen & io_addr[10:4] == 7'h76; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1070 = io_wen & io_addr[10:4] == 7'h76 ? io_wdata[20] : tag_regs_118[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_118 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1070; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_118 = _valid_to_be_T_1067 ? io_wdata[19:0] : tag_regs_118[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_118_T = {valid_to_be_118,tag_to_be_118}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1076 = io_wen & io_addr[10:4] == 7'h77; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1079 = io_wen & io_addr[10:4] == 7'h77 ? io_wdata[20] : tag_regs_119[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_119 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1079; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_119 = _valid_to_be_T_1076 ? io_wdata[19:0] : tag_regs_119[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_119_T = {valid_to_be_119,tag_to_be_119}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1085 = io_wen & io_addr[10:4] == 7'h78; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1088 = io_wen & io_addr[10:4] == 7'h78 ? io_wdata[20] : tag_regs_120[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_120 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1088; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_120 = _valid_to_be_T_1085 ? io_wdata[19:0] : tag_regs_120[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_120_T = {valid_to_be_120,tag_to_be_120}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1094 = io_wen & io_addr[10:4] == 7'h79; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1097 = io_wen & io_addr[10:4] == 7'h79 ? io_wdata[20] : tag_regs_121[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_121 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1097; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_121 = _valid_to_be_T_1094 ? io_wdata[19:0] : tag_regs_121[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_121_T = {valid_to_be_121,tag_to_be_121}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1103 = io_wen & io_addr[10:4] == 7'h7a; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1106 = io_wen & io_addr[10:4] == 7'h7a ? io_wdata[20] : tag_regs_122[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_122 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1106; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_122 = _valid_to_be_T_1103 ? io_wdata[19:0] : tag_regs_122[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_122_T = {valid_to_be_122,tag_to_be_122}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1112 = io_wen & io_addr[10:4] == 7'h7b; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1115 = io_wen & io_addr[10:4] == 7'h7b ? io_wdata[20] : tag_regs_123[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_123 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1115; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_123 = _valid_to_be_T_1112 ? io_wdata[19:0] : tag_regs_123[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_123_T = {valid_to_be_123,tag_to_be_123}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1121 = io_wen & io_addr[10:4] == 7'h7c; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1124 = io_wen & io_addr[10:4] == 7'h7c ? io_wdata[20] : tag_regs_124[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_124 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1124; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_124 = _valid_to_be_T_1121 ? io_wdata[19:0] : tag_regs_124[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_124_T = {valid_to_be_124,tag_to_be_124}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1130 = io_wen & io_addr[10:4] == 7'h7d; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1133 = io_wen & io_addr[10:4] == 7'h7d ? io_wdata[20] : tag_regs_125[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_125 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1133; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_125 = _valid_to_be_T_1130 ? io_wdata[19:0] : tag_regs_125[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_125_T = {valid_to_be_125,tag_to_be_125}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1139 = io_wen & io_addr[10:4] == 7'h7e; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1142 = io_wen & io_addr[10:4] == 7'h7e ? io_wdata[20] : tag_regs_126[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_126 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1142; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_126 = _valid_to_be_T_1139 ? io_wdata[19:0] : tag_regs_126[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_126_T = {valid_to_be_126,tag_to_be_126}; // @[Cat.scala 31:58]
+  wire  _valid_to_be_T_1148 = io_wen & io_addr[10:4] == 7'h7f; // @[icache_tag.scala 27:93]
+  wire  _valid_to_be_T_1151 = io_wen & io_addr[10:4] == 7'h7f ? io_wdata[20] : tag_regs_127[20]; // @[icache_tag.scala 27:62]
+  wire  valid_to_be_127 = io_tag_all_flush ? 1'h0 : _valid_to_be_T_1151; // @[icache_tag.scala 27:30]
+  wire [19:0] tag_to_be_127 = _valid_to_be_T_1148 ? io_wdata[19:0] : tag_regs_127[19:0]; // @[icache_tag.scala 30:28]
+  wire [20:0] _tag_regs_127_T = {valid_to_be_127,tag_to_be_127}; // @[Cat.scala 31:58]
+  wire [7:0] _GEN_1 = 7'h1 == io_addr[10:4] ? tag_asid_regs_1 : tag_asid_regs_0; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_2 = 7'h2 == io_addr[10:4] ? tag_asid_regs_2 : _GEN_1; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_3 = 7'h3 == io_addr[10:4] ? tag_asid_regs_3 : _GEN_2; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_4 = 7'h4 == io_addr[10:4] ? tag_asid_regs_4 : _GEN_3; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_5 = 7'h5 == io_addr[10:4] ? tag_asid_regs_5 : _GEN_4; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_6 = 7'h6 == io_addr[10:4] ? tag_asid_regs_6 : _GEN_5; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_7 = 7'h7 == io_addr[10:4] ? tag_asid_regs_7 : _GEN_6; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_8 = 7'h8 == io_addr[10:4] ? tag_asid_regs_8 : _GEN_7; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_9 = 7'h9 == io_addr[10:4] ? tag_asid_regs_9 : _GEN_8; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_10 = 7'ha == io_addr[10:4] ? tag_asid_regs_10 : _GEN_9; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_11 = 7'hb == io_addr[10:4] ? tag_asid_regs_11 : _GEN_10; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_12 = 7'hc == io_addr[10:4] ? tag_asid_regs_12 : _GEN_11; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_13 = 7'hd == io_addr[10:4] ? tag_asid_regs_13 : _GEN_12; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_14 = 7'he == io_addr[10:4] ? tag_asid_regs_14 : _GEN_13; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_15 = 7'hf == io_addr[10:4] ? tag_asid_regs_15 : _GEN_14; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_16 = 7'h10 == io_addr[10:4] ? tag_asid_regs_16 : _GEN_15; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_17 = 7'h11 == io_addr[10:4] ? tag_asid_regs_17 : _GEN_16; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_18 = 7'h12 == io_addr[10:4] ? tag_asid_regs_18 : _GEN_17; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_19 = 7'h13 == io_addr[10:4] ? tag_asid_regs_19 : _GEN_18; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_20 = 7'h14 == io_addr[10:4] ? tag_asid_regs_20 : _GEN_19; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_21 = 7'h15 == io_addr[10:4] ? tag_asid_regs_21 : _GEN_20; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_22 = 7'h16 == io_addr[10:4] ? tag_asid_regs_22 : _GEN_21; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_23 = 7'h17 == io_addr[10:4] ? tag_asid_regs_23 : _GEN_22; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_24 = 7'h18 == io_addr[10:4] ? tag_asid_regs_24 : _GEN_23; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_25 = 7'h19 == io_addr[10:4] ? tag_asid_regs_25 : _GEN_24; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_26 = 7'h1a == io_addr[10:4] ? tag_asid_regs_26 : _GEN_25; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_27 = 7'h1b == io_addr[10:4] ? tag_asid_regs_27 : _GEN_26; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_28 = 7'h1c == io_addr[10:4] ? tag_asid_regs_28 : _GEN_27; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_29 = 7'h1d == io_addr[10:4] ? tag_asid_regs_29 : _GEN_28; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_30 = 7'h1e == io_addr[10:4] ? tag_asid_regs_30 : _GEN_29; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_31 = 7'h1f == io_addr[10:4] ? tag_asid_regs_31 : _GEN_30; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_32 = 7'h20 == io_addr[10:4] ? tag_asid_regs_32 : _GEN_31; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_33 = 7'h21 == io_addr[10:4] ? tag_asid_regs_33 : _GEN_32; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_34 = 7'h22 == io_addr[10:4] ? tag_asid_regs_34 : _GEN_33; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_35 = 7'h23 == io_addr[10:4] ? tag_asid_regs_35 : _GEN_34; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_36 = 7'h24 == io_addr[10:4] ? tag_asid_regs_36 : _GEN_35; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_37 = 7'h25 == io_addr[10:4] ? tag_asid_regs_37 : _GEN_36; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_38 = 7'h26 == io_addr[10:4] ? tag_asid_regs_38 : _GEN_37; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_39 = 7'h27 == io_addr[10:4] ? tag_asid_regs_39 : _GEN_38; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_40 = 7'h28 == io_addr[10:4] ? tag_asid_regs_40 : _GEN_39; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_41 = 7'h29 == io_addr[10:4] ? tag_asid_regs_41 : _GEN_40; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_42 = 7'h2a == io_addr[10:4] ? tag_asid_regs_42 : _GEN_41; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_43 = 7'h2b == io_addr[10:4] ? tag_asid_regs_43 : _GEN_42; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_44 = 7'h2c == io_addr[10:4] ? tag_asid_regs_44 : _GEN_43; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_45 = 7'h2d == io_addr[10:4] ? tag_asid_regs_45 : _GEN_44; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_46 = 7'h2e == io_addr[10:4] ? tag_asid_regs_46 : _GEN_45; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_47 = 7'h2f == io_addr[10:4] ? tag_asid_regs_47 : _GEN_46; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_48 = 7'h30 == io_addr[10:4] ? tag_asid_regs_48 : _GEN_47; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_49 = 7'h31 == io_addr[10:4] ? tag_asid_regs_49 : _GEN_48; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_50 = 7'h32 == io_addr[10:4] ? tag_asid_regs_50 : _GEN_49; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_51 = 7'h33 == io_addr[10:4] ? tag_asid_regs_51 : _GEN_50; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_52 = 7'h34 == io_addr[10:4] ? tag_asid_regs_52 : _GEN_51; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_53 = 7'h35 == io_addr[10:4] ? tag_asid_regs_53 : _GEN_52; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_54 = 7'h36 == io_addr[10:4] ? tag_asid_regs_54 : _GEN_53; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_55 = 7'h37 == io_addr[10:4] ? tag_asid_regs_55 : _GEN_54; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_56 = 7'h38 == io_addr[10:4] ? tag_asid_regs_56 : _GEN_55; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_57 = 7'h39 == io_addr[10:4] ? tag_asid_regs_57 : _GEN_56; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_58 = 7'h3a == io_addr[10:4] ? tag_asid_regs_58 : _GEN_57; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_59 = 7'h3b == io_addr[10:4] ? tag_asid_regs_59 : _GEN_58; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_60 = 7'h3c == io_addr[10:4] ? tag_asid_regs_60 : _GEN_59; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_61 = 7'h3d == io_addr[10:4] ? tag_asid_regs_61 : _GEN_60; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_62 = 7'h3e == io_addr[10:4] ? tag_asid_regs_62 : _GEN_61; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_63 = 7'h3f == io_addr[10:4] ? tag_asid_regs_63 : _GEN_62; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_64 = 7'h40 == io_addr[10:4] ? tag_asid_regs_64 : _GEN_63; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_65 = 7'h41 == io_addr[10:4] ? tag_asid_regs_65 : _GEN_64; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_66 = 7'h42 == io_addr[10:4] ? tag_asid_regs_66 : _GEN_65; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_67 = 7'h43 == io_addr[10:4] ? tag_asid_regs_67 : _GEN_66; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_68 = 7'h44 == io_addr[10:4] ? tag_asid_regs_68 : _GEN_67; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_69 = 7'h45 == io_addr[10:4] ? tag_asid_regs_69 : _GEN_68; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_70 = 7'h46 == io_addr[10:4] ? tag_asid_regs_70 : _GEN_69; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_71 = 7'h47 == io_addr[10:4] ? tag_asid_regs_71 : _GEN_70; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_72 = 7'h48 == io_addr[10:4] ? tag_asid_regs_72 : _GEN_71; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_73 = 7'h49 == io_addr[10:4] ? tag_asid_regs_73 : _GEN_72; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_74 = 7'h4a == io_addr[10:4] ? tag_asid_regs_74 : _GEN_73; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_75 = 7'h4b == io_addr[10:4] ? tag_asid_regs_75 : _GEN_74; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_76 = 7'h4c == io_addr[10:4] ? tag_asid_regs_76 : _GEN_75; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_77 = 7'h4d == io_addr[10:4] ? tag_asid_regs_77 : _GEN_76; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_78 = 7'h4e == io_addr[10:4] ? tag_asid_regs_78 : _GEN_77; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_79 = 7'h4f == io_addr[10:4] ? tag_asid_regs_79 : _GEN_78; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_80 = 7'h50 == io_addr[10:4] ? tag_asid_regs_80 : _GEN_79; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_81 = 7'h51 == io_addr[10:4] ? tag_asid_regs_81 : _GEN_80; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_82 = 7'h52 == io_addr[10:4] ? tag_asid_regs_82 : _GEN_81; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_83 = 7'h53 == io_addr[10:4] ? tag_asid_regs_83 : _GEN_82; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_84 = 7'h54 == io_addr[10:4] ? tag_asid_regs_84 : _GEN_83; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_85 = 7'h55 == io_addr[10:4] ? tag_asid_regs_85 : _GEN_84; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_86 = 7'h56 == io_addr[10:4] ? tag_asid_regs_86 : _GEN_85; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_87 = 7'h57 == io_addr[10:4] ? tag_asid_regs_87 : _GEN_86; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_88 = 7'h58 == io_addr[10:4] ? tag_asid_regs_88 : _GEN_87; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_89 = 7'h59 == io_addr[10:4] ? tag_asid_regs_89 : _GEN_88; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_90 = 7'h5a == io_addr[10:4] ? tag_asid_regs_90 : _GEN_89; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_91 = 7'h5b == io_addr[10:4] ? tag_asid_regs_91 : _GEN_90; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_92 = 7'h5c == io_addr[10:4] ? tag_asid_regs_92 : _GEN_91; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_93 = 7'h5d == io_addr[10:4] ? tag_asid_regs_93 : _GEN_92; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_94 = 7'h5e == io_addr[10:4] ? tag_asid_regs_94 : _GEN_93; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_95 = 7'h5f == io_addr[10:4] ? tag_asid_regs_95 : _GEN_94; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_96 = 7'h60 == io_addr[10:4] ? tag_asid_regs_96 : _GEN_95; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_97 = 7'h61 == io_addr[10:4] ? tag_asid_regs_97 : _GEN_96; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_98 = 7'h62 == io_addr[10:4] ? tag_asid_regs_98 : _GEN_97; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_99 = 7'h63 == io_addr[10:4] ? tag_asid_regs_99 : _GEN_98; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_100 = 7'h64 == io_addr[10:4] ? tag_asid_regs_100 : _GEN_99; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_101 = 7'h65 == io_addr[10:4] ? tag_asid_regs_101 : _GEN_100; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_102 = 7'h66 == io_addr[10:4] ? tag_asid_regs_102 : _GEN_101; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_103 = 7'h67 == io_addr[10:4] ? tag_asid_regs_103 : _GEN_102; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_104 = 7'h68 == io_addr[10:4] ? tag_asid_regs_104 : _GEN_103; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_105 = 7'h69 == io_addr[10:4] ? tag_asid_regs_105 : _GEN_104; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_106 = 7'h6a == io_addr[10:4] ? tag_asid_regs_106 : _GEN_105; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_107 = 7'h6b == io_addr[10:4] ? tag_asid_regs_107 : _GEN_106; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_108 = 7'h6c == io_addr[10:4] ? tag_asid_regs_108 : _GEN_107; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_109 = 7'h6d == io_addr[10:4] ? tag_asid_regs_109 : _GEN_108; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_110 = 7'h6e == io_addr[10:4] ? tag_asid_regs_110 : _GEN_109; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_111 = 7'h6f == io_addr[10:4] ? tag_asid_regs_111 : _GEN_110; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_112 = 7'h70 == io_addr[10:4] ? tag_asid_regs_112 : _GEN_111; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_113 = 7'h71 == io_addr[10:4] ? tag_asid_regs_113 : _GEN_112; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_114 = 7'h72 == io_addr[10:4] ? tag_asid_regs_114 : _GEN_113; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_115 = 7'h73 == io_addr[10:4] ? tag_asid_regs_115 : _GEN_114; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_116 = 7'h74 == io_addr[10:4] ? tag_asid_regs_116 : _GEN_115; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_117 = 7'h75 == io_addr[10:4] ? tag_asid_regs_117 : _GEN_116; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_118 = 7'h76 == io_addr[10:4] ? tag_asid_regs_118 : _GEN_117; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_119 = 7'h77 == io_addr[10:4] ? tag_asid_regs_119 : _GEN_118; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_120 = 7'h78 == io_addr[10:4] ? tag_asid_regs_120 : _GEN_119; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_121 = 7'h79 == io_addr[10:4] ? tag_asid_regs_121 : _GEN_120; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_122 = 7'h7a == io_addr[10:4] ? tag_asid_regs_122 : _GEN_121; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_123 = 7'h7b == io_addr[10:4] ? tag_asid_regs_123 : _GEN_122; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_124 = 7'h7c == io_addr[10:4] ? tag_asid_regs_124 : _GEN_123; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_125 = 7'h7d == io_addr[10:4] ? tag_asid_regs_125 : _GEN_124; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_126 = 7'h7e == io_addr[10:4] ? tag_asid_regs_126 : _GEN_125; // @[icache_tag.scala 33:{40,40}]
+  wire [7:0] _GEN_127 = 7'h7f == io_addr[10:4] ? tag_asid_regs_127 : _GEN_126; // @[icache_tag.scala 33:{40,40}]
+  wire [21:0] _GEN_257 = 7'h1 == io_addr[10:4] ? tag_regs_1 : tag_regs_0; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_258 = 7'h2 == io_addr[10:4] ? tag_regs_2 : _GEN_257; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_259 = 7'h3 == io_addr[10:4] ? tag_regs_3 : _GEN_258; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_260 = 7'h4 == io_addr[10:4] ? tag_regs_4 : _GEN_259; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_261 = 7'h5 == io_addr[10:4] ? tag_regs_5 : _GEN_260; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_262 = 7'h6 == io_addr[10:4] ? tag_regs_6 : _GEN_261; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_263 = 7'h7 == io_addr[10:4] ? tag_regs_7 : _GEN_262; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_264 = 7'h8 == io_addr[10:4] ? tag_regs_8 : _GEN_263; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_265 = 7'h9 == io_addr[10:4] ? tag_regs_9 : _GEN_264; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_266 = 7'ha == io_addr[10:4] ? tag_regs_10 : _GEN_265; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_267 = 7'hb == io_addr[10:4] ? tag_regs_11 : _GEN_266; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_268 = 7'hc == io_addr[10:4] ? tag_regs_12 : _GEN_267; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_269 = 7'hd == io_addr[10:4] ? tag_regs_13 : _GEN_268; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_270 = 7'he == io_addr[10:4] ? tag_regs_14 : _GEN_269; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_271 = 7'hf == io_addr[10:4] ? tag_regs_15 : _GEN_270; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_272 = 7'h10 == io_addr[10:4] ? tag_regs_16 : _GEN_271; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_273 = 7'h11 == io_addr[10:4] ? tag_regs_17 : _GEN_272; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_274 = 7'h12 == io_addr[10:4] ? tag_regs_18 : _GEN_273; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_275 = 7'h13 == io_addr[10:4] ? tag_regs_19 : _GEN_274; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_276 = 7'h14 == io_addr[10:4] ? tag_regs_20 : _GEN_275; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_277 = 7'h15 == io_addr[10:4] ? tag_regs_21 : _GEN_276; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_278 = 7'h16 == io_addr[10:4] ? tag_regs_22 : _GEN_277; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_279 = 7'h17 == io_addr[10:4] ? tag_regs_23 : _GEN_278; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_280 = 7'h18 == io_addr[10:4] ? tag_regs_24 : _GEN_279; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_281 = 7'h19 == io_addr[10:4] ? tag_regs_25 : _GEN_280; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_282 = 7'h1a == io_addr[10:4] ? tag_regs_26 : _GEN_281; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_283 = 7'h1b == io_addr[10:4] ? tag_regs_27 : _GEN_282; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_284 = 7'h1c == io_addr[10:4] ? tag_regs_28 : _GEN_283; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_285 = 7'h1d == io_addr[10:4] ? tag_regs_29 : _GEN_284; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_286 = 7'h1e == io_addr[10:4] ? tag_regs_30 : _GEN_285; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_287 = 7'h1f == io_addr[10:4] ? tag_regs_31 : _GEN_286; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_288 = 7'h20 == io_addr[10:4] ? tag_regs_32 : _GEN_287; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_289 = 7'h21 == io_addr[10:4] ? tag_regs_33 : _GEN_288; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_290 = 7'h22 == io_addr[10:4] ? tag_regs_34 : _GEN_289; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_291 = 7'h23 == io_addr[10:4] ? tag_regs_35 : _GEN_290; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_292 = 7'h24 == io_addr[10:4] ? tag_regs_36 : _GEN_291; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_293 = 7'h25 == io_addr[10:4] ? tag_regs_37 : _GEN_292; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_294 = 7'h26 == io_addr[10:4] ? tag_regs_38 : _GEN_293; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_295 = 7'h27 == io_addr[10:4] ? tag_regs_39 : _GEN_294; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_296 = 7'h28 == io_addr[10:4] ? tag_regs_40 : _GEN_295; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_297 = 7'h29 == io_addr[10:4] ? tag_regs_41 : _GEN_296; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_298 = 7'h2a == io_addr[10:4] ? tag_regs_42 : _GEN_297; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_299 = 7'h2b == io_addr[10:4] ? tag_regs_43 : _GEN_298; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_300 = 7'h2c == io_addr[10:4] ? tag_regs_44 : _GEN_299; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_301 = 7'h2d == io_addr[10:4] ? tag_regs_45 : _GEN_300; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_302 = 7'h2e == io_addr[10:4] ? tag_regs_46 : _GEN_301; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_303 = 7'h2f == io_addr[10:4] ? tag_regs_47 : _GEN_302; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_304 = 7'h30 == io_addr[10:4] ? tag_regs_48 : _GEN_303; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_305 = 7'h31 == io_addr[10:4] ? tag_regs_49 : _GEN_304; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_306 = 7'h32 == io_addr[10:4] ? tag_regs_50 : _GEN_305; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_307 = 7'h33 == io_addr[10:4] ? tag_regs_51 : _GEN_306; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_308 = 7'h34 == io_addr[10:4] ? tag_regs_52 : _GEN_307; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_309 = 7'h35 == io_addr[10:4] ? tag_regs_53 : _GEN_308; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_310 = 7'h36 == io_addr[10:4] ? tag_regs_54 : _GEN_309; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_311 = 7'h37 == io_addr[10:4] ? tag_regs_55 : _GEN_310; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_312 = 7'h38 == io_addr[10:4] ? tag_regs_56 : _GEN_311; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_313 = 7'h39 == io_addr[10:4] ? tag_regs_57 : _GEN_312; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_314 = 7'h3a == io_addr[10:4] ? tag_regs_58 : _GEN_313; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_315 = 7'h3b == io_addr[10:4] ? tag_regs_59 : _GEN_314; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_316 = 7'h3c == io_addr[10:4] ? tag_regs_60 : _GEN_315; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_317 = 7'h3d == io_addr[10:4] ? tag_regs_61 : _GEN_316; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_318 = 7'h3e == io_addr[10:4] ? tag_regs_62 : _GEN_317; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_319 = 7'h3f == io_addr[10:4] ? tag_regs_63 : _GEN_318; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_320 = 7'h40 == io_addr[10:4] ? tag_regs_64 : _GEN_319; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_321 = 7'h41 == io_addr[10:4] ? tag_regs_65 : _GEN_320; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_322 = 7'h42 == io_addr[10:4] ? tag_regs_66 : _GEN_321; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_323 = 7'h43 == io_addr[10:4] ? tag_regs_67 : _GEN_322; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_324 = 7'h44 == io_addr[10:4] ? tag_regs_68 : _GEN_323; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_325 = 7'h45 == io_addr[10:4] ? tag_regs_69 : _GEN_324; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_326 = 7'h46 == io_addr[10:4] ? tag_regs_70 : _GEN_325; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_327 = 7'h47 == io_addr[10:4] ? tag_regs_71 : _GEN_326; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_328 = 7'h48 == io_addr[10:4] ? tag_regs_72 : _GEN_327; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_329 = 7'h49 == io_addr[10:4] ? tag_regs_73 : _GEN_328; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_330 = 7'h4a == io_addr[10:4] ? tag_regs_74 : _GEN_329; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_331 = 7'h4b == io_addr[10:4] ? tag_regs_75 : _GEN_330; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_332 = 7'h4c == io_addr[10:4] ? tag_regs_76 : _GEN_331; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_333 = 7'h4d == io_addr[10:4] ? tag_regs_77 : _GEN_332; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_334 = 7'h4e == io_addr[10:4] ? tag_regs_78 : _GEN_333; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_335 = 7'h4f == io_addr[10:4] ? tag_regs_79 : _GEN_334; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_336 = 7'h50 == io_addr[10:4] ? tag_regs_80 : _GEN_335; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_337 = 7'h51 == io_addr[10:4] ? tag_regs_81 : _GEN_336; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_338 = 7'h52 == io_addr[10:4] ? tag_regs_82 : _GEN_337; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_339 = 7'h53 == io_addr[10:4] ? tag_regs_83 : _GEN_338; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_340 = 7'h54 == io_addr[10:4] ? tag_regs_84 : _GEN_339; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_341 = 7'h55 == io_addr[10:4] ? tag_regs_85 : _GEN_340; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_342 = 7'h56 == io_addr[10:4] ? tag_regs_86 : _GEN_341; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_343 = 7'h57 == io_addr[10:4] ? tag_regs_87 : _GEN_342; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_344 = 7'h58 == io_addr[10:4] ? tag_regs_88 : _GEN_343; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_345 = 7'h59 == io_addr[10:4] ? tag_regs_89 : _GEN_344; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_346 = 7'h5a == io_addr[10:4] ? tag_regs_90 : _GEN_345; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_347 = 7'h5b == io_addr[10:4] ? tag_regs_91 : _GEN_346; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_348 = 7'h5c == io_addr[10:4] ? tag_regs_92 : _GEN_347; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_349 = 7'h5d == io_addr[10:4] ? tag_regs_93 : _GEN_348; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_350 = 7'h5e == io_addr[10:4] ? tag_regs_94 : _GEN_349; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_351 = 7'h5f == io_addr[10:4] ? tag_regs_95 : _GEN_350; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_352 = 7'h60 == io_addr[10:4] ? tag_regs_96 : _GEN_351; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_353 = 7'h61 == io_addr[10:4] ? tag_regs_97 : _GEN_352; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_354 = 7'h62 == io_addr[10:4] ? tag_regs_98 : _GEN_353; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_355 = 7'h63 == io_addr[10:4] ? tag_regs_99 : _GEN_354; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_356 = 7'h64 == io_addr[10:4] ? tag_regs_100 : _GEN_355; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_357 = 7'h65 == io_addr[10:4] ? tag_regs_101 : _GEN_356; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_358 = 7'h66 == io_addr[10:4] ? tag_regs_102 : _GEN_357; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_359 = 7'h67 == io_addr[10:4] ? tag_regs_103 : _GEN_358; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_360 = 7'h68 == io_addr[10:4] ? tag_regs_104 : _GEN_359; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_361 = 7'h69 == io_addr[10:4] ? tag_regs_105 : _GEN_360; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_362 = 7'h6a == io_addr[10:4] ? tag_regs_106 : _GEN_361; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_363 = 7'h6b == io_addr[10:4] ? tag_regs_107 : _GEN_362; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_364 = 7'h6c == io_addr[10:4] ? tag_regs_108 : _GEN_363; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_365 = 7'h6d == io_addr[10:4] ? tag_regs_109 : _GEN_364; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_366 = 7'h6e == io_addr[10:4] ? tag_regs_110 : _GEN_365; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_367 = 7'h6f == io_addr[10:4] ? tag_regs_111 : _GEN_366; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_368 = 7'h70 == io_addr[10:4] ? tag_regs_112 : _GEN_367; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_369 = 7'h71 == io_addr[10:4] ? tag_regs_113 : _GEN_368; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_370 = 7'h72 == io_addr[10:4] ? tag_regs_114 : _GEN_369; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_371 = 7'h73 == io_addr[10:4] ? tag_regs_115 : _GEN_370; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_372 = 7'h74 == io_addr[10:4] ? tag_regs_116 : _GEN_371; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_373 = 7'h75 == io_addr[10:4] ? tag_regs_117 : _GEN_372; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_374 = 7'h76 == io_addr[10:4] ? tag_regs_118 : _GEN_373; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_375 = 7'h77 == io_addr[10:4] ? tag_regs_119 : _GEN_374; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_376 = 7'h78 == io_addr[10:4] ? tag_regs_120 : _GEN_375; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_377 = 7'h79 == io_addr[10:4] ? tag_regs_121 : _GEN_376; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_378 = 7'h7a == io_addr[10:4] ? tag_regs_122 : _GEN_377; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_379 = 7'h7b == io_addr[10:4] ? tag_regs_123 : _GEN_378; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_380 = 7'h7c == io_addr[10:4] ? tag_regs_124 : _GEN_379; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_381 = 7'h7d == io_addr[10:4] ? tag_regs_125 : _GEN_380; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_382 = 7'h7e == io_addr[10:4] ? tag_regs_126 : _GEN_381; // @[icache_tag.scala 36:{22,22}]
+  wire [21:0] _GEN_383 = 7'h7f == io_addr[10:4] ? tag_regs_127 : _GEN_382; // @[icache_tag.scala 36:{22,22}]
+  assign io_hit = _GEN_383[20:0] == io_addr[31:11] & _GEN_127 == 8'h0; // @[icache_tag.scala 37:50]
+  assign io_valid = _GEN_383[20]; // @[icache_tag.scala 36:22]
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_0 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_0 <= {{1'd0}, _tag_regs_0_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_1 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_1 <= {{1'd0}, _tag_regs_1_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_2 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_2 <= {{1'd0}, _tag_regs_2_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_3 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_3 <= {{1'd0}, _tag_regs_3_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_4 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_4 <= {{1'd0}, _tag_regs_4_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_5 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_5 <= {{1'd0}, _tag_regs_5_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_6 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_6 <= {{1'd0}, _tag_regs_6_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_7 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_7 <= {{1'd0}, _tag_regs_7_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_8 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_8 <= {{1'd0}, _tag_regs_8_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_9 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_9 <= {{1'd0}, _tag_regs_9_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_10 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_10 <= {{1'd0}, _tag_regs_10_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_11 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_11 <= {{1'd0}, _tag_regs_11_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_12 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_12 <= {{1'd0}, _tag_regs_12_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_13 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_13 <= {{1'd0}, _tag_regs_13_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_14 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_14 <= {{1'd0}, _tag_regs_14_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_15 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_15 <= {{1'd0}, _tag_regs_15_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_16 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_16 <= {{1'd0}, _tag_regs_16_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_17 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_17 <= {{1'd0}, _tag_regs_17_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_18 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_18 <= {{1'd0}, _tag_regs_18_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_19 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_19 <= {{1'd0}, _tag_regs_19_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_20 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_20 <= {{1'd0}, _tag_regs_20_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_21 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_21 <= {{1'd0}, _tag_regs_21_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_22 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_22 <= {{1'd0}, _tag_regs_22_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_23 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_23 <= {{1'd0}, _tag_regs_23_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_24 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_24 <= {{1'd0}, _tag_regs_24_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_25 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_25 <= {{1'd0}, _tag_regs_25_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_26 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_26 <= {{1'd0}, _tag_regs_26_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_27 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_27 <= {{1'd0}, _tag_regs_27_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_28 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_28 <= {{1'd0}, _tag_regs_28_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_29 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_29 <= {{1'd0}, _tag_regs_29_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_30 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_30 <= {{1'd0}, _tag_regs_30_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_31 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_31 <= {{1'd0}, _tag_regs_31_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_32 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_32 <= {{1'd0}, _tag_regs_32_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_33 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_33 <= {{1'd0}, _tag_regs_33_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_34 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_34 <= {{1'd0}, _tag_regs_34_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_35 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_35 <= {{1'd0}, _tag_regs_35_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_36 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_36 <= {{1'd0}, _tag_regs_36_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_37 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_37 <= {{1'd0}, _tag_regs_37_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_38 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_38 <= {{1'd0}, _tag_regs_38_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_39 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_39 <= {{1'd0}, _tag_regs_39_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_40 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_40 <= {{1'd0}, _tag_regs_40_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_41 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_41 <= {{1'd0}, _tag_regs_41_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_42 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_42 <= {{1'd0}, _tag_regs_42_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_43 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_43 <= {{1'd0}, _tag_regs_43_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_44 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_44 <= {{1'd0}, _tag_regs_44_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_45 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_45 <= {{1'd0}, _tag_regs_45_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_46 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_46 <= {{1'd0}, _tag_regs_46_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_47 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_47 <= {{1'd0}, _tag_regs_47_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_48 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_48 <= {{1'd0}, _tag_regs_48_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_49 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_49 <= {{1'd0}, _tag_regs_49_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_50 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_50 <= {{1'd0}, _tag_regs_50_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_51 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_51 <= {{1'd0}, _tag_regs_51_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_52 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_52 <= {{1'd0}, _tag_regs_52_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_53 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_53 <= {{1'd0}, _tag_regs_53_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_54 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_54 <= {{1'd0}, _tag_regs_54_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_55 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_55 <= {{1'd0}, _tag_regs_55_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_56 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_56 <= {{1'd0}, _tag_regs_56_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_57 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_57 <= {{1'd0}, _tag_regs_57_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_58 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_58 <= {{1'd0}, _tag_regs_58_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_59 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_59 <= {{1'd0}, _tag_regs_59_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_60 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_60 <= {{1'd0}, _tag_regs_60_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_61 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_61 <= {{1'd0}, _tag_regs_61_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_62 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_62 <= {{1'd0}, _tag_regs_62_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_63 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_63 <= {{1'd0}, _tag_regs_63_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_64 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_64 <= {{1'd0}, _tag_regs_64_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_65 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_65 <= {{1'd0}, _tag_regs_65_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_66 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_66 <= {{1'd0}, _tag_regs_66_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_67 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_67 <= {{1'd0}, _tag_regs_67_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_68 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_68 <= {{1'd0}, _tag_regs_68_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_69 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_69 <= {{1'd0}, _tag_regs_69_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_70 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_70 <= {{1'd0}, _tag_regs_70_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_71 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_71 <= {{1'd0}, _tag_regs_71_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_72 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_72 <= {{1'd0}, _tag_regs_72_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_73 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_73 <= {{1'd0}, _tag_regs_73_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_74 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_74 <= {{1'd0}, _tag_regs_74_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_75 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_75 <= {{1'd0}, _tag_regs_75_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_76 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_76 <= {{1'd0}, _tag_regs_76_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_77 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_77 <= {{1'd0}, _tag_regs_77_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_78 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_78 <= {{1'd0}, _tag_regs_78_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_79 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_79 <= {{1'd0}, _tag_regs_79_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_80 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_80 <= {{1'd0}, _tag_regs_80_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_81 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_81 <= {{1'd0}, _tag_regs_81_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_82 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_82 <= {{1'd0}, _tag_regs_82_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_83 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_83 <= {{1'd0}, _tag_regs_83_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_84 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_84 <= {{1'd0}, _tag_regs_84_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_85 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_85 <= {{1'd0}, _tag_regs_85_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_86 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_86 <= {{1'd0}, _tag_regs_86_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_87 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_87 <= {{1'd0}, _tag_regs_87_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_88 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_88 <= {{1'd0}, _tag_regs_88_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_89 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_89 <= {{1'd0}, _tag_regs_89_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_90 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_90 <= {{1'd0}, _tag_regs_90_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_91 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_91 <= {{1'd0}, _tag_regs_91_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_92 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_92 <= {{1'd0}, _tag_regs_92_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_93 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_93 <= {{1'd0}, _tag_regs_93_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_94 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_94 <= {{1'd0}, _tag_regs_94_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_95 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_95 <= {{1'd0}, _tag_regs_95_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_96 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_96 <= {{1'd0}, _tag_regs_96_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_97 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_97 <= {{1'd0}, _tag_regs_97_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_98 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_98 <= {{1'd0}, _tag_regs_98_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_99 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_99 <= {{1'd0}, _tag_regs_99_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_100 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_100 <= {{1'd0}, _tag_regs_100_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_101 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_101 <= {{1'd0}, _tag_regs_101_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_102 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_102 <= {{1'd0}, _tag_regs_102_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_103 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_103 <= {{1'd0}, _tag_regs_103_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_104 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_104 <= {{1'd0}, _tag_regs_104_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_105 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_105 <= {{1'd0}, _tag_regs_105_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_106 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_106 <= {{1'd0}, _tag_regs_106_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_107 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_107 <= {{1'd0}, _tag_regs_107_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_108 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_108 <= {{1'd0}, _tag_regs_108_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_109 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_109 <= {{1'd0}, _tag_regs_109_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_110 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_110 <= {{1'd0}, _tag_regs_110_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_111 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_111 <= {{1'd0}, _tag_regs_111_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_112 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_112 <= {{1'd0}, _tag_regs_112_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_113 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_113 <= {{1'd0}, _tag_regs_113_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_114 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_114 <= {{1'd0}, _tag_regs_114_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_115 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_115 <= {{1'd0}, _tag_regs_115_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_116 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_116 <= {{1'd0}, _tag_regs_116_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_117 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_117 <= {{1'd0}, _tag_regs_117_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_118 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_118 <= {{1'd0}, _tag_regs_118_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_119 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_119 <= {{1'd0}, _tag_regs_119_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_120 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_120 <= {{1'd0}, _tag_regs_120_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_121 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_121 <= {{1'd0}, _tag_regs_121_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_122 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_122 <= {{1'd0}, _tag_regs_122_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_123 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_123 <= {{1'd0}, _tag_regs_123_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_124 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_124 <= {{1'd0}, _tag_regs_124_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_125 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_125 <= {{1'd0}, _tag_regs_125_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_126 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_126 <= {{1'd0}, _tag_regs_126_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 21:27]
+      tag_regs_127 <= 22'h0; // @[icache_tag.scala 21:27]
+    end else begin
+      tag_regs_127 <= {{1'd0}, _tag_regs_127_T}; // @[icache_tag.scala 31:25]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_0 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h0 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_0 <= 8'h0;
@@ -44609,13 +44226,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_0 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_0 <= _GEN_381;
+        tag_asid_regs_0 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_1 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_1 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h1 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_1 <= 8'h0;
@@ -44624,13 +44241,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_1 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_1 <= _GEN_381;
+        tag_asid_regs_1 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_2 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_2 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h2 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_2 <= 8'h0;
@@ -44639,13 +44256,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_2 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_2 <= _GEN_381;
+        tag_asid_regs_2 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_3 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_3 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h3 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_3 <= 8'h0;
@@ -44654,13 +44271,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_3 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_3 <= _GEN_381;
+        tag_asid_regs_3 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_4 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_4 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h4 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_4 <= 8'h0;
@@ -44669,13 +44286,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_4 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_4 <= _GEN_381;
+        tag_asid_regs_4 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_5 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_5 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h5 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_5 <= 8'h0;
@@ -44684,13 +44301,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_5 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_5 <= _GEN_381;
+        tag_asid_regs_5 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_6 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_6 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h6 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_6 <= 8'h0;
@@ -44699,13 +44316,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_6 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_6 <= _GEN_381;
+        tag_asid_regs_6 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_7 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_7 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h7 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_7 <= 8'h0;
@@ -44714,13 +44331,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_7 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_7 <= _GEN_381;
+        tag_asid_regs_7 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_8 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_8 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h8 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_8 <= 8'h0;
@@ -44729,13 +44346,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_8 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_8 <= _GEN_381;
+        tag_asid_regs_8 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_9 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_9 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h9 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_9 <= 8'h0;
@@ -44744,13 +44361,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_9 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_9 <= _GEN_381;
+        tag_asid_regs_9 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_10 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_10 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'ha == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_10 <= 8'h0;
@@ -44759,13 +44376,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_10 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_10 <= _GEN_381;
+        tag_asid_regs_10 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_11 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_11 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'hb == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_11 <= 8'h0;
@@ -44774,13 +44391,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_11 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_11 <= _GEN_381;
+        tag_asid_regs_11 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_12 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_12 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'hc == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_12 <= 8'h0;
@@ -44789,13 +44406,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_12 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_12 <= _GEN_381;
+        tag_asid_regs_12 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_13 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_13 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'hd == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_13 <= 8'h0;
@@ -44804,13 +44421,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_13 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_13 <= _GEN_381;
+        tag_asid_regs_13 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_14 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_14 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'he == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_14 <= 8'h0;
@@ -44819,13 +44436,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_14 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_14 <= _GEN_381;
+        tag_asid_regs_14 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_15 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_15 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'hf == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_15 <= 8'h0;
@@ -44834,13 +44451,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_15 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_15 <= _GEN_381;
+        tag_asid_regs_15 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_16 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_16 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h10 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_16 <= 8'h0;
@@ -44849,13 +44466,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_16 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_16 <= _GEN_381;
+        tag_asid_regs_16 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_17 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_17 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h11 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_17 <= 8'h0;
@@ -44864,13 +44481,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_17 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_17 <= _GEN_381;
+        tag_asid_regs_17 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_18 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_18 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h12 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_18 <= 8'h0;
@@ -44879,13 +44496,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_18 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_18 <= _GEN_381;
+        tag_asid_regs_18 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_19 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_19 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h13 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_19 <= 8'h0;
@@ -44894,13 +44511,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_19 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_19 <= _GEN_381;
+        tag_asid_regs_19 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_20 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_20 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h14 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_20 <= 8'h0;
@@ -44909,13 +44526,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_20 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_20 <= _GEN_381;
+        tag_asid_regs_20 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_21 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_21 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h15 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_21 <= 8'h0;
@@ -44924,13 +44541,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_21 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_21 <= _GEN_381;
+        tag_asid_regs_21 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_22 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_22 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h16 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_22 <= 8'h0;
@@ -44939,13 +44556,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_22 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_22 <= _GEN_381;
+        tag_asid_regs_22 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_23 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_23 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h17 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_23 <= 8'h0;
@@ -44954,13 +44571,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_23 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_23 <= _GEN_381;
+        tag_asid_regs_23 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_24 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_24 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h18 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_24 <= 8'h0;
@@ -44969,13 +44586,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_24 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_24 <= _GEN_381;
+        tag_asid_regs_24 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_25 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_25 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h19 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_25 <= 8'h0;
@@ -44984,13 +44601,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_25 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_25 <= _GEN_381;
+        tag_asid_regs_25 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_26 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_26 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h1a == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_26 <= 8'h0;
@@ -44999,13 +44616,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_26 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_26 <= _GEN_381;
+        tag_asid_regs_26 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_27 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_27 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h1b == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_27 <= 8'h0;
@@ -45014,13 +44631,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_27 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_27 <= _GEN_381;
+        tag_asid_regs_27 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_28 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_28 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h1c == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_28 <= 8'h0;
@@ -45029,13 +44646,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_28 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_28 <= _GEN_381;
+        tag_asid_regs_28 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_29 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_29 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h1d == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_29 <= 8'h0;
@@ -45044,13 +44661,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_29 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_29 <= _GEN_381;
+        tag_asid_regs_29 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_30 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_30 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h1e == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_30 <= 8'h0;
@@ -45059,13 +44676,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_30 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_30 <= _GEN_381;
+        tag_asid_regs_30 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_31 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_31 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h1f == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_31 <= 8'h0;
@@ -45074,13 +44691,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_31 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_31 <= _GEN_381;
+        tag_asid_regs_31 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_32 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_32 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h20 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_32 <= 8'h0;
@@ -45089,13 +44706,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_32 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_32 <= _GEN_381;
+        tag_asid_regs_32 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_33 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_33 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h21 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_33 <= 8'h0;
@@ -45104,13 +44721,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_33 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_33 <= _GEN_381;
+        tag_asid_regs_33 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_34 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_34 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h22 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_34 <= 8'h0;
@@ -45119,13 +44736,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_34 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_34 <= _GEN_381;
+        tag_asid_regs_34 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_35 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_35 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h23 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_35 <= 8'h0;
@@ -45134,13 +44751,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_35 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_35 <= _GEN_381;
+        tag_asid_regs_35 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_36 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_36 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h24 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_36 <= 8'h0;
@@ -45149,13 +44766,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_36 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_36 <= _GEN_381;
+        tag_asid_regs_36 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_37 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_37 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h25 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_37 <= 8'h0;
@@ -45164,13 +44781,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_37 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_37 <= _GEN_381;
+        tag_asid_regs_37 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_38 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_38 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h26 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_38 <= 8'h0;
@@ -45179,13 +44796,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_38 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_38 <= _GEN_381;
+        tag_asid_regs_38 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_39 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_39 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h27 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_39 <= 8'h0;
@@ -45194,13 +44811,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_39 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_39 <= _GEN_381;
+        tag_asid_regs_39 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_40 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_40 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h28 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_40 <= 8'h0;
@@ -45209,13 +44826,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_40 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_40 <= _GEN_381;
+        tag_asid_regs_40 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_41 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_41 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h29 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_41 <= 8'h0;
@@ -45224,13 +44841,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_41 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_41 <= _GEN_381;
+        tag_asid_regs_41 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_42 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_42 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h2a == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_42 <= 8'h0;
@@ -45239,13 +44856,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_42 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_42 <= _GEN_381;
+        tag_asid_regs_42 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_43 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_43 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h2b == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_43 <= 8'h0;
@@ -45254,13 +44871,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_43 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_43 <= _GEN_381;
+        tag_asid_regs_43 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_44 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_44 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h2c == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_44 <= 8'h0;
@@ -45269,13 +44886,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_44 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_44 <= _GEN_381;
+        tag_asid_regs_44 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_45 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_45 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h2d == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_45 <= 8'h0;
@@ -45284,13 +44901,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_45 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_45 <= _GEN_381;
+        tag_asid_regs_45 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_46 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_46 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h2e == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_46 <= 8'h0;
@@ -45299,13 +44916,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_46 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_46 <= _GEN_381;
+        tag_asid_regs_46 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_47 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_47 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h2f == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_47 <= 8'h0;
@@ -45314,13 +44931,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_47 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_47 <= _GEN_381;
+        tag_asid_regs_47 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_48 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_48 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h30 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_48 <= 8'h0;
@@ -45329,13 +44946,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_48 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_48 <= _GEN_381;
+        tag_asid_regs_48 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_49 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_49 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h31 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_49 <= 8'h0;
@@ -45344,13 +44961,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_49 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_49 <= _GEN_381;
+        tag_asid_regs_49 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_50 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_50 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h32 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_50 <= 8'h0;
@@ -45359,13 +44976,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_50 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_50 <= _GEN_381;
+        tag_asid_regs_50 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_51 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_51 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h33 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_51 <= 8'h0;
@@ -45374,13 +44991,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_51 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_51 <= _GEN_381;
+        tag_asid_regs_51 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_52 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_52 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h34 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_52 <= 8'h0;
@@ -45389,13 +45006,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_52 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_52 <= _GEN_381;
+        tag_asid_regs_52 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_53 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_53 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h35 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_53 <= 8'h0;
@@ -45404,13 +45021,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_53 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_53 <= _GEN_381;
+        tag_asid_regs_53 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_54 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_54 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h36 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_54 <= 8'h0;
@@ -45419,13 +45036,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_54 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_54 <= _GEN_381;
+        tag_asid_regs_54 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_55 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_55 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h37 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_55 <= 8'h0;
@@ -45434,13 +45051,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_55 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_55 <= _GEN_381;
+        tag_asid_regs_55 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_56 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_56 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h38 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_56 <= 8'h0;
@@ -45449,13 +45066,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_56 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_56 <= _GEN_381;
+        tag_asid_regs_56 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_57 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_57 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h39 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_57 <= 8'h0;
@@ -45464,13 +45081,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_57 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_57 <= _GEN_381;
+        tag_asid_regs_57 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_58 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_58 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h3a == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_58 <= 8'h0;
@@ -45479,13 +45096,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_58 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_58 <= _GEN_381;
+        tag_asid_regs_58 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_59 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_59 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h3b == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_59 <= 8'h0;
@@ -45494,13 +45111,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_59 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_59 <= _GEN_381;
+        tag_asid_regs_59 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_60 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_60 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h3c == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_60 <= 8'h0;
@@ -45509,13 +45126,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_60 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_60 <= _GEN_381;
+        tag_asid_regs_60 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_61 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_61 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h3d == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_61 <= 8'h0;
@@ -45524,13 +45141,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_61 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_61 <= _GEN_381;
+        tag_asid_regs_61 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_62 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_62 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h3e == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_62 <= 8'h0;
@@ -45539,13 +45156,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_62 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_62 <= _GEN_381;
+        tag_asid_regs_62 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_63 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_63 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h3f == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_63 <= 8'h0;
@@ -45554,13 +45171,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_63 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_63 <= _GEN_381;
+        tag_asid_regs_63 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_64 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_64 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h40 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_64 <= 8'h0;
@@ -45569,13 +45186,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_64 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_64 <= _GEN_381;
+        tag_asid_regs_64 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_65 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_65 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h41 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_65 <= 8'h0;
@@ -45584,13 +45201,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_65 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_65 <= _GEN_381;
+        tag_asid_regs_65 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_66 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_66 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h42 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_66 <= 8'h0;
@@ -45599,13 +45216,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_66 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_66 <= _GEN_381;
+        tag_asid_regs_66 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_67 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_67 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h43 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_67 <= 8'h0;
@@ -45614,13 +45231,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_67 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_67 <= _GEN_381;
+        tag_asid_regs_67 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_68 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_68 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h44 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_68 <= 8'h0;
@@ -45629,13 +45246,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_68 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_68 <= _GEN_381;
+        tag_asid_regs_68 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_69 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_69 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h45 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_69 <= 8'h0;
@@ -45644,13 +45261,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_69 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_69 <= _GEN_381;
+        tag_asid_regs_69 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_70 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_70 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h46 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_70 <= 8'h0;
@@ -45659,13 +45276,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_70 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_70 <= _GEN_381;
+        tag_asid_regs_70 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_71 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_71 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h47 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_71 <= 8'h0;
@@ -45674,13 +45291,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_71 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_71 <= _GEN_381;
+        tag_asid_regs_71 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_72 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_72 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h48 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_72 <= 8'h0;
@@ -45689,13 +45306,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_72 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_72 <= _GEN_381;
+        tag_asid_regs_72 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_73 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_73 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h49 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_73 <= 8'h0;
@@ -45704,13 +45321,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_73 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_73 <= _GEN_381;
+        tag_asid_regs_73 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_74 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_74 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h4a == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_74 <= 8'h0;
@@ -45719,13 +45336,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_74 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_74 <= _GEN_381;
+        tag_asid_regs_74 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_75 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_75 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h4b == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_75 <= 8'h0;
@@ -45734,13 +45351,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_75 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_75 <= _GEN_381;
+        tag_asid_regs_75 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_76 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_76 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h4c == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_76 <= 8'h0;
@@ -45749,13 +45366,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_76 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_76 <= _GEN_381;
+        tag_asid_regs_76 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_77 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_77 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h4d == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_77 <= 8'h0;
@@ -45764,13 +45381,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_77 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_77 <= _GEN_381;
+        tag_asid_regs_77 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_78 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_78 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h4e == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_78 <= 8'h0;
@@ -45779,13 +45396,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_78 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_78 <= _GEN_381;
+        tag_asid_regs_78 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_79 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_79 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h4f == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_79 <= 8'h0;
@@ -45794,13 +45411,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_79 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_79 <= _GEN_381;
+        tag_asid_regs_79 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_80 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_80 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h50 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_80 <= 8'h0;
@@ -45809,13 +45426,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_80 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_80 <= _GEN_381;
+        tag_asid_regs_80 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_81 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_81 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h51 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_81 <= 8'h0;
@@ -45824,13 +45441,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_81 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_81 <= _GEN_381;
+        tag_asid_regs_81 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_82 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_82 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h52 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_82 <= 8'h0;
@@ -45839,13 +45456,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_82 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_82 <= _GEN_381;
+        tag_asid_regs_82 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_83 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_83 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h53 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_83 <= 8'h0;
@@ -45854,13 +45471,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_83 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_83 <= _GEN_381;
+        tag_asid_regs_83 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_84 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_84 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h54 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_84 <= 8'h0;
@@ -45869,13 +45486,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_84 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_84 <= _GEN_381;
+        tag_asid_regs_84 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_85 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_85 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h55 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_85 <= 8'h0;
@@ -45884,13 +45501,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_85 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_85 <= _GEN_381;
+        tag_asid_regs_85 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_86 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_86 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h56 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_86 <= 8'h0;
@@ -45899,13 +45516,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_86 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_86 <= _GEN_381;
+        tag_asid_regs_86 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_87 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_87 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h57 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_87 <= 8'h0;
@@ -45914,13 +45531,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_87 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_87 <= _GEN_381;
+        tag_asid_regs_87 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_88 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_88 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h58 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_88 <= 8'h0;
@@ -45929,13 +45546,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_88 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_88 <= _GEN_381;
+        tag_asid_regs_88 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_89 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_89 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h59 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_89 <= 8'h0;
@@ -45944,13 +45561,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_89 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_89 <= _GEN_381;
+        tag_asid_regs_89 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_90 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_90 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h5a == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_90 <= 8'h0;
@@ -45959,13 +45576,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_90 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_90 <= _GEN_381;
+        tag_asid_regs_90 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_91 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_91 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h5b == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_91 <= 8'h0;
@@ -45974,13 +45591,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_91 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_91 <= _GEN_381;
+        tag_asid_regs_91 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_92 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_92 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h5c == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_92 <= 8'h0;
@@ -45989,13 +45606,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_92 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_92 <= _GEN_381;
+        tag_asid_regs_92 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_93 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_93 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h5d == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_93 <= 8'h0;
@@ -46004,13 +45621,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_93 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_93 <= _GEN_381;
+        tag_asid_regs_93 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_94 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_94 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h5e == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_94 <= 8'h0;
@@ -46019,13 +45636,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_94 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_94 <= _GEN_381;
+        tag_asid_regs_94 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_95 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_95 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h5f == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_95 <= 8'h0;
@@ -46034,13 +45651,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_95 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_95 <= _GEN_381;
+        tag_asid_regs_95 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_96 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_96 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h60 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_96 <= 8'h0;
@@ -46049,13 +45666,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_96 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_96 <= _GEN_381;
+        tag_asid_regs_96 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_97 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_97 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h61 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_97 <= 8'h0;
@@ -46064,13 +45681,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_97 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_97 <= _GEN_381;
+        tag_asid_regs_97 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_98 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_98 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h62 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_98 <= 8'h0;
@@ -46079,13 +45696,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_98 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_98 <= _GEN_381;
+        tag_asid_regs_98 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_99 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_99 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h63 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_99 <= 8'h0;
@@ -46094,13 +45711,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_99 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_99 <= _GEN_381;
+        tag_asid_regs_99 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_100 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_100 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h64 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_100 <= 8'h0;
@@ -46109,13 +45726,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_100 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_100 <= _GEN_381;
+        tag_asid_regs_100 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_101 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_101 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h65 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_101 <= 8'h0;
@@ -46124,13 +45741,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_101 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_101 <= _GEN_381;
+        tag_asid_regs_101 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_102 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_102 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h66 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_102 <= 8'h0;
@@ -46139,13 +45756,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_102 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_102 <= _GEN_381;
+        tag_asid_regs_102 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_103 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_103 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h67 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_103 <= 8'h0;
@@ -46154,13 +45771,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_103 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_103 <= _GEN_381;
+        tag_asid_regs_103 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_104 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_104 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h68 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_104 <= 8'h0;
@@ -46169,13 +45786,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_104 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_104 <= _GEN_381;
+        tag_asid_regs_104 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_105 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_105 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h69 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_105 <= 8'h0;
@@ -46184,13 +45801,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_105 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_105 <= _GEN_381;
+        tag_asid_regs_105 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_106 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_106 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h6a == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_106 <= 8'h0;
@@ -46199,13 +45816,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_106 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_106 <= _GEN_381;
+        tag_asid_regs_106 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_107 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_107 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h6b == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_107 <= 8'h0;
@@ -46214,13 +45831,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_107 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_107 <= _GEN_381;
+        tag_asid_regs_107 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_108 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_108 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h6c == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_108 <= 8'h0;
@@ -46229,13 +45846,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_108 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_108 <= _GEN_381;
+        tag_asid_regs_108 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_109 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_109 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h6d == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_109 <= 8'h0;
@@ -46244,13 +45861,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_109 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_109 <= _GEN_381;
+        tag_asid_regs_109 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_110 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_110 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h6e == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_110 <= 8'h0;
@@ -46259,13 +45876,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_110 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_110 <= _GEN_381;
+        tag_asid_regs_110 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_111 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_111 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h6f == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_111 <= 8'h0;
@@ -46274,13 +45891,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_111 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_111 <= _GEN_381;
+        tag_asid_regs_111 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_112 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_112 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h70 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_112 <= 8'h0;
@@ -46289,13 +45906,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_112 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_112 <= _GEN_381;
+        tag_asid_regs_112 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_113 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_113 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h71 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_113 <= 8'h0;
@@ -46304,13 +45921,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_113 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_113 <= _GEN_381;
+        tag_asid_regs_113 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_114 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_114 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h72 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_114 <= 8'h0;
@@ -46319,13 +45936,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_114 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_114 <= _GEN_381;
+        tag_asid_regs_114 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_115 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_115 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h73 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_115 <= 8'h0;
@@ -46334,13 +45951,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_115 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_115 <= _GEN_381;
+        tag_asid_regs_115 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_116 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_116 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h74 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_116 <= 8'h0;
@@ -46349,13 +45966,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_116 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_116 <= _GEN_381;
+        tag_asid_regs_116 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_117 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_117 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h75 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_117 <= 8'h0;
@@ -46364,13 +45981,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_117 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_117 <= _GEN_381;
+        tag_asid_regs_117 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_118 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_118 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h76 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_118 <= 8'h0;
@@ -46379,13 +45996,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_118 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_118 <= _GEN_381;
+        tag_asid_regs_118 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_119 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_119 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h77 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_119 <= 8'h0;
@@ -46394,13 +46011,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_119 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_119 <= _GEN_381;
+        tag_asid_regs_119 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_120 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_120 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h78 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_120 <= 8'h0;
@@ -46409,13 +46026,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_120 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_120 <= _GEN_381;
+        tag_asid_regs_120 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_121 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_121 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h79 == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_121 <= 8'h0;
@@ -46424,13 +46041,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_121 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_121 <= _GEN_381;
+        tag_asid_regs_121 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_122 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_122 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h7a == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_122 <= 8'h0;
@@ -46439,13 +46056,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_122 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_122 <= _GEN_381;
+        tag_asid_regs_122 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_123 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_123 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h7b == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_123 <= 8'h0;
@@ -46454,13 +46071,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_123 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_123 <= _GEN_381;
+        tag_asid_regs_123 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_124 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_124 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h7c == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_124 <= 8'h0;
@@ -46469,13 +46086,13 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_124 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_124 <= _GEN_381;
+        tag_asid_regs_124 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_125 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_125 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h7d == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_125 <= 8'h0;
@@ -46484,26 +46101,26 @@ module icache_tag(
       end else if (7'h7e == io_addr[10:4]) begin
         tag_asid_regs_125 <= tag_asid_regs_126;
       end else begin
-        tag_asid_regs_125 <= _GEN_381;
+        tag_asid_regs_125 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_126 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_126 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h7e == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_126 <= 8'h0;
       end else if (7'h7f == io_addr[10:4]) begin
         tag_asid_regs_126 <= tag_asid_regs_127;
       end else if (!(7'h7e == io_addr[10:4])) begin
-        tag_asid_regs_126 <= _GEN_381;
+        tag_asid_regs_126 <= _GEN_125;
       end
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[icache_tag.scala 26:34]
-      tag_asid_regs_127 <= 8'h0; // @[icache_tag.scala 26:{40,40,40,40,40}]
+    if (reset) begin // @[icache_tag.scala 33:34]
+      tag_asid_regs_127 <= 8'h0; // @[icache_tag.scala 33:{40,40,40,40,40}]
     end else if (7'h7f == io_addr[10:4]) begin // @[icache_tag.scala 22:32]
       if (io_wen) begin
         tag_asid_regs_127 <= 8'h0;
@@ -46511,7 +46128,7 @@ module icache_tag(
         if (7'h7e == io_addr[10:4]) begin
           tag_asid_regs_127 <= tag_asid_regs_126;
         end else begin
-          tag_asid_regs_127 <= _GEN_381;
+          tag_asid_regs_127 <= _GEN_125;
         end
       end
     end
@@ -48053,7 +47670,8 @@ module inst_cache(
   input  [63:0] io_sram_addr,
   output [1:0]  io_sram_write_en,
   output [39:0] io_sram_rdata_L,
-  input         io_sram_cache
+  input         io_sram_cache,
+  input         io_tag_valid_flush
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -48200,217 +47818,219 @@ module inst_cache(
   reg [31:0] _RAND_141;
   reg [63:0] _RAND_142;
 `endif // RANDOMIZE_REG_INIT
-  wire  icache_tag_clock; // @[inst_cache.scala 79:34]
-  wire  icache_tag_reset; // @[inst_cache.scala 79:34]
-  wire  icache_tag_io_wen; // @[inst_cache.scala 79:34]
-  wire [20:0] icache_tag_io_wdata; // @[inst_cache.scala 79:34]
-  wire [63:0] icache_tag_io_addr; // @[inst_cache.scala 79:34]
-  wire  icache_tag_io_hit; // @[inst_cache.scala 79:34]
-  wire  icache_tag_io_valid; // @[inst_cache.scala 79:34]
-  wire  icache_tag_1_clock; // @[inst_cache.scala 81:34]
-  wire  icache_tag_1_reset; // @[inst_cache.scala 81:34]
-  wire  icache_tag_1_io_wen; // @[inst_cache.scala 81:34]
-  wire [20:0] icache_tag_1_io_wdata; // @[inst_cache.scala 81:34]
-  wire [63:0] icache_tag_1_io_addr; // @[inst_cache.scala 81:34]
-  wire  icache_tag_1_io_hit; // @[inst_cache.scala 81:34]
-  wire  icache_tag_1_io_valid; // @[inst_cache.scala 81:34]
-  wire  icache_data_clock; // @[inst_cache.scala 86:55]
-  wire [7:0] icache_data_io_wen; // @[inst_cache.scala 86:55]
-  wire [63:0] icache_data_io_addr; // @[inst_cache.scala 86:55]
-  wire [63:0] icache_data_io_wdata; // @[inst_cache.scala 86:55]
-  wire [39:0] icache_data_io_rdata; // @[inst_cache.scala 86:55]
-  wire  icache_data_1_clock; // @[inst_cache.scala 86:55]
-  wire [7:0] icache_data_1_io_wen; // @[inst_cache.scala 86:55]
-  wire [63:0] icache_data_1_io_addr; // @[inst_cache.scala 86:55]
-  wire [63:0] icache_data_1_io_wdata; // @[inst_cache.scala 86:55]
-  wire [39:0] icache_data_1_io_rdata; // @[inst_cache.scala 86:55]
-  wire  icache_data_2_clock; // @[inst_cache.scala 87:55]
-  wire [7:0] icache_data_2_io_wen; // @[inst_cache.scala 87:55]
-  wire [63:0] icache_data_2_io_addr; // @[inst_cache.scala 87:55]
-  wire [63:0] icache_data_2_io_wdata; // @[inst_cache.scala 87:55]
-  wire [39:0] icache_data_2_io_rdata; // @[inst_cache.scala 87:55]
-  wire  icache_data_3_clock; // @[inst_cache.scala 87:55]
-  wire [7:0] icache_data_3_io_wen; // @[inst_cache.scala 87:55]
-  wire [63:0] icache_data_3_io_addr; // @[inst_cache.scala 87:55]
-  wire [63:0] icache_data_3_io_wdata; // @[inst_cache.scala 87:55]
-  wire [39:0] icache_data_3_io_rdata; // @[inst_cache.scala 87:55]
-  reg  lru_0; // @[inst_cache.scala 72:22]
-  reg  lru_1; // @[inst_cache.scala 72:22]
-  reg  lru_2; // @[inst_cache.scala 72:22]
-  reg  lru_3; // @[inst_cache.scala 72:22]
-  reg  lru_4; // @[inst_cache.scala 72:22]
-  reg  lru_5; // @[inst_cache.scala 72:22]
-  reg  lru_6; // @[inst_cache.scala 72:22]
-  reg  lru_7; // @[inst_cache.scala 72:22]
-  reg  lru_8; // @[inst_cache.scala 72:22]
-  reg  lru_9; // @[inst_cache.scala 72:22]
-  reg  lru_10; // @[inst_cache.scala 72:22]
-  reg  lru_11; // @[inst_cache.scala 72:22]
-  reg  lru_12; // @[inst_cache.scala 72:22]
-  reg  lru_13; // @[inst_cache.scala 72:22]
-  reg  lru_14; // @[inst_cache.scala 72:22]
-  reg  lru_15; // @[inst_cache.scala 72:22]
-  reg  lru_16; // @[inst_cache.scala 72:22]
-  reg  lru_17; // @[inst_cache.scala 72:22]
-  reg  lru_18; // @[inst_cache.scala 72:22]
-  reg  lru_19; // @[inst_cache.scala 72:22]
-  reg  lru_20; // @[inst_cache.scala 72:22]
-  reg  lru_21; // @[inst_cache.scala 72:22]
-  reg  lru_22; // @[inst_cache.scala 72:22]
-  reg  lru_23; // @[inst_cache.scala 72:22]
-  reg  lru_24; // @[inst_cache.scala 72:22]
-  reg  lru_25; // @[inst_cache.scala 72:22]
-  reg  lru_26; // @[inst_cache.scala 72:22]
-  reg  lru_27; // @[inst_cache.scala 72:22]
-  reg  lru_28; // @[inst_cache.scala 72:22]
-  reg  lru_29; // @[inst_cache.scala 72:22]
-  reg  lru_30; // @[inst_cache.scala 72:22]
-  reg  lru_31; // @[inst_cache.scala 72:22]
-  reg  lru_32; // @[inst_cache.scala 72:22]
-  reg  lru_33; // @[inst_cache.scala 72:22]
-  reg  lru_34; // @[inst_cache.scala 72:22]
-  reg  lru_35; // @[inst_cache.scala 72:22]
-  reg  lru_36; // @[inst_cache.scala 72:22]
-  reg  lru_37; // @[inst_cache.scala 72:22]
-  reg  lru_38; // @[inst_cache.scala 72:22]
-  reg  lru_39; // @[inst_cache.scala 72:22]
-  reg  lru_40; // @[inst_cache.scala 72:22]
-  reg  lru_41; // @[inst_cache.scala 72:22]
-  reg  lru_42; // @[inst_cache.scala 72:22]
-  reg  lru_43; // @[inst_cache.scala 72:22]
-  reg  lru_44; // @[inst_cache.scala 72:22]
-  reg  lru_45; // @[inst_cache.scala 72:22]
-  reg  lru_46; // @[inst_cache.scala 72:22]
-  reg  lru_47; // @[inst_cache.scala 72:22]
-  reg  lru_48; // @[inst_cache.scala 72:22]
-  reg  lru_49; // @[inst_cache.scala 72:22]
-  reg  lru_50; // @[inst_cache.scala 72:22]
-  reg  lru_51; // @[inst_cache.scala 72:22]
-  reg  lru_52; // @[inst_cache.scala 72:22]
-  reg  lru_53; // @[inst_cache.scala 72:22]
-  reg  lru_54; // @[inst_cache.scala 72:22]
-  reg  lru_55; // @[inst_cache.scala 72:22]
-  reg  lru_56; // @[inst_cache.scala 72:22]
-  reg  lru_57; // @[inst_cache.scala 72:22]
-  reg  lru_58; // @[inst_cache.scala 72:22]
-  reg  lru_59; // @[inst_cache.scala 72:22]
-  reg  lru_60; // @[inst_cache.scala 72:22]
-  reg  lru_61; // @[inst_cache.scala 72:22]
-  reg  lru_62; // @[inst_cache.scala 72:22]
-  reg  lru_63; // @[inst_cache.scala 72:22]
-  reg  lru_64; // @[inst_cache.scala 72:22]
-  reg  lru_65; // @[inst_cache.scala 72:22]
-  reg  lru_66; // @[inst_cache.scala 72:22]
-  reg  lru_67; // @[inst_cache.scala 72:22]
-  reg  lru_68; // @[inst_cache.scala 72:22]
-  reg  lru_69; // @[inst_cache.scala 72:22]
-  reg  lru_70; // @[inst_cache.scala 72:22]
-  reg  lru_71; // @[inst_cache.scala 72:22]
-  reg  lru_72; // @[inst_cache.scala 72:22]
-  reg  lru_73; // @[inst_cache.scala 72:22]
-  reg  lru_74; // @[inst_cache.scala 72:22]
-  reg  lru_75; // @[inst_cache.scala 72:22]
-  reg  lru_76; // @[inst_cache.scala 72:22]
-  reg  lru_77; // @[inst_cache.scala 72:22]
-  reg  lru_78; // @[inst_cache.scala 72:22]
-  reg  lru_79; // @[inst_cache.scala 72:22]
-  reg  lru_80; // @[inst_cache.scala 72:22]
-  reg  lru_81; // @[inst_cache.scala 72:22]
-  reg  lru_82; // @[inst_cache.scala 72:22]
-  reg  lru_83; // @[inst_cache.scala 72:22]
-  reg  lru_84; // @[inst_cache.scala 72:22]
-  reg  lru_85; // @[inst_cache.scala 72:22]
-  reg  lru_86; // @[inst_cache.scala 72:22]
-  reg  lru_87; // @[inst_cache.scala 72:22]
-  reg  lru_88; // @[inst_cache.scala 72:22]
-  reg  lru_89; // @[inst_cache.scala 72:22]
-  reg  lru_90; // @[inst_cache.scala 72:22]
-  reg  lru_91; // @[inst_cache.scala 72:22]
-  reg  lru_92; // @[inst_cache.scala 72:22]
-  reg  lru_93; // @[inst_cache.scala 72:22]
-  reg  lru_94; // @[inst_cache.scala 72:22]
-  reg  lru_95; // @[inst_cache.scala 72:22]
-  reg  lru_96; // @[inst_cache.scala 72:22]
-  reg  lru_97; // @[inst_cache.scala 72:22]
-  reg  lru_98; // @[inst_cache.scala 72:22]
-  reg  lru_99; // @[inst_cache.scala 72:22]
-  reg  lru_100; // @[inst_cache.scala 72:22]
-  reg  lru_101; // @[inst_cache.scala 72:22]
-  reg  lru_102; // @[inst_cache.scala 72:22]
-  reg  lru_103; // @[inst_cache.scala 72:22]
-  reg  lru_104; // @[inst_cache.scala 72:22]
-  reg  lru_105; // @[inst_cache.scala 72:22]
-  reg  lru_106; // @[inst_cache.scala 72:22]
-  reg  lru_107; // @[inst_cache.scala 72:22]
-  reg  lru_108; // @[inst_cache.scala 72:22]
-  reg  lru_109; // @[inst_cache.scala 72:22]
-  reg  lru_110; // @[inst_cache.scala 72:22]
-  reg  lru_111; // @[inst_cache.scala 72:22]
-  reg  lru_112; // @[inst_cache.scala 72:22]
-  reg  lru_113; // @[inst_cache.scala 72:22]
-  reg  lru_114; // @[inst_cache.scala 72:22]
-  reg  lru_115; // @[inst_cache.scala 72:22]
-  reg  lru_116; // @[inst_cache.scala 72:22]
-  reg  lru_117; // @[inst_cache.scala 72:22]
-  reg  lru_118; // @[inst_cache.scala 72:22]
-  reg  lru_119; // @[inst_cache.scala 72:22]
-  reg  lru_120; // @[inst_cache.scala 72:22]
-  reg  lru_121; // @[inst_cache.scala 72:22]
-  reg  lru_122; // @[inst_cache.scala 72:22]
-  reg  lru_123; // @[inst_cache.scala 72:22]
-  reg  lru_124; // @[inst_cache.scala 72:22]
-  reg  lru_125; // @[inst_cache.scala 72:22]
-  reg  lru_126; // @[inst_cache.scala 72:22]
-  reg  lru_127; // @[inst_cache.scala 72:22]
-  reg [3:0] work_state; // @[inst_cache.scala 98:29]
-  reg [2:0] write_counter; // @[inst_cache.scala 100:33]
-  reg [39:0] wait_data_L; // @[inst_cache.scala 101:31]
-  wire  stage1_flush = ~io_sram_req & io_stage1_valid_flush; // @[inst_cache.scala 105:35]
-  reg  stage1_stall_reg; // @[inst_cache.scala 112:35]
+  wire  icache_tag_clock; // @[inst_cache.scala 81:34]
+  wire  icache_tag_reset; // @[inst_cache.scala 81:34]
+  wire  icache_tag_io_wen; // @[inst_cache.scala 81:34]
+  wire [20:0] icache_tag_io_wdata; // @[inst_cache.scala 81:34]
+  wire [63:0] icache_tag_io_addr; // @[inst_cache.scala 81:34]
+  wire  icache_tag_io_hit; // @[inst_cache.scala 81:34]
+  wire  icache_tag_io_valid; // @[inst_cache.scala 81:34]
+  wire  icache_tag_io_tag_all_flush; // @[inst_cache.scala 81:34]
+  wire  icache_tag_1_clock; // @[inst_cache.scala 83:34]
+  wire  icache_tag_1_reset; // @[inst_cache.scala 83:34]
+  wire  icache_tag_1_io_wen; // @[inst_cache.scala 83:34]
+  wire [20:0] icache_tag_1_io_wdata; // @[inst_cache.scala 83:34]
+  wire [63:0] icache_tag_1_io_addr; // @[inst_cache.scala 83:34]
+  wire  icache_tag_1_io_hit; // @[inst_cache.scala 83:34]
+  wire  icache_tag_1_io_valid; // @[inst_cache.scala 83:34]
+  wire  icache_tag_1_io_tag_all_flush; // @[inst_cache.scala 83:34]
+  wire  icache_data_clock; // @[inst_cache.scala 89:55]
+  wire [7:0] icache_data_io_wen; // @[inst_cache.scala 89:55]
+  wire [63:0] icache_data_io_addr; // @[inst_cache.scala 89:55]
+  wire [63:0] icache_data_io_wdata; // @[inst_cache.scala 89:55]
+  wire [39:0] icache_data_io_rdata; // @[inst_cache.scala 89:55]
+  wire  icache_data_1_clock; // @[inst_cache.scala 89:55]
+  wire [7:0] icache_data_1_io_wen; // @[inst_cache.scala 89:55]
+  wire [63:0] icache_data_1_io_addr; // @[inst_cache.scala 89:55]
+  wire [63:0] icache_data_1_io_wdata; // @[inst_cache.scala 89:55]
+  wire [39:0] icache_data_1_io_rdata; // @[inst_cache.scala 89:55]
+  wire  icache_data_2_clock; // @[inst_cache.scala 90:55]
+  wire [7:0] icache_data_2_io_wen; // @[inst_cache.scala 90:55]
+  wire [63:0] icache_data_2_io_addr; // @[inst_cache.scala 90:55]
+  wire [63:0] icache_data_2_io_wdata; // @[inst_cache.scala 90:55]
+  wire [39:0] icache_data_2_io_rdata; // @[inst_cache.scala 90:55]
+  wire  icache_data_3_clock; // @[inst_cache.scala 90:55]
+  wire [7:0] icache_data_3_io_wen; // @[inst_cache.scala 90:55]
+  wire [63:0] icache_data_3_io_addr; // @[inst_cache.scala 90:55]
+  wire [63:0] icache_data_3_io_wdata; // @[inst_cache.scala 90:55]
+  wire [39:0] icache_data_3_io_rdata; // @[inst_cache.scala 90:55]
+  reg  lru_0; // @[inst_cache.scala 74:22]
+  reg  lru_1; // @[inst_cache.scala 74:22]
+  reg  lru_2; // @[inst_cache.scala 74:22]
+  reg  lru_3; // @[inst_cache.scala 74:22]
+  reg  lru_4; // @[inst_cache.scala 74:22]
+  reg  lru_5; // @[inst_cache.scala 74:22]
+  reg  lru_6; // @[inst_cache.scala 74:22]
+  reg  lru_7; // @[inst_cache.scala 74:22]
+  reg  lru_8; // @[inst_cache.scala 74:22]
+  reg  lru_9; // @[inst_cache.scala 74:22]
+  reg  lru_10; // @[inst_cache.scala 74:22]
+  reg  lru_11; // @[inst_cache.scala 74:22]
+  reg  lru_12; // @[inst_cache.scala 74:22]
+  reg  lru_13; // @[inst_cache.scala 74:22]
+  reg  lru_14; // @[inst_cache.scala 74:22]
+  reg  lru_15; // @[inst_cache.scala 74:22]
+  reg  lru_16; // @[inst_cache.scala 74:22]
+  reg  lru_17; // @[inst_cache.scala 74:22]
+  reg  lru_18; // @[inst_cache.scala 74:22]
+  reg  lru_19; // @[inst_cache.scala 74:22]
+  reg  lru_20; // @[inst_cache.scala 74:22]
+  reg  lru_21; // @[inst_cache.scala 74:22]
+  reg  lru_22; // @[inst_cache.scala 74:22]
+  reg  lru_23; // @[inst_cache.scala 74:22]
+  reg  lru_24; // @[inst_cache.scala 74:22]
+  reg  lru_25; // @[inst_cache.scala 74:22]
+  reg  lru_26; // @[inst_cache.scala 74:22]
+  reg  lru_27; // @[inst_cache.scala 74:22]
+  reg  lru_28; // @[inst_cache.scala 74:22]
+  reg  lru_29; // @[inst_cache.scala 74:22]
+  reg  lru_30; // @[inst_cache.scala 74:22]
+  reg  lru_31; // @[inst_cache.scala 74:22]
+  reg  lru_32; // @[inst_cache.scala 74:22]
+  reg  lru_33; // @[inst_cache.scala 74:22]
+  reg  lru_34; // @[inst_cache.scala 74:22]
+  reg  lru_35; // @[inst_cache.scala 74:22]
+  reg  lru_36; // @[inst_cache.scala 74:22]
+  reg  lru_37; // @[inst_cache.scala 74:22]
+  reg  lru_38; // @[inst_cache.scala 74:22]
+  reg  lru_39; // @[inst_cache.scala 74:22]
+  reg  lru_40; // @[inst_cache.scala 74:22]
+  reg  lru_41; // @[inst_cache.scala 74:22]
+  reg  lru_42; // @[inst_cache.scala 74:22]
+  reg  lru_43; // @[inst_cache.scala 74:22]
+  reg  lru_44; // @[inst_cache.scala 74:22]
+  reg  lru_45; // @[inst_cache.scala 74:22]
+  reg  lru_46; // @[inst_cache.scala 74:22]
+  reg  lru_47; // @[inst_cache.scala 74:22]
+  reg  lru_48; // @[inst_cache.scala 74:22]
+  reg  lru_49; // @[inst_cache.scala 74:22]
+  reg  lru_50; // @[inst_cache.scala 74:22]
+  reg  lru_51; // @[inst_cache.scala 74:22]
+  reg  lru_52; // @[inst_cache.scala 74:22]
+  reg  lru_53; // @[inst_cache.scala 74:22]
+  reg  lru_54; // @[inst_cache.scala 74:22]
+  reg  lru_55; // @[inst_cache.scala 74:22]
+  reg  lru_56; // @[inst_cache.scala 74:22]
+  reg  lru_57; // @[inst_cache.scala 74:22]
+  reg  lru_58; // @[inst_cache.scala 74:22]
+  reg  lru_59; // @[inst_cache.scala 74:22]
+  reg  lru_60; // @[inst_cache.scala 74:22]
+  reg  lru_61; // @[inst_cache.scala 74:22]
+  reg  lru_62; // @[inst_cache.scala 74:22]
+  reg  lru_63; // @[inst_cache.scala 74:22]
+  reg  lru_64; // @[inst_cache.scala 74:22]
+  reg  lru_65; // @[inst_cache.scala 74:22]
+  reg  lru_66; // @[inst_cache.scala 74:22]
+  reg  lru_67; // @[inst_cache.scala 74:22]
+  reg  lru_68; // @[inst_cache.scala 74:22]
+  reg  lru_69; // @[inst_cache.scala 74:22]
+  reg  lru_70; // @[inst_cache.scala 74:22]
+  reg  lru_71; // @[inst_cache.scala 74:22]
+  reg  lru_72; // @[inst_cache.scala 74:22]
+  reg  lru_73; // @[inst_cache.scala 74:22]
+  reg  lru_74; // @[inst_cache.scala 74:22]
+  reg  lru_75; // @[inst_cache.scala 74:22]
+  reg  lru_76; // @[inst_cache.scala 74:22]
+  reg  lru_77; // @[inst_cache.scala 74:22]
+  reg  lru_78; // @[inst_cache.scala 74:22]
+  reg  lru_79; // @[inst_cache.scala 74:22]
+  reg  lru_80; // @[inst_cache.scala 74:22]
+  reg  lru_81; // @[inst_cache.scala 74:22]
+  reg  lru_82; // @[inst_cache.scala 74:22]
+  reg  lru_83; // @[inst_cache.scala 74:22]
+  reg  lru_84; // @[inst_cache.scala 74:22]
+  reg  lru_85; // @[inst_cache.scala 74:22]
+  reg  lru_86; // @[inst_cache.scala 74:22]
+  reg  lru_87; // @[inst_cache.scala 74:22]
+  reg  lru_88; // @[inst_cache.scala 74:22]
+  reg  lru_89; // @[inst_cache.scala 74:22]
+  reg  lru_90; // @[inst_cache.scala 74:22]
+  reg  lru_91; // @[inst_cache.scala 74:22]
+  reg  lru_92; // @[inst_cache.scala 74:22]
+  reg  lru_93; // @[inst_cache.scala 74:22]
+  reg  lru_94; // @[inst_cache.scala 74:22]
+  reg  lru_95; // @[inst_cache.scala 74:22]
+  reg  lru_96; // @[inst_cache.scala 74:22]
+  reg  lru_97; // @[inst_cache.scala 74:22]
+  reg  lru_98; // @[inst_cache.scala 74:22]
+  reg  lru_99; // @[inst_cache.scala 74:22]
+  reg  lru_100; // @[inst_cache.scala 74:22]
+  reg  lru_101; // @[inst_cache.scala 74:22]
+  reg  lru_102; // @[inst_cache.scala 74:22]
+  reg  lru_103; // @[inst_cache.scala 74:22]
+  reg  lru_104; // @[inst_cache.scala 74:22]
+  reg  lru_105; // @[inst_cache.scala 74:22]
+  reg  lru_106; // @[inst_cache.scala 74:22]
+  reg  lru_107; // @[inst_cache.scala 74:22]
+  reg  lru_108; // @[inst_cache.scala 74:22]
+  reg  lru_109; // @[inst_cache.scala 74:22]
+  reg  lru_110; // @[inst_cache.scala 74:22]
+  reg  lru_111; // @[inst_cache.scala 74:22]
+  reg  lru_112; // @[inst_cache.scala 74:22]
+  reg  lru_113; // @[inst_cache.scala 74:22]
+  reg  lru_114; // @[inst_cache.scala 74:22]
+  reg  lru_115; // @[inst_cache.scala 74:22]
+  reg  lru_116; // @[inst_cache.scala 74:22]
+  reg  lru_117; // @[inst_cache.scala 74:22]
+  reg  lru_118; // @[inst_cache.scala 74:22]
+  reg  lru_119; // @[inst_cache.scala 74:22]
+  reg  lru_120; // @[inst_cache.scala 74:22]
+  reg  lru_121; // @[inst_cache.scala 74:22]
+  reg  lru_122; // @[inst_cache.scala 74:22]
+  reg  lru_123; // @[inst_cache.scala 74:22]
+  reg  lru_124; // @[inst_cache.scala 74:22]
+  reg  lru_125; // @[inst_cache.scala 74:22]
+  reg  lru_126; // @[inst_cache.scala 74:22]
+  reg  lru_127; // @[inst_cache.scala 74:22]
+  reg [3:0] work_state; // @[inst_cache.scala 101:29]
+  reg [2:0] write_counter; // @[inst_cache.scala 103:33]
+  reg [39:0] wait_data_L; // @[inst_cache.scala 104:31]
+  wire  stage1_flush = ~io_sram_req & io_stage1_valid_flush; // @[inst_cache.scala 108:35]
+  reg  stage1_stall_reg; // @[inst_cache.scala 115:35]
   reg [63:0] stage1_addr_line_mapping; // @[Reg.scala 28:20]
-  reg [63:0] stage1_sram_phy_addr_reg; // @[inst_cache.scala 116:43]
+  reg [63:0] stage1_sram_phy_addr_reg; // @[inst_cache.scala 119:43]
   reg  stage1_sram_cache_reg; // @[Reg.scala 28:20]
-  wire  _stage1_sram_req_reg_T_1 = io_sram_req | stage1_flush; // @[inst_cache.scala 118:106]
+  wire  _stage1_sram_req_reg_T_1 = io_sram_req | stage1_flush; // @[inst_cache.scala 121:106]
   reg  stage1_sram_req_reg; // @[Reg.scala 28:20]
-  reg  stage1_finished; // @[inst_cache.scala 121:34]
-  wire  _stage1_finished_T_1 = work_state == 4'h7; // @[inst_cache.scala 137:67]
-  wire  _stage1_finished_T_2 = work_state == 4'h3; // @[inst_cache.scala 137:103]
-  wire  _access_work_state_T = work_state == 4'h2; // @[inst_cache.scala 241:41]
-  wire  _access_work_state_T_6 = io_port_rlast & io_port_rvalid; // @[inst_cache.scala 242:71]
-  wire [2:0] _access_work_state_T_7 = io_port_rlast & io_port_rvalid ? 3'h4 : 3'h3; // @[inst_cache.scala 242:49]
-  wire  _access_work_state_T_8 = work_state == 4'h4; // @[inst_cache.scala 243:23]
-  wire  _hit_T = icache_tag_io_hit; // @[inst_cache.scala 168:33]
-  wire  _hit_T_2 = icache_tag_io_hit & icache_tag_io_valid; // @[inst_cache.scala 168:40]
-  wire  _hit_T_3 = icache_tag_1_io_hit; // @[inst_cache.scala 169:27]
-  wire  _hit_T_5 = icache_tag_1_io_hit & icache_tag_1_io_valid; // @[inst_cache.scala 169:34]
-  wire  hit = icache_tag_io_hit & icache_tag_io_valid | _hit_T_5; // @[inst_cache.scala 168:70]
-  wire [2:0] _access_work_state_T_13 = stage1_finished ? 3'h4 : 3'h2; // @[inst_cache.scala 243:145]
-  wire [2:0] _access_work_state_T_14 = stage1_sram_cache_reg ? 3'h1 : _access_work_state_T_13; // @[inst_cache.scala 243:99]
-  wire [2:0] _access_work_state_T_15 = stage1_sram_req_reg ? _access_work_state_T_14 : 3'h1; // @[inst_cache.scala 243:68]
-  wire [2:0] _access_work_state_T_18 = stage1_finished ? 3'h4 : 3'h5; // @[inst_cache.scala 244:79]
-  wire [2:0] _access_work_state_T_20 = stage1_sram_cache_reg ? _access_work_state_T_18 : _access_work_state_T_13; // @[inst_cache.scala 244:46]
-  wire [2:0] _access_work_state_T_21 = stage1_sram_req_reg ? _access_work_state_T_20 : 3'h1; // @[inst_cache.scala 244:15]
-  wire [2:0] _access_work_state_T_22 = hit ? _access_work_state_T_15 : _access_work_state_T_21; // @[inst_cache.scala 243:46]
-  wire  _access_work_state_T_23 = work_state == 4'h1; // @[inst_cache.scala 246:23]
-  wire [1:0] _access_work_state_T_28 = stage1_sram_cache_reg ? 2'h1 : 2'h2; // @[inst_cache.scala 246:95]
-  wire [1:0] _access_work_state_T_29 = stage1_sram_req_reg ? _access_work_state_T_28 : 2'h1; // @[inst_cache.scala 246:64]
-  wire [2:0] _access_work_state_T_32 = stage1_sram_cache_reg ? 3'h5 : 3'h2; // @[inst_cache.scala 247:46]
-  wire [2:0] _access_work_state_T_33 = stage1_sram_req_reg ? _access_work_state_T_32 : 3'h1; // @[inst_cache.scala 247:15]
-  wire [2:0] _access_work_state_T_34 = hit ? {{1'd0}, _access_work_state_T_29} : _access_work_state_T_33; // @[inst_cache.scala 246:42]
-  wire  _access_work_state_T_35 = work_state == 4'h5; // @[inst_cache.scala 248:23]
-  wire  _access_work_state_T_38 = work_state == 4'h6; // @[inst_cache.scala 249:23]
-  wire [3:0] _access_work_state_T_42 = _access_work_state_T_6 ? 4'h7 : work_state; // @[inst_cache.scala 249:54]
-  wire [3:0] _access_work_state_T_44 = _stage1_finished_T_1 ? 4'h4 : work_state; // @[inst_cache.scala 250:12]
-  wire [3:0] _access_work_state_T_45 = work_state == 4'h6 ? _access_work_state_T_42 : _access_work_state_T_44; // @[inst_cache.scala 249:12]
-  wire [3:0] _access_work_state_T_46 = work_state == 4'h5 & io_port_arready ? 4'h6 : _access_work_state_T_45; // @[inst_cache.scala 248:12]
-  wire [3:0] _access_work_state_T_47 = work_state == 4'h1 ? {{1'd0}, _access_work_state_T_34} : _access_work_state_T_46; // @[inst_cache.scala 246:12]
-  wire [3:0] _access_work_state_T_48 = work_state == 4'h4 ? {{1'd0}, _access_work_state_T_22} : _access_work_state_T_47; // @[inst_cache.scala 243:12]
+  reg  stage1_finished; // @[inst_cache.scala 124:34]
+  wire  _stage1_finished_T_1 = work_state == 4'h7; // @[inst_cache.scala 140:67]
+  wire  _stage1_finished_T_2 = work_state == 4'h3; // @[inst_cache.scala 140:103]
+  wire  _access_work_state_T = work_state == 4'h2; // @[inst_cache.scala 244:41]
+  wire  _access_work_state_T_6 = io_port_rlast & io_port_rvalid; // @[inst_cache.scala 245:71]
+  wire [2:0] _access_work_state_T_7 = io_port_rlast & io_port_rvalid ? 3'h4 : 3'h3; // @[inst_cache.scala 245:49]
+  wire  _access_work_state_T_8 = work_state == 4'h4; // @[inst_cache.scala 246:23]
+  wire  _hit_T = icache_tag_io_hit; // @[inst_cache.scala 171:33]
+  wire  _hit_T_2 = icache_tag_io_hit & icache_tag_io_valid; // @[inst_cache.scala 171:40]
+  wire  _hit_T_3 = icache_tag_1_io_hit; // @[inst_cache.scala 172:27]
+  wire  _hit_T_5 = icache_tag_1_io_hit & icache_tag_1_io_valid; // @[inst_cache.scala 172:34]
+  wire  hit = icache_tag_io_hit & icache_tag_io_valid | _hit_T_5; // @[inst_cache.scala 171:70]
+  wire [2:0] _access_work_state_T_13 = stage1_finished ? 3'h4 : 3'h2; // @[inst_cache.scala 246:145]
+  wire [2:0] _access_work_state_T_14 = stage1_sram_cache_reg ? 3'h1 : _access_work_state_T_13; // @[inst_cache.scala 246:99]
+  wire [2:0] _access_work_state_T_15 = stage1_sram_req_reg ? _access_work_state_T_14 : 3'h1; // @[inst_cache.scala 246:68]
+  wire [2:0] _access_work_state_T_18 = stage1_finished ? 3'h4 : 3'h5; // @[inst_cache.scala 247:79]
+  wire [2:0] _access_work_state_T_20 = stage1_sram_cache_reg ? _access_work_state_T_18 : _access_work_state_T_13; // @[inst_cache.scala 247:46]
+  wire [2:0] _access_work_state_T_21 = stage1_sram_req_reg ? _access_work_state_T_20 : 3'h1; // @[inst_cache.scala 247:15]
+  wire [2:0] _access_work_state_T_22 = hit ? _access_work_state_T_15 : _access_work_state_T_21; // @[inst_cache.scala 246:46]
+  wire  _access_work_state_T_23 = work_state == 4'h1; // @[inst_cache.scala 249:23]
+  wire [1:0] _access_work_state_T_28 = stage1_sram_cache_reg ? 2'h1 : 2'h2; // @[inst_cache.scala 249:95]
+  wire [1:0] _access_work_state_T_29 = stage1_sram_req_reg ? _access_work_state_T_28 : 2'h1; // @[inst_cache.scala 249:64]
+  wire [2:0] _access_work_state_T_32 = stage1_sram_cache_reg ? 3'h5 : 3'h2; // @[inst_cache.scala 250:46]
+  wire [2:0] _access_work_state_T_33 = stage1_sram_req_reg ? _access_work_state_T_32 : 3'h1; // @[inst_cache.scala 250:15]
+  wire [2:0] _access_work_state_T_34 = hit ? {{1'd0}, _access_work_state_T_29} : _access_work_state_T_33; // @[inst_cache.scala 249:42]
+  wire  _access_work_state_T_35 = work_state == 4'h5; // @[inst_cache.scala 251:23]
+  wire  _access_work_state_T_38 = work_state == 4'h6; // @[inst_cache.scala 252:23]
+  wire [3:0] _access_work_state_T_42 = _access_work_state_T_6 ? 4'h7 : work_state; // @[inst_cache.scala 252:54]
+  wire [3:0] _access_work_state_T_44 = _stage1_finished_T_1 ? 4'h4 : work_state; // @[inst_cache.scala 253:12]
+  wire [3:0] _access_work_state_T_45 = work_state == 4'h6 ? _access_work_state_T_42 : _access_work_state_T_44; // @[inst_cache.scala 252:12]
+  wire [3:0] _access_work_state_T_46 = work_state == 4'h5 & io_port_arready ? 4'h6 : _access_work_state_T_45; // @[inst_cache.scala 251:12]
+  wire [3:0] _access_work_state_T_47 = work_state == 4'h1 ? {{1'd0}, _access_work_state_T_34} : _access_work_state_T_46; // @[inst_cache.scala 249:12]
+  wire [3:0] _access_work_state_T_48 = work_state == 4'h4 ? {{1'd0}, _access_work_state_T_22} : _access_work_state_T_47; // @[inst_cache.scala 246:12]
   wire [3:0] _access_work_state_T_49 = _stage1_finished_T_2 ? {{1'd0}, _access_work_state_T_7} : _access_work_state_T_48
-    ; // @[inst_cache.scala 242:12]
-  wire [3:0] access_work_state = work_state == 4'h2 & io_port_arready ? 4'h3 : _access_work_state_T_49; // @[inst_cache.scala 241:30]
-  wire  _stage2_stall_T = access_work_state == 4'h1; // @[inst_cache.scala 142:40]
-  wire  _stage2_stall_T_5 = ~io_inst_buffer_full; // @[inst_cache.scala 143:11]
-  wire  stage2_stall = (access_work_state == 4'h1 | access_work_state == 4'h4) & _stage2_stall_T_5; // @[inst_cache.scala 142:129]
+    ; // @[inst_cache.scala 245:12]
+  wire [3:0] access_work_state = work_state == 4'h2 & io_port_arready ? 4'h3 : _access_work_state_T_49; // @[inst_cache.scala 244:30]
+  wire  _stage2_stall_T = access_work_state == 4'h1; // @[inst_cache.scala 145:40]
+  wire  _stage2_stall_T_5 = ~io_inst_buffer_full; // @[inst_cache.scala 146:11]
+  wire  stage2_stall = (access_work_state == 4'h1 | access_work_state == 4'h4) & _stage2_stall_T_5; // @[inst_cache.scala 145:129]
   wire [6:0] decoder_inst_data_0_opD = io_port_rdata[6:0]; // @[macros.scala 522:24]
   wire [2:0] decoder_inst_data_0_Funct3D = io_port_rdata[14:12]; // @[macros.scala 523:28]
   wire [1:0] _decoder_inst_data_0_T_4 = 3'h1 == decoder_inst_data_0_Funct3D ? 2'h2 : {{1'd0}, 3'h0 ==
@@ -48443,251 +48063,255 @@ module inst_cache(
   wire  _decoder_inst_data_1_T_22 = decoder_inst_data_1_opD == 7'h63; // @[macros.scala 518:13]
   wire [39:0] decoder_inst_data_1 = {_decoder_inst_data_1_T_14,_decoder_inst_data_1_T_20,_decoder_inst_data_1_T_22,
     io_port_rdata[63:32]}; // @[Cat.scala 31:58]
-  wire [39:0] decoder_inst_data = stage1_addr_line_mapping[2] ? decoder_inst_data_1 : decoder_inst_data_0; // @[inst_cache.scala 153:33]
-  wire  _GEN_4 = 7'h1 == stage1_addr_line_mapping[10:4] ? lru_1 : lru_0; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_5 = 7'h2 == stage1_addr_line_mapping[10:4] ? lru_2 : _GEN_4; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_6 = 7'h3 == stage1_addr_line_mapping[10:4] ? lru_3 : _GEN_5; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_7 = 7'h4 == stage1_addr_line_mapping[10:4] ? lru_4 : _GEN_6; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_8 = 7'h5 == stage1_addr_line_mapping[10:4] ? lru_5 : _GEN_7; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_9 = 7'h6 == stage1_addr_line_mapping[10:4] ? lru_6 : _GEN_8; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_10 = 7'h7 == stage1_addr_line_mapping[10:4] ? lru_7 : _GEN_9; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_11 = 7'h8 == stage1_addr_line_mapping[10:4] ? lru_8 : _GEN_10; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_12 = 7'h9 == stage1_addr_line_mapping[10:4] ? lru_9 : _GEN_11; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_13 = 7'ha == stage1_addr_line_mapping[10:4] ? lru_10 : _GEN_12; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_14 = 7'hb == stage1_addr_line_mapping[10:4] ? lru_11 : _GEN_13; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_15 = 7'hc == stage1_addr_line_mapping[10:4] ? lru_12 : _GEN_14; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_16 = 7'hd == stage1_addr_line_mapping[10:4] ? lru_13 : _GEN_15; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_17 = 7'he == stage1_addr_line_mapping[10:4] ? lru_14 : _GEN_16; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_18 = 7'hf == stage1_addr_line_mapping[10:4] ? lru_15 : _GEN_17; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_19 = 7'h10 == stage1_addr_line_mapping[10:4] ? lru_16 : _GEN_18; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_20 = 7'h11 == stage1_addr_line_mapping[10:4] ? lru_17 : _GEN_19; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_21 = 7'h12 == stage1_addr_line_mapping[10:4] ? lru_18 : _GEN_20; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_22 = 7'h13 == stage1_addr_line_mapping[10:4] ? lru_19 : _GEN_21; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_23 = 7'h14 == stage1_addr_line_mapping[10:4] ? lru_20 : _GEN_22; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_24 = 7'h15 == stage1_addr_line_mapping[10:4] ? lru_21 : _GEN_23; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_25 = 7'h16 == stage1_addr_line_mapping[10:4] ? lru_22 : _GEN_24; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_26 = 7'h17 == stage1_addr_line_mapping[10:4] ? lru_23 : _GEN_25; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_27 = 7'h18 == stage1_addr_line_mapping[10:4] ? lru_24 : _GEN_26; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_28 = 7'h19 == stage1_addr_line_mapping[10:4] ? lru_25 : _GEN_27; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_29 = 7'h1a == stage1_addr_line_mapping[10:4] ? lru_26 : _GEN_28; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_30 = 7'h1b == stage1_addr_line_mapping[10:4] ? lru_27 : _GEN_29; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_31 = 7'h1c == stage1_addr_line_mapping[10:4] ? lru_28 : _GEN_30; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_32 = 7'h1d == stage1_addr_line_mapping[10:4] ? lru_29 : _GEN_31; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_33 = 7'h1e == stage1_addr_line_mapping[10:4] ? lru_30 : _GEN_32; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_34 = 7'h1f == stage1_addr_line_mapping[10:4] ? lru_31 : _GEN_33; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_35 = 7'h20 == stage1_addr_line_mapping[10:4] ? lru_32 : _GEN_34; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_36 = 7'h21 == stage1_addr_line_mapping[10:4] ? lru_33 : _GEN_35; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_37 = 7'h22 == stage1_addr_line_mapping[10:4] ? lru_34 : _GEN_36; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_38 = 7'h23 == stage1_addr_line_mapping[10:4] ? lru_35 : _GEN_37; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_39 = 7'h24 == stage1_addr_line_mapping[10:4] ? lru_36 : _GEN_38; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_40 = 7'h25 == stage1_addr_line_mapping[10:4] ? lru_37 : _GEN_39; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_41 = 7'h26 == stage1_addr_line_mapping[10:4] ? lru_38 : _GEN_40; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_42 = 7'h27 == stage1_addr_line_mapping[10:4] ? lru_39 : _GEN_41; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_43 = 7'h28 == stage1_addr_line_mapping[10:4] ? lru_40 : _GEN_42; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_44 = 7'h29 == stage1_addr_line_mapping[10:4] ? lru_41 : _GEN_43; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_45 = 7'h2a == stage1_addr_line_mapping[10:4] ? lru_42 : _GEN_44; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_46 = 7'h2b == stage1_addr_line_mapping[10:4] ? lru_43 : _GEN_45; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_47 = 7'h2c == stage1_addr_line_mapping[10:4] ? lru_44 : _GEN_46; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_48 = 7'h2d == stage1_addr_line_mapping[10:4] ? lru_45 : _GEN_47; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_49 = 7'h2e == stage1_addr_line_mapping[10:4] ? lru_46 : _GEN_48; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_50 = 7'h2f == stage1_addr_line_mapping[10:4] ? lru_47 : _GEN_49; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_51 = 7'h30 == stage1_addr_line_mapping[10:4] ? lru_48 : _GEN_50; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_52 = 7'h31 == stage1_addr_line_mapping[10:4] ? lru_49 : _GEN_51; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_53 = 7'h32 == stage1_addr_line_mapping[10:4] ? lru_50 : _GEN_52; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_54 = 7'h33 == stage1_addr_line_mapping[10:4] ? lru_51 : _GEN_53; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_55 = 7'h34 == stage1_addr_line_mapping[10:4] ? lru_52 : _GEN_54; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_56 = 7'h35 == stage1_addr_line_mapping[10:4] ? lru_53 : _GEN_55; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_57 = 7'h36 == stage1_addr_line_mapping[10:4] ? lru_54 : _GEN_56; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_58 = 7'h37 == stage1_addr_line_mapping[10:4] ? lru_55 : _GEN_57; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_59 = 7'h38 == stage1_addr_line_mapping[10:4] ? lru_56 : _GEN_58; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_60 = 7'h39 == stage1_addr_line_mapping[10:4] ? lru_57 : _GEN_59; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_61 = 7'h3a == stage1_addr_line_mapping[10:4] ? lru_58 : _GEN_60; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_62 = 7'h3b == stage1_addr_line_mapping[10:4] ? lru_59 : _GEN_61; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_63 = 7'h3c == stage1_addr_line_mapping[10:4] ? lru_60 : _GEN_62; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_64 = 7'h3d == stage1_addr_line_mapping[10:4] ? lru_61 : _GEN_63; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_65 = 7'h3e == stage1_addr_line_mapping[10:4] ? lru_62 : _GEN_64; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_66 = 7'h3f == stage1_addr_line_mapping[10:4] ? lru_63 : _GEN_65; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_67 = 7'h40 == stage1_addr_line_mapping[10:4] ? lru_64 : _GEN_66; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_68 = 7'h41 == stage1_addr_line_mapping[10:4] ? lru_65 : _GEN_67; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_69 = 7'h42 == stage1_addr_line_mapping[10:4] ? lru_66 : _GEN_68; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_70 = 7'h43 == stage1_addr_line_mapping[10:4] ? lru_67 : _GEN_69; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_71 = 7'h44 == stage1_addr_line_mapping[10:4] ? lru_68 : _GEN_70; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_72 = 7'h45 == stage1_addr_line_mapping[10:4] ? lru_69 : _GEN_71; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_73 = 7'h46 == stage1_addr_line_mapping[10:4] ? lru_70 : _GEN_72; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_74 = 7'h47 == stage1_addr_line_mapping[10:4] ? lru_71 : _GEN_73; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_75 = 7'h48 == stage1_addr_line_mapping[10:4] ? lru_72 : _GEN_74; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_76 = 7'h49 == stage1_addr_line_mapping[10:4] ? lru_73 : _GEN_75; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_77 = 7'h4a == stage1_addr_line_mapping[10:4] ? lru_74 : _GEN_76; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_78 = 7'h4b == stage1_addr_line_mapping[10:4] ? lru_75 : _GEN_77; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_79 = 7'h4c == stage1_addr_line_mapping[10:4] ? lru_76 : _GEN_78; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_80 = 7'h4d == stage1_addr_line_mapping[10:4] ? lru_77 : _GEN_79; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_81 = 7'h4e == stage1_addr_line_mapping[10:4] ? lru_78 : _GEN_80; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_82 = 7'h4f == stage1_addr_line_mapping[10:4] ? lru_79 : _GEN_81; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_83 = 7'h50 == stage1_addr_line_mapping[10:4] ? lru_80 : _GEN_82; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_84 = 7'h51 == stage1_addr_line_mapping[10:4] ? lru_81 : _GEN_83; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_85 = 7'h52 == stage1_addr_line_mapping[10:4] ? lru_82 : _GEN_84; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_86 = 7'h53 == stage1_addr_line_mapping[10:4] ? lru_83 : _GEN_85; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_87 = 7'h54 == stage1_addr_line_mapping[10:4] ? lru_84 : _GEN_86; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_88 = 7'h55 == stage1_addr_line_mapping[10:4] ? lru_85 : _GEN_87; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_89 = 7'h56 == stage1_addr_line_mapping[10:4] ? lru_86 : _GEN_88; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_90 = 7'h57 == stage1_addr_line_mapping[10:4] ? lru_87 : _GEN_89; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_91 = 7'h58 == stage1_addr_line_mapping[10:4] ? lru_88 : _GEN_90; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_92 = 7'h59 == stage1_addr_line_mapping[10:4] ? lru_89 : _GEN_91; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_93 = 7'h5a == stage1_addr_line_mapping[10:4] ? lru_90 : _GEN_92; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_94 = 7'h5b == stage1_addr_line_mapping[10:4] ? lru_91 : _GEN_93; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_95 = 7'h5c == stage1_addr_line_mapping[10:4] ? lru_92 : _GEN_94; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_96 = 7'h5d == stage1_addr_line_mapping[10:4] ? lru_93 : _GEN_95; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_97 = 7'h5e == stage1_addr_line_mapping[10:4] ? lru_94 : _GEN_96; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_98 = 7'h5f == stage1_addr_line_mapping[10:4] ? lru_95 : _GEN_97; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_99 = 7'h60 == stage1_addr_line_mapping[10:4] ? lru_96 : _GEN_98; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_100 = 7'h61 == stage1_addr_line_mapping[10:4] ? lru_97 : _GEN_99; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_101 = 7'h62 == stage1_addr_line_mapping[10:4] ? lru_98 : _GEN_100; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_102 = 7'h63 == stage1_addr_line_mapping[10:4] ? lru_99 : _GEN_101; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_103 = 7'h64 == stage1_addr_line_mapping[10:4] ? lru_100 : _GEN_102; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_104 = 7'h65 == stage1_addr_line_mapping[10:4] ? lru_101 : _GEN_103; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_105 = 7'h66 == stage1_addr_line_mapping[10:4] ? lru_102 : _GEN_104; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_106 = 7'h67 == stage1_addr_line_mapping[10:4] ? lru_103 : _GEN_105; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_107 = 7'h68 == stage1_addr_line_mapping[10:4] ? lru_104 : _GEN_106; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_108 = 7'h69 == stage1_addr_line_mapping[10:4] ? lru_105 : _GEN_107; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_109 = 7'h6a == stage1_addr_line_mapping[10:4] ? lru_106 : _GEN_108; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_110 = 7'h6b == stage1_addr_line_mapping[10:4] ? lru_107 : _GEN_109; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_111 = 7'h6c == stage1_addr_line_mapping[10:4] ? lru_108 : _GEN_110; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_112 = 7'h6d == stage1_addr_line_mapping[10:4] ? lru_109 : _GEN_111; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_113 = 7'h6e == stage1_addr_line_mapping[10:4] ? lru_110 : _GEN_112; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_114 = 7'h6f == stage1_addr_line_mapping[10:4] ? lru_111 : _GEN_113; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_115 = 7'h70 == stage1_addr_line_mapping[10:4] ? lru_112 : _GEN_114; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_116 = 7'h71 == stage1_addr_line_mapping[10:4] ? lru_113 : _GEN_115; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_117 = 7'h72 == stage1_addr_line_mapping[10:4] ? lru_114 : _GEN_116; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_118 = 7'h73 == stage1_addr_line_mapping[10:4] ? lru_115 : _GEN_117; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_119 = 7'h74 == stage1_addr_line_mapping[10:4] ? lru_116 : _GEN_118; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_120 = 7'h75 == stage1_addr_line_mapping[10:4] ? lru_117 : _GEN_119; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_121 = 7'h76 == stage1_addr_line_mapping[10:4] ? lru_118 : _GEN_120; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_122 = 7'h77 == stage1_addr_line_mapping[10:4] ? lru_119 : _GEN_121; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_123 = 7'h78 == stage1_addr_line_mapping[10:4] ? lru_120 : _GEN_122; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_124 = 7'h79 == stage1_addr_line_mapping[10:4] ? lru_121 : _GEN_123; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_125 = 7'h7a == stage1_addr_line_mapping[10:4] ? lru_122 : _GEN_124; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_126 = 7'h7b == stage1_addr_line_mapping[10:4] ? lru_123 : _GEN_125; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_127 = 7'h7c == stage1_addr_line_mapping[10:4] ? lru_124 : _GEN_126; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_128 = 7'h7d == stage1_addr_line_mapping[10:4] ? lru_125 : _GEN_127; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_129 = 7'h7e == stage1_addr_line_mapping[10:4] ? lru_126 : _GEN_128; // @[inst_cache.scala 173:{12,12}]
-  wire  _GEN_130 = 7'h7f == stage1_addr_line_mapping[10:4] ? lru_127 : _GEN_129; // @[inst_cache.scala 173:{12,12}]
-  wire  _lru_T_4 = _hit_T_3 ? 1'h0 : _GEN_130; // @[inst_cache.scala 173:12]
-  wire  _lru_T_5 = _hit_T | _lru_T_4; // @[inst_cache.scala 172:12]
-  wire  _lru_T_8 = ~_GEN_130; // @[inst_cache.scala 174:46]
-  reg [63:0] stage2_sram_addr_reg; // @[inst_cache.scala 179:39]
-  reg  stage2_sram_req_reg; // @[inst_cache.scala 186:38]
-  reg  stage2_hit0_reg; // @[inst_cache.scala 190:34]
-  reg [1:0] stage2_write_en_reg; // @[inst_cache.scala 207:38]
-  wire [39:0] icache_data_way0_0_rdata = icache_data_io_rdata; // @[inst_cache.scala 86:{36,36}]
-  wire [39:0] icache_data_way0_1_rdata = icache_data_1_io_rdata; // @[inst_cache.scala 86:{36,36}]
-  wire [39:0] _GEN_516 = stage2_sram_addr_reg[3] ? icache_data_way0_1_rdata : icache_data_way0_0_rdata; // @[inst_cache.scala 218:{25,25}]
-  wire [39:0] icache_data_way1_0_rdata = icache_data_2_io_rdata; // @[inst_cache.scala 87:{36,36}]
-  wire [39:0] icache_data_way1_1_rdata = icache_data_3_io_rdata; // @[inst_cache.scala 87:{36,36}]
-  wire [39:0] _GEN_518 = stage2_sram_addr_reg[3] ? icache_data_way1_1_rdata : icache_data_way1_0_rdata; // @[inst_cache.scala 218:{25,25}]
-  wire [39:0] hit_word_L = stage2_hit0_reg ? _GEN_516 : _GEN_518; // @[inst_cache.scala 218:25]
-  reg  has_stage2_stall; // @[inst_cache.scala 220:35]
-  reg [39:0] sram_rdata_L_Reg; // @[inst_cache.scala 223:35]
-  wire [39:0] _access_sram_rdata_L_T_2 = _access_work_state_T_23 ? hit_word_L : 40'h0; // @[inst_cache.scala 226:84]
-  wire [39:0] access_sram_rdata_L = _access_work_state_T_8 ? wait_data_L : _access_sram_rdata_L_T_2; // @[inst_cache.scala 226:35]
-  wire  _icache_data_way0_0_wen_T_2 = _access_work_state_T_38 & io_port_rvalid; // @[inst_cache.scala 233:119]
-  wire  _icache_data_way0_0_wen_T_6 = write_counter == 3'h0; // @[inst_cache.scala 234:69]
-  wire  _icache_data_way0_0_wen_T_7 = _icache_data_way0_0_wen_T_2 & _lru_T_8 & write_counter == 3'h0; // @[inst_cache.scala 234:52]
-  wire  _icache_data_way0_1_wen_T_6 = write_counter == 3'h1; // @[inst_cache.scala 234:69]
-  wire  _icache_data_way0_1_wen_T_7 = _icache_data_way0_0_wen_T_2 & _lru_T_8 & write_counter == 3'h1; // @[inst_cache.scala 234:52]
-  wire  _icache_data_way1_0_wen_T_7 = _icache_data_way0_0_wen_T_2 & _GEN_130 & _icache_data_way0_0_wen_T_6; // @[inst_cache.scala 236:52]
-  wire  _icache_data_way1_1_wen_T_7 = _icache_data_way0_0_wen_T_2 & _GEN_130 & _icache_data_way0_1_wen_T_6; // @[inst_cache.scala 236:52]
-  wire [2:0] _GEN_1287 = {{2'd0}, stage1_addr_line_mapping[3]}; // @[inst_cache.scala 256:95]
-  wire [2:0] _write_counter_T_8 = write_counter + 3'h1; // @[inst_cache.scala 261:196]
+  wire [39:0] decoder_inst_data = stage1_addr_line_mapping[2] ? decoder_inst_data_1 : decoder_inst_data_0; // @[inst_cache.scala 156:33]
+  wire  _GEN_4 = 7'h1 == stage1_addr_line_mapping[10:4] ? lru_1 : lru_0; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_5 = 7'h2 == stage1_addr_line_mapping[10:4] ? lru_2 : _GEN_4; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_6 = 7'h3 == stage1_addr_line_mapping[10:4] ? lru_3 : _GEN_5; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_7 = 7'h4 == stage1_addr_line_mapping[10:4] ? lru_4 : _GEN_6; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_8 = 7'h5 == stage1_addr_line_mapping[10:4] ? lru_5 : _GEN_7; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_9 = 7'h6 == stage1_addr_line_mapping[10:4] ? lru_6 : _GEN_8; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_10 = 7'h7 == stage1_addr_line_mapping[10:4] ? lru_7 : _GEN_9; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_11 = 7'h8 == stage1_addr_line_mapping[10:4] ? lru_8 : _GEN_10; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_12 = 7'h9 == stage1_addr_line_mapping[10:4] ? lru_9 : _GEN_11; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_13 = 7'ha == stage1_addr_line_mapping[10:4] ? lru_10 : _GEN_12; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_14 = 7'hb == stage1_addr_line_mapping[10:4] ? lru_11 : _GEN_13; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_15 = 7'hc == stage1_addr_line_mapping[10:4] ? lru_12 : _GEN_14; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_16 = 7'hd == stage1_addr_line_mapping[10:4] ? lru_13 : _GEN_15; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_17 = 7'he == stage1_addr_line_mapping[10:4] ? lru_14 : _GEN_16; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_18 = 7'hf == stage1_addr_line_mapping[10:4] ? lru_15 : _GEN_17; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_19 = 7'h10 == stage1_addr_line_mapping[10:4] ? lru_16 : _GEN_18; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_20 = 7'h11 == stage1_addr_line_mapping[10:4] ? lru_17 : _GEN_19; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_21 = 7'h12 == stage1_addr_line_mapping[10:4] ? lru_18 : _GEN_20; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_22 = 7'h13 == stage1_addr_line_mapping[10:4] ? lru_19 : _GEN_21; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_23 = 7'h14 == stage1_addr_line_mapping[10:4] ? lru_20 : _GEN_22; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_24 = 7'h15 == stage1_addr_line_mapping[10:4] ? lru_21 : _GEN_23; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_25 = 7'h16 == stage1_addr_line_mapping[10:4] ? lru_22 : _GEN_24; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_26 = 7'h17 == stage1_addr_line_mapping[10:4] ? lru_23 : _GEN_25; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_27 = 7'h18 == stage1_addr_line_mapping[10:4] ? lru_24 : _GEN_26; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_28 = 7'h19 == stage1_addr_line_mapping[10:4] ? lru_25 : _GEN_27; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_29 = 7'h1a == stage1_addr_line_mapping[10:4] ? lru_26 : _GEN_28; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_30 = 7'h1b == stage1_addr_line_mapping[10:4] ? lru_27 : _GEN_29; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_31 = 7'h1c == stage1_addr_line_mapping[10:4] ? lru_28 : _GEN_30; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_32 = 7'h1d == stage1_addr_line_mapping[10:4] ? lru_29 : _GEN_31; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_33 = 7'h1e == stage1_addr_line_mapping[10:4] ? lru_30 : _GEN_32; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_34 = 7'h1f == stage1_addr_line_mapping[10:4] ? lru_31 : _GEN_33; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_35 = 7'h20 == stage1_addr_line_mapping[10:4] ? lru_32 : _GEN_34; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_36 = 7'h21 == stage1_addr_line_mapping[10:4] ? lru_33 : _GEN_35; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_37 = 7'h22 == stage1_addr_line_mapping[10:4] ? lru_34 : _GEN_36; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_38 = 7'h23 == stage1_addr_line_mapping[10:4] ? lru_35 : _GEN_37; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_39 = 7'h24 == stage1_addr_line_mapping[10:4] ? lru_36 : _GEN_38; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_40 = 7'h25 == stage1_addr_line_mapping[10:4] ? lru_37 : _GEN_39; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_41 = 7'h26 == stage1_addr_line_mapping[10:4] ? lru_38 : _GEN_40; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_42 = 7'h27 == stage1_addr_line_mapping[10:4] ? lru_39 : _GEN_41; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_43 = 7'h28 == stage1_addr_line_mapping[10:4] ? lru_40 : _GEN_42; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_44 = 7'h29 == stage1_addr_line_mapping[10:4] ? lru_41 : _GEN_43; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_45 = 7'h2a == stage1_addr_line_mapping[10:4] ? lru_42 : _GEN_44; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_46 = 7'h2b == stage1_addr_line_mapping[10:4] ? lru_43 : _GEN_45; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_47 = 7'h2c == stage1_addr_line_mapping[10:4] ? lru_44 : _GEN_46; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_48 = 7'h2d == stage1_addr_line_mapping[10:4] ? lru_45 : _GEN_47; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_49 = 7'h2e == stage1_addr_line_mapping[10:4] ? lru_46 : _GEN_48; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_50 = 7'h2f == stage1_addr_line_mapping[10:4] ? lru_47 : _GEN_49; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_51 = 7'h30 == stage1_addr_line_mapping[10:4] ? lru_48 : _GEN_50; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_52 = 7'h31 == stage1_addr_line_mapping[10:4] ? lru_49 : _GEN_51; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_53 = 7'h32 == stage1_addr_line_mapping[10:4] ? lru_50 : _GEN_52; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_54 = 7'h33 == stage1_addr_line_mapping[10:4] ? lru_51 : _GEN_53; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_55 = 7'h34 == stage1_addr_line_mapping[10:4] ? lru_52 : _GEN_54; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_56 = 7'h35 == stage1_addr_line_mapping[10:4] ? lru_53 : _GEN_55; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_57 = 7'h36 == stage1_addr_line_mapping[10:4] ? lru_54 : _GEN_56; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_58 = 7'h37 == stage1_addr_line_mapping[10:4] ? lru_55 : _GEN_57; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_59 = 7'h38 == stage1_addr_line_mapping[10:4] ? lru_56 : _GEN_58; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_60 = 7'h39 == stage1_addr_line_mapping[10:4] ? lru_57 : _GEN_59; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_61 = 7'h3a == stage1_addr_line_mapping[10:4] ? lru_58 : _GEN_60; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_62 = 7'h3b == stage1_addr_line_mapping[10:4] ? lru_59 : _GEN_61; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_63 = 7'h3c == stage1_addr_line_mapping[10:4] ? lru_60 : _GEN_62; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_64 = 7'h3d == stage1_addr_line_mapping[10:4] ? lru_61 : _GEN_63; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_65 = 7'h3e == stage1_addr_line_mapping[10:4] ? lru_62 : _GEN_64; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_66 = 7'h3f == stage1_addr_line_mapping[10:4] ? lru_63 : _GEN_65; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_67 = 7'h40 == stage1_addr_line_mapping[10:4] ? lru_64 : _GEN_66; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_68 = 7'h41 == stage1_addr_line_mapping[10:4] ? lru_65 : _GEN_67; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_69 = 7'h42 == stage1_addr_line_mapping[10:4] ? lru_66 : _GEN_68; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_70 = 7'h43 == stage1_addr_line_mapping[10:4] ? lru_67 : _GEN_69; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_71 = 7'h44 == stage1_addr_line_mapping[10:4] ? lru_68 : _GEN_70; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_72 = 7'h45 == stage1_addr_line_mapping[10:4] ? lru_69 : _GEN_71; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_73 = 7'h46 == stage1_addr_line_mapping[10:4] ? lru_70 : _GEN_72; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_74 = 7'h47 == stage1_addr_line_mapping[10:4] ? lru_71 : _GEN_73; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_75 = 7'h48 == stage1_addr_line_mapping[10:4] ? lru_72 : _GEN_74; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_76 = 7'h49 == stage1_addr_line_mapping[10:4] ? lru_73 : _GEN_75; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_77 = 7'h4a == stage1_addr_line_mapping[10:4] ? lru_74 : _GEN_76; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_78 = 7'h4b == stage1_addr_line_mapping[10:4] ? lru_75 : _GEN_77; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_79 = 7'h4c == stage1_addr_line_mapping[10:4] ? lru_76 : _GEN_78; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_80 = 7'h4d == stage1_addr_line_mapping[10:4] ? lru_77 : _GEN_79; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_81 = 7'h4e == stage1_addr_line_mapping[10:4] ? lru_78 : _GEN_80; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_82 = 7'h4f == stage1_addr_line_mapping[10:4] ? lru_79 : _GEN_81; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_83 = 7'h50 == stage1_addr_line_mapping[10:4] ? lru_80 : _GEN_82; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_84 = 7'h51 == stage1_addr_line_mapping[10:4] ? lru_81 : _GEN_83; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_85 = 7'h52 == stage1_addr_line_mapping[10:4] ? lru_82 : _GEN_84; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_86 = 7'h53 == stage1_addr_line_mapping[10:4] ? lru_83 : _GEN_85; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_87 = 7'h54 == stage1_addr_line_mapping[10:4] ? lru_84 : _GEN_86; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_88 = 7'h55 == stage1_addr_line_mapping[10:4] ? lru_85 : _GEN_87; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_89 = 7'h56 == stage1_addr_line_mapping[10:4] ? lru_86 : _GEN_88; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_90 = 7'h57 == stage1_addr_line_mapping[10:4] ? lru_87 : _GEN_89; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_91 = 7'h58 == stage1_addr_line_mapping[10:4] ? lru_88 : _GEN_90; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_92 = 7'h59 == stage1_addr_line_mapping[10:4] ? lru_89 : _GEN_91; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_93 = 7'h5a == stage1_addr_line_mapping[10:4] ? lru_90 : _GEN_92; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_94 = 7'h5b == stage1_addr_line_mapping[10:4] ? lru_91 : _GEN_93; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_95 = 7'h5c == stage1_addr_line_mapping[10:4] ? lru_92 : _GEN_94; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_96 = 7'h5d == stage1_addr_line_mapping[10:4] ? lru_93 : _GEN_95; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_97 = 7'h5e == stage1_addr_line_mapping[10:4] ? lru_94 : _GEN_96; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_98 = 7'h5f == stage1_addr_line_mapping[10:4] ? lru_95 : _GEN_97; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_99 = 7'h60 == stage1_addr_line_mapping[10:4] ? lru_96 : _GEN_98; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_100 = 7'h61 == stage1_addr_line_mapping[10:4] ? lru_97 : _GEN_99; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_101 = 7'h62 == stage1_addr_line_mapping[10:4] ? lru_98 : _GEN_100; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_102 = 7'h63 == stage1_addr_line_mapping[10:4] ? lru_99 : _GEN_101; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_103 = 7'h64 == stage1_addr_line_mapping[10:4] ? lru_100 : _GEN_102; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_104 = 7'h65 == stage1_addr_line_mapping[10:4] ? lru_101 : _GEN_103; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_105 = 7'h66 == stage1_addr_line_mapping[10:4] ? lru_102 : _GEN_104; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_106 = 7'h67 == stage1_addr_line_mapping[10:4] ? lru_103 : _GEN_105; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_107 = 7'h68 == stage1_addr_line_mapping[10:4] ? lru_104 : _GEN_106; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_108 = 7'h69 == stage1_addr_line_mapping[10:4] ? lru_105 : _GEN_107; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_109 = 7'h6a == stage1_addr_line_mapping[10:4] ? lru_106 : _GEN_108; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_110 = 7'h6b == stage1_addr_line_mapping[10:4] ? lru_107 : _GEN_109; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_111 = 7'h6c == stage1_addr_line_mapping[10:4] ? lru_108 : _GEN_110; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_112 = 7'h6d == stage1_addr_line_mapping[10:4] ? lru_109 : _GEN_111; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_113 = 7'h6e == stage1_addr_line_mapping[10:4] ? lru_110 : _GEN_112; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_114 = 7'h6f == stage1_addr_line_mapping[10:4] ? lru_111 : _GEN_113; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_115 = 7'h70 == stage1_addr_line_mapping[10:4] ? lru_112 : _GEN_114; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_116 = 7'h71 == stage1_addr_line_mapping[10:4] ? lru_113 : _GEN_115; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_117 = 7'h72 == stage1_addr_line_mapping[10:4] ? lru_114 : _GEN_116; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_118 = 7'h73 == stage1_addr_line_mapping[10:4] ? lru_115 : _GEN_117; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_119 = 7'h74 == stage1_addr_line_mapping[10:4] ? lru_116 : _GEN_118; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_120 = 7'h75 == stage1_addr_line_mapping[10:4] ? lru_117 : _GEN_119; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_121 = 7'h76 == stage1_addr_line_mapping[10:4] ? lru_118 : _GEN_120; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_122 = 7'h77 == stage1_addr_line_mapping[10:4] ? lru_119 : _GEN_121; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_123 = 7'h78 == stage1_addr_line_mapping[10:4] ? lru_120 : _GEN_122; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_124 = 7'h79 == stage1_addr_line_mapping[10:4] ? lru_121 : _GEN_123; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_125 = 7'h7a == stage1_addr_line_mapping[10:4] ? lru_122 : _GEN_124; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_126 = 7'h7b == stage1_addr_line_mapping[10:4] ? lru_123 : _GEN_125; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_127 = 7'h7c == stage1_addr_line_mapping[10:4] ? lru_124 : _GEN_126; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_128 = 7'h7d == stage1_addr_line_mapping[10:4] ? lru_125 : _GEN_127; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_129 = 7'h7e == stage1_addr_line_mapping[10:4] ? lru_126 : _GEN_128; // @[inst_cache.scala 176:{12,12}]
+  wire  _GEN_130 = 7'h7f == stage1_addr_line_mapping[10:4] ? lru_127 : _GEN_129; // @[inst_cache.scala 176:{12,12}]
+  wire  _lru_T_4 = _hit_T_3 ? 1'h0 : _GEN_130; // @[inst_cache.scala 176:12]
+  wire  _lru_T_5 = _hit_T | _lru_T_4; // @[inst_cache.scala 175:12]
+  wire  _lru_T_8 = ~_GEN_130; // @[inst_cache.scala 177:46]
+  reg [63:0] stage2_sram_addr_reg; // @[inst_cache.scala 182:39]
+  reg  stage2_sram_req_reg; // @[inst_cache.scala 189:38]
+  reg  stage2_hit0_reg; // @[inst_cache.scala 193:34]
+  reg [1:0] stage2_write_en_reg; // @[inst_cache.scala 210:38]
+  wire [39:0] icache_data_way0_0_rdata = icache_data_io_rdata; // @[inst_cache.scala 89:{36,36}]
+  wire [39:0] icache_data_way0_1_rdata = icache_data_1_io_rdata; // @[inst_cache.scala 89:{36,36}]
+  wire [39:0] _GEN_516 = stage2_sram_addr_reg[3] ? icache_data_way0_1_rdata : icache_data_way0_0_rdata; // @[inst_cache.scala 221:{25,25}]
+  wire [39:0] icache_data_way1_0_rdata = icache_data_2_io_rdata; // @[inst_cache.scala 90:{36,36}]
+  wire [39:0] icache_data_way1_1_rdata = icache_data_3_io_rdata; // @[inst_cache.scala 90:{36,36}]
+  wire [39:0] _GEN_518 = stage2_sram_addr_reg[3] ? icache_data_way1_1_rdata : icache_data_way1_0_rdata; // @[inst_cache.scala 221:{25,25}]
+  wire [39:0] hit_word_L = stage2_hit0_reg ? _GEN_516 : _GEN_518; // @[inst_cache.scala 221:25]
+  reg  has_stage2_stall; // @[inst_cache.scala 223:35]
+  reg [39:0] sram_rdata_L_Reg; // @[inst_cache.scala 226:35]
+  wire [39:0] _access_sram_rdata_L_T_2 = _access_work_state_T_23 ? hit_word_L : 40'h0; // @[inst_cache.scala 229:84]
+  wire [39:0] access_sram_rdata_L = _access_work_state_T_8 ? wait_data_L : _access_sram_rdata_L_T_2; // @[inst_cache.scala 229:35]
+  wire  _icache_data_way0_0_wen_T_2 = _access_work_state_T_38 & io_port_rvalid; // @[inst_cache.scala 236:119]
+  wire  _icache_data_way0_0_wen_T_6 = write_counter == 3'h0; // @[inst_cache.scala 237:69]
+  wire  _icache_data_way0_0_wen_T_7 = _icache_data_way0_0_wen_T_2 & _lru_T_8 & write_counter == 3'h0; // @[inst_cache.scala 237:52]
+  wire  _icache_data_way0_1_wen_T_6 = write_counter == 3'h1; // @[inst_cache.scala 237:69]
+  wire  _icache_data_way0_1_wen_T_7 = _icache_data_way0_0_wen_T_2 & _lru_T_8 & write_counter == 3'h1; // @[inst_cache.scala 237:52]
+  wire  _icache_data_way1_0_wen_T_7 = _icache_data_way0_0_wen_T_2 & _GEN_130 & _icache_data_way0_0_wen_T_6; // @[inst_cache.scala 239:52]
+  wire  _icache_data_way1_1_wen_T_7 = _icache_data_way0_0_wen_T_2 & _GEN_130 & _icache_data_way0_1_wen_T_6; // @[inst_cache.scala 239:52]
+  wire [2:0] _GEN_1287 = {{2'd0}, stage1_addr_line_mapping[3]}; // @[inst_cache.scala 259:95]
+  wire [2:0] _write_counter_T_8 = write_counter + 3'h1; // @[inst_cache.scala 264:196]
   wire [21:0] _T_13 = {1'h1,stage1_addr_line_mapping[31:11]}; // @[Cat.scala 31:58]
-  wire [21:0] _T_14 = _stage1_finished_T_1 ? _T_13 : 22'h0; // @[inst_cache.scala 264:30]
+  wire [21:0] _T_14 = _stage1_finished_T_1 ? _T_13 : 22'h0; // @[inst_cache.scala 267:30]
   wire [63:0] _io_port_araddr_T_3 = {stage1_sram_phy_addr_reg[63:4],4'h0}; // @[Cat.scala 31:58]
-  wire [63:0] _io_port_araddr_T_4 = _access_work_state_T_35 ? _io_port_araddr_T_3 : 64'h0; // @[inst_cache.scala 275:12]
-  wire  _io_sram_write_en_T_3 = ~stage2_sram_req_reg & stage2_sram_addr_reg[1:0] != 2'h0; // @[inst_cache.scala 314:31]
-  wire [1:0] _io_sram_write_en_T_5 = stage2_sram_req_reg | _io_sram_write_en_T_3 ? stage2_write_en_reg : 2'h0; // @[inst_cache.scala 313:57]
-  icache_tag icache_tag ( // @[inst_cache.scala 79:34]
+  wire [63:0] _io_port_araddr_T_4 = _access_work_state_T_35 ? _io_port_araddr_T_3 : 64'h0; // @[inst_cache.scala 278:12]
+  wire  _io_sram_write_en_T_3 = ~stage2_sram_req_reg & stage2_sram_addr_reg[1:0] != 2'h0; // @[inst_cache.scala 317:31]
+  wire [1:0] _io_sram_write_en_T_5 = stage2_sram_req_reg | _io_sram_write_en_T_3 ? stage2_write_en_reg : 2'h0; // @[inst_cache.scala 316:57]
+  icache_tag icache_tag ( // @[inst_cache.scala 81:34]
     .clock(icache_tag_clock),
     .reset(icache_tag_reset),
     .io_wen(icache_tag_io_wen),
     .io_wdata(icache_tag_io_wdata),
     .io_addr(icache_tag_io_addr),
     .io_hit(icache_tag_io_hit),
-    .io_valid(icache_tag_io_valid)
+    .io_valid(icache_tag_io_valid),
+    .io_tag_all_flush(icache_tag_io_tag_all_flush)
   );
-  icache_tag icache_tag_1 ( // @[inst_cache.scala 81:34]
+  icache_tag icache_tag_1 ( // @[inst_cache.scala 83:34]
     .clock(icache_tag_1_clock),
     .reset(icache_tag_1_reset),
     .io_wen(icache_tag_1_io_wen),
     .io_wdata(icache_tag_1_io_wdata),
     .io_addr(icache_tag_1_io_addr),
     .io_hit(icache_tag_1_io_hit),
-    .io_valid(icache_tag_1_io_valid)
+    .io_valid(icache_tag_1_io_valid),
+    .io_tag_all_flush(icache_tag_1_io_tag_all_flush)
   );
-  icache_data icache_data ( // @[inst_cache.scala 86:55]
+  icache_data icache_data ( // @[inst_cache.scala 89:55]
     .clock(icache_data_clock),
     .io_wen(icache_data_io_wen),
     .io_addr(icache_data_io_addr),
     .io_wdata(icache_data_io_wdata),
     .io_rdata(icache_data_io_rdata)
   );
-  icache_data icache_data_1 ( // @[inst_cache.scala 86:55]
+  icache_data icache_data_1 ( // @[inst_cache.scala 89:55]
     .clock(icache_data_1_clock),
     .io_wen(icache_data_1_io_wen),
     .io_addr(icache_data_1_io_addr),
     .io_wdata(icache_data_1_io_wdata),
     .io_rdata(icache_data_1_io_rdata)
   );
-  icache_data icache_data_2 ( // @[inst_cache.scala 87:55]
+  icache_data icache_data_2 ( // @[inst_cache.scala 90:55]
     .clock(icache_data_2_clock),
     .io_wen(icache_data_2_io_wen),
     .io_addr(icache_data_2_io_addr),
     .io_wdata(icache_data_2_io_wdata),
     .io_rdata(icache_data_2_io_rdata)
   );
-  icache_data icache_data_3 ( // @[inst_cache.scala 87:55]
+  icache_data icache_data_3 ( // @[inst_cache.scala 90:55]
     .clock(icache_data_3_clock),
     .io_wen(icache_data_3_io_wen),
     .io_addr(icache_data_3_io_addr),
     .io_wdata(icache_data_3_io_wdata),
     .io_rdata(icache_data_3_io_rdata)
   );
-  assign io_port_araddr = _access_work_state_T ? stage1_sram_phy_addr_reg : _io_port_araddr_T_4; // @[inst_cache.scala 274:26]
-  assign io_port_arlen = {{3'd0}, stage1_sram_cache_reg}; // @[inst_cache.scala 277:20]
-  assign io_port_arburst = {{1'd0}, stage1_sram_cache_reg}; // @[inst_cache.scala 279:21]
-  assign io_port_arvalid = _access_work_state_T | _access_work_state_T_35; // @[inst_cache.scala 284:59]
-  assign io_stage2_stall = (access_work_state == 4'h1 | access_work_state == 4'h4) & _stage2_stall_T_5; // @[inst_cache.scala 142:129]
-  assign io_v_addr_for_tlb = stage1_addr_line_mapping; // @[inst_cache.scala 131:23]
-  assign io_sram_write_en = io_inst_buffer_full ? 2'h0 : _io_sram_write_en_T_5; // @[inst_cache.scala 313:28]
-  assign io_sram_rdata_L = _stage2_stall_T_5 & has_stage2_stall ? access_sram_rdata_L : sram_rdata_L_Reg; // @[inst_cache.scala 238:27]
+  assign io_port_araddr = _access_work_state_T ? stage1_sram_phy_addr_reg : _io_port_araddr_T_4; // @[inst_cache.scala 277:26]
+  assign io_port_arlen = {{3'd0}, stage1_sram_cache_reg}; // @[inst_cache.scala 280:20]
+  assign io_port_arburst = {{1'd0}, stage1_sram_cache_reg}; // @[inst_cache.scala 282:21]
+  assign io_port_arvalid = _access_work_state_T | _access_work_state_T_35; // @[inst_cache.scala 287:59]
+  assign io_stage2_stall = (access_work_state == 4'h1 | access_work_state == 4'h4) & _stage2_stall_T_5; // @[inst_cache.scala 145:129]
+  assign io_v_addr_for_tlb = stage1_addr_line_mapping; // @[inst_cache.scala 134:23]
+  assign io_sram_write_en = io_inst_buffer_full ? 2'h0 : _io_sram_write_en_T_5; // @[inst_cache.scala 316:28]
+  assign io_sram_rdata_L = _stage2_stall_T_5 & has_stage2_stall ? access_sram_rdata_L : sram_rdata_L_Reg; // @[inst_cache.scala 241:27]
   assign icache_tag_clock = clock;
   assign icache_tag_reset = reset;
-  assign icache_tag_io_wen = _stage1_finished_T_1 & _lru_T_8; // @[inst_cache.scala 262:63]
-  assign icache_tag_io_wdata = _T_14[20:0]; // @[inst_cache.scala 264:24]
-  assign icache_tag_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 148:25]
+  assign icache_tag_io_wen = _stage1_finished_T_1 & _lru_T_8; // @[inst_cache.scala 265:63]
+  assign icache_tag_io_wdata = _T_14[20:0]; // @[inst_cache.scala 267:24]
+  assign icache_tag_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 151:25]
+  assign icache_tag_io_tag_all_flush = io_tag_valid_flush; // @[inst_cache.scala 87:32]
   assign icache_tag_1_clock = clock;
   assign icache_tag_1_reset = reset;
-  assign icache_tag_1_io_wen = _stage1_finished_T_1 & _GEN_130; // @[inst_cache.scala 263:63]
-  assign icache_tag_1_io_wdata = _T_14[20:0]; // @[inst_cache.scala 265:24]
-  assign icache_tag_1_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 149:25]
+  assign icache_tag_1_io_wen = _stage1_finished_T_1 & _GEN_130; // @[inst_cache.scala 266:63]
+  assign icache_tag_1_io_wdata = _T_14[20:0]; // @[inst_cache.scala 268:24]
+  assign icache_tag_1_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 152:25]
+  assign icache_tag_1_io_tag_all_flush = io_tag_valid_flush; // @[inst_cache.scala 88:32]
   assign icache_data_clock = clock;
-  assign icache_data_io_wen = _icache_data_way0_0_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 233:79]
-  assign icache_data_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 158:34 86:36]
+  assign icache_data_io_wen = _icache_data_way0_0_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 236:79]
+  assign icache_data_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 161:34 89:36]
   assign icache_data_io_wdata = {io_port_rdata[63:32],io_port_rdata[31:0]}; // @[Cat.scala 31:58]
   assign icache_data_1_clock = clock;
-  assign icache_data_1_io_wen = _icache_data_way0_1_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 233:79]
-  assign icache_data_1_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 158:34 86:36]
+  assign icache_data_1_io_wen = _icache_data_way0_1_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 236:79]
+  assign icache_data_1_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 161:34 89:36]
   assign icache_data_1_io_wdata = {io_port_rdata[63:32],io_port_rdata[31:0]}; // @[Cat.scala 31:58]
   assign icache_data_2_clock = clock;
-  assign icache_data_2_io_wen = _icache_data_way1_0_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 235:79]
-  assign icache_data_2_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 163:34 87:36]
+  assign icache_data_2_io_wen = _icache_data_way1_0_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 238:79]
+  assign icache_data_2_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 166:34 90:36]
   assign icache_data_2_io_wdata = {io_port_rdata[63:32],io_port_rdata[31:0]}; // @[Cat.scala 31:58]
   assign icache_data_3_clock = clock;
-  assign icache_data_3_io_wen = _icache_data_way1_1_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 235:79]
-  assign icache_data_3_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 163:34 87:36]
+  assign icache_data_3_io_wen = _icache_data_way1_1_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 238:79]
+  assign icache_data_3_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 166:34 90:36]
   assign icache_data_3_io_wdata = {io_port_rdata[63:32],io_port_rdata[31:0]}; // @[Cat.scala 31:58]
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_0 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h0 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_0 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h0 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_0 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48700,9 +48324,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_1 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h1 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_1 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h1 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_1 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48715,9 +48339,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_2 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h2 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_2 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h2 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_2 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48730,9 +48354,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_3 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h3 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_3 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h3 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_3 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48745,9 +48369,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_4 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h4 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_4 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h4 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_4 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48760,9 +48384,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_5 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h5 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_5 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h5 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_5 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48775,9 +48399,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_6 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h6 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_6 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h6 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_6 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48790,9 +48414,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_7 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h7 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_7 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h7 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_7 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48805,9 +48429,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_8 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h8 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_8 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h8 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_8 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48820,9 +48444,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_9 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h9 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_9 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h9 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_9 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48835,9 +48459,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_10 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'ha == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_10 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'ha == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_10 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48850,9 +48474,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_11 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'hb == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_11 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'hb == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_11 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48865,9 +48489,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_12 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'hc == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_12 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'hc == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_12 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48880,9 +48504,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_13 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'hd == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_13 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'hd == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_13 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48895,9 +48519,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_14 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'he == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_14 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'he == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_14 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48910,9 +48534,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_15 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'hf == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_15 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'hf == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_15 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48925,9 +48549,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_16 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h10 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_16 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h10 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_16 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48940,9 +48564,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_17 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h11 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_17 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h11 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_17 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48955,9 +48579,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_18 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h12 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_18 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h12 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_18 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48970,9 +48594,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_19 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h13 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_19 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h13 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_19 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -48985,9 +48609,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_20 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h14 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_20 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h14 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_20 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49000,9 +48624,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_21 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h15 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_21 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h15 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_21 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49015,9 +48639,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_22 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h16 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_22 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h16 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_22 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49030,9 +48654,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_23 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h17 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_23 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h17 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_23 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49045,9 +48669,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_24 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h18 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_24 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h18 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_24 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49060,9 +48684,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_25 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h19 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_25 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h19 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_25 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49075,9 +48699,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_26 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h1a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_26 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h1a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_26 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49090,9 +48714,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_27 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h1b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_27 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h1b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_27 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49105,9 +48729,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_28 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h1c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_28 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h1c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_28 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49120,9 +48744,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_29 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h1d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_29 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h1d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_29 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49135,9 +48759,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_30 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h1e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_30 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h1e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_30 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49150,9 +48774,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_31 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h1f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_31 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h1f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_31 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49165,9 +48789,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_32 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h20 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_32 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h20 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_32 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49180,9 +48804,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_33 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h21 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_33 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h21 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_33 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49195,9 +48819,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_34 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h22 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_34 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h22 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_34 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49210,9 +48834,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_35 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h23 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_35 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h23 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_35 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49225,9 +48849,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_36 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h24 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_36 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h24 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_36 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49240,9 +48864,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_37 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h25 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_37 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h25 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_37 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49255,9 +48879,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_38 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h26 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_38 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h26 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_38 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49270,9 +48894,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_39 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h27 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_39 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h27 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_39 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49285,9 +48909,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_40 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h28 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_40 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h28 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_40 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49300,9 +48924,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_41 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h29 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_41 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h29 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_41 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49315,9 +48939,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_42 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h2a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_42 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h2a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_42 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49330,9 +48954,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_43 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h2b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_43 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h2b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_43 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49345,9 +48969,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_44 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h2c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_44 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h2c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_44 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49360,9 +48984,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_45 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h2d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_45 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h2d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_45 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49375,9 +48999,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_46 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h2e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_46 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h2e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_46 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49390,9 +49014,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_47 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h2f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_47 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h2f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_47 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49405,9 +49029,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_48 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h30 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_48 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h30 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_48 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49420,9 +49044,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_49 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h31 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_49 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h31 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_49 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49435,9 +49059,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_50 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h32 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_50 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h32 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_50 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49450,9 +49074,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_51 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h33 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_51 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h33 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_51 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49465,9 +49089,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_52 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h34 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_52 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h34 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_52 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49480,9 +49104,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_53 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h35 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_53 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h35 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_53 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49495,9 +49119,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_54 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h36 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_54 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h36 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_54 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49510,9 +49134,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_55 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h37 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_55 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h37 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_55 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49525,9 +49149,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_56 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h38 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_56 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h38 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_56 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49540,9 +49164,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_57 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h39 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_57 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h39 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_57 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49555,9 +49179,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_58 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h3a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_58 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h3a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_58 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49570,9 +49194,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_59 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h3b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_59 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h3b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_59 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49585,9 +49209,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_60 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h3c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_60 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h3c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_60 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49600,9 +49224,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_61 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h3d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_61 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h3d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_61 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49615,9 +49239,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_62 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h3e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_62 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h3e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_62 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49630,9 +49254,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_63 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h3f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_63 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h3f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_63 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49645,9 +49269,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_64 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h40 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_64 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h40 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_64 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49660,9 +49284,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_65 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h41 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_65 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h41 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_65 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49675,9 +49299,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_66 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h42 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_66 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h42 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_66 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49690,9 +49314,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_67 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h43 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_67 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h43 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_67 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49705,9 +49329,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_68 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h44 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_68 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h44 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_68 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49720,9 +49344,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_69 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h45 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_69 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h45 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_69 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49735,9 +49359,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_70 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h46 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_70 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h46 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_70 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49750,9 +49374,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_71 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h47 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_71 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h47 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_71 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49765,9 +49389,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_72 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h48 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_72 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h48 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_72 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49780,9 +49404,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_73 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h49 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_73 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h49 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_73 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49795,9 +49419,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_74 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h4a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_74 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h4a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_74 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49810,9 +49434,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_75 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h4b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_75 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h4b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_75 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49825,9 +49449,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_76 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h4c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_76 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h4c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_76 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49840,9 +49464,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_77 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h4d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_77 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h4d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_77 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49855,9 +49479,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_78 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h4e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_78 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h4e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_78 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49870,9 +49494,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_79 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h4f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_79 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h4f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_79 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49885,9 +49509,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_80 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h50 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_80 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h50 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_80 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49900,9 +49524,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_81 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h51 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_81 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h51 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_81 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49915,9 +49539,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_82 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h52 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_82 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h52 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_82 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49930,9 +49554,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_83 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h53 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_83 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h53 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_83 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49945,9 +49569,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_84 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h54 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_84 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h54 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_84 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49960,9 +49584,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_85 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h55 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_85 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h55 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_85 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49975,9 +49599,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_86 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h56 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_86 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h56 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_86 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -49990,9 +49614,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_87 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h57 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_87 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h57 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_87 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50005,9 +49629,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_88 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h58 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_88 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h58 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_88 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50020,9 +49644,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_89 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h59 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_89 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h59 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_89 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50035,9 +49659,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_90 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h5a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_90 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h5a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_90 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50050,9 +49674,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_91 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h5b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_91 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h5b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_91 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50065,9 +49689,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_92 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h5c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_92 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h5c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_92 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50080,9 +49704,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_93 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h5d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_93 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h5d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_93 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50095,9 +49719,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_94 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h5e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_94 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h5e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_94 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50110,9 +49734,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_95 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h5f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_95 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h5f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_95 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50125,9 +49749,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_96 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h60 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_96 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h60 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_96 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50140,9 +49764,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_97 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h61 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_97 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h61 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_97 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50155,9 +49779,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_98 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h62 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_98 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h62 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_98 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50170,9 +49794,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_99 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h63 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_99 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h63 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_99 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50185,9 +49809,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_100 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h64 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_100 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h64 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_100 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50200,9 +49824,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_101 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h65 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_101 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h65 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_101 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50215,9 +49839,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_102 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h66 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_102 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h66 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_102 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50230,9 +49854,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_103 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h67 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_103 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h67 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_103 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50245,9 +49869,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_104 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h68 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_104 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h68 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_104 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50260,9 +49884,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_105 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h69 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_105 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h69 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_105 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50275,9 +49899,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_106 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h6a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_106 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h6a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_106 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50290,9 +49914,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_107 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h6b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_107 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h6b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_107 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50305,9 +49929,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_108 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h6c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_108 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h6c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_108 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50320,9 +49944,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_109 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h6d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_109 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h6d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_109 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50335,9 +49959,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_110 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h6e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_110 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h6e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_110 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50350,9 +49974,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_111 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h6f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_111 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h6f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_111 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50365,9 +49989,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_112 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h70 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_112 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h70 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_112 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50380,9 +50004,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_113 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h71 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_113 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h71 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_113 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50395,9 +50019,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_114 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h72 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_114 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h72 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_114 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50410,9 +50034,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_115 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h73 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_115 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h73 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_115 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50425,9 +50049,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_116 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h74 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_116 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h74 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_116 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50440,9 +50064,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_117 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h75 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_117 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h75 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_117 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50455,9 +50079,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_118 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h76 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_118 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h76 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_118 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50470,9 +50094,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_119 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h77 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_119 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h77 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_119 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50485,9 +50109,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_120 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h78 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_120 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h78 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_120 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50500,9 +50124,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_121 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h79 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_121 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h79 == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_121 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50515,9 +50139,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_122 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h7a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_122 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h7a == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_122 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50530,9 +50154,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_123 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h7b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_123 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h7b == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_123 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50545,9 +50169,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_124 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h7c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_124 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h7c == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_124 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50560,9 +50184,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_125 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h7d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_125 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h7d == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_125 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50575,9 +50199,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_126 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h7e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_126 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h7e == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_126 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50590,9 +50214,9 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 171:37]
-      lru_127 <= 1'h0; // @[inst_cache.scala 171:43 173:{12,12} 174:12]
-    end else if (7'h7f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 72:22]
+    if (reset) begin // @[inst_cache.scala 174:37]
+      lru_127 <= 1'h0; // @[inst_cache.scala 174:43 176:{12,12} 177:12]
+    end else if (7'h7f == stage1_addr_line_mapping[10:4]) begin // @[inst_cache.scala 74:22]
       if (_stage2_stall_T) begin
         lru_127 <= _lru_T_5;
       end else if (_stage1_finished_T_1) begin
@@ -50603,13 +50227,13 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 241:30]
+    if (reset) begin // @[inst_cache.scala 244:30]
       work_state <= 4'h1;
-    end else if (work_state == 4'h2 & io_port_arready) begin // @[inst_cache.scala 242:12]
+    end else if (work_state == 4'h2 & io_port_arready) begin // @[inst_cache.scala 245:12]
       work_state <= 4'h3;
-    end else if (_stage1_finished_T_2) begin // @[inst_cache.scala 243:12]
+    end else if (_stage1_finished_T_2) begin // @[inst_cache.scala 246:12]
       work_state <= {{1'd0}, _access_work_state_T_7};
-    end else if (work_state == 4'h4) begin // @[inst_cache.scala 246:12]
+    end else if (work_state == 4'h4) begin // @[inst_cache.scala 249:12]
       work_state <= {{1'd0}, _access_work_state_T_22};
     end else if (work_state == 4'h1) begin
       work_state <= {{1'd0}, _access_work_state_T_34};
@@ -50618,8 +50242,8 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 261:26]
-      write_counter <= 3'h0; // @[inst_cache.scala 261:{106,160}]
+    if (reset) begin // @[inst_cache.scala 264:26]
+      write_counter <= 3'h0; // @[inst_cache.scala 264:{106,160}]
     end else if (_access_work_state_T_38 | _stage1_finished_T_2) begin
       if (io_port_rvalid & io_port_rlast) begin
         write_counter <= 3'h0;
@@ -50629,16 +50253,16 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 255:23]
+    if (reset) begin // @[inst_cache.scala 258:23]
       wait_data_L <= 40'h0;
-    end else if (_stage1_finished_T_2 & io_port_rvalid & _icache_data_way0_0_wen_T_6) begin // @[inst_cache.scala 256:13]
+    end else if (_stage1_finished_T_2 & io_port_rvalid & _icache_data_way0_0_wen_T_6) begin // @[inst_cache.scala 259:13]
       wait_data_L <= decoder_inst_data;
     end else if (_icache_data_way0_0_wen_T_2 & write_counter == _GEN_1287) begin
       wait_data_L <= decoder_inst_data;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 107:18 75:28]
+    if (reset) begin // @[inst_cache.scala 110:18 77:28]
       stage1_stall_reg <= 1'h0;
     end else begin
       stage1_stall_reg <= io_sram_req;
@@ -50646,7 +50270,7 @@ module inst_cache(
   end
   always @(posedge clock or posedge reset) begin
     if (reset) begin // @[Reg.scala 29:18]
-      stage1_addr_line_mapping <= 64'h0; // @[inst_cache.scala 115:45]
+      stage1_addr_line_mapping <= 64'h0; // @[inst_cache.scala 118:45]
     end else if (io_sram_req) begin // @[Reg.scala 28:20]
       if (stage1_flush) begin
         stage1_addr_line_mapping <= 64'h0;
@@ -50656,7 +50280,7 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 134:38]
+    if (reset) begin // @[inst_cache.scala 137:38]
       stage1_sram_phy_addr_reg <= 64'h0;
     end else if (stage1_stall_reg) begin
       stage1_sram_phy_addr_reg <= io_p_addr_for_tlb;
@@ -50664,7 +50288,7 @@ module inst_cache(
   end
   always @(posedge clock or posedge reset) begin
     if (reset) begin // @[Reg.scala 29:18]
-      stage1_sram_cache_reg <= 1'h0; // @[inst_cache.scala 117:46]
+      stage1_sram_cache_reg <= 1'h0; // @[inst_cache.scala 120:46]
     end else if (io_sram_req) begin // @[Reg.scala 28:20]
       if (stage1_flush) begin
         stage1_sram_cache_reg <= 1'h0;
@@ -50675,7 +50299,7 @@ module inst_cache(
   end
   always @(posedge clock or posedge reset) begin
     if (reset) begin // @[Reg.scala 29:18]
-      stage1_sram_req_reg <= 1'h0; // @[inst_cache.scala 118:44]
+      stage1_sram_req_reg <= 1'h0; // @[inst_cache.scala 121:44]
     end else if (_stage1_sram_req_reg_T_1) begin // @[Reg.scala 28:20]
       if (stage1_flush) begin
         stage1_sram_req_reg <= 1'h0;
@@ -50685,7 +50309,7 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 137:27]
+    if (reset) begin // @[inst_cache.scala 140:27]
       stage1_finished <= 1'h0;
     end else if (io_sram_req) begin
       stage1_finished <= 1'h0;
@@ -50694,18 +50318,18 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 181:33]
+    if (reset) begin // @[inst_cache.scala 184:33]
       stage2_sram_addr_reg <= 64'h0;
-    end else if (io_stage2_flush) begin // @[inst_cache.scala 181:54]
+    end else if (io_stage2_flush) begin // @[inst_cache.scala 184:54]
       stage2_sram_addr_reg <= 64'h0;
     end else if (stage2_stall) begin
       stage2_sram_addr_reg <= stage1_addr_line_mapping;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 187:31]
+    if (reset) begin // @[inst_cache.scala 190:31]
       stage2_sram_req_reg <= 1'h0;
-    end else if (io_stage2_flush) begin // @[inst_cache.scala 187:52]
+    end else if (io_stage2_flush) begin // @[inst_cache.scala 190:52]
       stage2_sram_req_reg <= 1'h0;
     end else if (stage2_stall) begin
       stage2_sram_req_reg <= stage1_sram_req_reg;
@@ -50714,33 +50338,33 @@ module inst_cache(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 191:27]
+    if (reset) begin // @[inst_cache.scala 194:27]
       stage2_hit0_reg <= 1'h0;
-    end else if (io_stage2_flush) begin // @[inst_cache.scala 191:48]
+    end else if (io_stage2_flush) begin // @[inst_cache.scala 194:48]
       stage2_hit0_reg <= 1'h0;
     end else if (stage2_stall) begin
       stage2_hit0_reg <= _hit_T_2;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 209:31]
+    if (reset) begin // @[inst_cache.scala 212:31]
       stage2_write_en_reg <= 2'h0;
-    end else if (io_stage1_valid_flush) begin // @[inst_cache.scala 209:61]
+    end else if (io_stage1_valid_flush) begin // @[inst_cache.scala 212:61]
       stage2_write_en_reg <= 2'h0;
     end else if (stage2_stall) begin
       stage2_write_en_reg <= 2'h1;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 142:129]
+    if (reset) begin // @[inst_cache.scala 145:129]
       has_stage2_stall <= 1'h0;
     end else begin
       has_stage2_stall <= (access_work_state == 4'h1 | access_work_state == 4'h4) & _stage2_stall_T_5;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[inst_cache.scala 229:28]
-      sram_rdata_L_Reg <= 40'h0; // @[inst_cache.scala 218:25 226:{35,84}]
+    if (reset) begin // @[inst_cache.scala 232:28]
+      sram_rdata_L_Reg <= 40'h0; // @[inst_cache.scala 221:25 229:{35,84}]
     end else if (has_stage2_stall) begin
       if (_access_work_state_T_8) begin
         sram_rdata_L_Reg <= wait_data_L;
@@ -62894,6 +62518,7 @@ module mycpu_top(
   wire [3:0] u_riscv_cpu_debug_wb_rf_wen; // @[my_cpu_top.scala 168:29]
   wire [4:0] u_riscv_cpu_debug_wb_rf_wnum; // @[my_cpu_top.scala 168:29]
   wire [63:0] u_riscv_cpu_debug_wb_rf_wdata; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_icache_tag_flush; // @[my_cpu_top.scala 168:29]
   wire  inst_cache_clock; // @[my_cpu_top.scala 169:30]
   wire  inst_cache_reset; // @[my_cpu_top.scala 169:30]
   wire [63:0] inst_cache_io_port_araddr; // @[my_cpu_top.scala 169:30]
@@ -62916,6 +62541,7 @@ module mycpu_top(
   wire [1:0] inst_cache_io_sram_write_en; // @[my_cpu_top.scala 169:30]
   wire [39:0] inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 169:30]
   wire  inst_cache_io_sram_cache; // @[my_cpu_top.scala 169:30]
+  wire  inst_cache_io_tag_valid_flush; // @[my_cpu_top.scala 169:30]
   wire  data_cache_clock; // @[my_cpu_top.scala 171:30]
   wire  data_cache_reset; // @[my_cpu_top.scala 171:30]
   wire [63:0] data_cache_io_port_araddr; // @[my_cpu_top.scala 171:30]
@@ -63036,7 +62662,8 @@ module mycpu_top(
     .debug_wb_pc(u_riscv_cpu_debug_wb_pc),
     .debug_wb_rf_wen(u_riscv_cpu_debug_wb_rf_wen),
     .debug_wb_rf_wnum(u_riscv_cpu_debug_wb_rf_wnum),
-    .debug_wb_rf_wdata(u_riscv_cpu_debug_wb_rf_wdata)
+    .debug_wb_rf_wdata(u_riscv_cpu_debug_wb_rf_wdata),
+    .icache_tag_flush(u_riscv_cpu_icache_tag_flush)
   );
   inst_cache inst_cache ( // @[my_cpu_top.scala 169:30]
     .clock(inst_cache_clock),
@@ -63060,7 +62687,8 @@ module mycpu_top(
     .io_sram_addr(inst_cache_io_sram_addr),
     .io_sram_write_en(inst_cache_io_sram_write_en),
     .io_sram_rdata_L(inst_cache_io_sram_rdata_L),
-    .io_sram_cache(inst_cache_io_sram_cache)
+    .io_sram_cache(inst_cache_io_sram_cache),
+    .io_tag_valid_flush(inst_cache_io_tag_valid_flush)
   );
   data_cache data_cache ( // @[my_cpu_top.scala 171:30]
     .clock(data_cache_clock),
@@ -63159,31 +62787,31 @@ module mycpu_top(
     .io_s_port_bvalid(_axi_cross_bar_io_s_port_bvalid),
     .io_s_port_bready(_axi_cross_bar_io_s_port_bready)
   );
-  assign axi_mem_port_arid = _axi_cross_bar_io_s_port_arid; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_araddr = _axi_cross_bar_io_s_port_araddr; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_arlen = _axi_cross_bar_io_s_port_arlen; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_arsize = _axi_cross_bar_io_s_port_arsize; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_arburst = _axi_cross_bar_io_s_port_arburst; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_arlock = 2'h0; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_arcache = 4'h0; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_arprot = 3'h0; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_arvalid = _axi_cross_bar_io_s_port_arvalid; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_rready = _axi_cross_bar_io_s_port_rready; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_awid = _axi_cross_bar_io_s_port_awid; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_awaddr = _axi_cross_bar_io_s_port_awaddr; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_awlen = _axi_cross_bar_io_s_port_awlen; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_awsize = _axi_cross_bar_io_s_port_awsize; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_awburst = _axi_cross_bar_io_s_port_awburst; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_awlock = 2'h0; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_awcache = 4'h0; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_awprot = 3'h0; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_awvalid = _axi_cross_bar_io_s_port_awvalid; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_wid = _axi_cross_bar_io_s_port_wid; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_wdata = _axi_cross_bar_io_s_port_wdata; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_wstrb = _axi_cross_bar_io_s_port_wstrb; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_wlast = _axi_cross_bar_io_s_port_wlast; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_wvalid = _axi_cross_bar_io_s_port_wvalid; // @[my_cpu_top.scala 276:18]
-  assign axi_mem_port_bready = _axi_cross_bar_io_s_port_bready; // @[my_cpu_top.scala 276:18]
+  assign axi_mem_port_arid = _axi_cross_bar_io_s_port_arid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_araddr = _axi_cross_bar_io_s_port_araddr; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arlen = _axi_cross_bar_io_s_port_arlen; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arsize = _axi_cross_bar_io_s_port_arsize; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arburst = _axi_cross_bar_io_s_port_arburst; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arlock = 2'h0; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arcache = 4'h0; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arprot = 3'h0; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arvalid = _axi_cross_bar_io_s_port_arvalid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_rready = _axi_cross_bar_io_s_port_rready; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awid = _axi_cross_bar_io_s_port_awid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awaddr = _axi_cross_bar_io_s_port_awaddr; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awlen = _axi_cross_bar_io_s_port_awlen; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awsize = _axi_cross_bar_io_s_port_awsize; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awburst = _axi_cross_bar_io_s_port_awburst; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awlock = 2'h0; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awcache = 4'h0; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awprot = 3'h0; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awvalid = _axi_cross_bar_io_s_port_awvalid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_wid = _axi_cross_bar_io_s_port_wid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_wdata = _axi_cross_bar_io_s_port_wdata; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_wstrb = _axi_cross_bar_io_s_port_wstrb; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_wlast = _axi_cross_bar_io_s_port_wlast; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_wvalid = _axi_cross_bar_io_s_port_wvalid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_bready = _axi_cross_bar_io_s_port_bready; // @[my_cpu_top.scala 277:18]
   assign debug_wb_pc = u_riscv_cpu_debug_wb_pc[31:0]; // @[my_cpu_top.scala 264:29]
   assign debug_wb_rf_wen = u_riscv_cpu_debug_wb_rf_wen; // @[my_cpu_top.scala 266:29]
   assign debug_wb_rf_wnum = u_riscv_cpu_debug_wb_rf_wnum; // @[my_cpu_top.scala 267:29]
@@ -63198,27 +62826,28 @@ module mycpu_top(
   assign u_riscv_cpu_data_stage2_stall = data_cache_io_stage2_stall; // @[my_cpu_top.scala 260:35]
   assign inst_cache_clock = aclk; // @[my_cpu_top.scala 166:23]
   assign inst_cache_reset = ~aresetn; // @[my_cpu_top.scala 166:42]
-  assign inst_cache_io_port_arready = _axi_cross_bar_io_m_port_0_arready; // @[my_cpu_top.scala 278:33]
-  assign inst_cache_io_port_rdata = _axi_cross_bar_io_m_port_0_rdata; // @[my_cpu_top.scala 278:33]
-  assign inst_cache_io_port_rlast = _axi_cross_bar_io_m_port_0_rlast; // @[my_cpu_top.scala 278:33]
-  assign inst_cache_io_port_rvalid = _axi_cross_bar_io_m_port_0_rvalid; // @[my_cpu_top.scala 278:33]
+  assign inst_cache_io_port_arready = _axi_cross_bar_io_m_port_0_arready; // @[my_cpu_top.scala 279:33]
+  assign inst_cache_io_port_rdata = _axi_cross_bar_io_m_port_0_rdata; // @[my_cpu_top.scala 279:33]
+  assign inst_cache_io_port_rlast = _axi_cross_bar_io_m_port_0_rlast; // @[my_cpu_top.scala 279:33]
+  assign inst_cache_io_port_rvalid = _axi_cross_bar_io_m_port_0_rvalid; // @[my_cpu_top.scala 279:33]
   assign inst_cache_io_stage2_flush = u_riscv_cpu_stage2_flush; // @[my_cpu_top.scala 274:31]
-  assign inst_cache_io_stage1_valid_flush = u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 384:37]
-  assign inst_cache_io_inst_ready_to_use = u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 385:36]
-  assign inst_cache_io_inst_buffer_full = u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 386:37]
+  assign inst_cache_io_stage1_valid_flush = u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 385:37]
+  assign inst_cache_io_inst_ready_to_use = u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 386:36]
+  assign inst_cache_io_inst_buffer_full = u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 387:37]
   assign inst_cache_io_p_addr_for_tlb = inst_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 209:38]
   assign inst_cache_io_sram_req = u_riscv_cpu_inst_sram_en; // @[my_cpu_top.scala 245:29]
   assign inst_cache_io_sram_addr = u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 242:29]
   assign inst_cache_io_sram_cache = u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 244:29]
+  assign inst_cache_io_tag_valid_flush = u_riscv_cpu_icache_tag_flush; // @[my_cpu_top.scala 275:34]
   assign data_cache_clock = aclk; // @[my_cpu_top.scala 166:23]
   assign data_cache_reset = ~aresetn; // @[my_cpu_top.scala 166:42]
-  assign data_cache_io_port_arready = _axi_cross_bar_io_m_port_1_arready; // @[my_cpu_top.scala 279:33]
-  assign data_cache_io_port_rdata = _axi_cross_bar_io_m_port_1_rdata; // @[my_cpu_top.scala 279:33]
-  assign data_cache_io_port_rlast = _axi_cross_bar_io_m_port_1_rlast; // @[my_cpu_top.scala 279:33]
-  assign data_cache_io_port_rvalid = _axi_cross_bar_io_m_port_1_rvalid; // @[my_cpu_top.scala 279:33]
-  assign data_cache_io_port_awready = _axi_cross_bar_io_m_port_1_awready; // @[my_cpu_top.scala 279:33]
-  assign data_cache_io_port_wready = _axi_cross_bar_io_m_port_1_wready; // @[my_cpu_top.scala 279:33]
-  assign data_cache_io_port_bvalid = _axi_cross_bar_io_m_port_1_bvalid; // @[my_cpu_top.scala 279:33]
+  assign data_cache_io_port_arready = _axi_cross_bar_io_m_port_1_arready; // @[my_cpu_top.scala 280:33]
+  assign data_cache_io_port_rdata = _axi_cross_bar_io_m_port_1_rdata; // @[my_cpu_top.scala 280:33]
+  assign data_cache_io_port_rlast = _axi_cross_bar_io_m_port_1_rlast; // @[my_cpu_top.scala 280:33]
+  assign data_cache_io_port_rvalid = _axi_cross_bar_io_m_port_1_rvalid; // @[my_cpu_top.scala 280:33]
+  assign data_cache_io_port_awready = _axi_cross_bar_io_m_port_1_awready; // @[my_cpu_top.scala 280:33]
+  assign data_cache_io_port_wready = _axi_cross_bar_io_m_port_1_wready; // @[my_cpu_top.scala 280:33]
+  assign data_cache_io_port_bvalid = _axi_cross_bar_io_m_port_1_bvalid; // @[my_cpu_top.scala 280:33]
   assign data_cache_io_p_addr_for_tlb = data_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 210:38]
   assign data_cache_io_data_wstrb = u_riscv_cpu_data_wstrb; // @[my_cpu_top.scala 237:29]
   assign data_cache_io_sram_req = u_riscv_cpu_data_sram_en; // @[my_cpu_top.scala 233:23]
@@ -63230,29 +62859,29 @@ module mycpu_top(
   assign data_cache_io_fence_i_control = u_riscv_cpu_data_fence_i_control; // @[my_cpu_top.scala 236:28]
   assign _axi_cross_bar_clock = aclk; // @[my_cpu_top.scala 166:23]
   assign _axi_cross_bar_reset = ~aresetn; // @[my_cpu_top.scala 166:42]
-  assign _axi_cross_bar_io_m_port_0_araddr = inst_cache_io_port_araddr; // @[my_cpu_top.scala 278:33]
-  assign _axi_cross_bar_io_m_port_0_arlen = inst_cache_io_port_arlen; // @[my_cpu_top.scala 278:33]
-  assign _axi_cross_bar_io_m_port_0_arburst = inst_cache_io_port_arburst; // @[my_cpu_top.scala 278:33]
-  assign _axi_cross_bar_io_m_port_0_arvalid = inst_cache_io_port_arvalid; // @[my_cpu_top.scala 278:33]
-  assign _axi_cross_bar_io_m_port_1_araddr = data_cache_io_port_araddr; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_arlen = data_cache_io_port_arlen; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_arsize = data_cache_io_port_arsize; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_arburst = data_cache_io_port_arburst; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_arvalid = data_cache_io_port_arvalid; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_awaddr = data_cache_io_port_awaddr; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_awlen = data_cache_io_port_awlen; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_awsize = data_cache_io_port_awsize; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_awburst = data_cache_io_port_awburst; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_awvalid = data_cache_io_port_awvalid; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_wdata = data_cache_io_port_wdata; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_wstrb = data_cache_io_port_wstrb; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_wlast = data_cache_io_port_wlast; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_m_port_1_wvalid = data_cache_io_port_wvalid; // @[my_cpu_top.scala 279:33]
-  assign _axi_cross_bar_io_s_port_arready = axi_mem_port_arready; // @[my_cpu_top.scala 276:18]
-  assign _axi_cross_bar_io_s_port_rdata = axi_mem_port_rdata; // @[my_cpu_top.scala 276:18]
-  assign _axi_cross_bar_io_s_port_rlast = axi_mem_port_rlast; // @[my_cpu_top.scala 276:18]
-  assign _axi_cross_bar_io_s_port_rvalid = axi_mem_port_rvalid; // @[my_cpu_top.scala 276:18]
-  assign _axi_cross_bar_io_s_port_awready = axi_mem_port_awready; // @[my_cpu_top.scala 276:18]
-  assign _axi_cross_bar_io_s_port_wready = axi_mem_port_wready; // @[my_cpu_top.scala 276:18]
-  assign _axi_cross_bar_io_s_port_bvalid = axi_mem_port_bvalid; // @[my_cpu_top.scala 276:18]
+  assign _axi_cross_bar_io_m_port_0_araddr = inst_cache_io_port_araddr; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_0_arlen = inst_cache_io_port_arlen; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_0_arburst = inst_cache_io_port_arburst; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_0_arvalid = inst_cache_io_port_arvalid; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_araddr = data_cache_io_port_araddr; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_arlen = data_cache_io_port_arlen; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_arsize = data_cache_io_port_arsize; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_arburst = data_cache_io_port_arburst; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_arvalid = data_cache_io_port_arvalid; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_awaddr = data_cache_io_port_awaddr; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_awlen = data_cache_io_port_awlen; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_awsize = data_cache_io_port_awsize; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_awburst = data_cache_io_port_awburst; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_awvalid = data_cache_io_port_awvalid; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_wdata = data_cache_io_port_wdata; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_wstrb = data_cache_io_port_wstrb; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_wlast = data_cache_io_port_wlast; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_m_port_1_wvalid = data_cache_io_port_wvalid; // @[my_cpu_top.scala 280:33]
+  assign _axi_cross_bar_io_s_port_arready = axi_mem_port_arready; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_rdata = axi_mem_port_rdata; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_rlast = axi_mem_port_rlast; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_rvalid = axi_mem_port_rvalid; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_awready = axi_mem_port_awready; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_wready = axi_mem_port_wready; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_bvalid = axi_mem_port_bvalid; // @[my_cpu_top.scala 277:18]
 endmodule

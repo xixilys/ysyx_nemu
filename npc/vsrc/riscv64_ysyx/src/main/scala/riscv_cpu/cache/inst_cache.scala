@@ -64,6 +64,8 @@ class inst_cache  extends Module with riscv_macros {
 
         val     sram_cache = Input(UInt(1.W))
 
+        val     tag_valid_flush = Input(Bool())
+
 
     })
 
@@ -82,7 +84,8 @@ class inst_cache  extends Module with riscv_macros {
     // if()
     icache_tag_0.asid := io.csr_asid
     icache_tag_1.asid := io.csr_asid
-
+    icache_tag_0.tag_all_flush := io.tag_valid_flush
+    icache_tag_1.tag_all_flush := io.tag_valid_flush
     val icache_data_way0 =  VecInit(Seq.fill(2)(Module(new icache_data).io))
     val icache_data_way1 =  VecInit(Seq.fill(2)(Module(new icache_data).io))
     // icache_data_way0(0).

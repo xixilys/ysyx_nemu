@@ -46,7 +46,6 @@ class mem2wb extends Module with riscv_macros {//
         val   Pc_NextW           = Output(UInt(data_length.W))
         val   Mem_trace_budleW   = Output(new mtrace_relative_bundle)
         val   CsrWritedataW      = Output(UInt(data_length.W))
-
     })
             
         val   RegWriteW = RegInit(0.U(1.W))

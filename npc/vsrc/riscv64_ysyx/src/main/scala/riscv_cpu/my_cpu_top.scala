@@ -272,6 +272,7 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
 
 
     icache_first.stage2_flush := u_riscv_cpu.stage2_flush
+    icache_first.tag_valid_flush := u_riscv_cpu.icache_tag_flush
 
     axi_mem_port <> _axi_cross_bar.io.s_port
     // axi_mem_port(1) <> dcache.port

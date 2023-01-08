@@ -34,6 +34,7 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     val      csr_tlb_write_data = new tlb_write_or_read_port
     val      csr_tlb_write_en   = Input(Bool())
     val      csr_index_tlb_write_able = Input(Bool())
+    val      icache_tags_flush = Output(Bool())
     })
     val ebase_reset_value = "b10_1011_1111_1100_0000_0000_0000_0000_00".U
     //"1.U(1.W),0.U(1.W),0xbfc0.U(16.W),0.U(4.W),0.U(10.W)
@@ -100,6 +101,7 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
         (commit_eret.asBool -> csr_epc),
         (commit_fence_i)    -> (io.pc+4.U)
     ))
+    io.icache_tags_flush := commit_fence_i
     
     cause_exccode := Mux1H(Seq(//exception_type(EXCEP_INT)-> EXCEP_CODE_INT, //中断
         //(exception_type(EXCEP_AdELD) || exception_type(EXCEP_AdELI)) -> EXCEP_CODE_AdEL, //指令地址错误或者数据地址错误'

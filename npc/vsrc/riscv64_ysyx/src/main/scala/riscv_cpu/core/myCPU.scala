@@ -102,6 +102,7 @@ class myCPU extends RawModule with riscv_macros {//
     val   csr_tlb_write_data = IO(new tlb_write_or_read_port)
 
     val   tlb_write_en      = IO(Output(Bool()))
+    val   icache_tag_flush  = IO(Output(Bool()))
 
         
 
@@ -1207,6 +1208,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     _csr.io.csr_write_en  := csrWriteW.asBool || tlb_exception_co0_writeW
     _csr.io.exception_type_i := ExceptionTypeW
     _csr.io.in_branchjump_jr   :=Mux(_mem22wb.io.PCW =/= 0.U,_mem22wb.io.BranchJump_JrW,branchjump_Jr_Reg)
+    icache_tag_flush := _csr.io.icache_tags_flush
 
     //tlb的这些东西全都不引入前递策略
     csr_tlb_read_data := _csr.io.csr_tlb_read_data
