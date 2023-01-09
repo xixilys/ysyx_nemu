@@ -542,4 +542,8 @@ def check_mapped(address : UInt) :Bool = {
         // val 
        
     }
+    object addr_map {
+        val pc_start = UInt(data_length.W)
+        val pc_end   = UInt(data_length.W)
+    }
 }

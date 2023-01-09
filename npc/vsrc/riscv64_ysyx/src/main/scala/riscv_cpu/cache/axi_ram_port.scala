@@ -105,12 +105,16 @@ class axi_ram_port extends Bundle {
 }
 
 
+//先不考虑延时的问题
+
 class axi_cross_bar(cross_num:Int)  extends Module with riscv_macros{
-        val judge_num_width = log2Up(cross_num)
         val io = IO(new Bundle {
                 val m_port = Flipped((Vec(cross_num,(new axi_ram_port))))
                 val s_port = new axi_ram_port
         })
+
+        val judge_num_width = log2Up(cross_num)
+        
         val r_inuse = RegInit(VecInit(Seq.fill(cross_num)(0.U.asBool)))
         val r_inuse_wire = Wire(Vec(cross_num,Bool()))
         val w_inuse = RegInit(VecInit(Seq.fill(cross_num)(0.U.asBool)))
@@ -126,11 +130,11 @@ class axi_cross_bar(cross_num:Int)  extends Module with riscv_macros{
                         w_inuse_wire(i) := w_inuse(i)
                 }
                 
-                io.m_port(i).awready  := Mux( w_inuse(i) ,io.s_port.awready   ,0.U)
-                io.m_port(i).wready   := Mux( w_inuse(i) ,io.s_port.wready ,0.U)
-                io.m_port(i).bid      := Mux( w_inuse(i) ,io.s_port.bid       ,0.U) 
-                io.m_port(i).bresp    := Mux( w_inuse(i) ,io.s_port.bresp ,0.U)
-                io.m_port(i).bvalid   := Mux( w_inuse(i) ,io.s_port.bvalid ,0.U)
+                io.m_port(i).awready  := Mux( w_inuse(i) ,io.s_port.awready,0.U)
+                io.m_port(i).wready   := Mux( w_inuse(i) ,io.s_port.wready,0.U)
+                io.m_port(i).bid      := Mux( w_inuse(i) ,io.s_port.bid,0.U) 
+                io.m_port(i).bresp    := Mux( w_inuse(i) ,io.s_port.bresp,0.U)
+                io.m_port(i).bvalid   := Mux( w_inuse(i) ,io.s_port.bvalid,0.U)
                 w_inuse(i) := Mux(w_inuse_wire.asUInt >> (i.asUInt + 1.U) === 0.U || i.asUInt === (cross_num.asUInt - 1.U),w_inuse_wire(i),0.U)
                 //for read
                 when((io.m_port(i).arvalid.asBool || io.m_port(i).rvalid.asBool) && r_inuse.asUInt === 0.U ) {
@@ -165,7 +169,7 @@ class axi_cross_bar(cross_num:Int)  extends Module with riscv_macros{
         io.s_port.arvalid  := r_select_port.arvalid
         io.s_port.rready   := r_select_port.rready
 
-  
+
         //write
 
         val w_select_port = Mux1H(w_inuse,io.m_port)
@@ -185,4 +189,37 @@ class axi_cross_bar(cross_num:Int)  extends Module with riscv_macros{
         io.s_port.wlast     := w_select_port.wlast    
         io.s_port.wvalid    := w_select_port.wvalid   
         io.s_port.bready    := w_select_port.bvalid
+       }
+//保证addr不会有冲突的部分
+//地址区间为左闭右开
+//0是默认空间
+class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[BigInt],end_addr:Array[BigInt])  
+                                        extends Module with riscv_macros {
+        val io = IO(new Bundle {
+                //0号是默认选择的地址空间，如果没
+                val m_port = Flipped((Vec(cross_num,(new axi_ram_port))))
+                val s_port = (Vec(slave_num,(new axi_ram_port)))
+        })
+        val master_cross_bar = Module(new  axi_cross_bar(cross_num)).io
+        master_cross_bar.m_port  := io.m_port
+        val judge_num_width = log2Up(cross_num)
+        val select_s_port_num_r  = RegInit(VecInit(Seq.fill(slave_num)(0.U.asBool)))
+        val select_s_port_num_w  = RegInit(VecInit(Seq.fill(slave_num)(0.U.asBool)))
+        select_s_port_num_r.zipWithIndex.foreach{case(a,index) =>
+                if(index == 0) {
+                        select_s_port_num_r(index) := Mux(select_s_port_num_r.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                        select_s_port_num_w(index) := Mux(select_s_port_num_w.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                }else{
+                        select_s_port_num_r(index) := Mux(master_cross_bar.s_port.arvalid.asBool,(master_cross_bar.s_port.araddr >= start_addr(index  ).asUInt(data_length.W) &&  
+                                master_cross_bar.s_port.araddr < end_addr(index).asUInt(data_length.W)),Mux(io.s_port(index).rlast.asBool,0.U.asBool,select_s_port_num_r(index)))
+                        select_s_port_num_w(index) := Mux(master_cross_bar.s_port.awvalid.asBool,(master_cross_bar.s_port.awaddr >= start_addr(index).asUInt(data_length.W) &&  
+                                master_cross_bar.s_port.awaddr < end_addr(index).asUInt(data_length.W)),Mux(io.s_port(index).rlast.asBool,0.U.asBool,select_s_port_num_r(index)))
+                }
+        }
+        // io.s_port()
+
+        
+       
+
+        
 }

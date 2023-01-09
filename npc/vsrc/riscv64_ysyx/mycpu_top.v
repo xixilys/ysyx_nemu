@@ -1,6 +1,3 @@
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
 module alu(
   input  [23:0] io_ctrl,
   input  [63:0] io_in1,
@@ -62311,23 +62308,23 @@ module axi_cross_bar(
   reg [31:0] _RAND_1;
   reg [31:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
-  reg  r_inuse_0; // @[axi_ram_port.scala 114:30]
-  reg  r_inuse_1; // @[axi_ram_port.scala 114:30]
-  reg  w_inuse_1; // @[axi_ram_port.scala 116:30]
-  wire [1:0] _T_3 = {w_inuse_1,1'h0}; // @[axi_ram_port.scala 120:93]
-  wire  _GEN_4 = io_s_port_bvalid & w_inuse_1 ? 1'h0 : w_inuse_1; // @[axi_ram_port.scala 123:67 124:41 126:41]
-  wire  w_inuse_wire_1 = (io_m_port_1_awvalid | io_m_port_1_wvalid) & _T_3 == 2'h0 | _GEN_4; // @[axi_ram_port.scala 120:110 122:41]
-  wire [1:0] _w_inuse_0_T = {w_inuse_wire_1,1'h0}; // @[axi_ram_port.scala 134:48]
-  wire [1:0] _w_inuse_0_T_6 = 2'h2 - 2'h1; // @[axi_ram_port.scala 134:117]
-  wire  _w_inuse_0_T_7 = 2'h0 == _w_inuse_0_T_6; // @[axi_ram_port.scala 134:95]
-  wire [1:0] _T_11 = {r_inuse_1,r_inuse_0}; // @[axi_ram_port.scala 136:93]
-  wire  _GEN_2 = io_s_port_rlast & r_inuse_0 ? 1'h0 : r_inuse_0; // @[axi_ram_port.scala 138:65 139:41 141:41]
-  wire  r_inuse_wire_0 = (io_m_port_0_arvalid | io_m_port_0_rvalid) & _T_11 == 2'h0 | _GEN_2; // @[axi_ram_port.scala 136:110 137:41]
-  wire  _GEN_6 = io_s_port_rlast & r_inuse_1 ? 1'h0 : r_inuse_1; // @[axi_ram_port.scala 138:65 139:41 141:41]
-  wire  r_inuse_wire_1 = (io_m_port_1_arvalid | io_m_port_1_rvalid) & _T_11 == 2'h0 | _GEN_6; // @[axi_ram_port.scala 136:110 137:41]
-  wire [1:0] _r_inuse_0_T = {r_inuse_wire_1,r_inuse_wire_0}; // @[axi_ram_port.scala 151:49]
-  wire [1:0] _r_inuse_0_T_3 = {{1'd0}, _r_inuse_0_T[1]}; // @[axi_ram_port.scala 151:56]
-  wire  _w_inuse_1_T_7 = 2'h1 == _w_inuse_0_T_6; // @[axi_ram_port.scala 134:95]
+  reg  r_inuse_0; // @[axi_ram_port.scala 118:30]
+  reg  r_inuse_1; // @[axi_ram_port.scala 118:30]
+  reg  w_inuse_1; // @[axi_ram_port.scala 120:30]
+  wire [1:0] _T_3 = {w_inuse_1,1'h0}; // @[axi_ram_port.scala 124:93]
+  wire  _GEN_4 = io_s_port_bvalid & w_inuse_1 ? 1'h0 : w_inuse_1; // @[axi_ram_port.scala 127:67 128:41 130:41]
+  wire  w_inuse_wire_1 = (io_m_port_1_awvalid | io_m_port_1_wvalid) & _T_3 == 2'h0 | _GEN_4; // @[axi_ram_port.scala 124:110 126:41]
+  wire [1:0] _w_inuse_0_T = {w_inuse_wire_1,1'h0}; // @[axi_ram_port.scala 138:48]
+  wire [1:0] _w_inuse_0_T_6 = 2'h2 - 2'h1; // @[axi_ram_port.scala 138:117]
+  wire  _w_inuse_0_T_7 = 2'h0 == _w_inuse_0_T_6; // @[axi_ram_port.scala 138:95]
+  wire [1:0] _T_11 = {r_inuse_1,r_inuse_0}; // @[axi_ram_port.scala 140:93]
+  wire  _GEN_2 = io_s_port_rlast & r_inuse_0 ? 1'h0 : r_inuse_0; // @[axi_ram_port.scala 142:65 143:41 145:41]
+  wire  r_inuse_wire_0 = (io_m_port_0_arvalid | io_m_port_0_rvalid) & _T_11 == 2'h0 | _GEN_2; // @[axi_ram_port.scala 140:110 141:41]
+  wire  _GEN_6 = io_s_port_rlast & r_inuse_1 ? 1'h0 : r_inuse_1; // @[axi_ram_port.scala 142:65 143:41 145:41]
+  wire  r_inuse_wire_1 = (io_m_port_1_arvalid | io_m_port_1_rvalid) & _T_11 == 2'h0 | _GEN_6; // @[axi_ram_port.scala 140:110 141:41]
+  wire [1:0] _r_inuse_0_T = {r_inuse_wire_1,r_inuse_wire_0}; // @[axi_ram_port.scala 155:49]
+  wire [1:0] _r_inuse_0_T_3 = {{1'd0}, _r_inuse_0_T[1]}; // @[axi_ram_port.scala 155:56]
+  wire  _w_inuse_1_T_7 = 2'h1 == _w_inuse_0_T_6; // @[axi_ram_port.scala 138:95]
   wire [1:0] _r_select_port_T_93 = r_inuse_0 ? io_m_port_0_arburst : 2'h0; // @[Mux.scala 27:73]
   wire [1:0] _r_select_port_T_94 = r_inuse_1 ? io_m_port_1_arburst : 2'h0; // @[Mux.scala 27:73]
   wire [2:0] _r_select_port_T_96 = r_inuse_0 ? 3'h3 : 3'h0; // @[Mux.scala 27:73]
@@ -62336,17 +62333,17 @@ module axi_cross_bar(
   wire [3:0] _r_select_port_T_100 = r_inuse_1 ? io_m_port_1_arlen : 4'h0; // @[Mux.scala 27:73]
   wire [63:0] _r_select_port_T_102 = r_inuse_0 ? io_m_port_0_araddr : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _r_select_port_T_103 = r_inuse_1 ? io_m_port_1_araddr : 64'h0; // @[Mux.scala 27:73]
-  assign io_m_port_0_arready = r_inuse_0 & io_s_port_arready; // @[axi_ram_port.scala 145:44]
-  assign io_m_port_0_rdata = r_inuse_0 ? io_s_port_rdata : 64'h0; // @[axi_ram_port.scala 147:44]
-  assign io_m_port_0_rlast = r_inuse_0 & io_s_port_rlast; // @[axi_ram_port.scala 149:44]
-  assign io_m_port_0_rvalid = r_inuse_0 & io_s_port_rvalid; // @[axi_ram_port.scala 150:44]
-  assign io_m_port_1_arready = r_inuse_1 & io_s_port_arready; // @[axi_ram_port.scala 145:44]
-  assign io_m_port_1_rdata = r_inuse_1 ? io_s_port_rdata : 64'h0; // @[axi_ram_port.scala 147:44]
-  assign io_m_port_1_rlast = r_inuse_1 & io_s_port_rlast; // @[axi_ram_port.scala 149:44]
-  assign io_m_port_1_rvalid = r_inuse_1 & io_s_port_rvalid; // @[axi_ram_port.scala 150:44]
-  assign io_m_port_1_awready = w_inuse_1 & io_s_port_awready; // @[axi_ram_port.scala 129:45]
-  assign io_m_port_1_wready = w_inuse_1 & io_s_port_wready; // @[axi_ram_port.scala 130:45]
-  assign io_m_port_1_bvalid = w_inuse_1 & io_s_port_bvalid; // @[axi_ram_port.scala 133:45]
+  assign io_m_port_0_arready = r_inuse_0 & io_s_port_arready; // @[axi_ram_port.scala 149:44]
+  assign io_m_port_0_rdata = r_inuse_0 ? io_s_port_rdata : 64'h0; // @[axi_ram_port.scala 151:44]
+  assign io_m_port_0_rlast = r_inuse_0 & io_s_port_rlast; // @[axi_ram_port.scala 153:44]
+  assign io_m_port_0_rvalid = r_inuse_0 & io_s_port_rvalid; // @[axi_ram_port.scala 154:44]
+  assign io_m_port_1_arready = r_inuse_1 & io_s_port_arready; // @[axi_ram_port.scala 149:44]
+  assign io_m_port_1_rdata = r_inuse_1 ? io_s_port_rdata : 64'h0; // @[axi_ram_port.scala 151:44]
+  assign io_m_port_1_rlast = r_inuse_1 & io_s_port_rlast; // @[axi_ram_port.scala 153:44]
+  assign io_m_port_1_rvalid = r_inuse_1 & io_s_port_rvalid; // @[axi_ram_port.scala 154:44]
+  assign io_m_port_1_awready = w_inuse_1 & io_s_port_awready; // @[axi_ram_port.scala 133:45]
+  assign io_m_port_1_wready = w_inuse_1 & io_s_port_wready; // @[axi_ram_port.scala 134:45]
+  assign io_m_port_1_bvalid = w_inuse_1 & io_s_port_bvalid; // @[axi_ram_port.scala 137:45]
   assign io_s_port_arid = r_inuse_1 ? 4'h1 : 4'h0; // @[Mux.scala 27:73]
   assign io_s_port_araddr = _r_select_port_T_102 | _r_select_port_T_103; // @[Mux.scala 27:73]
   assign io_s_port_arlen = _r_select_port_T_99 | _r_select_port_T_100; // @[Mux.scala 27:73]
@@ -62367,21 +62364,21 @@ module axi_cross_bar(
   assign io_s_port_wvalid = w_inuse_1 & io_m_port_1_wvalid; // @[Mux.scala 27:73]
   assign io_s_port_bready = w_inuse_1 & io_m_port_1_bvalid; // @[Mux.scala 27:73]
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[axi_ram_port.scala 151:34]
+    if (reset) begin // @[axi_ram_port.scala 155:34]
       r_inuse_0 <= 1'h0;
     end else begin
       r_inuse_0 <= (_r_inuse_0_T_3 == 2'h0 | _w_inuse_0_T_7) & r_inuse_wire_0;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[axi_ram_port.scala 151:34]
+    if (reset) begin // @[axi_ram_port.scala 155:34]
       r_inuse_1 <= 1'h0;
     end else begin
       r_inuse_1 <= (_r_inuse_0_T == 2'h0 | _w_inuse_1_T_7) & r_inuse_wire_1;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[axi_ram_port.scala 134:34]
+    if (reset) begin // @[axi_ram_port.scala 138:34]
       w_inuse_1 <= 1'h0;
     end else begin
       w_inuse_1 <= (_w_inuse_0_T == 2'h0 | 2'h1 == _w_inuse_0_T_6) & w_inuse_wire_1;
