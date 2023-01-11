@@ -62300,31 +62300,30 @@ module axi_cross_bar(
   output        io_s_port_wlast,
   output        io_s_port_wvalid,
   input         io_s_port_wready,
-  input         io_s_port_bvalid,
-  output        io_s_port_bready
+  input         io_s_port_bvalid
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
   reg [31:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
-  reg  r_inuse_0; // @[axi_ram_port.scala 118:30]
-  reg  r_inuse_1; // @[axi_ram_port.scala 118:30]
-  reg  w_inuse_1; // @[axi_ram_port.scala 120:30]
-  wire [1:0] _T_3 = {w_inuse_1,1'h0}; // @[axi_ram_port.scala 124:93]
-  wire  _GEN_4 = io_s_port_bvalid & w_inuse_1 ? 1'h0 : w_inuse_1; // @[axi_ram_port.scala 127:67 128:41 130:41]
-  wire  w_inuse_wire_1 = (io_m_port_1_awvalid | io_m_port_1_wvalid) & _T_3 == 2'h0 | _GEN_4; // @[axi_ram_port.scala 124:110 126:41]
-  wire [1:0] _w_inuse_0_T = {w_inuse_wire_1,1'h0}; // @[axi_ram_port.scala 138:48]
-  wire [1:0] _w_inuse_0_T_6 = 2'h2 - 2'h1; // @[axi_ram_port.scala 138:117]
-  wire  _w_inuse_0_T_7 = 2'h0 == _w_inuse_0_T_6; // @[axi_ram_port.scala 138:95]
-  wire [1:0] _T_11 = {r_inuse_1,r_inuse_0}; // @[axi_ram_port.scala 140:93]
-  wire  _GEN_2 = io_s_port_rlast & r_inuse_0 ? 1'h0 : r_inuse_0; // @[axi_ram_port.scala 142:65 143:41 145:41]
-  wire  r_inuse_wire_0 = (io_m_port_0_arvalid | io_m_port_0_rvalid) & _T_11 == 2'h0 | _GEN_2; // @[axi_ram_port.scala 140:110 141:41]
-  wire  _GEN_6 = io_s_port_rlast & r_inuse_1 ? 1'h0 : r_inuse_1; // @[axi_ram_port.scala 142:65 143:41 145:41]
-  wire  r_inuse_wire_1 = (io_m_port_1_arvalid | io_m_port_1_rvalid) & _T_11 == 2'h0 | _GEN_6; // @[axi_ram_port.scala 140:110 141:41]
-  wire [1:0] _r_inuse_0_T = {r_inuse_wire_1,r_inuse_wire_0}; // @[axi_ram_port.scala 155:49]
-  wire [1:0] _r_inuse_0_T_3 = {{1'd0}, _r_inuse_0_T[1]}; // @[axi_ram_port.scala 155:56]
-  wire  _w_inuse_1_T_7 = 2'h1 == _w_inuse_0_T_6; // @[axi_ram_port.scala 138:95]
+  reg  r_inuse_0; // @[axi_ram_port.scala 119:30]
+  reg  r_inuse_1; // @[axi_ram_port.scala 119:30]
+  reg  w_inuse_1; // @[axi_ram_port.scala 121:30]
+  wire [1:0] _T_3 = {w_inuse_1,1'h0}; // @[axi_ram_port.scala 125:93]
+  wire  _GEN_4 = io_s_port_bvalid & w_inuse_1 ? 1'h0 : w_inuse_1; // @[axi_ram_port.scala 128:67 129:41 131:41]
+  wire  w_inuse_wire_1 = (io_m_port_1_awvalid | io_m_port_1_wvalid) & _T_3 == 2'h0 | _GEN_4; // @[axi_ram_port.scala 125:110 127:41]
+  wire [1:0] _w_inuse_0_T = {w_inuse_wire_1,1'h0}; // @[axi_ram_port.scala 139:48]
+  wire [1:0] _w_inuse_0_T_6 = 2'h2 - 2'h1; // @[axi_ram_port.scala 139:117]
+  wire  _w_inuse_0_T_7 = 2'h0 == _w_inuse_0_T_6; // @[axi_ram_port.scala 139:95]
+  wire [1:0] _T_11 = {r_inuse_1,r_inuse_0}; // @[axi_ram_port.scala 141:93]
+  wire  _GEN_2 = io_s_port_rlast & r_inuse_0 ? 1'h0 : r_inuse_0; // @[axi_ram_port.scala 143:65 144:41 146:41]
+  wire  r_inuse_wire_0 = (io_m_port_0_arvalid | io_m_port_0_rvalid) & _T_11 == 2'h0 | _GEN_2; // @[axi_ram_port.scala 141:110 142:41]
+  wire  _GEN_6 = io_s_port_rlast & r_inuse_1 ? 1'h0 : r_inuse_1; // @[axi_ram_port.scala 143:65 144:41 146:41]
+  wire  r_inuse_wire_1 = (io_m_port_1_arvalid | io_m_port_1_rvalid) & _T_11 == 2'h0 | _GEN_6; // @[axi_ram_port.scala 141:110 142:41]
+  wire [1:0] _r_inuse_0_T = {r_inuse_wire_1,r_inuse_wire_0}; // @[axi_ram_port.scala 156:49]
+  wire [1:0] _r_inuse_0_T_3 = {{1'd0}, _r_inuse_0_T[1]}; // @[axi_ram_port.scala 156:56]
+  wire  _w_inuse_1_T_7 = 2'h1 == _w_inuse_0_T_6; // @[axi_ram_port.scala 139:95]
   wire [1:0] _r_select_port_T_93 = r_inuse_0 ? io_m_port_0_arburst : 2'h0; // @[Mux.scala 27:73]
   wire [1:0] _r_select_port_T_94 = r_inuse_1 ? io_m_port_1_arburst : 2'h0; // @[Mux.scala 27:73]
   wire [2:0] _r_select_port_T_96 = r_inuse_0 ? 3'h3 : 3'h0; // @[Mux.scala 27:73]
@@ -62333,17 +62332,17 @@ module axi_cross_bar(
   wire [3:0] _r_select_port_T_100 = r_inuse_1 ? io_m_port_1_arlen : 4'h0; // @[Mux.scala 27:73]
   wire [63:0] _r_select_port_T_102 = r_inuse_0 ? io_m_port_0_araddr : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _r_select_port_T_103 = r_inuse_1 ? io_m_port_1_araddr : 64'h0; // @[Mux.scala 27:73]
-  assign io_m_port_0_arready = r_inuse_0 & io_s_port_arready; // @[axi_ram_port.scala 149:44]
-  assign io_m_port_0_rdata = r_inuse_0 ? io_s_port_rdata : 64'h0; // @[axi_ram_port.scala 151:44]
-  assign io_m_port_0_rlast = r_inuse_0 & io_s_port_rlast; // @[axi_ram_port.scala 153:44]
-  assign io_m_port_0_rvalid = r_inuse_0 & io_s_port_rvalid; // @[axi_ram_port.scala 154:44]
-  assign io_m_port_1_arready = r_inuse_1 & io_s_port_arready; // @[axi_ram_port.scala 149:44]
-  assign io_m_port_1_rdata = r_inuse_1 ? io_s_port_rdata : 64'h0; // @[axi_ram_port.scala 151:44]
-  assign io_m_port_1_rlast = r_inuse_1 & io_s_port_rlast; // @[axi_ram_port.scala 153:44]
-  assign io_m_port_1_rvalid = r_inuse_1 & io_s_port_rvalid; // @[axi_ram_port.scala 154:44]
-  assign io_m_port_1_awready = w_inuse_1 & io_s_port_awready; // @[axi_ram_port.scala 133:45]
-  assign io_m_port_1_wready = w_inuse_1 & io_s_port_wready; // @[axi_ram_port.scala 134:45]
-  assign io_m_port_1_bvalid = w_inuse_1 & io_s_port_bvalid; // @[axi_ram_port.scala 137:45]
+  assign io_m_port_0_arready = r_inuse_0 & io_s_port_arready; // @[axi_ram_port.scala 150:44]
+  assign io_m_port_0_rdata = r_inuse_0 ? io_s_port_rdata : 64'h0; // @[axi_ram_port.scala 152:44]
+  assign io_m_port_0_rlast = r_inuse_0 & io_s_port_rlast; // @[axi_ram_port.scala 154:44]
+  assign io_m_port_0_rvalid = r_inuse_0 & io_s_port_rvalid; // @[axi_ram_port.scala 155:44]
+  assign io_m_port_1_arready = r_inuse_1 & io_s_port_arready; // @[axi_ram_port.scala 150:44]
+  assign io_m_port_1_rdata = r_inuse_1 ? io_s_port_rdata : 64'h0; // @[axi_ram_port.scala 152:44]
+  assign io_m_port_1_rlast = r_inuse_1 & io_s_port_rlast; // @[axi_ram_port.scala 154:44]
+  assign io_m_port_1_rvalid = r_inuse_1 & io_s_port_rvalid; // @[axi_ram_port.scala 155:44]
+  assign io_m_port_1_awready = w_inuse_1 & io_s_port_awready; // @[axi_ram_port.scala 134:45]
+  assign io_m_port_1_wready = w_inuse_1 & io_s_port_wready; // @[axi_ram_port.scala 135:45]
+  assign io_m_port_1_bvalid = w_inuse_1 & io_s_port_bvalid; // @[axi_ram_port.scala 138:45]
   assign io_s_port_arid = r_inuse_1 ? 4'h1 : 4'h0; // @[Mux.scala 27:73]
   assign io_s_port_araddr = _r_select_port_T_102 | _r_select_port_T_103; // @[Mux.scala 27:73]
   assign io_s_port_arlen = _r_select_port_T_99 | _r_select_port_T_100; // @[Mux.scala 27:73]
@@ -62362,23 +62361,22 @@ module axi_cross_bar(
   assign io_s_port_wstrb = w_inuse_1 ? io_m_port_1_wstrb : 8'h0; // @[Mux.scala 27:73]
   assign io_s_port_wlast = w_inuse_1 & io_m_port_1_wlast; // @[Mux.scala 27:73]
   assign io_s_port_wvalid = w_inuse_1 & io_m_port_1_wvalid; // @[Mux.scala 27:73]
-  assign io_s_port_bready = w_inuse_1 & io_m_port_1_bvalid; // @[Mux.scala 27:73]
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[axi_ram_port.scala 155:34]
+    if (reset) begin // @[axi_ram_port.scala 156:34]
       r_inuse_0 <= 1'h0;
     end else begin
       r_inuse_0 <= (_r_inuse_0_T_3 == 2'h0 | _w_inuse_0_T_7) & r_inuse_wire_0;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[axi_ram_port.scala 155:34]
+    if (reset) begin // @[axi_ram_port.scala 156:34]
       r_inuse_1 <= 1'h0;
     end else begin
       r_inuse_1 <= (_r_inuse_0_T == 2'h0 | _w_inuse_1_T_7) & r_inuse_wire_1;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[axi_ram_port.scala 138:34]
+    if (reset) begin // @[axi_ram_port.scala 139:34]
       w_inuse_1 <= 1'h0;
     end else begin
       w_inuse_1 <= (_w_inuse_0_T == 2'h0 | 2'h1 == _w_inuse_0_T_6) & w_inuse_wire_1;
@@ -62435,6 +62433,311 @@ initial begin
   end
   if (reset) begin
     w_inuse_1 = 1'h0;
+  end
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+endmodule
+module axi_cross_bar_addr_switch(
+  input         clock,
+  input         reset,
+  input  [63:0] io_m_port_0_araddr,
+  input  [3:0]  io_m_port_0_arlen,
+  input  [1:0]  io_m_port_0_arburst,
+  input         io_m_port_0_arvalid,
+  output        io_m_port_0_arready,
+  output [63:0] io_m_port_0_rdata,
+  output        io_m_port_0_rlast,
+  output        io_m_port_0_rvalid,
+  input  [63:0] io_m_port_1_araddr,
+  input  [3:0]  io_m_port_1_arlen,
+  input  [2:0]  io_m_port_1_arsize,
+  input  [1:0]  io_m_port_1_arburst,
+  input         io_m_port_1_arvalid,
+  output        io_m_port_1_arready,
+  output [63:0] io_m_port_1_rdata,
+  output        io_m_port_1_rlast,
+  output        io_m_port_1_rvalid,
+  input  [63:0] io_m_port_1_awaddr,
+  input  [3:0]  io_m_port_1_awlen,
+  input  [2:0]  io_m_port_1_awsize,
+  input  [1:0]  io_m_port_1_awburst,
+  input         io_m_port_1_awvalid,
+  output        io_m_port_1_awready,
+  input  [63:0] io_m_port_1_wdata,
+  input  [7:0]  io_m_port_1_wstrb,
+  input         io_m_port_1_wlast,
+  input         io_m_port_1_wvalid,
+  output        io_m_port_1_wready,
+  output        io_m_port_1_bvalid,
+  output [3:0]  io_s_port_0_arid,
+  output [63:0] io_s_port_0_araddr,
+  output [3:0]  io_s_port_0_arlen,
+  output [2:0]  io_s_port_0_arsize,
+  output [1:0]  io_s_port_0_arburst,
+  output        io_s_port_0_arvalid,
+  input         io_s_port_0_arready,
+  input  [63:0] io_s_port_0_rdata,
+  input         io_s_port_0_rlast,
+  input         io_s_port_0_rvalid,
+  output        io_s_port_0_rready,
+  output [3:0]  io_s_port_0_awid,
+  output [63:0] io_s_port_0_awaddr,
+  output [3:0]  io_s_port_0_awlen,
+  output [2:0]  io_s_port_0_awsize,
+  output [1:0]  io_s_port_0_awburst,
+  output        io_s_port_0_awvalid,
+  input         io_s_port_0_awready,
+  output [3:0]  io_s_port_0_wid,
+  output [63:0] io_s_port_0_wdata,
+  output [7:0]  io_s_port_0_wstrb,
+  output        io_s_port_0_wlast,
+  output        io_s_port_0_wvalid,
+  input         io_s_port_0_wready,
+  input         io_s_port_0_bvalid,
+  output        io_s_port_0_bready
+);
+`ifdef RANDOMIZE_REG_INIT
+  reg [31:0] _RAND_0;
+  reg [31:0] _RAND_1;
+`endif // RANDOMIZE_REG_INIT
+  wire  axi_cross_bar_clock; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_reset; // @[axi_ram_port.scala 204:38]
+  wire [63:0] axi_cross_bar_io_m_port_0_araddr; // @[axi_ram_port.scala 204:38]
+  wire [3:0] axi_cross_bar_io_m_port_0_arlen; // @[axi_ram_port.scala 204:38]
+  wire [1:0] axi_cross_bar_io_m_port_0_arburst; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_0_arvalid; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_0_arready; // @[axi_ram_port.scala 204:38]
+  wire [63:0] axi_cross_bar_io_m_port_0_rdata; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_0_rlast; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_0_rvalid; // @[axi_ram_port.scala 204:38]
+  wire [63:0] axi_cross_bar_io_m_port_1_araddr; // @[axi_ram_port.scala 204:38]
+  wire [3:0] axi_cross_bar_io_m_port_1_arlen; // @[axi_ram_port.scala 204:38]
+  wire [2:0] axi_cross_bar_io_m_port_1_arsize; // @[axi_ram_port.scala 204:38]
+  wire [1:0] axi_cross_bar_io_m_port_1_arburst; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_1_arvalid; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_1_arready; // @[axi_ram_port.scala 204:38]
+  wire [63:0] axi_cross_bar_io_m_port_1_rdata; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_1_rlast; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_1_rvalid; // @[axi_ram_port.scala 204:38]
+  wire [63:0] axi_cross_bar_io_m_port_1_awaddr; // @[axi_ram_port.scala 204:38]
+  wire [3:0] axi_cross_bar_io_m_port_1_awlen; // @[axi_ram_port.scala 204:38]
+  wire [2:0] axi_cross_bar_io_m_port_1_awsize; // @[axi_ram_port.scala 204:38]
+  wire [1:0] axi_cross_bar_io_m_port_1_awburst; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_1_awvalid; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_1_awready; // @[axi_ram_port.scala 204:38]
+  wire [63:0] axi_cross_bar_io_m_port_1_wdata; // @[axi_ram_port.scala 204:38]
+  wire [7:0] axi_cross_bar_io_m_port_1_wstrb; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_1_wlast; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_1_wvalid; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_1_wready; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_m_port_1_bvalid; // @[axi_ram_port.scala 204:38]
+  wire [3:0] axi_cross_bar_io_s_port_arid; // @[axi_ram_port.scala 204:38]
+  wire [63:0] axi_cross_bar_io_s_port_araddr; // @[axi_ram_port.scala 204:38]
+  wire [3:0] axi_cross_bar_io_s_port_arlen; // @[axi_ram_port.scala 204:38]
+  wire [2:0] axi_cross_bar_io_s_port_arsize; // @[axi_ram_port.scala 204:38]
+  wire [1:0] axi_cross_bar_io_s_port_arburst; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_arvalid; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_arready; // @[axi_ram_port.scala 204:38]
+  wire [63:0] axi_cross_bar_io_s_port_rdata; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_rlast; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_rvalid; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_rready; // @[axi_ram_port.scala 204:38]
+  wire [3:0] axi_cross_bar_io_s_port_awid; // @[axi_ram_port.scala 204:38]
+  wire [63:0] axi_cross_bar_io_s_port_awaddr; // @[axi_ram_port.scala 204:38]
+  wire [3:0] axi_cross_bar_io_s_port_awlen; // @[axi_ram_port.scala 204:38]
+  wire [2:0] axi_cross_bar_io_s_port_awsize; // @[axi_ram_port.scala 204:38]
+  wire [1:0] axi_cross_bar_io_s_port_awburst; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_awvalid; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_awready; // @[axi_ram_port.scala 204:38]
+  wire [3:0] axi_cross_bar_io_s_port_wid; // @[axi_ram_port.scala 204:38]
+  wire [63:0] axi_cross_bar_io_s_port_wdata; // @[axi_ram_port.scala 204:38]
+  wire [7:0] axi_cross_bar_io_s_port_wstrb; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_wlast; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_wvalid; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_wready; // @[axi_ram_port.scala 204:38]
+  wire  axi_cross_bar_io_s_port_bvalid; // @[axi_ram_port.scala 204:38]
+  reg  select_s_port_num_r_0; // @[axi_ram_port.scala 207:43]
+  reg  select_s_port_num_w_0; // @[axi_ram_port.scala 208:43]
+  wire [63:0] master_bundle_arready_0 = {{63'd0}, io_s_port_0_arready}; // @[axi_ram_port.scala 230:41 256:48]
+  axi_cross_bar axi_cross_bar ( // @[axi_ram_port.scala 204:38]
+    .clock(axi_cross_bar_clock),
+    .reset(axi_cross_bar_reset),
+    .io_m_port_0_araddr(axi_cross_bar_io_m_port_0_araddr),
+    .io_m_port_0_arlen(axi_cross_bar_io_m_port_0_arlen),
+    .io_m_port_0_arburst(axi_cross_bar_io_m_port_0_arburst),
+    .io_m_port_0_arvalid(axi_cross_bar_io_m_port_0_arvalid),
+    .io_m_port_0_arready(axi_cross_bar_io_m_port_0_arready),
+    .io_m_port_0_rdata(axi_cross_bar_io_m_port_0_rdata),
+    .io_m_port_0_rlast(axi_cross_bar_io_m_port_0_rlast),
+    .io_m_port_0_rvalid(axi_cross_bar_io_m_port_0_rvalid),
+    .io_m_port_1_araddr(axi_cross_bar_io_m_port_1_araddr),
+    .io_m_port_1_arlen(axi_cross_bar_io_m_port_1_arlen),
+    .io_m_port_1_arsize(axi_cross_bar_io_m_port_1_arsize),
+    .io_m_port_1_arburst(axi_cross_bar_io_m_port_1_arburst),
+    .io_m_port_1_arvalid(axi_cross_bar_io_m_port_1_arvalid),
+    .io_m_port_1_arready(axi_cross_bar_io_m_port_1_arready),
+    .io_m_port_1_rdata(axi_cross_bar_io_m_port_1_rdata),
+    .io_m_port_1_rlast(axi_cross_bar_io_m_port_1_rlast),
+    .io_m_port_1_rvalid(axi_cross_bar_io_m_port_1_rvalid),
+    .io_m_port_1_awaddr(axi_cross_bar_io_m_port_1_awaddr),
+    .io_m_port_1_awlen(axi_cross_bar_io_m_port_1_awlen),
+    .io_m_port_1_awsize(axi_cross_bar_io_m_port_1_awsize),
+    .io_m_port_1_awburst(axi_cross_bar_io_m_port_1_awburst),
+    .io_m_port_1_awvalid(axi_cross_bar_io_m_port_1_awvalid),
+    .io_m_port_1_awready(axi_cross_bar_io_m_port_1_awready),
+    .io_m_port_1_wdata(axi_cross_bar_io_m_port_1_wdata),
+    .io_m_port_1_wstrb(axi_cross_bar_io_m_port_1_wstrb),
+    .io_m_port_1_wlast(axi_cross_bar_io_m_port_1_wlast),
+    .io_m_port_1_wvalid(axi_cross_bar_io_m_port_1_wvalid),
+    .io_m_port_1_wready(axi_cross_bar_io_m_port_1_wready),
+    .io_m_port_1_bvalid(axi_cross_bar_io_m_port_1_bvalid),
+    .io_s_port_arid(axi_cross_bar_io_s_port_arid),
+    .io_s_port_araddr(axi_cross_bar_io_s_port_araddr),
+    .io_s_port_arlen(axi_cross_bar_io_s_port_arlen),
+    .io_s_port_arsize(axi_cross_bar_io_s_port_arsize),
+    .io_s_port_arburst(axi_cross_bar_io_s_port_arburst),
+    .io_s_port_arvalid(axi_cross_bar_io_s_port_arvalid),
+    .io_s_port_arready(axi_cross_bar_io_s_port_arready),
+    .io_s_port_rdata(axi_cross_bar_io_s_port_rdata),
+    .io_s_port_rlast(axi_cross_bar_io_s_port_rlast),
+    .io_s_port_rvalid(axi_cross_bar_io_s_port_rvalid),
+    .io_s_port_rready(axi_cross_bar_io_s_port_rready),
+    .io_s_port_awid(axi_cross_bar_io_s_port_awid),
+    .io_s_port_awaddr(axi_cross_bar_io_s_port_awaddr),
+    .io_s_port_awlen(axi_cross_bar_io_s_port_awlen),
+    .io_s_port_awsize(axi_cross_bar_io_s_port_awsize),
+    .io_s_port_awburst(axi_cross_bar_io_s_port_awburst),
+    .io_s_port_awvalid(axi_cross_bar_io_s_port_awvalid),
+    .io_s_port_awready(axi_cross_bar_io_s_port_awready),
+    .io_s_port_wid(axi_cross_bar_io_s_port_wid),
+    .io_s_port_wdata(axi_cross_bar_io_s_port_wdata),
+    .io_s_port_wstrb(axi_cross_bar_io_s_port_wstrb),
+    .io_s_port_wlast(axi_cross_bar_io_s_port_wlast),
+    .io_s_port_wvalid(axi_cross_bar_io_s_port_wvalid),
+    .io_s_port_wready(axi_cross_bar_io_s_port_wready),
+    .io_s_port_bvalid(axi_cross_bar_io_s_port_bvalid)
+  );
+  assign io_m_port_0_arready = axi_cross_bar_io_m_port_0_arready; // @[axi_ram_port.scala 205:34]
+  assign io_m_port_0_rdata = axi_cross_bar_io_m_port_0_rdata; // @[axi_ram_port.scala 205:34]
+  assign io_m_port_0_rlast = axi_cross_bar_io_m_port_0_rlast; // @[axi_ram_port.scala 205:34]
+  assign io_m_port_0_rvalid = axi_cross_bar_io_m_port_0_rvalid; // @[axi_ram_port.scala 205:34]
+  assign io_m_port_1_arready = axi_cross_bar_io_m_port_1_arready; // @[axi_ram_port.scala 205:34]
+  assign io_m_port_1_rdata = axi_cross_bar_io_m_port_1_rdata; // @[axi_ram_port.scala 205:34]
+  assign io_m_port_1_rlast = axi_cross_bar_io_m_port_1_rlast; // @[axi_ram_port.scala 205:34]
+  assign io_m_port_1_rvalid = axi_cross_bar_io_m_port_1_rvalid; // @[axi_ram_port.scala 205:34]
+  assign io_m_port_1_awready = axi_cross_bar_io_m_port_1_awready; // @[axi_ram_port.scala 205:34]
+  assign io_m_port_1_wready = axi_cross_bar_io_m_port_1_wready; // @[axi_ram_port.scala 205:34]
+  assign io_m_port_1_bvalid = axi_cross_bar_io_m_port_1_bvalid; // @[axi_ram_port.scala 205:34]
+  assign io_s_port_0_arid = select_s_port_num_r_0 ? axi_cross_bar_io_s_port_arid : 4'h0; // @[axi_ram_port.scala 262:50 263:51 278:51]
+  assign io_s_port_0_araddr = select_s_port_num_r_0 ? axi_cross_bar_io_s_port_araddr : 64'h0; // @[axi_ram_port.scala 262:50 264:51 279:51]
+  assign io_s_port_0_arlen = select_s_port_num_r_0 ? axi_cross_bar_io_s_port_arlen : 4'h0; // @[axi_ram_port.scala 262:50 265:51 280:51]
+  assign io_s_port_0_arsize = select_s_port_num_r_0 ? axi_cross_bar_io_s_port_arsize : 3'h0; // @[axi_ram_port.scala 262:50 266:51 281:51]
+  assign io_s_port_0_arburst = select_s_port_num_r_0 ? axi_cross_bar_io_s_port_arburst : 2'h0; // @[axi_ram_port.scala 262:50 267:51 282:51]
+  assign io_s_port_0_arvalid = select_s_port_num_r_0 & axi_cross_bar_io_s_port_arvalid; // @[axi_ram_port.scala 262:50 271:51 286:51]
+  assign io_s_port_0_rready = select_s_port_num_r_0 & axi_cross_bar_io_s_port_rready; // @[axi_ram_port.scala 262:50 272:51 287:51]
+  assign io_s_port_0_awid = select_s_port_num_w_0 ? axi_cross_bar_io_s_port_awid : 4'h0; // @[axi_ram_port.scala 289:50 290:52 308:52]
+  assign io_s_port_0_awaddr = select_s_port_num_w_0 ? axi_cross_bar_io_s_port_awaddr : 64'h0; // @[axi_ram_port.scala 289:50 291:52 309:52]
+  assign io_s_port_0_awlen = select_s_port_num_w_0 ? axi_cross_bar_io_s_port_awlen : 4'h0; // @[axi_ram_port.scala 289:50 292:52 310:52]
+  assign io_s_port_0_awsize = select_s_port_num_w_0 ? axi_cross_bar_io_s_port_awsize : 3'h0; // @[axi_ram_port.scala 289:50 293:52 311:52]
+  assign io_s_port_0_awburst = select_s_port_num_w_0 ? axi_cross_bar_io_s_port_awburst : 2'h0; // @[axi_ram_port.scala 289:50 294:52 312:52]
+  assign io_s_port_0_awvalid = select_s_port_num_w_0 & axi_cross_bar_io_s_port_awvalid; // @[axi_ram_port.scala 289:50 298:52 316:52]
+  assign io_s_port_0_wid = select_s_port_num_w_0 ? axi_cross_bar_io_s_port_wid : 4'h0; // @[axi_ram_port.scala 289:50 299:52 317:52]
+  assign io_s_port_0_wdata = select_s_port_num_w_0 ? axi_cross_bar_io_s_port_wdata : 64'h0; // @[axi_ram_port.scala 289:50 300:52 318:52]
+  assign io_s_port_0_wstrb = select_s_port_num_w_0 ? axi_cross_bar_io_s_port_wstrb : 8'h0; // @[axi_ram_port.scala 289:50 301:52 319:52]
+  assign io_s_port_0_wlast = select_s_port_num_w_0 & axi_cross_bar_io_s_port_wlast; // @[axi_ram_port.scala 289:50 302:52 320:52]
+  assign io_s_port_0_wvalid = select_s_port_num_w_0 & axi_cross_bar_io_s_port_wvalid; // @[axi_ram_port.scala 289:50 303:52 321:52]
+  assign io_s_port_0_bready = select_s_port_num_w_0 & axi_cross_bar_io_s_port_bvalid; // @[axi_ram_port.scala 289:50 304:52 322:52]
+  assign axi_cross_bar_clock = clock;
+  assign axi_cross_bar_reset = reset;
+  assign axi_cross_bar_io_m_port_0_araddr = io_m_port_0_araddr; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_0_arlen = io_m_port_0_arlen; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_0_arburst = io_m_port_0_arburst; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_0_arvalid = io_m_port_0_arvalid; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_araddr = io_m_port_1_araddr; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_arlen = io_m_port_1_arlen; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_arsize = io_m_port_1_arsize; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_arburst = io_m_port_1_arburst; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_arvalid = io_m_port_1_arvalid; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_awaddr = io_m_port_1_awaddr; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_awlen = io_m_port_1_awlen; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_awsize = io_m_port_1_awsize; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_awburst = io_m_port_1_awburst; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_awvalid = io_m_port_1_awvalid; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_wdata = io_m_port_1_wdata; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_wstrb = io_m_port_1_wstrb; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_wlast = io_m_port_1_wlast; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_m_port_1_wvalid = io_m_port_1_wvalid; // @[axi_ram_port.scala 205:34]
+  assign axi_cross_bar_io_s_port_arready = master_bundle_arready_0[0]; // @[axi_ram_port.scala 333:49]
+  assign axi_cross_bar_io_s_port_rdata = io_s_port_0_rdata; // @[axi_ram_port.scala 232:41 258:48]
+  assign axi_cross_bar_io_s_port_rlast = io_s_port_0_rlast; // @[axi_ram_port.scala 234:41 260:48]
+  assign axi_cross_bar_io_s_port_rvalid = io_s_port_0_rvalid; // @[axi_ram_port.scala 235:41 261:48]
+  assign axi_cross_bar_io_s_port_awready = io_s_port_0_awready; // @[axi_ram_port.scala 241:41 253:48]
+  assign axi_cross_bar_io_s_port_wready = io_s_port_0_wready; // @[axi_ram_port.scala 237:40 249:48]
+  assign axi_cross_bar_io_s_port_bvalid = io_s_port_0_bvalid; // @[axi_ram_port.scala 240:42 252:48]
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[axi_ram_port.scala 207:43]
+      select_s_port_num_r_0 <= 1'h0; // @[axi_ram_port.scala 207:43]
+    end else begin
+      select_s_port_num_r_0 <= 1'h1; // @[axi_ram_port.scala 215:60]
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[axi_ram_port.scala 208:43]
+      select_s_port_num_w_0 <= 1'h0; // @[axi_ram_port.scala 208:43]
+    end else begin
+      select_s_port_num_w_0 <= 1'h1; // @[axi_ram_port.scala 216:60]
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {1{`RANDOM}};
+  select_s_port_num_r_0 = _RAND_0[0:0];
+  _RAND_1 = {1{`RANDOM}};
+  select_s_port_num_w_0 = _RAND_1[0:0];
+`endif // RANDOMIZE_REG_INIT
+  if (reset) begin
+    select_s_port_num_r_0 = 1'h0;
+  end
+  if (reset) begin
+    select_s_port_num_w_0 = 1'h0;
   end
   `endif // RANDOMIZE
 end // initial
@@ -62606,32 +62909,32 @@ module mycpu_top(
   wire  _axi_cross_bar_io_m_port_1_wvalid; // @[my_cpu_top.scala 173:32]
   wire  _axi_cross_bar_io_m_port_1_wready; // @[my_cpu_top.scala 173:32]
   wire  _axi_cross_bar_io_m_port_1_bvalid; // @[my_cpu_top.scala 173:32]
-  wire [3:0] _axi_cross_bar_io_s_port_arid; // @[my_cpu_top.scala 173:32]
-  wire [63:0] _axi_cross_bar_io_s_port_araddr; // @[my_cpu_top.scala 173:32]
-  wire [3:0] _axi_cross_bar_io_s_port_arlen; // @[my_cpu_top.scala 173:32]
-  wire [2:0] _axi_cross_bar_io_s_port_arsize; // @[my_cpu_top.scala 173:32]
-  wire [1:0] _axi_cross_bar_io_s_port_arburst; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_arvalid; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_arready; // @[my_cpu_top.scala 173:32]
-  wire [63:0] _axi_cross_bar_io_s_port_rdata; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_rlast; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_rvalid; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_rready; // @[my_cpu_top.scala 173:32]
-  wire [3:0] _axi_cross_bar_io_s_port_awid; // @[my_cpu_top.scala 173:32]
-  wire [63:0] _axi_cross_bar_io_s_port_awaddr; // @[my_cpu_top.scala 173:32]
-  wire [3:0] _axi_cross_bar_io_s_port_awlen; // @[my_cpu_top.scala 173:32]
-  wire [2:0] _axi_cross_bar_io_s_port_awsize; // @[my_cpu_top.scala 173:32]
-  wire [1:0] _axi_cross_bar_io_s_port_awburst; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_awvalid; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_awready; // @[my_cpu_top.scala 173:32]
-  wire [3:0] _axi_cross_bar_io_s_port_wid; // @[my_cpu_top.scala 173:32]
-  wire [63:0] _axi_cross_bar_io_s_port_wdata; // @[my_cpu_top.scala 173:32]
-  wire [7:0] _axi_cross_bar_io_s_port_wstrb; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_wlast; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_wvalid; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_wready; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_bvalid; // @[my_cpu_top.scala 173:32]
-  wire  _axi_cross_bar_io_s_port_bready; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_s_port_0_arid; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_0_araddr; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_s_port_0_arlen; // @[my_cpu_top.scala 173:32]
+  wire [2:0] _axi_cross_bar_io_s_port_0_arsize; // @[my_cpu_top.scala 173:32]
+  wire [1:0] _axi_cross_bar_io_s_port_0_arburst; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_arvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_arready; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_0_rdata; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_rlast; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_rvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_rready; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_s_port_0_awid; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_0_awaddr; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_s_port_0_awlen; // @[my_cpu_top.scala 173:32]
+  wire [2:0] _axi_cross_bar_io_s_port_0_awsize; // @[my_cpu_top.scala 173:32]
+  wire [1:0] _axi_cross_bar_io_s_port_0_awburst; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_awvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_awready; // @[my_cpu_top.scala 173:32]
+  wire [3:0] _axi_cross_bar_io_s_port_0_wid; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_0_wdata; // @[my_cpu_top.scala 173:32]
+  wire [7:0] _axi_cross_bar_io_s_port_0_wstrb; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_wlast; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_wvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_wready; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_bvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_0_bready; // @[my_cpu_top.scala 173:32]
   myCPU u_riscv_cpu ( // @[my_cpu_top.scala 168:29]
     .ext_int(u_riscv_cpu_ext_int),
     .resetn(u_riscv_cpu_resetn),
@@ -62725,7 +63028,7 @@ module mycpu_top(
     .io_sram_cache(data_cache_io_sram_cache),
     .io_fence_i_control(data_cache_io_fence_i_control)
   );
-  axi_cross_bar _axi_cross_bar ( // @[my_cpu_top.scala 173:32]
+  axi_cross_bar_addr_switch _axi_cross_bar ( // @[my_cpu_top.scala 173:32]
     .clock(_axi_cross_bar_clock),
     .reset(_axi_cross_bar_reset),
     .io_m_port_0_araddr(_axi_cross_bar_io_m_port_0_araddr),
@@ -62757,58 +63060,58 @@ module mycpu_top(
     .io_m_port_1_wvalid(_axi_cross_bar_io_m_port_1_wvalid),
     .io_m_port_1_wready(_axi_cross_bar_io_m_port_1_wready),
     .io_m_port_1_bvalid(_axi_cross_bar_io_m_port_1_bvalid),
-    .io_s_port_arid(_axi_cross_bar_io_s_port_arid),
-    .io_s_port_araddr(_axi_cross_bar_io_s_port_araddr),
-    .io_s_port_arlen(_axi_cross_bar_io_s_port_arlen),
-    .io_s_port_arsize(_axi_cross_bar_io_s_port_arsize),
-    .io_s_port_arburst(_axi_cross_bar_io_s_port_arburst),
-    .io_s_port_arvalid(_axi_cross_bar_io_s_port_arvalid),
-    .io_s_port_arready(_axi_cross_bar_io_s_port_arready),
-    .io_s_port_rdata(_axi_cross_bar_io_s_port_rdata),
-    .io_s_port_rlast(_axi_cross_bar_io_s_port_rlast),
-    .io_s_port_rvalid(_axi_cross_bar_io_s_port_rvalid),
-    .io_s_port_rready(_axi_cross_bar_io_s_port_rready),
-    .io_s_port_awid(_axi_cross_bar_io_s_port_awid),
-    .io_s_port_awaddr(_axi_cross_bar_io_s_port_awaddr),
-    .io_s_port_awlen(_axi_cross_bar_io_s_port_awlen),
-    .io_s_port_awsize(_axi_cross_bar_io_s_port_awsize),
-    .io_s_port_awburst(_axi_cross_bar_io_s_port_awburst),
-    .io_s_port_awvalid(_axi_cross_bar_io_s_port_awvalid),
-    .io_s_port_awready(_axi_cross_bar_io_s_port_awready),
-    .io_s_port_wid(_axi_cross_bar_io_s_port_wid),
-    .io_s_port_wdata(_axi_cross_bar_io_s_port_wdata),
-    .io_s_port_wstrb(_axi_cross_bar_io_s_port_wstrb),
-    .io_s_port_wlast(_axi_cross_bar_io_s_port_wlast),
-    .io_s_port_wvalid(_axi_cross_bar_io_s_port_wvalid),
-    .io_s_port_wready(_axi_cross_bar_io_s_port_wready),
-    .io_s_port_bvalid(_axi_cross_bar_io_s_port_bvalid),
-    .io_s_port_bready(_axi_cross_bar_io_s_port_bready)
+    .io_s_port_0_arid(_axi_cross_bar_io_s_port_0_arid),
+    .io_s_port_0_araddr(_axi_cross_bar_io_s_port_0_araddr),
+    .io_s_port_0_arlen(_axi_cross_bar_io_s_port_0_arlen),
+    .io_s_port_0_arsize(_axi_cross_bar_io_s_port_0_arsize),
+    .io_s_port_0_arburst(_axi_cross_bar_io_s_port_0_arburst),
+    .io_s_port_0_arvalid(_axi_cross_bar_io_s_port_0_arvalid),
+    .io_s_port_0_arready(_axi_cross_bar_io_s_port_0_arready),
+    .io_s_port_0_rdata(_axi_cross_bar_io_s_port_0_rdata),
+    .io_s_port_0_rlast(_axi_cross_bar_io_s_port_0_rlast),
+    .io_s_port_0_rvalid(_axi_cross_bar_io_s_port_0_rvalid),
+    .io_s_port_0_rready(_axi_cross_bar_io_s_port_0_rready),
+    .io_s_port_0_awid(_axi_cross_bar_io_s_port_0_awid),
+    .io_s_port_0_awaddr(_axi_cross_bar_io_s_port_0_awaddr),
+    .io_s_port_0_awlen(_axi_cross_bar_io_s_port_0_awlen),
+    .io_s_port_0_awsize(_axi_cross_bar_io_s_port_0_awsize),
+    .io_s_port_0_awburst(_axi_cross_bar_io_s_port_0_awburst),
+    .io_s_port_0_awvalid(_axi_cross_bar_io_s_port_0_awvalid),
+    .io_s_port_0_awready(_axi_cross_bar_io_s_port_0_awready),
+    .io_s_port_0_wid(_axi_cross_bar_io_s_port_0_wid),
+    .io_s_port_0_wdata(_axi_cross_bar_io_s_port_0_wdata),
+    .io_s_port_0_wstrb(_axi_cross_bar_io_s_port_0_wstrb),
+    .io_s_port_0_wlast(_axi_cross_bar_io_s_port_0_wlast),
+    .io_s_port_0_wvalid(_axi_cross_bar_io_s_port_0_wvalid),
+    .io_s_port_0_wready(_axi_cross_bar_io_s_port_0_wready),
+    .io_s_port_0_bvalid(_axi_cross_bar_io_s_port_0_bvalid),
+    .io_s_port_0_bready(_axi_cross_bar_io_s_port_0_bready)
   );
-  assign axi_mem_port_arid = _axi_cross_bar_io_s_port_arid; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_araddr = _axi_cross_bar_io_s_port_araddr; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_arlen = _axi_cross_bar_io_s_port_arlen; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_arsize = _axi_cross_bar_io_s_port_arsize; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_arburst = _axi_cross_bar_io_s_port_arburst; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arid = _axi_cross_bar_io_s_port_0_arid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_araddr = _axi_cross_bar_io_s_port_0_araddr; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arlen = _axi_cross_bar_io_s_port_0_arlen; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arsize = _axi_cross_bar_io_s_port_0_arsize; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arburst = _axi_cross_bar_io_s_port_0_arburst; // @[my_cpu_top.scala 277:18]
   assign axi_mem_port_arlock = 2'h0; // @[my_cpu_top.scala 277:18]
   assign axi_mem_port_arcache = 4'h0; // @[my_cpu_top.scala 277:18]
   assign axi_mem_port_arprot = 3'h0; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_arvalid = _axi_cross_bar_io_s_port_arvalid; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_rready = _axi_cross_bar_io_s_port_rready; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_awid = _axi_cross_bar_io_s_port_awid; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_awaddr = _axi_cross_bar_io_s_port_awaddr; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_awlen = _axi_cross_bar_io_s_port_awlen; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_awsize = _axi_cross_bar_io_s_port_awsize; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_awburst = _axi_cross_bar_io_s_port_awburst; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_arvalid = _axi_cross_bar_io_s_port_0_arvalid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_rready = _axi_cross_bar_io_s_port_0_rready; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awid = _axi_cross_bar_io_s_port_0_awid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awaddr = _axi_cross_bar_io_s_port_0_awaddr; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awlen = _axi_cross_bar_io_s_port_0_awlen; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awsize = _axi_cross_bar_io_s_port_0_awsize; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awburst = _axi_cross_bar_io_s_port_0_awburst; // @[my_cpu_top.scala 277:18]
   assign axi_mem_port_awlock = 2'h0; // @[my_cpu_top.scala 277:18]
   assign axi_mem_port_awcache = 4'h0; // @[my_cpu_top.scala 277:18]
   assign axi_mem_port_awprot = 3'h0; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_awvalid = _axi_cross_bar_io_s_port_awvalid; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_wid = _axi_cross_bar_io_s_port_wid; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_wdata = _axi_cross_bar_io_s_port_wdata; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_wstrb = _axi_cross_bar_io_s_port_wstrb; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_wlast = _axi_cross_bar_io_s_port_wlast; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_wvalid = _axi_cross_bar_io_s_port_wvalid; // @[my_cpu_top.scala 277:18]
-  assign axi_mem_port_bready = _axi_cross_bar_io_s_port_bready; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_awvalid = _axi_cross_bar_io_s_port_0_awvalid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_wid = _axi_cross_bar_io_s_port_0_wid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_wdata = _axi_cross_bar_io_s_port_0_wdata; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_wstrb = _axi_cross_bar_io_s_port_0_wstrb; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_wlast = _axi_cross_bar_io_s_port_0_wlast; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_wvalid = _axi_cross_bar_io_s_port_0_wvalid; // @[my_cpu_top.scala 277:18]
+  assign axi_mem_port_bready = _axi_cross_bar_io_s_port_0_bready; // @[my_cpu_top.scala 277:18]
   assign debug_wb_pc = u_riscv_cpu_debug_wb_pc[31:0]; // @[my_cpu_top.scala 264:29]
   assign debug_wb_rf_wen = u_riscv_cpu_debug_wb_rf_wen; // @[my_cpu_top.scala 266:29]
   assign debug_wb_rf_wnum = u_riscv_cpu_debug_wb_rf_wnum; // @[my_cpu_top.scala 267:29]
@@ -62874,11 +63177,11 @@ module mycpu_top(
   assign _axi_cross_bar_io_m_port_1_wstrb = data_cache_io_port_wstrb; // @[my_cpu_top.scala 280:33]
   assign _axi_cross_bar_io_m_port_1_wlast = data_cache_io_port_wlast; // @[my_cpu_top.scala 280:33]
   assign _axi_cross_bar_io_m_port_1_wvalid = data_cache_io_port_wvalid; // @[my_cpu_top.scala 280:33]
-  assign _axi_cross_bar_io_s_port_arready = axi_mem_port_arready; // @[my_cpu_top.scala 277:18]
-  assign _axi_cross_bar_io_s_port_rdata = axi_mem_port_rdata; // @[my_cpu_top.scala 277:18]
-  assign _axi_cross_bar_io_s_port_rlast = axi_mem_port_rlast; // @[my_cpu_top.scala 277:18]
-  assign _axi_cross_bar_io_s_port_rvalid = axi_mem_port_rvalid; // @[my_cpu_top.scala 277:18]
-  assign _axi_cross_bar_io_s_port_awready = axi_mem_port_awready; // @[my_cpu_top.scala 277:18]
-  assign _axi_cross_bar_io_s_port_wready = axi_mem_port_wready; // @[my_cpu_top.scala 277:18]
-  assign _axi_cross_bar_io_s_port_bvalid = axi_mem_port_bvalid; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_0_arready = axi_mem_port_arready; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_0_rdata = axi_mem_port_rdata; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_0_rlast = axi_mem_port_rlast; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_0_rvalid = axi_mem_port_rvalid; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_0_awready = axi_mem_port_awready; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_0_wready = axi_mem_port_wready; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_0_bvalid = axi_mem_port_bvalid; // @[my_cpu_top.scala 277:18]
 endmodule

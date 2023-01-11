@@ -3,6 +3,7 @@ package examples
 import chisel3._
 import chisel3.stage._
 import chisel3.util._
+import firrtl.FirrtlProtos
 
 
 
@@ -201,14 +202,21 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                 val s_port = (Vec(slave_num,(new axi_ram_port)))
         })
         val master_cross_bar = Module(new  axi_cross_bar(cross_num)).io
-        master_cross_bar.m_port  := io.m_port
+        master_cross_bar.m_port  <> io.m_port
         val judge_num_width = log2Up(cross_num)
         val select_s_port_num_r  = RegInit(VecInit(Seq.fill(slave_num)(0.U.asBool)))
         val select_s_port_num_w  = RegInit(VecInit(Seq.fill(slave_num)(0.U.asBool)))
         select_s_port_num_r.zipWithIndex.foreach{case(a,index) =>
                 if(index == 0) {
-                        select_s_port_num_r(index) := Mux(select_s_port_num_r.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
-                        select_s_port_num_w(index) := Mux(select_s_port_num_w.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                        if(slave_num > 1) {
+                                select_s_port_num_r(index) := Mux(select_s_port_num_r.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                                select_s_port_num_w(index) := Mux(select_s_port_num_w.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                        }else{
+                                select_s_port_num_r(index) := 1.U.asBool
+                                select_s_port_num_w(index) := 1.U.asBool
+                        }
+                        // select_s_port_num_r(index) := Mux(select_s_port_num_r.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                        // select_s_port_num_w(index) := Mux(select_s_port_num_w.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
                 }else{
                         select_s_port_num_r(index) := Mux(master_cross_bar.s_port.arvalid.asBool,(master_cross_bar.s_port.araddr >= start_addr(index  ).asUInt(data_length.W) &&  
                                 master_cross_bar.s_port.araddr < end_addr(index).asUInt(data_length.W)),Mux(io.s_port(index).rlast.asBool,0.U.asBool,select_s_port_num_r(index)))
@@ -216,7 +224,125 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                                 master_cross_bar.s_port.awaddr < end_addr(index).asUInt(data_length.W)),Mux(io.s_port(index).rlast.asBool,0.U.asBool,select_s_port_num_r(index)))
                 }
         }
-        // io.s_port()
+        // s_port := Mux1H(select_s_port_num_r)
+        val select_port = master_cross_bar.s_port 
+
+        val master_bundle_arready = Wire(Vec(slave_num,master_cross_bar.s_port.araddr.cloneType))  
+        val master_bundle_rid     = Wire(Vec(slave_num,master_cross_bar.s_port.rid.cloneType))
+        val master_bundle_rdata   = Wire(Vec(slave_num,master_cross_bar.s_port.rdata.cloneType))
+        val master_bundle_rresp   = Wire(Vec(slave_num,master_cross_bar.s_port.rresp.cloneType))
+        val master_bundle_rlast   = Wire(Vec(slave_num,master_cross_bar.s_port.rlast.cloneType)) 
+        val master_bundle_rvalid  = Wire(Vec(slave_num,master_cross_bar.s_port.rvalid.cloneType))
+
+        val master_bundle_wready = Wire(Vec(slave_num,master_cross_bar.s_port.wready.cloneType))  
+        val master_bundle_bid     = Wire(Vec(slave_num,master_cross_bar.s_port.bid.cloneType))
+        val master_bundle_bresp   = Wire(Vec(slave_num,master_cross_bar.s_port.bresp.cloneType))
+        val master_bundle_bvalid   = Wire(Vec(slave_num,master_cross_bar.s_port.bvalid.cloneType))
+        val master_bundle_awready = Wire(Vec(slave_num,master_cross_bar.s_port.awready.cloneType))
+        // master_cross_bar.s_port.wready   := Mux1H(select_s_port_num_r)
+        // master_cross_bar.s_port.bid      := Mux1H(select_s_port_num_r)
+        // master_cross_bar.s_port.bresp    := Mux1H(select_s_port_num_r)
+        // master_cross_bar.s_port.bvalid   := Mux1H(select_s_port_num_r)x).wdata     := 0.U    
+        
+        io.s_port.zipWithIndex.foreach{case(a,index) => 
+
+                master_bundle_wready (index)   := io.s_port(index).wready
+                master_bundle_bid    (index)   := io.s_port(index).bid
+                master_bundle_bresp  (index)   := io.s_port(index).bresp
+                master_bundle_bvalid (index)   := io.s_port(index).bvalid
+                master_bundle_awready(index)   := io.s_port(index).awready
+
+
+                master_bundle_arready(index)   := io.s_port(index).arready  
+                master_bundle_rid    (index)   := io.s_port(index).rid
+                master_bundle_rdata  (index)   := io.s_port(index).rdata
+                master_bundle_rresp  (index)   := io.s_port(index).rresp
+                master_bundle_rlast  (index)   := io.s_port(index).rlast 
+                master_bundle_rvalid (index)   := io.s_port(index).rvalid
+                when(select_s_port_num_r(index)) {
+                        io.s_port(index).arid     := select_port.arid   
+                        io.s_port(index).araddr   := select_port.araddr 
+                        io.s_port(index).arlen    := select_port.arlen  
+                        io.s_port(index).arsize   := select_port.arsize 
+                        io.s_port(index).arburst  := select_port.arburst
+                        io.s_port(index).arlock   := select_port.arlock 
+                        io.s_port(index).arcache  := select_port.arcache
+                        io.s_port(index).arprot   := select_port.arprot 
+                        io.s_port(index).arvalid  := select_port.arvalid
+                        io.s_port(index).rready   := select_port.rready
+
+
+
+
+                }.otherwise{
+                        io.s_port(index).arid     := 0.U 
+                        io.s_port(index).araddr   := 0.U 
+                        io.s_port(index).arlen    := 0.U 
+                        io.s_port(index).arsize   := 0.U 
+                        io.s_port(index).arburst  := 0.U
+                        io.s_port(index).arlock   := 0.U 
+                        io.s_port(index).arcache  := 0.U
+                        io.s_port(index).arprot   := 0.U 
+                        io.s_port(index).arvalid  := 0.U
+                        io.s_port(index).rready   := 0.U
+                }
+                when(select_s_port_num_w(index)) {
+                        io.s_port(index).awid      := select_port.awid        
+                        io.s_port(index).awaddr    := select_port.awaddr   
+                        io.s_port(index).awlen     := select_port.awlen            
+                        io.s_port(index).awsize    := select_port.awsize   
+                        io.s_port(index).awburst   := select_port.awburst  
+                        io.s_port(index).awlock    := select_port.awlock   
+                        io.s_port(index).awcache   := select_port.awcache  
+                        io.s_port(index).awprot    := select_port.awprot   
+                        io.s_port(index).awvalid   := select_port.awvalid   
+                        io.s_port(index).wid       := select_port.wid      
+                        io.s_port(index).wdata     := select_port.wdata    
+                        io.s_port(index).wstrb     := select_port.wstrb    
+                        io.s_port(index).wlast     := select_port.wlast    
+                        io.s_port(index).wvalid    := select_port.wvalid   
+                        io.s_port(index).bready    := select_port.bvalid
+
+            
+                }.otherwise{
+                        io.s_port(index).awid      := 0.U   
+                        io.s_port(index).awaddr    := 0.U
+                        io.s_port(index).awlen     := 0.U        
+                        io.s_port(index).awsize    := 0.U
+                        io.s_port(index).awburst   := 0.U
+                        io.s_port(index).awlock    := 0.U
+                        io.s_port(index).awcache   := 0.U
+                        io.s_port(index).awprot    := 0.U
+                        io.s_port(index).awvalid   := 0.U 
+                        io.s_port(index).wid       := 0.U
+                        io.s_port(index).wdata     := 0.U
+                        io.s_port(index).wstrb     := 0.U
+                        io.s_port(index).wlast     := 0.U
+                        io.s_port(index).wvalid    := 0.U
+                        io.s_port(index).bready    := 0.U
+                }
+        }
+        // io.s_port(ind)
+        master_cross_bar.s_port.awready  := Mux1H(select_s_port_num_w,master_bundle_awready)
+        master_cross_bar.s_port.wready   := Mux1H(select_s_port_num_w,master_bundle_wready)
+        master_cross_bar.s_port.bid      := Mux1H(select_s_port_num_w,master_bundle_bid)
+        master_cross_bar.s_port.bresp    := Mux1H(select_s_port_num_w,master_bundle_bresp)
+        master_cross_bar.s_port.bvalid   := Mux1H(select_s_port_num_w,master_bundle_bvalid)
+
+
+        master_cross_bar.s_port.arready         := Mux1H(select_s_port_num_r,master_bundle_arready)  
+        master_cross_bar.s_port.rid             := Mux1H(select_s_port_num_r,master_bundle_rid)
+        master_cross_bar.s_port.rdata           := Mux1H(select_s_port_num_r,master_bundle_rdata)
+        master_cross_bar.s_port.rresp           := Mux1H(select_s_port_num_r,master_bundle_rresp)
+        master_cross_bar.s_port.rlast           := Mux1H(select_s_port_num_r,master_bundle_rlast) 
+        master_cross_bar.s_port.rvalid           := Mux1H(select_s_port_num_r,master_bundle_rvalid)
+
+
+        
+        
+
+        
+        
 
         
        
