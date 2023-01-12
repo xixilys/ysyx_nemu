@@ -546,4 +546,11 @@ def check_mapped(address : UInt) :Bool = {
         val pc_start = UInt(data_length.W)
         val pc_end   = UInt(data_length.W)
     }
+    def axi_size2truesize(value:UInt) : UInt = 
+        MuxLookup(value,0.U,Seq(
+            0.U  -> 1.U,//id_sb,
+            1.U  -> 2.U,//id_sh,
+            2.U  -> 4.U,//id_sw,
+            3.U  -> 8.U//id_sd
+        ))
 }

@@ -170,7 +170,7 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     val icache = icache_first//.port
     val dcache_first = Module(new data_cache).io  
     val dcache = dcache_first//.port
-    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,1,Array(),Array()))
+    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,2,Array(0,0X2000000),Array(0,0X200BFFF)))
     //length总共也就16，比较拉
 
     if(tlb_on) {
@@ -278,6 +278,12 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     // axi_mem_port(1) <> dcache.port
     _axi_cross_bar.io.m_port(0) <> icache.port
     _axi_cross_bar.io.m_port(1) <> dcache.port
+
+    //peripherals
+    val axi_clint = Module(new timer_periph(0X2000000.U(data_length.W))).io
+    _axi_cross_bar.io.s_port(1) <> axi_clint.axi_port
+
+    
 
     
 
