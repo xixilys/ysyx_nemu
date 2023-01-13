@@ -14,8 +14,7 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     val      csr_write_data = Input(UInt(data_length.W))
     val      csr_write_en = Input(UInt(1.W))
     
-    val      int_i = Input(UInt(6.W))
-    val      timer_int_has = Output(Bool())
+
     val      pc = Input(UInt(data_length.W))
     val      mem_bad_vaddr = Input(UInt(data_length.W))
     val      exception_type_i = Input(UInt(32.W))
@@ -26,8 +25,6 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     val      csr_read_data = Output(UInt(data_length.W))
     val      csr_random = Output(UInt(data_length.W))
 
-    val      csr_status = Output(UInt(7.W))
-    val      Int_able = Output(Bool())
     val      asid    =  Output(UInt(8.W))
 
     val      csr_tlb_read_data  = Flipped(new tlb_write_or_read_port)
@@ -35,6 +32,16 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     val      csr_tlb_write_en   = Input(Bool())
     val      csr_index_tlb_write_able = Input(Bool())
     val      icache_tags_flush = Output(Bool())
+
+    val      int_type = Input(new int_bundle)
+
+    
+
+    //useless line with outside int
+    // val      msip      = Input(Bool())
+    val      Int_able = Output(Bool())
+    val      int_type_able = Output(new int_bundle)
+
     })
     val ebase_reset_value = "b10_1011_1111_1100_0000_0000_0000_0000_00".U
     //"1.U(1.W),0.U(1.W),0xbfc0.U(16.W),0.U(4.W),0.U(10.W)
@@ -61,6 +68,8 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     val csr_ebase = RegInit(ebase_reset_value)
     val csr_config0 = RegInit("b1_000_0000_0000_0000_0_00_000_001_0000_010".U(data_length.W)) // 16, 0
     val csr_config1 = "b0_001111_00000_00000_00000_00000_00000".U(data_length.W)  // 16, 1
+    val csr_mie   = RegInit(0.U((data_length.W)))
+    val csr_mip   = RegInit(0.U((data_length.W)))
 
     val csr_counter_half = RegInit(0.U.asBool)
     val csr_counter_half_last = RegInit(0.U.asBool)
@@ -71,13 +80,11 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
 
     val pc_Reg = RegInit(0.U(data_length.W))
     pc_Reg := io.pc
-
-    io.Int_able := ! csr_status(1) && csr_status(0)
-    io.csr_status :=  csr_status(15,10)
     
-
-    val int_signal  =((csr_status(15,8) & csr_cause(15,8)) =/= 0.U) &&  ! csr_status(1) && csr_status(0) //感觉这个写法有问题，逻辑太长了.用来判断到底有没有中断
-    val exception_type   = Cat(io.exception_type_i(31,1),int_signal)//15-8分别是六根硬件中断线和两根软件中断线
+    // val 
+    //目前只有timer中断,后面慢慢加呗
+    val commit_int = (io.int_type.timer && csr_mie(MTIE)) && csr_status(MIE_NUM)
+    val exception_type   = Cat(io.exception_type_i(31,1),commit_int)//15-8分别是六根硬件中断线和两根软件中断线
 
     val exl_Reg     = Wire(UInt(1.W))//status 寄存器第1位 1表示例外级
     //不能是fence_i
@@ -87,8 +94,6 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     io.exception     :=  commit_exception || commit_eret.asBool // 有没异常或者是回调的东西
     exl_Reg := csr_status(1)
 
-    val commit_next_pc   = Mux(int_signal.asBool,Mux(io.in_branchjump_jr =/= 0.U,io.pc,io.pc+4.U),io.pc)  // 处于分支延迟槽，记录前一条分支指令，响应非精确例外，写入下一条指令
-    // val commit_epc   =  Mux(exception_type(EXCEP_AdELI) && exception_type(EXCEP_ERET),csr_epc,commit_next_pc)
 // 写法有待商榷
     val csr_read_data_Wire = Wire(UInt(data_length.W))
     val read_addr_sel     = Cat(io.csr_read_addr) 
@@ -102,8 +107,14 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
         (commit_fence_i)    -> (io.pc+4.U)
     ))
     io.icache_tags_flush := commit_fence_i
+//中断的cause值
+    val int_cause_code_ins = new int_cause_code
+    val int_code = Mux1H(Seq(
+        io.int_type.timer -> int_cause_code_ins.time_code
+    ))
     
-    cause_exccode := Mux1H(Seq(//exception_type(EXCEP_INT)-> EXCEP_CODE_INT, //中断
+    // val i
+    cause_exccode := Mux1H(Seq(exception_type(EXCEP_INT)->  Cat(1.U(1.W), int_code), //中断
         //(exception_type(EXCEP_AdELD) || exception_type(EXCEP_AdELI)) -> EXCEP_CODE_AdEL, //指令地址错误或者数据地址错误'
         // exception_type(EXCEP_AdES) -> EXCEP_CODE_AdES,
         exception_type(EXCEP_Sys) -> EXCEP_CODE_Sys
@@ -137,21 +148,29 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     csr_entryhi := Mux(io.csr_tlb_write_en,Cat(io.csr_tlb_write_data.vaddr,0.U(5.W),io.csr_tlb_write_data.asid),
                         Cat(Mux(io.csr_write_en.asBool && write_addr_sel === csr_ADDR_SEL_ENTRYHI,io.csr_write_data(31,13),csr_entryhi(31,13)),0.U(5.W),
                         Mux(io.csr_write_en.asBool && write_addr_sel === csr_ADDR_SEL_ENTRYHI,io.csr_write_data(7,0),csr_entryhi(7,0))))
-    csr_compare :=  Mux(io.csr_write_en.asBool && write_addr_sel === csr_ADDR_SEL_COMPARE,io.csr_write_data,csr_compare)        
+
 
     csr_ebase   :=  Cat(csr_ebase(31,30),Mux(io.csr_write_en.asBool && write_addr_sel === csr_ADDR_SEL_EBASE,io.csr_write_data(29,12),csr_ebase(29,12)),csr_ebase(11,0))
 
-    //Mux(io.csr_write_en.asBool && write_addr_sel === csr_ADDR_SEL_COMPARE,io.csr_write_data,csr_compare) 
-   val compare_write = io.csr_write_en.asBool && (write_addr_sel === csr_ADDR_SEL_COMPARE)
-   val timer_int   =  Mux(csr_compare =/= 0.U && csr_count === csr_compare &&(!compare_write)  ,1.U(1.W),Mux(compare_write,0.U(1.W),csr_cause(30))) //定时器中断,写了compare要将这一位清零  
-   io.timer_int_has := csr_compare =/= 0.U && csr_count === csr_compare//timer_int
-   val interrupt   =  io.int_i(5,0) //代表是哪一根中断线
 
+
+
+    io.Int_able := csr_status(MIE_POSITION)
+
+    val csr_status_to_vec = Wire(Vec(data_length,Bool()))
+    // val 
+    csr_status_to_vec.zipWithIndex.foreach{case(a,index) =>
+        if(index == MIE_POSITION) {
+            a := Mux(commit_int,0.U.asBool,csr_status(index))
+        }  else{
+            a := 0.U.asBool
+        }
+    }
     csr_epc  := MuxCase(csr_epc,Seq(
        commit_exception.asBool -> io.pc,
        (io.csr_write_en.asBool && write_addr_sel === MEPC_NUM ) -> io.csr_write_data
     ))
-    csr_status_to_be   := MuxCase(csr_status,Seq(
+    csr_status_to_be   := MuxCase(csr_status_to_vec.asUInt,Seq(
         (io.csr_write_en.asBool && io.csr_write_addr === MSTATUS_NUM) -> io.csr_write_data
     ))
     csr_mtvec  := MuxCase(csr_mtvec,Seq(
@@ -161,6 +180,20 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
         (io.csr_write_en.asBool && io.csr_write_addr === MCAUSE_NUM) -> io.csr_write_data,
         commit_exception.asBool -> cause_exccode))
     
+
+    csr_mie     := MuxCase(csr_mie,Seq(
+        (io.csr_write_en.asBool && io.csr_write_addr === MIE_NUM)  -> io.csr_write_data
+    ))
+
+    io.int_type_able.timer := csr_mie(MTIE)
+    val csr_mip_to_be = Wire(Vec(data_length,Bool()))
+    csr_mip_to_be.zipWithIndex.foreach{case(a,index) =>
+        if(index == MTIE) { a := io.int_type.timer}
+        else {a := 0.U.asBool } 
+    }
+    csr_mip     := MuxCase(csr_mip_to_be.asUInt,Seq(
+        (io.csr_write_en.asBool && io.csr_write_addr === MIP_NUM)  -> io.csr_write_data,
+    )) 
 
    csr_config0  := Cat(csr_config0(31,3),Mux((io.csr_write_en.asBool && write_addr_sel === csr_ADDR_SEL_CONFIG0),io.csr_write_data(2,0),csr_config0(2,0)))
 

@@ -423,6 +423,8 @@ val MEPC_NUM     = 0x341.U
 val MSTATUS_NUM  = 0x300.U
 val MCAUSE_NUM   = 0x342.U
 val MTVEC_NUM    = 0x305.U
+val MIE_NUM      = 0x304.U
+val MIP_NUM      = 0x344.U
 def sign_extend(value:UInt,length:Int,full_length:Int) = 
     Cat(Cat(Seq.fill(full_length-length)(value(length-1))),value(length-1,0))
 
@@ -444,9 +446,9 @@ def Hash(num:UInt) : UInt  = {
   for(i <- 0 to (length/4)-1) {
     num_array(i) :=  num(((i+1)*4 - 1),i*4).xorR
   }
-  num_array.asUInt
+  num_array.asUInt    
+} 
 
-}
 def  branch_prediction_state_machine_code_decoder(code:UInt) :Bool  = {
     MuxLookup(code,0.asUInt.asBool,Seq(
         Strongly_Taken -> 1.U.asBool,
@@ -553,4 +555,15 @@ def check_mapped(address : UInt) :Bool = {
             2.U  -> 4.U,//id_sw,
             3.U  -> 8.U//id_sd
         ))
+    class int_bundle extends Bundle {
+        val timer = Bool()
+    }
+
+    class int_cause_code  {
+        val time_code = 17.U((data_length - 1).W)
+    }
+    //status 
+    val MIE_POSITION = 3
+
+    val MTIE = 7
 }

@@ -108,7 +108,7 @@ class mycpu_top  extends RawModule with riscv_macros {
         //完全没用到chisel真正好的地方，我是废物呜呜呜呜
     val         aresetn  = IO(Input(Bool())).suggestName("aresetn")
     val         clk     = IO(Input(Bool())).suggestName("aclk")
-    val         ext_int = IO(Input(UInt(6.W)))// 外部中断\
+    // val         ext_int = IO(Input(UInt(6.W)))// 外部中断\
 
     val         axi_mem_port =  IO(new axi_ram_port)
         //IO(Vec(2,(new axi_ram_port)))
@@ -267,7 +267,7 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     debug_wb_rf_wnum        := u_riscv_cpu.debug_wb_rf_wnum
     u_riscv_cpu.clk          := clk
     u_riscv_cpu.resetn       := aresetn
-    u_riscv_cpu.ext_int      := ext_int
+
     u_riscv_cpu.stage2_stall      := icache_first.stage2_stall
 
 
@@ -283,6 +283,7 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     val axi_clint = Module(new timer_periph(0X2000000.U(data_length.W))).io
     _axi_cross_bar.io.s_port(1) <> axi_clint.axi_port
 
+    u_riscv_cpu.ext_int.timer := axi_clint.int_line
     
 
     

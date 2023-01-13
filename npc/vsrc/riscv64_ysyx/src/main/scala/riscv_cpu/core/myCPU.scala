@@ -32,7 +32,11 @@ class inst_port extends Bundle with riscv_macros{
 }
 class myCPU extends RawModule with riscv_macros {//
         //完全没用到chisel真正好的地方，我是废物呜呜呜呜    
-    val   ext_int = IO(Input(UInt(6.W)))
+    //ext int
+    val   ext_int = IO(Input(new int_bundle))
+    // val   int_timer = IO(Input(Bool()))
+
+
     val   resetn  = IO(Input(Bool())).suggestName("resetn")
     val   clk    = IO(Input(Bool())).suggestName("clk")
     
@@ -779,23 +783,24 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     _br.io.branch := pre_decoder_branchdata
 
    // val int_instanceD  = RegInit(0.U(6.W))
-    val int_instanceE  = RegInit(0.U(6.W))
-    val int_instanceM  = RegInit(0.U(6.W))    
-    val int_instanceM2 = RegInit(0.U(6.W))
-    val int_instanceW  = RegInit(0.U(6.W))
+    val int_instanceE  = RegInit(0.U.asTypeOf(new int_bundle))
+    val int_instanceM  = RegInit(0.U.asTypeOf(new int_bundle))    
+    val int_instanceM2 = RegInit(0.U.asTypeOf(new int_bundle))
+    val int_instanceW  = RegInit(0.U.asTypeOf(new int_bundle))
 
-    val int_with_timer_int = Cat(_csr.io.timer_int_has || ext_int(5),ext_int(4,0)) 
+    // val int_with_timer_int = Cat(_csr.io.timer_int_has || ext_int(5),ext_int(4,0)) 
 
-    int_instanceE := Mux(_cfu.io.FlushE.asBool,0.U,Mux(_cfu.io.StallE.asBool,int_with_timer_int,int_instanceE))
-    int_instanceM := Mux(_cfu.io.FlushM.asBool,0.U,Mux(_cfu.io.StallM.asBool,int_instanceE,int_instanceM))
-    int_instanceM2 := Mux(_cfu.io.FlushM2.asBool,0.U,Mux(_cfu.io.StallM2.asBool,int_instanceM,int_instanceM2))
-    int_instanceW := Mux(_cfu.io.FlushW.asBool,0.U,Mux(_cfu.io.StallW.asBool,int_instanceM2,int_instanceW))
+
+    int_instanceE := Mux(_cfu.io.FlushE.asBool,  0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallE.asBool,ext_int,int_instanceE))
+    int_instanceM := Mux(_cfu.io.FlushM.asBool,  0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallM.asBool,int_instanceE,int_instanceM))
+    int_instanceM2 := Mux(_cfu.io.FlushM2.asBool,0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallM2.asBool,int_instanceM,int_instanceM2))
+    int_instanceW := Mux(_cfu.io.FlushW.asBool,  0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallW.asBool,int_instanceM2,int_instanceW))
 
 
   
 
     
-    _id2ex.io.ExceptionTypeD  := Mux(((int_with_timer_int & _csr.io.csr_status) =/= 0.U) && _csr.io.Int_able.asBool,EXCEP_MASK_INT,Mux( ExceptionTypeD_Out === 0.U,(
+    _id2ex.io.ExceptionTypeD  := Mux((ext_int.timer & _csr.io.int_type_able.timer) && _csr.io.Int_able.asBool,EXCEP_MASK_INT,Mux( ExceptionTypeD_Out === 0.U,(
         (Mux(_cu.io1.BadInstrD.asBool,EXCEP_MASK_RI,0.U)) | 
         (Mux(_cu.io1.SysCallD.asBool,EXCEP_MASK_Sys,0.U)) |
         /*(Mux(_cu.io1.BreakD.asBool,EXCEP_MASK_Bp,0.U))    |*/
@@ -1202,7 +1207,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
 
     csr_asid := _csr.io.asid
 
-    _csr.io.int_i := int_instanceW
+    _csr.io.int_type := int_instanceW
     _csr.io.pc    := Mux(_mem22wb.io.PCW =/= 0.U,_mem22wb.io.PCW,PCW_Reg)//_mem22wb.io.PCW,方便调试罢了
     _csr.io.mem_bad_vaddr := _mem22wb.io.BadVAddrW
     _csr.io.csr_write_en  := csrWriteW.asBool || tlb_exception_co0_writeW

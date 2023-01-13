@@ -1,3 +1,5 @@
+/* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
 module alu(
   input  [23:0] io_ctrl,
   input  [63:0] io_in1,
@@ -250,15 +252,14 @@ module csr(
   input  [11:0] io_csr_write_addr,
   input  [63:0] io_csr_write_data,
   input         io_csr_write_en,
-  output        io_timer_int_has,
   input  [63:0] io_pc,
   input  [31:0] io_exception_type_i,
   output [63:0] io_return_pc,
   output        io_exception,
   output [63:0] io_csr_read_data,
-  output [6:0]  io_csr_status,
+  output        io_icache_tags_flush,
   output        io_Int_able,
-  output        io_icache_tags_flush
+  output        io_int_type_able_timer
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
@@ -266,65 +267,48 @@ module csr(
   reg [63:0] _RAND_2;
   reg [63:0] _RAND_3;
   reg [63:0] _RAND_4;
-  reg [63:0] _RAND_5;
-  reg [31:0] _RAND_6;
 `endif // RANDOMIZE_REG_INIT
-  reg [63:0] csr_count; // @[csr.scala 48:28]
-  reg [63:0] csr_compare; // @[csr.scala 50:30]
-  reg [63:0] csr_cause; // @[csr.scala 52:28]
-  reg [63:0] csr_status; // @[csr.scala 53:25]
-  wire  _csr_status_to_be_T_2 = io_csr_write_en & io_csr_write_addr == 12'h300; // @[csr.scala 155:33]
-  reg [63:0] csr_epc; // @[csr.scala 56:26]
-  reg [63:0] csr_mtvec; // @[csr.scala 57:28]
-  reg  csr_counter_half; // @[csr.scala 65:35]
-  wire  _io_Int_able_T_1 = ~csr_status[1]; // @[csr.scala 75:20]
-  wire [7:0] _int_signal_T_2 = csr_status[15:8] & csr_cause[15:8]; // @[csr.scala 79:41]
-  wire  int_signal = _int_signal_T_2 != 8'h0 & _io_Int_able_T_1 & csr_status[0]; // @[csr.scala 79:89]
-  wire [31:0] exception_type = {io_exception_type_i[31:1],int_signal}; // @[Cat.scala 31:58]
-  wire [31:0] _commit_exception_T_2 = {{24'd0}, exception_type[31:24]}; // @[csr.scala 84:76]
-  wire  commit_exception = exception_type[30:0] != 31'h0 & ~_commit_exception_T_2[0]; // @[csr.scala 84:58]
-  wire [31:0] _commit_eret_T_1 = {{20'd0}, exception_type[31:20]}; // @[csr.scala 85:65]
-  wire  commit_eret = exception_type[31] & ~_commit_eret_T_1[0]; // @[csr.scala 85:47]
-  wire [63:0] _commit_next_pc_T_3 = io_pc + 64'h4; // @[csr.scala 90:93]
+  reg [63:0] csr_cause; // @[csr.scala 59:28]
+  reg [63:0] csr_status; // @[csr.scala 60:25]
+  wire  _csr_status_to_be_T_3 = io_csr_write_en & io_csr_write_addr == 12'h300; // @[csr.scala 174:33]
+  reg [63:0] csr_mie; // @[csr.scala 71:28]
+  wire  csr_status_to_vec_3 = csr_status[3]; // @[csr.scala 164:54]
+  wire [63:0] _csr_status_to_be_T = {32'h0,16'h0,8'h0,4'h0,csr_status_to_vec_3,1'h0,2'h0}; // @[csr.scala 173:53]
+  reg [63:0] csr_epc; // @[csr.scala 63:26]
+  reg [63:0] csr_mtvec; // @[csr.scala 64:28]
+  wire [31:0] exception_type = {io_exception_type_i[31:1],1'h0}; // @[Cat.scala 31:58]
+  wire [31:0] _commit_exception_T_2 = {{24'd0}, exception_type[31:24]}; // @[csr.scala 91:76]
+  wire  commit_exception = exception_type[30:0] != 31'h0 & ~_commit_exception_T_2[0]; // @[csr.scala 91:58]
+  wire [31:0] _commit_eret_T_1 = {{20'd0}, exception_type[31:20]}; // @[csr.scala 92:65]
+  wire  commit_eret = exception_type[31] & ~_commit_eret_T_1[0]; // @[csr.scala 92:47]
   wire [63:0] _csr_read_data_Wire_T_1 = 12'h341 == io_csr_read_addr ? csr_epc : 64'h0; // @[Mux.scala 81:58]
   wire [63:0] _csr_read_data_Wire_T_3 = 12'h342 == io_csr_read_addr ? csr_cause : _csr_read_data_Wire_T_1; // @[Mux.scala 81:58]
   wire [63:0] _csr_read_data_Wire_T_5 = 12'h305 == io_csr_read_addr ? csr_mtvec : _csr_read_data_Wire_T_3; // @[Mux.scala 81:58]
   wire [63:0] csr_read_data_Wire = 12'h300 == io_csr_read_addr ? csr_status : _csr_read_data_Wire_T_5; // @[Mux.scala 81:58]
-  wire [63:0] _io_return_pc_T_3 = _commit_exception_T_2[0] ? _commit_next_pc_T_3 : csr_mtvec; // @[Mux.scala 101:16]
-  wire [63:0] _csr_count_T_4 = csr_count + 64'h1; // @[csr.scala 136:147]
-  wire  _timer_int_T = csr_compare != 64'h0; // @[csr.scala 146:39]
-  wire  _timer_int_T_1 = csr_count == csr_compare; // @[csr.scala 146:60]
-  wire  _csr_epc_T_3 = io_csr_write_en & io_csr_write_addr == 12'h341; // @[csr.scala 152:32]
-  wire  _csr_mtvec_T_2 = io_csr_write_en & io_csr_write_addr == 12'h305; // @[csr.scala 158:33]
-  wire  _csr_cause_T_2 = io_csr_write_en & io_csr_write_addr == 12'h342; // @[csr.scala 161:33]
-  assign io_timer_int_has = _timer_int_T & _timer_int_T_1; // @[csr.scala 147:44]
+  wire [63:0] _io_return_pc_T_2 = io_pc + 64'h4; // @[csr.scala 107:38]
+  wire [63:0] _io_return_pc_T_3 = _commit_exception_T_2[0] ? _io_return_pc_T_2 : csr_mtvec; // @[Mux.scala 101:16]
+  wire [31:0] _cause_exccode_T_3 = {{8'd0}, exception_type[31:8]}; // @[csr.scala 120:23]
+  wire [63:0] _cause_exccode_T_5 = exception_type[0] ? 64'h8000000000000011 : 64'h0; // @[Mux.scala 27:73]
+  wire [3:0] _cause_exccode_T_6 = _cause_exccode_T_3[0] ? 4'hb : 4'h0; // @[Mux.scala 27:73]
+  wire [63:0] _GEN_4 = {{60'd0}, _cause_exccode_T_6}; // @[Mux.scala 27:73]
+  wire [63:0] cause_exccode = _cause_exccode_T_5 | _GEN_4; // @[Mux.scala 27:73]
+  wire  _csr_epc_T_3 = io_csr_write_en & io_csr_write_addr == 12'h341; // @[csr.scala 171:32]
+  wire  _csr_mtvec_T_2 = io_csr_write_en & io_csr_write_addr == 12'h305; // @[csr.scala 177:33]
+  wire  _csr_cause_T_2 = io_csr_write_en & io_csr_write_addr == 12'h342; // @[csr.scala 180:33]
+  wire  _csr_mie_T_2 = io_csr_write_en & io_csr_write_addr == 12'h304; // @[csr.scala 185:33]
   assign io_return_pc = commit_eret ? csr_epc : _io_return_pc_T_3; // @[Mux.scala 101:16]
-  assign io_exception = commit_exception | commit_eret; // @[csr.scala 87:43]
-  assign io_csr_read_data = reset ? 64'h0 : csr_read_data_Wire; // @[csr.scala 96:29]
-  assign io_csr_status = {{1'd0}, csr_status[15:10]}; // @[csr.scala 76:19]
-  assign io_Int_able = ~csr_status[1] & csr_status[0]; // @[csr.scala 75:36]
-  assign io_icache_tags_flush = _commit_exception_T_2[0]; // @[csr.scala 86:40]
+  assign io_exception = commit_exception | commit_eret; // @[csr.scala 94:43]
+  assign io_csr_read_data = reset ? 64'h0 : csr_read_data_Wire; // @[csr.scala 101:29]
+  assign io_icache_tags_flush = _commit_exception_T_2[0]; // @[csr.scala 93:40]
+  assign io_Int_able = csr_status[3]; // @[csr.scala 158:30]
+  assign io_int_type_able_timer = csr_mie[7]; // @[csr.scala 188:38]
   always @(posedge clock) begin
-    if (reset) begin // @[csr.scala 55:22]
+    if (reset) begin // @[csr.scala 62:22]
       csr_status <= 64'ha00001800;
-    end else if (_csr_status_to_be_T_2) begin // @[Mux.scala 101:16]
+    end else if (_csr_status_to_be_T_3) begin // @[Mux.scala 101:16]
       csr_status <= io_csr_write_data;
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[csr.scala 136:30]
-      csr_count <= 64'h0;
-    end else if (io_csr_write_en & io_csr_write_addr == 12'h12) begin // @[csr.scala 136:117]
-      csr_count <= io_csr_write_data;
-    end else if (csr_counter_half) begin
-      csr_count <= _csr_count_T_4;
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[csr.scala 140:24]
-      csr_compare <= 64'h0;
-    end else if (io_csr_write_en & io_csr_write_addr == 12'h16) begin
-      csr_compare <= io_csr_write_data;
+    end else begin
+      csr_status <= _csr_status_to_be_T;
     end
   end
   always @(posedge clock or posedge reset) begin
@@ -333,7 +317,14 @@ module csr(
     end else if (_csr_cause_T_2) begin // @[Mux.scala 101:16]
       csr_cause <= io_csr_write_data;
     end else if (commit_exception) begin
-      csr_cause <= 64'hb;
+      csr_cause <= cause_exccode;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[Mux.scala 101:16]
+      csr_mie <= 64'h0;
+    end else if (_csr_mie_T_2) begin
+      csr_mie <= io_csr_write_data;
     end
   end
   always @(posedge clock or posedge reset) begin
@@ -350,13 +341,6 @@ module csr(
       csr_mtvec <= 64'h0;
     end else if (_csr_mtvec_T_2) begin
       csr_mtvec <= io_csr_write_data;
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[csr.scala 67:28]
-      csr_counter_half <= 1'h0;
-    end else if (clock) begin
-      csr_counter_half <= ~csr_counter_half;
     end
   end
 // Register and memory initialization
@@ -396,37 +380,27 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {2{`RANDOM}};
-  csr_count = _RAND_0[63:0];
+  csr_cause = _RAND_0[63:0];
   _RAND_1 = {2{`RANDOM}};
-  csr_compare = _RAND_1[63:0];
+  csr_status = _RAND_1[63:0];
   _RAND_2 = {2{`RANDOM}};
-  csr_cause = _RAND_2[63:0];
+  csr_mie = _RAND_2[63:0];
   _RAND_3 = {2{`RANDOM}};
-  csr_status = _RAND_3[63:0];
+  csr_epc = _RAND_3[63:0];
   _RAND_4 = {2{`RANDOM}};
-  csr_epc = _RAND_4[63:0];
-  _RAND_5 = {2{`RANDOM}};
-  csr_mtvec = _RAND_5[63:0];
-  _RAND_6 = {1{`RANDOM}};
-  csr_counter_half = _RAND_6[0:0];
+  csr_mtvec = _RAND_4[63:0];
 `endif // RANDOMIZE_REG_INIT
   if (reset) begin
-    csr_count = 64'h0;
-  end
-  if (reset) begin
-    csr_compare = 64'h0;
-  end
-  if (reset) begin
     csr_cause = 64'h400000;
+  end
+  if (reset) begin
+    csr_mie = 64'h0;
   end
   if (reset) begin
     csr_epc = 64'h0;
   end
   if (reset) begin
     csr_mtvec = 64'h0;
-  end
-  if (reset) begin
-    csr_counter_half = 1'h0;
   end
   `endif // RANDOMIZE
 end // initial
@@ -935,7 +909,7 @@ module dmemreq(
   wire [7:0] _io_wstrb_T_27 = 3'h0 == ra ? 8'hff : 8'h0; // @[Mux.scala 81:58]
   wire [7:0] _io_wstrb_T_29 = 2'h1 == io_MemWidthE ? _io_wstrb_T_21 : _io_wstrb_T_13; // @[Mux.scala 81:58]
   wire [7:0] _io_wstrb_T_31 = 2'h2 == io_MemWidthE ? _io_wstrb_T_25 : _io_wstrb_T_29; // @[Mux.scala 81:58]
-  wire  _io_wdata_T_1 = io_VAddrE[31:29] == 3'h4; // @[macros.scala 477:55]
+  wire  _io_wdata_T_1 = io_VAddrE[31:29] == 3'h4; // @[macros.scala 479:55]
   wire [8:0] _io_wdata_T_5 = {1'h0,io_WriteDataE[7:0]}; // @[Cat.scala 31:58]
   wire [16:0] _io_wdata_T_9 = {1'h0,io_WriteDataE[7:0],8'h0}; // @[Cat.scala 31:58]
   wire [24:0] _io_wdata_T_13 = {1'h0,io_WriteDataE[7:0],16'h0}; // @[Cat.scala 31:58]
@@ -2671,7 +2645,7 @@ module addr_cal(
   output        io_d_cached
 );
   assign io_d_paddr = io_d_vaddr; // @[addr_cal.scala 24:16]
-  assign io_d_cached = io_d_vaddr[31:29] == 3'h4; // @[macros.scala 477:55]
+  assign io_d_cached = io_d_vaddr[31:29] == 3'h4; // @[macros.scala 479:55]
 endmodule
 module mul_simple(
   input         clock,
@@ -3470,7 +3444,7 @@ module muldiv(
   wire [31:0] _access_mul_result_T_42 = {mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],
     mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],
     mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],access_mul_result_lo_lo,access_mul_result_lo}; // @[Cat.scala 31:58]
-  wire [31:0] _access_mul_result_T_43 = mul_simple_1_io_result_0; // @[macros.scala 430:65]
+  wire [31:0] _access_mul_result_T_43 = mul_simple_1_io_result_0; // @[macros.scala 432:65]
   wire [63:0] _access_mul_result_T_44 = {_access_mul_result_T_42,_access_mul_result_T_43}; // @[Cat.scala 31:58]
   wire [63:0] _access_mul_result_T_45 = _access_mul_result_T[0] ? mul_simple_io_result_0 : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _access_mul_result_T_46 = _access_mul_result_T_2[0] ? mul_simple_io_result_1 : 64'h0; // @[Mux.scala 27:73]
@@ -3496,7 +3470,7 @@ module muldiv(
   wire [31:0] _access_div_result_T_42 = {div_simple_1_io_result_0[31],div_simple_1_io_result_0[31],
     div_simple_1_io_result_0[31],div_simple_1_io_result_0[31],div_simple_1_io_result_0[31],div_simple_1_io_result_0[31],
     div_simple_1_io_result_0[31],div_simple_1_io_result_0[31],access_div_result_lo_lo,access_div_result_lo}; // @[Cat.scala 31:58]
-  wire [31:0] _access_div_result_T_43 = div_simple_1_io_result_0; // @[macros.scala 430:65]
+  wire [31:0] _access_div_result_T_43 = div_simple_1_io_result_0; // @[macros.scala 432:65]
   wire [63:0] _access_div_result_T_44 = {_access_div_result_T_42,_access_div_result_T_43}; // @[Cat.scala 31:58]
   wire [23:0] _access_div_result_T_45 = {{5'd0}, ctrl_data[23:5]}; // @[muldiv.scala 381:30]
   wire [23:0] _access_div_result_T_82 = {{6'd0}, ctrl_data[23:6]}; // @[muldiv.scala 382:30]
@@ -3509,7 +3483,7 @@ module muldiv(
   wire [31:0] _access_div_result_T_116 = {div_simple_1_io_result_1[31],div_simple_1_io_result_1[31],
     div_simple_1_io_result_1[31],div_simple_1_io_result_1[31],div_simple_1_io_result_1[31],div_simple_1_io_result_1[31],
     div_simple_1_io_result_1[31],div_simple_1_io_result_1[31],access_div_result_lo_lo_2,access_div_result_lo_2}; // @[Cat.scala 31:58]
-  wire [31:0] _access_div_result_T_117 = div_simple_1_io_result_1; // @[macros.scala 430:65]
+  wire [31:0] _access_div_result_T_117 = div_simple_1_io_result_1; // @[macros.scala 432:65]
   wire [63:0] _access_div_result_T_118 = {_access_div_result_T_116,_access_div_result_T_117}; // @[Cat.scala 31:58]
   wire [23:0] _access_div_result_T_119 = {{7'd0}, ctrl_data[23:7]}; // @[muldiv.scala 383:30]
   wire [63:0] _access_div_result_T_156 = _access_div_result_T[0] ? div_simple_io_result_0 : 64'h0; // @[Mux.scala 27:73]
@@ -10598,14 +10572,14 @@ module pc_detail(
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
 `endif // RANDOMIZE_REG_INIT
-  reg [63:0] pc_value; // @[myCPU.scala 321:25]
-  assign io_out_pc_value_out = pc_value; // @[myCPU.scala 324:25]
+  reg [63:0] pc_value; // @[myCPU.scala 325:25]
+  assign io_out_pc_value_out = pc_value; // @[myCPU.scala 328:25]
   always @(posedge clock) begin
-    if (reset) begin // @[myCPU.scala 323:20]
+    if (reset) begin // @[myCPU.scala 327:20]
       pc_value <= 64'h7ffffffc;
-    end else if (io_flush) begin // @[myCPU.scala 323:60]
+    end else if (io_flush) begin // @[myCPU.scala 327:60]
       pc_value <= 64'h0;
-    end else if (io_stall) begin // @[myCPU.scala 323:77]
+    end else if (io_stall) begin // @[myCPU.scala 327:77]
       pc_value <= io_in_pc_value_in;
     end
   end
@@ -39234,11 +39208,11 @@ module branch_prediction_with_blockram(
   wire  BTB_banks_oneissue_with_block_ram_io_write; // @[branch_prediction.scala 202:27]
   wire [63:0] BTB_banks_oneissue_with_block_ram_io_out_L; // @[branch_prediction.scala 202:27]
   wire  BTB_banks_oneissue_with_block_ram_io_hit_L; // @[branch_prediction.scala 202:27]
-  wire  pc_hash_num_array_0 = ^io_pc[7:4]; // @[macros.scala 445:45]
-  wire  pc_hash_num_array_1 = ^io_pc[11:8]; // @[macros.scala 445:45]
-  wire  pc_hash_num_array_2 = ^io_pc[15:12]; // @[macros.scala 445:45]
-  wire  pc_hash_num_array_3 = ^io_pc[19:16]; // @[macros.scala 445:45]
-  wire [3:0] pc_hash = {pc_hash_num_array_3,pc_hash_num_array_2,pc_hash_num_array_1,pc_hash_num_array_0}; // @[macros.scala 447:13]
+  wire  pc_hash_num_array_0 = ^io_pc[7:4]; // @[macros.scala 447:45]
+  wire  pc_hash_num_array_1 = ^io_pc[11:8]; // @[macros.scala 447:45]
+  wire  pc_hash_num_array_2 = ^io_pc[15:12]; // @[macros.scala 447:45]
+  wire  pc_hash_num_array_3 = ^io_pc[19:16]; // @[macros.scala 447:45]
+  wire [3:0] pc_hash = {pc_hash_num_array_3,pc_hash_num_array_2,pc_hash_num_array_1,pc_hash_num_array_0}; // @[macros.scala 449:13]
   reg [6:0] stage_2_pht_lookup_0; // @[branch_prediction.scala 204:37]
   wire [6:0] stage_1_pht_lookup_0 = {BHT_banks_oneissue_io_out_L,io_pc[14:11]}; // @[Cat.scala 31:58]
   wire  _io_pre_L_T_1 = 2'h0 == io_out_L ? 1'h0 : 1'h1; // @[Mux.scala 81:58]
@@ -39391,67 +39365,67 @@ module bru_detail(
   reg [31:0] _RAND_4;
   reg [31:0] _RAND_5;
 `endif // RANDOMIZE_REG_INIT
-  reg [1:0] pht_value; // @[myCPU.scala 656:34]
-  reg [6:0] bht_value; // @[myCPU.scala 657:34]
-  reg [3:0] hashcode_value; // @[myCPU.scala 658:39]
-  reg [63:0] target_pc_value; // @[myCPU.scala 659:40]
-  reg [6:0] lookup_data_value; // @[myCPU.scala 660:42]
-  reg [7:0] pht_lookup_value_data; // @[myCPU.scala 661:46]
-  assign io_out_pht = pht_value; // @[myCPU.scala 670:20]
-  assign io_out_bht = bht_value; // @[myCPU.scala 671:20]
-  assign io_out_hashcode = hashcode_value; // @[myCPU.scala 672:25]
-  assign io_out_target_pc = target_pc_value; // @[myCPU.scala 673:26]
-  assign io_out_lookup_data = lookup_data_value; // @[myCPU.scala 674:28]
-  assign io_out_pht_lookup_value = pht_lookup_value_data; // @[myCPU.scala 675:33]
+  reg [1:0] pht_value; // @[myCPU.scala 660:34]
+  reg [6:0] bht_value; // @[myCPU.scala 661:34]
+  reg [3:0] hashcode_value; // @[myCPU.scala 662:39]
+  reg [63:0] target_pc_value; // @[myCPU.scala 663:40]
+  reg [6:0] lookup_data_value; // @[myCPU.scala 664:42]
+  reg [7:0] pht_lookup_value_data; // @[myCPU.scala 665:46]
+  assign io_out_pht = pht_value; // @[myCPU.scala 674:20]
+  assign io_out_bht = bht_value; // @[myCPU.scala 675:20]
+  assign io_out_hashcode = hashcode_value; // @[myCPU.scala 676:25]
+  assign io_out_target_pc = target_pc_value; // @[myCPU.scala 677:26]
+  assign io_out_lookup_data = lookup_data_value; // @[myCPU.scala 678:28]
+  assign io_out_pht_lookup_value = pht_lookup_value_data; // @[myCPU.scala 679:33]
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 662:25]
+    if (reset) begin // @[myCPU.scala 666:25]
       pht_value <= 2'h0;
-    end else if (io_flush) begin // @[myCPU.scala 662:42]
+    end else if (io_flush) begin // @[myCPU.scala 666:42]
       pht_value <= 2'h0;
     end else if (io_stall) begin
       pht_value <= io_in_pht;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 663:25]
+    if (reset) begin // @[myCPU.scala 667:25]
       bht_value <= 7'h0;
-    end else if (io_flush) begin // @[myCPU.scala 663:42]
+    end else if (io_flush) begin // @[myCPU.scala 667:42]
       bht_value <= 7'h0;
     end else if (io_stall) begin
       bht_value <= io_in_bht;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 664:30]
+    if (reset) begin // @[myCPU.scala 668:30]
       hashcode_value <= 4'h0;
-    end else if (io_flush) begin // @[myCPU.scala 664:47]
+    end else if (io_flush) begin // @[myCPU.scala 668:47]
       hashcode_value <= 4'h0;
     end else if (io_stall) begin
       hashcode_value <= io_in_hashcode;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 665:31]
+    if (reset) begin // @[myCPU.scala 669:31]
       target_pc_value <= 64'h0;
-    end else if (io_flush) begin // @[myCPU.scala 665:48]
+    end else if (io_flush) begin // @[myCPU.scala 669:48]
       target_pc_value <= 64'h0;
     end else if (io_stall) begin
       target_pc_value <= io_in_target_pc;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 666:33]
+    if (reset) begin // @[myCPU.scala 670:33]
       lookup_data_value <= 7'h0;
-    end else if (io_flush) begin // @[myCPU.scala 666:50]
+    end else if (io_flush) begin // @[myCPU.scala 670:50]
       lookup_data_value <= 7'h0;
     end else if (io_stall) begin
       lookup_data_value <= io_in_lookup_data;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[myCPU.scala 667:37]
+    if (reset) begin // @[myCPU.scala 671:37]
       pht_lookup_value_data <= 8'h0;
-    end else if (io_flush) begin // @[myCPU.scala 667:54]
+    end else if (io_flush) begin // @[myCPU.scala 671:54]
       pht_lookup_value_data <= 8'h0;
     end else if (io_stall) begin
       pht_lookup_value_data <= io_in_pht_lookup_value;
@@ -39532,7 +39506,7 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module myCPU(
-  input  [5:0]  ext_int,
+  input         ext_int_timer,
   input         resetn,
   input         clk,
   output        inst_cache,
@@ -39596,566 +39570,565 @@ module myCPU(
   reg [31:0] _RAND_31;
   reg [63:0] _RAND_32;
 `endif // RANDOMIZE_REG_INIT
-  wire [23:0] _alu_io_ctrl; // @[myCPU.scala 116:22]
-  wire [63:0] _alu_io_in1; // @[myCPU.scala 116:22]
-  wire [63:0] _alu_io_in2; // @[myCPU.scala 116:22]
-  wire [63:0] _alu_io_result; // @[myCPU.scala 116:22]
-  wire  _alu_io_overflow; // @[myCPU.scala 116:22]
-  wire  _alu_io_data_w; // @[myCPU.scala 116:22]
-  wire  _br_reset; // @[myCPU.scala 117:22]
-  wire [63:0] _br_io_r1; // @[myCPU.scala 117:22]
-  wire [63:0] _br_io_r2; // @[myCPU.scala 117:22]
-  wire [5:0] _br_io_branch; // @[myCPU.scala 117:22]
-  wire  _br_io_exe; // @[myCPU.scala 117:22]
-  wire  _cfu_reset; // @[myCPU.scala 118:22]
-  wire  _cfu_io_Inst_Fifo_Empty; // @[myCPU.scala 118:22]
-  wire  _cfu_io_dmem_calD; // @[myCPU.scala 118:22]
-  wire  _cfu_io_BranchD_Flag; // @[myCPU.scala 118:22]
-  wire  _cfu_io_JRD; // @[myCPU.scala 118:22]
-  wire  _cfu_io_CanBranchD; // @[myCPU.scala 118:22]
-  wire  _cfu_io_DivPendingE; // @[myCPU.scala 118:22]
-  wire  _cfu_io_DataPendingM; // @[myCPU.scala 118:22]
-  wire  _cfu_io_InException; // @[myCPU.scala 118:22]
-  wire [4:0] _cfu_io_WriteRegE; // @[myCPU.scala 118:22]
-  wire  _cfu_io_RegWriteE; // @[myCPU.scala 118:22]
-  wire  _cfu_io_csrToRegE; // @[myCPU.scala 118:22]
-  wire [4:0] _cfu_io_WriteRegM; // @[myCPU.scala 118:22]
-  wire  _cfu_io_MemToRegM; // @[myCPU.scala 118:22]
-  wire  _cfu_io_RegWriteM; // @[myCPU.scala 118:22]
-  wire  _cfu_io_csrWriteM; // @[myCPU.scala 118:22]
-  wire [4:0] _cfu_io_WriteRegM2; // @[myCPU.scala 118:22]
-  wire  _cfu_io_MemToRegM2; // @[myCPU.scala 118:22]
-  wire  _cfu_io_RegWriteM2; // @[myCPU.scala 118:22]
-  wire  _cfu_io_csrWriteM2; // @[myCPU.scala 118:22]
-  wire [4:0] _cfu_io_WriteRegW; // @[myCPU.scala 118:22]
-  wire  _cfu_io_RegWriteW; // @[myCPU.scala 118:22]
-  wire [11:0] _cfu_io_ReadcsrAddrE; // @[myCPU.scala 118:22]
-  wire [11:0] _cfu_io_WritecsrAddrM; // @[myCPU.scala 118:22]
-  wire [11:0] _cfu_io_WritecsrAddrM2; // @[myCPU.scala 118:22]
-  wire [4:0] _cfu_io_R2D; // @[myCPU.scala 118:22]
-  wire [4:0] _cfu_io_R1D; // @[myCPU.scala 118:22]
-  wire [4:0] _cfu_io_R2E; // @[myCPU.scala 118:22]
-  wire [4:0] _cfu_io_R1E; // @[myCPU.scala 118:22]
-  wire  _cfu_io_StallF; // @[myCPU.scala 118:22]
-  wire  _cfu_io_StallD; // @[myCPU.scala 118:22]
-  wire  _cfu_io_StallE; // @[myCPU.scala 118:22]
-  wire  _cfu_io_StallM; // @[myCPU.scala 118:22]
-  wire  _cfu_io_StallM2; // @[myCPU.scala 118:22]
-  wire  _cfu_io_StallW; // @[myCPU.scala 118:22]
-  wire  _cfu_io_FlushD; // @[myCPU.scala 118:22]
-  wire  _cfu_io_FlushE; // @[myCPU.scala 118:22]
-  wire  _cfu_io_FlushM; // @[myCPU.scala 118:22]
-  wire  _cfu_io_FlushM2; // @[myCPU.scala 118:22]
-  wire  _cfu_io_FlushW; // @[myCPU.scala 118:22]
-  wire [1:0] _cfu_io_Forward1E; // @[myCPU.scala 118:22]
-  wire [1:0] _cfu_io_Forward2E; // @[myCPU.scala 118:22]
-  wire [1:0] _cfu_io_Forward1D; // @[myCPU.scala 118:22]
-  wire [1:0] _cfu_io_Forward2D; // @[myCPU.scala 118:22]
-  wire [1:0] _cfu_io_ForwardcsrE; // @[myCPU.scala 118:22]
-  wire  _csr_clock; // @[myCPU.scala 119:22]
-  wire  _csr_reset; // @[myCPU.scala 119:22]
-  wire [11:0] _csr_io_csr_read_addr; // @[myCPU.scala 119:22]
-  wire [11:0] _csr_io_csr_write_addr; // @[myCPU.scala 119:22]
-  wire [63:0] _csr_io_csr_write_data; // @[myCPU.scala 119:22]
-  wire  _csr_io_csr_write_en; // @[myCPU.scala 119:22]
-  wire  _csr_io_timer_int_has; // @[myCPU.scala 119:22]
-  wire [63:0] _csr_io_pc; // @[myCPU.scala 119:22]
-  wire [31:0] _csr_io_exception_type_i; // @[myCPU.scala 119:22]
-  wire [63:0] _csr_io_return_pc; // @[myCPU.scala 119:22]
-  wire  _csr_io_exception; // @[myCPU.scala 119:22]
-  wire [63:0] _csr_io_csr_read_data; // @[myCPU.scala 119:22]
-  wire [6:0] _csr_io_csr_status; // @[myCPU.scala 119:22]
-  wire  _csr_io_Int_able; // @[myCPU.scala 119:22]
-  wire  _csr_io_icache_tags_flush; // @[myCPU.scala 119:22]
-  wire [31:0] _cu_io1_InstrD; // @[myCPU.scala 120:22]
-  wire  _cu_io1_BadInstrD; // @[myCPU.scala 120:22]
-  wire  _cu_io1_SysCallD; // @[myCPU.scala 120:22]
-  wire  _cu_io1_EretD; // @[myCPU.scala 120:22]
-  wire  _cu_io1_dmem_addr_cal; // @[myCPU.scala 120:22]
-  wire  _cu_io_RegWriteD; // @[myCPU.scala 120:22]
-  wire  _cu_io_MemToRegD; // @[myCPU.scala 120:22]
-  wire  _cu_io_MemWriteD; // @[myCPU.scala 120:22]
-  wire [23:0] _cu_io_ALUCtrlD; // @[myCPU.scala 120:22]
-  wire [1:0] _cu_io_ALUSrcD_0; // @[myCPU.scala 120:22]
-  wire [1:0] _cu_io_ALUSrcD_1; // @[myCPU.scala 120:22]
-  wire [4:0] _cu_io_RegDstD; // @[myCPU.scala 120:22]
-  wire  _cu_io_LinkD; // @[myCPU.scala 120:22]
-  wire  _cu_io_csrWriteD; // @[myCPU.scala 120:22]
-  wire  _cu_io_csrToRegD; // @[myCPU.scala 120:22]
-  wire  _cu_io_LoadUnsignedD; // @[myCPU.scala 120:22]
-  wire [1:0] _cu_io_MemWidthD; // @[myCPU.scala 120:22]
-  wire [63:0] _cu_io_ImmD; // @[myCPU.scala 120:22]
-  wire  _cu_io_ebreakD; // @[myCPU.scala 120:22]
-  wire  _cu_io_data_wD; // @[myCPU.scala 120:22]
-  wire [23:0] _cu_io_muldiv_control; // @[myCPU.scala 120:22]
-  wire  _cu_io_muldiv_cal; // @[myCPU.scala 120:22]
-  wire  _cu_io_alu_cal; // @[myCPU.scala 120:22]
-  wire [5:0] _cu_io_csr_control; // @[myCPU.scala 120:22]
-  wire  _cu_io_csr_Imm; // @[myCPU.scala 120:22]
-  wire  _cu_io_fence_i_control; // @[myCPU.scala 120:22]
-  wire  _dmem_io_data_ok; // @[myCPU.scala 121:23]
-  wire [63:0] _dmem_io_rdata; // @[myCPU.scala 121:23]
-  wire [63:0] _dmem_io_Physisc_Address; // @[myCPU.scala 121:23]
-  wire [1:0] _dmem_io_WIDTH; // @[myCPU.scala 121:23]
-  wire  _dmem_io_SIGN; // @[myCPU.scala 121:23]
-  wire [63:0] _dmem_io_RD; // @[myCPU.scala 121:23]
-  wire  _dmem_io_data_pending; // @[myCPU.scala 121:23]
-  wire  _dmemreq_io_en; // @[myCPU.scala 122:26]
-  wire  _dmemreq_io_MemWriteE; // @[myCPU.scala 122:26]
-  wire  _dmemreq_io_MemToRegE; // @[myCPU.scala 122:26]
-  wire [1:0] _dmemreq_io_MemWidthE; // @[myCPU.scala 122:26]
-  wire [63:0] _dmemreq_io_VAddrE; // @[myCPU.scala 122:26]
-  wire [63:0] _dmemreq_io_WriteDataE; // @[myCPU.scala 122:26]
-  wire  _dmemreq_io_req; // @[myCPU.scala 122:26]
-  wire  _dmemreq_io_wr; // @[myCPU.scala 122:26]
-  wire [1:0] _dmemreq_io_size; // @[myCPU.scala 122:26]
-  wire [63:0] _dmemreq_io_addr; // @[myCPU.scala 122:26]
-  wire [63:0] _dmemreq_io_wdata; // @[myCPU.scala 122:26]
-  wire [7:0] _dmemreq_io_wstrb; // @[myCPU.scala 122:26]
-  wire  _ex2mem_clock; // @[myCPU.scala 123:26]
-  wire  _ex2mem_reset; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io1_RegWriteE; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io1_MemToRegE; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io1_LoadUnsignedE; // @[myCPU.scala 123:26]
-  wire [1:0] _ex2mem_io1_MemWidthE; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io1_csrWriteE; // @[myCPU.scala 123:26]
-  wire [11:0] _ex2mem_io1_WritecsrAddrE; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io1_PCE; // @[myCPU.scala 123:26]
-  wire [1:0] _ex2mem_io1_MemRLE; // @[myCPU.scala 123:26]
-  wire [1:0] _ex2mem_io1_BranchJump_JrE; // @[myCPU.scala 123:26]
-  wire [2:0] _ex2mem_io1_Tlb_Control; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io1_eBreakE; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io1_fence_i_control; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io_en; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io_clr; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_WriteDataE; // @[myCPU.scala 123:26]
-  wire [4:0] _ex2mem_io_WriteRegE; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_PhyAddrE; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_CsrWritedataE; // @[myCPU.scala 123:26]
-  wire [31:0] _ex2mem_io_ExceptionTypeE; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_RtE; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_Pc_NextE; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleE_pc; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleE_data; // @[myCPU.scala 123:26]
-  wire [1:0] _ex2mem_io_mem_trace_budleE_mem_fetch_type; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleE_addr; // @[myCPU.scala 123:26]
-  wire [2:0] _ex2mem_io_mem_trace_budleE_len; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io_mem_trace_budleE_cache; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io_RegWriteM; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io_MemToRegM; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_WriteDataM; // @[myCPU.scala 123:26]
-  wire [4:0] _ex2mem_io_WriteRegM; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io_LoadUnsignedM; // @[myCPU.scala 123:26]
-  wire [1:0] _ex2mem_io_MemWidthM; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_PhyAddrM; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io_csrWriteM; // @[myCPU.scala 123:26]
-  wire [11:0] _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_PCM; // @[myCPU.scala 123:26]
-  wire [31:0] _ex2mem_io_ExceptionTypeM_Out; // @[myCPU.scala 123:26]
-  wire [1:0] _ex2mem_io_MemRLM; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_RtM; // @[myCPU.scala 123:26]
-  wire [1:0] _ex2mem_io_BranchJump_JrM; // @[myCPU.scala 123:26]
-  wire [2:0] _ex2mem_io_Tlb_ControlM; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io_eBreakM; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_Pc_NextM; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleM_pc; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleM_data; // @[myCPU.scala 123:26]
-  wire [1:0] _ex2mem_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_mem_trace_budleM_addr; // @[myCPU.scala 123:26]
-  wire [2:0] _ex2mem_io_mem_trace_budleM_len; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io_mem_trace_budleM_cache; // @[myCPU.scala 123:26]
-  wire [63:0] _ex2mem_io_CsrWritedataM; // @[myCPU.scala 123:26]
-  wire  _ex2mem_io_fence_i_controlM; // @[myCPU.scala 123:26]
-  wire  _mem2mem2_clock; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_reset; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io1_RegWriteE; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io1_MemToRegE; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io1_LoadUnsignedE; // @[myCPU.scala 124:28]
-  wire [1:0] _mem2mem2_io1_MemWidthE; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io1_csrWriteE; // @[myCPU.scala 124:28]
-  wire [11:0] _mem2mem2_io1_WritecsrAddrE; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io1_PCE; // @[myCPU.scala 124:28]
-  wire [1:0] _mem2mem2_io1_MemRLE; // @[myCPU.scala 124:28]
-  wire [1:0] _mem2mem2_io1_BranchJump_JrE; // @[myCPU.scala 124:28]
-  wire [2:0] _mem2mem2_io1_Tlb_Control; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io1_eBreakE; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io1_fence_i_control; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io_en; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io_clr; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_WriteDataE; // @[myCPU.scala 124:28]
-  wire [4:0] _mem2mem2_io_WriteRegE; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_PhyAddrE; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_CsrWritedataE; // @[myCPU.scala 124:28]
-  wire [31:0] _mem2mem2_io_ExceptionTypeE; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_RtE; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_Pc_NextE; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleE_pc; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleE_data; // @[myCPU.scala 124:28]
-  wire [1:0] _mem2mem2_io_mem_trace_budleE_mem_fetch_type; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleE_addr; // @[myCPU.scala 124:28]
-  wire [2:0] _mem2mem2_io_mem_trace_budleE_len; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io_mem_trace_budleE_cache; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io_RegWriteM; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io_MemToRegM; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_WriteDataM; // @[myCPU.scala 124:28]
-  wire [4:0] _mem2mem2_io_WriteRegM; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io_LoadUnsignedM; // @[myCPU.scala 124:28]
-  wire [1:0] _mem2mem2_io_MemWidthM; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_PhyAddrM; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io_csrWriteM; // @[myCPU.scala 124:28]
-  wire [11:0] _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_PCM; // @[myCPU.scala 124:28]
-  wire [31:0] _mem2mem2_io_ExceptionTypeM_Out; // @[myCPU.scala 124:28]
-  wire [1:0] _mem2mem2_io_MemRLM; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_RtM; // @[myCPU.scala 124:28]
-  wire [1:0] _mem2mem2_io_BranchJump_JrM; // @[myCPU.scala 124:28]
-  wire [2:0] _mem2mem2_io_Tlb_ControlM; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io_eBreakM; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_Pc_NextM; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleM_pc; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleM_data; // @[myCPU.scala 124:28]
-  wire [1:0] _mem2mem2_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_mem_trace_budleM_addr; // @[myCPU.scala 124:28]
-  wire [2:0] _mem2mem2_io_mem_trace_budleM_len; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io_mem_trace_budleM_cache; // @[myCPU.scala 124:28]
-  wire [63:0] _mem2mem2_io_CsrWritedataM; // @[myCPU.scala 124:28]
-  wire  _mem2mem2_io_fence_i_controlM; // @[myCPU.scala 124:28]
-  wire  _id2ex_clock; // @[myCPU.scala 126:26]
-  wire  _id2ex_reset; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_RegWriteD; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_MemToRegD; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_MemWriteD; // @[myCPU.scala 126:26]
-  wire [23:0] _id2ex_io1_ALUCtrlD; // @[myCPU.scala 126:26]
-  wire [1:0] _id2ex_io1_ALUSrcD_0; // @[myCPU.scala 126:26]
-  wire [1:0] _id2ex_io1_ALUSrcD_1; // @[myCPU.scala 126:26]
-  wire [4:0] _id2ex_io1_RegDstD; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_LinkD; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_csrWriteD; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_csrToRegD; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_LoadUnsignedD; // @[myCPU.scala 126:26]
-  wire [1:0] _id2ex_io1_MemWidthD; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_ebreakD; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_data_wD; // @[myCPU.scala 126:26]
-  wire [23:0] _id2ex_io1_muldiv_control; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_muldiv_cal; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_alu_cal; // @[myCPU.scala 126:26]
-  wire [5:0] _id2ex_io1_csr_control; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_csr_Imm; // @[myCPU.scala 126:26]
-  wire  _id2ex_io1_fence_i_control; // @[myCPU.scala 126:26]
-  wire  _id2ex_io2_RegWriteE; // @[myCPU.scala 126:26]
-  wire  _id2ex_io2_MemToRegE; // @[myCPU.scala 126:26]
-  wire  _id2ex_io2_MemWriteE; // @[myCPU.scala 126:26]
-  wire [23:0] _id2ex_io2_ALUCtrlE; // @[myCPU.scala 126:26]
-  wire  _id2ex_io2_ALUSrcE_0; // @[myCPU.scala 126:26]
-  wire  _id2ex_io2_ALUSrcE_1; // @[myCPU.scala 126:26]
-  wire [4:0] _id2ex_io2_RegDstE; // @[myCPU.scala 126:26]
-  wire  _id2ex_io2_LinkE; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io2_PCPlus4E; // @[myCPU.scala 126:26]
-  wire  _id2ex_io2_LoadUnsignedE; // @[myCPU.scala 126:26]
-  wire [1:0] _id2ex_io2_MemWidthE; // @[myCPU.scala 126:26]
-  wire  _id2ex_io2_csrWriteE; // @[myCPU.scala 126:26]
-  wire [11:0] _id2ex_io2_WritecsrAddrE; // @[myCPU.scala 126:26]
-  wire [11:0] _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io2_PCE; // @[myCPU.scala 126:26]
-  wire [1:0] _id2ex_io2_BranchJump_JrE; // @[myCPU.scala 126:26]
-  wire  _id2ex_io2_eBreakE; // @[myCPU.scala 126:26]
-  wire  _id2ex_io2_fence_i_control; // @[myCPU.scala 126:26]
-  wire  _id2ex_io_en; // @[myCPU.scala 126:26]
-  wire  _id2ex_io_clr; // @[myCPU.scala 126:26]
-  wire  _id2ex_io_csrToRegE_Out; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io_RD1D; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io_RD2D; // @[myCPU.scala 126:26]
-  wire [4:0] _id2ex_io_R2D; // @[myCPU.scala 126:26]
-  wire [4:0] _id2ex_io_R1D; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io_ImmD; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io_PCPlus4D; // @[myCPU.scala 126:26]
-  wire [11:0] _id2ex_io_WritecsrAddrD; // @[myCPU.scala 126:26]
-  wire [11:0] _id2ex_io_ReadcsrAddrD; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io_PCD; // @[myCPU.scala 126:26]
-  wire [31:0] _id2ex_io_ExceptionTypeD; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io_Pc_NextD; // @[myCPU.scala 126:26]
-  wire [1:0] _id2ex_io_BranchJump_JrD; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io_RD1E; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io_RD2E; // @[myCPU.scala 126:26]
-  wire [4:0] _id2ex_io_R2E; // @[myCPU.scala 126:26]
-  wire [4:0] _id2ex_io_R1E; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io_ImmE; // @[myCPU.scala 126:26]
-  wire  _id2ex_io_data_wE; // @[myCPU.scala 126:26]
-  wire [63:0] _id2ex_io_Pc_NextE; // @[myCPU.scala 126:26]
-  wire [23:0] _id2ex_io_muldiv_control; // @[myCPU.scala 126:26]
-  wire  _id2ex_io_alu_calE; // @[myCPU.scala 126:26]
-  wire  _id2ex_io_muldiv_calE; // @[myCPU.scala 126:26]
-  wire [31:0] _id2ex_io_ExceptionTypeE_Out; // @[myCPU.scala 126:26]
-  wire [5:0] _id2ex_io_csr_controlE; // @[myCPU.scala 126:26]
-  wire  _id2ex_io_csr_ImmE; // @[myCPU.scala 126:26]
-  wire  _if2id_clock; // @[myCPU.scala 127:26]
-  wire  _if2id_reset; // @[myCPU.scala 127:26]
-  wire  _if2id_io_en; // @[myCPU.scala 127:26]
-  wire  _if2id_io_clr; // @[myCPU.scala 127:26]
-  wire [63:0] _if2id_io_InstrF; // @[myCPU.scala 127:26]
-  wire [63:0] _if2id_io_PCPlus4F; // @[myCPU.scala 127:26]
-  wire [63:0] _if2id_io_PCF; // @[myCPU.scala 127:26]
-  wire [1:0] _if2id_io_ExceptionTypeF; // @[myCPU.scala 127:26]
-  wire [31:0] _if2id_io_InstrD; // @[myCPU.scala 127:26]
-  wire [63:0] _if2id_io_PCPlus4D; // @[myCPU.scala 127:26]
-  wire [63:0] _if2id_io_PCD; // @[myCPU.scala 127:26]
-  wire [1:0] _if2id_io_ExceptionTypeD_Out; // @[myCPU.scala 127:26]
-  wire  _mem22wb_clock; // @[myCPU.scala 129:27]
-  wire  _mem22wb_reset; // @[myCPU.scala 129:27]
-  wire  _mem22wb_io_en; // @[myCPU.scala 129:27]
-  wire  _mem22wb_io_clr; // @[myCPU.scala 129:27]
-  wire  _mem22wb_io_RegWriteM; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_ResultM; // @[myCPU.scala 129:27]
-  wire [4:0] _mem22wb_io_WriteRegM; // @[myCPU.scala 129:27]
-  wire  _mem22wb_io_csrWriteM; // @[myCPU.scala 129:27]
-  wire [11:0] _mem22wb_io_WritecsrAddrM; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_CsrWritedataM; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_PCM; // @[myCPU.scala 129:27]
-  wire [31:0] _mem22wb_io_ExceptionTypeM; // @[myCPU.scala 129:27]
-  wire [1:0] _mem22wb_io_BranchJump_JrM; // @[myCPU.scala 129:27]
-  wire  _mem22wb_io_eBreakM; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_Pc_NextM; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleM_pc; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleM_data; // @[myCPU.scala 129:27]
-  wire [1:0] _mem22wb_io_Mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleM_addr; // @[myCPU.scala 129:27]
-  wire [2:0] _mem22wb_io_Mem_trace_budleM_len; // @[myCPU.scala 129:27]
-  wire  _mem22wb_io_Mem_trace_budleM_cache; // @[myCPU.scala 129:27]
-  wire  _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_ResultW; // @[myCPU.scala 129:27]
-  wire [4:0] _mem22wb_io_WriteRegW; // @[myCPU.scala 129:27]
-  wire  _mem22wb_io_csrWriteW; // @[myCPU.scala 129:27]
-  wire [11:0] _mem22wb_io_WritecsrAddrW; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_PCW; // @[myCPU.scala 129:27]
-  wire [31:0] _mem22wb_io_ExceptionTypeW_Out; // @[myCPU.scala 129:27]
-  wire [1:0] _mem22wb_io_BranchJump_JrW; // @[myCPU.scala 129:27]
-  wire  _mem22wb_io_eBreakW; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_Pc_NextW; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleW_pc; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleW_data; // @[myCPU.scala 129:27]
-  wire [1:0] _mem22wb_io_Mem_trace_budleW_mem_fetch_type; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_Mem_trace_budleW_addr; // @[myCPU.scala 129:27]
-  wire [2:0] _mem22wb_io_Mem_trace_budleW_len; // @[myCPU.scala 129:27]
-  wire  _mem22wb_io_Mem_trace_budleW_cache; // @[myCPU.scala 129:27]
-  wire [63:0] _mem22wb_io_CsrWritedataW; // @[myCPU.scala 129:27]
-  wire [63:0] _addr_cal_io_d_vaddr; // @[myCPU.scala 130:31]
-  wire [63:0] _addr_cal_io_d_paddr; // @[myCPU.scala 130:31]
-  wire  _addr_cal_io_d_cached; // @[myCPU.scala 130:31]
-  wire  _muldiv_clock; // @[myCPU.scala 131:26]
-  wire  _muldiv_reset; // @[myCPU.scala 131:26]
-  wire  _muldiv_io_en; // @[myCPU.scala 131:26]
-  wire [23:0] _muldiv_io_ctrl; // @[myCPU.scala 131:26]
-  wire [63:0] _muldiv_io_in1; // @[myCPU.scala 131:26]
-  wire [63:0] _muldiv_io_in2; // @[myCPU.scala 131:26]
-  wire [63:0] _muldiv_io_data_out; // @[myCPU.scala 131:26]
-  wire  _muldiv_io_pending; // @[myCPU.scala 131:26]
-  wire  _regfile_clock; // @[myCPU.scala 133:26]
-  wire  _regfile_reset; // @[myCPU.scala 133:26]
-  wire [4:0] _regfile_io_A1; // @[myCPU.scala 133:26]
-  wire [4:0] _regfile_io_A2; // @[myCPU.scala 133:26]
-  wire  _regfile_io_WE3; // @[myCPU.scala 133:26]
-  wire [4:0] _regfile_io_A3; // @[myCPU.scala 133:26]
-  wire [63:0] _regfile_io_WD3; // @[myCPU.scala 133:26]
-  wire [63:0] _regfile_io_RD1; // @[myCPU.scala 133:26]
-  wire [63:0] _regfile_io_RD2; // @[myCPU.scala 133:26]
-  wire [2047:0] _regfile_io_reg_file_alL_out; // @[myCPU.scala 133:26]
-  wire  _mtrace_mod_reset; // @[myCPU.scala 134:29]
-  wire  _mtrace_mod_clock; // @[myCPU.scala 134:29]
-  wire [63:0] _mtrace_mod_data; // @[myCPU.scala 134:29]
-  wire [63:0] _mtrace_mod_pc; // @[myCPU.scala 134:29]
-  wire [63:0] _mtrace_mod_addr; // @[myCPU.scala 134:29]
-  wire  _mtrace_mod_mem_req; // @[myCPU.scala 134:29]
-  wire  _mtrace_mod_mem_write_read; // @[myCPU.scala 134:29]
-  wire [2:0] _mtrace_mod_mem_size; // @[myCPU.scala 134:29]
-  wire  _mtrace_mod_mem_cached; // @[myCPU.scala 134:29]
-  wire  fifo_with_bundle_clock; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_reset; // @[myCPU.scala 155:29]
-  wire [1:0] fifo_with_bundle_io_read_en; // @[myCPU.scala 155:29]
-  wire [1:0] fifo_with_bundle_io_write_en; // @[myCPU.scala 155:29]
-  wire [63:0] fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 155:29]
-  wire [31:0] fifo_with_bundle_io_read_out_0_inst; // @[myCPU.scala 155:29]
-  wire [1:0] fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 155:29]
-  wire [63:0] fifo_with_bundle_io_read_out_0_pre_pc_target; // @[myCPU.scala 155:29]
-  wire [6:0] fifo_with_bundle_io_read_out_0_pre_lookup_data; // @[myCPU.scala 155:29]
-  wire [3:0] fifo_with_bundle_io_read_out_0_pre_hashcode; // @[myCPU.scala 155:29]
-  wire [1:0] fifo_with_bundle_io_read_out_0_pre_pht; // @[myCPU.scala 155:29]
-  wire [6:0] fifo_with_bundle_io_read_out_0_pre_bht; // @[myCPU.scala 155:29]
-  wire [7:0] fifo_with_bundle_io_read_out_0_pre_lookup_value; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_read_out_0_pre_decoder_branchD_flag; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_read_out_0_pre_decoder_jump; // @[myCPU.scala 155:29]
-  wire [5:0] fifo_with_bundle_io_read_out_0_pre_decoder_branchdata; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_read_out_0_pre_decoder_jr; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_read_out_0_true_branch_state; // @[myCPU.scala 155:29]
-  wire [63:0] fifo_with_bundle_io_write_in_0_pc; // @[myCPU.scala 155:29]
-  wire [31:0] fifo_with_bundle_io_write_in_0_inst; // @[myCPU.scala 155:29]
-  wire [63:0] fifo_with_bundle_io_write_in_0_pre_pc_target; // @[myCPU.scala 155:29]
-  wire [6:0] fifo_with_bundle_io_write_in_0_pre_lookup_data; // @[myCPU.scala 155:29]
-  wire [3:0] fifo_with_bundle_io_write_in_0_pre_hashcode; // @[myCPU.scala 155:29]
-  wire [1:0] fifo_with_bundle_io_write_in_0_pre_pht; // @[myCPU.scala 155:29]
-  wire [6:0] fifo_with_bundle_io_write_in_0_pre_bht; // @[myCPU.scala 155:29]
-  wire [7:0] fifo_with_bundle_io_write_in_0_pre_lookup_value; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_write_in_0_pre_decoder_branchD_flag; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_write_in_0_pre_decoder_jump; // @[myCPU.scala 155:29]
-  wire [5:0] fifo_with_bundle_io_write_in_0_pre_decoder_branchdata; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_write_in_0_pre_decoder_jr; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_write_in_0_true_branch_state; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_full; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_empty; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_point_write_en; // @[myCPU.scala 155:29]
-  wire  fifo_with_bundle_io_point_flush; // @[myCPU.scala 155:29]
-  wire  stage_fec_1_pc_L_clock; // @[myCPU.scala 417:34]
-  wire  stage_fec_1_pc_L_reset; // @[myCPU.scala 417:34]
-  wire  stage_fec_1_pc_L_io_stall; // @[myCPU.scala 417:34]
-  wire  stage_fec_1_pc_L_io_flush; // @[myCPU.scala 417:34]
-  wire [63:0] stage_fec_1_pc_L_io_in_pc_value_in; // @[myCPU.scala 417:34]
-  wire [63:0] stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 417:34]
-  wire  stage_fec_1_pc_M_clock; // @[myCPU.scala 418:34]
-  wire  stage_fec_1_pc_M_reset; // @[myCPU.scala 418:34]
-  wire  stage_fec_1_pc_M_io_stall; // @[myCPU.scala 418:34]
-  wire  stage_fec_1_pc_M_io_flush; // @[myCPU.scala 418:34]
-  wire [63:0] stage_fec_1_pc_M_io_in_pc_value_in; // @[myCPU.scala 418:34]
-  wire [63:0] stage_fec_1_pc_M_io_out_pc_value_out; // @[myCPU.scala 418:34]
-  wire  stage_fec_1_pc_R_clock; // @[myCPU.scala 419:34]
-  wire  stage_fec_1_pc_R_reset; // @[myCPU.scala 419:34]
-  wire  stage_fec_1_pc_R_io_stall; // @[myCPU.scala 419:34]
-  wire  stage_fec_1_pc_R_io_flush; // @[myCPU.scala 419:34]
-  wire [63:0] stage_fec_1_pc_R_io_in_pc_value_in; // @[myCPU.scala 419:34]
-  wire [63:0] stage_fec_1_pc_R_io_out_pc_value_out; // @[myCPU.scala 419:34]
-  wire  branch_prediction_with_blockram_clock; // @[myCPU.scala 448:21]
-  wire  branch_prediction_with_blockram_reset; // @[myCPU.scala 448:21]
-  wire [63:0] branch_prediction_with_blockram_io_pc; // @[myCPU.scala 448:21]
-  wire [63:0] branch_prediction_with_blockram_io_write_pc; // @[myCPU.scala 448:21]
-  wire [3:0] branch_prediction_with_blockram_io_aw_pht_ways_addr; // @[myCPU.scala 448:21]
-  wire [6:0] branch_prediction_with_blockram_io_aw_pht_addr; // @[myCPU.scala 448:21]
-  wire [6:0] branch_prediction_with_blockram_io_aw_bht_addr; // @[myCPU.scala 448:21]
-  wire [63:0] branch_prediction_with_blockram_io_aw_target_addr; // @[myCPU.scala 448:21]
-  wire  branch_prediction_with_blockram_io_btb_write; // @[myCPU.scala 448:21]
-  wire  branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 448:21]
-  wire  branch_prediction_with_blockram_io_pht_write; // @[myCPU.scala 448:21]
-  wire [6:0] branch_prediction_with_blockram_io_bht_in; // @[myCPU.scala 448:21]
-  wire [7:0] branch_prediction_with_blockram_io_pht_in; // @[myCPU.scala 448:21]
-  wire [1:0] branch_prediction_with_blockram_io_out_L; // @[myCPU.scala 448:21]
-  wire  branch_prediction_with_blockram_io_pre_L; // @[myCPU.scala 448:21]
-  wire [6:0] branch_prediction_with_blockram_io_bht_L; // @[myCPU.scala 448:21]
-  wire  branch_prediction_with_blockram_io_btb_hit_0; // @[myCPU.scala 448:21]
-  wire [63:0] branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 448:21]
-  wire  branch_prediction_with_blockram_io_stage2_stall; // @[myCPU.scala 448:21]
-  wire  branch_prediction_with_blockram_io_stage2_flush; // @[myCPU.scala 448:21]
-  wire [7:0] branch_prediction_with_blockram_io_pht_lookup_value_out; // @[myCPU.scala 448:21]
-  wire [6:0] branch_prediction_with_blockram_io_lookup_data_0; // @[myCPU.scala 448:21]
-  wire  stage_fec_2_pc_L_clock; // @[myCPU.scala 517:34]
-  wire  stage_fec_2_pc_L_reset; // @[myCPU.scala 517:34]
-  wire  stage_fec_2_pc_L_io_stall; // @[myCPU.scala 517:34]
-  wire  stage_fec_2_pc_L_io_flush; // @[myCPU.scala 517:34]
-  wire [63:0] stage_fec_2_pc_L_io_in_pc_value_in; // @[myCPU.scala 517:34]
-  wire [63:0] stage_fec_2_pc_L_io_out_pc_value_out; // @[myCPU.scala 517:34]
-  wire  stage_fec_2_pc_M_clock; // @[myCPU.scala 518:34]
-  wire  stage_fec_2_pc_M_reset; // @[myCPU.scala 518:34]
-  wire  stage_fec_2_pc_M_io_stall; // @[myCPU.scala 518:34]
-  wire  stage_fec_2_pc_M_io_flush; // @[myCPU.scala 518:34]
-  wire [63:0] stage_fec_2_pc_M_io_in_pc_value_in; // @[myCPU.scala 518:34]
-  wire [63:0] stage_fec_2_pc_M_io_out_pc_value_out; // @[myCPU.scala 518:34]
-  wire  stage_fec_2_pc_R_clock; // @[myCPU.scala 519:34]
-  wire  stage_fec_2_pc_R_reset; // @[myCPU.scala 519:34]
-  wire  stage_fec_2_pc_R_io_stall; // @[myCPU.scala 519:34]
-  wire  stage_fec_2_pc_R_io_flush; // @[myCPU.scala 519:34]
-  wire [63:0] stage_fec_2_pc_R_io_in_pc_value_in; // @[myCPU.scala 519:34]
-  wire [63:0] stage_fec_2_pc_R_io_out_pc_value_out; // @[myCPU.scala 519:34]
-  wire  id_bru_state_clock; // @[myCPU.scala 681:31]
-  wire  id_bru_state_reset; // @[myCPU.scala 681:31]
-  wire  id_bru_state_io_stall; // @[myCPU.scala 681:31]
-  wire  id_bru_state_io_flush; // @[myCPU.scala 681:31]
-  wire [1:0] id_bru_state_io_in_pht; // @[myCPU.scala 681:31]
-  wire [6:0] id_bru_state_io_in_bht; // @[myCPU.scala 681:31]
-  wire [3:0] id_bru_state_io_in_hashcode; // @[myCPU.scala 681:31]
-  wire [63:0] id_bru_state_io_in_target_pc; // @[myCPU.scala 681:31]
-  wire [6:0] id_bru_state_io_in_lookup_data; // @[myCPU.scala 681:31]
-  wire [7:0] id_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 681:31]
-  wire [1:0] id_bru_state_io_out_pht; // @[myCPU.scala 681:31]
-  wire [6:0] id_bru_state_io_out_bht; // @[myCPU.scala 681:31]
-  wire [3:0] id_bru_state_io_out_hashcode; // @[myCPU.scala 681:31]
-  wire [63:0] id_bru_state_io_out_target_pc; // @[myCPU.scala 681:31]
-  wire [6:0] id_bru_state_io_out_lookup_data; // @[myCPU.scala 681:31]
-  wire [7:0] id_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 681:31]
-  wire  ex_bru_state_clock; // @[myCPU.scala 685:31]
-  wire  ex_bru_state_reset; // @[myCPU.scala 685:31]
-  wire  ex_bru_state_io_stall; // @[myCPU.scala 685:31]
-  wire  ex_bru_state_io_flush; // @[myCPU.scala 685:31]
-  wire [1:0] ex_bru_state_io_in_pht; // @[myCPU.scala 685:31]
-  wire [6:0] ex_bru_state_io_in_bht; // @[myCPU.scala 685:31]
-  wire [3:0] ex_bru_state_io_in_hashcode; // @[myCPU.scala 685:31]
-  wire [63:0] ex_bru_state_io_in_target_pc; // @[myCPU.scala 685:31]
-  wire [6:0] ex_bru_state_io_in_lookup_data; // @[myCPU.scala 685:31]
-  wire [7:0] ex_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 685:31]
-  wire [1:0] ex_bru_state_io_out_pht; // @[myCPU.scala 685:31]
-  wire [6:0] ex_bru_state_io_out_bht; // @[myCPU.scala 685:31]
-  wire [3:0] ex_bru_state_io_out_hashcode; // @[myCPU.scala 685:31]
-  wire [63:0] ex_bru_state_io_out_target_pc; // @[myCPU.scala 685:31]
-  wire [6:0] ex_bru_state_io_out_lookup_data; // @[myCPU.scala 685:31]
-  wire [7:0] ex_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 685:31]
-  wire  mem_bru_state_clock; // @[myCPU.scala 689:32]
-  wire  mem_bru_state_reset; // @[myCPU.scala 689:32]
-  wire  mem_bru_state_io_stall; // @[myCPU.scala 689:32]
-  wire  mem_bru_state_io_flush; // @[myCPU.scala 689:32]
-  wire [1:0] mem_bru_state_io_in_pht; // @[myCPU.scala 689:32]
-  wire [6:0] mem_bru_state_io_in_bht; // @[myCPU.scala 689:32]
-  wire [3:0] mem_bru_state_io_in_hashcode; // @[myCPU.scala 689:32]
-  wire [63:0] mem_bru_state_io_in_target_pc; // @[myCPU.scala 689:32]
-  wire [6:0] mem_bru_state_io_in_lookup_data; // @[myCPU.scala 689:32]
-  wire [7:0] mem_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 689:32]
-  wire [1:0] mem_bru_state_io_out_pht; // @[myCPU.scala 689:32]
-  wire [6:0] mem_bru_state_io_out_bht; // @[myCPU.scala 689:32]
-  wire [3:0] mem_bru_state_io_out_hashcode; // @[myCPU.scala 689:32]
-  wire [63:0] mem_bru_state_io_out_target_pc; // @[myCPU.scala 689:32]
-  wire [6:0] mem_bru_state_io_out_lookup_data; // @[myCPU.scala 689:32]
-  wire [7:0] mem_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 689:32]
-  wire  mem2_bru_state_clock; // @[myCPU.scala 693:33]
-  wire  mem2_bru_state_reset; // @[myCPU.scala 693:33]
-  wire  mem2_bru_state_io_stall; // @[myCPU.scala 693:33]
-  wire  mem2_bru_state_io_flush; // @[myCPU.scala 693:33]
-  wire [1:0] mem2_bru_state_io_in_pht; // @[myCPU.scala 693:33]
-  wire [6:0] mem2_bru_state_io_in_bht; // @[myCPU.scala 693:33]
-  wire [3:0] mem2_bru_state_io_in_hashcode; // @[myCPU.scala 693:33]
-  wire [63:0] mem2_bru_state_io_in_target_pc; // @[myCPU.scala 693:33]
-  wire [6:0] mem2_bru_state_io_in_lookup_data; // @[myCPU.scala 693:33]
-  wire [7:0] mem2_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 693:33]
-  wire [1:0] mem2_bru_state_io_out_pht; // @[myCPU.scala 693:33]
-  wire [6:0] mem2_bru_state_io_out_bht; // @[myCPU.scala 693:33]
-  wire [3:0] mem2_bru_state_io_out_hashcode; // @[myCPU.scala 693:33]
-  wire [63:0] mem2_bru_state_io_out_target_pc; // @[myCPU.scala 693:33]
-  wire [6:0] mem2_bru_state_io_out_lookup_data; // @[myCPU.scala 693:33]
-  wire [7:0] mem2_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 693:33]
-  wire  wb_bru_state_clock; // @[myCPU.scala 697:31]
-  wire  wb_bru_state_reset; // @[myCPU.scala 697:31]
-  wire  wb_bru_state_io_stall; // @[myCPU.scala 697:31]
-  wire  wb_bru_state_io_flush; // @[myCPU.scala 697:31]
-  wire [1:0] wb_bru_state_io_in_pht; // @[myCPU.scala 697:31]
-  wire [6:0] wb_bru_state_io_in_bht; // @[myCPU.scala 697:31]
-  wire [3:0] wb_bru_state_io_in_hashcode; // @[myCPU.scala 697:31]
-  wire [63:0] wb_bru_state_io_in_target_pc; // @[myCPU.scala 697:31]
-  wire [6:0] wb_bru_state_io_in_lookup_data; // @[myCPU.scala 697:31]
-  wire [7:0] wb_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 697:31]
-  wire [1:0] wb_bru_state_io_out_pht; // @[myCPU.scala 697:31]
-  wire [6:0] wb_bru_state_io_out_bht; // @[myCPU.scala 697:31]
-  wire [3:0] wb_bru_state_io_out_hashcode; // @[myCPU.scala 697:31]
-  wire [63:0] wb_bru_state_io_out_target_pc; // @[myCPU.scala 697:31]
-  wire [6:0] wb_bru_state_io_out_lookup_data; // @[myCPU.scala 697:31]
-  wire [7:0] wb_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 697:31]
-  wire  _commit_difftest_reset; // @[myCPU.scala 1144:34]
-  wire  _commit_difftest_clock; // @[myCPU.scala 1144:34]
-  wire [2047:0] _commit_difftest_gpr_wire; // @[myCPU.scala 1144:34]
-  wire [63:0] _commit_difftest_pc; // @[myCPU.scala 1144:34]
-  wire [63:0] _commit_difftest_debug_pc; // @[myCPU.scala 1144:34]
-  wire  _commit_difftest_inst_commit; // @[myCPU.scala 1144:34]
-  wire  _commit_difftest_data_ok_ok; // @[myCPU.scala 1144:34]
-  wire  _commit_difftest_cpu_ebreak_sign; // @[myCPU.scala 1144:34]
-  wire  _T_2 = ~resetn; // @[myCPU.scala 110:41]
-  wire  stage_fec_2_inst_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 175:45]
-  wire  stage_fec_2_inst_branch = inst_sram_rdata_L[32]; // @[myCPU.scala 176:47]
-  reg  pre_decoder_branchD_flag; // @[myCPU.scala 178:44]
-  reg [5:0] pre_decoder_branchdata; // @[myCPU.scala 179:43]
-  reg  pre_decoder_jump; // @[myCPU.scala 180:40]
-  reg  pre_decoder_jr; // @[myCPU.scala 181:40]
+  wire [23:0] _alu_io_ctrl; // @[myCPU.scala 120:22]
+  wire [63:0] _alu_io_in1; // @[myCPU.scala 120:22]
+  wire [63:0] _alu_io_in2; // @[myCPU.scala 120:22]
+  wire [63:0] _alu_io_result; // @[myCPU.scala 120:22]
+  wire  _alu_io_overflow; // @[myCPU.scala 120:22]
+  wire  _alu_io_data_w; // @[myCPU.scala 120:22]
+  wire  _br_reset; // @[myCPU.scala 121:22]
+  wire [63:0] _br_io_r1; // @[myCPU.scala 121:22]
+  wire [63:0] _br_io_r2; // @[myCPU.scala 121:22]
+  wire [5:0] _br_io_branch; // @[myCPU.scala 121:22]
+  wire  _br_io_exe; // @[myCPU.scala 121:22]
+  wire  _cfu_reset; // @[myCPU.scala 122:22]
+  wire  _cfu_io_Inst_Fifo_Empty; // @[myCPU.scala 122:22]
+  wire  _cfu_io_dmem_calD; // @[myCPU.scala 122:22]
+  wire  _cfu_io_BranchD_Flag; // @[myCPU.scala 122:22]
+  wire  _cfu_io_JRD; // @[myCPU.scala 122:22]
+  wire  _cfu_io_CanBranchD; // @[myCPU.scala 122:22]
+  wire  _cfu_io_DivPendingE; // @[myCPU.scala 122:22]
+  wire  _cfu_io_DataPendingM; // @[myCPU.scala 122:22]
+  wire  _cfu_io_InException; // @[myCPU.scala 122:22]
+  wire [4:0] _cfu_io_WriteRegE; // @[myCPU.scala 122:22]
+  wire  _cfu_io_RegWriteE; // @[myCPU.scala 122:22]
+  wire  _cfu_io_csrToRegE; // @[myCPU.scala 122:22]
+  wire [4:0] _cfu_io_WriteRegM; // @[myCPU.scala 122:22]
+  wire  _cfu_io_MemToRegM; // @[myCPU.scala 122:22]
+  wire  _cfu_io_RegWriteM; // @[myCPU.scala 122:22]
+  wire  _cfu_io_csrWriteM; // @[myCPU.scala 122:22]
+  wire [4:0] _cfu_io_WriteRegM2; // @[myCPU.scala 122:22]
+  wire  _cfu_io_MemToRegM2; // @[myCPU.scala 122:22]
+  wire  _cfu_io_RegWriteM2; // @[myCPU.scala 122:22]
+  wire  _cfu_io_csrWriteM2; // @[myCPU.scala 122:22]
+  wire [4:0] _cfu_io_WriteRegW; // @[myCPU.scala 122:22]
+  wire  _cfu_io_RegWriteW; // @[myCPU.scala 122:22]
+  wire [11:0] _cfu_io_ReadcsrAddrE; // @[myCPU.scala 122:22]
+  wire [11:0] _cfu_io_WritecsrAddrM; // @[myCPU.scala 122:22]
+  wire [11:0] _cfu_io_WritecsrAddrM2; // @[myCPU.scala 122:22]
+  wire [4:0] _cfu_io_R2D; // @[myCPU.scala 122:22]
+  wire [4:0] _cfu_io_R1D; // @[myCPU.scala 122:22]
+  wire [4:0] _cfu_io_R2E; // @[myCPU.scala 122:22]
+  wire [4:0] _cfu_io_R1E; // @[myCPU.scala 122:22]
+  wire  _cfu_io_StallF; // @[myCPU.scala 122:22]
+  wire  _cfu_io_StallD; // @[myCPU.scala 122:22]
+  wire  _cfu_io_StallE; // @[myCPU.scala 122:22]
+  wire  _cfu_io_StallM; // @[myCPU.scala 122:22]
+  wire  _cfu_io_StallM2; // @[myCPU.scala 122:22]
+  wire  _cfu_io_StallW; // @[myCPU.scala 122:22]
+  wire  _cfu_io_FlushD; // @[myCPU.scala 122:22]
+  wire  _cfu_io_FlushE; // @[myCPU.scala 122:22]
+  wire  _cfu_io_FlushM; // @[myCPU.scala 122:22]
+  wire  _cfu_io_FlushM2; // @[myCPU.scala 122:22]
+  wire  _cfu_io_FlushW; // @[myCPU.scala 122:22]
+  wire [1:0] _cfu_io_Forward1E; // @[myCPU.scala 122:22]
+  wire [1:0] _cfu_io_Forward2E; // @[myCPU.scala 122:22]
+  wire [1:0] _cfu_io_Forward1D; // @[myCPU.scala 122:22]
+  wire [1:0] _cfu_io_Forward2D; // @[myCPU.scala 122:22]
+  wire [1:0] _cfu_io_ForwardcsrE; // @[myCPU.scala 122:22]
+  wire  _csr_clock; // @[myCPU.scala 123:22]
+  wire  _csr_reset; // @[myCPU.scala 123:22]
+  wire [11:0] _csr_io_csr_read_addr; // @[myCPU.scala 123:22]
+  wire [11:0] _csr_io_csr_write_addr; // @[myCPU.scala 123:22]
+  wire [63:0] _csr_io_csr_write_data; // @[myCPU.scala 123:22]
+  wire  _csr_io_csr_write_en; // @[myCPU.scala 123:22]
+  wire [63:0] _csr_io_pc; // @[myCPU.scala 123:22]
+  wire [31:0] _csr_io_exception_type_i; // @[myCPU.scala 123:22]
+  wire [63:0] _csr_io_return_pc; // @[myCPU.scala 123:22]
+  wire  _csr_io_exception; // @[myCPU.scala 123:22]
+  wire [63:0] _csr_io_csr_read_data; // @[myCPU.scala 123:22]
+  wire  _csr_io_icache_tags_flush; // @[myCPU.scala 123:22]
+  wire  _csr_io_Int_able; // @[myCPU.scala 123:22]
+  wire  _csr_io_int_type_able_timer; // @[myCPU.scala 123:22]
+  wire [31:0] _cu_io1_InstrD; // @[myCPU.scala 124:22]
+  wire  _cu_io1_BadInstrD; // @[myCPU.scala 124:22]
+  wire  _cu_io1_SysCallD; // @[myCPU.scala 124:22]
+  wire  _cu_io1_EretD; // @[myCPU.scala 124:22]
+  wire  _cu_io1_dmem_addr_cal; // @[myCPU.scala 124:22]
+  wire  _cu_io_RegWriteD; // @[myCPU.scala 124:22]
+  wire  _cu_io_MemToRegD; // @[myCPU.scala 124:22]
+  wire  _cu_io_MemWriteD; // @[myCPU.scala 124:22]
+  wire [23:0] _cu_io_ALUCtrlD; // @[myCPU.scala 124:22]
+  wire [1:0] _cu_io_ALUSrcD_0; // @[myCPU.scala 124:22]
+  wire [1:0] _cu_io_ALUSrcD_1; // @[myCPU.scala 124:22]
+  wire [4:0] _cu_io_RegDstD; // @[myCPU.scala 124:22]
+  wire  _cu_io_LinkD; // @[myCPU.scala 124:22]
+  wire  _cu_io_csrWriteD; // @[myCPU.scala 124:22]
+  wire  _cu_io_csrToRegD; // @[myCPU.scala 124:22]
+  wire  _cu_io_LoadUnsignedD; // @[myCPU.scala 124:22]
+  wire [1:0] _cu_io_MemWidthD; // @[myCPU.scala 124:22]
+  wire [63:0] _cu_io_ImmD; // @[myCPU.scala 124:22]
+  wire  _cu_io_ebreakD; // @[myCPU.scala 124:22]
+  wire  _cu_io_data_wD; // @[myCPU.scala 124:22]
+  wire [23:0] _cu_io_muldiv_control; // @[myCPU.scala 124:22]
+  wire  _cu_io_muldiv_cal; // @[myCPU.scala 124:22]
+  wire  _cu_io_alu_cal; // @[myCPU.scala 124:22]
+  wire [5:0] _cu_io_csr_control; // @[myCPU.scala 124:22]
+  wire  _cu_io_csr_Imm; // @[myCPU.scala 124:22]
+  wire  _cu_io_fence_i_control; // @[myCPU.scala 124:22]
+  wire  _dmem_io_data_ok; // @[myCPU.scala 125:23]
+  wire [63:0] _dmem_io_rdata; // @[myCPU.scala 125:23]
+  wire [63:0] _dmem_io_Physisc_Address; // @[myCPU.scala 125:23]
+  wire [1:0] _dmem_io_WIDTH; // @[myCPU.scala 125:23]
+  wire  _dmem_io_SIGN; // @[myCPU.scala 125:23]
+  wire [63:0] _dmem_io_RD; // @[myCPU.scala 125:23]
+  wire  _dmem_io_data_pending; // @[myCPU.scala 125:23]
+  wire  _dmemreq_io_en; // @[myCPU.scala 126:26]
+  wire  _dmemreq_io_MemWriteE; // @[myCPU.scala 126:26]
+  wire  _dmemreq_io_MemToRegE; // @[myCPU.scala 126:26]
+  wire [1:0] _dmemreq_io_MemWidthE; // @[myCPU.scala 126:26]
+  wire [63:0] _dmemreq_io_VAddrE; // @[myCPU.scala 126:26]
+  wire [63:0] _dmemreq_io_WriteDataE; // @[myCPU.scala 126:26]
+  wire  _dmemreq_io_req; // @[myCPU.scala 126:26]
+  wire  _dmemreq_io_wr; // @[myCPU.scala 126:26]
+  wire [1:0] _dmemreq_io_size; // @[myCPU.scala 126:26]
+  wire [63:0] _dmemreq_io_addr; // @[myCPU.scala 126:26]
+  wire [63:0] _dmemreq_io_wdata; // @[myCPU.scala 126:26]
+  wire [7:0] _dmemreq_io_wstrb; // @[myCPU.scala 126:26]
+  wire  _ex2mem_clock; // @[myCPU.scala 127:26]
+  wire  _ex2mem_reset; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io1_RegWriteE; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io1_MemToRegE; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io1_LoadUnsignedE; // @[myCPU.scala 127:26]
+  wire [1:0] _ex2mem_io1_MemWidthE; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io1_csrWriteE; // @[myCPU.scala 127:26]
+  wire [11:0] _ex2mem_io1_WritecsrAddrE; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io1_PCE; // @[myCPU.scala 127:26]
+  wire [1:0] _ex2mem_io1_MemRLE; // @[myCPU.scala 127:26]
+  wire [1:0] _ex2mem_io1_BranchJump_JrE; // @[myCPU.scala 127:26]
+  wire [2:0] _ex2mem_io1_Tlb_Control; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io1_eBreakE; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io1_fence_i_control; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_en; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_clr; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_WriteDataE; // @[myCPU.scala 127:26]
+  wire [4:0] _ex2mem_io_WriteRegE; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_PhyAddrE; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_CsrWritedataE; // @[myCPU.scala 127:26]
+  wire [31:0] _ex2mem_io_ExceptionTypeE; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_RtE; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_Pc_NextE; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleE_pc; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleE_data; // @[myCPU.scala 127:26]
+  wire [1:0] _ex2mem_io_mem_trace_budleE_mem_fetch_type; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleE_addr; // @[myCPU.scala 127:26]
+  wire [2:0] _ex2mem_io_mem_trace_budleE_len; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_mem_trace_budleE_cache; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_RegWriteM; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_MemToRegM; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_WriteDataM; // @[myCPU.scala 127:26]
+  wire [4:0] _ex2mem_io_WriteRegM; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_LoadUnsignedM; // @[myCPU.scala 127:26]
+  wire [1:0] _ex2mem_io_MemWidthM; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_PhyAddrM; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_csrWriteM; // @[myCPU.scala 127:26]
+  wire [11:0] _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_PCM; // @[myCPU.scala 127:26]
+  wire [31:0] _ex2mem_io_ExceptionTypeM_Out; // @[myCPU.scala 127:26]
+  wire [1:0] _ex2mem_io_MemRLM; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_RtM; // @[myCPU.scala 127:26]
+  wire [1:0] _ex2mem_io_BranchJump_JrM; // @[myCPU.scala 127:26]
+  wire [2:0] _ex2mem_io_Tlb_ControlM; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_eBreakM; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_Pc_NextM; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleM_pc; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleM_data; // @[myCPU.scala 127:26]
+  wire [1:0] _ex2mem_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleM_addr; // @[myCPU.scala 127:26]
+  wire [2:0] _ex2mem_io_mem_trace_budleM_len; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_mem_trace_budleM_cache; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_CsrWritedataM; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_fence_i_controlM; // @[myCPU.scala 127:26]
+  wire  _mem2mem2_clock; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_reset; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io1_RegWriteE; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io1_MemToRegE; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io1_LoadUnsignedE; // @[myCPU.scala 128:28]
+  wire [1:0] _mem2mem2_io1_MemWidthE; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io1_csrWriteE; // @[myCPU.scala 128:28]
+  wire [11:0] _mem2mem2_io1_WritecsrAddrE; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io1_PCE; // @[myCPU.scala 128:28]
+  wire [1:0] _mem2mem2_io1_MemRLE; // @[myCPU.scala 128:28]
+  wire [1:0] _mem2mem2_io1_BranchJump_JrE; // @[myCPU.scala 128:28]
+  wire [2:0] _mem2mem2_io1_Tlb_Control; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io1_eBreakE; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io1_fence_i_control; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_en; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_clr; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_WriteDataE; // @[myCPU.scala 128:28]
+  wire [4:0] _mem2mem2_io_WriteRegE; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_PhyAddrE; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_CsrWritedataE; // @[myCPU.scala 128:28]
+  wire [31:0] _mem2mem2_io_ExceptionTypeE; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_RtE; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_Pc_NextE; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleE_pc; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleE_data; // @[myCPU.scala 128:28]
+  wire [1:0] _mem2mem2_io_mem_trace_budleE_mem_fetch_type; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleE_addr; // @[myCPU.scala 128:28]
+  wire [2:0] _mem2mem2_io_mem_trace_budleE_len; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_mem_trace_budleE_cache; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_RegWriteM; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_MemToRegM; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_WriteDataM; // @[myCPU.scala 128:28]
+  wire [4:0] _mem2mem2_io_WriteRegM; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_LoadUnsignedM; // @[myCPU.scala 128:28]
+  wire [1:0] _mem2mem2_io_MemWidthM; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_PhyAddrM; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_csrWriteM; // @[myCPU.scala 128:28]
+  wire [11:0] _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_PCM; // @[myCPU.scala 128:28]
+  wire [31:0] _mem2mem2_io_ExceptionTypeM_Out; // @[myCPU.scala 128:28]
+  wire [1:0] _mem2mem2_io_MemRLM; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_RtM; // @[myCPU.scala 128:28]
+  wire [1:0] _mem2mem2_io_BranchJump_JrM; // @[myCPU.scala 128:28]
+  wire [2:0] _mem2mem2_io_Tlb_ControlM; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_eBreakM; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_Pc_NextM; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleM_pc; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleM_data; // @[myCPU.scala 128:28]
+  wire [1:0] _mem2mem2_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleM_addr; // @[myCPU.scala 128:28]
+  wire [2:0] _mem2mem2_io_mem_trace_budleM_len; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_mem_trace_budleM_cache; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_CsrWritedataM; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_fence_i_controlM; // @[myCPU.scala 128:28]
+  wire  _id2ex_clock; // @[myCPU.scala 130:26]
+  wire  _id2ex_reset; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_RegWriteD; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_MemToRegD; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_MemWriteD; // @[myCPU.scala 130:26]
+  wire [23:0] _id2ex_io1_ALUCtrlD; // @[myCPU.scala 130:26]
+  wire [1:0] _id2ex_io1_ALUSrcD_0; // @[myCPU.scala 130:26]
+  wire [1:0] _id2ex_io1_ALUSrcD_1; // @[myCPU.scala 130:26]
+  wire [4:0] _id2ex_io1_RegDstD; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_LinkD; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_csrWriteD; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_csrToRegD; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_LoadUnsignedD; // @[myCPU.scala 130:26]
+  wire [1:0] _id2ex_io1_MemWidthD; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_ebreakD; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_data_wD; // @[myCPU.scala 130:26]
+  wire [23:0] _id2ex_io1_muldiv_control; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_muldiv_cal; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_alu_cal; // @[myCPU.scala 130:26]
+  wire [5:0] _id2ex_io1_csr_control; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_csr_Imm; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_fence_i_control; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_RegWriteE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_MemToRegE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_MemWriteE; // @[myCPU.scala 130:26]
+  wire [23:0] _id2ex_io2_ALUCtrlE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_ALUSrcE_0; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_ALUSrcE_1; // @[myCPU.scala 130:26]
+  wire [4:0] _id2ex_io2_RegDstE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_LinkE; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io2_PCPlus4E; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_LoadUnsignedE; // @[myCPU.scala 130:26]
+  wire [1:0] _id2ex_io2_MemWidthE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_csrWriteE; // @[myCPU.scala 130:26]
+  wire [11:0] _id2ex_io2_WritecsrAddrE; // @[myCPU.scala 130:26]
+  wire [11:0] _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io2_PCE; // @[myCPU.scala 130:26]
+  wire [1:0] _id2ex_io2_BranchJump_JrE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_eBreakE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_fence_i_control; // @[myCPU.scala 130:26]
+  wire  _id2ex_io_en; // @[myCPU.scala 130:26]
+  wire  _id2ex_io_clr; // @[myCPU.scala 130:26]
+  wire  _id2ex_io_csrToRegE_Out; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_RD1D; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_RD2D; // @[myCPU.scala 130:26]
+  wire [4:0] _id2ex_io_R2D; // @[myCPU.scala 130:26]
+  wire [4:0] _id2ex_io_R1D; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_ImmD; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_PCPlus4D; // @[myCPU.scala 130:26]
+  wire [11:0] _id2ex_io_WritecsrAddrD; // @[myCPU.scala 130:26]
+  wire [11:0] _id2ex_io_ReadcsrAddrD; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_PCD; // @[myCPU.scala 130:26]
+  wire [31:0] _id2ex_io_ExceptionTypeD; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_Pc_NextD; // @[myCPU.scala 130:26]
+  wire [1:0] _id2ex_io_BranchJump_JrD; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_RD1E; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_RD2E; // @[myCPU.scala 130:26]
+  wire [4:0] _id2ex_io_R2E; // @[myCPU.scala 130:26]
+  wire [4:0] _id2ex_io_R1E; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_ImmE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io_data_wE; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_Pc_NextE; // @[myCPU.scala 130:26]
+  wire [23:0] _id2ex_io_muldiv_control; // @[myCPU.scala 130:26]
+  wire  _id2ex_io_alu_calE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io_muldiv_calE; // @[myCPU.scala 130:26]
+  wire [31:0] _id2ex_io_ExceptionTypeE_Out; // @[myCPU.scala 130:26]
+  wire [5:0] _id2ex_io_csr_controlE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io_csr_ImmE; // @[myCPU.scala 130:26]
+  wire  _if2id_clock; // @[myCPU.scala 131:26]
+  wire  _if2id_reset; // @[myCPU.scala 131:26]
+  wire  _if2id_io_en; // @[myCPU.scala 131:26]
+  wire  _if2id_io_clr; // @[myCPU.scala 131:26]
+  wire [63:0] _if2id_io_InstrF; // @[myCPU.scala 131:26]
+  wire [63:0] _if2id_io_PCPlus4F; // @[myCPU.scala 131:26]
+  wire [63:0] _if2id_io_PCF; // @[myCPU.scala 131:26]
+  wire [1:0] _if2id_io_ExceptionTypeF; // @[myCPU.scala 131:26]
+  wire [31:0] _if2id_io_InstrD; // @[myCPU.scala 131:26]
+  wire [63:0] _if2id_io_PCPlus4D; // @[myCPU.scala 131:26]
+  wire [63:0] _if2id_io_PCD; // @[myCPU.scala 131:26]
+  wire [1:0] _if2id_io_ExceptionTypeD_Out; // @[myCPU.scala 131:26]
+  wire  _mem22wb_clock; // @[myCPU.scala 133:27]
+  wire  _mem22wb_reset; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_en; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_clr; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_RegWriteM; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_ResultM; // @[myCPU.scala 133:27]
+  wire [4:0] _mem22wb_io_WriteRegM; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_csrWriteM; // @[myCPU.scala 133:27]
+  wire [11:0] _mem22wb_io_WritecsrAddrM; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_CsrWritedataM; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_PCM; // @[myCPU.scala 133:27]
+  wire [31:0] _mem22wb_io_ExceptionTypeM; // @[myCPU.scala 133:27]
+  wire [1:0] _mem22wb_io_BranchJump_JrM; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_eBreakM; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Pc_NextM; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleM_pc; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleM_data; // @[myCPU.scala 133:27]
+  wire [1:0] _mem22wb_io_Mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleM_addr; // @[myCPU.scala 133:27]
+  wire [2:0] _mem22wb_io_Mem_trace_budleM_len; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_Mem_trace_budleM_cache; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_ResultW; // @[myCPU.scala 133:27]
+  wire [4:0] _mem22wb_io_WriteRegW; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_csrWriteW; // @[myCPU.scala 133:27]
+  wire [11:0] _mem22wb_io_WritecsrAddrW; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_PCW; // @[myCPU.scala 133:27]
+  wire [31:0] _mem22wb_io_ExceptionTypeW_Out; // @[myCPU.scala 133:27]
+  wire [1:0] _mem22wb_io_BranchJump_JrW; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_eBreakW; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Pc_NextW; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleW_pc; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleW_data; // @[myCPU.scala 133:27]
+  wire [1:0] _mem22wb_io_Mem_trace_budleW_mem_fetch_type; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleW_addr; // @[myCPU.scala 133:27]
+  wire [2:0] _mem22wb_io_Mem_trace_budleW_len; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_Mem_trace_budleW_cache; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_CsrWritedataW; // @[myCPU.scala 133:27]
+  wire [63:0] _addr_cal_io_d_vaddr; // @[myCPU.scala 134:31]
+  wire [63:0] _addr_cal_io_d_paddr; // @[myCPU.scala 134:31]
+  wire  _addr_cal_io_d_cached; // @[myCPU.scala 134:31]
+  wire  _muldiv_clock; // @[myCPU.scala 135:26]
+  wire  _muldiv_reset; // @[myCPU.scala 135:26]
+  wire  _muldiv_io_en; // @[myCPU.scala 135:26]
+  wire [23:0] _muldiv_io_ctrl; // @[myCPU.scala 135:26]
+  wire [63:0] _muldiv_io_in1; // @[myCPU.scala 135:26]
+  wire [63:0] _muldiv_io_in2; // @[myCPU.scala 135:26]
+  wire [63:0] _muldiv_io_data_out; // @[myCPU.scala 135:26]
+  wire  _muldiv_io_pending; // @[myCPU.scala 135:26]
+  wire  _regfile_clock; // @[myCPU.scala 137:26]
+  wire  _regfile_reset; // @[myCPU.scala 137:26]
+  wire [4:0] _regfile_io_A1; // @[myCPU.scala 137:26]
+  wire [4:0] _regfile_io_A2; // @[myCPU.scala 137:26]
+  wire  _regfile_io_WE3; // @[myCPU.scala 137:26]
+  wire [4:0] _regfile_io_A3; // @[myCPU.scala 137:26]
+  wire [63:0] _regfile_io_WD3; // @[myCPU.scala 137:26]
+  wire [63:0] _regfile_io_RD1; // @[myCPU.scala 137:26]
+  wire [63:0] _regfile_io_RD2; // @[myCPU.scala 137:26]
+  wire [2047:0] _regfile_io_reg_file_alL_out; // @[myCPU.scala 137:26]
+  wire  _mtrace_mod_reset; // @[myCPU.scala 138:29]
+  wire  _mtrace_mod_clock; // @[myCPU.scala 138:29]
+  wire [63:0] _mtrace_mod_data; // @[myCPU.scala 138:29]
+  wire [63:0] _mtrace_mod_pc; // @[myCPU.scala 138:29]
+  wire [63:0] _mtrace_mod_addr; // @[myCPU.scala 138:29]
+  wire  _mtrace_mod_mem_req; // @[myCPU.scala 138:29]
+  wire  _mtrace_mod_mem_write_read; // @[myCPU.scala 138:29]
+  wire [2:0] _mtrace_mod_mem_size; // @[myCPU.scala 138:29]
+  wire  _mtrace_mod_mem_cached; // @[myCPU.scala 138:29]
+  wire  fifo_with_bundle_clock; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_reset; // @[myCPU.scala 159:29]
+  wire [1:0] fifo_with_bundle_io_read_en; // @[myCPU.scala 159:29]
+  wire [1:0] fifo_with_bundle_io_write_en; // @[myCPU.scala 159:29]
+  wire [63:0] fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 159:29]
+  wire [31:0] fifo_with_bundle_io_read_out_0_inst; // @[myCPU.scala 159:29]
+  wire [1:0] fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 159:29]
+  wire [63:0] fifo_with_bundle_io_read_out_0_pre_pc_target; // @[myCPU.scala 159:29]
+  wire [6:0] fifo_with_bundle_io_read_out_0_pre_lookup_data; // @[myCPU.scala 159:29]
+  wire [3:0] fifo_with_bundle_io_read_out_0_pre_hashcode; // @[myCPU.scala 159:29]
+  wire [1:0] fifo_with_bundle_io_read_out_0_pre_pht; // @[myCPU.scala 159:29]
+  wire [6:0] fifo_with_bundle_io_read_out_0_pre_bht; // @[myCPU.scala 159:29]
+  wire [7:0] fifo_with_bundle_io_read_out_0_pre_lookup_value; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_read_out_0_pre_decoder_branchD_flag; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_read_out_0_pre_decoder_jump; // @[myCPU.scala 159:29]
+  wire [5:0] fifo_with_bundle_io_read_out_0_pre_decoder_branchdata; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_read_out_0_pre_decoder_jr; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_read_out_0_true_branch_state; // @[myCPU.scala 159:29]
+  wire [63:0] fifo_with_bundle_io_write_in_0_pc; // @[myCPU.scala 159:29]
+  wire [31:0] fifo_with_bundle_io_write_in_0_inst; // @[myCPU.scala 159:29]
+  wire [63:0] fifo_with_bundle_io_write_in_0_pre_pc_target; // @[myCPU.scala 159:29]
+  wire [6:0] fifo_with_bundle_io_write_in_0_pre_lookup_data; // @[myCPU.scala 159:29]
+  wire [3:0] fifo_with_bundle_io_write_in_0_pre_hashcode; // @[myCPU.scala 159:29]
+  wire [1:0] fifo_with_bundle_io_write_in_0_pre_pht; // @[myCPU.scala 159:29]
+  wire [6:0] fifo_with_bundle_io_write_in_0_pre_bht; // @[myCPU.scala 159:29]
+  wire [7:0] fifo_with_bundle_io_write_in_0_pre_lookup_value; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_write_in_0_pre_decoder_branchD_flag; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_write_in_0_pre_decoder_jump; // @[myCPU.scala 159:29]
+  wire [5:0] fifo_with_bundle_io_write_in_0_pre_decoder_branchdata; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_write_in_0_pre_decoder_jr; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_write_in_0_true_branch_state; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_full; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_empty; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_point_write_en; // @[myCPU.scala 159:29]
+  wire  fifo_with_bundle_io_point_flush; // @[myCPU.scala 159:29]
+  wire  stage_fec_1_pc_L_clock; // @[myCPU.scala 421:34]
+  wire  stage_fec_1_pc_L_reset; // @[myCPU.scala 421:34]
+  wire  stage_fec_1_pc_L_io_stall; // @[myCPU.scala 421:34]
+  wire  stage_fec_1_pc_L_io_flush; // @[myCPU.scala 421:34]
+  wire [63:0] stage_fec_1_pc_L_io_in_pc_value_in; // @[myCPU.scala 421:34]
+  wire [63:0] stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 421:34]
+  wire  stage_fec_1_pc_M_clock; // @[myCPU.scala 422:34]
+  wire  stage_fec_1_pc_M_reset; // @[myCPU.scala 422:34]
+  wire  stage_fec_1_pc_M_io_stall; // @[myCPU.scala 422:34]
+  wire  stage_fec_1_pc_M_io_flush; // @[myCPU.scala 422:34]
+  wire [63:0] stage_fec_1_pc_M_io_in_pc_value_in; // @[myCPU.scala 422:34]
+  wire [63:0] stage_fec_1_pc_M_io_out_pc_value_out; // @[myCPU.scala 422:34]
+  wire  stage_fec_1_pc_R_clock; // @[myCPU.scala 423:34]
+  wire  stage_fec_1_pc_R_reset; // @[myCPU.scala 423:34]
+  wire  stage_fec_1_pc_R_io_stall; // @[myCPU.scala 423:34]
+  wire  stage_fec_1_pc_R_io_flush; // @[myCPU.scala 423:34]
+  wire [63:0] stage_fec_1_pc_R_io_in_pc_value_in; // @[myCPU.scala 423:34]
+  wire [63:0] stage_fec_1_pc_R_io_out_pc_value_out; // @[myCPU.scala 423:34]
+  wire  branch_prediction_with_blockram_clock; // @[myCPU.scala 452:21]
+  wire  branch_prediction_with_blockram_reset; // @[myCPU.scala 452:21]
+  wire [63:0] branch_prediction_with_blockram_io_pc; // @[myCPU.scala 452:21]
+  wire [63:0] branch_prediction_with_blockram_io_write_pc; // @[myCPU.scala 452:21]
+  wire [3:0] branch_prediction_with_blockram_io_aw_pht_ways_addr; // @[myCPU.scala 452:21]
+  wire [6:0] branch_prediction_with_blockram_io_aw_pht_addr; // @[myCPU.scala 452:21]
+  wire [6:0] branch_prediction_with_blockram_io_aw_bht_addr; // @[myCPU.scala 452:21]
+  wire [63:0] branch_prediction_with_blockram_io_aw_target_addr; // @[myCPU.scala 452:21]
+  wire  branch_prediction_with_blockram_io_btb_write; // @[myCPU.scala 452:21]
+  wire  branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 452:21]
+  wire  branch_prediction_with_blockram_io_pht_write; // @[myCPU.scala 452:21]
+  wire [6:0] branch_prediction_with_blockram_io_bht_in; // @[myCPU.scala 452:21]
+  wire [7:0] branch_prediction_with_blockram_io_pht_in; // @[myCPU.scala 452:21]
+  wire [1:0] branch_prediction_with_blockram_io_out_L; // @[myCPU.scala 452:21]
+  wire  branch_prediction_with_blockram_io_pre_L; // @[myCPU.scala 452:21]
+  wire [6:0] branch_prediction_with_blockram_io_bht_L; // @[myCPU.scala 452:21]
+  wire  branch_prediction_with_blockram_io_btb_hit_0; // @[myCPU.scala 452:21]
+  wire [63:0] branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 452:21]
+  wire  branch_prediction_with_blockram_io_stage2_stall; // @[myCPU.scala 452:21]
+  wire  branch_prediction_with_blockram_io_stage2_flush; // @[myCPU.scala 452:21]
+  wire [7:0] branch_prediction_with_blockram_io_pht_lookup_value_out; // @[myCPU.scala 452:21]
+  wire [6:0] branch_prediction_with_blockram_io_lookup_data_0; // @[myCPU.scala 452:21]
+  wire  stage_fec_2_pc_L_clock; // @[myCPU.scala 521:34]
+  wire  stage_fec_2_pc_L_reset; // @[myCPU.scala 521:34]
+  wire  stage_fec_2_pc_L_io_stall; // @[myCPU.scala 521:34]
+  wire  stage_fec_2_pc_L_io_flush; // @[myCPU.scala 521:34]
+  wire [63:0] stage_fec_2_pc_L_io_in_pc_value_in; // @[myCPU.scala 521:34]
+  wire [63:0] stage_fec_2_pc_L_io_out_pc_value_out; // @[myCPU.scala 521:34]
+  wire  stage_fec_2_pc_M_clock; // @[myCPU.scala 522:34]
+  wire  stage_fec_2_pc_M_reset; // @[myCPU.scala 522:34]
+  wire  stage_fec_2_pc_M_io_stall; // @[myCPU.scala 522:34]
+  wire  stage_fec_2_pc_M_io_flush; // @[myCPU.scala 522:34]
+  wire [63:0] stage_fec_2_pc_M_io_in_pc_value_in; // @[myCPU.scala 522:34]
+  wire [63:0] stage_fec_2_pc_M_io_out_pc_value_out; // @[myCPU.scala 522:34]
+  wire  stage_fec_2_pc_R_clock; // @[myCPU.scala 523:34]
+  wire  stage_fec_2_pc_R_reset; // @[myCPU.scala 523:34]
+  wire  stage_fec_2_pc_R_io_stall; // @[myCPU.scala 523:34]
+  wire  stage_fec_2_pc_R_io_flush; // @[myCPU.scala 523:34]
+  wire [63:0] stage_fec_2_pc_R_io_in_pc_value_in; // @[myCPU.scala 523:34]
+  wire [63:0] stage_fec_2_pc_R_io_out_pc_value_out; // @[myCPU.scala 523:34]
+  wire  id_bru_state_clock; // @[myCPU.scala 685:31]
+  wire  id_bru_state_reset; // @[myCPU.scala 685:31]
+  wire  id_bru_state_io_stall; // @[myCPU.scala 685:31]
+  wire  id_bru_state_io_flush; // @[myCPU.scala 685:31]
+  wire [1:0] id_bru_state_io_in_pht; // @[myCPU.scala 685:31]
+  wire [6:0] id_bru_state_io_in_bht; // @[myCPU.scala 685:31]
+  wire [3:0] id_bru_state_io_in_hashcode; // @[myCPU.scala 685:31]
+  wire [63:0] id_bru_state_io_in_target_pc; // @[myCPU.scala 685:31]
+  wire [6:0] id_bru_state_io_in_lookup_data; // @[myCPU.scala 685:31]
+  wire [7:0] id_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 685:31]
+  wire [1:0] id_bru_state_io_out_pht; // @[myCPU.scala 685:31]
+  wire [6:0] id_bru_state_io_out_bht; // @[myCPU.scala 685:31]
+  wire [3:0] id_bru_state_io_out_hashcode; // @[myCPU.scala 685:31]
+  wire [63:0] id_bru_state_io_out_target_pc; // @[myCPU.scala 685:31]
+  wire [6:0] id_bru_state_io_out_lookup_data; // @[myCPU.scala 685:31]
+  wire [7:0] id_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 685:31]
+  wire  ex_bru_state_clock; // @[myCPU.scala 689:31]
+  wire  ex_bru_state_reset; // @[myCPU.scala 689:31]
+  wire  ex_bru_state_io_stall; // @[myCPU.scala 689:31]
+  wire  ex_bru_state_io_flush; // @[myCPU.scala 689:31]
+  wire [1:0] ex_bru_state_io_in_pht; // @[myCPU.scala 689:31]
+  wire [6:0] ex_bru_state_io_in_bht; // @[myCPU.scala 689:31]
+  wire [3:0] ex_bru_state_io_in_hashcode; // @[myCPU.scala 689:31]
+  wire [63:0] ex_bru_state_io_in_target_pc; // @[myCPU.scala 689:31]
+  wire [6:0] ex_bru_state_io_in_lookup_data; // @[myCPU.scala 689:31]
+  wire [7:0] ex_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 689:31]
+  wire [1:0] ex_bru_state_io_out_pht; // @[myCPU.scala 689:31]
+  wire [6:0] ex_bru_state_io_out_bht; // @[myCPU.scala 689:31]
+  wire [3:0] ex_bru_state_io_out_hashcode; // @[myCPU.scala 689:31]
+  wire [63:0] ex_bru_state_io_out_target_pc; // @[myCPU.scala 689:31]
+  wire [6:0] ex_bru_state_io_out_lookup_data; // @[myCPU.scala 689:31]
+  wire [7:0] ex_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 689:31]
+  wire  mem_bru_state_clock; // @[myCPU.scala 693:32]
+  wire  mem_bru_state_reset; // @[myCPU.scala 693:32]
+  wire  mem_bru_state_io_stall; // @[myCPU.scala 693:32]
+  wire  mem_bru_state_io_flush; // @[myCPU.scala 693:32]
+  wire [1:0] mem_bru_state_io_in_pht; // @[myCPU.scala 693:32]
+  wire [6:0] mem_bru_state_io_in_bht; // @[myCPU.scala 693:32]
+  wire [3:0] mem_bru_state_io_in_hashcode; // @[myCPU.scala 693:32]
+  wire [63:0] mem_bru_state_io_in_target_pc; // @[myCPU.scala 693:32]
+  wire [6:0] mem_bru_state_io_in_lookup_data; // @[myCPU.scala 693:32]
+  wire [7:0] mem_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 693:32]
+  wire [1:0] mem_bru_state_io_out_pht; // @[myCPU.scala 693:32]
+  wire [6:0] mem_bru_state_io_out_bht; // @[myCPU.scala 693:32]
+  wire [3:0] mem_bru_state_io_out_hashcode; // @[myCPU.scala 693:32]
+  wire [63:0] mem_bru_state_io_out_target_pc; // @[myCPU.scala 693:32]
+  wire [6:0] mem_bru_state_io_out_lookup_data; // @[myCPU.scala 693:32]
+  wire [7:0] mem_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 693:32]
+  wire  mem2_bru_state_clock; // @[myCPU.scala 697:33]
+  wire  mem2_bru_state_reset; // @[myCPU.scala 697:33]
+  wire  mem2_bru_state_io_stall; // @[myCPU.scala 697:33]
+  wire  mem2_bru_state_io_flush; // @[myCPU.scala 697:33]
+  wire [1:0] mem2_bru_state_io_in_pht; // @[myCPU.scala 697:33]
+  wire [6:0] mem2_bru_state_io_in_bht; // @[myCPU.scala 697:33]
+  wire [3:0] mem2_bru_state_io_in_hashcode; // @[myCPU.scala 697:33]
+  wire [63:0] mem2_bru_state_io_in_target_pc; // @[myCPU.scala 697:33]
+  wire [6:0] mem2_bru_state_io_in_lookup_data; // @[myCPU.scala 697:33]
+  wire [7:0] mem2_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 697:33]
+  wire [1:0] mem2_bru_state_io_out_pht; // @[myCPU.scala 697:33]
+  wire [6:0] mem2_bru_state_io_out_bht; // @[myCPU.scala 697:33]
+  wire [3:0] mem2_bru_state_io_out_hashcode; // @[myCPU.scala 697:33]
+  wire [63:0] mem2_bru_state_io_out_target_pc; // @[myCPU.scala 697:33]
+  wire [6:0] mem2_bru_state_io_out_lookup_data; // @[myCPU.scala 697:33]
+  wire [7:0] mem2_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 697:33]
+  wire  wb_bru_state_clock; // @[myCPU.scala 701:31]
+  wire  wb_bru_state_reset; // @[myCPU.scala 701:31]
+  wire  wb_bru_state_io_stall; // @[myCPU.scala 701:31]
+  wire  wb_bru_state_io_flush; // @[myCPU.scala 701:31]
+  wire [1:0] wb_bru_state_io_in_pht; // @[myCPU.scala 701:31]
+  wire [6:0] wb_bru_state_io_in_bht; // @[myCPU.scala 701:31]
+  wire [3:0] wb_bru_state_io_in_hashcode; // @[myCPU.scala 701:31]
+  wire [63:0] wb_bru_state_io_in_target_pc; // @[myCPU.scala 701:31]
+  wire [6:0] wb_bru_state_io_in_lookup_data; // @[myCPU.scala 701:31]
+  wire [7:0] wb_bru_state_io_in_pht_lookup_value; // @[myCPU.scala 701:31]
+  wire [1:0] wb_bru_state_io_out_pht; // @[myCPU.scala 701:31]
+  wire [6:0] wb_bru_state_io_out_bht; // @[myCPU.scala 701:31]
+  wire [3:0] wb_bru_state_io_out_hashcode; // @[myCPU.scala 701:31]
+  wire [63:0] wb_bru_state_io_out_target_pc; // @[myCPU.scala 701:31]
+  wire [6:0] wb_bru_state_io_out_lookup_data; // @[myCPU.scala 701:31]
+  wire [7:0] wb_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 701:31]
+  wire  _commit_difftest_reset; // @[myCPU.scala 1149:34]
+  wire  _commit_difftest_clock; // @[myCPU.scala 1149:34]
+  wire [2047:0] _commit_difftest_gpr_wire; // @[myCPU.scala 1149:34]
+  wire [63:0] _commit_difftest_pc; // @[myCPU.scala 1149:34]
+  wire [63:0] _commit_difftest_debug_pc; // @[myCPU.scala 1149:34]
+  wire  _commit_difftest_inst_commit; // @[myCPU.scala 1149:34]
+  wire  _commit_difftest_data_ok_ok; // @[myCPU.scala 1149:34]
+  wire  _commit_difftest_cpu_ebreak_sign; // @[myCPU.scala 1149:34]
+  wire  _T_2 = ~resetn; // @[myCPU.scala 114:41]
+  wire  stage_fec_2_inst_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 179:45]
+  wire  stage_fec_2_inst_branch = inst_sram_rdata_L[32]; // @[myCPU.scala 180:47]
+  reg  pre_decoder_branchD_flag; // @[myCPU.scala 182:44]
+  reg [5:0] pre_decoder_branchdata; // @[myCPU.scala 183:43]
+  reg  pre_decoder_jump; // @[myCPU.scala 184:40]
+  reg  pre_decoder_jr; // @[myCPU.scala 185:40]
   wire [12:0] _immSB_T_4 = {_if2id_io_InstrD[31],_if2id_io_InstrD[7],_if2id_io_InstrD[30:25],_if2id_io_InstrD[11:8],1'h0
     }; // @[Cat.scala 31:58]
   wire [5:0] immSB_lo_lo_lo = {_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12],_immSB_T_4[12]
@@ -40170,9 +40143,9 @@ module myCPU(
     _immSB_T_4[12],immSB_lo_lo_lo,immSB_lo_hi,immSB_lo_1}; // @[Cat.scala 31:58]
   wire [63:0] immSB = {_immSB_T_56,_if2id_io_InstrD[31],_if2id_io_InstrD[7],_if2id_io_InstrD[30:25],_if2id_io_InstrD[11:
     8],1'h0}; // @[Cat.scala 31:58]
-  wire  _PCSrcD_T_1 = _cfu_io_StallD; // @[myCPU.scala 196:66]
-  wire  _PCSrcD_T_3 = _br_io_exe; // @[myCPU.scala 196:85]
-  wire [63:0] PCBranchD = immSB + _if2id_io_PCD; // @[myCPU.scala 197:27]
+  wire  _PCSrcD_T_1 = _cfu_io_StallD; // @[myCPU.scala 200:66]
+  wire  _PCSrcD_T_3 = _br_io_exe; // @[myCPU.scala 200:85]
+  wire [63:0] PCBranchD = immSB + _if2id_io_PCD; // @[myCPU.scala 201:27]
   wire [20:0] _immUJ_T_4 = {_if2id_io_InstrD[31],_if2id_io_InstrD[19:12],_if2id_io_InstrD[20],_if2id_io_InstrD[30:21],1'h0
     }; // @[Cat.scala 31:58]
   wire [4:0] immUJ_lo_lo_lo = {_immUJ_T_4[20],_immUJ_T_4[20],_immUJ_T_4[20],_immUJ_T_4[20],_immUJ_T_4[20]}; // @[Cat.scala 31:58]
@@ -40193,101 +40166,101 @@ module myCPU(
   wire [51:0] _PCJumpD_T_54 = {_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],
     _if2id_io_InstrD[31],_if2id_io_InstrD[31],_if2id_io_InstrD[31],PCJumpD_lo_lo_lo,PCJumpD_lo_lo,PCJumpD_lo}; // @[Cat.scala 31:58]
   wire [63:0] _PCJumpD_T_56 = {_PCJumpD_T_54,_if2id_io_InstrD[31:20]}; // @[Cat.scala 31:58]
-  reg [63:0] resultE2M_Reg; // @[myCPU.scala 977:32]
-  reg [63:0] ResultM2_Reg; // @[myCPU.scala 1031:29]
-  wire [63:0] _BranchR1D_T_2 = _cfu_io_Forward1D[1] ? ResultM2_Reg : _regfile_io_RD1; // @[myCPU.scala 769:61]
-  wire [63:0] BranchR1D = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 769:20]
-  wire [63:0] _PCJumpD_T_58 = BranchR1D + _PCJumpD_T_56; // @[myCPU.scala 200:58]
-  wire [63:0] _PCJumpD_T_60 = immUJ + _if2id_io_PCD; // @[myCPU.scala 200:107]
-  wire [63:0] PCJumpD = pre_decoder_jr ? _PCJumpD_T_58 : _PCJumpD_T_60; // @[myCPU.scala 200:24]
-  reg [63:0] PCW_Reg; // @[myCPU.scala 288:26]
-  wire  _PCW_Reg_T = _mem22wb_io_PCW != 64'h0; // @[myCPU.scala 292:36]
-  reg [63:0] reg_pc; // @[myCPU.scala 297:25]
-  reg  wb_exception; // @[myCPU.scala 633:31]
-  wire  RegWriteW = wb_exception ? 1'h0 : _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 1158:21]
-  wire [3:0] _debug_wb_rf_wen_T_2 = RegWriteW ? 4'hf : 4'h0; // @[myCPU.scala 300:62]
-  reg [63:0] pc_next_wait; // @[myCPU.scala 338:31]
-  wire  ready_to_branch = fifo_with_bundle_io_point_write_en; // @[myCPU.scala 340:31 595:21]
-  reg  stage_fec_2_stall_reg; // @[myCPU.scala 504:40]
-  reg  stage_fec_2_valid; // @[myCPU.scala 475:36]
-  wire  _stage_fec_2_branch_answer_T_7 = _csr_io_exception; // @[myCPU.scala 507:209]
-  wire  _stage_fec_2_branch_answer_T_8 = ~_csr_io_exception; // @[myCPU.scala 507:190]
+  reg [63:0] resultE2M_Reg; // @[myCPU.scala 982:32]
+  reg [63:0] ResultM2_Reg; // @[myCPU.scala 1036:29]
+  wire [63:0] _BranchR1D_T_2 = _cfu_io_Forward1D[1] ? ResultM2_Reg : _regfile_io_RD1; // @[myCPU.scala 773:61]
+  wire [63:0] BranchR1D = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 773:20]
+  wire [63:0] _PCJumpD_T_58 = BranchR1D + _PCJumpD_T_56; // @[myCPU.scala 204:58]
+  wire [63:0] _PCJumpD_T_60 = immUJ + _if2id_io_PCD; // @[myCPU.scala 204:107]
+  wire [63:0] PCJumpD = pre_decoder_jr ? _PCJumpD_T_58 : _PCJumpD_T_60; // @[myCPU.scala 204:24]
+  reg [63:0] PCW_Reg; // @[myCPU.scala 292:26]
+  wire  _PCW_Reg_T = _mem22wb_io_PCW != 64'h0; // @[myCPU.scala 296:36]
+  reg [63:0] reg_pc; // @[myCPU.scala 301:25]
+  reg  wb_exception; // @[myCPU.scala 637:31]
+  wire  RegWriteW = wb_exception ? 1'h0 : _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 1163:21]
+  wire [3:0] _debug_wb_rf_wen_T_2 = RegWriteW ? 4'hf : 4'h0; // @[myCPU.scala 304:62]
+  reg [63:0] pc_next_wait; // @[myCPU.scala 342:31]
+  wire  ready_to_branch = fifo_with_bundle_io_point_write_en; // @[myCPU.scala 344:31 599:21]
+  reg  stage_fec_2_stall_reg; // @[myCPU.scala 508:40]
+  reg  stage_fec_2_valid; // @[myCPU.scala 479:36]
+  wire  _stage_fec_2_branch_answer_T_7 = _csr_io_exception; // @[myCPU.scala 511:209]
+  wire  _stage_fec_2_branch_answer_T_8 = ~_csr_io_exception; // @[myCPU.scala 511:190]
   wire  stage_fec_2_branch_answer = branch_prediction_with_blockram_io_pre_L & (stage_fec_2_inst_branch |
     stage_fec_2_inst_jump) & branch_prediction_with_blockram_io_btb_hit_0 & stage_fec_2_stall_reg & stage_fec_2_valid &
-    ~_csr_io_exception; // @[myCPU.scala 507:187]
-  wire  _pc_next_wait_T = ready_to_branch | stage_fec_2_branch_answer; // @[myCPU.scala 341:41]
+    ~_csr_io_exception; // @[myCPU.scala 511:187]
+  wire  _pc_next_wait_T = ready_to_branch | stage_fec_2_branch_answer; // @[myCPU.scala 345:41]
   wire [63:0] _PC_nextD_T_2 = _PCSrcD_T_3 ? PCBranchD : _if2id_io_PCPlus4D; // @[Mux.scala 101:16]
   wire [63:0] PC_nextD = pre_decoder_jump ? PCJumpD : _PC_nextD_T_2; // @[Mux.scala 101:16]
-  wire [63:0] stage_fec_2_pre_target_0 = branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 480:38 496:31]
-  wire [63:0] stage_fec_1_pc = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 172:26 445:20]
-  wire [63:0] _stage_fec_1_pc_next_T_1 = stage_fec_1_pc + 64'h4; // @[myCPU.scala 412:93]
-  wire [63:0] stage_fec_1_pc_next = stage_fec_2_branch_answer ? stage_fec_2_pre_target_0 : _stage_fec_1_pc_next_T_1; // @[myCPU.scala 412:31]
-  wire [63:0] Pc_Next_normal = fifo_with_bundle_io_point_write_en ? PC_nextD : stage_fec_1_pc_next; // @[myCPU.scala 761:26]
-  reg  pc_req_wait; // @[myCPU.scala 342:30]
-  wire  _T_4 = ~inst_sram_en; // @[myCPU.scala 346:10]
+  wire [63:0] stage_fec_2_pre_target_0 = branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 484:38 500:31]
+  wire [63:0] stage_fec_1_pc = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 176:26 449:20]
+  wire [63:0] _stage_fec_1_pc_next_T_1 = stage_fec_1_pc + 64'h4; // @[myCPU.scala 416:93]
+  wire [63:0] stage_fec_1_pc_next = stage_fec_2_branch_answer ? stage_fec_2_pre_target_0 : _stage_fec_1_pc_next_T_1; // @[myCPU.scala 416:31]
+  wire [63:0] Pc_Next_normal = fifo_with_bundle_io_point_write_en ? PC_nextD : stage_fec_1_pc_next; // @[myCPU.scala 765:26]
+  reg  pc_req_wait; // @[myCPU.scala 346:30]
+  wire  _T_4 = ~inst_sram_en; // @[myCPU.scala 350:10]
   wire  _GEN_0 = pc_req_wait & inst_sram_en | _stage_fec_2_branch_answer_T_7 | ready_to_branch & inst_sram_en ? 1'h0 :
-    pc_req_wait; // @[myCPU.scala 348:119 349:21 351:21]
-  reg [63:0] exception_Pc_reg; // @[myCPU.scala 355:35]
-  reg  returnPc_req_wait; // @[myCPU.scala 358:36]
-  wire  _GEN_2 = returnPc_req_wait & inst_sram_en ? 1'h0 : returnPc_req_wait; // @[myCPU.scala 363:54 364:27 366:27]
-  wire [63:0] _Pc_Next_T_1 = pc_req_wait ? pc_next_wait : Pc_Next_normal; // @[myCPU.scala 373:140]
-  wire [63:0] _Pc_Next_T_2 = ready_to_branch ? Pc_Next_normal : _Pc_Next_T_1; // @[myCPU.scala 373:105]
-  wire [63:0] _Pc_Next_T_3 = returnPc_req_wait ? exception_Pc_reg : _Pc_Next_T_2; // @[myCPU.scala 373:66]
-  wire [63:0] Pc_Next = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 373:19]
-  wire  _commit_cache_reg_T = _cfu_io_StallE; // @[myCPU.scala 395:40]
-  reg  stage_fec_1_valid; // @[myCPU.scala 454:36]
-  wire  _stage_fec_1_valid_T_2 = _pc_next_wait_T ? 1'h0 : stage_fec_1_valid; // @[myCPU.scala 458:55]
-  wire  stage_fec_2_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 468:42]
-  reg [6:0] stage_fec_2_bht_0; // @[myCPU.scala 478:35]
-  reg [3:0] stage_fec_2_hascode_0; // @[myCPU.scala 482:39]
-  wire  stage_fec_2_hascode_0_num_array_0 = ^branch_prediction_with_blockram_io_pc[7:4]; // @[macros.scala 445:45]
-  wire  stage_fec_2_hascode_0_num_array_1 = ^branch_prediction_with_blockram_io_pc[11:8]; // @[macros.scala 445:45]
-  wire  stage_fec_2_hascode_0_num_array_2 = ^branch_prediction_with_blockram_io_pc[15:12]; // @[macros.scala 445:45]
-  wire  stage_fec_2_hascode_0_num_array_3 = ^branch_prediction_with_blockram_io_pc[19:16]; // @[macros.scala 445:45]
+    pc_req_wait; // @[myCPU.scala 352:119 353:21 355:21]
+  reg [63:0] exception_Pc_reg; // @[myCPU.scala 359:35]
+  reg  returnPc_req_wait; // @[myCPU.scala 362:36]
+  wire  _GEN_2 = returnPc_req_wait & inst_sram_en ? 1'h0 : returnPc_req_wait; // @[myCPU.scala 367:54 368:27 370:27]
+  wire [63:0] _Pc_Next_T_1 = pc_req_wait ? pc_next_wait : Pc_Next_normal; // @[myCPU.scala 377:140]
+  wire [63:0] _Pc_Next_T_2 = ready_to_branch ? Pc_Next_normal : _Pc_Next_T_1; // @[myCPU.scala 377:105]
+  wire [63:0] _Pc_Next_T_3 = returnPc_req_wait ? exception_Pc_reg : _Pc_Next_T_2; // @[myCPU.scala 377:66]
+  wire [63:0] Pc_Next = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 377:19]
+  wire  _commit_cache_reg_T = _cfu_io_StallE; // @[myCPU.scala 399:40]
+  reg  stage_fec_1_valid; // @[myCPU.scala 458:36]
+  wire  _stage_fec_1_valid_T_2 = _pc_next_wait_T ? 1'h0 : stage_fec_1_valid; // @[myCPU.scala 462:55]
+  wire  stage_fec_2_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 472:42]
+  reg [6:0] stage_fec_2_bht_0; // @[myCPU.scala 482:35]
+  reg [3:0] stage_fec_2_hascode_0; // @[myCPU.scala 486:39]
+  wire  stage_fec_2_hascode_0_num_array_0 = ^branch_prediction_with_blockram_io_pc[7:4]; // @[macros.scala 447:45]
+  wire  stage_fec_2_hascode_0_num_array_1 = ^branch_prediction_with_blockram_io_pc[11:8]; // @[macros.scala 447:45]
+  wire  stage_fec_2_hascode_0_num_array_2 = ^branch_prediction_with_blockram_io_pc[15:12]; // @[macros.scala 447:45]
+  wire  stage_fec_2_hascode_0_num_array_3 = ^branch_prediction_with_blockram_io_pc[19:16]; // @[macros.scala 447:45]
   wire [3:0] _stage_fec_2_hascode_0_T_1 = {stage_fec_2_hascode_0_num_array_3,stage_fec_2_hascode_0_num_array_2,
-    stage_fec_2_hascode_0_num_array_1,stage_fec_2_hascode_0_num_array_0}; // @[macros.scala 447:13]
-  wire  _stage_fec_2_data_valid_T = ~fifo_with_bundle_io_empty; // @[myCPU.scala 525:88]
-  wire [31:0] inst_buffer_write_bundle_inst = inst_sram_rdata_L[31:0]; // @[myCPU.scala 547:60]
-  wire [6:0] inst_buffer_write_bundle_pre_decoder_jr_opD = inst_buffer_write_bundle_inst[6:0]; // @[macros.scala 493:24]
-  wire [2:0] inst_buffer_write_bundle_pre_decoder_jr_Funct3D = inst_buffer_write_bundle_inst[14:12]; // @[macros.scala 494:28]
-  wire  _T_25 = _cfu_io_StallF; // @[myCPU.scala 573:51]
-  wire  _pre_decoder_branchD_flag_T = _cfu_io_FlushD; // @[myCPU.scala 602:52]
-  wire  inst_buffer_read_out_pre_decoder_branchD_flag = fifo_with_bundle_io_read_out_0_pre_decoder_branchD_flag; // @[myCPU.scala 598:36 599:26]
-  wire  inst_buffer_read_out_pre_decoder_jump = fifo_with_bundle_io_read_out_0_pre_decoder_jump; // @[myCPU.scala 598:36 599:26]
-  wire [5:0] inst_buffer_read_out_pre_decoder_branchdata = fifo_with_bundle_io_read_out_0_pre_decoder_branchdata; // @[myCPU.scala 598:36 599:26]
-  wire  inst_buffer_read_out_pre_decoder_jr = fifo_with_bundle_io_read_out_0_pre_decoder_jr; // @[myCPU.scala 598:36 599:26]
-  wire  __if2id_io_InstrF_T = _cu_io1_BadInstrD; // @[myCPU.scala 617:52]
-  wire  __if2id_io_InstrF_T_1 = _cu_io1_SysCallD; // @[myCPU.scala 617:79]
-  wire  __if2id_io_InstrF_T_3 = _cu_io1_EretD; // @[myCPU.scala 618:47]
-  wire [31:0] inst_buffer_read_out_inst = fifo_with_bundle_io_read_out_0_inst; // @[myCPU.scala 598:36 599:26]
+    stage_fec_2_hascode_0_num_array_1,stage_fec_2_hascode_0_num_array_0}; // @[macros.scala 449:13]
+  wire  _stage_fec_2_data_valid_T = ~fifo_with_bundle_io_empty; // @[myCPU.scala 529:88]
+  wire [31:0] inst_buffer_write_bundle_inst = inst_sram_rdata_L[31:0]; // @[myCPU.scala 551:60]
+  wire [6:0] inst_buffer_write_bundle_pre_decoder_jr_opD = inst_buffer_write_bundle_inst[6:0]; // @[macros.scala 495:24]
+  wire [2:0] inst_buffer_write_bundle_pre_decoder_jr_Funct3D = inst_buffer_write_bundle_inst[14:12]; // @[macros.scala 496:28]
+  wire  _T_25 = _cfu_io_StallF; // @[myCPU.scala 577:51]
+  wire  _pre_decoder_branchD_flag_T = _cfu_io_FlushD; // @[myCPU.scala 606:52]
+  wire  inst_buffer_read_out_pre_decoder_branchD_flag = fifo_with_bundle_io_read_out_0_pre_decoder_branchD_flag; // @[myCPU.scala 602:36 603:26]
+  wire  inst_buffer_read_out_pre_decoder_jump = fifo_with_bundle_io_read_out_0_pre_decoder_jump; // @[myCPU.scala 602:36 603:26]
+  wire [5:0] inst_buffer_read_out_pre_decoder_branchdata = fifo_with_bundle_io_read_out_0_pre_decoder_branchdata; // @[myCPU.scala 602:36 603:26]
+  wire  inst_buffer_read_out_pre_decoder_jr = fifo_with_bundle_io_read_out_0_pre_decoder_jr; // @[myCPU.scala 602:36 603:26]
+  wire  __if2id_io_InstrF_T = _cu_io1_BadInstrD; // @[myCPU.scala 621:52]
+  wire  __if2id_io_InstrF_T_1 = _cu_io1_SysCallD; // @[myCPU.scala 621:79]
+  wire  __if2id_io_InstrF_T_3 = _cu_io1_EretD; // @[myCPU.scala 622:47]
+  wire [31:0] inst_buffer_read_out_inst = fifo_with_bundle_io_read_out_0_inst; // @[myCPU.scala 602:36 603:26]
   wire [31:0] __if2id_io_InstrF_T_5 = _cu_io1_BadInstrD | _cu_io1_SysCallD | __if2id_io_InstrF_T_3 ? 32'h0 :
-    inst_buffer_read_out_inst; // @[myCPU.scala 617:33]
-  reg  id_exception; // @[myCPU.scala 621:31]
-  wire [63:0] inst_buffer_read_out_pc = fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 598:36 599:26]
-  wire [1:0] inst_buffer_read_out_exception_type = fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 598:36 599:26]
-  reg  ex_exception; // @[myCPU.scala 624:31]
-  wire  _ex_exception_T = _cfu_io_FlushE; // @[myCPU.scala 625:40]
-  reg  mem_exception; // @[myCPU.scala 627:32]
-  wire  _mem_exception_T = _cfu_io_FlushM; // @[myCPU.scala 628:41]
-  wire  _mem_exception_T_1 = _cfu_io_StallM; // @[myCPU.scala 628:71]
-  reg  mem2_exception; // @[myCPU.scala 630:33]
-  wire  _mem2_exception_T = _cfu_io_FlushM2; // @[myCPU.scala 631:43]
-  wire  _mem2_exception_T_1 = _cfu_io_StallM2; // @[myCPU.scala 631:74]
-  wire  _wb_exception_T = _cfu_io_FlushW; // @[myCPU.scala 634:40]
-  wire  _wb_exception_T_1 = _cfu_io_StallW; // @[myCPU.scala 634:70]
-  reg  id_true_branch_state; // @[myCPU.scala 678:39]
-  wire  inst_buffer_read_out_true_branch_state = fifo_with_bundle_io_read_out_0_true_branch_state; // @[myCPU.scala 598:36 599:26]
-  reg  inst_tlb_exceptionE; // @[myCPU.scala 708:38]
-  wire  target_neq_branchD = id_bru_state_io_out_target_pc != PCBranchD; // @[myCPU.scala 722:62]
-  wire  target_neq_jumpD = id_bru_state_io_out_target_pc != PCJumpD; // @[myCPU.scala 723:62]
-  wire  target_addr_error = pre_decoder_jump & target_neq_jumpD | _PCSrcD_T_3 & target_neq_branchD; // @[myCPU.scala 725:75]
-  wire  _T_31 = pre_decoder_jump | _PCSrcD_T_3; // @[myCPU.scala 728:117]
-  wire  _T_37 = ex_exception | mem_exception | mem2_exception | wb_exception; // @[myCPU.scala 728:241]
+    inst_buffer_read_out_inst; // @[myCPU.scala 621:33]
+  reg  id_exception; // @[myCPU.scala 625:31]
+  wire [63:0] inst_buffer_read_out_pc = fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 602:36 603:26]
+  wire [1:0] inst_buffer_read_out_exception_type = fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 602:36 603:26]
+  reg  ex_exception; // @[myCPU.scala 628:31]
+  wire  _ex_exception_T = _cfu_io_FlushE; // @[myCPU.scala 629:40]
+  reg  mem_exception; // @[myCPU.scala 631:32]
+  wire  _mem_exception_T = _cfu_io_FlushM; // @[myCPU.scala 632:41]
+  wire  _mem_exception_T_1 = _cfu_io_StallM; // @[myCPU.scala 632:71]
+  reg  mem2_exception; // @[myCPU.scala 634:33]
+  wire  _mem2_exception_T = _cfu_io_FlushM2; // @[myCPU.scala 635:43]
+  wire  _mem2_exception_T_1 = _cfu_io_StallM2; // @[myCPU.scala 635:74]
+  wire  _wb_exception_T = _cfu_io_FlushW; // @[myCPU.scala 638:40]
+  wire  _wb_exception_T_1 = _cfu_io_StallW; // @[myCPU.scala 638:70]
+  reg  id_true_branch_state; // @[myCPU.scala 682:39]
+  wire  inst_buffer_read_out_true_branch_state = fifo_with_bundle_io_read_out_0_true_branch_state; // @[myCPU.scala 602:36 603:26]
+  reg  inst_tlb_exceptionE; // @[myCPU.scala 712:38]
+  wire  target_neq_branchD = id_bru_state_io_out_target_pc != PCBranchD; // @[myCPU.scala 726:62]
+  wire  target_neq_jumpD = id_bru_state_io_out_target_pc != PCJumpD; // @[myCPU.scala 727:62]
+  wire  target_addr_error = pre_decoder_jump & target_neq_jumpD | _PCSrcD_T_3 & target_neq_branchD; // @[myCPU.scala 729:75]
+  wire  _T_31 = pre_decoder_jump | _PCSrcD_T_3; // @[myCPU.scala 732:117]
+  wire  _T_37 = ex_exception | mem_exception | mem2_exception | wb_exception; // @[myCPU.scala 732:241]
   wire [63:0] _Pc_targetD_T_2 = pre_decoder_jump ? PCJumpD : 64'h0; // @[Mux.scala 101:16]
-  reg  true_branch_stateE; // @[myCPU.scala 739:37]
-  wire [1:0] _pht_tobeE_T_1 = true_branch_stateE ? 2'h3 : 2'h2; // @[macros.scala 466:30]
-  wire [1:0] _pht_tobeE_T_2 = true_branch_stateE ? 2'h2 : 2'h0; // @[macros.scala 467:32]
-  wire [1:0] _pht_tobeE_T_3 = true_branch_stateE ? 2'h3 : 2'h1; // @[macros.scala 468:30]
+  reg  true_branch_stateE; // @[myCPU.scala 743:37]
+  wire [1:0] _pht_tobeE_T_1 = true_branch_stateE ? 2'h3 : 2'h2; // @[macros.scala 468:30]
+  wire [1:0] _pht_tobeE_T_2 = true_branch_stateE ? 2'h2 : 2'h0; // @[macros.scala 469:32]
+  wire [1:0] _pht_tobeE_T_3 = true_branch_stateE ? 2'h3 : 2'h1; // @[macros.scala 470:30]
   wire [1:0] _pht_tobeE_T_5 = 2'h3 == ex_bru_state_io_out_pht ? _pht_tobeE_T_1 : {{1'd0}, true_branch_stateE}; // @[Mux.scala 81:58]
   wire [1:0] _pht_tobeE_T_7 = 2'h1 == ex_bru_state_io_out_pht ? _pht_tobeE_T_2 : _pht_tobeE_T_5; // @[Mux.scala 81:58]
   wire [1:0] pht_tobeE = 2'h2 == ex_bru_state_io_out_pht ? _pht_tobeE_T_3 : _pht_tobeE_T_7; // @[Mux.scala 81:58]
@@ -40301,8 +40274,8 @@ module myCPU(
      : _pht_lookup_value_tobeE_T_2; // @[Mux.scala 81:58]
   wire [7:0] _pht_lookup_value_tobeE_T_14 = 2'h2 == ex_bru_state_io_out_lookup_data[1:0] ? _pht_lookup_value_tobeE_T_8
      : _pht_lookup_value_tobeE_T_12; // @[Mux.scala 81:58]
-  wire [63:0] _BranchR2D_T_2 = _cfu_io_Forward2D[1] ? ResultM2_Reg : _regfile_io_RD2; // @[myCPU.scala 771:61]
-  wire  _ExceptionTypeD_Out_T_1 = _if2id_io_PCD[1:0] != 2'h0; // @[myCPU.scala 773:29]
+  wire [63:0] _BranchR2D_T_2 = _cfu_io_Forward2D[1] ? ResultM2_Reg : _regfile_io_RD2; // @[myCPU.scala 775:61]
+  wire  _ExceptionTypeD_Out_T_1 = _if2id_io_PCD[1:0] != 2'h0; // @[myCPU.scala 777:29]
   wire [20:0] _ExceptionTypeD_Out_T_4 = _ExceptionTypeD_Out_T_1 ? 21'h100000 : 21'h0; // @[Mux.scala 27:73]
   wire [3:0] _ExceptionTypeD_Out_T_5 = _if2id_io_ExceptionTypeD_Out[0] ? 4'h8 : 4'h0; // @[Mux.scala 27:73]
   wire [2:0] _ExceptionTypeD_Out_T_6 = _if2id_io_ExceptionTypeD_Out[1] ? 3'h4 : 3'h0; // @[Mux.scala 27:73]
@@ -40313,70 +40286,66 @@ module myCPU(
   wire [20:0] _ExceptionTypeD_Out_T_9 = _ExceptionTypeD_Out_T_8 | _GEN_13; // @[Mux.scala 27:73]
   wire [24:0] _GEN_14 = {{4'd0}, _ExceptionTypeD_Out_T_9}; // @[Mux.scala 27:73]
   wire [24:0] _ExceptionTypeD_Out_T_10 = _GEN_14 | _ExceptionTypeD_Out_T_7; // @[Mux.scala 27:73]
-  wire  _int_with_timer_int_T_1 = _csr_io_timer_int_has | ext_int[5]; // @[myCPU.scala 787:56]
-  wire [5:0] int_with_timer_int = {_int_with_timer_int_T_1,ext_int[4:0]}; // @[Cat.scala 31:58]
-  wire [6:0] _GEN_15 = {{1'd0}, int_with_timer_int}; // @[myCPU.scala 798:59]
-  wire [6:0] __id2ex_io_ExceptionTypeD_T = _GEN_15 & _csr_io_csr_status; // @[myCPU.scala 798:59]
-  wire [63:0] ExceptionTypeD_Out = {{39'd0}, _ExceptionTypeD_Out_T_10}; // @[myCPU.scala 188:34 772:24]
-  wire [10:0] __id2ex_io_ExceptionTypeD_T_6 = __if2id_io_InstrF_T ? 11'h400 : 11'h0; // @[myCPU.scala 799:13]
-  wire [8:0] __id2ex_io_ExceptionTypeD_T_8 = __if2id_io_InstrF_T_1 ? 9'h100 : 9'h0; // @[myCPU.scala 800:13]
-  wire [10:0] _GEN_16 = {{2'd0}, __id2ex_io_ExceptionTypeD_T_8}; // @[myCPU.scala 799:59]
-  wire [10:0] __id2ex_io_ExceptionTypeD_T_9 = __id2ex_io_ExceptionTypeD_T_6 | _GEN_16; // @[myCPU.scala 799:59]
-  wire [31:0] __id2ex_io_ExceptionTypeD_T_11 = __if2id_io_InstrF_T_3 ? 32'h80000000 : 32'h0; // @[myCPU.scala 802:13]
-  wire [31:0] _GEN_17 = {{21'd0}, __id2ex_io_ExceptionTypeD_T_9}; // @[myCPU.scala 800:59]
-  wire [31:0] __id2ex_io_ExceptionTypeD_T_12 = _GEN_17 | __id2ex_io_ExceptionTypeD_T_11; // @[myCPU.scala 800:59]
-  wire [63:0] __id2ex_io_ExceptionTypeD_T_13 = ExceptionTypeD_Out == 64'h0 ? {{32'd0}, __id2ex_io_ExceptionTypeD_T_12}
-     : ExceptionTypeD_Out; // @[myCPU.scala 798:135]
-  wire [63:0] __id2ex_io_ExceptionTypeD_T_14 = __id2ex_io_ExceptionTypeD_T != 7'h0 & _csr_io_Int_able ? 64'h1 :
-    __id2ex_io_ExceptionTypeD_T_13; // @[myCPU.scala 798:37]
-  wire  __id2ex_io_BranchJump_JrD_T_2 = pre_decoder_branchD_flag | pre_decoder_jump; // @[myCPU.scala 824:79]
-  reg  inst_tlb_exceptionM; // @[myCPU.scala 837:34]
-  wire [63:0] ResultW = _mem22wb_io_ResultW; // @[myCPU.scala 1157:15 285:26]
+  wire [63:0] ExceptionTypeD_Out = {{39'd0}, _ExceptionTypeD_Out_T_10}; // @[myCPU.scala 192:34 776:24]
+  wire [10:0] __id2ex_io_ExceptionTypeD_T_5 = __if2id_io_InstrF_T ? 11'h400 : 11'h0; // @[myCPU.scala 804:13]
+  wire [8:0] __id2ex_io_ExceptionTypeD_T_7 = __if2id_io_InstrF_T_1 ? 9'h100 : 9'h0; // @[myCPU.scala 805:13]
+  wire [10:0] _GEN_15 = {{2'd0}, __id2ex_io_ExceptionTypeD_T_7}; // @[myCPU.scala 804:59]
+  wire [10:0] __id2ex_io_ExceptionTypeD_T_8 = __id2ex_io_ExceptionTypeD_T_5 | _GEN_15; // @[myCPU.scala 804:59]
+  wire [31:0] __id2ex_io_ExceptionTypeD_T_10 = __if2id_io_InstrF_T_3 ? 32'h80000000 : 32'h0; // @[myCPU.scala 807:13]
+  wire [31:0] _GEN_16 = {{21'd0}, __id2ex_io_ExceptionTypeD_T_8}; // @[myCPU.scala 805:59]
+  wire [31:0] __id2ex_io_ExceptionTypeD_T_11 = _GEN_16 | __id2ex_io_ExceptionTypeD_T_10; // @[myCPU.scala 805:59]
+  wire [63:0] __id2ex_io_ExceptionTypeD_T_12 = ExceptionTypeD_Out == 64'h0 ? {{32'd0}, __id2ex_io_ExceptionTypeD_T_11}
+     : ExceptionTypeD_Out; // @[myCPU.scala 803:129]
+  wire [63:0] __id2ex_io_ExceptionTypeD_T_13 = ext_int_timer & _csr_io_int_type_able_timer & _csr_io_Int_able ? 64'h1 :
+    __id2ex_io_ExceptionTypeD_T_12; // @[myCPU.scala 803:37]
+  wire  __id2ex_io_BranchJump_JrD_T_2 = pre_decoder_branchD_flag | pre_decoder_jump; // @[myCPU.scala 829:79]
+  reg  inst_tlb_exceptionM; // @[myCPU.scala 842:34]
+  wire [63:0] ResultW = _mem22wb_io_ResultW; // @[myCPU.scala 1162:15 289:26]
   wire [63:0] _RD1ForWardE_p_T_1 = 2'h1 == _cfu_io_Forward1E ? ResultW : _id2ex_io_RD1E; // @[Mux.scala 81:58]
   wire [63:0] _RD1ForWardE_p_T_3 = 2'h2 == _cfu_io_Forward1E ? resultE2M_Reg : _RD1ForWardE_p_T_1; // @[Mux.scala 81:58]
   wire [63:0] RD1ForWardE_p = 2'h3 == _cfu_io_Forward1E ? ResultM2_Reg : _RD1ForWardE_p_T_3; // @[Mux.scala 81:58]
   wire [63:0] _RD2ForWardE_p_T_1 = 2'h1 == _cfu_io_Forward2E ? ResultW : _id2ex_io_RD2E; // @[Mux.scala 81:58]
   wire [63:0] _RD2ForWardE_p_T_3 = 2'h2 == _cfu_io_Forward2E ? resultE2M_Reg : _RD2ForWardE_p_T_1; // @[Mux.scala 81:58]
   wire [63:0] RD2ForWardE_p = 2'h3 == _cfu_io_Forward2E ? ResultM2_Reg : _RD2ForWardE_p_T_3; // @[Mux.scala 81:58]
-  reg [63:0] RD1ForWardE_r; // @[myCPU.scala 842:34]
-  reg [63:0] RD2ForWardE_r; // @[myCPU.scala 843:34]
-  reg  Forward_Lock1E; // @[myCPU.scala 844:34]
-  reg  Forward_Lock2E; // @[myCPU.scala 845:34]
+  reg [63:0] RD1ForWardE_r; // @[myCPU.scala 847:34]
+  reg [63:0] RD2ForWardE_r; // @[myCPU.scala 848:34]
+  reg  Forward_Lock1E; // @[myCPU.scala 849:34]
+  reg  Forward_Lock2E; // @[myCPU.scala 850:34]
   wire [63:0] _Forward_csr_data_T_1 = 2'h1 == _cfu_io_ForwardcsrE ? _ex2mem_io_WriteDataM : _csr_io_csr_read_data; // @[Mux.scala 81:58]
   wire [63:0] Forward_csr_data = 2'h2 == _cfu_io_ForwardcsrE ? _mem2mem2_io_WriteDataM : _Forward_csr_data_T_1; // @[Mux.scala 81:58]
-  wire [63:0] RD1ForWardE = Forward_Lock1E ? RD1ForWardE_r : RD1ForWardE_p; // @[myCPU.scala 850:23]
-  wire [63:0] RD2ForWardE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 851:23]
-  wire  _Forward_Lock1E_T = _ex2mem_io_MemToRegM; // @[myCPU.scala 857:54]
-  wire  _Forward_Lock1E_T_1 = _mem2mem2_io_MemToRegM; // @[myCPU.scala 857:87]
-  wire  _Forward_Lock1E_T_3 = ~(_ex2mem_io_MemToRegM | _mem2mem2_io_MemToRegM); // @[myCPU.scala 857:31]
-  wire [63:0] Src1E = _id2ex_io2_ALUSrcE_0 ? _id2ex_io2_PCE : RD1ForWardE; // @[myCPU.scala 872:20]
-  wire [63:0] Src2E = _id2ex_io2_ALUSrcE_1 ? _id2ex_io_ImmE : RD2ForWardE; // @[myCPU.scala 879:20]
-  wire  csrToRegE = _id2ex_io_ExceptionTypeE_Out == 32'h0 & _id2ex_io_csrToRegE_Out; // @[myCPU.scala 883:24]
-  wire  __muldiv_io_en_T_2 = _ex2mem_io_RegWriteM; // @[myCPU.scala 890:105]
-  wire  __muldiv_io_en_T_10 = _id2ex_io_R1E == _ex2mem_io_WriteRegM & __muldiv_io_en_T_2 & _Forward_Lock1E_T; // @[myCPU.scala 891:88]
+  wire [63:0] RD1ForWardE = Forward_Lock1E ? RD1ForWardE_r : RD1ForWardE_p; // @[myCPU.scala 855:23]
+  wire [63:0] RD2ForWardE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 856:23]
+  wire  _Forward_Lock1E_T = _ex2mem_io_MemToRegM; // @[myCPU.scala 862:54]
+  wire  _Forward_Lock1E_T_1 = _mem2mem2_io_MemToRegM; // @[myCPU.scala 862:87]
+  wire  _Forward_Lock1E_T_3 = ~(_ex2mem_io_MemToRegM | _mem2mem2_io_MemToRegM); // @[myCPU.scala 862:31]
+  wire [63:0] Src1E = _id2ex_io2_ALUSrcE_0 ? _id2ex_io2_PCE : RD1ForWardE; // @[myCPU.scala 877:20]
+  wire [63:0] Src2E = _id2ex_io2_ALUSrcE_1 ? _id2ex_io_ImmE : RD2ForWardE; // @[myCPU.scala 884:20]
+  wire  csrToRegE = _id2ex_io_ExceptionTypeE_Out == 32'h0 & _id2ex_io_csrToRegE_Out; // @[myCPU.scala 888:24]
+  wire  __muldiv_io_en_T_2 = _ex2mem_io_RegWriteM; // @[myCPU.scala 895:105]
+  wire  __muldiv_io_en_T_10 = _id2ex_io_R1E == _ex2mem_io_WriteRegM & __muldiv_io_en_T_2 & _Forward_Lock1E_T; // @[myCPU.scala 896:88]
   wire  __muldiv_io_en_T_11 = _id2ex_io_R2E == _ex2mem_io_WriteRegM & _ex2mem_io_RegWriteM & _Forward_Lock1E_T |
-    __muldiv_io_en_T_10; // @[myCPU.scala 890:144]
-  wire  __muldiv_io_en_T_13 = _mem2mem2_io_RegWriteM; // @[myCPU.scala 892:85]
-  wire  __muldiv_io_en_T_16 = _id2ex_io_R2E == _mem2mem2_io_WriteRegM & _mem2mem2_io_RegWriteM & _Forward_Lock1E_T_1; // @[myCPU.scala 892:92]
-  wire  __muldiv_io_en_T_17 = __muldiv_io_en_T_11 | __muldiv_io_en_T_16; // @[myCPU.scala 891:120]
-  wire  __muldiv_io_en_T_22 = _id2ex_io_R1E == _mem2mem2_io_WriteRegM & __muldiv_io_en_T_13 & _Forward_Lock1E_T_1; // @[myCPU.scala 893:92]
-  wire  __muldiv_io_en_T_23 = __muldiv_io_en_T_17 | __muldiv_io_en_T_22; // @[myCPU.scala 892:126]
-  wire [12:0] _temp_exceptionE_T_11 = _alu_io_overflow ? 13'h1000 : 13'h0; // @[myCPU.scala 925:13]
-  wire [4:0] _csr_src1_T = _id2ex_io_R1E; // @[macros.scala 433:38]
+    __muldiv_io_en_T_10; // @[myCPU.scala 895:144]
+  wire  __muldiv_io_en_T_13 = _mem2mem2_io_RegWriteM; // @[myCPU.scala 897:85]
+  wire  __muldiv_io_en_T_16 = _id2ex_io_R2E == _mem2mem2_io_WriteRegM & _mem2mem2_io_RegWriteM & _Forward_Lock1E_T_1; // @[myCPU.scala 897:92]
+  wire  __muldiv_io_en_T_17 = __muldiv_io_en_T_11 | __muldiv_io_en_T_16; // @[myCPU.scala 896:120]
+  wire  __muldiv_io_en_T_22 = _id2ex_io_R1E == _mem2mem2_io_WriteRegM & __muldiv_io_en_T_13 & _Forward_Lock1E_T_1; // @[myCPU.scala 898:92]
+  wire  __muldiv_io_en_T_23 = __muldiv_io_en_T_17 | __muldiv_io_en_T_22; // @[myCPU.scala 897:126]
+  wire [12:0] _temp_exceptionE_T_11 = _alu_io_overflow ? 13'h1000 : 13'h0; // @[myCPU.scala 930:13]
+  wire [4:0] _csr_src1_T = _id2ex_io_R1E; // @[macros.scala 435:38]
   wire [5:0] _csr_src1_T_1 = {1'h0,_csr_src1_T}; // @[Cat.scala 31:58]
-  wire [63:0] csr_src1 = _id2ex_io_csr_ImmE ? {{58'd0}, _csr_src1_T_1} : RD1ForWardE; // @[myCPU.scala 955:20]
-  wire [5:0] _CalCsrDataE_T = _id2ex_io_csr_controlE; // @[myCPU.scala 958:31]
-  wire [63:0] _CalCsrDataE_T_2 = Forward_csr_data | csr_src1; // @[myCPU.scala 958:64]
-  wire [5:0] _CalCsrDataE_T_3 = {{1'd0}, _id2ex_io_csr_controlE[5:1]}; // @[myCPU.scala 959:31]
-  wire [63:0] _CalCsrDataE_T_5 = ~csr_src1; // @[myCPU.scala 959:68]
-  wire [63:0] _CalCsrDataE_T_6 = Forward_csr_data & _CalCsrDataE_T_5; // @[myCPU.scala 959:64]
-  wire [5:0] _CalCsrDataE_T_7 = {{2'd0}, _id2ex_io_csr_controlE[5:2]}; // @[myCPU.scala 960:31]
+  wire [63:0] csr_src1 = _id2ex_io_csr_ImmE ? {{58'd0}, _csr_src1_T_1} : RD1ForWardE; // @[myCPU.scala 960:20]
+  wire [5:0] _CalCsrDataE_T = _id2ex_io_csr_controlE; // @[myCPU.scala 963:31]
+  wire [63:0] _CalCsrDataE_T_2 = Forward_csr_data | csr_src1; // @[myCPU.scala 963:64]
+  wire [5:0] _CalCsrDataE_T_3 = {{1'd0}, _id2ex_io_csr_controlE[5:1]}; // @[myCPU.scala 964:31]
+  wire [63:0] _CalCsrDataE_T_5 = ~csr_src1; // @[myCPU.scala 964:68]
+  wire [63:0] _CalCsrDataE_T_6 = Forward_csr_data & _CalCsrDataE_T_5; // @[myCPU.scala 964:64]
+  wire [5:0] _CalCsrDataE_T_7 = {{2'd0}, _id2ex_io_csr_controlE[5:2]}; // @[myCPU.scala 965:31]
   wire [63:0] _CalCsrDataE_T_9 = _CalCsrDataE_T[0] ? _CalCsrDataE_T_2 : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _CalCsrDataE_T_10 = _CalCsrDataE_T_3[0] ? _CalCsrDataE_T_6 : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _CalCsrDataE_T_11 = _CalCsrDataE_T_7[0] ? csr_src1 : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _CalCsrDataE_T_12 = _CalCsrDataE_T_9 | _CalCsrDataE_T_10; // @[Mux.scala 27:73]
   wire [63:0] CalCsrDataE = _CalCsrDataE_T_12 | _CalCsrDataE_T_11; // @[Mux.scala 27:73]
-  wire  _resultE_T_1 = _id2ex_io2_LinkE; // @[myCPU.scala 973:25]
+  wire  _resultE_T_1 = _id2ex_io2_LinkE; // @[myCPU.scala 978:25]
   wire [63:0] _resultE_T_2 = _id2ex_io_alu_calE ? _alu_io_result : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _resultE_T_3 = csrToRegE ? CalCsrDataE : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _resultE_T_4 = _resultE_T_1 ? _id2ex_io2_PCPlus4E : 64'h0; // @[Mux.scala 27:73]
@@ -40384,9 +40353,9 @@ module myCPU(
   wire [63:0] _resultE_T_6 = _resultE_T_2 | _resultE_T_3; // @[Mux.scala 27:73]
   wire [63:0] _resultE_T_7 = _resultE_T_6 | _resultE_T_4; // @[Mux.scala 27:73]
   wire [63:0] resultE = _resultE_T_7 | _resultE_T_5; // @[Mux.scala 27:73]
-  wire  __mem2mem2_io_csrWriteE_T = _ex2mem_io_csrWriteM; // @[myCPU.scala 1045:48]
-  reg  tlb_exception_csr_writeM2; // @[myCPU.scala 1079:40]
-  reg  tlb_exception_co0_writeW; // @[myCPU.scala 1080:40]
+  wire  __mem2mem2_io_csrWriteE_T = _ex2mem_io_csrWriteM; // @[myCPU.scala 1050:48]
+  reg  tlb_exception_csr_writeM2; // @[myCPU.scala 1084:40]
+  reg  tlb_exception_co0_writeW; // @[myCPU.scala 1085:40]
   wire [31:0] _Mem_withRL_Data_T_25 = {_mem2mem2_io_RtM[31:8],_dmem_io_RD[31:24]}; // @[Cat.scala 31:58]
   wire [31:0] _Mem_withRL_Data_T_22 = {_mem2mem2_io_RtM[31:16],_dmem_io_RD[31:16]}; // @[Cat.scala 31:58]
   wire [31:0] _Mem_withRL_Data_T_19 = {_mem2mem2_io_RtM[31:24],_dmem_io_RD[31:8]}; // @[Cat.scala 31:58]
@@ -40411,9 +40380,9 @@ module myCPU(
     _mem2mem2_io_mem_trace_budleM_data : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] __mem22wb_io_Mem_trace_budleM_data_T_3 = _mem2mem2_io_mem_trace_budleM_mem_fetch_type[1] ? Mem_withRL_Data
      : 64'h0; // @[Mux.scala 27:73]
-  reg [63:0] pcw_reg; // @[myCPU.scala 1142:26]
-  wire  csrWriteW = wb_exception ? 1'h0 : _mem22wb_io_csrWriteW; // @[myCPU.scala 1160:25]
-  alu _alu ( // @[myCPU.scala 116:22]
+  reg [63:0] pcw_reg; // @[myCPU.scala 1147:26]
+  wire  csrWriteW = wb_exception ? 1'h0 : _mem22wb_io_csrWriteW; // @[myCPU.scala 1165:25]
+  alu _alu ( // @[myCPU.scala 120:22]
     .io_ctrl(_alu_io_ctrl),
     .io_in1(_alu_io_in1),
     .io_in2(_alu_io_in2),
@@ -40421,14 +40390,14 @@ module myCPU(
     .io_overflow(_alu_io_overflow),
     .io_data_w(_alu_io_data_w)
   );
-  br _br ( // @[myCPU.scala 117:22]
+  br _br ( // @[myCPU.scala 121:22]
     .reset(_br_reset),
     .io_r1(_br_io_r1),
     .io_r2(_br_io_r2),
     .io_branch(_br_io_branch),
     .io_exe(_br_io_exe)
   );
-  cfu _cfu ( // @[myCPU.scala 118:22]
+  cfu _cfu ( // @[myCPU.scala 122:22]
     .reset(_cfu_reset),
     .io_Inst_Fifo_Empty(_cfu_io_Inst_Fifo_Empty),
     .io_dmem_calD(_cfu_io_dmem_calD),
@@ -40475,24 +40444,23 @@ module myCPU(
     .io_Forward2D(_cfu_io_Forward2D),
     .io_ForwardcsrE(_cfu_io_ForwardcsrE)
   );
-  csr _csr ( // @[myCPU.scala 119:22]
+  csr _csr ( // @[myCPU.scala 123:22]
     .clock(_csr_clock),
     .reset(_csr_reset),
     .io_csr_read_addr(_csr_io_csr_read_addr),
     .io_csr_write_addr(_csr_io_csr_write_addr),
     .io_csr_write_data(_csr_io_csr_write_data),
     .io_csr_write_en(_csr_io_csr_write_en),
-    .io_timer_int_has(_csr_io_timer_int_has),
     .io_pc(_csr_io_pc),
     .io_exception_type_i(_csr_io_exception_type_i),
     .io_return_pc(_csr_io_return_pc),
     .io_exception(_csr_io_exception),
     .io_csr_read_data(_csr_io_csr_read_data),
-    .io_csr_status(_csr_io_csr_status),
+    .io_icache_tags_flush(_csr_io_icache_tags_flush),
     .io_Int_able(_csr_io_Int_able),
-    .io_icache_tags_flush(_csr_io_icache_tags_flush)
+    .io_int_type_able_timer(_csr_io_int_type_able_timer)
   );
-  cu _cu ( // @[myCPU.scala 120:22]
+  cu _cu ( // @[myCPU.scala 124:22]
     .io1_InstrD(_cu_io1_InstrD),
     .io1_BadInstrD(_cu_io1_BadInstrD),
     .io1_SysCallD(_cu_io1_SysCallD),
@@ -40520,7 +40488,7 @@ module myCPU(
     .io_csr_Imm(_cu_io_csr_Imm),
     .io_fence_i_control(_cu_io_fence_i_control)
   );
-  dmem _dmem ( // @[myCPU.scala 121:23]
+  dmem _dmem ( // @[myCPU.scala 125:23]
     .io_data_ok(_dmem_io_data_ok),
     .io_rdata(_dmem_io_rdata),
     .io_Physisc_Address(_dmem_io_Physisc_Address),
@@ -40529,7 +40497,7 @@ module myCPU(
     .io_RD(_dmem_io_RD),
     .io_data_pending(_dmem_io_data_pending)
   );
-  dmemreq _dmemreq ( // @[myCPU.scala 122:26]
+  dmemreq _dmemreq ( // @[myCPU.scala 126:26]
     .io_en(_dmemreq_io_en),
     .io_MemWriteE(_dmemreq_io_MemWriteE),
     .io_MemToRegE(_dmemreq_io_MemToRegE),
@@ -40543,7 +40511,7 @@ module myCPU(
     .io_wdata(_dmemreq_io_wdata),
     .io_wstrb(_dmemreq_io_wstrb)
   );
-  ex2mem _ex2mem ( // @[myCPU.scala 123:26]
+  ex2mem _ex2mem ( // @[myCPU.scala 127:26]
     .clock(_ex2mem_clock),
     .reset(_ex2mem_reset),
     .io1_RegWriteE(_ex2mem_io1_RegWriteE),
@@ -40599,7 +40567,7 @@ module myCPU(
     .io_CsrWritedataM(_ex2mem_io_CsrWritedataM),
     .io_fence_i_controlM(_ex2mem_io_fence_i_controlM)
   );
-  ex2mem _mem2mem2 ( // @[myCPU.scala 124:28]
+  ex2mem _mem2mem2 ( // @[myCPU.scala 128:28]
     .clock(_mem2mem2_clock),
     .reset(_mem2mem2_reset),
     .io1_RegWriteE(_mem2mem2_io1_RegWriteE),
@@ -40655,7 +40623,7 @@ module myCPU(
     .io_CsrWritedataM(_mem2mem2_io_CsrWritedataM),
     .io_fence_i_controlM(_mem2mem2_io_fence_i_controlM)
   );
-  id2ex _id2ex ( // @[myCPU.scala 126:26]
+  id2ex _id2ex ( // @[myCPU.scala 130:26]
     .clock(_id2ex_clock),
     .reset(_id2ex_reset),
     .io1_RegWriteD(_id2ex_io1_RegWriteD),
@@ -40725,7 +40693,7 @@ module myCPU(
     .io_csr_controlE(_id2ex_io_csr_controlE),
     .io_csr_ImmE(_id2ex_io_csr_ImmE)
   );
-  if2id _if2id ( // @[myCPU.scala 127:26]
+  if2id _if2id ( // @[myCPU.scala 131:26]
     .clock(_if2id_clock),
     .reset(_if2id_reset),
     .io_en(_if2id_io_en),
@@ -40739,7 +40707,7 @@ module myCPU(
     .io_PCD(_if2id_io_PCD),
     .io_ExceptionTypeD_Out(_if2id_io_ExceptionTypeD_Out)
   );
-  mem2wb _mem22wb ( // @[myCPU.scala 129:27]
+  mem2wb _mem22wb ( // @[myCPU.scala 133:27]
     .clock(_mem22wb_clock),
     .reset(_mem22wb_reset),
     .io_en(_mem22wb_io_en),
@@ -40779,12 +40747,12 @@ module myCPU(
     .io_Mem_trace_budleW_cache(_mem22wb_io_Mem_trace_budleW_cache),
     .io_CsrWritedataW(_mem22wb_io_CsrWritedataW)
   );
-  addr_cal _addr_cal ( // @[myCPU.scala 130:31]
+  addr_cal _addr_cal ( // @[myCPU.scala 134:31]
     .io_d_vaddr(_addr_cal_io_d_vaddr),
     .io_d_paddr(_addr_cal_io_d_paddr),
     .io_d_cached(_addr_cal_io_d_cached)
   );
-  muldiv _muldiv ( // @[myCPU.scala 131:26]
+  muldiv _muldiv ( // @[myCPU.scala 135:26]
     .clock(_muldiv_clock),
     .reset(_muldiv_reset),
     .io_en(_muldiv_io_en),
@@ -40794,7 +40762,7 @@ module myCPU(
     .io_data_out(_muldiv_io_data_out),
     .io_pending(_muldiv_io_pending)
   );
-  regfile _regfile ( // @[myCPU.scala 133:26]
+  regfile _regfile ( // @[myCPU.scala 137:26]
     .clock(_regfile_clock),
     .reset(_regfile_reset),
     .io_A1(_regfile_io_A1),
@@ -40806,7 +40774,7 @@ module myCPU(
     .io_RD2(_regfile_io_RD2),
     .io_reg_file_alL_out(_regfile_io_reg_file_alL_out)
   );
-  mem_trace_module _mtrace_mod ( // @[myCPU.scala 134:29]
+  mem_trace_module _mtrace_mod ( // @[myCPU.scala 138:29]
     .reset(_mtrace_mod_reset),
     .clock(_mtrace_mod_clock),
     .data(_mtrace_mod_data),
@@ -40817,7 +40785,7 @@ module myCPU(
     .mem_size(_mtrace_mod_mem_size),
     .mem_cached(_mtrace_mod_mem_cached)
   );
-  fifo_with_bundle fifo_with_bundle ( // @[myCPU.scala 155:29]
+  fifo_with_bundle fifo_with_bundle ( // @[myCPU.scala 159:29]
     .clock(fifo_with_bundle_clock),
     .reset(fifo_with_bundle_reset),
     .io_read_en(fifo_with_bundle_io_read_en),
@@ -40854,7 +40822,7 @@ module myCPU(
     .io_point_write_en(fifo_with_bundle_io_point_write_en),
     .io_point_flush(fifo_with_bundle_io_point_flush)
   );
-  pc_detail stage_fec_1_pc_L ( // @[myCPU.scala 417:34]
+  pc_detail stage_fec_1_pc_L ( // @[myCPU.scala 421:34]
     .clock(stage_fec_1_pc_L_clock),
     .reset(stage_fec_1_pc_L_reset),
     .io_stall(stage_fec_1_pc_L_io_stall),
@@ -40862,7 +40830,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_1_pc_L_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_1_pc_L_io_out_pc_value_out)
   );
-  pc_detail stage_fec_1_pc_M ( // @[myCPU.scala 418:34]
+  pc_detail stage_fec_1_pc_M ( // @[myCPU.scala 422:34]
     .clock(stage_fec_1_pc_M_clock),
     .reset(stage_fec_1_pc_M_reset),
     .io_stall(stage_fec_1_pc_M_io_stall),
@@ -40870,7 +40838,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_1_pc_M_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_1_pc_M_io_out_pc_value_out)
   );
-  pc_detail stage_fec_1_pc_R ( // @[myCPU.scala 419:34]
+  pc_detail stage_fec_1_pc_R ( // @[myCPU.scala 423:34]
     .clock(stage_fec_1_pc_R_clock),
     .reset(stage_fec_1_pc_R_reset),
     .io_stall(stage_fec_1_pc_R_io_stall),
@@ -40878,7 +40846,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_1_pc_R_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_1_pc_R_io_out_pc_value_out)
   );
-  branch_prediction_with_blockram branch_prediction_with_blockram ( // @[myCPU.scala 448:21]
+  branch_prediction_with_blockram branch_prediction_with_blockram ( // @[myCPU.scala 452:21]
     .clock(branch_prediction_with_blockram_clock),
     .reset(branch_prediction_with_blockram_reset),
     .io_pc(branch_prediction_with_blockram_io_pc),
@@ -40902,7 +40870,7 @@ module myCPU(
     .io_pht_lookup_value_out(branch_prediction_with_blockram_io_pht_lookup_value_out),
     .io_lookup_data_0(branch_prediction_with_blockram_io_lookup_data_0)
   );
-  pc_detail stage_fec_2_pc_L ( // @[myCPU.scala 517:34]
+  pc_detail stage_fec_2_pc_L ( // @[myCPU.scala 521:34]
     .clock(stage_fec_2_pc_L_clock),
     .reset(stage_fec_2_pc_L_reset),
     .io_stall(stage_fec_2_pc_L_io_stall),
@@ -40910,7 +40878,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_2_pc_L_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_2_pc_L_io_out_pc_value_out)
   );
-  pc_detail stage_fec_2_pc_M ( // @[myCPU.scala 518:34]
+  pc_detail stage_fec_2_pc_M ( // @[myCPU.scala 522:34]
     .clock(stage_fec_2_pc_M_clock),
     .reset(stage_fec_2_pc_M_reset),
     .io_stall(stage_fec_2_pc_M_io_stall),
@@ -40918,7 +40886,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_2_pc_M_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_2_pc_M_io_out_pc_value_out)
   );
-  pc_detail stage_fec_2_pc_R ( // @[myCPU.scala 519:34]
+  pc_detail stage_fec_2_pc_R ( // @[myCPU.scala 523:34]
     .clock(stage_fec_2_pc_R_clock),
     .reset(stage_fec_2_pc_R_reset),
     .io_stall(stage_fec_2_pc_R_io_stall),
@@ -40926,7 +40894,7 @@ module myCPU(
     .io_in_pc_value_in(stage_fec_2_pc_R_io_in_pc_value_in),
     .io_out_pc_value_out(stage_fec_2_pc_R_io_out_pc_value_out)
   );
-  bru_detail id_bru_state ( // @[myCPU.scala 681:31]
+  bru_detail id_bru_state ( // @[myCPU.scala 685:31]
     .clock(id_bru_state_clock),
     .reset(id_bru_state_reset),
     .io_stall(id_bru_state_io_stall),
@@ -40944,7 +40912,7 @@ module myCPU(
     .io_out_lookup_data(id_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(id_bru_state_io_out_pht_lookup_value)
   );
-  bru_detail ex_bru_state ( // @[myCPU.scala 685:31]
+  bru_detail ex_bru_state ( // @[myCPU.scala 689:31]
     .clock(ex_bru_state_clock),
     .reset(ex_bru_state_reset),
     .io_stall(ex_bru_state_io_stall),
@@ -40962,7 +40930,7 @@ module myCPU(
     .io_out_lookup_data(ex_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(ex_bru_state_io_out_pht_lookup_value)
   );
-  bru_detail mem_bru_state ( // @[myCPU.scala 689:32]
+  bru_detail mem_bru_state ( // @[myCPU.scala 693:32]
     .clock(mem_bru_state_clock),
     .reset(mem_bru_state_reset),
     .io_stall(mem_bru_state_io_stall),
@@ -40980,7 +40948,7 @@ module myCPU(
     .io_out_lookup_data(mem_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(mem_bru_state_io_out_pht_lookup_value)
   );
-  bru_detail mem2_bru_state ( // @[myCPU.scala 693:33]
+  bru_detail mem2_bru_state ( // @[myCPU.scala 697:33]
     .clock(mem2_bru_state_clock),
     .reset(mem2_bru_state_reset),
     .io_stall(mem2_bru_state_io_stall),
@@ -40998,7 +40966,7 @@ module myCPU(
     .io_out_lookup_data(mem2_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(mem2_bru_state_io_out_pht_lookup_value)
   );
-  bru_detail wb_bru_state ( // @[myCPU.scala 697:31]
+  bru_detail wb_bru_state ( // @[myCPU.scala 701:31]
     .clock(wb_bru_state_clock),
     .reset(wb_bru_state_reset),
     .io_stall(wb_bru_state_io_stall),
@@ -41016,7 +40984,7 @@ module myCPU(
     .io_out_lookup_data(wb_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(wb_bru_state_io_out_pht_lookup_value)
   );
-  difftest_commit _commit_difftest ( // @[myCPU.scala 1144:34]
+  difftest_commit _commit_difftest ( // @[myCPU.scala 1149:34]
     .reset(_commit_difftest_reset),
     .clock(_commit_difftest_clock),
     .gpr_wire(_commit_difftest_gpr_wire),
@@ -41026,438 +40994,438 @@ module myCPU(
     .data_ok_ok(_commit_difftest_data_ok_ok),
     .cpu_ebreak_sign(_commit_difftest_cpu_ebreak_sign)
   );
-  assign inst_cache = Pc_Next[31:29] == 3'h4; // @[macros.scala 477:55]
-  assign inst_sram_en = stage2_stall; // @[myCPU.scala 380:17]
-  assign inst_sram_addr = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 373:19]
-  assign stage2_flush = fifo_with_bundle_io_point_write_en & _stage_fec_2_data_valid_T | _stage_fec_2_branch_answer_T_7; // @[myCPU.scala 577:72]
-  assign stage1_valid_flush = _pc_next_wait_T | _stage_fec_2_branch_answer_T_7; // @[myCPU.scala 587:85]
-  assign inst_ready_to_use = Pc_Next[1:0] == 2'h0; // @[myCPU.scala 381:39]
-  assign inst_buffer_full = fifo_with_bundle_io_full; // @[myCPU.scala 596:22]
-  assign data_sram_en = _dmemreq_io_req & ~_dmem_io_data_pending; // @[myCPU.scala 235:44]
-  assign data_sram_wen = _dmemreq_io_wr; // @[myCPU.scala 241:13]
-  assign data_size = _dmemreq_io_size; // @[myCPU.scala 1201:15]
-  assign data_sram_addr = _dmemreq_io_addr; // @[myCPU.scala 237:15]
-  assign data_sram_wdata = _dmemreq_io_wdata; // @[myCPU.scala 238:16]
-  assign data_cache = _addr_cal_io_d_cached; // @[myCPU.scala 1200:63]
-  assign data_wstrb = _dmemreq_io_wstrb; // @[myCPU.scala 239:16]
-  assign data_fence_i_control = _ex2mem_io_fence_i_controlM; // @[myCPU.scala 950:26]
-  assign debug_wb_pc = _mem22wb_io_PCW; // @[myCPU.scala 299:17]
-  assign debug_wb_rf_wen = reg_pc == _mem22wb_io_PCW ? 4'h0 : _debug_wb_rf_wen_T_2; // @[myCPU.scala 300:27]
-  assign debug_wb_rf_wnum = _regfile_io_A3; // @[myCPU.scala 301:22]
-  assign debug_wb_rf_wdata = _regfile_io_WD3; // @[myCPU.scala 302:23]
-  assign icache_tag_flush = _csr_io_icache_tags_flush; // @[myCPU.scala 1211:22]
-  assign _alu_io_ctrl = _id2ex_io2_ALUCtrlE; // @[myCPU.scala 887:18]
+  assign inst_cache = Pc_Next[31:29] == 3'h4; // @[macros.scala 479:55]
+  assign inst_sram_en = stage2_stall; // @[myCPU.scala 384:17]
+  assign inst_sram_addr = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 377:19]
+  assign stage2_flush = fifo_with_bundle_io_point_write_en & _stage_fec_2_data_valid_T | _stage_fec_2_branch_answer_T_7; // @[myCPU.scala 581:72]
+  assign stage1_valid_flush = _pc_next_wait_T | _stage_fec_2_branch_answer_T_7; // @[myCPU.scala 591:85]
+  assign inst_ready_to_use = Pc_Next[1:0] == 2'h0; // @[myCPU.scala 385:39]
+  assign inst_buffer_full = fifo_with_bundle_io_full; // @[myCPU.scala 600:22]
+  assign data_sram_en = _dmemreq_io_req & ~_dmem_io_data_pending; // @[myCPU.scala 239:44]
+  assign data_sram_wen = _dmemreq_io_wr; // @[myCPU.scala 245:13]
+  assign data_size = _dmemreq_io_size; // @[myCPU.scala 1206:15]
+  assign data_sram_addr = _dmemreq_io_addr; // @[myCPU.scala 241:15]
+  assign data_sram_wdata = _dmemreq_io_wdata; // @[myCPU.scala 242:16]
+  assign data_cache = _addr_cal_io_d_cached; // @[myCPU.scala 1205:63]
+  assign data_wstrb = _dmemreq_io_wstrb; // @[myCPU.scala 243:16]
+  assign data_fence_i_control = _ex2mem_io_fence_i_controlM; // @[myCPU.scala 955:26]
+  assign debug_wb_pc = _mem22wb_io_PCW; // @[myCPU.scala 303:17]
+  assign debug_wb_rf_wen = reg_pc == _mem22wb_io_PCW ? 4'h0 : _debug_wb_rf_wen_T_2; // @[myCPU.scala 304:27]
+  assign debug_wb_rf_wnum = _regfile_io_A3; // @[myCPU.scala 305:22]
+  assign debug_wb_rf_wdata = _regfile_io_WD3; // @[myCPU.scala 306:23]
+  assign icache_tag_flush = _csr_io_icache_tags_flush; // @[myCPU.scala 1216:22]
+  assign _alu_io_ctrl = _id2ex_io2_ALUCtrlE; // @[myCPU.scala 892:18]
   assign _alu_io_in1 = {Src1E[63:32],Src1E[31:0]}; // @[Cat.scala 31:58]
   assign _alu_io_in2 = {Src2E[63:32],Src2E[31:0]}; // @[Cat.scala 31:58]
-  assign _alu_io_data_w = _id2ex_io_data_wE; // @[myCPU.scala 888:20]
-  assign _br_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign _br_io_r1 = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 769:20]
-  assign _br_io_r2 = _cfu_io_Forward2D[0] ? resultE2M_Reg : _BranchR2D_T_2; // @[myCPU.scala 771:20]
-  assign _br_io_branch = pre_decoder_branchdata; // @[myCPU.scala 779:19]
-  assign _cfu_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign _cfu_io_Inst_Fifo_Empty = fifo_with_bundle_io_empty; // @[myCPU.scala 580:29]
-  assign _cfu_io_dmem_calD = _cu_io1_dmem_addr_cal; // @[myCPU.scala 831:23]
-  assign _cfu_io_BranchD_Flag = pre_decoder_branchD_flag; // @[myCPU.scala 1233:26]
-  assign _cfu_io_JRD = pre_decoder_jr; // @[myCPU.scala 1229:25]
-  assign _cfu_io_CanBranchD = ~(id_exception | ex_exception | mem_exception | mem2_exception | wb_exception); // @[myCPU.scala 1230:111]
-  assign _cfu_io_DivPendingE = _muldiv_io_pending; // @[myCPU.scala 1234:33]
-  assign _cfu_io_DataPendingM = _dmem_io_data_pending; // @[myCPU.scala 1236:33]
-  assign _cfu_io_InException = _csr_io_exception; // @[myCPU.scala 1223:25]
-  assign _cfu_io_WriteRegE = _id2ex_io2_RegDstE; // @[myCPU.scala 1240:33]
-  assign _cfu_io_RegWriteE = _id2ex_io2_RegWriteE; // @[myCPU.scala 1242:33]
-  assign _cfu_io_csrToRegE = _id2ex_io_ExceptionTypeE_Out == 32'h0 & _id2ex_io_csrToRegE_Out; // @[myCPU.scala 883:24]
-  assign _cfu_io_WriteRegM = _ex2mem_io_WriteRegM; // @[myCPU.scala 1246:33]
-  assign _cfu_io_MemToRegM = _ex2mem_io_MemToRegM; // @[myCPU.scala 1247:33]
-  assign _cfu_io_RegWriteM = _ex2mem_io_RegWriteM; // @[myCPU.scala 1248:33]
-  assign _cfu_io_csrWriteM = _ex2mem_io_csrWriteM; // @[myCPU.scala 1249:33]
-  assign _cfu_io_WriteRegM2 = _mem2mem2_io_WriteRegM; // @[myCPU.scala 1270:25]
-  assign _cfu_io_MemToRegM2 = _mem2mem2_io_MemToRegM; // @[myCPU.scala 1271:25]
-  assign _cfu_io_RegWriteM2 = _mem2mem2_io_RegWriteM; // @[myCPU.scala 1272:25]
-  assign _cfu_io_csrWriteM2 = _mem2mem2_io_csrWriteM; // @[myCPU.scala 1268:24]
-  assign _cfu_io_WriteRegW = _mem22wb_io_WriteRegW; // @[myCPU.scala 1259:33]
-  assign _cfu_io_RegWriteW = wb_exception ? 1'h0 : _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 1158:21]
-  assign _cfu_io_ReadcsrAddrE = _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 1251:34]
-  assign _cfu_io_WritecsrAddrM = _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 1254:34]
-  assign _cfu_io_WritecsrAddrM2 = _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 1269:28]
-  assign _cfu_io_R2D = _if2id_io_InstrD[24:20]; // @[myCPU.scala 201:27]
-  assign _cfu_io_R1D = _if2id_io_InstrD[19:15]; // @[myCPU.scala 202:27]
-  assign _cfu_io_R2E = _id2ex_io_R2E; // @[myCPU.scala 1265:33]
-  assign _cfu_io_R1E = _id2ex_io_R1E; // @[myCPU.scala 1264:33]
-  assign _csr_clock = clk; // @[myCPU.scala 110:23]
-  assign _csr_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign _csr_io_csr_read_addr = _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 966:27]
-  assign _csr_io_csr_write_addr = _mem22wb_io_WritecsrAddrW; // @[myCPU.scala 967:28]
-  assign _csr_io_csr_write_data = _mem22wb_io_CsrWritedataW; // @[myCPU.scala 1218:30]
-  assign _csr_io_csr_write_en = csrWriteW | tlb_exception_co0_writeW; // @[myCPU.scala 1208:47]
-  assign _csr_io_pc = _PCW_Reg_T ? _mem22wb_io_PCW : PCW_Reg; // @[myCPU.scala 1206:25]
-  assign _csr_io_exception_type_i = _mem22wb_io_ExceptionTypeW_Out; // @[myCPU.scala 1209:30]
-  assign _cu_io1_InstrD = _if2id_io_InstrD; // @[myCPU.scala 767:20]
-  assign _dmem_io_data_ok = data_stage2_stall; // @[myCPU.scala 262:25]
-  assign _dmem_io_rdata = data_sram_rdata; // @[myCPU.scala 263:25]
-  assign _dmem_io_Physisc_Address = _mem2mem2_io_PhyAddrM; // @[myCPU.scala 267:30]
-  assign _dmem_io_WIDTH = _mem2mem2_io_MemWidthM; // @[myCPU.scala 265:25]
-  assign _dmem_io_SIGN = ~_mem2mem2_io_LoadUnsignedM; // @[myCPU.scala 266:22]
-  assign _dmemreq_io_en = _T_37 ? 1'h0 : _commit_cache_reg_T; // @[myCPU.scala 905:26]
-  assign _dmemreq_io_MemWriteE = _id2ex_io2_MemWriteE; // @[myCPU.scala 911:27]
-  assign _dmemreq_io_MemToRegE = _id2ex_io2_MemToRegE; // @[myCPU.scala 908:27]
-  assign _dmemreq_io_MemWidthE = _id2ex_io2_MemWidthE; // @[myCPU.scala 909:27]
-  assign _dmemreq_io_VAddrE = _addr_cal_io_d_paddr; // @[myCPU.scala 1195:23]
-  assign _dmemreq_io_WriteDataE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 851:23]
-  assign _ex2mem_clock = clk; // @[myCPU.scala 110:23]
-  assign _ex2mem_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign _ex2mem_io1_RegWriteE = _id2ex_io2_RegWriteE; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_MemToRegE = _id2ex_io2_MemToRegE; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_LoadUnsignedE = _id2ex_io2_LoadUnsignedE; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_MemWidthE = _id2ex_io2_MemWidthE; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_csrWriteE = _id2ex_io2_csrWriteE; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_WritecsrAddrE = _id2ex_io2_WritecsrAddrE; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_PCE = _id2ex_io2_PCE; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_MemRLE = 2'h0; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_BranchJump_JrE = _id2ex_io2_BranchJump_JrE; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_Tlb_Control = 3'h0; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_eBreakE = _id2ex_io2_eBreakE; // @[myCPU.scala 161:15]
-  assign _ex2mem_io1_fence_i_control = _id2ex_io2_fence_i_control; // @[myCPU.scala 161:15]
-  assign _ex2mem_io_en = _cfu_io_StallE; // @[myCPU.scala 208:30]
-  assign _ex2mem_io_clr = _cfu_io_FlushM; // @[myCPU.scala 209:30]
-  assign _ex2mem_io_WriteDataE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 851:23]
-  assign _ex2mem_io_WriteRegE = _id2ex_io2_RegDstE; // @[myCPU.scala 938:26]
-  assign _ex2mem_io_PhyAddrE = _addr_cal_io_d_paddr; // @[myCPU.scala 941:27]
+  assign _alu_io_data_w = _id2ex_io_data_wE; // @[myCPU.scala 893:20]
+  assign _br_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign _br_io_r1 = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 773:20]
+  assign _br_io_r2 = _cfu_io_Forward2D[0] ? resultE2M_Reg : _BranchR2D_T_2; // @[myCPU.scala 775:20]
+  assign _br_io_branch = pre_decoder_branchdata; // @[myCPU.scala 783:19]
+  assign _cfu_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign _cfu_io_Inst_Fifo_Empty = fifo_with_bundle_io_empty; // @[myCPU.scala 584:29]
+  assign _cfu_io_dmem_calD = _cu_io1_dmem_addr_cal; // @[myCPU.scala 836:23]
+  assign _cfu_io_BranchD_Flag = pre_decoder_branchD_flag; // @[myCPU.scala 1238:26]
+  assign _cfu_io_JRD = pre_decoder_jr; // @[myCPU.scala 1234:25]
+  assign _cfu_io_CanBranchD = ~(id_exception | ex_exception | mem_exception | mem2_exception | wb_exception); // @[myCPU.scala 1235:111]
+  assign _cfu_io_DivPendingE = _muldiv_io_pending; // @[myCPU.scala 1239:33]
+  assign _cfu_io_DataPendingM = _dmem_io_data_pending; // @[myCPU.scala 1241:33]
+  assign _cfu_io_InException = _csr_io_exception; // @[myCPU.scala 1228:25]
+  assign _cfu_io_WriteRegE = _id2ex_io2_RegDstE; // @[myCPU.scala 1245:33]
+  assign _cfu_io_RegWriteE = _id2ex_io2_RegWriteE; // @[myCPU.scala 1247:33]
+  assign _cfu_io_csrToRegE = _id2ex_io_ExceptionTypeE_Out == 32'h0 & _id2ex_io_csrToRegE_Out; // @[myCPU.scala 888:24]
+  assign _cfu_io_WriteRegM = _ex2mem_io_WriteRegM; // @[myCPU.scala 1251:33]
+  assign _cfu_io_MemToRegM = _ex2mem_io_MemToRegM; // @[myCPU.scala 1252:33]
+  assign _cfu_io_RegWriteM = _ex2mem_io_RegWriteM; // @[myCPU.scala 1253:33]
+  assign _cfu_io_csrWriteM = _ex2mem_io_csrWriteM; // @[myCPU.scala 1254:33]
+  assign _cfu_io_WriteRegM2 = _mem2mem2_io_WriteRegM; // @[myCPU.scala 1275:25]
+  assign _cfu_io_MemToRegM2 = _mem2mem2_io_MemToRegM; // @[myCPU.scala 1276:25]
+  assign _cfu_io_RegWriteM2 = _mem2mem2_io_RegWriteM; // @[myCPU.scala 1277:25]
+  assign _cfu_io_csrWriteM2 = _mem2mem2_io_csrWriteM; // @[myCPU.scala 1273:24]
+  assign _cfu_io_WriteRegW = _mem22wb_io_WriteRegW; // @[myCPU.scala 1264:33]
+  assign _cfu_io_RegWriteW = wb_exception ? 1'h0 : _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 1163:21]
+  assign _cfu_io_ReadcsrAddrE = _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 1256:34]
+  assign _cfu_io_WritecsrAddrM = _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 1259:34]
+  assign _cfu_io_WritecsrAddrM2 = _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 1274:28]
+  assign _cfu_io_R2D = _if2id_io_InstrD[24:20]; // @[myCPU.scala 205:27]
+  assign _cfu_io_R1D = _if2id_io_InstrD[19:15]; // @[myCPU.scala 206:27]
+  assign _cfu_io_R2E = _id2ex_io_R2E; // @[myCPU.scala 1270:33]
+  assign _cfu_io_R1E = _id2ex_io_R1E; // @[myCPU.scala 1269:33]
+  assign _csr_clock = clk; // @[myCPU.scala 114:23]
+  assign _csr_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign _csr_io_csr_read_addr = _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 971:27]
+  assign _csr_io_csr_write_addr = _mem22wb_io_WritecsrAddrW; // @[myCPU.scala 972:28]
+  assign _csr_io_csr_write_data = _mem22wb_io_CsrWritedataW; // @[myCPU.scala 1223:30]
+  assign _csr_io_csr_write_en = csrWriteW | tlb_exception_co0_writeW; // @[myCPU.scala 1213:47]
+  assign _csr_io_pc = _PCW_Reg_T ? _mem22wb_io_PCW : PCW_Reg; // @[myCPU.scala 1211:25]
+  assign _csr_io_exception_type_i = _mem22wb_io_ExceptionTypeW_Out; // @[myCPU.scala 1214:30]
+  assign _cu_io1_InstrD = _if2id_io_InstrD; // @[myCPU.scala 771:20]
+  assign _dmem_io_data_ok = data_stage2_stall; // @[myCPU.scala 266:25]
+  assign _dmem_io_rdata = data_sram_rdata; // @[myCPU.scala 267:25]
+  assign _dmem_io_Physisc_Address = _mem2mem2_io_PhyAddrM; // @[myCPU.scala 271:30]
+  assign _dmem_io_WIDTH = _mem2mem2_io_MemWidthM; // @[myCPU.scala 269:25]
+  assign _dmem_io_SIGN = ~_mem2mem2_io_LoadUnsignedM; // @[myCPU.scala 270:22]
+  assign _dmemreq_io_en = _T_37 ? 1'h0 : _commit_cache_reg_T; // @[myCPU.scala 910:26]
+  assign _dmemreq_io_MemWriteE = _id2ex_io2_MemWriteE; // @[myCPU.scala 916:27]
+  assign _dmemreq_io_MemToRegE = _id2ex_io2_MemToRegE; // @[myCPU.scala 913:27]
+  assign _dmemreq_io_MemWidthE = _id2ex_io2_MemWidthE; // @[myCPU.scala 914:27]
+  assign _dmemreq_io_VAddrE = _addr_cal_io_d_paddr; // @[myCPU.scala 1200:23]
+  assign _dmemreq_io_WriteDataE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 856:23]
+  assign _ex2mem_clock = clk; // @[myCPU.scala 114:23]
+  assign _ex2mem_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign _ex2mem_io1_RegWriteE = _id2ex_io2_RegWriteE; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_MemToRegE = _id2ex_io2_MemToRegE; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_LoadUnsignedE = _id2ex_io2_LoadUnsignedE; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_MemWidthE = _id2ex_io2_MemWidthE; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_csrWriteE = _id2ex_io2_csrWriteE; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_WritecsrAddrE = _id2ex_io2_WritecsrAddrE; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_PCE = _id2ex_io2_PCE; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_MemRLE = 2'h0; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_BranchJump_JrE = _id2ex_io2_BranchJump_JrE; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_Tlb_Control = 3'h0; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_eBreakE = _id2ex_io2_eBreakE; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_fence_i_control = _id2ex_io2_fence_i_control; // @[myCPU.scala 165:15]
+  assign _ex2mem_io_en = _cfu_io_StallE; // @[myCPU.scala 212:30]
+  assign _ex2mem_io_clr = _cfu_io_FlushM; // @[myCPU.scala 213:30]
+  assign _ex2mem_io_WriteDataE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 856:23]
+  assign _ex2mem_io_WriteRegE = _id2ex_io2_RegDstE; // @[myCPU.scala 943:26]
+  assign _ex2mem_io_PhyAddrE = _addr_cal_io_d_paddr; // @[myCPU.scala 946:27]
   assign _ex2mem_io_CsrWritedataE = _CalCsrDataE_T_12 | _CalCsrDataE_T_11; // @[Mux.scala 27:73]
   assign _ex2mem_io_ExceptionTypeE = _id2ex_io_ExceptionTypeE_Out != 32'h0 ? _id2ex_io_ExceptionTypeE_Out : {{19'd0},
-    _temp_exceptionE_T_11}; // @[myCPU.scala 922:30]
-  assign _ex2mem_io_RtE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 851:23]
-  assign _ex2mem_io_Pc_NextE = _id2ex_io_Pc_NextE; // @[myCPU.scala 930:25]
-  assign _ex2mem_io_mem_trace_budleE_pc = _id2ex_io2_PCE; // @[myCPU.scala 943:36]
-  assign _ex2mem_io_mem_trace_budleE_data = data_sram_wdata; // @[myCPU.scala 944:38]
+    _temp_exceptionE_T_11}; // @[myCPU.scala 927:30]
+  assign _ex2mem_io_RtE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 856:23]
+  assign _ex2mem_io_Pc_NextE = _id2ex_io_Pc_NextE; // @[myCPU.scala 935:25]
+  assign _ex2mem_io_mem_trace_budleE_pc = _id2ex_io2_PCE; // @[myCPU.scala 948:36]
+  assign _ex2mem_io_mem_trace_budleE_data = data_sram_wdata; // @[myCPU.scala 949:38]
   assign _ex2mem_io_mem_trace_budleE_mem_fetch_type = {_id2ex_io2_MemToRegE,_id2ex_io2_MemWriteE}; // @[Cat.scala 31:58]
-  assign _ex2mem_io_mem_trace_budleE_addr = data_sram_addr; // @[myCPU.scala 946:48]
-  assign _ex2mem_io_mem_trace_budleE_len = {{1'd0}, data_size}; // @[myCPU.scala 947:48]
-  assign _ex2mem_io_mem_trace_budleE_cache = data_cache; // @[myCPU.scala 948:48]
-  assign _mem2mem2_clock = clk; // @[myCPU.scala 110:23]
-  assign _mem2mem2_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign _mem2mem2_io1_RegWriteE = _ex2mem_io_RegWriteM; // @[myCPU.scala 1053:30]
-  assign _mem2mem2_io1_MemToRegE = _ex2mem_io_MemToRegM; // @[myCPU.scala 1054:30]
-  assign _mem2mem2_io1_LoadUnsignedE = _ex2mem_io_LoadUnsignedM; // @[myCPU.scala 1058:30]
-  assign _mem2mem2_io1_MemWidthE = _ex2mem_io_MemWidthM; // @[myCPU.scala 1059:30]
-  assign _mem2mem2_io1_csrWriteE = __mem2mem2_io_csrWriteE_T | _ex2mem_io_Tlb_ControlM[2]; // @[myCPU.scala 1062:61]
-  assign _mem2mem2_io1_WritecsrAddrE = inst_tlb_exceptionM ? 12'ha : _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 1063:36]
-  assign _mem2mem2_io1_PCE = _ex2mem_io_PCM; // @[myCPU.scala 1064:30]
-  assign _mem2mem2_io1_MemRLE = _ex2mem_io_MemRLM; // @[myCPU.scala 1066:30]
-  assign _mem2mem2_io1_BranchJump_JrE = _ex2mem_io_BranchJump_JrM; // @[myCPU.scala 1067:30]
-  assign _mem2mem2_io1_Tlb_Control = _ex2mem_io_Tlb_ControlM; // @[myCPU.scala 1076:27]
-  assign _mem2mem2_io1_eBreakE = _ex2mem_io1_eBreakE; // @[myCPU.scala 1041:24]
-  assign _mem2mem2_io1_fence_i_control = _ex2mem_io_fence_i_controlM; // @[myCPU.scala 1051:31]
-  assign _mem2mem2_io_en = _cfu_io_StallM2; // @[myCPU.scala 1095:20]
-  assign _mem2mem2_io_clr = _cfu_io_FlushM2; // @[myCPU.scala 1094:20]
-  assign _mem2mem2_io_WriteDataE = _ex2mem_io_WriteDataM; // @[myCPU.scala 1091:30]
-  assign _mem2mem2_io_WriteRegE = _ex2mem_io_WriteRegM; // @[myCPU.scala 1042:24]
-  assign _mem2mem2_io_PhyAddrE = _ex2mem_io_PhyAddrM; // @[myCPU.scala 1043:23]
-  assign _mem2mem2_io_CsrWritedataE = _ex2mem_io_CsrWritedataM; // @[myCPU.scala 1077:29]
-  assign _mem2mem2_io_ExceptionTypeE = mem_exception ? _ex2mem_io_ExceptionTypeM_Out : 32'h0; // @[myCPU.scala 1035:21]
-  assign _mem2mem2_io_RtE = _ex2mem_io_RtM; // @[myCPU.scala 1049:18]
-  assign _mem2mem2_io_Pc_NextE = _ex2mem_io_Pc_NextM; // @[myCPU.scala 1040:24]
-  assign _mem2mem2_io_mem_trace_budleE_pc = _ex2mem_io_mem_trace_budleM_pc; // @[myCPU.scala 1050:31]
-  assign _mem2mem2_io_mem_trace_budleE_data = _ex2mem_io_mem_trace_budleM_data; // @[myCPU.scala 1050:31]
-  assign _mem2mem2_io_mem_trace_budleE_mem_fetch_type = _ex2mem_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 1050:31]
-  assign _mem2mem2_io_mem_trace_budleE_addr = _ex2mem_io_mem_trace_budleM_addr; // @[myCPU.scala 1050:31]
-  assign _mem2mem2_io_mem_trace_budleE_len = _ex2mem_io_mem_trace_budleM_len; // @[myCPU.scala 1050:31]
-  assign _mem2mem2_io_mem_trace_budleE_cache = _ex2mem_io_mem_trace_budleM_cache; // @[myCPU.scala 1050:31]
-  assign _id2ex_clock = clk; // @[myCPU.scala 110:23]
-  assign _id2ex_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign _id2ex_io1_RegWriteD = _cu_io_RegWriteD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_MemToRegD = _cu_io_MemToRegD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_MemWriteD = _cu_io_MemWriteD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_ALUCtrlD = _cu_io_ALUCtrlD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_ALUSrcD_0 = _cu_io_ALUSrcD_0; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_ALUSrcD_1 = _cu_io_ALUSrcD_1; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_RegDstD = _cu_io_RegDstD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_LinkD = _cu_io_LinkD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_csrWriteD = _cu_io_csrWriteD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_csrToRegD = _cu_io_csrToRegD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_LoadUnsignedD = _cu_io_LoadUnsignedD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_MemWidthD = _cu_io_MemWidthD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_ebreakD = _cu_io_ebreakD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_data_wD = _cu_io_data_wD; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_muldiv_control = _cu_io_muldiv_control; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_muldiv_cal = _cu_io_muldiv_cal; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_alu_cal = _cu_io_alu_cal; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_csr_control = _cu_io_csr_control; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_csr_Imm = _cu_io_csr_Imm; // @[myCPU.scala 160:15]
-  assign _id2ex_io1_fence_i_control = _cu_io_fence_i_control; // @[myCPU.scala 160:15]
-  assign _id2ex_io_en = _cfu_io_StallD; // @[myCPU.scala 189:29]
-  assign _id2ex_io_clr = _cfu_io_FlushE; // @[myCPU.scala 190:29]
-  assign _id2ex_io_RD1D = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 809:25]
-  assign _id2ex_io_RD2D = _cfu_io_Forward2D[0] ? resultE2M_Reg : _BranchR2D_T_2; // @[myCPU.scala 810:25]
-  assign _id2ex_io_R2D = _if2id_io_InstrD[24:20]; // @[myCPU.scala 201:27]
-  assign _id2ex_io_R1D = _if2id_io_InstrD[19:15]; // @[myCPU.scala 202:27]
-  assign _id2ex_io_ImmD = _cu_io_ImmD; // @[myCPU.scala 808:19]
-  assign _id2ex_io_PCPlus4D = _if2id_io_PCPlus4D; // @[myCPU.scala 821:29]
-  assign _id2ex_io_WritecsrAddrD = _if2id_io_InstrD[31:20]; // @[myCPU.scala 811:38]
-  assign _id2ex_io_ReadcsrAddrD = _if2id_io_InstrD[31:20]; // @[myCPU.scala 813:38]
-  assign _id2ex_io_PCD = _if2id_io_PCD; // @[myCPU.scala 822:28]
-  assign _id2ex_io_ExceptionTypeD = __id2ex_io_ExceptionTypeD_T_14[31:0]; // @[myCPU.scala 798:31]
+  assign _ex2mem_io_mem_trace_budleE_addr = data_sram_addr; // @[myCPU.scala 951:48]
+  assign _ex2mem_io_mem_trace_budleE_len = {{1'd0}, data_size}; // @[myCPU.scala 952:48]
+  assign _ex2mem_io_mem_trace_budleE_cache = data_cache; // @[myCPU.scala 953:48]
+  assign _mem2mem2_clock = clk; // @[myCPU.scala 114:23]
+  assign _mem2mem2_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign _mem2mem2_io1_RegWriteE = _ex2mem_io_RegWriteM; // @[myCPU.scala 1058:30]
+  assign _mem2mem2_io1_MemToRegE = _ex2mem_io_MemToRegM; // @[myCPU.scala 1059:30]
+  assign _mem2mem2_io1_LoadUnsignedE = _ex2mem_io_LoadUnsignedM; // @[myCPU.scala 1063:30]
+  assign _mem2mem2_io1_MemWidthE = _ex2mem_io_MemWidthM; // @[myCPU.scala 1064:30]
+  assign _mem2mem2_io1_csrWriteE = __mem2mem2_io_csrWriteE_T | _ex2mem_io_Tlb_ControlM[2]; // @[myCPU.scala 1067:61]
+  assign _mem2mem2_io1_WritecsrAddrE = inst_tlb_exceptionM ? 12'ha : _ex2mem_io_WritecsrAddrM; // @[myCPU.scala 1068:36]
+  assign _mem2mem2_io1_PCE = _ex2mem_io_PCM; // @[myCPU.scala 1069:30]
+  assign _mem2mem2_io1_MemRLE = _ex2mem_io_MemRLM; // @[myCPU.scala 1071:30]
+  assign _mem2mem2_io1_BranchJump_JrE = _ex2mem_io_BranchJump_JrM; // @[myCPU.scala 1072:30]
+  assign _mem2mem2_io1_Tlb_Control = _ex2mem_io_Tlb_ControlM; // @[myCPU.scala 1081:27]
+  assign _mem2mem2_io1_eBreakE = _ex2mem_io1_eBreakE; // @[myCPU.scala 1046:24]
+  assign _mem2mem2_io1_fence_i_control = _ex2mem_io_fence_i_controlM; // @[myCPU.scala 1056:31]
+  assign _mem2mem2_io_en = _cfu_io_StallM2; // @[myCPU.scala 1100:20]
+  assign _mem2mem2_io_clr = _cfu_io_FlushM2; // @[myCPU.scala 1099:20]
+  assign _mem2mem2_io_WriteDataE = _ex2mem_io_WriteDataM; // @[myCPU.scala 1096:30]
+  assign _mem2mem2_io_WriteRegE = _ex2mem_io_WriteRegM; // @[myCPU.scala 1047:24]
+  assign _mem2mem2_io_PhyAddrE = _ex2mem_io_PhyAddrM; // @[myCPU.scala 1048:23]
+  assign _mem2mem2_io_CsrWritedataE = _ex2mem_io_CsrWritedataM; // @[myCPU.scala 1082:29]
+  assign _mem2mem2_io_ExceptionTypeE = mem_exception ? _ex2mem_io_ExceptionTypeM_Out : 32'h0; // @[myCPU.scala 1040:21]
+  assign _mem2mem2_io_RtE = _ex2mem_io_RtM; // @[myCPU.scala 1054:18]
+  assign _mem2mem2_io_Pc_NextE = _ex2mem_io_Pc_NextM; // @[myCPU.scala 1045:24]
+  assign _mem2mem2_io_mem_trace_budleE_pc = _ex2mem_io_mem_trace_budleM_pc; // @[myCPU.scala 1055:31]
+  assign _mem2mem2_io_mem_trace_budleE_data = _ex2mem_io_mem_trace_budleM_data; // @[myCPU.scala 1055:31]
+  assign _mem2mem2_io_mem_trace_budleE_mem_fetch_type = _ex2mem_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 1055:31]
+  assign _mem2mem2_io_mem_trace_budleE_addr = _ex2mem_io_mem_trace_budleM_addr; // @[myCPU.scala 1055:31]
+  assign _mem2mem2_io_mem_trace_budleE_len = _ex2mem_io_mem_trace_budleM_len; // @[myCPU.scala 1055:31]
+  assign _mem2mem2_io_mem_trace_budleE_cache = _ex2mem_io_mem_trace_budleM_cache; // @[myCPU.scala 1055:31]
+  assign _id2ex_clock = clk; // @[myCPU.scala 114:23]
+  assign _id2ex_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign _id2ex_io1_RegWriteD = _cu_io_RegWriteD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_MemToRegD = _cu_io_MemToRegD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_MemWriteD = _cu_io_MemWriteD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_ALUCtrlD = _cu_io_ALUCtrlD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_ALUSrcD_0 = _cu_io_ALUSrcD_0; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_ALUSrcD_1 = _cu_io_ALUSrcD_1; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_RegDstD = _cu_io_RegDstD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_LinkD = _cu_io_LinkD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_csrWriteD = _cu_io_csrWriteD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_csrToRegD = _cu_io_csrToRegD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_LoadUnsignedD = _cu_io_LoadUnsignedD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_MemWidthD = _cu_io_MemWidthD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_ebreakD = _cu_io_ebreakD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_data_wD = _cu_io_data_wD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_muldiv_control = _cu_io_muldiv_control; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_muldiv_cal = _cu_io_muldiv_cal; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_alu_cal = _cu_io_alu_cal; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_csr_control = _cu_io_csr_control; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_csr_Imm = _cu_io_csr_Imm; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_fence_i_control = _cu_io_fence_i_control; // @[myCPU.scala 164:15]
+  assign _id2ex_io_en = _cfu_io_StallD; // @[myCPU.scala 193:29]
+  assign _id2ex_io_clr = _cfu_io_FlushE; // @[myCPU.scala 194:29]
+  assign _id2ex_io_RD1D = _cfu_io_Forward1D[0] ? resultE2M_Reg : _BranchR1D_T_2; // @[myCPU.scala 814:25]
+  assign _id2ex_io_RD2D = _cfu_io_Forward2D[0] ? resultE2M_Reg : _BranchR2D_T_2; // @[myCPU.scala 815:25]
+  assign _id2ex_io_R2D = _if2id_io_InstrD[24:20]; // @[myCPU.scala 205:27]
+  assign _id2ex_io_R1D = _if2id_io_InstrD[19:15]; // @[myCPU.scala 206:27]
+  assign _id2ex_io_ImmD = _cu_io_ImmD; // @[myCPU.scala 813:19]
+  assign _id2ex_io_PCPlus4D = _if2id_io_PCPlus4D; // @[myCPU.scala 826:29]
+  assign _id2ex_io_WritecsrAddrD = _if2id_io_InstrD[31:20]; // @[myCPU.scala 816:38]
+  assign _id2ex_io_ReadcsrAddrD = _if2id_io_InstrD[31:20]; // @[myCPU.scala 818:38]
+  assign _id2ex_io_PCD = _if2id_io_PCD; // @[myCPU.scala 827:28]
+  assign _id2ex_io_ExceptionTypeD = __id2ex_io_ExceptionTypeD_T_13[31:0]; // @[myCPU.scala 803:31]
   assign _id2ex_io_Pc_NextD = pre_decoder_jump ? PCJumpD : _PC_nextD_T_2; // @[Mux.scala 101:16]
   assign _id2ex_io_BranchJump_JrD = {1'h0,__id2ex_io_BranchJump_JrD_T_2}; // @[Cat.scala 31:58]
-  assign _if2id_clock = clk; // @[myCPU.scala 110:23]
-  assign _if2id_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign _if2id_io_en = _cfu_io_StallD; // @[myCPU.scala 613:30]
-  assign _if2id_io_clr = _cfu_io_FlushD; // @[myCPU.scala 614:30]
-  assign _if2id_io_InstrF = {{32'd0}, __if2id_io_InstrF_T_5}; // @[myCPU.scala 617:27]
-  assign _if2id_io_PCPlus4F = _if2id_io_PCF + 64'h4; // @[myCPU.scala 611:48]
-  assign _if2id_io_PCF = fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 598:36 599:26]
-  assign _if2id_io_ExceptionTypeF = fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 598:36 599:26]
-  assign _mem22wb_clock = clk; // @[myCPU.scala 110:23]
-  assign _mem22wb_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign _mem22wb_io_en = _cfu_io_StallW; // @[myCPU.scala 271:31]
-  assign _mem22wb_io_clr = _cfu_io_FlushW; // @[myCPU.scala 272:31]
-  assign _mem22wb_io_RegWriteM = _mem2mem2_io_RegWriteM; // @[myCPU.scala 274:38]
-  assign _mem22wb_io_ResultM = _Forward_Lock1E_T_1 ? Mem_withRL_Data : ResultM2_Reg; // @[myCPU.scala 1101:25]
-  assign _mem22wb_io_WriteRegM = _mem2mem2_io_WriteRegM; // @[myCPU.scala 276:38]
-  assign _mem22wb_io_csrWriteM = _mem2mem2_io_csrWriteM; // @[myCPU.scala 278:38]
-  assign _mem22wb_io_WritecsrAddrM = _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 279:38]
-  assign _mem22wb_io_CsrWritedataM = _mem2mem2_io_CsrWritedataM; // @[myCPU.scala 1122:33]
-  assign _mem22wb_io_PCM = _mem2mem2_io_PCM; // @[myCPU.scala 277:38]
-  assign _mem22wb_io_ExceptionTypeM = _mem2mem2_io_ExceptionTypeM_Out; // @[myCPU.scala 1117:33]
-  assign _mem22wb_io_BranchJump_JrM = _mem2mem2_io_BranchJump_JrM; // @[myCPU.scala 1121:33]
-  assign _mem22wb_io_eBreakM = _mem2mem2_io_eBreakM; // @[myCPU.scala 1118:33]
-  assign _mem22wb_io_Pc_NextM = _mem2mem2_io_Pc_NextM; // @[myCPU.scala 1119:33]
-  assign _mem22wb_io_Mem_trace_budleM_pc = _mem2mem2_io_mem_trace_budleM_pc; // @[myCPU.scala 1126:37]
+  assign _if2id_clock = clk; // @[myCPU.scala 114:23]
+  assign _if2id_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign _if2id_io_en = _cfu_io_StallD; // @[myCPU.scala 617:30]
+  assign _if2id_io_clr = _cfu_io_FlushD; // @[myCPU.scala 618:30]
+  assign _if2id_io_InstrF = {{32'd0}, __if2id_io_InstrF_T_5}; // @[myCPU.scala 621:27]
+  assign _if2id_io_PCPlus4F = _if2id_io_PCF + 64'h4; // @[myCPU.scala 615:48]
+  assign _if2id_io_PCF = fifo_with_bundle_io_read_out_0_pc; // @[myCPU.scala 602:36 603:26]
+  assign _if2id_io_ExceptionTypeF = fifo_with_bundle_io_read_out_0_exception_type; // @[myCPU.scala 602:36 603:26]
+  assign _mem22wb_clock = clk; // @[myCPU.scala 114:23]
+  assign _mem22wb_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign _mem22wb_io_en = _cfu_io_StallW; // @[myCPU.scala 275:31]
+  assign _mem22wb_io_clr = _cfu_io_FlushW; // @[myCPU.scala 276:31]
+  assign _mem22wb_io_RegWriteM = _mem2mem2_io_RegWriteM; // @[myCPU.scala 278:38]
+  assign _mem22wb_io_ResultM = _Forward_Lock1E_T_1 ? Mem_withRL_Data : ResultM2_Reg; // @[myCPU.scala 1106:25]
+  assign _mem22wb_io_WriteRegM = _mem2mem2_io_WriteRegM; // @[myCPU.scala 280:38]
+  assign _mem22wb_io_csrWriteM = _mem2mem2_io_csrWriteM; // @[myCPU.scala 282:38]
+  assign _mem22wb_io_WritecsrAddrM = _mem2mem2_io_WritecsrAddrM; // @[myCPU.scala 283:38]
+  assign _mem22wb_io_CsrWritedataM = _mem2mem2_io_CsrWritedataM; // @[myCPU.scala 1127:33]
+  assign _mem22wb_io_PCM = _mem2mem2_io_PCM; // @[myCPU.scala 281:38]
+  assign _mem22wb_io_ExceptionTypeM = _mem2mem2_io_ExceptionTypeM_Out; // @[myCPU.scala 1122:33]
+  assign _mem22wb_io_BranchJump_JrM = _mem2mem2_io_BranchJump_JrM; // @[myCPU.scala 1126:33]
+  assign _mem22wb_io_eBreakM = _mem2mem2_io_eBreakM; // @[myCPU.scala 1123:33]
+  assign _mem22wb_io_Pc_NextM = _mem2mem2_io_Pc_NextM; // @[myCPU.scala 1124:33]
+  assign _mem22wb_io_Mem_trace_budleM_pc = _mem2mem2_io_mem_trace_budleM_pc; // @[myCPU.scala 1131:37]
   assign _mem22wb_io_Mem_trace_budleM_data = __mem22wb_io_Mem_trace_budleM_data_T_2 |
     __mem22wb_io_Mem_trace_budleM_data_T_3; // @[Mux.scala 27:73]
-  assign _mem22wb_io_Mem_trace_budleM_mem_fetch_type = _mem2mem2_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 1127:49]
-  assign _mem22wb_io_Mem_trace_budleM_addr = _mem2mem2_io_mem_trace_budleM_addr; // @[myCPU.scala 1135:39]
-  assign _mem22wb_io_Mem_trace_budleM_len = _mem2mem2_io_mem_trace_budleM_len; // @[myCPU.scala 1134:39]
-  assign _mem22wb_io_Mem_trace_budleM_cache = _mem2mem2_io_mem_trace_budleM_cache; // @[myCPU.scala 1136:39]
-  assign _addr_cal_io_d_vaddr = _id2ex_io_ImmE + RD1ForWardE; // @[myCPU.scala 1193:44]
-  assign _muldiv_clock = clk; // @[myCPU.scala 110:23]
-  assign _muldiv_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign _muldiv_io_en = ~ex_exception & ~__muldiv_io_en_T_23; // @[myCPU.scala 890:36]
-  assign _muldiv_io_ctrl = _id2ex_io_muldiv_control; // @[myCPU.scala 897:21]
-  assign _muldiv_io_in1 = _id2ex_io2_ALUSrcE_0 ? _id2ex_io2_PCE : RD1ForWardE; // @[myCPU.scala 872:20]
-  assign _muldiv_io_in2 = _id2ex_io2_ALUSrcE_1 ? _id2ex_io_ImmE : RD2ForWardE; // @[myCPU.scala 879:20]
-  assign _regfile_clock = clk; // @[myCPU.scala 110:23]
-  assign _regfile_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign _regfile_io_A1 = _if2id_io_InstrD[19:15]; // @[myCPU.scala 765:29]
-  assign _regfile_io_A2 = _if2id_io_InstrD[24:20]; // @[myCPU.scala 766:29]
-  assign _regfile_io_WE3 = RegWriteW & _commit_difftest_data_ok_ok; // @[myCPU.scala 1165:41]
-  assign _regfile_io_A3 = _mem22wb_io_WriteRegW; // @[myCPU.scala 1164:21]
-  assign _regfile_io_WD3 = _mem22wb_io_ResultW; // @[myCPU.scala 1157:15 285:26]
-  assign _mtrace_mod_reset = ~resetn; // @[myCPU.scala 223:29]
-  assign _mtrace_mod_clock = clk; // @[myCPU.scala 222:26]
-  assign _mtrace_mod_data = _mem22wb_io_Mem_trace_budleW_data; // @[myCPU.scala 232:29]
-  assign _mtrace_mod_pc = _mem22wb_io_Mem_trace_budleW_pc; // @[myCPU.scala 224:26]
-  assign _mtrace_mod_addr = _mem22wb_io_Mem_trace_budleW_addr; // @[myCPU.scala 230:29]
-  assign _mtrace_mod_mem_req = _mem22wb_io_Mem_trace_budleW_mem_fetch_type != 2'h0; // @[myCPU.scala 225:75]
-  assign _mtrace_mod_mem_write_read = _mem22wb_io_Mem_trace_budleW_mem_fetch_type[0]; // @[myCPU.scala 227:52]
-  assign _mtrace_mod_mem_size = _mem22wb_io_Mem_trace_budleW_len; // @[myCPU.scala 231:29]
-  assign _mtrace_mod_mem_cached = _mem22wb_io_Mem_trace_budleW_cache; // @[myCPU.scala 233:31]
-  assign fifo_with_bundle_clock = clk; // @[myCPU.scala 110:23]
-  assign fifo_with_bundle_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign fifo_with_bundle_io_read_en = {{1'd0}, _T_25}; // @[myCPU.scala 573:29]
-  assign fifo_with_bundle_io_write_en = inst_write_en; // @[myCPU.scala 567:35]
-  assign fifo_with_bundle_io_write_in_0_pc = stage_fec_2_pc_L_io_out_pc_value_out; // @[myCPU.scala 545:40 548:45]
-  assign fifo_with_bundle_io_write_in_0_inst = inst_sram_rdata_L[31:0]; // @[myCPU.scala 547:60]
-  assign fifo_with_bundle_io_write_in_0_pre_pc_target = branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 480:38 496:31]
-  assign fifo_with_bundle_io_write_in_0_pre_lookup_data = branch_prediction_with_blockram_io_lookup_data_0; // @[myCPU.scala 483:40 485:29]
-  assign fifo_with_bundle_io_write_in_0_pre_hashcode = stage_fec_2_hascode_0; // @[myCPU.scala 545:40 560:55]
-  assign fifo_with_bundle_io_write_in_0_pre_pht = branch_prediction_with_blockram_io_out_L; // @[myCPU.scala 479:32 492:24]
-  assign fifo_with_bundle_io_write_in_0_pre_bht = stage_fec_2_bht_0; // @[myCPU.scala 545:40 550:45]
-  assign fifo_with_bundle_io_write_in_0_pre_lookup_value = branch_prediction_with_blockram_io_pht_lookup_value_out; // @[myCPU.scala 545:40 552:47]
-  assign fifo_with_bundle_io_write_in_0_pre_decoder_branchD_flag = inst_sram_rdata_L[32]; // @[myCPU.scala 555:70]
-  assign fifo_with_bundle_io_write_in_0_pre_decoder_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 556:70]
-  assign fifo_with_bundle_io_write_in_0_pre_decoder_branchdata = inst_sram_rdata_L[39:34]; // @[myCPU.scala 558:70]
+  assign _mem22wb_io_Mem_trace_budleM_mem_fetch_type = _mem2mem2_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 1132:49]
+  assign _mem22wb_io_Mem_trace_budleM_addr = _mem2mem2_io_mem_trace_budleM_addr; // @[myCPU.scala 1140:39]
+  assign _mem22wb_io_Mem_trace_budleM_len = _mem2mem2_io_mem_trace_budleM_len; // @[myCPU.scala 1139:39]
+  assign _mem22wb_io_Mem_trace_budleM_cache = _mem2mem2_io_mem_trace_budleM_cache; // @[myCPU.scala 1141:39]
+  assign _addr_cal_io_d_vaddr = _id2ex_io_ImmE + RD1ForWardE; // @[myCPU.scala 1198:44]
+  assign _muldiv_clock = clk; // @[myCPU.scala 114:23]
+  assign _muldiv_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign _muldiv_io_en = ~ex_exception & ~__muldiv_io_en_T_23; // @[myCPU.scala 895:36]
+  assign _muldiv_io_ctrl = _id2ex_io_muldiv_control; // @[myCPU.scala 902:21]
+  assign _muldiv_io_in1 = _id2ex_io2_ALUSrcE_0 ? _id2ex_io2_PCE : RD1ForWardE; // @[myCPU.scala 877:20]
+  assign _muldiv_io_in2 = _id2ex_io2_ALUSrcE_1 ? _id2ex_io_ImmE : RD2ForWardE; // @[myCPU.scala 884:20]
+  assign _regfile_clock = clk; // @[myCPU.scala 114:23]
+  assign _regfile_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign _regfile_io_A1 = _if2id_io_InstrD[19:15]; // @[myCPU.scala 769:29]
+  assign _regfile_io_A2 = _if2id_io_InstrD[24:20]; // @[myCPU.scala 770:29]
+  assign _regfile_io_WE3 = RegWriteW & _commit_difftest_data_ok_ok; // @[myCPU.scala 1170:41]
+  assign _regfile_io_A3 = _mem22wb_io_WriteRegW; // @[myCPU.scala 1169:21]
+  assign _regfile_io_WD3 = _mem22wb_io_ResultW; // @[myCPU.scala 1162:15 289:26]
+  assign _mtrace_mod_reset = ~resetn; // @[myCPU.scala 227:29]
+  assign _mtrace_mod_clock = clk; // @[myCPU.scala 226:26]
+  assign _mtrace_mod_data = _mem22wb_io_Mem_trace_budleW_data; // @[myCPU.scala 236:29]
+  assign _mtrace_mod_pc = _mem22wb_io_Mem_trace_budleW_pc; // @[myCPU.scala 228:26]
+  assign _mtrace_mod_addr = _mem22wb_io_Mem_trace_budleW_addr; // @[myCPU.scala 234:29]
+  assign _mtrace_mod_mem_req = _mem22wb_io_Mem_trace_budleW_mem_fetch_type != 2'h0; // @[myCPU.scala 229:75]
+  assign _mtrace_mod_mem_write_read = _mem22wb_io_Mem_trace_budleW_mem_fetch_type[0]; // @[myCPU.scala 231:52]
+  assign _mtrace_mod_mem_size = _mem22wb_io_Mem_trace_budleW_len; // @[myCPU.scala 235:29]
+  assign _mtrace_mod_mem_cached = _mem22wb_io_Mem_trace_budleW_cache; // @[myCPU.scala 237:31]
+  assign fifo_with_bundle_clock = clk; // @[myCPU.scala 114:23]
+  assign fifo_with_bundle_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign fifo_with_bundle_io_read_en = {{1'd0}, _T_25}; // @[myCPU.scala 577:29]
+  assign fifo_with_bundle_io_write_en = inst_write_en; // @[myCPU.scala 571:35]
+  assign fifo_with_bundle_io_write_in_0_pc = stage_fec_2_pc_L_io_out_pc_value_out; // @[myCPU.scala 549:40 552:45]
+  assign fifo_with_bundle_io_write_in_0_inst = inst_sram_rdata_L[31:0]; // @[myCPU.scala 551:60]
+  assign fifo_with_bundle_io_write_in_0_pre_pc_target = branch_prediction_with_blockram_io_pre_target_L; // @[myCPU.scala 484:38 500:31]
+  assign fifo_with_bundle_io_write_in_0_pre_lookup_data = branch_prediction_with_blockram_io_lookup_data_0; // @[myCPU.scala 487:40 489:29]
+  assign fifo_with_bundle_io_write_in_0_pre_hashcode = stage_fec_2_hascode_0; // @[myCPU.scala 549:40 564:55]
+  assign fifo_with_bundle_io_write_in_0_pre_pht = branch_prediction_with_blockram_io_out_L; // @[myCPU.scala 483:32 496:24]
+  assign fifo_with_bundle_io_write_in_0_pre_bht = stage_fec_2_bht_0; // @[myCPU.scala 549:40 554:45]
+  assign fifo_with_bundle_io_write_in_0_pre_lookup_value = branch_prediction_with_blockram_io_pht_lookup_value_out; // @[myCPU.scala 549:40 556:47]
+  assign fifo_with_bundle_io_write_in_0_pre_decoder_branchD_flag = inst_sram_rdata_L[32]; // @[myCPU.scala 559:70]
+  assign fifo_with_bundle_io_write_in_0_pre_decoder_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 560:70]
+  assign fifo_with_bundle_io_write_in_0_pre_decoder_branchdata = inst_sram_rdata_L[39:34]; // @[myCPU.scala 562:70]
   assign fifo_with_bundle_io_write_in_0_pre_decoder_jr = inst_buffer_write_bundle_pre_decoder_jr_opD == 7'h67 &
-    inst_buffer_write_bundle_pre_decoder_jr_Funct3D == 3'h0; // @[macros.scala 495:30]
+    inst_buffer_write_bundle_pre_decoder_jr_Funct3D == 3'h0; // @[macros.scala 497:30]
   assign fifo_with_bundle_io_write_in_0_true_branch_state = branch_prediction_with_blockram_io_pre_L & (
     stage_fec_2_inst_branch | stage_fec_2_inst_jump) & branch_prediction_with_blockram_io_btb_hit_0 &
-    stage_fec_2_stall_reg & stage_fec_2_valid & ~_csr_io_exception; // @[myCPU.scala 507:187]
+    stage_fec_2_stall_reg & stage_fec_2_valid & ~_csr_io_exception; // @[myCPU.scala 511:187]
   assign fifo_with_bundle_io_point_write_en = _stage_fec_2_branch_answer_T_7 | _PCSrcD_T_1 & ((pre_decoder_jump |
     _PCSrcD_T_3) != id_true_branch_state | target_addr_error) & ~(ex_exception | mem_exception | mem2_exception |
-    wb_exception); // @[myCPU.scala 728:60]
-  assign fifo_with_bundle_io_point_flush = _csr_io_exception; // @[myCPU.scala 574:29]
-  assign stage_fec_1_pc_L_clock = clk; // @[myCPU.scala 110:23]
-  assign stage_fec_1_pc_L_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign stage_fec_1_pc_L_io_stall = stage2_stall; // @[myCPU.scala 440:31]
-  assign stage_fec_1_pc_L_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 398:54]
-  assign stage_fec_1_pc_L_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 373:19]
-  assign stage_fec_1_pc_M_clock = clk; // @[myCPU.scala 110:23]
-  assign stage_fec_1_pc_M_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign stage_fec_1_pc_M_io_stall = stage2_stall; // @[myCPU.scala 441:31]
-  assign stage_fec_1_pc_M_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 398:54]
-  assign stage_fec_1_pc_M_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 373:19]
-  assign stage_fec_1_pc_R_clock = clk; // @[myCPU.scala 110:23]
-  assign stage_fec_1_pc_R_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign stage_fec_1_pc_R_io_stall = stage2_stall; // @[myCPU.scala 442:31]
-  assign stage_fec_1_pc_R_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 398:54]
-  assign stage_fec_1_pc_R_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 373:19]
-  assign branch_prediction_with_blockram_clock = clk; // @[myCPU.scala 110:23]
-  assign branch_prediction_with_blockram_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign branch_prediction_with_blockram_io_pc = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 449:12]
-  assign branch_prediction_with_blockram_io_write_pc = _mem22wb_io_PCW; // @[myCPU.scala 1182:17]
-  assign branch_prediction_with_blockram_io_aw_pht_ways_addr = wb_bru_state_io_out_hashcode; // @[myCPU.scala 1181:25]
-  assign branch_prediction_with_blockram_io_aw_pht_addr = wb_bru_state_io_out_lookup_data; // @[myCPU.scala 1179:20]
-  assign branch_prediction_with_blockram_io_aw_bht_addr = _mem22wb_io_PCW[10:4]; // @[myCPU.scala 1178:38]
-  assign branch_prediction_with_blockram_io_aw_target_addr = wb_bru_state_io_out_target_pc; // @[myCPU.scala 1180:23]
-  assign branch_prediction_with_blockram_io_btb_write = branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 1177:18]
-  assign branch_prediction_with_blockram_io_bht_write = _mem22wb_io_BranchJump_JrW[0]; // @[myCPU.scala 1175:47]
-  assign branch_prediction_with_blockram_io_pht_write = branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 1176:18]
-  assign branch_prediction_with_blockram_io_bht_in = wb_bru_state_io_out_bht; // @[myCPU.scala 1173:15]
-  assign branch_prediction_with_blockram_io_pht_in = wb_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 1174:15]
-  assign branch_prediction_with_blockram_io_stage2_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 468:42]
-  assign branch_prediction_with_blockram_io_stage2_flush = stage2_flush; // @[myCPU.scala 471:22]
-  assign stage_fec_2_pc_L_clock = clk; // @[myCPU.scala 110:23]
-  assign stage_fec_2_pc_L_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign stage_fec_2_pc_L_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 468:42]
-  assign stage_fec_2_pc_L_io_flush = stage2_flush; // @[myCPU.scala 537:31]
-  assign stage_fec_2_pc_L_io_in_pc_value_in = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 528:40]
-  assign stage_fec_2_pc_M_clock = clk; // @[myCPU.scala 110:23]
-  assign stage_fec_2_pc_M_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign stage_fec_2_pc_M_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 468:42]
-  assign stage_fec_2_pc_M_io_flush = stage2_flush; // @[myCPU.scala 538:31]
-  assign stage_fec_2_pc_M_io_in_pc_value_in = stage_fec_1_pc_M_io_out_pc_value_out; // @[myCPU.scala 531:40]
-  assign stage_fec_2_pc_R_clock = clk; // @[myCPU.scala 110:23]
-  assign stage_fec_2_pc_R_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign stage_fec_2_pc_R_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 468:42]
-  assign stage_fec_2_pc_R_io_flush = stage2_flush; // @[myCPU.scala 539:31]
-  assign stage_fec_2_pc_R_io_in_pc_value_in = stage_fec_1_pc_R_io_out_pc_value_out; // @[myCPU.scala 534:40]
-  assign id_bru_state_clock = clk; // @[myCPU.scala 110:23]
-  assign id_bru_state_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign id_bru_state_io_stall = _cfu_io_StallD; // @[myCPU.scala 683:27]
-  assign id_bru_state_io_flush = _cfu_io_FlushD; // @[myCPU.scala 682:27]
-  assign id_bru_state_io_in_pht = fifo_with_bundle_io_read_out_0_pre_pht; // @[myCPU.scala 598:36 599:26]
-  assign id_bru_state_io_in_bht = fifo_with_bundle_io_read_out_0_pre_bht; // @[myCPU.scala 598:36 599:26]
-  assign id_bru_state_io_in_hashcode = fifo_with_bundle_io_read_out_0_pre_hashcode; // @[myCPU.scala 598:36 599:26]
-  assign id_bru_state_io_in_target_pc = fifo_with_bundle_io_read_out_0_pre_pc_target; // @[myCPU.scala 598:36 599:26]
-  assign id_bru_state_io_in_lookup_data = fifo_with_bundle_io_read_out_0_pre_lookup_data; // @[myCPU.scala 598:36 599:26]
-  assign id_bru_state_io_in_pht_lookup_value = fifo_with_bundle_io_read_out_0_pre_lookup_value; // @[myCPU.scala 598:36 599:26]
-  assign ex_bru_state_clock = clk; // @[myCPU.scala 110:23]
-  assign ex_bru_state_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign ex_bru_state_io_stall = _cfu_io_StallE; // @[myCPU.scala 687:27]
-  assign ex_bru_state_io_flush = _cfu_io_FlushE; // @[myCPU.scala 686:27]
-  assign ex_bru_state_io_in_pht = id_bru_state_io_out_pht; // @[myCPU.scala 745:28]
-  assign ex_bru_state_io_in_bht = id_bru_state_io_out_bht; // @[myCPU.scala 744:28]
-  assign ex_bru_state_io_in_hashcode = id_bru_state_io_out_hashcode; // @[myCPU.scala 746:33]
+    wb_exception); // @[myCPU.scala 732:60]
+  assign fifo_with_bundle_io_point_flush = _csr_io_exception; // @[myCPU.scala 578:29]
+  assign stage_fec_1_pc_L_clock = clk; // @[myCPU.scala 114:23]
+  assign stage_fec_1_pc_L_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign stage_fec_1_pc_L_io_stall = stage2_stall; // @[myCPU.scala 444:31]
+  assign stage_fec_1_pc_L_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 402:54]
+  assign stage_fec_1_pc_L_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 377:19]
+  assign stage_fec_1_pc_M_clock = clk; // @[myCPU.scala 114:23]
+  assign stage_fec_1_pc_M_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign stage_fec_1_pc_M_io_stall = stage2_stall; // @[myCPU.scala 445:31]
+  assign stage_fec_1_pc_M_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 402:54]
+  assign stage_fec_1_pc_M_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 377:19]
+  assign stage_fec_1_pc_R_clock = clk; // @[myCPU.scala 114:23]
+  assign stage_fec_1_pc_R_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign stage_fec_1_pc_R_io_stall = stage2_stall; // @[myCPU.scala 446:31]
+  assign stage_fec_1_pc_R_io_flush = _stage_fec_2_branch_answer_T_7 & ~stage2_stall; // @[myCPU.scala 402:54]
+  assign stage_fec_1_pc_R_io_in_pc_value_in = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 377:19]
+  assign branch_prediction_with_blockram_clock = clk; // @[myCPU.scala 114:23]
+  assign branch_prediction_with_blockram_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign branch_prediction_with_blockram_io_pc = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 453:12]
+  assign branch_prediction_with_blockram_io_write_pc = _mem22wb_io_PCW; // @[myCPU.scala 1187:17]
+  assign branch_prediction_with_blockram_io_aw_pht_ways_addr = wb_bru_state_io_out_hashcode; // @[myCPU.scala 1186:25]
+  assign branch_prediction_with_blockram_io_aw_pht_addr = wb_bru_state_io_out_lookup_data; // @[myCPU.scala 1184:20]
+  assign branch_prediction_with_blockram_io_aw_bht_addr = _mem22wb_io_PCW[10:4]; // @[myCPU.scala 1183:38]
+  assign branch_prediction_with_blockram_io_aw_target_addr = wb_bru_state_io_out_target_pc; // @[myCPU.scala 1185:23]
+  assign branch_prediction_with_blockram_io_btb_write = branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 1182:18]
+  assign branch_prediction_with_blockram_io_bht_write = _mem22wb_io_BranchJump_JrW[0]; // @[myCPU.scala 1180:47]
+  assign branch_prediction_with_blockram_io_pht_write = branch_prediction_with_blockram_io_bht_write; // @[myCPU.scala 1181:18]
+  assign branch_prediction_with_blockram_io_bht_in = wb_bru_state_io_out_bht; // @[myCPU.scala 1178:15]
+  assign branch_prediction_with_blockram_io_pht_in = wb_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 1179:15]
+  assign branch_prediction_with_blockram_io_stage2_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 472:42]
+  assign branch_prediction_with_blockram_io_stage2_flush = stage2_flush; // @[myCPU.scala 475:22]
+  assign stage_fec_2_pc_L_clock = clk; // @[myCPU.scala 114:23]
+  assign stage_fec_2_pc_L_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign stage_fec_2_pc_L_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 472:42]
+  assign stage_fec_2_pc_L_io_flush = stage2_flush; // @[myCPU.scala 541:31]
+  assign stage_fec_2_pc_L_io_in_pc_value_in = stage_fec_1_pc_L_io_out_pc_value_out; // @[myCPU.scala 532:40]
+  assign stage_fec_2_pc_M_clock = clk; // @[myCPU.scala 114:23]
+  assign stage_fec_2_pc_M_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign stage_fec_2_pc_M_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 472:42]
+  assign stage_fec_2_pc_M_io_flush = stage2_flush; // @[myCPU.scala 542:31]
+  assign stage_fec_2_pc_M_io_in_pc_value_in = stage_fec_1_pc_M_io_out_pc_value_out; // @[myCPU.scala 535:40]
+  assign stage_fec_2_pc_R_clock = clk; // @[myCPU.scala 114:23]
+  assign stage_fec_2_pc_R_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign stage_fec_2_pc_R_io_stall = stage2_stall & ~_pc_next_wait_T; // @[myCPU.scala 472:42]
+  assign stage_fec_2_pc_R_io_flush = stage2_flush; // @[myCPU.scala 543:31]
+  assign stage_fec_2_pc_R_io_in_pc_value_in = stage_fec_1_pc_R_io_out_pc_value_out; // @[myCPU.scala 538:40]
+  assign id_bru_state_clock = clk; // @[myCPU.scala 114:23]
+  assign id_bru_state_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign id_bru_state_io_stall = _cfu_io_StallD; // @[myCPU.scala 687:27]
+  assign id_bru_state_io_flush = _cfu_io_FlushD; // @[myCPU.scala 686:27]
+  assign id_bru_state_io_in_pht = fifo_with_bundle_io_read_out_0_pre_pht; // @[myCPU.scala 602:36 603:26]
+  assign id_bru_state_io_in_bht = fifo_with_bundle_io_read_out_0_pre_bht; // @[myCPU.scala 602:36 603:26]
+  assign id_bru_state_io_in_hashcode = fifo_with_bundle_io_read_out_0_pre_hashcode; // @[myCPU.scala 602:36 603:26]
+  assign id_bru_state_io_in_target_pc = fifo_with_bundle_io_read_out_0_pre_pc_target; // @[myCPU.scala 602:36 603:26]
+  assign id_bru_state_io_in_lookup_data = fifo_with_bundle_io_read_out_0_pre_lookup_data; // @[myCPU.scala 602:36 603:26]
+  assign id_bru_state_io_in_pht_lookup_value = fifo_with_bundle_io_read_out_0_pre_lookup_value; // @[myCPU.scala 602:36 603:26]
+  assign ex_bru_state_clock = clk; // @[myCPU.scala 114:23]
+  assign ex_bru_state_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign ex_bru_state_io_stall = _cfu_io_StallE; // @[myCPU.scala 691:27]
+  assign ex_bru_state_io_flush = _cfu_io_FlushE; // @[myCPU.scala 690:27]
+  assign ex_bru_state_io_in_pht = id_bru_state_io_out_pht; // @[myCPU.scala 749:28]
+  assign ex_bru_state_io_in_bht = id_bru_state_io_out_bht; // @[myCPU.scala 748:28]
+  assign ex_bru_state_io_in_hashcode = id_bru_state_io_out_hashcode; // @[myCPU.scala 750:33]
   assign ex_bru_state_io_in_target_pc = pre_decoder_branchD_flag ? PCBranchD : _Pc_targetD_T_2; // @[Mux.scala 101:16]
-  assign ex_bru_state_io_in_lookup_data = id_bru_state_io_out_lookup_data; // @[myCPU.scala 747:36]
-  assign ex_bru_state_io_in_pht_lookup_value = id_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 748:41]
-  assign mem_bru_state_clock = clk; // @[myCPU.scala 110:23]
-  assign mem_bru_state_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign mem_bru_state_io_stall = _cfu_io_StallM; // @[myCPU.scala 691:28]
-  assign mem_bru_state_io_flush = _cfu_io_FlushM; // @[myCPU.scala 690:28]
+  assign ex_bru_state_io_in_lookup_data = id_bru_state_io_out_lookup_data; // @[myCPU.scala 751:36]
+  assign ex_bru_state_io_in_pht_lookup_value = id_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 752:41]
+  assign mem_bru_state_clock = clk; // @[myCPU.scala 114:23]
+  assign mem_bru_state_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign mem_bru_state_io_stall = _cfu_io_StallM; // @[myCPU.scala 695:28]
+  assign mem_bru_state_io_flush = _cfu_io_FlushM; // @[myCPU.scala 694:28]
   assign mem_bru_state_io_in_pht = 2'h2 == ex_bru_state_io_out_pht ? _pht_tobeE_T_3 : _pht_tobeE_T_7; // @[Mux.scala 81:58]
   assign mem_bru_state_io_in_bht = {ex_bru_state_io_out_bht[5:0],true_branch_stateE}; // @[Cat.scala 31:58]
-  assign mem_bru_state_io_in_hashcode = ex_bru_state_io_out_hashcode; // @[myCPU.scala 702:26]
-  assign mem_bru_state_io_in_target_pc = ex_bru_state_io_out_target_pc; // @[myCPU.scala 702:26]
-  assign mem_bru_state_io_in_lookup_data = ex_bru_state_io_out_lookup_data; // @[myCPU.scala 702:26]
+  assign mem_bru_state_io_in_hashcode = ex_bru_state_io_out_hashcode; // @[myCPU.scala 706:26]
+  assign mem_bru_state_io_in_target_pc = ex_bru_state_io_out_target_pc; // @[myCPU.scala 706:26]
+  assign mem_bru_state_io_in_lookup_data = ex_bru_state_io_out_lookup_data; // @[myCPU.scala 706:26]
   assign mem_bru_state_io_in_pht_lookup_value = 2'h3 == ex_bru_state_io_out_lookup_data[1:0] ?
     _pht_lookup_value_tobeE_T_10 : _pht_lookup_value_tobeE_T_14; // @[Mux.scala 81:58]
-  assign mem2_bru_state_clock = clk; // @[myCPU.scala 110:23]
-  assign mem2_bru_state_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign mem2_bru_state_io_stall = _cfu_io_StallM2; // @[myCPU.scala 695:29]
-  assign mem2_bru_state_io_flush = _cfu_io_FlushM2; // @[myCPU.scala 694:29]
-  assign mem2_bru_state_io_in_pht = mem_bru_state_io_out_pht; // @[myCPU.scala 703:26]
-  assign mem2_bru_state_io_in_bht = mem_bru_state_io_out_bht; // @[myCPU.scala 703:26]
-  assign mem2_bru_state_io_in_hashcode = mem_bru_state_io_out_hashcode; // @[myCPU.scala 703:26]
-  assign mem2_bru_state_io_in_target_pc = mem_bru_state_io_out_target_pc; // @[myCPU.scala 703:26]
-  assign mem2_bru_state_io_in_lookup_data = mem_bru_state_io_out_lookup_data; // @[myCPU.scala 703:26]
-  assign mem2_bru_state_io_in_pht_lookup_value = mem_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 703:26]
-  assign wb_bru_state_clock = clk; // @[myCPU.scala 110:23]
-  assign wb_bru_state_reset = ~resetn; // @[myCPU.scala 110:41]
-  assign wb_bru_state_io_stall = _cfu_io_StallW; // @[myCPU.scala 699:27]
-  assign wb_bru_state_io_flush = _cfu_io_FlushW; // @[myCPU.scala 698:27]
-  assign wb_bru_state_io_in_pht = mem2_bru_state_io_out_pht; // @[myCPU.scala 704:26]
-  assign wb_bru_state_io_in_bht = mem2_bru_state_io_out_bht; // @[myCPU.scala 704:26]
-  assign wb_bru_state_io_in_hashcode = mem2_bru_state_io_out_hashcode; // @[myCPU.scala 704:26]
-  assign wb_bru_state_io_in_target_pc = mem2_bru_state_io_out_target_pc; // @[myCPU.scala 704:26]
-  assign wb_bru_state_io_in_lookup_data = mem2_bru_state_io_out_lookup_data; // @[myCPU.scala 704:26]
-  assign wb_bru_state_io_in_pht_lookup_value = mem2_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 704:26]
-  assign _commit_difftest_reset = ~resetn; // @[myCPU.scala 1146:34]
-  assign _commit_difftest_clock = clk; // @[myCPU.scala 1145:31]
-  assign _commit_difftest_gpr_wire = _regfile_io_reg_file_alL_out; // @[myCPU.scala 1147:34]
-  assign _commit_difftest_pc = _mem22wb_io_PCW; // @[myCPU.scala 1149:40]
-  assign _commit_difftest_debug_pc = wb_exception ? _csr_io_return_pc : _mem22wb_io_Pc_NextW; // @[myCPU.scala 1148:46]
-  assign _commit_difftest_inst_commit = _PCW_Reg_T & pcw_reg != _mem22wb_io_PCW; // @[myCPU.scala 1155:64]
-  assign _commit_difftest_cpu_ebreak_sign = _mem22wb_io_eBreakW; // @[myCPU.scala 1150:41]
+  assign mem2_bru_state_clock = clk; // @[myCPU.scala 114:23]
+  assign mem2_bru_state_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign mem2_bru_state_io_stall = _cfu_io_StallM2; // @[myCPU.scala 699:29]
+  assign mem2_bru_state_io_flush = _cfu_io_FlushM2; // @[myCPU.scala 698:29]
+  assign mem2_bru_state_io_in_pht = mem_bru_state_io_out_pht; // @[myCPU.scala 707:26]
+  assign mem2_bru_state_io_in_bht = mem_bru_state_io_out_bht; // @[myCPU.scala 707:26]
+  assign mem2_bru_state_io_in_hashcode = mem_bru_state_io_out_hashcode; // @[myCPU.scala 707:26]
+  assign mem2_bru_state_io_in_target_pc = mem_bru_state_io_out_target_pc; // @[myCPU.scala 707:26]
+  assign mem2_bru_state_io_in_lookup_data = mem_bru_state_io_out_lookup_data; // @[myCPU.scala 707:26]
+  assign mem2_bru_state_io_in_pht_lookup_value = mem_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 707:26]
+  assign wb_bru_state_clock = clk; // @[myCPU.scala 114:23]
+  assign wb_bru_state_reset = ~resetn; // @[myCPU.scala 114:41]
+  assign wb_bru_state_io_stall = _cfu_io_StallW; // @[myCPU.scala 703:27]
+  assign wb_bru_state_io_flush = _cfu_io_FlushW; // @[myCPU.scala 702:27]
+  assign wb_bru_state_io_in_pht = mem2_bru_state_io_out_pht; // @[myCPU.scala 708:26]
+  assign wb_bru_state_io_in_bht = mem2_bru_state_io_out_bht; // @[myCPU.scala 708:26]
+  assign wb_bru_state_io_in_hashcode = mem2_bru_state_io_out_hashcode; // @[myCPU.scala 708:26]
+  assign wb_bru_state_io_in_target_pc = mem2_bru_state_io_out_target_pc; // @[myCPU.scala 708:26]
+  assign wb_bru_state_io_in_lookup_data = mem2_bru_state_io_out_lookup_data; // @[myCPU.scala 708:26]
+  assign wb_bru_state_io_in_pht_lookup_value = mem2_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 708:26]
+  assign _commit_difftest_reset = ~resetn; // @[myCPU.scala 1151:34]
+  assign _commit_difftest_clock = clk; // @[myCPU.scala 1150:31]
+  assign _commit_difftest_gpr_wire = _regfile_io_reg_file_alL_out; // @[myCPU.scala 1152:34]
+  assign _commit_difftest_pc = _mem22wb_io_PCW; // @[myCPU.scala 1154:40]
+  assign _commit_difftest_debug_pc = wb_exception ? _csr_io_return_pc : _mem22wb_io_Pc_NextW; // @[myCPU.scala 1153:46]
+  assign _commit_difftest_inst_commit = _PCW_Reg_T & pcw_reg != _mem22wb_io_PCW; // @[myCPU.scala 1160:64]
+  assign _commit_difftest_cpu_ebreak_sign = _mem22wb_io_eBreakW; // @[myCPU.scala 1155:41]
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 602:36]
+    if (_T_2) begin // @[myCPU.scala 606:36]
       pre_decoder_branchD_flag <= 1'h0;
-    end else if (_cfu_io_FlushD) begin // @[myCPU.scala 602:66]
+    end else if (_cfu_io_FlushD) begin // @[myCPU.scala 606:66]
       pre_decoder_branchD_flag <= 1'h0;
     end else if (_PCSrcD_T_1) begin
       pre_decoder_branchD_flag <= inst_buffer_read_out_pre_decoder_branchD_flag;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 604:34]
+    if (_T_2) begin // @[myCPU.scala 608:34]
       pre_decoder_branchdata <= 6'h0;
-    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 604:64]
+    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 608:64]
       pre_decoder_branchdata <= 6'h0;
     end else if (_PCSrcD_T_1) begin
       pre_decoder_branchdata <= inst_buffer_read_out_pre_decoder_branchdata;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 603:28]
+    if (_T_2) begin // @[myCPU.scala 607:28]
       pre_decoder_jump <= 1'h0;
-    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 603:58]
+    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 607:58]
       pre_decoder_jump <= 1'h0;
     end else if (_PCSrcD_T_1) begin
       pre_decoder_jump <= inst_buffer_read_out_pre_decoder_jump;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 605:26]
+    if (_T_2) begin // @[myCPU.scala 609:26]
       pre_decoder_jr <= 1'h0;
-    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 605:56]
+    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 609:56]
       pre_decoder_jr <= 1'h0;
     end else if (_PCSrcD_T_1) begin
       pre_decoder_jr <= inst_buffer_read_out_pre_decoder_jr;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 982:25]
+    if (_T_2) begin // @[myCPU.scala 987:25]
       resultE2M_Reg <= 64'h0;
-    end else if (_mem_exception_T) begin // @[myCPU.scala 982:55]
+    end else if (_mem_exception_T) begin // @[myCPU.scala 987:55]
       resultE2M_Reg <= 64'h0;
     end else if (_mem_exception_T_1) begin
       resultE2M_Reg <= resultE;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 1033:24]
+    if (_T_2) begin // @[myCPU.scala 1038:24]
       ResultM2_Reg <= 64'h0;
-    end else if (_mem2_exception_T) begin // @[myCPU.scala 1033:55]
+    end else if (_mem2_exception_T) begin // @[myCPU.scala 1038:55]
       ResultM2_Reg <= 64'h0;
     end else if (_mem2_exception_T_1) begin
       ResultM2_Reg <= resultE2M_Reg;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 292:19]
+    if (_T_2) begin // @[myCPU.scala 296:19]
       PCW_Reg <= 64'h0;
     end else if (_mem22wb_io_PCW != 64'h0) begin
       PCW_Reg <= _mem22wb_io_PCW;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 297:25]
-      reg_pc <= 64'h0; // @[myCPU.scala 297:25]
+    if (_T_2) begin // @[myCPU.scala 301:25]
+      reg_pc <= 64'h0; // @[myCPU.scala 301:25]
     end else begin
-      reg_pc <= _mem22wb_io_PCW; // @[myCPU.scala 298:12]
+      reg_pc <= _mem22wb_io_PCW; // @[myCPU.scala 302:12]
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 634:24]
+    if (_T_2) begin // @[myCPU.scala 638:24]
       wb_exception <= 1'h0;
-    end else if (_cfu_io_FlushW) begin // @[myCPU.scala 634:54]
+    end else if (_cfu_io_FlushW) begin // @[myCPU.scala 638:54]
       wb_exception <= 1'h0;
     end else if (_cfu_io_StallW) begin
       wb_exception <= _mem22wb_io_ExceptionTypeM != 32'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 341:24]
-      pc_next_wait <= 64'h0; // @[Mux.scala 101:{16,16} myCPU.scala 200:24 761:26 412:31]
+    if (_T_2) begin // @[myCPU.scala 345:24]
+      pc_next_wait <= 64'h0; // @[Mux.scala 101:{16,16} myCPU.scala 204:24 765:26 416:31]
     end else if (ready_to_branch | stage_fec_2_branch_answer) begin
       if (fifo_with_bundle_io_point_write_en) begin
         if (pre_decoder_jump) begin
@@ -41479,15 +41447,15 @@ module myCPU(
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 468:42]
+    if (_T_2) begin // @[myCPU.scala 472:42]
       stage_fec_2_stall_reg <= 1'h0;
     end else begin
       stage_fec_2_stall_reg <= stage2_stall & ~_pc_next_wait_T;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 476:29]
-      stage_fec_2_valid <= 1'h0; // @[myCPU.scala 476:51]
+    if (_T_2) begin // @[myCPU.scala 480:29]
+      stage_fec_2_valid <= 1'h0; // @[myCPU.scala 480:51]
     end else if (stage_fec_2_stall) begin
       if (fifo_with_bundle_io_point_write_en) begin
         stage_fec_2_valid <= 1'h0;
@@ -41497,128 +41465,128 @@ module myCPU(
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 346:102]
-      pc_req_wait <= 1'h0; // @[myCPU.scala 347:21]
+    if (_T_2) begin // @[myCPU.scala 350:102]
+      pc_req_wait <= 1'h0; // @[myCPU.scala 351:21]
     end else begin
       pc_req_wait <= ~inst_sram_en & _pc_next_wait_T & _stage_fec_2_branch_answer_T_8 | _GEN_0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 356:28]
+    if (_T_2) begin // @[myCPU.scala 360:28]
       exception_Pc_reg <= 64'h0;
     end else if (_stage_fec_2_branch_answer_T_7) begin
       exception_Pc_reg <= _csr_io_return_pc;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 361:58]
-      returnPc_req_wait <= 1'h0; // @[myCPU.scala 362:27]
+    if (_T_2) begin // @[myCPU.scala 365:58]
+      returnPc_req_wait <= 1'h0; // @[myCPU.scala 366:27]
     end else begin
       returnPc_req_wait <= _T_4 & _stage_fec_2_branch_answer_T_7 | _GEN_2;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 458:29]
+    if (_T_2) begin // @[myCPU.scala 462:29]
       stage_fec_1_valid <= 1'h0;
     end else begin
       stage_fec_1_valid <= stage2_stall | _stage_fec_1_valid_T_2;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 488:30]
+    if (_T_2) begin // @[myCPU.scala 492:30]
       stage_fec_2_bht_0 <= 7'h0;
-    end else if (stage2_flush) begin // @[myCPU.scala 488:51]
+    end else if (stage2_flush) begin // @[myCPU.scala 492:51]
       stage_fec_2_bht_0 <= 7'h0;
     end else if (stage2_stall) begin
       stage_fec_2_bht_0 <= branch_prediction_with_blockram_io_bht_L;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 500:36]
+    if (_T_2) begin // @[myCPU.scala 504:36]
       stage_fec_2_hascode_0 <= 4'h0;
-    end else if (stage2_flush) begin // @[myCPU.scala 500:57]
+    end else if (stage2_flush) begin // @[myCPU.scala 504:57]
       stage_fec_2_hascode_0 <= 4'h0;
     end else if (stage2_stall) begin
       stage_fec_2_hascode_0 <= _stage_fec_2_hascode_0_T_1;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 622:24]
+    if (_T_2) begin // @[myCPU.scala 626:24]
       id_exception <= 1'h0;
-    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 622:54]
+    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 626:54]
       id_exception <= 1'h0;
     end else if (_PCSrcD_T_1) begin
       id_exception <= inst_buffer_read_out_pc[1:0] != 2'h0 | inst_buffer_read_out_exception_type != 2'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 625:24]
+    if (_T_2) begin // @[myCPU.scala 629:24]
       ex_exception <= 1'h0;
-    end else if (_cfu_io_FlushE) begin // @[myCPU.scala 625:54]
+    end else if (_cfu_io_FlushE) begin // @[myCPU.scala 629:54]
       ex_exception <= 1'h0;
     end else if (_commit_cache_reg_T) begin
       ex_exception <= _id2ex_io_ExceptionTypeD != 32'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 628:25]
+    if (_T_2) begin // @[myCPU.scala 632:25]
       mem_exception <= 1'h0;
-    end else if (_cfu_io_FlushM) begin // @[myCPU.scala 628:55]
+    end else if (_cfu_io_FlushM) begin // @[myCPU.scala 632:55]
       mem_exception <= 1'h0;
     end else if (_cfu_io_StallM) begin
       mem_exception <= _ex2mem_io_ExceptionTypeE != 32'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 631:26]
+    if (_T_2) begin // @[myCPU.scala 635:26]
       mem2_exception <= 1'h0;
-    end else if (_cfu_io_FlushM2) begin // @[myCPU.scala 631:57]
+    end else if (_cfu_io_FlushM2) begin // @[myCPU.scala 635:57]
       mem2_exception <= 1'h0;
     end else if (_cfu_io_StallM2) begin
       mem2_exception <= _mem2mem2_io_ExceptionTypeE != 32'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 679:32]
+    if (_T_2) begin // @[myCPU.scala 683:32]
       id_true_branch_state <= 1'h0;
-    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 679:62]
+    end else if (_pre_decoder_branchD_flag_T) begin // @[myCPU.scala 683:62]
       id_true_branch_state <= 1'h0;
     end else if (_PCSrcD_T_1) begin
       id_true_branch_state <= inst_buffer_read_out_true_branch_state;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 709:31]
+    if (_T_2) begin // @[myCPU.scala 713:31]
       inst_tlb_exceptionE <= 1'h0;
-    end else if (_ex_exception_T) begin // @[myCPU.scala 709:61]
+    end else if (_ex_exception_T) begin // @[myCPU.scala 713:61]
       inst_tlb_exceptionE <= 1'h0;
     end else if (_commit_cache_reg_T) begin
       inst_tlb_exceptionE <= _if2id_io_ExceptionTypeD_Out != 2'h0;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 741:30]
+    if (_T_2) begin // @[myCPU.scala 745:30]
       true_branch_stateE <= 1'h0;
-    end else if (_ex_exception_T) begin // @[myCPU.scala 741:61]
+    end else if (_ex_exception_T) begin // @[myCPU.scala 745:61]
       true_branch_stateE <= 1'h0;
     end else if (_commit_cache_reg_T) begin
       true_branch_stateE <= _T_31;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 838:27]
+    if (_T_2) begin // @[myCPU.scala 843:27]
       inst_tlb_exceptionM <= 1'h0;
-    end else if (_mem_exception_T) begin // @[myCPU.scala 838:57]
+    end else if (_mem_exception_T) begin // @[myCPU.scala 843:57]
       inst_tlb_exceptionM <= 1'h0;
     end else if (_mem_exception_T_1) begin
       inst_tlb_exceptionM <= inst_tlb_exceptionE;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 852:33]
-      RD1ForWardE_r <= 64'h0; // @[myCPU.scala 842:34]
-    end else if (!(_commit_cache_reg_T)) begin // @[myCPU.scala 856:88]
-      if ((_cfu_io_Forward1E[0] | _cfu_io_Forward1E[1]) & ~Forward_Lock1E) begin // @[myCPU.scala 842:34]
+    if (_T_2) begin // @[myCPU.scala 857:33]
+      RD1ForWardE_r <= 64'h0; // @[myCPU.scala 847:34]
+    end else if (!(_commit_cache_reg_T)) begin // @[myCPU.scala 861:88]
+      if ((_cfu_io_Forward1E[0] | _cfu_io_Forward1E[1]) & ~Forward_Lock1E) begin // @[myCPU.scala 847:34]
         if (2'h3 == _cfu_io_Forward1E) begin
           RD1ForWardE_r <= ResultM2_Reg;
         end else if (2'h2 == _cfu_io_Forward1E) begin
@@ -41630,10 +41598,10 @@ module myCPU(
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 852:33]
-      RD2ForWardE_r <= 64'h0; // @[myCPU.scala 843:34]
-    end else if (!(_commit_cache_reg_T)) begin // @[myCPU.scala 860:87]
-      if ((_cfu_io_Forward2E[0] | _cfu_io_Forward2E[1]) & ~Forward_Lock2E) begin // @[myCPU.scala 843:34]
+    if (_T_2) begin // @[myCPU.scala 857:33]
+      RD2ForWardE_r <= 64'h0; // @[myCPU.scala 848:34]
+    end else if (!(_commit_cache_reg_T)) begin // @[myCPU.scala 865:87]
+      if ((_cfu_io_Forward2E[0] | _cfu_io_Forward2E[1]) & ~Forward_Lock2E) begin // @[myCPU.scala 848:34]
         if (2'h3 == _cfu_io_Forward2E) begin
           RD2ForWardE_r <= ResultM2_Reg;
         end else if (2'h2 == _cfu_io_Forward2E) begin
@@ -41645,46 +41613,46 @@ module myCPU(
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 852:33]
-      Forward_Lock1E <= 1'h0; // @[myCPU.scala 853:24]
-    end else if (_commit_cache_reg_T) begin // @[myCPU.scala 856:88]
-      Forward_Lock1E <= 1'h0; // @[myCPU.scala 857:28]
-    end else if ((_cfu_io_Forward1E[0] | _cfu_io_Forward1E[1]) & ~Forward_Lock1E) begin // @[myCPU.scala 844:34]
+    if (_T_2) begin // @[myCPU.scala 857:33]
+      Forward_Lock1E <= 1'h0; // @[myCPU.scala 858:24]
+    end else if (_commit_cache_reg_T) begin // @[myCPU.scala 861:88]
+      Forward_Lock1E <= 1'h0; // @[myCPU.scala 862:28]
+    end else if ((_cfu_io_Forward1E[0] | _cfu_io_Forward1E[1]) & ~Forward_Lock1E) begin // @[myCPU.scala 849:34]
       Forward_Lock1E <= ~(_ex2mem_io_MemToRegM | _mem2mem2_io_MemToRegM);
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 852:33]
-      Forward_Lock2E <= 1'h0; // @[myCPU.scala 854:24]
-    end else if (_commit_cache_reg_T) begin // @[myCPU.scala 860:87]
-      Forward_Lock2E <= 1'h0; // @[myCPU.scala 861:28]
-    end else if ((_cfu_io_Forward2E[0] | _cfu_io_Forward2E[1]) & ~Forward_Lock2E) begin // @[myCPU.scala 845:34]
+    if (_T_2) begin // @[myCPU.scala 857:33]
+      Forward_Lock2E <= 1'h0; // @[myCPU.scala 859:24]
+    end else if (_commit_cache_reg_T) begin // @[myCPU.scala 865:87]
+      Forward_Lock2E <= 1'h0; // @[myCPU.scala 866:28]
+    end else if ((_cfu_io_Forward2E[0] | _cfu_io_Forward2E[1]) & ~Forward_Lock2E) begin // @[myCPU.scala 850:34]
       Forward_Lock2E <= _Forward_Lock1E_T_3;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 1081:33]
+    if (_T_2) begin // @[myCPU.scala 1086:33]
       tlb_exception_csr_writeM2 <= 1'h0;
-    end else if (_mem2_exception_T) begin // @[myCPU.scala 1081:64]
+    end else if (_mem2_exception_T) begin // @[myCPU.scala 1086:64]
       tlb_exception_csr_writeM2 <= 1'h0;
     end else if (_mem2_exception_T_1) begin
       tlb_exception_csr_writeM2 <= inst_tlb_exceptionM;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 1082:33]
+    if (_T_2) begin // @[myCPU.scala 1087:33]
       tlb_exception_co0_writeW <= 1'h0;
-    end else if (_wb_exception_T) begin // @[myCPU.scala 1082:63]
+    end else if (_wb_exception_T) begin // @[myCPU.scala 1087:63]
       tlb_exception_co0_writeW <= 1'h0;
     end else if (_wb_exception_T_1) begin
       tlb_exception_co0_writeW <= tlb_exception_csr_writeM2;
     end
   end
   always @(posedge clk or posedge _T_2) begin
-    if (_T_2) begin // @[myCPU.scala 1142:26]
-      pcw_reg <= 64'h0; // @[myCPU.scala 1142:26]
+    if (_T_2) begin // @[myCPU.scala 1147:26]
+      pcw_reg <= 64'h0; // @[myCPU.scala 1147:26]
     end else begin
-      pcw_reg <= _mem22wb_io_PCW; // @[myCPU.scala 1152:13]
+      pcw_reg <= _mem22wb_io_PCW; // @[myCPU.scala 1157:13]
     end
   end
 // Register and memory initialization
@@ -47571,17 +47539,17 @@ module icache_data(
   wire [63:0] icache_data_ram_0_io_douta; // @[icache_data.scala 31:35]
   reg [63:0] addr_reg; // @[icache_data.scala 36:27]
   wire [31:0] get_data = addr_reg[2] ? icache_data_ram_0_io_douta[63:32] : icache_data_ram_0_io_douta[31:0]; // @[icache_data.scala 38:26]
-  wire [6:0] io_rdata_opD = get_data[6:0]; // @[macros.scala 522:24]
-  wire [2:0] io_rdata_Funct3D = get_data[14:12]; // @[macros.scala 523:28]
+  wire [6:0] io_rdata_opD = get_data[6:0]; // @[macros.scala 524:24]
+  wire [2:0] io_rdata_Funct3D = get_data[14:12]; // @[macros.scala 525:28]
   wire [1:0] _io_rdata_T_3 = 3'h1 == io_rdata_Funct3D ? 2'h2 : {{1'd0}, 3'h0 == io_rdata_Funct3D}; // @[Mux.scala 81:58]
   wire [2:0] _io_rdata_T_5 = 3'h4 == io_rdata_Funct3D ? 3'h4 : {{1'd0}, _io_rdata_T_3}; // @[Mux.scala 81:58]
   wire [3:0] _io_rdata_T_7 = 3'h5 == io_rdata_Funct3D ? 4'h8 : {{1'd0}, _io_rdata_T_5}; // @[Mux.scala 81:58]
   wire [4:0] _io_rdata_T_9 = 3'h6 == io_rdata_Funct3D ? 5'h10 : {{1'd0}, _io_rdata_T_7}; // @[Mux.scala 81:58]
   wire [5:0] _io_rdata_T_11 = 3'h7 == io_rdata_Funct3D ? 6'h20 : {{1'd0}, _io_rdata_T_9}; // @[Mux.scala 81:58]
   wire [5:0] _io_rdata_T_13 = 7'h63 == io_rdata_opD ? _io_rdata_T_11 : 6'h0; // @[Mux.scala 81:58]
-  wire  _io_rdata_T_16 = io_rdata_opD == 7'h67 & io_rdata_Funct3D == 3'h0; // @[macros.scala 495:30]
-  wire  _io_rdata_T_18 = _io_rdata_T_16 | io_rdata_opD == 7'h6f; // @[macros.scala 500:27]
-  wire  _io_rdata_T_19 = io_rdata_opD == 7'h63; // @[macros.scala 518:13]
+  wire  _io_rdata_T_16 = io_rdata_opD == 7'h67 & io_rdata_Funct3D == 3'h0; // @[macros.scala 497:30]
+  wire  _io_rdata_T_18 = _io_rdata_T_16 | io_rdata_opD == 7'h6f; // @[macros.scala 502:27]
+  wire  _io_rdata_T_19 = io_rdata_opD == 7'h63; // @[macros.scala 520:13]
   wire [32:0] io_rdata_lo = {_io_rdata_T_19,get_data}; // @[Cat.scala 31:58]
   wire [6:0] io_rdata_hi = {_io_rdata_T_13,_io_rdata_T_18}; // @[Cat.scala 31:58]
   ysyx_sram_with_mask icache_data_ram_0 ( // @[icache_data.scala 31:35]
@@ -48028,8 +47996,8 @@ module inst_cache(
   wire  _stage2_stall_T = access_work_state == 4'h1; // @[inst_cache.scala 145:40]
   wire  _stage2_stall_T_5 = ~io_inst_buffer_full; // @[inst_cache.scala 146:11]
   wire  stage2_stall = (access_work_state == 4'h1 | access_work_state == 4'h4) & _stage2_stall_T_5; // @[inst_cache.scala 145:129]
-  wire [6:0] decoder_inst_data_0_opD = io_port_rdata[6:0]; // @[macros.scala 522:24]
-  wire [2:0] decoder_inst_data_0_Funct3D = io_port_rdata[14:12]; // @[macros.scala 523:28]
+  wire [6:0] decoder_inst_data_0_opD = io_port_rdata[6:0]; // @[macros.scala 524:24]
+  wire [2:0] decoder_inst_data_0_Funct3D = io_port_rdata[14:12]; // @[macros.scala 525:28]
   wire [1:0] _decoder_inst_data_0_T_4 = 3'h1 == decoder_inst_data_0_Funct3D ? 2'h2 : {{1'd0}, 3'h0 ==
     decoder_inst_data_0_Funct3D}; // @[Mux.scala 81:58]
   wire [2:0] _decoder_inst_data_0_T_6 = 3'h4 == decoder_inst_data_0_Funct3D ? 3'h4 : {{1'd0}, _decoder_inst_data_0_T_4}; // @[Mux.scala 81:58]
@@ -48039,13 +48007,13 @@ module inst_cache(
   wire [5:0] _decoder_inst_data_0_T_12 = 3'h7 == decoder_inst_data_0_Funct3D ? 6'h20 : {{1'd0},
     _decoder_inst_data_0_T_10}; // @[Mux.scala 81:58]
   wire [5:0] _decoder_inst_data_0_T_14 = 7'h63 == decoder_inst_data_0_opD ? _decoder_inst_data_0_T_12 : 6'h0; // @[Mux.scala 81:58]
-  wire  _decoder_inst_data_0_T_18 = decoder_inst_data_0_opD == 7'h67 & decoder_inst_data_0_Funct3D == 3'h0; // @[macros.scala 495:30]
-  wire  _decoder_inst_data_0_T_20 = _decoder_inst_data_0_T_18 | decoder_inst_data_0_opD == 7'h6f; // @[macros.scala 500:27]
-  wire  _decoder_inst_data_0_T_22 = decoder_inst_data_0_opD == 7'h63; // @[macros.scala 518:13]
+  wire  _decoder_inst_data_0_T_18 = decoder_inst_data_0_opD == 7'h67 & decoder_inst_data_0_Funct3D == 3'h0; // @[macros.scala 497:30]
+  wire  _decoder_inst_data_0_T_20 = _decoder_inst_data_0_T_18 | decoder_inst_data_0_opD == 7'h6f; // @[macros.scala 502:27]
+  wire  _decoder_inst_data_0_T_22 = decoder_inst_data_0_opD == 7'h63; // @[macros.scala 520:13]
   wire [39:0] decoder_inst_data_0 = {_decoder_inst_data_0_T_14,_decoder_inst_data_0_T_20,_decoder_inst_data_0_T_22,
     io_port_rdata[31:0]}; // @[Cat.scala 31:58]
-  wire [6:0] decoder_inst_data_1_opD = io_port_rdata[38:32]; // @[macros.scala 522:24]
-  wire [2:0] decoder_inst_data_1_Funct3D = io_port_rdata[46:44]; // @[macros.scala 523:28]
+  wire [6:0] decoder_inst_data_1_opD = io_port_rdata[38:32]; // @[macros.scala 524:24]
+  wire [2:0] decoder_inst_data_1_Funct3D = io_port_rdata[46:44]; // @[macros.scala 525:28]
   wire [1:0] _decoder_inst_data_1_T_4 = 3'h1 == decoder_inst_data_1_Funct3D ? 2'h2 : {{1'd0}, 3'h0 ==
     decoder_inst_data_1_Funct3D}; // @[Mux.scala 81:58]
   wire [2:0] _decoder_inst_data_1_T_6 = 3'h4 == decoder_inst_data_1_Funct3D ? 3'h4 : {{1'd0}, _decoder_inst_data_1_T_4}; // @[Mux.scala 81:58]
@@ -48055,9 +48023,9 @@ module inst_cache(
   wire [5:0] _decoder_inst_data_1_T_12 = 3'h7 == decoder_inst_data_1_Funct3D ? 6'h20 : {{1'd0},
     _decoder_inst_data_1_T_10}; // @[Mux.scala 81:58]
   wire [5:0] _decoder_inst_data_1_T_14 = 7'h63 == decoder_inst_data_1_opD ? _decoder_inst_data_1_T_12 : 6'h0; // @[Mux.scala 81:58]
-  wire  _decoder_inst_data_1_T_18 = decoder_inst_data_1_opD == 7'h67 & decoder_inst_data_1_Funct3D == 3'h0; // @[macros.scala 495:30]
-  wire  _decoder_inst_data_1_T_20 = _decoder_inst_data_1_T_18 | decoder_inst_data_1_opD == 7'h6f; // @[macros.scala 500:27]
-  wire  _decoder_inst_data_1_T_22 = decoder_inst_data_1_opD == 7'h63; // @[macros.scala 518:13]
+  wire  _decoder_inst_data_1_T_18 = decoder_inst_data_1_opD == 7'h67 & decoder_inst_data_1_Funct3D == 3'h0; // @[macros.scala 497:30]
+  wire  _decoder_inst_data_1_T_20 = _decoder_inst_data_1_T_18 | decoder_inst_data_1_opD == 7'h6f; // @[macros.scala 502:27]
+  wire  _decoder_inst_data_1_T_22 = decoder_inst_data_1_opD == 7'h63; // @[macros.scala 520:13]
   wire [39:0] decoder_inst_data_1 = {_decoder_inst_data_1_T_14,_decoder_inst_data_1_T_20,_decoder_inst_data_1_T_22,
     io_port_rdata[63:32]}; // @[Cat.scala 31:58]
   wire [39:0] decoder_inst_data = stage1_addr_line_mapping[2] ? decoder_inst_data_1 : decoder_inst_data_0; // @[inst_cache.scala 156:33]
@@ -55863,7 +55831,7 @@ module data_cache(
   wire  _way1_dirty_T_15 = _way0_dirty_T_5 & _GEN_384 ? 1'h0 : _way1_dirty_T_14; // @[data_cache.scala 204:12]
   wire  dirty_victim = _way0_dirty_T_7 ? _GEN_640 : _GEN_1152; // @[data_cache.scala 209:24]
   wire [10:0] _T_3 = {data_write_back_counter[6:0],4'h0}; // @[Cat.scala 31:58]
-  wire  _io_tlb_req_T_4 = ~stage1_addr_line_mapping[31] | stage1_addr_line_mapping[31:30] == 2'h3; // @[macros.scala 482:18]
+  wire  _io_tlb_req_T_4 = ~stage1_addr_line_mapping[31] | stage1_addr_line_mapping[31:30] == 2'h3; // @[macros.scala 484:18]
   wire  _lru_T_4 = _hit_T_1 ? 1'h0 : _GEN_384; // @[data_cache.scala 230:12]
   wire  _lru_T_5 = _hit_T | _lru_T_4; // @[data_cache.scala 229:12]
   wire  _data_cache_under_write_all_back_T = work_state == 5'h18; // @[data_cache.scala 237:55]
@@ -62498,11 +62466,26 @@ module axi_cross_bar_addr_switch(
   output        io_s_port_0_wvalid,
   input         io_s_port_0_wready,
   input         io_s_port_0_bvalid,
-  output        io_s_port_0_bready
+  output        io_s_port_0_bready,
+  output [63:0] io_s_port_1_araddr,
+  output        io_s_port_1_arvalid,
+  input  [63:0] io_s_port_1_rdata,
+  input         io_s_port_1_rlast,
+  input         io_s_port_1_rvalid,
+  output        io_s_port_1_rready,
+  output [63:0] io_s_port_1_awaddr,
+  output [2:0]  io_s_port_1_awsize,
+  output        io_s_port_1_awvalid,
+  output [63:0] io_s_port_1_wdata,
+  output        io_s_port_1_wvalid,
+  input         io_s_port_1_wready,
+  input         io_s_port_1_bvalid
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
+  reg [31:0] _RAND_2;
+  reg [31:0] _RAND_3;
 `endif // RANDOMIZE_REG_INIT
   wire  axi_cross_bar_clock; // @[axi_ram_port.scala 204:38]
   wire  axi_cross_bar_reset; // @[axi_ram_port.scala 204:38]
@@ -62561,8 +62544,19 @@ module axi_cross_bar_addr_switch(
   wire  axi_cross_bar_io_s_port_wready; // @[axi_ram_port.scala 204:38]
   wire  axi_cross_bar_io_s_port_bvalid; // @[axi_ram_port.scala 204:38]
   reg  select_s_port_num_r_0; // @[axi_ram_port.scala 207:43]
+  reg  select_s_port_num_r_1; // @[axi_ram_port.scala 207:43]
   reg  select_s_port_num_w_0; // @[axi_ram_port.scala 208:43]
+  reg  select_s_port_num_w_1; // @[axi_ram_port.scala 208:43]
+  wire [1:0] _select_s_port_num_r_0_T = {select_s_port_num_r_1,select_s_port_num_r_0}; // @[axi_ram_port.scala 212:87]
+  wire [1:0] _select_s_port_num_w_0_T = {select_s_port_num_w_1,select_s_port_num_w_0}; // @[axi_ram_port.scala 213:87]
+  wire  _select_s_port_num_r_1_T_2 = axi_cross_bar_io_s_port_araddr < 64'h200bfff; // @[axi_ram_port.scala 222:64]
+  wire  _select_s_port_num_w_1_T_2 = axi_cross_bar_io_s_port_awaddr < 64'h200bfff; // @[axi_ram_port.scala 224:64]
   wire [63:0] master_bundle_arready_0 = {{63'd0}, io_s_port_0_arready}; // @[axi_ram_port.scala 230:41 256:48]
+  wire [63:0] _T_15 = select_s_port_num_r_0 ? master_bundle_arready_0 : 64'h0; // @[Mux.scala 27:73]
+  wire [63:0] _T_16 = select_s_port_num_r_1 ? 64'h1 : 64'h0; // @[Mux.scala 27:73]
+  wire [63:0] _T_17 = _T_15 | _T_16; // @[Mux.scala 27:73]
+  wire [63:0] _T_21 = select_s_port_num_r_0 ? io_s_port_0_rdata : 64'h0; // @[Mux.scala 27:73]
+  wire [63:0] _T_22 = select_s_port_num_r_1 ? io_s_port_1_rdata : 64'h0; // @[Mux.scala 27:73]
   axi_cross_bar axi_cross_bar ( // @[axi_ram_port.scala 204:38]
     .clock(axi_cross_bar_clock),
     .reset(axi_cross_bar_reset),
@@ -62651,6 +62645,14 @@ module axi_cross_bar_addr_switch(
   assign io_s_port_0_wlast = select_s_port_num_w_0 & axi_cross_bar_io_s_port_wlast; // @[axi_ram_port.scala 289:50 302:52 320:52]
   assign io_s_port_0_wvalid = select_s_port_num_w_0 & axi_cross_bar_io_s_port_wvalid; // @[axi_ram_port.scala 289:50 303:52 321:52]
   assign io_s_port_0_bready = select_s_port_num_w_0 & axi_cross_bar_io_s_port_bvalid; // @[axi_ram_port.scala 289:50 304:52 322:52]
+  assign io_s_port_1_araddr = select_s_port_num_r_1 ? axi_cross_bar_io_s_port_araddr : 64'h0; // @[axi_ram_port.scala 262:50 264:51 279:51]
+  assign io_s_port_1_arvalid = select_s_port_num_r_1 & axi_cross_bar_io_s_port_arvalid; // @[axi_ram_port.scala 262:50 271:51 286:51]
+  assign io_s_port_1_rready = select_s_port_num_r_1 & axi_cross_bar_io_s_port_rready; // @[axi_ram_port.scala 262:50 272:51 287:51]
+  assign io_s_port_1_awaddr = select_s_port_num_w_1 ? axi_cross_bar_io_s_port_awaddr : 64'h0; // @[axi_ram_port.scala 289:50 291:52 309:52]
+  assign io_s_port_1_awsize = select_s_port_num_w_1 ? axi_cross_bar_io_s_port_awsize : 3'h0; // @[axi_ram_port.scala 289:50 293:52 311:52]
+  assign io_s_port_1_awvalid = select_s_port_num_w_1 & axi_cross_bar_io_s_port_awvalid; // @[axi_ram_port.scala 289:50 298:52 316:52]
+  assign io_s_port_1_wdata = select_s_port_num_w_1 ? axi_cross_bar_io_s_port_wdata : 64'h0; // @[axi_ram_port.scala 289:50 300:52 318:52]
+  assign io_s_port_1_wvalid = select_s_port_num_w_1 & axi_cross_bar_io_s_port_wvalid; // @[axi_ram_port.scala 289:50 303:52 321:52]
   assign axi_cross_bar_clock = clock;
   assign axi_cross_bar_reset = reset;
   assign axi_cross_bar_io_m_port_0_araddr = io_m_port_0_araddr; // @[axi_ram_port.scala 205:34]
@@ -62671,25 +62673,53 @@ module axi_cross_bar_addr_switch(
   assign axi_cross_bar_io_m_port_1_wstrb = io_m_port_1_wstrb; // @[axi_ram_port.scala 205:34]
   assign axi_cross_bar_io_m_port_1_wlast = io_m_port_1_wlast; // @[axi_ram_port.scala 205:34]
   assign axi_cross_bar_io_m_port_1_wvalid = io_m_port_1_wvalid; // @[axi_ram_port.scala 205:34]
-  assign axi_cross_bar_io_s_port_arready = master_bundle_arready_0[0]; // @[axi_ram_port.scala 333:49]
-  assign axi_cross_bar_io_s_port_rdata = io_s_port_0_rdata; // @[axi_ram_port.scala 232:41 258:48]
-  assign axi_cross_bar_io_s_port_rlast = io_s_port_0_rlast; // @[axi_ram_port.scala 234:41 260:48]
-  assign axi_cross_bar_io_s_port_rvalid = io_s_port_0_rvalid; // @[axi_ram_port.scala 235:41 261:48]
-  assign axi_cross_bar_io_s_port_awready = io_s_port_0_awready; // @[axi_ram_port.scala 241:41 253:48]
-  assign axi_cross_bar_io_s_port_wready = io_s_port_0_wready; // @[axi_ram_port.scala 237:40 249:48]
-  assign axi_cross_bar_io_s_port_bvalid = io_s_port_0_bvalid; // @[axi_ram_port.scala 240:42 252:48]
+  assign axi_cross_bar_io_s_port_arready = _T_17[0]; // @[axi_ram_port.scala 333:49]
+  assign axi_cross_bar_io_s_port_rdata = _T_21 | _T_22; // @[Mux.scala 27:73]
+  assign axi_cross_bar_io_s_port_rlast = select_s_port_num_r_0 & io_s_port_0_rlast | select_s_port_num_r_1 &
+    io_s_port_1_rlast; // @[Mux.scala 27:73]
+  assign axi_cross_bar_io_s_port_rvalid = select_s_port_num_r_0 & io_s_port_0_rvalid | select_s_port_num_r_1 &
+    io_s_port_1_rvalid; // @[Mux.scala 27:73]
+  assign axi_cross_bar_io_s_port_awready = select_s_port_num_w_0 & io_s_port_0_awready | select_s_port_num_w_1; // @[Mux.scala 27:73]
+  assign axi_cross_bar_io_s_port_wready = select_s_port_num_w_0 & io_s_port_0_wready | select_s_port_num_w_1 &
+    io_s_port_1_wready; // @[Mux.scala 27:73]
+  assign axi_cross_bar_io_s_port_bvalid = select_s_port_num_w_0 & io_s_port_0_bvalid | select_s_port_num_w_1 &
+    io_s_port_1_bvalid; // @[Mux.scala 27:73]
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[axi_ram_port.scala 207:43]
-      select_s_port_num_r_0 <= 1'h0; // @[axi_ram_port.scala 207:43]
+    if (reset) begin // @[axi_ram_port.scala 212:66]
+      select_s_port_num_r_0 <= 1'h0;
+    end else if (_select_s_port_num_r_0_T[1]) begin
+      select_s_port_num_r_0 <= 1'h0;
     end else begin
-      select_s_port_num_r_0 <= 1'h1; // @[axi_ram_port.scala 215:60]
+      select_s_port_num_r_0 <= 1'h1;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[axi_ram_port.scala 208:43]
-      select_s_port_num_w_0 <= 1'h0; // @[axi_ram_port.scala 208:43]
+    if (reset) begin // @[axi_ram_port.scala 221:58]
+      select_s_port_num_r_1 <= 1'h0;
+    end else if (axi_cross_bar_io_s_port_arvalid) begin // @[axi_ram_port.scala 222:108]
+      select_s_port_num_r_1 <= axi_cross_bar_io_s_port_araddr >= 64'h2000000 & _select_s_port_num_r_1_T_2;
+    end else if (io_s_port_1_rlast) begin
+      select_s_port_num_r_1 <= 1'h0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[axi_ram_port.scala 213:66]
+      select_s_port_num_w_0 <= 1'h0;
+    end else if (_select_s_port_num_w_0_T[1]) begin
+      select_s_port_num_w_0 <= 1'h0;
     end else begin
-      select_s_port_num_w_0 <= 1'h1; // @[axi_ram_port.scala 216:60]
+      select_s_port_num_w_0 <= 1'h1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[axi_ram_port.scala 223:58]
+      select_s_port_num_w_1 <= 1'h0;
+    end else if (axi_cross_bar_io_s_port_awvalid) begin // @[axi_ram_port.scala 222:108]
+      select_s_port_num_w_1 <= axi_cross_bar_io_s_port_awaddr >= 64'h2000000 & _select_s_port_num_w_1_T_2;
+    end else if (io_s_port_1_rlast) begin
+      select_s_port_num_w_1 <= 1'h0;
+    end else begin
+      select_s_port_num_w_1 <= select_s_port_num_r_1;
     end
   end
 // Register and memory initialization
@@ -62731,13 +62761,279 @@ initial begin
   _RAND_0 = {1{`RANDOM}};
   select_s_port_num_r_0 = _RAND_0[0:0];
   _RAND_1 = {1{`RANDOM}};
-  select_s_port_num_w_0 = _RAND_1[0:0];
+  select_s_port_num_r_1 = _RAND_1[0:0];
+  _RAND_2 = {1{`RANDOM}};
+  select_s_port_num_w_0 = _RAND_2[0:0];
+  _RAND_3 = {1{`RANDOM}};
+  select_s_port_num_w_1 = _RAND_3[0:0];
 `endif // RANDOMIZE_REG_INIT
   if (reset) begin
     select_s_port_num_r_0 = 1'h0;
   end
   if (reset) begin
+    select_s_port_num_r_1 = 1'h0;
+  end
+  if (reset) begin
     select_s_port_num_w_0 = 1'h0;
+  end
+  if (reset) begin
+    select_s_port_num_w_1 = 1'h0;
+  end
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+endmodule
+module timer_periph(
+  input         clock,
+  input         reset,
+  input  [63:0] io_axi_port_araddr,
+  input         io_axi_port_arvalid,
+  output        io_axi_port_arready,
+  output [63:0] io_axi_port_rdata,
+  output        io_axi_port_rlast,
+  output        io_axi_port_rvalid,
+  input         io_axi_port_rready,
+  input  [63:0] io_axi_port_awaddr,
+  input  [2:0]  io_axi_port_awsize,
+  input         io_axi_port_awvalid,
+  output        io_axi_port_awready,
+  input  [63:0] io_axi_port_wdata,
+  input         io_axi_port_wvalid,
+  output        io_axi_port_wready,
+  output        io_axi_port_bvalid,
+  output        io_int_line
+);
+`ifdef RANDOMIZE_REG_INIT
+  reg [63:0] _RAND_0;
+  reg [63:0] _RAND_1;
+  reg [31:0] _RAND_2;
+  reg [31:0] _RAND_3;
+  reg [31:0] _RAND_4;
+  reg [63:0] _RAND_5;
+  reg [63:0] _RAND_6;
+  reg [31:0] _RAND_7;
+`endif // RANDOMIZE_REG_INIT
+  reg [63:0] mtime; // @[clint.scala 25:26]
+  reg [63:0] mtimecmp; // @[clint.scala 26:27]
+  reg [31:0] msip; // @[clint.scala 27:25]
+  reg [2:0] axi_read_state; // @[clint.scala 30:33]
+  reg [2:0] axi_write_state; // @[clint.scala 31:34]
+  reg [63:0] axi_read_addr; // @[clint.scala 32:32]
+  reg [63:0] axi_write_addr; // @[clint.scala 33:33]
+  reg [3:0] axi_write_size; // @[clint.scala 34:33]
+  wire  _axi_read_state_T_2 = io_axi_port_arvalid & io_axi_port_arready; // @[clint.scala 38:54]
+  wire  _axi_write_state_T_2 = io_axi_port_awvalid & io_axi_port_awready; // @[clint.scala 43:54]
+  wire [1:0] _axi_write_size_T_6 = 3'h1 == io_axi_port_awsize ? 2'h2 : {{1'd0}, 3'h0 == io_axi_port_awsize}; // @[Mux.scala 81:58]
+  wire [2:0] _axi_write_size_T_8 = 3'h2 == io_axi_port_awsize ? 3'h4 : {{1'd0}, _axi_write_size_T_6}; // @[Mux.scala 81:58]
+  wire [5:0] _axi_write_data_T_1 = {io_axi_port_awaddr[2:0], 3'h0}; // @[clint.scala 51:69]
+  wire [126:0] _GEN_0 = {{63'd0}, io_axi_port_wdata}; // @[clint.scala 51:41]
+  wire [126:0] _axi_write_data_T_2 = _GEN_0 << _axi_write_data_T_1; // @[clint.scala 51:41]
+  wire [31:0] _read_data_T_7 = 64'h2000000 == axi_read_addr ? msip : 32'h0; // @[Mux.scala 81:58]
+  wire [63:0] _read_data_T_9 = 64'h200bff8 == axi_read_addr ? mtime : {{32'd0}, _read_data_T_7}; // @[Mux.scala 81:58]
+  wire  _io_axi_port_rlast_T = axi_read_state == 3'h2; // @[clint.scala 61:41]
+  wire [3:0] _mtime_to_be_0_T_3 = {1'h1,axi_write_addr[2:0]}; // @[Cat.scala 31:58]
+  wire [3:0] _mtime_to_be_0_T_5 = _mtime_to_be_0_T_3 + axi_write_size; // @[clint.scala 70:109]
+  wire  _mtime_to_be_0_T_7 = axi_write_addr[2:0] <= 3'h0 & _mtime_to_be_0_T_5 > 4'h0; // @[clint.scala 70:70]
+  wire [63:0] axi_write_data = _axi_write_data_T_2[63:0]; // @[clint.scala 35:30 51:20]
+  wire [7:0] mtime_to_be_0 = axi_write_addr[2:0] <= 3'h0 & _mtime_to_be_0_T_5 > 4'h0 ? axi_write_data[7:0] : mtime[7:0]; // @[clint.scala 70:38]
+  wire  _mtime_to_be_1_T_7 = axi_write_addr[2:0] <= 3'h1 & _mtime_to_be_0_T_5 > 4'h1; // @[clint.scala 70:70]
+  wire [7:0] mtime_to_be_1 = axi_write_addr[2:0] <= 3'h1 & _mtime_to_be_0_T_5 > 4'h1 ? axi_write_data[15:8] : mtime[15:8
+    ]; // @[clint.scala 70:38]
+  wire  _mtime_to_be_2_T_7 = axi_write_addr[2:0] <= 3'h2 & _mtime_to_be_0_T_5 > 4'h2; // @[clint.scala 70:70]
+  wire [7:0] mtime_to_be_2 = axi_write_addr[2:0] <= 3'h2 & _mtime_to_be_0_T_5 > 4'h2 ? axi_write_data[23:16] : mtime[23:
+    16]; // @[clint.scala 70:38]
+  wire  _mtime_to_be_3_T_7 = axi_write_addr[2:0] <= 3'h3 & _mtime_to_be_0_T_5 > 4'h3; // @[clint.scala 70:70]
+  wire [7:0] mtime_to_be_3 = axi_write_addr[2:0] <= 3'h3 & _mtime_to_be_0_T_5 > 4'h3 ? axi_write_data[31:24] : mtime[31:
+    24]; // @[clint.scala 70:38]
+  wire  _mtime_to_be_4_T_7 = axi_write_addr[2:0] <= 3'h4 & _mtime_to_be_0_T_5 > 4'h4; // @[clint.scala 70:70]
+  wire [7:0] mtime_to_be_4 = axi_write_addr[2:0] <= 3'h4 & _mtime_to_be_0_T_5 > 4'h4 ? axi_write_data[39:32] : mtime[39:
+    32]; // @[clint.scala 70:38]
+  wire  _mtime_to_be_5_T_7 = axi_write_addr[2:0] <= 3'h5 & _mtime_to_be_0_T_5 > 4'h5; // @[clint.scala 70:70]
+  wire [7:0] mtime_to_be_5 = axi_write_addr[2:0] <= 3'h5 & _mtime_to_be_0_T_5 > 4'h5 ? axi_write_data[47:40] : mtime[47:
+    40]; // @[clint.scala 70:38]
+  wire  _mtime_to_be_6_T_7 = axi_write_addr[2:0] <= 3'h6 & _mtime_to_be_0_T_5 > 4'h6; // @[clint.scala 70:70]
+  wire [7:0] mtime_to_be_6 = axi_write_addr[2:0] <= 3'h6 & _mtime_to_be_0_T_5 > 4'h6 ? axi_write_data[55:48] : mtime[55:
+    48]; // @[clint.scala 70:38]
+  wire  _mtime_to_be_7_T_6 = _mtime_to_be_0_T_5 > 4'h7; // @[clint.scala 70:126]
+  wire [7:0] mtime_to_be_7 = _mtime_to_be_0_T_5 > 4'h7 ? axi_write_data[63:56] : mtime[63:56]; // @[clint.scala 70:38]
+  wire  _mtime_T_2 = axi_write_state == 3'h2 & io_axi_port_wvalid; // @[clint.scala 73:48]
+  wire [63:0] _mtime_T_9 = {mtime_to_be_7,mtime_to_be_6,mtime_to_be_5,mtime_to_be_4,mtime_to_be_3,mtime_to_be_2,
+    mtime_to_be_1,mtime_to_be_0}; // @[clint.scala 74:21]
+  wire [63:0] _mtime_T_11 = mtime + 64'h1; // @[clint.scala 74:34]
+  wire [7:0] mtimecmp_to_be_0 = _mtime_to_be_0_T_7 ? axi_write_data[7:0] : mtimecmp[7:0]; // @[clint.scala 77:41]
+  wire [7:0] mtimecmp_to_be_1 = _mtime_to_be_1_T_7 ? axi_write_data[15:8] : mtimecmp[15:8]; // @[clint.scala 77:41]
+  wire [7:0] mtimecmp_to_be_2 = _mtime_to_be_2_T_7 ? axi_write_data[23:16] : mtimecmp[23:16]; // @[clint.scala 77:41]
+  wire [7:0] mtimecmp_to_be_3 = _mtime_to_be_3_T_7 ? axi_write_data[31:24] : mtimecmp[31:24]; // @[clint.scala 77:41]
+  wire [7:0] mtimecmp_to_be_4 = _mtime_to_be_4_T_7 ? axi_write_data[39:32] : mtimecmp[39:32]; // @[clint.scala 77:41]
+  wire [7:0] mtimecmp_to_be_5 = _mtime_to_be_5_T_7 ? axi_write_data[47:40] : mtimecmp[47:40]; // @[clint.scala 77:41]
+  wire [7:0] mtimecmp_to_be_6 = _mtime_to_be_6_T_7 ? axi_write_data[55:48] : mtimecmp[55:48]; // @[clint.scala 77:41]
+  wire [7:0] mtimecmp_to_be_7 = _mtime_to_be_7_T_6 ? axi_write_data[63:56] : mtimecmp[63:56]; // @[clint.scala 77:41]
+  wire [63:0] _mtimecmp_T_9 = {mtimecmp_to_be_7,mtimecmp_to_be_6,mtimecmp_to_be_5,mtimecmp_to_be_4,mtimecmp_to_be_3,
+    mtimecmp_to_be_2,mtimecmp_to_be_1,mtimecmp_to_be_0}; // @[clint.scala 81:24]
+  wire [31:0] _msip_T_8 = {31'h0,axi_write_data[0]}; // @[Cat.scala 31:58]
+  assign io_axi_port_arready = 1'h1; // @[clint.scala 63:25]
+  assign io_axi_port_rdata = 64'h2004000 == axi_read_addr ? mtimecmp : _read_data_T_9; // @[Mux.scala 81:58]
+  assign io_axi_port_rlast = axi_read_state == 3'h2 & io_axi_port_rready; // @[clint.scala 61:55]
+  assign io_axi_port_rvalid = _io_axi_port_rlast_T & io_axi_port_rready; // @[clint.scala 62:56]
+  assign io_axi_port_awready = 1'h1; // @[clint.scala 85:26]
+  assign io_axi_port_wready = axi_write_state == 3'h2; // @[clint.scala 86:45]
+  assign io_axi_port_bvalid = axi_write_state == 3'h3; // @[clint.scala 89:45]
+  assign io_int_line = mtime >= mtimecmp; // @[clint.scala 91:26]
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[clint.scala 73:17]
+      mtime <= 64'h0;
+    end else if (axi_write_state == 3'h2 & io_axi_port_wvalid & axi_write_addr[63:3] == 61'h4017ff) begin
+      mtime <= _mtime_T_9;
+    end else begin
+      mtime <= _mtime_T_11;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[clint.scala 80:20]
+      mtimecmp <= 64'h0;
+    end else if (_mtime_T_2 & axi_write_addr[63:3] == 61'h400800) begin
+      mtimecmp <= _mtimecmp_T_9;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[clint.scala 82:16]
+      msip <= 32'h0;
+    end else if (axi_read_addr == 64'h2 & io_axi_port_wvalid & axi_write_addr == 64'h2000000) begin
+      msip <= _msip_T_8;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[Mux.scala 81:58]
+      axi_read_state <= 3'h0; // @[clint.scala 39:26]
+    end else if (3'h2 == axi_read_state) begin // @[Mux.scala 81:58]
+      if (!(io_axi_port_rready)) begin // @[clint.scala 38:26]
+        axi_read_state <= 3'h1;
+      end
+    end else if (3'h1 == axi_read_state) begin
+      if (io_axi_port_arvalid & io_axi_port_arready) begin
+        axi_read_state <= 3'h2;
+      end
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[Mux.scala 81:58]
+      axi_write_state <= 3'h0;
+    end else if (3'h3 == axi_read_state) begin // @[Mux.scala 81:58]
+      axi_write_state <= 3'h1; // @[clint.scala 44:26]
+    end else if (3'h2 == axi_read_state) begin // @[Mux.scala 81:58]
+      if (!(io_axi_port_wready)) begin // @[clint.scala 43:26]
+        axi_write_state <= 3'h3;
+      end
+    end else if (3'h1 == axi_read_state) begin
+      if (io_axi_port_awvalid & io_axi_port_awready) begin
+        axi_write_state <= 3'h2;
+      end
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[clint.scala 48:25]
+      axi_read_addr <= 64'h0;
+    end else if (_axi_read_state_T_2) begin
+      axi_read_addr <= io_axi_port_araddr;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[clint.scala 49:26]
+      axi_write_addr <= 64'h0;
+    end else if (_axi_write_state_T_2) begin
+      axi_write_addr <= io_axi_port_awaddr;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[clint.scala 50:26]
+      axi_write_size <= 4'h0; // @[Mux.scala 81:58]
+    end else if (_axi_write_state_T_2) begin
+      if (3'h3 == io_axi_port_awsize) begin
+        axi_write_size <= 4'h8;
+      end else begin
+        axi_write_size <= {{1'd0}, _axi_write_size_T_8};
+      end
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {2{`RANDOM}};
+  mtime = _RAND_0[63:0];
+  _RAND_1 = {2{`RANDOM}};
+  mtimecmp = _RAND_1[63:0];
+  _RAND_2 = {1{`RANDOM}};
+  msip = _RAND_2[31:0];
+  _RAND_3 = {1{`RANDOM}};
+  axi_read_state = _RAND_3[2:0];
+  _RAND_4 = {1{`RANDOM}};
+  axi_write_state = _RAND_4[2:0];
+  _RAND_5 = {2{`RANDOM}};
+  axi_read_addr = _RAND_5[63:0];
+  _RAND_6 = {2{`RANDOM}};
+  axi_write_addr = _RAND_6[63:0];
+  _RAND_7 = {1{`RANDOM}};
+  axi_write_size = _RAND_7[3:0];
+`endif // RANDOMIZE_REG_INIT
+  if (reset) begin
+    mtime = 64'h0;
+  end
+  if (reset) begin
+    mtimecmp = 64'h0;
+  end
+  if (reset) begin
+    msip = 32'h0;
+  end
+  if (reset) begin
+    axi_read_state = 3'h0;
+  end
+  if (reset) begin
+    axi_write_state = 3'h0;
+  end
+  if (reset) begin
+    axi_read_addr = 64'h0;
+  end
+  if (reset) begin
+    axi_write_addr = 64'h0;
+  end
+  if (reset) begin
+    axi_write_size = 4'h0;
   end
   `endif // RANDOMIZE
 end // initial
@@ -62749,7 +63045,6 @@ endmodule
 module mycpu_top(
   input         aresetn,
   input         aclk,
-  input  [5:0]  ext_int,
   output [3:0]  axi_mem_port_arid,
   output [63:0] axi_mem_port_araddr,
   output [3:0]  axi_mem_port_arlen,
@@ -62791,7 +63086,7 @@ module mycpu_top(
   output [4:0]  debug_wb_rf_wnum,
   output [31:0] debug_wb_rf_wdata
 );
-  wire [5:0] u_riscv_cpu_ext_int; // @[my_cpu_top.scala 168:29]
+  wire  u_riscv_cpu_ext_int_timer; // @[my_cpu_top.scala 168:29]
   wire  u_riscv_cpu_resetn; // @[my_cpu_top.scala 168:29]
   wire  u_riscv_cpu_clk; // @[my_cpu_top.scala 168:29]
   wire  u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 168:29]
@@ -62935,8 +63230,39 @@ module mycpu_top(
   wire  _axi_cross_bar_io_s_port_0_wready; // @[my_cpu_top.scala 173:32]
   wire  _axi_cross_bar_io_s_port_0_bvalid; // @[my_cpu_top.scala 173:32]
   wire  _axi_cross_bar_io_s_port_0_bready; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_1_araddr; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_1_arvalid; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_1_rdata; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_1_rlast; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_1_rvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_1_rready; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_1_awaddr; // @[my_cpu_top.scala 173:32]
+  wire [2:0] _axi_cross_bar_io_s_port_1_awsize; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_1_awvalid; // @[my_cpu_top.scala 173:32]
+  wire [63:0] _axi_cross_bar_io_s_port_1_wdata; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_1_wvalid; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_1_wready; // @[my_cpu_top.scala 173:32]
+  wire  _axi_cross_bar_io_s_port_1_bvalid; // @[my_cpu_top.scala 173:32]
+  wire  timer_periph_clock; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_reset; // @[my_cpu_top.scala 283:27]
+  wire [63:0] timer_periph_io_axi_port_araddr; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_axi_port_arvalid; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_axi_port_arready; // @[my_cpu_top.scala 283:27]
+  wire [63:0] timer_periph_io_axi_port_rdata; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_axi_port_rlast; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_axi_port_rvalid; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_axi_port_rready; // @[my_cpu_top.scala 283:27]
+  wire [63:0] timer_periph_io_axi_port_awaddr; // @[my_cpu_top.scala 283:27]
+  wire [2:0] timer_periph_io_axi_port_awsize; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_axi_port_awvalid; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_axi_port_awready; // @[my_cpu_top.scala 283:27]
+  wire [63:0] timer_periph_io_axi_port_wdata; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_axi_port_wvalid; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_axi_port_wready; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_axi_port_bvalid; // @[my_cpu_top.scala 283:27]
+  wire  timer_periph_io_int_line; // @[my_cpu_top.scala 283:27]
   myCPU u_riscv_cpu ( // @[my_cpu_top.scala 168:29]
-    .ext_int(u_riscv_cpu_ext_int),
+    .ext_int_timer(u_riscv_cpu_ext_int_timer),
     .resetn(u_riscv_cpu_resetn),
     .clk(u_riscv_cpu_clk),
     .inst_cache(u_riscv_cpu_inst_cache),
@@ -63085,7 +63411,40 @@ module mycpu_top(
     .io_s_port_0_wvalid(_axi_cross_bar_io_s_port_0_wvalid),
     .io_s_port_0_wready(_axi_cross_bar_io_s_port_0_wready),
     .io_s_port_0_bvalid(_axi_cross_bar_io_s_port_0_bvalid),
-    .io_s_port_0_bready(_axi_cross_bar_io_s_port_0_bready)
+    .io_s_port_0_bready(_axi_cross_bar_io_s_port_0_bready),
+    .io_s_port_1_araddr(_axi_cross_bar_io_s_port_1_araddr),
+    .io_s_port_1_arvalid(_axi_cross_bar_io_s_port_1_arvalid),
+    .io_s_port_1_rdata(_axi_cross_bar_io_s_port_1_rdata),
+    .io_s_port_1_rlast(_axi_cross_bar_io_s_port_1_rlast),
+    .io_s_port_1_rvalid(_axi_cross_bar_io_s_port_1_rvalid),
+    .io_s_port_1_rready(_axi_cross_bar_io_s_port_1_rready),
+    .io_s_port_1_awaddr(_axi_cross_bar_io_s_port_1_awaddr),
+    .io_s_port_1_awsize(_axi_cross_bar_io_s_port_1_awsize),
+    .io_s_port_1_awvalid(_axi_cross_bar_io_s_port_1_awvalid),
+    .io_s_port_1_wdata(_axi_cross_bar_io_s_port_1_wdata),
+    .io_s_port_1_wvalid(_axi_cross_bar_io_s_port_1_wvalid),
+    .io_s_port_1_wready(_axi_cross_bar_io_s_port_1_wready),
+    .io_s_port_1_bvalid(_axi_cross_bar_io_s_port_1_bvalid)
+  );
+  timer_periph timer_periph ( // @[my_cpu_top.scala 283:27]
+    .clock(timer_periph_clock),
+    .reset(timer_periph_reset),
+    .io_axi_port_araddr(timer_periph_io_axi_port_araddr),
+    .io_axi_port_arvalid(timer_periph_io_axi_port_arvalid),
+    .io_axi_port_arready(timer_periph_io_axi_port_arready),
+    .io_axi_port_rdata(timer_periph_io_axi_port_rdata),
+    .io_axi_port_rlast(timer_periph_io_axi_port_rlast),
+    .io_axi_port_rvalid(timer_periph_io_axi_port_rvalid),
+    .io_axi_port_rready(timer_periph_io_axi_port_rready),
+    .io_axi_port_awaddr(timer_periph_io_axi_port_awaddr),
+    .io_axi_port_awsize(timer_periph_io_axi_port_awsize),
+    .io_axi_port_awvalid(timer_periph_io_axi_port_awvalid),
+    .io_axi_port_awready(timer_periph_io_axi_port_awready),
+    .io_axi_port_wdata(timer_periph_io_axi_port_wdata),
+    .io_axi_port_wvalid(timer_periph_io_axi_port_wvalid),
+    .io_axi_port_wready(timer_periph_io_axi_port_wready),
+    .io_axi_port_bvalid(timer_periph_io_axi_port_bvalid),
+    .io_int_line(timer_periph_io_int_line)
   );
   assign axi_mem_port_arid = _axi_cross_bar_io_s_port_0_arid; // @[my_cpu_top.scala 277:18]
   assign axi_mem_port_araddr = _axi_cross_bar_io_s_port_0_araddr; // @[my_cpu_top.scala 277:18]
@@ -63116,7 +63475,7 @@ module mycpu_top(
   assign debug_wb_rf_wen = u_riscv_cpu_debug_wb_rf_wen; // @[my_cpu_top.scala 266:29]
   assign debug_wb_rf_wnum = u_riscv_cpu_debug_wb_rf_wnum; // @[my_cpu_top.scala 267:29]
   assign debug_wb_rf_wdata = u_riscv_cpu_debug_wb_rf_wdata[31:0]; // @[my_cpu_top.scala 265:29]
-  assign u_riscv_cpu_ext_int = ext_int; // @[my_cpu_top.scala 270:30]
+  assign u_riscv_cpu_ext_int_timer = timer_periph_io_int_line; // @[my_cpu_top.scala 286:31]
   assign u_riscv_cpu_resetn = aresetn; // @[my_cpu_top.scala 269:30]
   assign u_riscv_cpu_clk = aclk; // @[my_cpu_top.scala 268:30]
   assign u_riscv_cpu_inst_sram_rdata_L = inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 251:32]
@@ -63131,9 +63490,9 @@ module mycpu_top(
   assign inst_cache_io_port_rlast = _axi_cross_bar_io_m_port_0_rlast; // @[my_cpu_top.scala 279:33]
   assign inst_cache_io_port_rvalid = _axi_cross_bar_io_m_port_0_rvalid; // @[my_cpu_top.scala 279:33]
   assign inst_cache_io_stage2_flush = u_riscv_cpu_stage2_flush; // @[my_cpu_top.scala 274:31]
-  assign inst_cache_io_stage1_valid_flush = u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 385:37]
-  assign inst_cache_io_inst_ready_to_use = u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 386:36]
-  assign inst_cache_io_inst_buffer_full = u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 387:37]
+  assign inst_cache_io_stage1_valid_flush = u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 392:37]
+  assign inst_cache_io_inst_ready_to_use = u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 393:36]
+  assign inst_cache_io_inst_buffer_full = u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 394:37]
   assign inst_cache_io_p_addr_for_tlb = inst_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 209:38]
   assign inst_cache_io_sram_req = u_riscv_cpu_inst_sram_en; // @[my_cpu_top.scala 245:29]
   assign inst_cache_io_sram_addr = u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 242:29]
@@ -63184,4 +63543,19 @@ module mycpu_top(
   assign _axi_cross_bar_io_s_port_0_awready = axi_mem_port_awready; // @[my_cpu_top.scala 277:18]
   assign _axi_cross_bar_io_s_port_0_wready = axi_mem_port_wready; // @[my_cpu_top.scala 277:18]
   assign _axi_cross_bar_io_s_port_0_bvalid = axi_mem_port_bvalid; // @[my_cpu_top.scala 277:18]
+  assign _axi_cross_bar_io_s_port_1_rdata = timer_periph_io_axi_port_rdata; // @[my_cpu_top.scala 284:33]
+  assign _axi_cross_bar_io_s_port_1_rlast = timer_periph_io_axi_port_rlast; // @[my_cpu_top.scala 284:33]
+  assign _axi_cross_bar_io_s_port_1_rvalid = timer_periph_io_axi_port_rvalid; // @[my_cpu_top.scala 284:33]
+  assign _axi_cross_bar_io_s_port_1_wready = timer_periph_io_axi_port_wready; // @[my_cpu_top.scala 284:33]
+  assign _axi_cross_bar_io_s_port_1_bvalid = timer_periph_io_axi_port_bvalid; // @[my_cpu_top.scala 284:33]
+  assign timer_periph_clock = aclk; // @[my_cpu_top.scala 166:23]
+  assign timer_periph_reset = ~aresetn; // @[my_cpu_top.scala 166:42]
+  assign timer_periph_io_axi_port_araddr = _axi_cross_bar_io_s_port_1_araddr; // @[my_cpu_top.scala 284:33]
+  assign timer_periph_io_axi_port_arvalid = _axi_cross_bar_io_s_port_1_arvalid; // @[my_cpu_top.scala 284:33]
+  assign timer_periph_io_axi_port_rready = _axi_cross_bar_io_s_port_1_rready; // @[my_cpu_top.scala 284:33]
+  assign timer_periph_io_axi_port_awaddr = _axi_cross_bar_io_s_port_1_awaddr; // @[my_cpu_top.scala 284:33]
+  assign timer_periph_io_axi_port_awsize = _axi_cross_bar_io_s_port_1_awsize; // @[my_cpu_top.scala 284:33]
+  assign timer_periph_io_axi_port_awvalid = _axi_cross_bar_io_s_port_1_awvalid; // @[my_cpu_top.scala 284:33]
+  assign timer_periph_io_axi_port_wdata = _axi_cross_bar_io_s_port_1_wdata; // @[my_cpu_top.scala 284:33]
+  assign timer_periph_io_axi_port_wvalid = _axi_cross_bar_io_s_port_1_wvalid; // @[my_cpu_top.scala 284:33]
 endmodule
