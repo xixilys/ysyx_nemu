@@ -204,24 +204,44 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
         val master_cross_bar = Module(new  axi_cross_bar(cross_num)).io
         master_cross_bar.m_port  <> io.m_port
         val judge_num_width = log2Up(cross_num)
+        val access_select_s_port_num_r = Wire(Vec(slave_num,Bool()))
+        val access_select_s_port_num_w = Wire(Vec(slave_num,Bool()))
         val select_s_port_num_r  = RegInit(VecInit(Seq.fill(slave_num)(0.U.asBool)))
         val select_s_port_num_w  = RegInit(VecInit(Seq.fill(slave_num)(0.U.asBool)))
+
+        
         select_s_port_num_r.zipWithIndex.foreach{case(a,index) =>
                 if(index == 0) {
                         if(slave_num > 1) {
-                                select_s_port_num_r(index) := Mux(select_s_port_num_r.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
-                                select_s_port_num_w(index) := Mux(select_s_port_num_w.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                               
+                                val r_to_be = Mux(access_select_s_port_num_r.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                                access_select_s_port_num_r(0) := Mux(master_cross_bar.s_port.arvalid.asBool,
+                                        access_select_s_port_num_r.drop(1).reduce(_ | _) === 0.U,select_s_port_num_r(index))
+                                select_s_port_num_r(index) := r_to_be
+                                val w_to_be = Mux(access_select_s_port_num_w.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                                access_select_s_port_num_w(index) := Mux(master_cross_bar.s_port.awvalid.asBool,
+                                        access_select_s_port_num_w.drop(1).reduce(_ | _) === 0.U,select_s_port_num_w(index))
+                                select_s_port_num_w(index) := w_to_be
                         }else{
                                 select_s_port_num_r(index) := 1.U.asBool
                                 select_s_port_num_w(index) := 1.U.asBool
+                                access_select_s_port_num_w(index) := 1.U.asBool
+                                access_select_s_port_num_r(index) := 1.U.asBool
                         }
                         // select_s_port_num_r(index) := Mux(select_s_port_num_r.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
                         // select_s_port_num_w(index) := Mux(select_s_port_num_w.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
                 }else{
-                        select_s_port_num_r(index) := Mux(master_cross_bar.s_port.arvalid.asBool,(master_cross_bar.s_port.araddr >= start_addr(index  ).asUInt(data_length.W) &&  
+                        val r_to_be = Mux(master_cross_bar.s_port.arvalid.asBool,(master_cross_bar.s_port.araddr >= start_addr(index  ).asUInt(data_length.W) &&  
                                 master_cross_bar.s_port.araddr < end_addr(index).asUInt(data_length.W)),Mux(io.s_port(index).rlast.asBool,0.U.asBool,select_s_port_num_r(index)))
-                        select_s_port_num_w(index) := Mux(master_cross_bar.s_port.awvalid.asBool,(master_cross_bar.s_port.awaddr >= start_addr(index).asUInt(data_length.W) &&  
-                                master_cross_bar.s_port.awaddr < end_addr(index).asUInt(data_length.W)),Mux(io.s_port(index).rlast.asBool,0.U.asBool,select_s_port_num_r(index)))
+                        select_s_port_num_r(index) := r_to_be
+                        access_select_s_port_num_r(index) := Mux(master_cross_bar.s_port.arvalid.asBool,(master_cross_bar.s_port.araddr >= start_addr(index  ).asUInt(data_length.W) &&  
+                                master_cross_bar.s_port.araddr < end_addr(index).asUInt(data_length.W)),select_s_port_num_r(index))
+                        val w_to_be = Mux(master_cross_bar.s_port.awvalid.asBool,(master_cross_bar.s_port.awaddr >= start_addr(index).asUInt(data_length.W) &&  
+                                master_cross_bar.s_port.awaddr < end_addr(index).asUInt(data_length.W)),Mux(io.s_port(index).wlast.asBool,0.U.asBool,select_s_port_num_w(index)))
+                        select_s_port_num_w(index) := w_to_be
+                        access_select_s_port_num_w(index) := Mux(master_cross_bar.s_port.awvalid.asBool,(master_cross_bar.s_port.awaddr >= start_addr(index).asUInt(data_length.W) &&  
+                                master_cross_bar.s_port.awaddr < end_addr(index).asUInt(data_length.W)),select_s_port_num_w(index))
+                        
                 }
         }
         // s_port := Mux1H(select_s_port_num_r)
@@ -259,7 +279,7 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                 master_bundle_rresp  (index)   := io.s_port(index).rresp
                 master_bundle_rlast  (index)   := io.s_port(index).rlast 
                 master_bundle_rvalid (index)   := io.s_port(index).rvalid
-                when(select_s_port_num_r(index)) {
+                when(access_select_s_port_num_r(index)) {
                         io.s_port(index).arid     := select_port.arid   
                         io.s_port(index).araddr   := select_port.araddr 
                         io.s_port(index).arlen    := select_port.arlen  
@@ -286,7 +306,7 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                         io.s_port(index).arvalid  := 0.U
                         io.s_port(index).rready   := 0.U
                 }
-                when(select_s_port_num_w(index)) {
+                when(access_select_s_port_num_w(index)) {
                         io.s_port(index).awid      := select_port.awid        
                         io.s_port(index).awaddr    := select_port.awaddr   
                         io.s_port(index).awlen     := select_port.awlen            
@@ -323,19 +343,19 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                 }
         }
         // io.s_port(ind)
-        master_cross_bar.s_port.awready  := Mux1H(select_s_port_num_w,master_bundle_awready)
-        master_cross_bar.s_port.wready   := Mux1H(select_s_port_num_w,master_bundle_wready)
-        master_cross_bar.s_port.bid      := Mux1H(select_s_port_num_w,master_bundle_bid)
-        master_cross_bar.s_port.bresp    := Mux1H(select_s_port_num_w,master_bundle_bresp)
-        master_cross_bar.s_port.bvalid   := Mux1H(select_s_port_num_w,master_bundle_bvalid)
+        master_cross_bar.s_port.awready  := Mux1H(access_select_s_port_num_w,master_bundle_awready)
+        master_cross_bar.s_port.wready   := Mux1H(access_select_s_port_num_w,master_bundle_wready)
+        master_cross_bar.s_port.bid      := Mux1H(access_select_s_port_num_w,master_bundle_bid)
+        master_cross_bar.s_port.bresp    := Mux1H(access_select_s_port_num_w,master_bundle_bresp)
+        master_cross_bar.s_port.bvalid   := Mux1H(access_select_s_port_num_w,master_bundle_bvalid)
 
 
-        master_cross_bar.s_port.arready         := Mux1H(select_s_port_num_r,master_bundle_arready)  
-        master_cross_bar.s_port.rid             := Mux1H(select_s_port_num_r,master_bundle_rid)
-        master_cross_bar.s_port.rdata           := Mux1H(select_s_port_num_r,master_bundle_rdata)
-        master_cross_bar.s_port.rresp           := Mux1H(select_s_port_num_r,master_bundle_rresp)
-        master_cross_bar.s_port.rlast           := Mux1H(select_s_port_num_r,master_bundle_rlast) 
-        master_cross_bar.s_port.rvalid           := Mux1H(select_s_port_num_r,master_bundle_rvalid)
+        master_cross_bar.s_port.arready         := Mux1H(access_select_s_port_num_r,master_bundle_arready)  
+        master_cross_bar.s_port.rid             := Mux1H(access_select_s_port_num_r,master_bundle_rid)
+        master_cross_bar.s_port.rdata           := Mux1H(access_select_s_port_num_r,master_bundle_rdata)
+        master_cross_bar.s_port.rresp           := Mux1H(access_select_s_port_num_r,master_bundle_rresp)
+        master_cross_bar.s_port.rlast           := Mux1H(access_select_s_port_num_r,master_bundle_rlast) 
+        master_cross_bar.s_port.rvalid           := Mux1H(access_select_s_port_num_r,master_bundle_rvalid)
 
 
         

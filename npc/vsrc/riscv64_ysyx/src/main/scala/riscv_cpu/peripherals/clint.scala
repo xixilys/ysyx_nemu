@@ -39,9 +39,9 @@ class timer_periph(base_addr:UInt) extends  Module with riscv_macros {
         axi_work1  -> Mux(io.axi_port.rready.asBool,axi_read_state,axi_idle)
         // axi_work1  -> 
     ))
-    axi_write_state := MuxLookup(axi_read_state,axi_write_state,Seq(
+    axi_write_state := MuxLookup(axi_write_state,axi_write_state,Seq(
         axi_idle   -> Mux(io.axi_port.awvalid.asBool && io.axi_port.awready.asBool,axi_work1,axi_write_state),
-        axi_work1  -> Mux(io.axi_port.wready.asBool,axi_write_state,axi_work2),
+        axi_work1  -> Mux(io.axi_port.wready.asBool,axi_work2,axi_write_state),
         axi_work2  -> axi_idle
         // axi_work1  -> 
     ))
@@ -59,7 +59,7 @@ class timer_periph(base_addr:UInt) extends  Module with riscv_macros {
     //read related line 
     io.axi_port.rdata := read_data
     io.axi_port.rlast := axi_read_state === axi_work1 && io.axi_port.rready.asBool
-    io.axi_port.rvalid := axi_read_state === axi_work1 && io.axi_port.rready.asBool
+    io.axi_port.rvalid := axi_read_state === axi_work1 
     io.axi_port.arready := 1.U
     io.axi_port.rid := 0.U
     io.axi_port.rresp := 0.U
@@ -67,14 +67,14 @@ class timer_periph(base_addr:UInt) extends  Module with riscv_macros {
     // val final_data = axi
     val mtime_to_be = Wire(Vec(data_length/8,UInt(8.W)))
     mtime_to_be.zipWithIndex.foreach{case(a,index) => 
-            mtime_to_be(index) := Mux(axi_write_addr(2,0) <= index.U && ( Cat(1.U(1.W),axi_write_addr(2,0)) + axi_write_size > index.U),
+            mtime_to_be(index) := Mux(axi_write_addr(2,0) <= index.U && ( Cat(0.U(1.W),axi_write_addr(2,0)) + axi_write_size > index.U),
                 axi_write_data((index + 1) * 8 - 1 ,index * 8), mtime((index + 1) * 8 - 1 ,index * 8))
     }
     mtime := Mux(axi_write_state === axi_work1 && io.axi_port.wvalid.asBool && axi_write_addr(data_length - 1,3) === (base_addr + mtime_offset)(data_length - 1,3),
         mtime_to_be.asUInt,mtime + 1.U)
     val mtimecmp_to_be = Wire(Vec(data_length/8,UInt(8.W)))
     mtimecmp_to_be.zipWithIndex.foreach{case(a,index) => 
-            mtimecmp_to_be(index) := Mux(axi_write_addr(2,0) <= index.U && ( Cat(1.U(1.W),axi_write_addr(2,0)) + axi_write_size > index.U),
+            mtimecmp_to_be(index) := Mux(axi_write_addr(2,0) <= index.U && ( Cat(0.U(1.W),axi_write_addr(2,0)) + axi_write_size > index.U),
                 axi_write_data((index + 1) * 8 - 1 ,index * 8), mtimecmp((index + 1) * 8 - 1 ,index * 8))
     }
     mtimecmp := Mux(axi_write_state === axi_work1&& io.axi_port.wvalid.asBool && axi_write_addr(data_length - 1,3) === (base_addr + mtimecmp_offset)(data_length - 1,3),

@@ -86,13 +86,12 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     val commit_int = (io.int_type.timer && csr_mie(MTIE)) && csr_status(MIE_NUM)
     val exception_type   = Cat(io.exception_type_i(31,1),commit_int)//15-8分别是六根硬件中断线和两根软件中断线
 
-    val exl_Reg     = Wire(UInt(1.W))//status 寄存器第1位 1表示例外级
     //不能是fence_i
     val commit_exception =(exception_type(30,0) =/= 0.U) && !exception_type(EXCEP_FENCE_I)//不等和等于运算更加耗时
     val commit_eret  = Mux(exception_type(31) && !exception_type(EXCEP_AdELI),1.U(1.W),0.U(1.W) ) //判断到底是啥例外，如果是eret过程中的地址错乱的话，就不是eret例外
     val commit_fence_i = exception_type(EXCEP_FENCE_I)
     io.exception     :=  commit_exception || commit_eret.asBool // 有没异常或者是回调的东西
-    exl_Reg := csr_status(1)
+
 
 // 写法有待商榷
     val csr_read_data_Wire = Wire(UInt(data_length.W))
@@ -131,7 +130,8 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
         MEPC_NUM    -> csr_epc,
         MCAUSE_NUM  -> csr_cause,
         MTVEC_NUM   -> csr_mtvec,
-        MSTATUS_NUM -> csr_status
+        MSTATUS_NUM -> csr_status,
+        MIP_NUM     -> csr_mip
     ))
     //write
     val csr_write_able = io.csr_write_en.asBool && write_addr_sel === csr_ADDR_SEL_INDEX
@@ -163,7 +163,7 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
         if(index == MIE_POSITION) {
             a := Mux(commit_int,0.U.asBool,csr_status(index))
         }  else{
-            a := 0.U.asBool
+            a := csr_status(index)
         }
     }
     csr_epc  := MuxCase(csr_epc,Seq(
