@@ -251,7 +251,7 @@ class data_cache  extends Module with riscv_macros {
         state_data_ready        -> state_ready_lookup_will_to_be,
         state_access_ram_write_0-> Mux(io.port.awready.asBool,Mux(io.port.wready.asBool,state_access_ram_write_2,state_access_ram_write_1),work_state),
         state_access_ram_write_1-> Mux(io.port.wready.asBool,state_access_ram_write_2,work_state),
-        state_access_ram_write_2-> state_data_ready,//Mux(io.port.bvalid.asBool || stage1_addr_req_not_same,state_data_ready,state_access_ram_write_2),
+        state_access_ram_write_2-> Mux(io.port.bvalid.asBool ,state_data_ready,state_access_ram_write_2),
         state_lookup            -> state_ready_lookup_will_to_be,
         state_miss_access_ram_read_0 -> Mux(io.port.arready.asBool,state_miss_access_ram_read_1,work_state),
         state_miss_access_ram_read_1 -> Mux(io.port.rlast.asBool && io.port.rvalid.asBool,Mux(stage1_sram_wr_reg.asBool,state_miss_write_update,state_miss_read_update),work_state),
@@ -276,7 +276,7 @@ class data_cache  extends Module with riscv_macros {
     val access_work_state_for_stall = MuxLookup(work_state,work_state,Seq(
         state_access_ram_read_1 -> Mux(io.port.rvalid.asBool,state_data_ready,work_state),
         state_data_ready        -> state_ready_lookup_should_be,
-        state_access_ram_write_2->  state_data_ready,//Mux(io.port.bvalid.asBool || stage1_addr_req_not_same ,state_data_ready,state_access_ram_write_2),
+        state_access_ram_write_2->  Mux(io.port.bvalid.asBool  ,state_data_ready,state_access_ram_write_2),
         state_lookup            -> state_ready_lookup_should_be,
         state_miss_read_update    -> state_data_ready,
         state_miss_write_update   -> state_data_ready))
@@ -294,7 +294,7 @@ class data_cache  extends Module with riscv_macros {
     
     write_counter := Mux(work_state === state_miss_write_read_1 || work_state === state_miss_write_read_0 ,Mux(io.port.wready.asBool,Mux(write_counter === (bank_num - 1).U,0.U,write_counter+1.U),write_counter),
         Mux(work_state === state_miss_write_write_1 || work_state === state_miss_write_write_0 ,Mux(io.port.wready.asBool,Mux(write_counter === (bank_num - 1).U,0.U,write_counter+1.U),write_counter),
-        Mux(work_state === state_clear_write_cache_1 || work_state === state_access_ram_write_0,Mux(io.port.wready.asBool,Mux(write_counter === (bank_num - 1).U,0.U,write_counter+1.U),write_counter),write_counter)))
+        Mux(work_state === state_clear_write_cache_1 || work_state === state_clear_write_cache_0,Mux(io.port.wready.asBool,Mux(write_counter === (bank_num - 1).U,0.U,write_counter+1.U),write_counter),write_counter)))
     read_counter := Mux(work_state === state_miss_access_ram_read_1,Mux(io.port.rvalid.asBool && io.port.rlast.asBool, 0.U, Mux(io.port.rvalid.asBool,read_counter+1.U,read_counter )),
         Mux(work_state === state_miss_access_ram_read_3,Mux(io.port.rvalid.asBool && io.port.rlast.asBool, 0.U, Mux(io.port.rvalid.asBool,read_counter+1.U,read_counter )),read_counter))
 //受到的数据
@@ -444,9 +444,11 @@ class data_cache  extends Module with riscv_macros {
 // w 写数据通道
     io.port.wid    := "b0001".U //
     io.port.wdata  := Mux(work_state === state_access_ram_write_1 || work_state === state_access_ram_write_0,stage1_sram_wdata_reg,Mux(work_state === state_miss_write_read_1 || work_state === state_miss_write_read_0 ||
-      work_state === state_miss_write_write_0   || work_state === state_miss_write_write_1,writeback_data ,0.U))
+      work_state === state_miss_write_write_0   || work_state === state_miss_write_write_1
+      || work_state === state_clear_write_cache_0 || work_state === state_clear_write_cache_1,writeback_data ,0.U))
     io.port.wstrb  := Mux(work_state === state_access_ram_write_1 || work_state === state_access_ram_write_0 ,stage1_wstrb_reg,Mux(work_state === state_miss_write_read_1 || work_state === state_miss_write_read_0 ||
-      work_state === state_miss_write_write_0   ||  work_state === state_miss_write_write_1,"b11111111".U ,0.U))
+      work_state === state_miss_write_write_0   ||  work_state === state_miss_write_write_1 || 
+      work_state === state_clear_write_cache_0 || work_state === state_clear_write_cache_1,"b11111111".U ,0.U))
     io.port.wlast  := work_state === state_access_ram_write_1 ||(work_state === state_access_ram_write_0 && io.port.wready.asBool) || ((work_state === state_miss_write_read_1 || work_state === state_miss_write_write_1 
         || work_state === state_clear_write_cache_0 || work_state === state_clear_write_cache_1) 
         && write_counter === (bank_num - 1).U )

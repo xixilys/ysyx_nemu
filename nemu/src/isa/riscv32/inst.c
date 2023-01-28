@@ -38,6 +38,7 @@ static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, 
 
 static int decode_exec(Decode *s) {
   word_t dest = 0, src1 = 0, src2 = 0;
+
   s->dnpc = s->snpc;
 
 #define INSTPAT_INST(s) ((s)->isa.inst.val)

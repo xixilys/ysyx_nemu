@@ -237,7 +237,7 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                         access_select_s_port_num_r(index) := Mux(master_cross_bar.s_port.arvalid.asBool,(master_cross_bar.s_port.araddr >= start_addr(index  ).asUInt(data_length.W) &&  
                                 master_cross_bar.s_port.araddr < end_addr(index).asUInt(data_length.W)),select_s_port_num_r(index))
                         val w_to_be = Mux(master_cross_bar.s_port.awvalid.asBool,(master_cross_bar.s_port.awaddr >= start_addr(index).asUInt(data_length.W) &&  
-                                master_cross_bar.s_port.awaddr < end_addr(index).asUInt(data_length.W)),Mux(io.s_port(index).wlast.asBool,0.U.asBool,select_s_port_num_w(index)))
+                                master_cross_bar.s_port.awaddr < end_addr(index).asUInt(data_length.W)),Mux(io.s_port(index).bvalid.asBool,0.U.asBool,select_s_port_num_w(index)))
                         select_s_port_num_w(index) := w_to_be
                         access_select_s_port_num_w(index) := Mux(master_cross_bar.s_port.awvalid.asBool,(master_cross_bar.s_port.awaddr >= start_addr(index).asUInt(data_length.W) &&  
                                 master_cross_bar.s_port.awaddr < end_addr(index).asUInt(data_length.W)),select_s_port_num_w(index))

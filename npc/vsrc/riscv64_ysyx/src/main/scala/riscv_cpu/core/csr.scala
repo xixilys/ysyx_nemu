@@ -131,7 +131,8 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
         MCAUSE_NUM  -> csr_cause,
         MTVEC_NUM   -> csr_mtvec,
         MSTATUS_NUM -> csr_status,
-        MIP_NUM     -> csr_mip
+        MIP_NUM     -> csr_mip,
+        MIE_NUM     -> csr_mie
     ))
     //write
     val csr_write_able = io.csr_write_en.asBool && write_addr_sel === csr_ADDR_SEL_INDEX

@@ -110,51 +110,9 @@ class mycpu_top  extends RawModule with riscv_macros {
     val         clk     = IO(Input(Bool())).suggestName("aclk")
     // val         ext_int = IO(Input(UInt(6.W)))// 外部中断\
 
-    val         axi_mem_port =  IO(new axi_ram_port)
+    val         axi_mem_port =  IO((new axi_ram_port))
         //IO(Vec(2,(new axi_ram_port)))
 
-
-    
-    // val         arid    = IO(Vec(2,Output(UInt(4.W))))
-    // val         araddr  = IO(Vec(2,Output(UInt(32.W))))
-    // val         arlen   = IO(Vec(2,Output(UInt(4.W))))
-    // val         arsize  = IO(Vec(2,Output(UInt(3.W))))
-    // val         arburst = IO(Vec(2,Output(UInt(2.W))))
-    // val         arlock  = IO(Vec(2,Output(UInt(2.W))))
-    // val         arcache = IO(Vec(2,Output(UInt(4.W))))
-    // val         arprot  = IO(Vec(2,Output(UInt(3.W))))
-    // val         arvalid = IO(Vec(2,Output(UInt(1.W))))
-    // val         arready = IO(Vec(2,Input(UInt(1.W))))
-    // //rIO()
-    // val         rid     = IO(Vec(2,Input(UInt(4.W))))
-    // val         rdata   = IO(Vec(2,Input(UInt(32.W))))
-    // val         rresp   = IO(Vec(2,Input(UInt(2.W))))
-    // val         rlast   = IO(Vec(2,Input(UInt(1.W))))
-    // val         rvalid  = IO(Vec(2,Input(UInt(1.W))))
-    // val         rready  = IO(Vec(2,Output(UInt(1.W))))
-    // //awIO(
-    // val         awid    = IO(Vec(2,Output(UInt(4.W))))
-    // val         awaddr  = IO(Vec(2,Output(UInt(32.W))))
-    // val         awlen   = IO(Vec(2,Output(UInt(4.W))))
-    // val         awsize  = IO(Vec(2,Output(UInt(3.W))))
-    // val         awburst = IO(Vec(2,Output(UInt(2.W))))
-    // val         awlock  = IO(Vec(2,Output(UInt(2.W))))
-    // val         awcache = IO(Vec(2,Output(UInt(4.W))))
-    // val         awprot  = IO(Vec(2,Output(UInt(3.W))))
-    // val        awvalid  = IO(Vec(2,Output(UInt(1.W))))
-    // val        awready  = IO(Vec(2,Input(UInt(1.W))))
-    // //wIO(
-    // val        wid      = IO(Vec(2,Output(UInt(4.W))))
-    // val        wdata    = IO(Vec(2,Output(UInt(32.W))))
-    // val        wstrb    = IO(Vec(2,Output(UInt(4.W))))
-    // val        wlast    = IO(Vec(2,Output(UInt(1.W))))
-    // val        wvalid   = IO(Vec(2,Output(UInt(1.W))))
-    // val        wready   = IO(Vec(2,Input(UInt(1.W))))
-    // //bIO(
-    // val         bid     = IO(Vec(2,Input(UInt(4.W))))
-    // val         bresp   = IO(Vec(2,Input(UInt(2.W))))
-    // val         bvalid  = IO(Vec(2,Input(UInt(1.W))))
-    // val         bready  = IO(Vec(2,Output(UInt(1.W))))
 
     val   debug_wb_pc       = IO(Output(UInt(32.W)))
     val   debug_wb_rf_wen   = IO(Output(UInt(4.W)))
@@ -165,6 +123,7 @@ class mycpu_top  extends RawModule with riscv_macros {
 
 withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     // val u_axi_cache_bridge = Module(new axi_crossbar_0)
+    // axi_mem
     val u_riscv_cpu = Module(new myCPU)
     val icache_first = Module(new inst_cache).io
     val icache = icache_first//.port

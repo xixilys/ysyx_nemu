@@ -51,7 +51,9 @@ uint64_t sum_time_decoder = 0;
 static int decode_exec(Decode *s) {
   // uint64_t start_time_sum = get_time();
   word_t dest = 0, src1 = 0, src2 = 0;
+   
   s->dnpc = s->snpc;
+  //  printf("dnpc is %lx and snpc is %lx\n",s->dnpc,s->snpc);
 //  printf("%d\n",0111);
 
 #define INSTPAT_INST(s) ((s)->isa.inst.val)

@@ -788,7 +788,6 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     val int_instanceM2 = RegInit(0.U.asTypeOf(new int_bundle))
     val int_instanceW  = RegInit(0.U.asTypeOf(new int_bundle))
 
-    // val int_with_timer_int = Cat(_csr.io.timer_int_has || ext_int(5),ext_int(4,0)) 
 
 
     int_instanceE := Mux(_cfu.io.FlushE.asBool,  0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallE.asBool,ext_int,int_instanceE))

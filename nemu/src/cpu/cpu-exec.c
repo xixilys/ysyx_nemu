@@ -84,7 +84,9 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 
 static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
+
   s->snpc = pc;
+    // printf("pc is %lx and s->snpc is %lx\n",pc,s->snpc);
   isa_exec_once(s);
   if(stop_point_set) {
      if(stop_point_pc == pc) {
