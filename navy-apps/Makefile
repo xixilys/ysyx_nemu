@@ -123,7 +123,7 @@ libs:
 $(APP): $(OBJS) libs
 	@echo + LD "->" $(shell realpath $@ --relative-to .)
 	@$(LD) $(LDFLAGS) -o $@ $(WL)--start-group $(LINKAGE) $(WL)--end-group
-	@cp $(APP) $(NANO_HOME)/build/ramdisk.img
+	
 
 
 ### Rule (archive): objects (`*.o`) -> `ARCHIVE.a` (ar)
