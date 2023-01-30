@@ -11,3 +11,4 @@
 !*.py
 !.gitignore
 !README.md
+!.config
