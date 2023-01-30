@@ -132,7 +132,7 @@ withClockAndReset(clk.asClock,(~resetn).asAsyncReset) {
     // val _imem    = Module(new imem)
     val _mem22wb  = Module(new mem2wb)
     val _addr_cal     = Module(new addr_cal)
-    val _muldiv  = Module(new muldiv("easy","easy"))
+    val _muldiv  = Module(new muldiv("hard","easy"))
     // val _pc2if   = Module(new pc2if)
     val _regfile = Module(new regfile)
     val _mtrace_mod = Module(new mem_trace_module(64))

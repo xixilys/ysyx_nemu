@@ -172,3 +172,159 @@ class accumulate_simple(width:Int,one_cal_times:Int) extends Module with riscv_m
 
     
 // }
+
+//保留进位加法器,我这里肯定都当作无符号
+class  csa(width:Int) extends  Module with riscv_macros {
+    val io = IO(new Bundle {
+        val data = Vec(3,Input(UInt(width.W)))
+        val result = Vec(2,Output(UInt(width.W)))
+    })
+    io.result(0) := io.data(0) ^ io.data(1) ^ io.data(2)
+    io.result(1) := Cat((io.data(0) & io.data(1)) | (io.data(1) & io.data(2)) | (io.data(2) & io.data(0)) , 0.U(1.W))
+}
+//华莱士树
+//这里每次迭代带一拍
+class wallace_adder(width:Int,num:Int) extends  Module with riscv_macros {
+    val io = IO(new Bundle {
+        val data_in = Vec(num,Input(UInt(width.W)))
+        val result = Output(UInt(width.W))
+    })
+    var iteration_timers = 0
+    def get_data(data_in:Vec[UInt]) :Vec[UInt]  = {
+        // val data_reg = 
+        // val csa_cal = data_in.getWidth * 2 / 3;
+        // println(data_in.getWidth / 32)
+        val data_depth = data_in.getWidth / width
+        val csa_num = data_depth / 3  ;
+       
+        iteration_timers += 1 ;
+        if(data_depth == 2) {
+            data_in
+        }else{
+            val csa_adder = VecInit(Seq.fill(csa_num)(Module(new csa(width)).io)) 
+            // csa_adder.foreach()
+            data_in.zipWithIndex.foreach{case(a,index) => 
+                if(index < 3 * csa_num) {
+                    csa_adder(index / 3).data(index % 3) := a
+                }
+            }
+            val data_out_bundle = Wire(Vec(2 * csa_num + data_depth % 3,UInt(width.W)))
+            data_out_bundle.zipWithIndex.foreach{case(a,index) => 
+                if(index < 2 * csa_num) {
+                    data_out_bundle(index) := csa_adder(index / 2).result(index % 2)
+                }else{
+                    // println(csa_num)
+                    data_out_bundle(index) := data_in(index - 2 * csa_num + 3 * csa_num)
+                }
+            }
+            val out_data_reg = RegInit(0.U.asTypeOf(data_out_bundle))
+            out_data_reg := data_out_bundle
+            // iteration_timers += 1 ;
+            get_data(out_data_reg)
+            // get_data(data_in)
+        }
+    }
+    // println("sbsbsbs")
+
+    val vec_data = get_data(io.data_in)
+    
+    io.result := vec_data(0) + vec_data(1) 
+    
+
+}
+
+class mul_hard(width:Int) extends Module with riscv_macros{
+    
+    val io = IO(new Bundle {
+        val result = Vec(2,Output(UInt(width.W)))
+        val data = Vec(2,Input(UInt(width.W)))
+        val input_valid = Input(Bool())
+        val input_ready = Output(Bool())
+        val Output_valid = Output(Bool())
+        val signed = Input(Bool())
+    })
+    //全当作有符号数来进行计算
+    //要写一个超前进位加法器
+
+    // val s
+  // Define the registers for storing the intermediate results of the multiplication
+   //理论上来说
+   
+   
+    val regs = RegInit(VecInit(Seq.fill(2)(0.U(((width )  * 2 ).W))))
+    val signed = RegInit(0.U.asBool)
+    val counter = RegInit(0.U(log2Up(width).W))
+    val cal_start = RegInit(0.U.asBool)
+    
+    counter := Mux(cal_start ,counter + 1.U,0.U)
+    signed  := Mux(io.input_valid && io.input_ready , io.signed  ,signed)
+    val result_reg = RegInit(0.U((width * 2).W)) 
+
+    val booth_data = Wire(Vec(width / 2,(UInt((width * 2).W))))
+    val x_fu = RegInit(0.U((2 * width).W))
+ // 0 -> x ; 1 -> y
+    val num_x  = 0
+    val num_y  = 1
+    booth_data.zipWithIndex.foreach{case(a,index) => 
+        val look_up_data = Wire(UInt(3.W))
+        if(index == 0 ){
+            look_up_data := Cat(regs(num_y)(2*index + 1),regs(num_y)(2*index),0.U(1.W))
+        }else{
+            look_up_data := Cat(regs(num_y)(2*index + 1),regs(num_y)(2*index), regs(num_y)(2*index - 1))
+        }
+        booth_data(index) := sign_extend(MuxLookup(look_up_data,0.U,Seq(
+            "b000".U -> 0.U,
+            "b001".U -> regs(num_x),
+            "b010".U -> regs(num_x),
+            "b011".U -> (regs(num_x) << 1.U),
+            "b100".U -> (x_fu << 1.U),
+            "b101".U -> x_fu,
+            "b110".U -> x_fu,
+            "b111".U -> 0.U
+            // "b001".U -> x_bu 
+        )) ,width)<< (2*index).U
+        // booth_data(index) := Cat(regs(0)(index * 2 + 1))  
+    }
+
+    regs(0) := Mux(io.input_valid && io.input_ready,io.data(0),regs(0));
+    x_fu  :=  Mux(io.input_valid && io.input_ready,(~(io.data(0)) + 1.U),x_fu);
+    regs(1) := Mux(io.input_valid && io.input_ready,io.data(1),regs(1));
+
+    //现在开始搭建csa
+    
+    val cal_module = Module(new wallace_adder(width * 2,width / 2) )
+    println(cal_module.iteration_timers)
+    cal_start := Mux(io.input_valid && io.input_ready,1.U.asBool,Mux(counter === cal_module.iteration_timers.U - 1.U,0.U.asBool,cal_start))
+    cal_module.io.data_in := booth_data
+
+    val cal_result = cal_module.io.result
+
+    result_reg := Mux(cal_start,cal_result,result_reg)
+    io.result(0) := Mux(cal_start,cal_result(width - 1,0),result_reg(width - 1 , 0))
+    io.result(1) := Mux(cal_start,cal_result(width * 2 - 1,width),result_reg(width * 2 -1 ,width))
+     io.Output_valid :=  counter === cal_module.iteration_timers.U - 1.U
+    io.input_ready := !cal_start
+}
+
+class mul_for_test (width:Int) extends Module {
+    val io =  IO(new Bundle {
+        val result = Vec(2,Output(UInt(width.W)))
+        val data = Vec(2,Input(UInt(width.W)))
+        val input_valid = Input(Bool())
+        val input_ready = Output(Bool())
+        val Output_valid = Output(Bool())
+        val signed = Input(Bool())
+    })
+    val io1 =  IO(new Bundle {
+        val result = Vec(2,Output(UInt(width.W)))
+        val data = Vec(2,Input(UInt(width.W)))
+        val input_valid = Input(Bool())
+        val input_ready = Output(Bool())
+        val Output_valid = Output(Bool())
+        val signed = Input(Bool())
+    })
+    val mul_simple = Module(new mul_simple(32))
+    val mul_hard   = Module(new mul_hard(32))
+    io <> mul_simple.io
+    io1 <> mul_hard.io
+}

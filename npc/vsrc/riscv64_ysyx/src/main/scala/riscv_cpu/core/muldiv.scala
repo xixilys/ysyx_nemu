@@ -352,7 +352,33 @@ class muldiv(mul_type :String,div_type:String) extends Module with riscv_macros{
         mul_cal_reg := Mux(cal_end_mul,access_mul_result,mul_cal_reg) 
 
     }else if(mul_type == "hard") {
-
+        //符号扩展来控制罢了
+        val mul_module = Module(new mul_hard(66)).io
+        val mul_module_32_bit = Module(new mul_hard(34)).io
+        val cal_signed =  io.ctrl(MULDIV_MUL) || io.ctrl(MULDIV_MULH) || io.ctrl(MULDIV_MULW) || io.ctrl(MULDIV_MULHSU)
+        mul_module.signed := cal_signed
+        mul_module_32_bit.signed := cal_signed
+        mul_module.data(0) := Mux(cal_signed,sign_extend(io.in1,64,66),unsign_extend(io.in1,64,66))
+        mul_module.data(1) := Mux(cal_signed,sign_extend(io.in2,64,66),unsign_extend(io.in2,64,66))
+        mul_module_32_bit.data(0) := Mux(cal_signed,sign_extend(io.in1(31,0),32,34),unsign_extend(io.in1(31,0),32,34))
+        mul_module_32_bit.data(1) := Mux(cal_signed,sign_extend(io.in2(31,0),32,34),unsign_extend(io.in2(31,0),32,34))
+        mul_module.input_valid  := Mux(work_state === state_idle && cal_mul,1.U.asBool,0.U.asBool)
+        mul_module_32_bit.input_valid := Mux(work_state === state_idle && cal_mulw,1.U.asBool,0.U.asBool)
+        cal_end_mul := MuxCase(0.U.asBool,Seq(
+            (work_state === state_cal_mul && mul_module.Output_valid)  ->  1.U.asBool,
+            (work_state === state_cal_mulw && mul_module_32_bit.Output_valid) -> 1.U.asBool  
+        ))
+        val final_result = Cat(mul_module.result(1),mul_module.result(0))
+        val mul_cal_reg = RegInit(0.U(64.W))
+        val access_mul_result =  Mux1H(Seq(
+                    ctrl_data(MULDIV_MUL)   -> final_result(63,0),
+                    ctrl_data(MULDIV_MULH)  -> final_result(127,64),
+                    ctrl_data(MULDIV_MULHU) -> final_result(127,64),
+                    ctrl_data(MULDIV_MULHSU)-> final_result(127,64),
+                    ctrl_data(MULDIV_MULW)  -> sign_extend(mul_module_32_bit.result(0)(31,0),32)
+        ))
+        cal_mul_result := Mux(cal_end_mul,access_mul_result,mul_cal_reg) 
+        mul_cal_reg := Mux(cal_end_mul,access_mul_result,mul_cal_reg) 
     }
 
     if(div_type == "easy") {

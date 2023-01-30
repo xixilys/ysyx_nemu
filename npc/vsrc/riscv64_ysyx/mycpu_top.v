@@ -1,4 +1,5 @@
 /* verilator lint_off WIDTH */ 
+/* verilator lint_off WIDTH */ 
 module alu(
   input  [23:0] io_ctrl,
   input  [63:0] io_in1,
@@ -2750,108 +2751,1139 @@ module addr_cal(
   assign io_d_paddr = io_d_vaddr; // @[addr_cal.scala 24:16]
   assign io_d_cached = io_d_vaddr[31:29] == 3'h4; // @[macros.scala 479:55]
 endmodule
-module mul_simple(
-  input         clock,
-  input         reset,
-  output [63:0] io_result_0,
-  output [63:0] io_result_1,
-  input  [63:0] io_data_0,
-  input  [63:0] io_data_1,
-  input         io_input_valid,
-  output        io_input_ready,
-  output        io_Output_valid,
-  input         io_signed
+module csa(
+  input  [131:0] io_data_0,
+  input  [131:0] io_data_1,
+  input  [131:0] io_data_2,
+  output [131:0] io_result_0,
+  output [131:0] io_result_1
+);
+  wire [131:0] _io_result_0_T = io_data_0 ^ io_data_1; // @[hard_cal.scala 182:32]
+  wire [131:0] _io_result_1_T = io_data_0 & io_data_1; // @[hard_cal.scala 183:37]
+  wire [131:0] _io_result_1_T_1 = io_data_1 & io_data_2; // @[hard_cal.scala 183:65]
+  wire [131:0] _io_result_1_T_2 = _io_result_1_T | _io_result_1_T_1; // @[hard_cal.scala 183:51]
+  wire [131:0] _io_result_1_T_3 = io_data_2 & io_data_0; // @[hard_cal.scala 183:93]
+  wire [131:0] _io_result_1_T_4 = _io_result_1_T_2 | _io_result_1_T_3; // @[hard_cal.scala 183:79]
+  wire [132:0] _io_result_1_T_5 = {_io_result_1_T_4,1'h0}; // @[Cat.scala 31:58]
+  assign io_result_0 = _io_result_0_T ^ io_data_2; // @[hard_cal.scala 182:45]
+  assign io_result_1 = _io_result_1_T_5[131:0]; // @[hard_cal.scala 183:18]
+endmodule
+module wallace_adder(
+  input          clock,
+  input          reset,
+  input  [131:0] io_data_in_0,
+  input  [131:0] io_data_in_1,
+  input  [131:0] io_data_in_2,
+  input  [131:0] io_data_in_3,
+  input  [131:0] io_data_in_4,
+  input  [131:0] io_data_in_5,
+  input  [131:0] io_data_in_6,
+  input  [131:0] io_data_in_7,
+  input  [131:0] io_data_in_8,
+  input  [131:0] io_data_in_9,
+  input  [131:0] io_data_in_10,
+  input  [131:0] io_data_in_11,
+  input  [131:0] io_data_in_12,
+  input  [131:0] io_data_in_13,
+  input  [131:0] io_data_in_14,
+  input  [131:0] io_data_in_15,
+  input  [131:0] io_data_in_16,
+  input  [131:0] io_data_in_17,
+  input  [131:0] io_data_in_18,
+  input  [131:0] io_data_in_19,
+  input  [131:0] io_data_in_20,
+  input  [131:0] io_data_in_21,
+  input  [131:0] io_data_in_22,
+  input  [131:0] io_data_in_23,
+  input  [131:0] io_data_in_24,
+  input  [131:0] io_data_in_25,
+  input  [131:0] io_data_in_26,
+  input  [131:0] io_data_in_27,
+  input  [131:0] io_data_in_28,
+  input  [131:0] io_data_in_29,
+  input  [131:0] io_data_in_30,
+  input  [131:0] io_data_in_31,
+  input  [131:0] io_data_in_32,
+  output [131:0] io_result
 );
 `ifdef RANDOMIZE_REG_INIT
-  reg [127:0] _RAND_0;
-  reg [127:0] _RAND_1;
-  reg [31:0] _RAND_2;
-  reg [31:0] _RAND_3;
-  reg [31:0] _RAND_4;
-  reg [127:0] _RAND_5;
+  reg [159:0] _RAND_0;
+  reg [159:0] _RAND_1;
+  reg [159:0] _RAND_2;
+  reg [159:0] _RAND_3;
+  reg [159:0] _RAND_4;
+  reg [159:0] _RAND_5;
+  reg [159:0] _RAND_6;
+  reg [159:0] _RAND_7;
+  reg [159:0] _RAND_8;
+  reg [159:0] _RAND_9;
+  reg [159:0] _RAND_10;
+  reg [159:0] _RAND_11;
+  reg [159:0] _RAND_12;
+  reg [159:0] _RAND_13;
+  reg [159:0] _RAND_14;
+  reg [159:0] _RAND_15;
+  reg [159:0] _RAND_16;
+  reg [159:0] _RAND_17;
+  reg [159:0] _RAND_18;
+  reg [159:0] _RAND_19;
+  reg [159:0] _RAND_20;
+  reg [159:0] _RAND_21;
+  reg [159:0] _RAND_22;
+  reg [159:0] _RAND_23;
+  reg [159:0] _RAND_24;
+  reg [159:0] _RAND_25;
+  reg [159:0] _RAND_26;
+  reg [159:0] _RAND_27;
+  reg [159:0] _RAND_28;
+  reg [159:0] _RAND_29;
+  reg [159:0] _RAND_30;
+  reg [159:0] _RAND_31;
+  reg [159:0] _RAND_32;
+  reg [159:0] _RAND_33;
+  reg [159:0] _RAND_34;
+  reg [159:0] _RAND_35;
+  reg [159:0] _RAND_36;
+  reg [159:0] _RAND_37;
+  reg [159:0] _RAND_38;
+  reg [159:0] _RAND_39;
+  reg [159:0] _RAND_40;
+  reg [159:0] _RAND_41;
+  reg [159:0] _RAND_42;
+  reg [159:0] _RAND_43;
+  reg [159:0] _RAND_44;
+  reg [159:0] _RAND_45;
+  reg [159:0] _RAND_46;
+  reg [159:0] _RAND_47;
+  reg [159:0] _RAND_48;
+  reg [159:0] _RAND_49;
+  reg [159:0] _RAND_50;
+  reg [159:0] _RAND_51;
+  reg [159:0] _RAND_52;
+  reg [159:0] _RAND_53;
+  reg [159:0] _RAND_54;
+  reg [159:0] _RAND_55;
+  reg [159:0] _RAND_56;
+  reg [159:0] _RAND_57;
+  reg [159:0] _RAND_58;
+  reg [159:0] _RAND_59;
+  reg [159:0] _RAND_60;
+  reg [159:0] _RAND_61;
+  reg [159:0] _RAND_62;
+  reg [159:0] _RAND_63;
+  reg [159:0] _RAND_64;
+  reg [159:0] _RAND_65;
+  reg [159:0] _RAND_66;
+  reg [159:0] _RAND_67;
 `endif // RANDOMIZE_REG_INIT
-  reg [127:0] regs_0; // @[hard_cal.scala 32:23]
-  reg [127:0] regs_1; // @[hard_cal.scala 32:23]
-  reg  signed_; // @[hard_cal.scala 33:25]
-  reg [5:0] counter; // @[hard_cal.scala 34:26]
-  reg  cal_start; // @[hard_cal.scala 35:28]
-  wire  _cal_start_T = io_input_valid & io_input_ready; // @[hard_cal.scala 36:37]
-  wire  _cal_start_T_2 = counter == 6'h3f ? 1'h0 : cal_start; // @[hard_cal.scala 36:69]
-  wire [5:0] _counter_T_1 = counter + 6'h1; // @[hard_cal.scala 37:39]
-  reg [127:0] result_reg; // @[hard_cal.scala 39:29]
-  wire [7:0] regs_0_lo_lo_lo = {io_data_0[63],io_data_0[63],io_data_0[63],io_data_0[63],io_data_0[63],io_data_0[63],
-    io_data_0[63],io_data_0[63]}; // @[Cat.scala 31:58]
-  wire [15:0] regs_0_lo_lo = {io_data_0[63],io_data_0[63],io_data_0[63],io_data_0[63],io_data_0[63],io_data_0[63],
-    io_data_0[63],io_data_0[63],regs_0_lo_lo_lo}; // @[Cat.scala 31:58]
-  wire [31:0] regs_0_lo = {io_data_0[63],io_data_0[63],io_data_0[63],io_data_0[63],io_data_0[63],io_data_0[63],io_data_0
-    [63],io_data_0[63],regs_0_lo_lo_lo,regs_0_lo_lo}; // @[Cat.scala 31:58]
-  wire [127:0] _regs_0_T_67 = {regs_0_lo,regs_0_lo,io_data_0}; // @[Cat.scala 31:58]
-  wire [127:0] _regs_0_T_68 = io_signed ? _regs_0_T_67 : {{64'd0}, io_data_0}; // @[hard_cal.scala 41:56]
-  wire [128:0] _regs_0_T_69 = {regs_0, 1'h0}; // @[hard_cal.scala 41:141]
-  wire [128:0] _regs_0_T_70 = cal_start ? _regs_0_T_69 : {{1'd0}, regs_0}; // @[hard_cal.scala 41:122]
-  wire [128:0] _regs_0_T_71 = _cal_start_T ? {{1'd0}, _regs_0_T_68} : _regs_0_T_70; // @[hard_cal.scala 41:19]
-  wire [127:0] _result_reg_T_4 = result_reg + regs_0; // @[hard_cal.scala 43:86]
-  wire [127:0] _result_reg_T_9 = result_reg - regs_0; // @[hard_cal.scala 43:163]
-  wire [6:0] _io_Output_valid_T_1 = 7'h40 - 7'h1; // @[hard_cal.scala 46:45]
-  wire [6:0] _GEN_0 = {{1'd0}, counter}; // @[hard_cal.scala 46:33]
-  assign io_result_0 = result_reg[63:0]; // @[hard_cal.scala 44:31]
-  assign io_result_1 = result_reg[127:64]; // @[hard_cal.scala 45:31]
-  assign io_input_ready = ~cal_start; // @[hard_cal.scala 47:23]
-  assign io_Output_valid = _GEN_0 == _io_Output_valid_T_1; // @[hard_cal.scala 46:33]
+  wire [131:0] csa_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_1_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_1_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_1_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_1_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_1_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_2_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_2_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_2_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_2_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_2_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_3_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_3_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_3_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_3_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_3_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_4_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_4_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_4_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_4_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_4_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_5_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_5_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_5_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_5_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_5_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_6_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_6_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_6_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_6_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_6_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_7_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_7_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_7_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_7_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_7_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_8_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_8_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_8_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_8_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_8_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_9_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_9_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_9_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_9_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_9_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_10_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_10_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_10_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_10_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_10_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_11_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_11_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_11_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_11_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_11_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_12_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_12_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_12_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_12_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_12_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_13_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_13_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_13_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_13_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_13_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_14_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_14_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_14_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_14_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_14_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_15_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_15_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_15_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_15_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_15_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_16_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_16_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_16_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_16_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_16_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_17_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_17_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_17_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_17_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_17_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_18_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_18_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_18_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_18_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_18_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_19_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_19_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_19_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_19_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_19_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_20_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_20_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_20_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_20_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_20_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_21_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_21_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_21_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_21_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_21_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_22_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_22_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_22_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_22_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_22_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_23_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_23_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_23_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_23_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_23_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_24_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_24_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_24_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_24_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_24_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_25_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_25_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_25_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_25_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_25_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_26_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_26_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_26_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_26_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_26_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_27_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_27_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_27_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_27_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_27_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_28_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_28_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_28_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_28_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_28_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_29_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_29_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_29_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_29_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_29_io_result_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_30_io_data_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_30_io_data_1; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_30_io_data_2; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_30_io_result_0; // @[hard_cal.scala 204:61]
+  wire [131:0] csa_30_io_result_1; // @[hard_cal.scala 204:61]
+  reg [131:0] vec_data_out_data_reg__0; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__1; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__2; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__3; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__4; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__5; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__6; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__7; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__8; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__9; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__10; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__11; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__12; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__13; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__14; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__15; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__16; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__17; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__18; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__19; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__20; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg__21; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_0; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_1; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_2; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_3; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_4; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_5; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_6; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_7; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_8; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_9; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_10; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_11; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_12; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_13; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_1_14; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_2_0; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_2_1; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_2_2; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_2_3; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_2_4; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_2_5; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_2_6; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_2_7; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_2_8; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_2_9; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_3_0; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_3_1; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_3_2; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_3_3; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_3_4; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_3_5; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_3_6; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_4_0; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_4_1; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_4_2; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_4_3; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_4_4; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_5_0; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_5_1; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_5_2; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_5_3; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_6_0; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_6_1; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_out_data_reg_6_2; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_0; // @[hard_cal.scala 220:39]
+  reg [131:0] vec_data_1; // @[hard_cal.scala 220:39]
+  csa csa ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_io_data_0),
+    .io_data_1(csa_io_data_1),
+    .io_data_2(csa_io_data_2),
+    .io_result_0(csa_io_result_0),
+    .io_result_1(csa_io_result_1)
+  );
+  csa csa_1 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_1_io_data_0),
+    .io_data_1(csa_1_io_data_1),
+    .io_data_2(csa_1_io_data_2),
+    .io_result_0(csa_1_io_result_0),
+    .io_result_1(csa_1_io_result_1)
+  );
+  csa csa_2 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_2_io_data_0),
+    .io_data_1(csa_2_io_data_1),
+    .io_data_2(csa_2_io_data_2),
+    .io_result_0(csa_2_io_result_0),
+    .io_result_1(csa_2_io_result_1)
+  );
+  csa csa_3 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_3_io_data_0),
+    .io_data_1(csa_3_io_data_1),
+    .io_data_2(csa_3_io_data_2),
+    .io_result_0(csa_3_io_result_0),
+    .io_result_1(csa_3_io_result_1)
+  );
+  csa csa_4 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_4_io_data_0),
+    .io_data_1(csa_4_io_data_1),
+    .io_data_2(csa_4_io_data_2),
+    .io_result_0(csa_4_io_result_0),
+    .io_result_1(csa_4_io_result_1)
+  );
+  csa csa_5 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_5_io_data_0),
+    .io_data_1(csa_5_io_data_1),
+    .io_data_2(csa_5_io_data_2),
+    .io_result_0(csa_5_io_result_0),
+    .io_result_1(csa_5_io_result_1)
+  );
+  csa csa_6 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_6_io_data_0),
+    .io_data_1(csa_6_io_data_1),
+    .io_data_2(csa_6_io_data_2),
+    .io_result_0(csa_6_io_result_0),
+    .io_result_1(csa_6_io_result_1)
+  );
+  csa csa_7 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_7_io_data_0),
+    .io_data_1(csa_7_io_data_1),
+    .io_data_2(csa_7_io_data_2),
+    .io_result_0(csa_7_io_result_0),
+    .io_result_1(csa_7_io_result_1)
+  );
+  csa csa_8 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_8_io_data_0),
+    .io_data_1(csa_8_io_data_1),
+    .io_data_2(csa_8_io_data_2),
+    .io_result_0(csa_8_io_result_0),
+    .io_result_1(csa_8_io_result_1)
+  );
+  csa csa_9 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_9_io_data_0),
+    .io_data_1(csa_9_io_data_1),
+    .io_data_2(csa_9_io_data_2),
+    .io_result_0(csa_9_io_result_0),
+    .io_result_1(csa_9_io_result_1)
+  );
+  csa csa_10 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_10_io_data_0),
+    .io_data_1(csa_10_io_data_1),
+    .io_data_2(csa_10_io_data_2),
+    .io_result_0(csa_10_io_result_0),
+    .io_result_1(csa_10_io_result_1)
+  );
+  csa csa_11 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_11_io_data_0),
+    .io_data_1(csa_11_io_data_1),
+    .io_data_2(csa_11_io_data_2),
+    .io_result_0(csa_11_io_result_0),
+    .io_result_1(csa_11_io_result_1)
+  );
+  csa csa_12 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_12_io_data_0),
+    .io_data_1(csa_12_io_data_1),
+    .io_data_2(csa_12_io_data_2),
+    .io_result_0(csa_12_io_result_0),
+    .io_result_1(csa_12_io_result_1)
+  );
+  csa csa_13 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_13_io_data_0),
+    .io_data_1(csa_13_io_data_1),
+    .io_data_2(csa_13_io_data_2),
+    .io_result_0(csa_13_io_result_0),
+    .io_result_1(csa_13_io_result_1)
+  );
+  csa csa_14 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_14_io_data_0),
+    .io_data_1(csa_14_io_data_1),
+    .io_data_2(csa_14_io_data_2),
+    .io_result_0(csa_14_io_result_0),
+    .io_result_1(csa_14_io_result_1)
+  );
+  csa csa_15 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_15_io_data_0),
+    .io_data_1(csa_15_io_data_1),
+    .io_data_2(csa_15_io_data_2),
+    .io_result_0(csa_15_io_result_0),
+    .io_result_1(csa_15_io_result_1)
+  );
+  csa csa_16 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_16_io_data_0),
+    .io_data_1(csa_16_io_data_1),
+    .io_data_2(csa_16_io_data_2),
+    .io_result_0(csa_16_io_result_0),
+    .io_result_1(csa_16_io_result_1)
+  );
+  csa csa_17 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_17_io_data_0),
+    .io_data_1(csa_17_io_data_1),
+    .io_data_2(csa_17_io_data_2),
+    .io_result_0(csa_17_io_result_0),
+    .io_result_1(csa_17_io_result_1)
+  );
+  csa csa_18 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_18_io_data_0),
+    .io_data_1(csa_18_io_data_1),
+    .io_data_2(csa_18_io_data_2),
+    .io_result_0(csa_18_io_result_0),
+    .io_result_1(csa_18_io_result_1)
+  );
+  csa csa_19 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_19_io_data_0),
+    .io_data_1(csa_19_io_data_1),
+    .io_data_2(csa_19_io_data_2),
+    .io_result_0(csa_19_io_result_0),
+    .io_result_1(csa_19_io_result_1)
+  );
+  csa csa_20 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_20_io_data_0),
+    .io_data_1(csa_20_io_data_1),
+    .io_data_2(csa_20_io_data_2),
+    .io_result_0(csa_20_io_result_0),
+    .io_result_1(csa_20_io_result_1)
+  );
+  csa csa_21 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_21_io_data_0),
+    .io_data_1(csa_21_io_data_1),
+    .io_data_2(csa_21_io_data_2),
+    .io_result_0(csa_21_io_result_0),
+    .io_result_1(csa_21_io_result_1)
+  );
+  csa csa_22 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_22_io_data_0),
+    .io_data_1(csa_22_io_data_1),
+    .io_data_2(csa_22_io_data_2),
+    .io_result_0(csa_22_io_result_0),
+    .io_result_1(csa_22_io_result_1)
+  );
+  csa csa_23 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_23_io_data_0),
+    .io_data_1(csa_23_io_data_1),
+    .io_data_2(csa_23_io_data_2),
+    .io_result_0(csa_23_io_result_0),
+    .io_result_1(csa_23_io_result_1)
+  );
+  csa csa_24 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_24_io_data_0),
+    .io_data_1(csa_24_io_data_1),
+    .io_data_2(csa_24_io_data_2),
+    .io_result_0(csa_24_io_result_0),
+    .io_result_1(csa_24_io_result_1)
+  );
+  csa csa_25 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_25_io_data_0),
+    .io_data_1(csa_25_io_data_1),
+    .io_data_2(csa_25_io_data_2),
+    .io_result_0(csa_25_io_result_0),
+    .io_result_1(csa_25_io_result_1)
+  );
+  csa csa_26 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_26_io_data_0),
+    .io_data_1(csa_26_io_data_1),
+    .io_data_2(csa_26_io_data_2),
+    .io_result_0(csa_26_io_result_0),
+    .io_result_1(csa_26_io_result_1)
+  );
+  csa csa_27 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_27_io_data_0),
+    .io_data_1(csa_27_io_data_1),
+    .io_data_2(csa_27_io_data_2),
+    .io_result_0(csa_27_io_result_0),
+    .io_result_1(csa_27_io_result_1)
+  );
+  csa csa_28 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_28_io_data_0),
+    .io_data_1(csa_28_io_data_1),
+    .io_data_2(csa_28_io_data_2),
+    .io_result_0(csa_28_io_result_0),
+    .io_result_1(csa_28_io_result_1)
+  );
+  csa csa_29 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_29_io_data_0),
+    .io_data_1(csa_29_io_data_1),
+    .io_data_2(csa_29_io_data_2),
+    .io_result_0(csa_29_io_result_0),
+    .io_result_1(csa_29_io_result_1)
+  );
+  csa csa_30 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_30_io_data_0),
+    .io_data_1(csa_30_io_data_1),
+    .io_data_2(csa_30_io_data_2),
+    .io_result_0(csa_30_io_result_0),
+    .io_result_1(csa_30_io_result_1)
+  );
+  assign io_result = vec_data_0 + vec_data_1; // @[hard_cal.scala 231:30]
+  assign csa_io_data_0 = io_data_in_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_io_data_1 = io_data_in_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_io_data_2 = io_data_in_2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_1_io_data_0 = io_data_in_3; // @[hard_cal.scala 204:36 208:58]
+  assign csa_1_io_data_1 = io_data_in_4; // @[hard_cal.scala 204:36 208:58]
+  assign csa_1_io_data_2 = io_data_in_5; // @[hard_cal.scala 204:36 208:58]
+  assign csa_2_io_data_0 = io_data_in_6; // @[hard_cal.scala 204:36 208:58]
+  assign csa_2_io_data_1 = io_data_in_7; // @[hard_cal.scala 204:36 208:58]
+  assign csa_2_io_data_2 = io_data_in_8; // @[hard_cal.scala 204:36 208:58]
+  assign csa_3_io_data_0 = io_data_in_9; // @[hard_cal.scala 204:36 208:58]
+  assign csa_3_io_data_1 = io_data_in_10; // @[hard_cal.scala 204:36 208:58]
+  assign csa_3_io_data_2 = io_data_in_11; // @[hard_cal.scala 204:36 208:58]
+  assign csa_4_io_data_0 = io_data_in_12; // @[hard_cal.scala 204:36 208:58]
+  assign csa_4_io_data_1 = io_data_in_13; // @[hard_cal.scala 204:36 208:58]
+  assign csa_4_io_data_2 = io_data_in_14; // @[hard_cal.scala 204:36 208:58]
+  assign csa_5_io_data_0 = io_data_in_15; // @[hard_cal.scala 204:36 208:58]
+  assign csa_5_io_data_1 = io_data_in_16; // @[hard_cal.scala 204:36 208:58]
+  assign csa_5_io_data_2 = io_data_in_17; // @[hard_cal.scala 204:36 208:58]
+  assign csa_6_io_data_0 = io_data_in_18; // @[hard_cal.scala 204:36 208:58]
+  assign csa_6_io_data_1 = io_data_in_19; // @[hard_cal.scala 204:36 208:58]
+  assign csa_6_io_data_2 = io_data_in_20; // @[hard_cal.scala 204:36 208:58]
+  assign csa_7_io_data_0 = io_data_in_21; // @[hard_cal.scala 204:36 208:58]
+  assign csa_7_io_data_1 = io_data_in_22; // @[hard_cal.scala 204:36 208:58]
+  assign csa_7_io_data_2 = io_data_in_23; // @[hard_cal.scala 204:36 208:58]
+  assign csa_8_io_data_0 = io_data_in_24; // @[hard_cal.scala 204:36 208:58]
+  assign csa_8_io_data_1 = io_data_in_25; // @[hard_cal.scala 204:36 208:58]
+  assign csa_8_io_data_2 = io_data_in_26; // @[hard_cal.scala 204:36 208:58]
+  assign csa_9_io_data_0 = io_data_in_27; // @[hard_cal.scala 204:36 208:58]
+  assign csa_9_io_data_1 = io_data_in_28; // @[hard_cal.scala 204:36 208:58]
+  assign csa_9_io_data_2 = io_data_in_29; // @[hard_cal.scala 204:36 208:58]
+  assign csa_10_io_data_0 = io_data_in_30; // @[hard_cal.scala 204:36 208:58]
+  assign csa_10_io_data_1 = io_data_in_31; // @[hard_cal.scala 204:36 208:58]
+  assign csa_10_io_data_2 = io_data_in_32; // @[hard_cal.scala 204:36 208:58]
+  assign csa_11_io_data_0 = vec_data_out_data_reg__0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_11_io_data_1 = vec_data_out_data_reg__1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_11_io_data_2 = vec_data_out_data_reg__2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_12_io_data_0 = vec_data_out_data_reg__3; // @[hard_cal.scala 204:36 208:58]
+  assign csa_12_io_data_1 = vec_data_out_data_reg__4; // @[hard_cal.scala 204:36 208:58]
+  assign csa_12_io_data_2 = vec_data_out_data_reg__5; // @[hard_cal.scala 204:36 208:58]
+  assign csa_13_io_data_0 = vec_data_out_data_reg__6; // @[hard_cal.scala 204:36 208:58]
+  assign csa_13_io_data_1 = vec_data_out_data_reg__7; // @[hard_cal.scala 204:36 208:58]
+  assign csa_13_io_data_2 = vec_data_out_data_reg__8; // @[hard_cal.scala 204:36 208:58]
+  assign csa_14_io_data_0 = vec_data_out_data_reg__9; // @[hard_cal.scala 204:36 208:58]
+  assign csa_14_io_data_1 = vec_data_out_data_reg__10; // @[hard_cal.scala 204:36 208:58]
+  assign csa_14_io_data_2 = vec_data_out_data_reg__11; // @[hard_cal.scala 204:36 208:58]
+  assign csa_15_io_data_0 = vec_data_out_data_reg__12; // @[hard_cal.scala 204:36 208:58]
+  assign csa_15_io_data_1 = vec_data_out_data_reg__13; // @[hard_cal.scala 204:36 208:58]
+  assign csa_15_io_data_2 = vec_data_out_data_reg__14; // @[hard_cal.scala 204:36 208:58]
+  assign csa_16_io_data_0 = vec_data_out_data_reg__15; // @[hard_cal.scala 204:36 208:58]
+  assign csa_16_io_data_1 = vec_data_out_data_reg__16; // @[hard_cal.scala 204:36 208:58]
+  assign csa_16_io_data_2 = vec_data_out_data_reg__17; // @[hard_cal.scala 204:36 208:58]
+  assign csa_17_io_data_0 = vec_data_out_data_reg__18; // @[hard_cal.scala 204:36 208:58]
+  assign csa_17_io_data_1 = vec_data_out_data_reg__19; // @[hard_cal.scala 204:36 208:58]
+  assign csa_17_io_data_2 = vec_data_out_data_reg__20; // @[hard_cal.scala 204:36 208:58]
+  assign csa_18_io_data_0 = vec_data_out_data_reg_1_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_18_io_data_1 = vec_data_out_data_reg_1_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_18_io_data_2 = vec_data_out_data_reg_1_2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_19_io_data_0 = vec_data_out_data_reg_1_3; // @[hard_cal.scala 204:36 208:58]
+  assign csa_19_io_data_1 = vec_data_out_data_reg_1_4; // @[hard_cal.scala 204:36 208:58]
+  assign csa_19_io_data_2 = vec_data_out_data_reg_1_5; // @[hard_cal.scala 204:36 208:58]
+  assign csa_20_io_data_0 = vec_data_out_data_reg_1_6; // @[hard_cal.scala 204:36 208:58]
+  assign csa_20_io_data_1 = vec_data_out_data_reg_1_7; // @[hard_cal.scala 204:36 208:58]
+  assign csa_20_io_data_2 = vec_data_out_data_reg_1_8; // @[hard_cal.scala 204:36 208:58]
+  assign csa_21_io_data_0 = vec_data_out_data_reg_1_9; // @[hard_cal.scala 204:36 208:58]
+  assign csa_21_io_data_1 = vec_data_out_data_reg_1_10; // @[hard_cal.scala 204:36 208:58]
+  assign csa_21_io_data_2 = vec_data_out_data_reg_1_11; // @[hard_cal.scala 204:36 208:58]
+  assign csa_22_io_data_0 = vec_data_out_data_reg_1_12; // @[hard_cal.scala 204:36 208:58]
+  assign csa_22_io_data_1 = vec_data_out_data_reg_1_13; // @[hard_cal.scala 204:36 208:58]
+  assign csa_22_io_data_2 = vec_data_out_data_reg_1_14; // @[hard_cal.scala 204:36 208:58]
+  assign csa_23_io_data_0 = vec_data_out_data_reg_2_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_23_io_data_1 = vec_data_out_data_reg_2_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_23_io_data_2 = vec_data_out_data_reg_2_2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_24_io_data_0 = vec_data_out_data_reg_2_3; // @[hard_cal.scala 204:36 208:58]
+  assign csa_24_io_data_1 = vec_data_out_data_reg_2_4; // @[hard_cal.scala 204:36 208:58]
+  assign csa_24_io_data_2 = vec_data_out_data_reg_2_5; // @[hard_cal.scala 204:36 208:58]
+  assign csa_25_io_data_0 = vec_data_out_data_reg_2_6; // @[hard_cal.scala 204:36 208:58]
+  assign csa_25_io_data_1 = vec_data_out_data_reg_2_7; // @[hard_cal.scala 204:36 208:58]
+  assign csa_25_io_data_2 = vec_data_out_data_reg_2_8; // @[hard_cal.scala 204:36 208:58]
+  assign csa_26_io_data_0 = vec_data_out_data_reg_3_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_26_io_data_1 = vec_data_out_data_reg_3_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_26_io_data_2 = vec_data_out_data_reg_3_2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_27_io_data_0 = vec_data_out_data_reg_3_3; // @[hard_cal.scala 204:36 208:58]
+  assign csa_27_io_data_1 = vec_data_out_data_reg_3_4; // @[hard_cal.scala 204:36 208:58]
+  assign csa_27_io_data_2 = vec_data_out_data_reg_3_5; // @[hard_cal.scala 204:36 208:58]
+  assign csa_28_io_data_0 = vec_data_out_data_reg_4_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_28_io_data_1 = vec_data_out_data_reg_4_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_28_io_data_2 = vec_data_out_data_reg_4_2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_29_io_data_0 = vec_data_out_data_reg_5_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_29_io_data_1 = vec_data_out_data_reg_5_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_29_io_data_2 = vec_data_out_data_reg_5_2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_30_io_data_0 = vec_data_out_data_reg_6_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_30_io_data_1 = vec_data_out_data_reg_6_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_30_io_data_2 = vec_data_out_data_reg_6_2; // @[hard_cal.scala 204:36 208:58]
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 32:23]
-      regs_0 <= 128'h0; // @[hard_cal.scala 32:23]
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__0 <= 132'h0;
     end else begin
-      regs_0 <= _regs_0_T_71[127:0]; // @[hard_cal.scala 41:13]
+      vec_data_out_data_reg__0 <= csa_io_result_0;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 42:19]
-      regs_1 <= 128'h0;
-    end else if (_cal_start_T) begin // @[hard_cal.scala 42:67]
-      regs_1 <= {{64'd0}, io_data_1};
-    end else if (cal_start) begin
-      regs_1 <= {{1'd0}, regs_1[127:1]};
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 38:19]
-      signed_ <= 1'h0;
-    end else if (_cal_start_T) begin
-      signed_ <= io_signed;
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 37:19]
-      counter <= 6'h0;
-    end else if (cal_start) begin
-      counter <= _counter_T_1;
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__1 <= 132'h0;
     end else begin
-      counter <= 6'h0;
+      vec_data_out_data_reg__1 <= csa_io_result_1;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 36:21]
-      cal_start <= 1'h0;
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__2 <= 132'h0;
     end else begin
-      cal_start <= io_input_valid & io_input_ready | _cal_start_T_2;
+      vec_data_out_data_reg__2 <= csa_1_io_result_0;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 43:22]
-      result_reg <= 128'h0; // @[hard_cal.scala 43:{144,36,99}]
-    end else if (cal_start) begin
-      if (regs_1[0] & counter < 6'h3e) begin
-        result_reg <= _result_reg_T_4;
-      end else if (regs_1[0] & counter == 6'h3e) begin
-        if (signed_) begin
-          result_reg <= _result_reg_T_9;
-        end else begin
-          result_reg <= _result_reg_T_4;
-        end
-      end
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__3 <= 132'h0;
     end else begin
-      result_reg <= 128'h0;
+      vec_data_out_data_reg__3 <= csa_1_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__4 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__4 <= csa_2_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__5 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__5 <= csa_2_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__6 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__6 <= csa_3_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__7 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__7 <= csa_3_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__8 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__8 <= csa_4_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__9 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__9 <= csa_4_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__10 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__10 <= csa_5_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__11 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__11 <= csa_5_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__12 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__12 <= csa_6_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__13 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__13 <= csa_6_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__14 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__14 <= csa_7_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__15 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__15 <= csa_7_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__16 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__16 <= csa_8_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__17 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__17 <= csa_8_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__18 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__18 <= csa_9_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__19 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__19 <= csa_9_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__20 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__20 <= csa_10_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__21 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg__21 <= csa_10_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_0 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_0 <= csa_11_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_1 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_1 <= csa_11_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_2 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_2 <= csa_12_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_3 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_3 <= csa_12_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_4 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_4 <= csa_13_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_5 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_5 <= csa_13_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_6 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_6 <= csa_14_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_7 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_7 <= csa_14_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_8 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_8 <= csa_15_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_9 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_9 <= csa_15_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_10 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_10 <= csa_16_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_11 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_11 <= csa_16_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_12 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_12 <= csa_17_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_13 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_13 <= csa_17_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg_1_14 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_1_14 <= vec_data_out_data_reg__21;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_0 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_2_0 <= csa_18_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_1 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_2_1 <= csa_18_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_2 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_2_2 <= csa_19_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_3 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_2_3 <= csa_19_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_4 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_2_4 <= csa_20_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_5 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_2_5 <= csa_20_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_6 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_2_6 <= csa_21_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_7 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_2_7 <= csa_21_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_8 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_2_8 <= csa_22_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_9 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_2_9 <= csa_22_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_3_0 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_3_0 <= csa_23_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_3_1 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_3_1 <= csa_23_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_3_2 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_3_2 <= csa_24_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_3_3 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_3_3 <= csa_24_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_3_4 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_3_4 <= csa_25_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_3_5 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_3_5 <= csa_25_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg_3_6 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_3_6 <= vec_data_out_data_reg_2_9;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_4_0 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_4_0 <= csa_26_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_4_1 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_4_1 <= csa_26_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_4_2 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_4_2 <= csa_27_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_4_3 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_4_3 <= csa_27_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg_4_4 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_4_4 <= vec_data_out_data_reg_3_6;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_5_0 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_5_0 <= csa_28_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_5_1 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_5_1 <= csa_28_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg_5_2 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_5_2 <= vec_data_out_data_reg_4_3;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg_5_3 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_5_3 <= vec_data_out_data_reg_4_4;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_6_0 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_6_0 <= csa_29_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_6_1 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_6_1 <= csa_29_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg_6_2 <= 132'h0;
+    end else begin
+      vec_data_out_data_reg_6_2 <= vec_data_out_data_reg_5_3;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_0 <= 132'h0;
+    end else begin
+      vec_data_0 <= csa_30_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_1 <= 132'h0;
+    end else begin
+      vec_data_1 <= csa_30_io_result_1;
     end
   end
 // Register and memory initialization
@@ -2890,36 +3922,346 @@ initial begin
       `endif
     `endif
 `ifdef RANDOMIZE_REG_INIT
-  _RAND_0 = {4{`RANDOM}};
-  regs_0 = _RAND_0[127:0];
-  _RAND_1 = {4{`RANDOM}};
-  regs_1 = _RAND_1[127:0];
-  _RAND_2 = {1{`RANDOM}};
-  signed_ = _RAND_2[0:0];
-  _RAND_3 = {1{`RANDOM}};
-  counter = _RAND_3[5:0];
-  _RAND_4 = {1{`RANDOM}};
-  cal_start = _RAND_4[0:0];
-  _RAND_5 = {4{`RANDOM}};
-  result_reg = _RAND_5[127:0];
+  _RAND_0 = {5{`RANDOM}};
+  vec_data_out_data_reg__0 = _RAND_0[131:0];
+  _RAND_1 = {5{`RANDOM}};
+  vec_data_out_data_reg__1 = _RAND_1[131:0];
+  _RAND_2 = {5{`RANDOM}};
+  vec_data_out_data_reg__2 = _RAND_2[131:0];
+  _RAND_3 = {5{`RANDOM}};
+  vec_data_out_data_reg__3 = _RAND_3[131:0];
+  _RAND_4 = {5{`RANDOM}};
+  vec_data_out_data_reg__4 = _RAND_4[131:0];
+  _RAND_5 = {5{`RANDOM}};
+  vec_data_out_data_reg__5 = _RAND_5[131:0];
+  _RAND_6 = {5{`RANDOM}};
+  vec_data_out_data_reg__6 = _RAND_6[131:0];
+  _RAND_7 = {5{`RANDOM}};
+  vec_data_out_data_reg__7 = _RAND_7[131:0];
+  _RAND_8 = {5{`RANDOM}};
+  vec_data_out_data_reg__8 = _RAND_8[131:0];
+  _RAND_9 = {5{`RANDOM}};
+  vec_data_out_data_reg__9 = _RAND_9[131:0];
+  _RAND_10 = {5{`RANDOM}};
+  vec_data_out_data_reg__10 = _RAND_10[131:0];
+  _RAND_11 = {5{`RANDOM}};
+  vec_data_out_data_reg__11 = _RAND_11[131:0];
+  _RAND_12 = {5{`RANDOM}};
+  vec_data_out_data_reg__12 = _RAND_12[131:0];
+  _RAND_13 = {5{`RANDOM}};
+  vec_data_out_data_reg__13 = _RAND_13[131:0];
+  _RAND_14 = {5{`RANDOM}};
+  vec_data_out_data_reg__14 = _RAND_14[131:0];
+  _RAND_15 = {5{`RANDOM}};
+  vec_data_out_data_reg__15 = _RAND_15[131:0];
+  _RAND_16 = {5{`RANDOM}};
+  vec_data_out_data_reg__16 = _RAND_16[131:0];
+  _RAND_17 = {5{`RANDOM}};
+  vec_data_out_data_reg__17 = _RAND_17[131:0];
+  _RAND_18 = {5{`RANDOM}};
+  vec_data_out_data_reg__18 = _RAND_18[131:0];
+  _RAND_19 = {5{`RANDOM}};
+  vec_data_out_data_reg__19 = _RAND_19[131:0];
+  _RAND_20 = {5{`RANDOM}};
+  vec_data_out_data_reg__20 = _RAND_20[131:0];
+  _RAND_21 = {5{`RANDOM}};
+  vec_data_out_data_reg__21 = _RAND_21[131:0];
+  _RAND_22 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_0 = _RAND_22[131:0];
+  _RAND_23 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_1 = _RAND_23[131:0];
+  _RAND_24 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_2 = _RAND_24[131:0];
+  _RAND_25 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_3 = _RAND_25[131:0];
+  _RAND_26 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_4 = _RAND_26[131:0];
+  _RAND_27 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_5 = _RAND_27[131:0];
+  _RAND_28 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_6 = _RAND_28[131:0];
+  _RAND_29 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_7 = _RAND_29[131:0];
+  _RAND_30 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_8 = _RAND_30[131:0];
+  _RAND_31 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_9 = _RAND_31[131:0];
+  _RAND_32 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_10 = _RAND_32[131:0];
+  _RAND_33 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_11 = _RAND_33[131:0];
+  _RAND_34 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_12 = _RAND_34[131:0];
+  _RAND_35 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_13 = _RAND_35[131:0];
+  _RAND_36 = {5{`RANDOM}};
+  vec_data_out_data_reg_1_14 = _RAND_36[131:0];
+  _RAND_37 = {5{`RANDOM}};
+  vec_data_out_data_reg_2_0 = _RAND_37[131:0];
+  _RAND_38 = {5{`RANDOM}};
+  vec_data_out_data_reg_2_1 = _RAND_38[131:0];
+  _RAND_39 = {5{`RANDOM}};
+  vec_data_out_data_reg_2_2 = _RAND_39[131:0];
+  _RAND_40 = {5{`RANDOM}};
+  vec_data_out_data_reg_2_3 = _RAND_40[131:0];
+  _RAND_41 = {5{`RANDOM}};
+  vec_data_out_data_reg_2_4 = _RAND_41[131:0];
+  _RAND_42 = {5{`RANDOM}};
+  vec_data_out_data_reg_2_5 = _RAND_42[131:0];
+  _RAND_43 = {5{`RANDOM}};
+  vec_data_out_data_reg_2_6 = _RAND_43[131:0];
+  _RAND_44 = {5{`RANDOM}};
+  vec_data_out_data_reg_2_7 = _RAND_44[131:0];
+  _RAND_45 = {5{`RANDOM}};
+  vec_data_out_data_reg_2_8 = _RAND_45[131:0];
+  _RAND_46 = {5{`RANDOM}};
+  vec_data_out_data_reg_2_9 = _RAND_46[131:0];
+  _RAND_47 = {5{`RANDOM}};
+  vec_data_out_data_reg_3_0 = _RAND_47[131:0];
+  _RAND_48 = {5{`RANDOM}};
+  vec_data_out_data_reg_3_1 = _RAND_48[131:0];
+  _RAND_49 = {5{`RANDOM}};
+  vec_data_out_data_reg_3_2 = _RAND_49[131:0];
+  _RAND_50 = {5{`RANDOM}};
+  vec_data_out_data_reg_3_3 = _RAND_50[131:0];
+  _RAND_51 = {5{`RANDOM}};
+  vec_data_out_data_reg_3_4 = _RAND_51[131:0];
+  _RAND_52 = {5{`RANDOM}};
+  vec_data_out_data_reg_3_5 = _RAND_52[131:0];
+  _RAND_53 = {5{`RANDOM}};
+  vec_data_out_data_reg_3_6 = _RAND_53[131:0];
+  _RAND_54 = {5{`RANDOM}};
+  vec_data_out_data_reg_4_0 = _RAND_54[131:0];
+  _RAND_55 = {5{`RANDOM}};
+  vec_data_out_data_reg_4_1 = _RAND_55[131:0];
+  _RAND_56 = {5{`RANDOM}};
+  vec_data_out_data_reg_4_2 = _RAND_56[131:0];
+  _RAND_57 = {5{`RANDOM}};
+  vec_data_out_data_reg_4_3 = _RAND_57[131:0];
+  _RAND_58 = {5{`RANDOM}};
+  vec_data_out_data_reg_4_4 = _RAND_58[131:0];
+  _RAND_59 = {5{`RANDOM}};
+  vec_data_out_data_reg_5_0 = _RAND_59[131:0];
+  _RAND_60 = {5{`RANDOM}};
+  vec_data_out_data_reg_5_1 = _RAND_60[131:0];
+  _RAND_61 = {5{`RANDOM}};
+  vec_data_out_data_reg_5_2 = _RAND_61[131:0];
+  _RAND_62 = {5{`RANDOM}};
+  vec_data_out_data_reg_5_3 = _RAND_62[131:0];
+  _RAND_63 = {5{`RANDOM}};
+  vec_data_out_data_reg_6_0 = _RAND_63[131:0];
+  _RAND_64 = {5{`RANDOM}};
+  vec_data_out_data_reg_6_1 = _RAND_64[131:0];
+  _RAND_65 = {5{`RANDOM}};
+  vec_data_out_data_reg_6_2 = _RAND_65[131:0];
+  _RAND_66 = {5{`RANDOM}};
+  vec_data_0 = _RAND_66[131:0];
+  _RAND_67 = {5{`RANDOM}};
+  vec_data_1 = _RAND_67[131:0];
 `endif // RANDOMIZE_REG_INIT
   if (reset) begin
-    regs_0 = 128'h0;
+    vec_data_out_data_reg__0 = 132'h0;
   end
   if (reset) begin
-    regs_1 = 128'h0;
+    vec_data_out_data_reg__1 = 132'h0;
   end
   if (reset) begin
-    signed_ = 1'h0;
+    vec_data_out_data_reg__2 = 132'h0;
   end
   if (reset) begin
-    counter = 6'h0;
+    vec_data_out_data_reg__3 = 132'h0;
   end
   if (reset) begin
-    cal_start = 1'h0;
+    vec_data_out_data_reg__4 = 132'h0;
   end
   if (reset) begin
-    result_reg = 128'h0;
+    vec_data_out_data_reg__5 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__6 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__7 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__8 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__9 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__10 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__11 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__12 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__13 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__14 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__15 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__16 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__17 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__18 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__19 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__20 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__21 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_0 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_1 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_2 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_3 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_4 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_5 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_6 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_7 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_8 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_9 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_10 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_11 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_12 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_13 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_14 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_0 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_1 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_2 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_3 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_4 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_5 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_6 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_7 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_8 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_9 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_0 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_1 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_2 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_3 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_4 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_5 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_6 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_4_0 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_4_1 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_4_2 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_4_3 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_4_4 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_5_0 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_5_1 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_5_2 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_5_3 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_6_0 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_6_1 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_6_2 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_0 = 132'h0;
+  end
+  if (reset) begin
+    vec_data_1 = 132'h0;
   end
   `endif // RANDOMIZE
 end // initial
@@ -2928,106 +4270,557 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
-module mul_simple_1(
+module mul_hard(
   input         clock,
   input         reset,
-  output [31:0] io_result_0,
-  input  [31:0] io_data_0,
-  input  [31:0] io_data_1,
+  output [65:0] io_result_0,
+  output [65:0] io_result_1,
+  input  [65:0] io_data_0,
+  input  [65:0] io_data_1,
   input         io_input_valid,
   output        io_input_ready,
-  output        io_Output_valid,
-  input         io_signed
+  output        io_Output_valid
 );
 `ifdef RANDOMIZE_REG_INIT
-  reg [63:0] _RAND_0;
-  reg [63:0] _RAND_1;
+  reg [159:0] _RAND_0;
+  reg [159:0] _RAND_1;
   reg [31:0] _RAND_2;
   reg [31:0] _RAND_3;
-  reg [31:0] _RAND_4;
-  reg [63:0] _RAND_5;
+  reg [159:0] _RAND_4;
+  reg [159:0] _RAND_5;
 `endif // RANDOMIZE_REG_INIT
-  reg [63:0] regs_0; // @[hard_cal.scala 32:23]
-  reg [63:0] regs_1; // @[hard_cal.scala 32:23]
-  reg  signed_; // @[hard_cal.scala 33:25]
-  reg [4:0] counter; // @[hard_cal.scala 34:26]
-  reg  cal_start; // @[hard_cal.scala 35:28]
-  wire  _cal_start_T = io_input_valid & io_input_ready; // @[hard_cal.scala 36:37]
-  wire  _cal_start_T_2 = counter == 5'h1f ? 1'h0 : cal_start; // @[hard_cal.scala 36:69]
-  wire [4:0] _counter_T_1 = counter + 5'h1; // @[hard_cal.scala 37:39]
-  reg [63:0] result_reg; // @[hard_cal.scala 39:29]
-  wire [7:0] regs_0_lo_lo = {io_data_0[31],io_data_0[31],io_data_0[31],io_data_0[31],io_data_0[31],io_data_0[31],
-    io_data_0[31],io_data_0[31]}; // @[Cat.scala 31:58]
-  wire [15:0] regs_0_lo = {io_data_0[31],io_data_0[31],io_data_0[31],io_data_0[31],io_data_0[31],io_data_0[31],io_data_0
-    [31],io_data_0[31],regs_0_lo_lo}; // @[Cat.scala 31:58]
-  wire [31:0] _regs_0_T_33 = {io_data_0[31],io_data_0[31],io_data_0[31],io_data_0[31],io_data_0[31],io_data_0[31],
-    io_data_0[31],io_data_0[31],regs_0_lo_lo,regs_0_lo}; // @[Cat.scala 31:58]
-  wire [63:0] _regs_0_T_35 = {_regs_0_T_33,io_data_0}; // @[Cat.scala 31:58]
-  wire [63:0] _regs_0_T_36 = io_signed ? _regs_0_T_35 : {{32'd0}, io_data_0}; // @[hard_cal.scala 41:56]
-  wire [64:0] _regs_0_T_37 = {regs_0, 1'h0}; // @[hard_cal.scala 41:141]
-  wire [64:0] _regs_0_T_38 = cal_start ? _regs_0_T_37 : {{1'd0}, regs_0}; // @[hard_cal.scala 41:122]
-  wire [64:0] _regs_0_T_39 = _cal_start_T ? {{1'd0}, _regs_0_T_36} : _regs_0_T_38; // @[hard_cal.scala 41:19]
-  wire [63:0] _result_reg_T_4 = result_reg + regs_0; // @[hard_cal.scala 43:86]
-  wire [63:0] _result_reg_T_9 = result_reg - regs_0; // @[hard_cal.scala 43:163]
-  wire [5:0] _io_Output_valid_T_1 = 6'h20 - 6'h1; // @[hard_cal.scala 46:45]
-  wire [5:0] _GEN_0 = {{1'd0}, counter}; // @[hard_cal.scala 46:33]
-  assign io_result_0 = result_reg[31:0]; // @[hard_cal.scala 44:31]
-  assign io_input_ready = ~cal_start; // @[hard_cal.scala 47:23]
-  assign io_Output_valid = _GEN_0 == _io_Output_valid_T_1; // @[hard_cal.scala 46:33]
+  wire  cal_module_clock; // @[hard_cal.scala 295:28]
+  wire  cal_module_reset; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_0; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_1; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_2; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_3; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_4; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_5; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_6; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_7; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_8; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_9; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_10; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_11; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_12; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_13; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_14; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_15; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_16; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_17; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_18; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_19; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_20; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_21; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_22; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_23; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_24; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_25; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_26; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_27; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_28; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_29; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_30; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_31; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_data_in_32; // @[hard_cal.scala 295:28]
+  wire [131:0] cal_module_io_result; // @[hard_cal.scala 295:28]
+  reg [131:0] regs_0; // @[hard_cal.scala 254:23]
+  reg [131:0] regs_1; // @[hard_cal.scala 254:23]
+  reg [6:0] counter; // @[hard_cal.scala 256:26]
+  reg  cal_start; // @[hard_cal.scala 257:28]
+  wire [6:0] _counter_T_1 = counter + 7'h1; // @[hard_cal.scala 259:39]
+  wire  _signed_T = io_input_valid & io_input_ready; // @[hard_cal.scala 260:35]
+  reg [131:0] result_reg; // @[hard_cal.scala 261:29]
+  reg [131:0] x_fu; // @[hard_cal.scala 264:23]
+  wire [2:0] look_up_data = {regs_1[1],regs_1[0],1'h0}; // @[Cat.scala 31:58]
+  wire [132:0] _booth_data_0_T = {regs_0, 1'h0}; // @[hard_cal.scala 279:38]
+  wire [132:0] _booth_data_0_T_1 = {x_fu, 1'h0}; // @[hard_cal.scala 280:31]
+  wire [131:0] _booth_data_0_T_3 = 3'h1 == look_up_data ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_0_T_5 = 3'h2 == look_up_data ? regs_0 : _booth_data_0_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_0_T_7 = 3'h3 == look_up_data ? _booth_data_0_T : {{1'd0}, _booth_data_0_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_0_T_9 = 3'h4 == look_up_data ? _booth_data_0_T_1 : _booth_data_0_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_0_T_11 = 3'h5 == look_up_data ? {{1'd0}, x_fu} : _booth_data_0_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_0_T_13 = 3'h6 == look_up_data ? {{1'd0}, x_fu} : _booth_data_0_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_0_T_15 = 3'h7 == look_up_data ? 133'h0 : _booth_data_0_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_0_T_17 = {1'h0,_booth_data_0_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_0_T_18 = {{1'd0}, _booth_data_0_T_17}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_1 = {regs_1[3],regs_1[2],regs_1[1]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_1_T_3 = 3'h1 == look_up_data_1 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_1_T_5 = 3'h2 == look_up_data_1 ? regs_0 : _booth_data_1_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_1_T_7 = 3'h3 == look_up_data_1 ? _booth_data_0_T : {{1'd0}, _booth_data_1_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_1_T_9 = 3'h4 == look_up_data_1 ? _booth_data_0_T_1 : _booth_data_1_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_1_T_11 = 3'h5 == look_up_data_1 ? {{1'd0}, x_fu} : _booth_data_1_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_1_T_13 = 3'h6 == look_up_data_1 ? {{1'd0}, x_fu} : _booth_data_1_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_1_T_15 = 3'h7 == look_up_data_1 ? 133'h0 : _booth_data_1_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_1_T_17 = {1'h0,_booth_data_1_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [68:0] _GEN_0 = {_booth_data_1_T_17, 2'h0}; // @[hard_cal.scala 285:19]
+  wire [69:0] _booth_data_1_T_18 = {{1'd0}, _GEN_0}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_2 = {regs_1[5],regs_1[4],regs_1[3]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_2_T_3 = 3'h1 == look_up_data_2 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_2_T_5 = 3'h2 == look_up_data_2 ? regs_0 : _booth_data_2_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_2_T_7 = 3'h3 == look_up_data_2 ? _booth_data_0_T : {{1'd0}, _booth_data_2_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_2_T_9 = 3'h4 == look_up_data_2 ? _booth_data_0_T_1 : _booth_data_2_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_2_T_11 = 3'h5 == look_up_data_2 ? {{1'd0}, x_fu} : _booth_data_2_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_2_T_13 = 3'h6 == look_up_data_2 ? {{1'd0}, x_fu} : _booth_data_2_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_2_T_15 = 3'h7 == look_up_data_2 ? 133'h0 : _booth_data_2_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_2_T_17 = {1'h0,_booth_data_2_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [70:0] _GEN_1 = {_booth_data_2_T_17, 4'h0}; // @[hard_cal.scala 285:19]
+  wire [73:0] _booth_data_2_T_18 = {{3'd0}, _GEN_1}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_3 = {regs_1[7],regs_1[6],regs_1[5]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_3_T_3 = 3'h1 == look_up_data_3 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_3_T_5 = 3'h2 == look_up_data_3 ? regs_0 : _booth_data_3_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_3_T_7 = 3'h3 == look_up_data_3 ? _booth_data_0_T : {{1'd0}, _booth_data_3_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_3_T_9 = 3'h4 == look_up_data_3 ? _booth_data_0_T_1 : _booth_data_3_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_3_T_11 = 3'h5 == look_up_data_3 ? {{1'd0}, x_fu} : _booth_data_3_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_3_T_13 = 3'h6 == look_up_data_3 ? {{1'd0}, x_fu} : _booth_data_3_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_3_T_15 = 3'h7 == look_up_data_3 ? 133'h0 : _booth_data_3_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_3_T_17 = {1'h0,_booth_data_3_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [72:0] _GEN_2 = {_booth_data_3_T_17, 6'h0}; // @[hard_cal.scala 285:19]
+  wire [73:0] _booth_data_3_T_18 = {{1'd0}, _GEN_2}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_4 = {regs_1[9],regs_1[8],regs_1[7]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_4_T_3 = 3'h1 == look_up_data_4 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_4_T_5 = 3'h2 == look_up_data_4 ? regs_0 : _booth_data_4_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_4_T_7 = 3'h3 == look_up_data_4 ? _booth_data_0_T : {{1'd0}, _booth_data_4_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_4_T_9 = 3'h4 == look_up_data_4 ? _booth_data_0_T_1 : _booth_data_4_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_4_T_11 = 3'h5 == look_up_data_4 ? {{1'd0}, x_fu} : _booth_data_4_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_4_T_13 = 3'h6 == look_up_data_4 ? {{1'd0}, x_fu} : _booth_data_4_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_4_T_15 = 3'h7 == look_up_data_4 ? 133'h0 : _booth_data_4_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_4_T_17 = {1'h0,_booth_data_4_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [74:0] _GEN_3 = {_booth_data_4_T_17, 8'h0}; // @[hard_cal.scala 285:19]
+  wire [81:0] _booth_data_4_T_18 = {{7'd0}, _GEN_3}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_5 = {regs_1[11],regs_1[10],regs_1[9]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_5_T_3 = 3'h1 == look_up_data_5 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_5_T_5 = 3'h2 == look_up_data_5 ? regs_0 : _booth_data_5_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_5_T_7 = 3'h3 == look_up_data_5 ? _booth_data_0_T : {{1'd0}, _booth_data_5_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_5_T_9 = 3'h4 == look_up_data_5 ? _booth_data_0_T_1 : _booth_data_5_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_5_T_11 = 3'h5 == look_up_data_5 ? {{1'd0}, x_fu} : _booth_data_5_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_5_T_13 = 3'h6 == look_up_data_5 ? {{1'd0}, x_fu} : _booth_data_5_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_5_T_15 = 3'h7 == look_up_data_5 ? 133'h0 : _booth_data_5_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_5_T_17 = {1'h0,_booth_data_5_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [76:0] _GEN_4 = {_booth_data_5_T_17, 10'h0}; // @[hard_cal.scala 285:19]
+  wire [81:0] _booth_data_5_T_18 = {{5'd0}, _GEN_4}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_6 = {regs_1[13],regs_1[12],regs_1[11]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_6_T_3 = 3'h1 == look_up_data_6 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_6_T_5 = 3'h2 == look_up_data_6 ? regs_0 : _booth_data_6_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_6_T_7 = 3'h3 == look_up_data_6 ? _booth_data_0_T : {{1'd0}, _booth_data_6_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_6_T_9 = 3'h4 == look_up_data_6 ? _booth_data_0_T_1 : _booth_data_6_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_6_T_11 = 3'h5 == look_up_data_6 ? {{1'd0}, x_fu} : _booth_data_6_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_6_T_13 = 3'h6 == look_up_data_6 ? {{1'd0}, x_fu} : _booth_data_6_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_6_T_15 = 3'h7 == look_up_data_6 ? 133'h0 : _booth_data_6_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_6_T_17 = {1'h0,_booth_data_6_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [78:0] _GEN_5 = {_booth_data_6_T_17, 12'h0}; // @[hard_cal.scala 285:19]
+  wire [81:0] _booth_data_6_T_18 = {{3'd0}, _GEN_5}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_7 = {regs_1[15],regs_1[14],regs_1[13]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_7_T_3 = 3'h1 == look_up_data_7 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_7_T_5 = 3'h2 == look_up_data_7 ? regs_0 : _booth_data_7_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_7_T_7 = 3'h3 == look_up_data_7 ? _booth_data_0_T : {{1'd0}, _booth_data_7_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_7_T_9 = 3'h4 == look_up_data_7 ? _booth_data_0_T_1 : _booth_data_7_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_7_T_11 = 3'h5 == look_up_data_7 ? {{1'd0}, x_fu} : _booth_data_7_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_7_T_13 = 3'h6 == look_up_data_7 ? {{1'd0}, x_fu} : _booth_data_7_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_7_T_15 = 3'h7 == look_up_data_7 ? 133'h0 : _booth_data_7_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_7_T_17 = {1'h0,_booth_data_7_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [80:0] _GEN_6 = {_booth_data_7_T_17, 14'h0}; // @[hard_cal.scala 285:19]
+  wire [81:0] _booth_data_7_T_18 = {{1'd0}, _GEN_6}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_8 = {regs_1[17],regs_1[16],regs_1[15]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_8_T_3 = 3'h1 == look_up_data_8 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_8_T_5 = 3'h2 == look_up_data_8 ? regs_0 : _booth_data_8_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_8_T_7 = 3'h3 == look_up_data_8 ? _booth_data_0_T : {{1'd0}, _booth_data_8_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_8_T_9 = 3'h4 == look_up_data_8 ? _booth_data_0_T_1 : _booth_data_8_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_8_T_11 = 3'h5 == look_up_data_8 ? {{1'd0}, x_fu} : _booth_data_8_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_8_T_13 = 3'h6 == look_up_data_8 ? {{1'd0}, x_fu} : _booth_data_8_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_8_T_15 = 3'h7 == look_up_data_8 ? 133'h0 : _booth_data_8_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_8_T_17 = {1'h0,_booth_data_8_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [82:0] _GEN_7 = {_booth_data_8_T_17, 16'h0}; // @[hard_cal.scala 285:19]
+  wire [97:0] _booth_data_8_T_18 = {{15'd0}, _GEN_7}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_9 = {regs_1[19],regs_1[18],regs_1[17]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_9_T_3 = 3'h1 == look_up_data_9 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_9_T_5 = 3'h2 == look_up_data_9 ? regs_0 : _booth_data_9_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_9_T_7 = 3'h3 == look_up_data_9 ? _booth_data_0_T : {{1'd0}, _booth_data_9_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_9_T_9 = 3'h4 == look_up_data_9 ? _booth_data_0_T_1 : _booth_data_9_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_9_T_11 = 3'h5 == look_up_data_9 ? {{1'd0}, x_fu} : _booth_data_9_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_9_T_13 = 3'h6 == look_up_data_9 ? {{1'd0}, x_fu} : _booth_data_9_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_9_T_15 = 3'h7 == look_up_data_9 ? 133'h0 : _booth_data_9_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_9_T_17 = {1'h0,_booth_data_9_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [84:0] _GEN_8 = {_booth_data_9_T_17, 18'h0}; // @[hard_cal.scala 285:19]
+  wire [97:0] _booth_data_9_T_18 = {{13'd0}, _GEN_8}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_10 = {regs_1[21],regs_1[20],regs_1[19]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_10_T_3 = 3'h1 == look_up_data_10 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_10_T_5 = 3'h2 == look_up_data_10 ? regs_0 : _booth_data_10_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_10_T_7 = 3'h3 == look_up_data_10 ? _booth_data_0_T : {{1'd0}, _booth_data_10_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_10_T_9 = 3'h4 == look_up_data_10 ? _booth_data_0_T_1 : _booth_data_10_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_10_T_11 = 3'h5 == look_up_data_10 ? {{1'd0}, x_fu} : _booth_data_10_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_10_T_13 = 3'h6 == look_up_data_10 ? {{1'd0}, x_fu} : _booth_data_10_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_10_T_15 = 3'h7 == look_up_data_10 ? 133'h0 : _booth_data_10_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_10_T_17 = {1'h0,_booth_data_10_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [86:0] _GEN_9 = {_booth_data_10_T_17, 20'h0}; // @[hard_cal.scala 285:19]
+  wire [97:0] _booth_data_10_T_18 = {{11'd0}, _GEN_9}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_11 = {regs_1[23],regs_1[22],regs_1[21]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_11_T_3 = 3'h1 == look_up_data_11 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_11_T_5 = 3'h2 == look_up_data_11 ? regs_0 : _booth_data_11_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_11_T_7 = 3'h3 == look_up_data_11 ? _booth_data_0_T : {{1'd0}, _booth_data_11_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_11_T_9 = 3'h4 == look_up_data_11 ? _booth_data_0_T_1 : _booth_data_11_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_11_T_11 = 3'h5 == look_up_data_11 ? {{1'd0}, x_fu} : _booth_data_11_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_11_T_13 = 3'h6 == look_up_data_11 ? {{1'd0}, x_fu} : _booth_data_11_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_11_T_15 = 3'h7 == look_up_data_11 ? 133'h0 : _booth_data_11_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_11_T_17 = {1'h0,_booth_data_11_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [88:0] _GEN_10 = {_booth_data_11_T_17, 22'h0}; // @[hard_cal.scala 285:19]
+  wire [97:0] _booth_data_11_T_18 = {{9'd0}, _GEN_10}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_12 = {regs_1[25],regs_1[24],regs_1[23]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_12_T_3 = 3'h1 == look_up_data_12 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_12_T_5 = 3'h2 == look_up_data_12 ? regs_0 : _booth_data_12_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_12_T_7 = 3'h3 == look_up_data_12 ? _booth_data_0_T : {{1'd0}, _booth_data_12_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_12_T_9 = 3'h4 == look_up_data_12 ? _booth_data_0_T_1 : _booth_data_12_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_12_T_11 = 3'h5 == look_up_data_12 ? {{1'd0}, x_fu} : _booth_data_12_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_12_T_13 = 3'h6 == look_up_data_12 ? {{1'd0}, x_fu} : _booth_data_12_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_12_T_15 = 3'h7 == look_up_data_12 ? 133'h0 : _booth_data_12_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_12_T_17 = {1'h0,_booth_data_12_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [90:0] _GEN_11 = {_booth_data_12_T_17, 24'h0}; // @[hard_cal.scala 285:19]
+  wire [97:0] _booth_data_12_T_18 = {{7'd0}, _GEN_11}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_13 = {regs_1[27],regs_1[26],regs_1[25]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_13_T_3 = 3'h1 == look_up_data_13 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_13_T_5 = 3'h2 == look_up_data_13 ? regs_0 : _booth_data_13_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_13_T_7 = 3'h3 == look_up_data_13 ? _booth_data_0_T : {{1'd0}, _booth_data_13_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_13_T_9 = 3'h4 == look_up_data_13 ? _booth_data_0_T_1 : _booth_data_13_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_13_T_11 = 3'h5 == look_up_data_13 ? {{1'd0}, x_fu} : _booth_data_13_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_13_T_13 = 3'h6 == look_up_data_13 ? {{1'd0}, x_fu} : _booth_data_13_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_13_T_15 = 3'h7 == look_up_data_13 ? 133'h0 : _booth_data_13_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_13_T_17 = {1'h0,_booth_data_13_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [92:0] _GEN_12 = {_booth_data_13_T_17, 26'h0}; // @[hard_cal.scala 285:19]
+  wire [97:0] _booth_data_13_T_18 = {{5'd0}, _GEN_12}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_14 = {regs_1[29],regs_1[28],regs_1[27]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_14_T_3 = 3'h1 == look_up_data_14 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_14_T_5 = 3'h2 == look_up_data_14 ? regs_0 : _booth_data_14_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_14_T_7 = 3'h3 == look_up_data_14 ? _booth_data_0_T : {{1'd0}, _booth_data_14_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_14_T_9 = 3'h4 == look_up_data_14 ? _booth_data_0_T_1 : _booth_data_14_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_14_T_11 = 3'h5 == look_up_data_14 ? {{1'd0}, x_fu} : _booth_data_14_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_14_T_13 = 3'h6 == look_up_data_14 ? {{1'd0}, x_fu} : _booth_data_14_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_14_T_15 = 3'h7 == look_up_data_14 ? 133'h0 : _booth_data_14_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_14_T_17 = {1'h0,_booth_data_14_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [94:0] _GEN_13 = {_booth_data_14_T_17, 28'h0}; // @[hard_cal.scala 285:19]
+  wire [97:0] _booth_data_14_T_18 = {{3'd0}, _GEN_13}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_15 = {regs_1[31],regs_1[30],regs_1[29]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_15_T_3 = 3'h1 == look_up_data_15 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_15_T_5 = 3'h2 == look_up_data_15 ? regs_0 : _booth_data_15_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_15_T_7 = 3'h3 == look_up_data_15 ? _booth_data_0_T : {{1'd0}, _booth_data_15_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_15_T_9 = 3'h4 == look_up_data_15 ? _booth_data_0_T_1 : _booth_data_15_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_15_T_11 = 3'h5 == look_up_data_15 ? {{1'd0}, x_fu} : _booth_data_15_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_15_T_13 = 3'h6 == look_up_data_15 ? {{1'd0}, x_fu} : _booth_data_15_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_15_T_15 = 3'h7 == look_up_data_15 ? 133'h0 : _booth_data_15_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_15_T_17 = {1'h0,_booth_data_15_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [96:0] _GEN_14 = {_booth_data_15_T_17, 30'h0}; // @[hard_cal.scala 285:19]
+  wire [97:0] _booth_data_15_T_18 = {{1'd0}, _GEN_14}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_16 = {regs_1[33],regs_1[32],regs_1[31]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_16_T_3 = 3'h1 == look_up_data_16 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_16_T_5 = 3'h2 == look_up_data_16 ? regs_0 : _booth_data_16_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_16_T_7 = 3'h3 == look_up_data_16 ? _booth_data_0_T : {{1'd0}, _booth_data_16_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_16_T_9 = 3'h4 == look_up_data_16 ? _booth_data_0_T_1 : _booth_data_16_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_16_T_11 = 3'h5 == look_up_data_16 ? {{1'd0}, x_fu} : _booth_data_16_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_16_T_13 = 3'h6 == look_up_data_16 ? {{1'd0}, x_fu} : _booth_data_16_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_16_T_15 = 3'h7 == look_up_data_16 ? 133'h0 : _booth_data_16_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_16_T_17 = {1'h0,_booth_data_16_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [98:0] _GEN_15 = {_booth_data_16_T_17, 32'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_16_T_18 = {{31'd0}, _GEN_15}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_17 = {regs_1[35],regs_1[34],regs_1[33]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_17_T_3 = 3'h1 == look_up_data_17 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_17_T_5 = 3'h2 == look_up_data_17 ? regs_0 : _booth_data_17_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_17_T_7 = 3'h3 == look_up_data_17 ? _booth_data_0_T : {{1'd0}, _booth_data_17_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_17_T_9 = 3'h4 == look_up_data_17 ? _booth_data_0_T_1 : _booth_data_17_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_17_T_11 = 3'h5 == look_up_data_17 ? {{1'd0}, x_fu} : _booth_data_17_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_17_T_13 = 3'h6 == look_up_data_17 ? {{1'd0}, x_fu} : _booth_data_17_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_17_T_15 = 3'h7 == look_up_data_17 ? 133'h0 : _booth_data_17_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_17_T_17 = {1'h0,_booth_data_17_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [100:0] _GEN_16 = {_booth_data_17_T_17, 34'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_17_T_18 = {{29'd0}, _GEN_16}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_18 = {regs_1[37],regs_1[36],regs_1[35]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_18_T_3 = 3'h1 == look_up_data_18 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_18_T_5 = 3'h2 == look_up_data_18 ? regs_0 : _booth_data_18_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_18_T_7 = 3'h3 == look_up_data_18 ? _booth_data_0_T : {{1'd0}, _booth_data_18_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_18_T_9 = 3'h4 == look_up_data_18 ? _booth_data_0_T_1 : _booth_data_18_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_18_T_11 = 3'h5 == look_up_data_18 ? {{1'd0}, x_fu} : _booth_data_18_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_18_T_13 = 3'h6 == look_up_data_18 ? {{1'd0}, x_fu} : _booth_data_18_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_18_T_15 = 3'h7 == look_up_data_18 ? 133'h0 : _booth_data_18_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_18_T_17 = {1'h0,_booth_data_18_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [102:0] _GEN_17 = {_booth_data_18_T_17, 36'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_18_T_18 = {{27'd0}, _GEN_17}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_19 = {regs_1[39],regs_1[38],regs_1[37]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_19_T_3 = 3'h1 == look_up_data_19 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_19_T_5 = 3'h2 == look_up_data_19 ? regs_0 : _booth_data_19_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_19_T_7 = 3'h3 == look_up_data_19 ? _booth_data_0_T : {{1'd0}, _booth_data_19_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_19_T_9 = 3'h4 == look_up_data_19 ? _booth_data_0_T_1 : _booth_data_19_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_19_T_11 = 3'h5 == look_up_data_19 ? {{1'd0}, x_fu} : _booth_data_19_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_19_T_13 = 3'h6 == look_up_data_19 ? {{1'd0}, x_fu} : _booth_data_19_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_19_T_15 = 3'h7 == look_up_data_19 ? 133'h0 : _booth_data_19_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_19_T_17 = {1'h0,_booth_data_19_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [104:0] _GEN_18 = {_booth_data_19_T_17, 38'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_19_T_18 = {{25'd0}, _GEN_18}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_20 = {regs_1[41],regs_1[40],regs_1[39]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_20_T_3 = 3'h1 == look_up_data_20 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_20_T_5 = 3'h2 == look_up_data_20 ? regs_0 : _booth_data_20_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_20_T_7 = 3'h3 == look_up_data_20 ? _booth_data_0_T : {{1'd0}, _booth_data_20_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_20_T_9 = 3'h4 == look_up_data_20 ? _booth_data_0_T_1 : _booth_data_20_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_20_T_11 = 3'h5 == look_up_data_20 ? {{1'd0}, x_fu} : _booth_data_20_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_20_T_13 = 3'h6 == look_up_data_20 ? {{1'd0}, x_fu} : _booth_data_20_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_20_T_15 = 3'h7 == look_up_data_20 ? 133'h0 : _booth_data_20_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_20_T_17 = {1'h0,_booth_data_20_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [106:0] _GEN_19 = {_booth_data_20_T_17, 40'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_20_T_18 = {{23'd0}, _GEN_19}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_21 = {regs_1[43],regs_1[42],regs_1[41]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_21_T_3 = 3'h1 == look_up_data_21 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_21_T_5 = 3'h2 == look_up_data_21 ? regs_0 : _booth_data_21_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_21_T_7 = 3'h3 == look_up_data_21 ? _booth_data_0_T : {{1'd0}, _booth_data_21_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_21_T_9 = 3'h4 == look_up_data_21 ? _booth_data_0_T_1 : _booth_data_21_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_21_T_11 = 3'h5 == look_up_data_21 ? {{1'd0}, x_fu} : _booth_data_21_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_21_T_13 = 3'h6 == look_up_data_21 ? {{1'd0}, x_fu} : _booth_data_21_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_21_T_15 = 3'h7 == look_up_data_21 ? 133'h0 : _booth_data_21_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_21_T_17 = {1'h0,_booth_data_21_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [108:0] _GEN_20 = {_booth_data_21_T_17, 42'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_21_T_18 = {{21'd0}, _GEN_20}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_22 = {regs_1[45],regs_1[44],regs_1[43]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_22_T_3 = 3'h1 == look_up_data_22 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_22_T_5 = 3'h2 == look_up_data_22 ? regs_0 : _booth_data_22_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_22_T_7 = 3'h3 == look_up_data_22 ? _booth_data_0_T : {{1'd0}, _booth_data_22_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_22_T_9 = 3'h4 == look_up_data_22 ? _booth_data_0_T_1 : _booth_data_22_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_22_T_11 = 3'h5 == look_up_data_22 ? {{1'd0}, x_fu} : _booth_data_22_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_22_T_13 = 3'h6 == look_up_data_22 ? {{1'd0}, x_fu} : _booth_data_22_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_22_T_15 = 3'h7 == look_up_data_22 ? 133'h0 : _booth_data_22_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_22_T_17 = {1'h0,_booth_data_22_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [110:0] _GEN_21 = {_booth_data_22_T_17, 44'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_22_T_18 = {{19'd0}, _GEN_21}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_23 = {regs_1[47],regs_1[46],regs_1[45]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_23_T_3 = 3'h1 == look_up_data_23 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_23_T_5 = 3'h2 == look_up_data_23 ? regs_0 : _booth_data_23_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_23_T_7 = 3'h3 == look_up_data_23 ? _booth_data_0_T : {{1'd0}, _booth_data_23_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_23_T_9 = 3'h4 == look_up_data_23 ? _booth_data_0_T_1 : _booth_data_23_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_23_T_11 = 3'h5 == look_up_data_23 ? {{1'd0}, x_fu} : _booth_data_23_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_23_T_13 = 3'h6 == look_up_data_23 ? {{1'd0}, x_fu} : _booth_data_23_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_23_T_15 = 3'h7 == look_up_data_23 ? 133'h0 : _booth_data_23_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_23_T_17 = {1'h0,_booth_data_23_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [112:0] _GEN_22 = {_booth_data_23_T_17, 46'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_23_T_18 = {{17'd0}, _GEN_22}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_24 = {regs_1[49],regs_1[48],regs_1[47]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_24_T_3 = 3'h1 == look_up_data_24 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_24_T_5 = 3'h2 == look_up_data_24 ? regs_0 : _booth_data_24_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_24_T_7 = 3'h3 == look_up_data_24 ? _booth_data_0_T : {{1'd0}, _booth_data_24_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_24_T_9 = 3'h4 == look_up_data_24 ? _booth_data_0_T_1 : _booth_data_24_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_24_T_11 = 3'h5 == look_up_data_24 ? {{1'd0}, x_fu} : _booth_data_24_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_24_T_13 = 3'h6 == look_up_data_24 ? {{1'd0}, x_fu} : _booth_data_24_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_24_T_15 = 3'h7 == look_up_data_24 ? 133'h0 : _booth_data_24_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_24_T_17 = {1'h0,_booth_data_24_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [114:0] _GEN_23 = {_booth_data_24_T_17, 48'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_24_T_18 = {{15'd0}, _GEN_23}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_25 = {regs_1[51],regs_1[50],regs_1[49]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_25_T_3 = 3'h1 == look_up_data_25 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_25_T_5 = 3'h2 == look_up_data_25 ? regs_0 : _booth_data_25_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_25_T_7 = 3'h3 == look_up_data_25 ? _booth_data_0_T : {{1'd0}, _booth_data_25_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_25_T_9 = 3'h4 == look_up_data_25 ? _booth_data_0_T_1 : _booth_data_25_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_25_T_11 = 3'h5 == look_up_data_25 ? {{1'd0}, x_fu} : _booth_data_25_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_25_T_13 = 3'h6 == look_up_data_25 ? {{1'd0}, x_fu} : _booth_data_25_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_25_T_15 = 3'h7 == look_up_data_25 ? 133'h0 : _booth_data_25_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_25_T_17 = {1'h0,_booth_data_25_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [116:0] _GEN_24 = {_booth_data_25_T_17, 50'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_25_T_18 = {{13'd0}, _GEN_24}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_26 = {regs_1[53],regs_1[52],regs_1[51]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_26_T_3 = 3'h1 == look_up_data_26 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_26_T_5 = 3'h2 == look_up_data_26 ? regs_0 : _booth_data_26_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_26_T_7 = 3'h3 == look_up_data_26 ? _booth_data_0_T : {{1'd0}, _booth_data_26_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_26_T_9 = 3'h4 == look_up_data_26 ? _booth_data_0_T_1 : _booth_data_26_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_26_T_11 = 3'h5 == look_up_data_26 ? {{1'd0}, x_fu} : _booth_data_26_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_26_T_13 = 3'h6 == look_up_data_26 ? {{1'd0}, x_fu} : _booth_data_26_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_26_T_15 = 3'h7 == look_up_data_26 ? 133'h0 : _booth_data_26_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_26_T_17 = {1'h0,_booth_data_26_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [118:0] _GEN_25 = {_booth_data_26_T_17, 52'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_26_T_18 = {{11'd0}, _GEN_25}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_27 = {regs_1[55],regs_1[54],regs_1[53]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_27_T_3 = 3'h1 == look_up_data_27 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_27_T_5 = 3'h2 == look_up_data_27 ? regs_0 : _booth_data_27_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_27_T_7 = 3'h3 == look_up_data_27 ? _booth_data_0_T : {{1'd0}, _booth_data_27_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_27_T_9 = 3'h4 == look_up_data_27 ? _booth_data_0_T_1 : _booth_data_27_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_27_T_11 = 3'h5 == look_up_data_27 ? {{1'd0}, x_fu} : _booth_data_27_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_27_T_13 = 3'h6 == look_up_data_27 ? {{1'd0}, x_fu} : _booth_data_27_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_27_T_15 = 3'h7 == look_up_data_27 ? 133'h0 : _booth_data_27_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_27_T_17 = {1'h0,_booth_data_27_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [120:0] _GEN_26 = {_booth_data_27_T_17, 54'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_27_T_18 = {{9'd0}, _GEN_26}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_28 = {regs_1[57],regs_1[56],regs_1[55]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_28_T_3 = 3'h1 == look_up_data_28 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_28_T_5 = 3'h2 == look_up_data_28 ? regs_0 : _booth_data_28_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_28_T_7 = 3'h3 == look_up_data_28 ? _booth_data_0_T : {{1'd0}, _booth_data_28_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_28_T_9 = 3'h4 == look_up_data_28 ? _booth_data_0_T_1 : _booth_data_28_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_28_T_11 = 3'h5 == look_up_data_28 ? {{1'd0}, x_fu} : _booth_data_28_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_28_T_13 = 3'h6 == look_up_data_28 ? {{1'd0}, x_fu} : _booth_data_28_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_28_T_15 = 3'h7 == look_up_data_28 ? 133'h0 : _booth_data_28_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_28_T_17 = {1'h0,_booth_data_28_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [122:0] _GEN_27 = {_booth_data_28_T_17, 56'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_28_T_18 = {{7'd0}, _GEN_27}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_29 = {regs_1[59],regs_1[58],regs_1[57]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_29_T_3 = 3'h1 == look_up_data_29 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_29_T_5 = 3'h2 == look_up_data_29 ? regs_0 : _booth_data_29_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_29_T_7 = 3'h3 == look_up_data_29 ? _booth_data_0_T : {{1'd0}, _booth_data_29_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_29_T_9 = 3'h4 == look_up_data_29 ? _booth_data_0_T_1 : _booth_data_29_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_29_T_11 = 3'h5 == look_up_data_29 ? {{1'd0}, x_fu} : _booth_data_29_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_29_T_13 = 3'h6 == look_up_data_29 ? {{1'd0}, x_fu} : _booth_data_29_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_29_T_15 = 3'h7 == look_up_data_29 ? 133'h0 : _booth_data_29_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_29_T_17 = {1'h0,_booth_data_29_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [124:0] _GEN_28 = {_booth_data_29_T_17, 58'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_29_T_18 = {{5'd0}, _GEN_28}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_30 = {regs_1[61],regs_1[60],regs_1[59]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_30_T_3 = 3'h1 == look_up_data_30 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_30_T_5 = 3'h2 == look_up_data_30 ? regs_0 : _booth_data_30_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_30_T_7 = 3'h3 == look_up_data_30 ? _booth_data_0_T : {{1'd0}, _booth_data_30_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_30_T_9 = 3'h4 == look_up_data_30 ? _booth_data_0_T_1 : _booth_data_30_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_30_T_11 = 3'h5 == look_up_data_30 ? {{1'd0}, x_fu} : _booth_data_30_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_30_T_13 = 3'h6 == look_up_data_30 ? {{1'd0}, x_fu} : _booth_data_30_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_30_T_15 = 3'h7 == look_up_data_30 ? 133'h0 : _booth_data_30_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_30_T_17 = {1'h0,_booth_data_30_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [126:0] _GEN_29 = {_booth_data_30_T_17, 60'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_30_T_18 = {{3'd0}, _GEN_29}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_31 = {regs_1[63],regs_1[62],regs_1[61]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_31_T_3 = 3'h1 == look_up_data_31 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_31_T_5 = 3'h2 == look_up_data_31 ? regs_0 : _booth_data_31_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_31_T_7 = 3'h3 == look_up_data_31 ? _booth_data_0_T : {{1'd0}, _booth_data_31_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_31_T_9 = 3'h4 == look_up_data_31 ? _booth_data_0_T_1 : _booth_data_31_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_31_T_11 = 3'h5 == look_up_data_31 ? {{1'd0}, x_fu} : _booth_data_31_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_31_T_13 = 3'h6 == look_up_data_31 ? {{1'd0}, x_fu} : _booth_data_31_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_31_T_15 = 3'h7 == look_up_data_31 ? 133'h0 : _booth_data_31_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_31_T_17 = {1'h0,_booth_data_31_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [128:0] _GEN_30 = {_booth_data_31_T_17, 62'h0}; // @[hard_cal.scala 285:19]
+  wire [129:0] _booth_data_31_T_18 = {{1'd0}, _GEN_30}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_32 = {regs_1[65],regs_1[64],regs_1[63]}; // @[Cat.scala 31:58]
+  wire [131:0] _booth_data_32_T_3 = 3'h1 == look_up_data_32 ? regs_0 : 132'h0; // @[Mux.scala 81:58]
+  wire [131:0] _booth_data_32_T_5 = 3'h2 == look_up_data_32 ? regs_0 : _booth_data_32_T_3; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_32_T_7 = 3'h3 == look_up_data_32 ? _booth_data_0_T : {{1'd0}, _booth_data_32_T_5}; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_32_T_9 = 3'h4 == look_up_data_32 ? _booth_data_0_T_1 : _booth_data_32_T_7; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_32_T_11 = 3'h5 == look_up_data_32 ? {{1'd0}, x_fu} : _booth_data_32_T_9; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_32_T_13 = 3'h6 == look_up_data_32 ? {{1'd0}, x_fu} : _booth_data_32_T_11; // @[Mux.scala 81:58]
+  wire [132:0] _booth_data_32_T_15 = 3'h7 == look_up_data_32 ? 133'h0 : _booth_data_32_T_13; // @[Mux.scala 81:58]
+  wire [66:0] _booth_data_32_T_17 = {1'h0,_booth_data_32_T_15[65:0]}; // @[Cat.scala 31:58]
+  wire [130:0] _GEN_31 = {_booth_data_32_T_17, 64'h0}; // @[hard_cal.scala 285:19]
+  wire [193:0] _booth_data_32_T_18 = {{63'd0}, _GEN_31}; // @[hard_cal.scala 285:19]
+  wire [65:0] _x_fu_T_1 = ~io_data_0; // @[hard_cal.scala 290:53]
+  wire [65:0] _x_fu_T_3 = _x_fu_T_1 + 66'h1; // @[hard_cal.scala 290:67]
+  wire [3:0] _cal_start_T_2 = 4'h9 - 4'h1; // @[hard_cal.scala 297:112]
+  wire [6:0] _GEN_32 = {{3'd0}, _cal_start_T_2}; // @[hard_cal.scala 297:78]
+  wire  _cal_start_T_4 = counter == _GEN_32 ? 1'h0 : cal_start; // @[hard_cal.scala 297:69]
+  wallace_adder cal_module ( // @[hard_cal.scala 295:28]
+    .clock(cal_module_clock),
+    .reset(cal_module_reset),
+    .io_data_in_0(cal_module_io_data_in_0),
+    .io_data_in_1(cal_module_io_data_in_1),
+    .io_data_in_2(cal_module_io_data_in_2),
+    .io_data_in_3(cal_module_io_data_in_3),
+    .io_data_in_4(cal_module_io_data_in_4),
+    .io_data_in_5(cal_module_io_data_in_5),
+    .io_data_in_6(cal_module_io_data_in_6),
+    .io_data_in_7(cal_module_io_data_in_7),
+    .io_data_in_8(cal_module_io_data_in_8),
+    .io_data_in_9(cal_module_io_data_in_9),
+    .io_data_in_10(cal_module_io_data_in_10),
+    .io_data_in_11(cal_module_io_data_in_11),
+    .io_data_in_12(cal_module_io_data_in_12),
+    .io_data_in_13(cal_module_io_data_in_13),
+    .io_data_in_14(cal_module_io_data_in_14),
+    .io_data_in_15(cal_module_io_data_in_15),
+    .io_data_in_16(cal_module_io_data_in_16),
+    .io_data_in_17(cal_module_io_data_in_17),
+    .io_data_in_18(cal_module_io_data_in_18),
+    .io_data_in_19(cal_module_io_data_in_19),
+    .io_data_in_20(cal_module_io_data_in_20),
+    .io_data_in_21(cal_module_io_data_in_21),
+    .io_data_in_22(cal_module_io_data_in_22),
+    .io_data_in_23(cal_module_io_data_in_23),
+    .io_data_in_24(cal_module_io_data_in_24),
+    .io_data_in_25(cal_module_io_data_in_25),
+    .io_data_in_26(cal_module_io_data_in_26),
+    .io_data_in_27(cal_module_io_data_in_27),
+    .io_data_in_28(cal_module_io_data_in_28),
+    .io_data_in_29(cal_module_io_data_in_29),
+    .io_data_in_30(cal_module_io_data_in_30),
+    .io_data_in_31(cal_module_io_data_in_31),
+    .io_data_in_32(cal_module_io_data_in_32),
+    .io_result(cal_module_io_result)
+  );
+  assign io_result_0 = cal_start ? cal_module_io_result[65:0] : result_reg[65:0]; // @[hard_cal.scala 303:24]
+  assign io_result_1 = cal_start ? cal_module_io_result[131:66] : result_reg[131:66]; // @[hard_cal.scala 304:24]
+  assign io_input_ready = ~cal_start; // @[hard_cal.scala 306:23]
+  assign io_Output_valid = counter == _GEN_32; // @[hard_cal.scala 305:34]
+  assign cal_module_clock = clock;
+  assign cal_module_reset = reset;
+  assign cal_module_io_data_in_0 = {{64'd0}, _booth_data_0_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_1 = {{62'd0}, _booth_data_1_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_2 = {{58'd0}, _booth_data_2_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_3 = {{58'd0}, _booth_data_3_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_4 = {{50'd0}, _booth_data_4_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_5 = {{50'd0}, _booth_data_5_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_6 = {{50'd0}, _booth_data_6_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_7 = {{50'd0}, _booth_data_7_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_8 = {{34'd0}, _booth_data_8_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_9 = {{34'd0}, _booth_data_9_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_10 = {{34'd0}, _booth_data_10_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_11 = {{34'd0}, _booth_data_11_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_12 = {{34'd0}, _booth_data_12_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_13 = {{34'd0}, _booth_data_13_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_14 = {{34'd0}, _booth_data_14_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_15 = {{34'd0}, _booth_data_15_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_16 = {{2'd0}, _booth_data_16_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_17 = {{2'd0}, _booth_data_17_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_18 = {{2'd0}, _booth_data_18_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_19 = {{2'd0}, _booth_data_19_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_20 = {{2'd0}, _booth_data_20_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_21 = {{2'd0}, _booth_data_21_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_22 = {{2'd0}, _booth_data_22_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_23 = {{2'd0}, _booth_data_23_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_24 = {{2'd0}, _booth_data_24_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_25 = {{2'd0}, _booth_data_25_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_26 = {{2'd0}, _booth_data_26_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_27 = {{2'd0}, _booth_data_27_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_28 = {{2'd0}, _booth_data_28_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_29 = {{2'd0}, _booth_data_29_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_30 = {{2'd0}, _booth_data_30_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_31 = {{2'd0}, _booth_data_31_T_18}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_32 = _booth_data_32_T_18[131:0]; // @[hard_cal.scala 263:26 275:27]
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 32:23]
-      regs_0 <= 64'h0; // @[hard_cal.scala 32:23]
-    end else begin
-      regs_0 <= _regs_0_T_39[63:0]; // @[hard_cal.scala 41:13]
+    if (reset) begin // @[hard_cal.scala 289:19]
+      regs_0 <= 132'h0;
+    end else if (_signed_T) begin
+      regs_0 <= {{66'd0}, io_data_0};
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 42:19]
-      regs_1 <= 64'h0;
-    end else if (_cal_start_T) begin // @[hard_cal.scala 42:67]
-      regs_1 <= {{32'd0}, io_data_1};
-    end else if (cal_start) begin
-      regs_1 <= {{1'd0}, regs_1[63:1]};
+    if (reset) begin // @[hard_cal.scala 291:19]
+      regs_1 <= 132'h0;
+    end else if (_signed_T) begin
+      regs_1 <= {{66'd0}, io_data_1};
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 38:19]
-      signed_ <= 1'h0;
-    end else if (_cal_start_T) begin
-      signed_ <= io_signed;
-    end
-  end
-  always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 37:19]
-      counter <= 5'h0;
+    if (reset) begin // @[hard_cal.scala 259:19]
+      counter <= 7'h0;
     end else if (cal_start) begin
       counter <= _counter_T_1;
     end else begin
-      counter <= 5'h0;
+      counter <= 7'h0;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 36:21]
+    if (reset) begin // @[hard_cal.scala 297:21]
       cal_start <= 1'h0;
     end else begin
-      cal_start <= io_input_valid & io_input_ready | _cal_start_T_2;
+      cal_start <= _signed_T | _cal_start_T_4;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[hard_cal.scala 43:22]
-      result_reg <= 64'h0; // @[hard_cal.scala 43:{144,36,99}]
+    if (reset) begin // @[hard_cal.scala 302:22]
+      result_reg <= 132'h0;
     end else if (cal_start) begin
-      if (regs_1[0] & counter < 5'h1e) begin
-        result_reg <= _result_reg_T_4;
-      end else if (regs_1[0] & counter == 5'h1e) begin
-        if (signed_) begin
-          result_reg <= _result_reg_T_9;
-        end else begin
-          result_reg <= _result_reg_T_4;
-        end
-      end
-    end else begin
-      result_reg <= 64'h0;
+      result_reg <= cal_module_io_result;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 290:18]
+      x_fu <= 132'h0;
+    end else if (_signed_T) begin
+      x_fu <= {{66'd0}, _x_fu_T_3};
     end
   end
 // Register and memory initialization
@@ -3066,36 +4859,1374 @@ initial begin
       `endif
     `endif
 `ifdef RANDOMIZE_REG_INIT
-  _RAND_0 = {2{`RANDOM}};
-  regs_0 = _RAND_0[63:0];
-  _RAND_1 = {2{`RANDOM}};
-  regs_1 = _RAND_1[63:0];
+  _RAND_0 = {5{`RANDOM}};
+  regs_0 = _RAND_0[131:0];
+  _RAND_1 = {5{`RANDOM}};
+  regs_1 = _RAND_1[131:0];
   _RAND_2 = {1{`RANDOM}};
-  signed_ = _RAND_2[0:0];
+  counter = _RAND_2[6:0];
   _RAND_3 = {1{`RANDOM}};
-  counter = _RAND_3[4:0];
-  _RAND_4 = {1{`RANDOM}};
-  cal_start = _RAND_4[0:0];
-  _RAND_5 = {2{`RANDOM}};
-  result_reg = _RAND_5[63:0];
+  cal_start = _RAND_3[0:0];
+  _RAND_4 = {5{`RANDOM}};
+  result_reg = _RAND_4[131:0];
+  _RAND_5 = {5{`RANDOM}};
+  x_fu = _RAND_5[131:0];
 `endif // RANDOMIZE_REG_INIT
   if (reset) begin
-    regs_0 = 64'h0;
+    regs_0 = 132'h0;
   end
   if (reset) begin
-    regs_1 = 64'h0;
+    regs_1 = 132'h0;
   end
   if (reset) begin
-    signed_ = 1'h0;
-  end
-  if (reset) begin
-    counter = 5'h0;
+    counter = 7'h0;
   end
   if (reset) begin
     cal_start = 1'h0;
   end
   if (reset) begin
-    result_reg = 64'h0;
+    result_reg = 132'h0;
+  end
+  if (reset) begin
+    x_fu = 132'h0;
+  end
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+endmodule
+module csa_31(
+  input  [67:0] io_data_0,
+  input  [67:0] io_data_1,
+  input  [67:0] io_data_2,
+  output [67:0] io_result_0,
+  output [67:0] io_result_1
+);
+  wire [67:0] _io_result_0_T = io_data_0 ^ io_data_1; // @[hard_cal.scala 182:32]
+  wire [67:0] _io_result_1_T = io_data_0 & io_data_1; // @[hard_cal.scala 183:37]
+  wire [67:0] _io_result_1_T_1 = io_data_1 & io_data_2; // @[hard_cal.scala 183:65]
+  wire [67:0] _io_result_1_T_2 = _io_result_1_T | _io_result_1_T_1; // @[hard_cal.scala 183:51]
+  wire [67:0] _io_result_1_T_3 = io_data_2 & io_data_0; // @[hard_cal.scala 183:93]
+  wire [67:0] _io_result_1_T_4 = _io_result_1_T_2 | _io_result_1_T_3; // @[hard_cal.scala 183:79]
+  wire [68:0] _io_result_1_T_5 = {_io_result_1_T_4,1'h0}; // @[Cat.scala 31:58]
+  assign io_result_0 = _io_result_0_T ^ io_data_2; // @[hard_cal.scala 182:45]
+  assign io_result_1 = _io_result_1_T_5[67:0]; // @[hard_cal.scala 183:18]
+endmodule
+module wallace_adder_1(
+  input         clock,
+  input         reset,
+  input  [67:0] io_data_in_0,
+  input  [67:0] io_data_in_1,
+  input  [67:0] io_data_in_2,
+  input  [67:0] io_data_in_3,
+  input  [67:0] io_data_in_4,
+  input  [67:0] io_data_in_5,
+  input  [67:0] io_data_in_6,
+  input  [67:0] io_data_in_7,
+  input  [67:0] io_data_in_8,
+  input  [67:0] io_data_in_9,
+  input  [67:0] io_data_in_10,
+  input  [67:0] io_data_in_11,
+  input  [67:0] io_data_in_12,
+  input  [67:0] io_data_in_13,
+  input  [67:0] io_data_in_14,
+  input  [67:0] io_data_in_15,
+  input  [67:0] io_data_in_16,
+  output [67:0] io_result
+);
+`ifdef RANDOMIZE_REG_INIT
+  reg [95:0] _RAND_0;
+  reg [95:0] _RAND_1;
+  reg [95:0] _RAND_2;
+  reg [95:0] _RAND_3;
+  reg [95:0] _RAND_4;
+  reg [95:0] _RAND_5;
+  reg [95:0] _RAND_6;
+  reg [95:0] _RAND_7;
+  reg [95:0] _RAND_8;
+  reg [95:0] _RAND_9;
+  reg [95:0] _RAND_10;
+  reg [95:0] _RAND_11;
+  reg [95:0] _RAND_12;
+  reg [95:0] _RAND_13;
+  reg [95:0] _RAND_14;
+  reg [95:0] _RAND_15;
+  reg [95:0] _RAND_16;
+  reg [95:0] _RAND_17;
+  reg [95:0] _RAND_18;
+  reg [95:0] _RAND_19;
+  reg [95:0] _RAND_20;
+  reg [95:0] _RAND_21;
+  reg [95:0] _RAND_22;
+  reg [95:0] _RAND_23;
+  reg [95:0] _RAND_24;
+  reg [95:0] _RAND_25;
+  reg [95:0] _RAND_26;
+  reg [95:0] _RAND_27;
+  reg [95:0] _RAND_28;
+  reg [95:0] _RAND_29;
+  reg [95:0] _RAND_30;
+  reg [95:0] _RAND_31;
+  reg [95:0] _RAND_32;
+  reg [95:0] _RAND_33;
+  reg [95:0] _RAND_34;
+`endif // RANDOMIZE_REG_INIT
+  wire [67:0] csa_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_1_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_1_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_1_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_1_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_1_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_2_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_2_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_2_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_2_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_2_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_3_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_3_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_3_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_3_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_3_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_4_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_4_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_4_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_4_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_4_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_5_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_5_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_5_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_5_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_5_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_6_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_6_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_6_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_6_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_6_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_7_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_7_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_7_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_7_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_7_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_8_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_8_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_8_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_8_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_8_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_9_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_9_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_9_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_9_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_9_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_10_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_10_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_10_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_10_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_10_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_11_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_11_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_11_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_11_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_11_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_12_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_12_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_12_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_12_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_12_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_13_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_13_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_13_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_13_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_13_io_result_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_14_io_data_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_14_io_data_1; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_14_io_data_2; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_14_io_result_0; // @[hard_cal.scala 204:61]
+  wire [67:0] csa_14_io_result_1; // @[hard_cal.scala 204:61]
+  reg [67:0] vec_data_out_data_reg__0; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__1; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__2; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__3; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__4; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__5; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__6; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__7; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__8; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__9; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__10; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg__11; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_1_0; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_1_1; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_1_2; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_1_3; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_1_4; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_1_5; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_1_6; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_1_7; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_2_0; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_2_1; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_2_2; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_2_3; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_2_4; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_2_5; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_3_0; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_3_1; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_3_2; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_3_3; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_4_0; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_4_1; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_out_data_reg_4_2; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_0; // @[hard_cal.scala 220:39]
+  reg [67:0] vec_data_1; // @[hard_cal.scala 220:39]
+  csa_31 csa ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_io_data_0),
+    .io_data_1(csa_io_data_1),
+    .io_data_2(csa_io_data_2),
+    .io_result_0(csa_io_result_0),
+    .io_result_1(csa_io_result_1)
+  );
+  csa_31 csa_1 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_1_io_data_0),
+    .io_data_1(csa_1_io_data_1),
+    .io_data_2(csa_1_io_data_2),
+    .io_result_0(csa_1_io_result_0),
+    .io_result_1(csa_1_io_result_1)
+  );
+  csa_31 csa_2 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_2_io_data_0),
+    .io_data_1(csa_2_io_data_1),
+    .io_data_2(csa_2_io_data_2),
+    .io_result_0(csa_2_io_result_0),
+    .io_result_1(csa_2_io_result_1)
+  );
+  csa_31 csa_3 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_3_io_data_0),
+    .io_data_1(csa_3_io_data_1),
+    .io_data_2(csa_3_io_data_2),
+    .io_result_0(csa_3_io_result_0),
+    .io_result_1(csa_3_io_result_1)
+  );
+  csa_31 csa_4 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_4_io_data_0),
+    .io_data_1(csa_4_io_data_1),
+    .io_data_2(csa_4_io_data_2),
+    .io_result_0(csa_4_io_result_0),
+    .io_result_1(csa_4_io_result_1)
+  );
+  csa_31 csa_5 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_5_io_data_0),
+    .io_data_1(csa_5_io_data_1),
+    .io_data_2(csa_5_io_data_2),
+    .io_result_0(csa_5_io_result_0),
+    .io_result_1(csa_5_io_result_1)
+  );
+  csa_31 csa_6 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_6_io_data_0),
+    .io_data_1(csa_6_io_data_1),
+    .io_data_2(csa_6_io_data_2),
+    .io_result_0(csa_6_io_result_0),
+    .io_result_1(csa_6_io_result_1)
+  );
+  csa_31 csa_7 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_7_io_data_0),
+    .io_data_1(csa_7_io_data_1),
+    .io_data_2(csa_7_io_data_2),
+    .io_result_0(csa_7_io_result_0),
+    .io_result_1(csa_7_io_result_1)
+  );
+  csa_31 csa_8 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_8_io_data_0),
+    .io_data_1(csa_8_io_data_1),
+    .io_data_2(csa_8_io_data_2),
+    .io_result_0(csa_8_io_result_0),
+    .io_result_1(csa_8_io_result_1)
+  );
+  csa_31 csa_9 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_9_io_data_0),
+    .io_data_1(csa_9_io_data_1),
+    .io_data_2(csa_9_io_data_2),
+    .io_result_0(csa_9_io_result_0),
+    .io_result_1(csa_9_io_result_1)
+  );
+  csa_31 csa_10 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_10_io_data_0),
+    .io_data_1(csa_10_io_data_1),
+    .io_data_2(csa_10_io_data_2),
+    .io_result_0(csa_10_io_result_0),
+    .io_result_1(csa_10_io_result_1)
+  );
+  csa_31 csa_11 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_11_io_data_0),
+    .io_data_1(csa_11_io_data_1),
+    .io_data_2(csa_11_io_data_2),
+    .io_result_0(csa_11_io_result_0),
+    .io_result_1(csa_11_io_result_1)
+  );
+  csa_31 csa_12 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_12_io_data_0),
+    .io_data_1(csa_12_io_data_1),
+    .io_data_2(csa_12_io_data_2),
+    .io_result_0(csa_12_io_result_0),
+    .io_result_1(csa_12_io_result_1)
+  );
+  csa_31 csa_13 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_13_io_data_0),
+    .io_data_1(csa_13_io_data_1),
+    .io_data_2(csa_13_io_data_2),
+    .io_result_0(csa_13_io_result_0),
+    .io_result_1(csa_13_io_result_1)
+  );
+  csa_31 csa_14 ( // @[hard_cal.scala 204:61]
+    .io_data_0(csa_14_io_data_0),
+    .io_data_1(csa_14_io_data_1),
+    .io_data_2(csa_14_io_data_2),
+    .io_result_0(csa_14_io_result_0),
+    .io_result_1(csa_14_io_result_1)
+  );
+  assign io_result = vec_data_0 + vec_data_1; // @[hard_cal.scala 231:30]
+  assign csa_io_data_0 = io_data_in_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_io_data_1 = io_data_in_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_io_data_2 = io_data_in_2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_1_io_data_0 = io_data_in_3; // @[hard_cal.scala 204:36 208:58]
+  assign csa_1_io_data_1 = io_data_in_4; // @[hard_cal.scala 204:36 208:58]
+  assign csa_1_io_data_2 = io_data_in_5; // @[hard_cal.scala 204:36 208:58]
+  assign csa_2_io_data_0 = io_data_in_6; // @[hard_cal.scala 204:36 208:58]
+  assign csa_2_io_data_1 = io_data_in_7; // @[hard_cal.scala 204:36 208:58]
+  assign csa_2_io_data_2 = io_data_in_8; // @[hard_cal.scala 204:36 208:58]
+  assign csa_3_io_data_0 = io_data_in_9; // @[hard_cal.scala 204:36 208:58]
+  assign csa_3_io_data_1 = io_data_in_10; // @[hard_cal.scala 204:36 208:58]
+  assign csa_3_io_data_2 = io_data_in_11; // @[hard_cal.scala 204:36 208:58]
+  assign csa_4_io_data_0 = io_data_in_12; // @[hard_cal.scala 204:36 208:58]
+  assign csa_4_io_data_1 = io_data_in_13; // @[hard_cal.scala 204:36 208:58]
+  assign csa_4_io_data_2 = io_data_in_14; // @[hard_cal.scala 204:36 208:58]
+  assign csa_5_io_data_0 = vec_data_out_data_reg__0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_5_io_data_1 = vec_data_out_data_reg__1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_5_io_data_2 = vec_data_out_data_reg__2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_6_io_data_0 = vec_data_out_data_reg__3; // @[hard_cal.scala 204:36 208:58]
+  assign csa_6_io_data_1 = vec_data_out_data_reg__4; // @[hard_cal.scala 204:36 208:58]
+  assign csa_6_io_data_2 = vec_data_out_data_reg__5; // @[hard_cal.scala 204:36 208:58]
+  assign csa_7_io_data_0 = vec_data_out_data_reg__6; // @[hard_cal.scala 204:36 208:58]
+  assign csa_7_io_data_1 = vec_data_out_data_reg__7; // @[hard_cal.scala 204:36 208:58]
+  assign csa_7_io_data_2 = vec_data_out_data_reg__8; // @[hard_cal.scala 204:36 208:58]
+  assign csa_8_io_data_0 = vec_data_out_data_reg__9; // @[hard_cal.scala 204:36 208:58]
+  assign csa_8_io_data_1 = vec_data_out_data_reg__10; // @[hard_cal.scala 204:36 208:58]
+  assign csa_8_io_data_2 = vec_data_out_data_reg__11; // @[hard_cal.scala 204:36 208:58]
+  assign csa_9_io_data_0 = vec_data_out_data_reg_1_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_9_io_data_1 = vec_data_out_data_reg_1_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_9_io_data_2 = vec_data_out_data_reg_1_2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_10_io_data_0 = vec_data_out_data_reg_1_3; // @[hard_cal.scala 204:36 208:58]
+  assign csa_10_io_data_1 = vec_data_out_data_reg_1_4; // @[hard_cal.scala 204:36 208:58]
+  assign csa_10_io_data_2 = vec_data_out_data_reg_1_5; // @[hard_cal.scala 204:36 208:58]
+  assign csa_11_io_data_0 = vec_data_out_data_reg_2_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_11_io_data_1 = vec_data_out_data_reg_2_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_11_io_data_2 = vec_data_out_data_reg_2_2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_12_io_data_0 = vec_data_out_data_reg_2_3; // @[hard_cal.scala 204:36 208:58]
+  assign csa_12_io_data_1 = vec_data_out_data_reg_2_4; // @[hard_cal.scala 204:36 208:58]
+  assign csa_12_io_data_2 = vec_data_out_data_reg_2_5; // @[hard_cal.scala 204:36 208:58]
+  assign csa_13_io_data_0 = vec_data_out_data_reg_3_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_13_io_data_1 = vec_data_out_data_reg_3_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_13_io_data_2 = vec_data_out_data_reg_3_2; // @[hard_cal.scala 204:36 208:58]
+  assign csa_14_io_data_0 = vec_data_out_data_reg_4_0; // @[hard_cal.scala 204:36 208:58]
+  assign csa_14_io_data_1 = vec_data_out_data_reg_4_1; // @[hard_cal.scala 204:36 208:58]
+  assign csa_14_io_data_2 = vec_data_out_data_reg_4_2; // @[hard_cal.scala 204:36 208:58]
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__0 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__0 <= csa_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__1 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__1 <= csa_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__2 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__2 <= csa_1_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__3 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__3 <= csa_1_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__4 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__4 <= csa_2_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__5 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__5 <= csa_2_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__6 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__6 <= csa_3_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__7 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__7 <= csa_3_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__8 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__8 <= csa_4_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg__9 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__9 <= csa_4_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg__10 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__10 <= io_data_in_15;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg__11 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg__11 <= io_data_in_16;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_0 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_1_0 <= csa_5_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_1 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_1_1 <= csa_5_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_2 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_1_2 <= csa_6_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_3 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_1_3 <= csa_6_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_4 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_1_4 <= csa_7_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_5 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_1_5 <= csa_7_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_6 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_1_6 <= csa_8_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_1_7 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_1_7 <= csa_8_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_0 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_2_0 <= csa_9_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_1 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_2_1 <= csa_9_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_2 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_2_2 <= csa_10_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_2_3 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_2_3 <= csa_10_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg_2_4 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_2_4 <= vec_data_out_data_reg_1_6;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg_2_5 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_2_5 <= vec_data_out_data_reg_1_7;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_3_0 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_3_0 <= csa_11_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_3_1 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_3_1 <= csa_11_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_3_2 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_3_2 <= csa_12_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_3_3 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_3_3 <= csa_12_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_4_0 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_4_0 <= csa_13_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_out_data_reg_4_1 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_4_1 <= csa_13_io_result_1;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 211:39 217:44]
+      vec_data_out_data_reg_4_2 <= 68'h0;
+    end else begin
+      vec_data_out_data_reg_4_2 <= vec_data_out_data_reg_3_3;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_0 <= 68'h0;
+    end else begin
+      vec_data_0 <= csa_14_io_result_0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 204:{36,36}]
+      vec_data_1 <= 68'h0;
+    end else begin
+      vec_data_1 <= csa_14_io_result_1;
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {3{`RANDOM}};
+  vec_data_out_data_reg__0 = _RAND_0[67:0];
+  _RAND_1 = {3{`RANDOM}};
+  vec_data_out_data_reg__1 = _RAND_1[67:0];
+  _RAND_2 = {3{`RANDOM}};
+  vec_data_out_data_reg__2 = _RAND_2[67:0];
+  _RAND_3 = {3{`RANDOM}};
+  vec_data_out_data_reg__3 = _RAND_3[67:0];
+  _RAND_4 = {3{`RANDOM}};
+  vec_data_out_data_reg__4 = _RAND_4[67:0];
+  _RAND_5 = {3{`RANDOM}};
+  vec_data_out_data_reg__5 = _RAND_5[67:0];
+  _RAND_6 = {3{`RANDOM}};
+  vec_data_out_data_reg__6 = _RAND_6[67:0];
+  _RAND_7 = {3{`RANDOM}};
+  vec_data_out_data_reg__7 = _RAND_7[67:0];
+  _RAND_8 = {3{`RANDOM}};
+  vec_data_out_data_reg__8 = _RAND_8[67:0];
+  _RAND_9 = {3{`RANDOM}};
+  vec_data_out_data_reg__9 = _RAND_9[67:0];
+  _RAND_10 = {3{`RANDOM}};
+  vec_data_out_data_reg__10 = _RAND_10[67:0];
+  _RAND_11 = {3{`RANDOM}};
+  vec_data_out_data_reg__11 = _RAND_11[67:0];
+  _RAND_12 = {3{`RANDOM}};
+  vec_data_out_data_reg_1_0 = _RAND_12[67:0];
+  _RAND_13 = {3{`RANDOM}};
+  vec_data_out_data_reg_1_1 = _RAND_13[67:0];
+  _RAND_14 = {3{`RANDOM}};
+  vec_data_out_data_reg_1_2 = _RAND_14[67:0];
+  _RAND_15 = {3{`RANDOM}};
+  vec_data_out_data_reg_1_3 = _RAND_15[67:0];
+  _RAND_16 = {3{`RANDOM}};
+  vec_data_out_data_reg_1_4 = _RAND_16[67:0];
+  _RAND_17 = {3{`RANDOM}};
+  vec_data_out_data_reg_1_5 = _RAND_17[67:0];
+  _RAND_18 = {3{`RANDOM}};
+  vec_data_out_data_reg_1_6 = _RAND_18[67:0];
+  _RAND_19 = {3{`RANDOM}};
+  vec_data_out_data_reg_1_7 = _RAND_19[67:0];
+  _RAND_20 = {3{`RANDOM}};
+  vec_data_out_data_reg_2_0 = _RAND_20[67:0];
+  _RAND_21 = {3{`RANDOM}};
+  vec_data_out_data_reg_2_1 = _RAND_21[67:0];
+  _RAND_22 = {3{`RANDOM}};
+  vec_data_out_data_reg_2_2 = _RAND_22[67:0];
+  _RAND_23 = {3{`RANDOM}};
+  vec_data_out_data_reg_2_3 = _RAND_23[67:0];
+  _RAND_24 = {3{`RANDOM}};
+  vec_data_out_data_reg_2_4 = _RAND_24[67:0];
+  _RAND_25 = {3{`RANDOM}};
+  vec_data_out_data_reg_2_5 = _RAND_25[67:0];
+  _RAND_26 = {3{`RANDOM}};
+  vec_data_out_data_reg_3_0 = _RAND_26[67:0];
+  _RAND_27 = {3{`RANDOM}};
+  vec_data_out_data_reg_3_1 = _RAND_27[67:0];
+  _RAND_28 = {3{`RANDOM}};
+  vec_data_out_data_reg_3_2 = _RAND_28[67:0];
+  _RAND_29 = {3{`RANDOM}};
+  vec_data_out_data_reg_3_3 = _RAND_29[67:0];
+  _RAND_30 = {3{`RANDOM}};
+  vec_data_out_data_reg_4_0 = _RAND_30[67:0];
+  _RAND_31 = {3{`RANDOM}};
+  vec_data_out_data_reg_4_1 = _RAND_31[67:0];
+  _RAND_32 = {3{`RANDOM}};
+  vec_data_out_data_reg_4_2 = _RAND_32[67:0];
+  _RAND_33 = {3{`RANDOM}};
+  vec_data_0 = _RAND_33[67:0];
+  _RAND_34 = {3{`RANDOM}};
+  vec_data_1 = _RAND_34[67:0];
+`endif // RANDOMIZE_REG_INIT
+  if (reset) begin
+    vec_data_out_data_reg__0 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__1 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__2 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__3 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__4 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__5 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__6 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__7 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__8 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__9 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__10 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg__11 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_0 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_1 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_2 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_3 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_4 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_5 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_6 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_1_7 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_0 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_1 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_2 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_3 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_4 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_2_5 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_0 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_1 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_2 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_3_3 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_4_0 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_4_1 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_out_data_reg_4_2 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_0 = 68'h0;
+  end
+  if (reset) begin
+    vec_data_1 = 68'h0;
+  end
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
+endmodule
+module mul_hard_1(
+  input         clock,
+  input         reset,
+  output [33:0] io_result_0,
+  input  [33:0] io_data_0,
+  input  [33:0] io_data_1,
+  input         io_input_valid,
+  output        io_input_ready,
+  output        io_Output_valid
+);
+`ifdef RANDOMIZE_REG_INIT
+  reg [95:0] _RAND_0;
+  reg [95:0] _RAND_1;
+  reg [31:0] _RAND_2;
+  reg [31:0] _RAND_3;
+  reg [95:0] _RAND_4;
+  reg [95:0] _RAND_5;
+`endif // RANDOMIZE_REG_INIT
+  wire  cal_module_clock; // @[hard_cal.scala 295:28]
+  wire  cal_module_reset; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_0; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_1; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_2; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_3; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_4; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_5; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_6; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_7; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_8; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_9; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_10; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_11; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_12; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_13; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_14; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_15; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_data_in_16; // @[hard_cal.scala 295:28]
+  wire [67:0] cal_module_io_result; // @[hard_cal.scala 295:28]
+  reg [67:0] regs_0; // @[hard_cal.scala 254:23]
+  reg [67:0] regs_1; // @[hard_cal.scala 254:23]
+  reg [5:0] counter; // @[hard_cal.scala 256:26]
+  reg  cal_start; // @[hard_cal.scala 257:28]
+  wire [5:0] _counter_T_1 = counter + 6'h1; // @[hard_cal.scala 259:39]
+  wire  _signed_T = io_input_valid & io_input_ready; // @[hard_cal.scala 260:35]
+  reg [67:0] result_reg; // @[hard_cal.scala 261:29]
+  reg [67:0] x_fu; // @[hard_cal.scala 264:23]
+  wire [2:0] look_up_data = {regs_1[1],regs_1[0],1'h0}; // @[Cat.scala 31:58]
+  wire [68:0] _booth_data_0_T = {regs_0, 1'h0}; // @[hard_cal.scala 279:38]
+  wire [68:0] _booth_data_0_T_1 = {x_fu, 1'h0}; // @[hard_cal.scala 280:31]
+  wire [67:0] _booth_data_0_T_3 = 3'h1 == look_up_data ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_0_T_5 = 3'h2 == look_up_data ? regs_0 : _booth_data_0_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_0_T_7 = 3'h3 == look_up_data ? _booth_data_0_T : {{1'd0}, _booth_data_0_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_0_T_9 = 3'h4 == look_up_data ? _booth_data_0_T_1 : _booth_data_0_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_0_T_11 = 3'h5 == look_up_data ? {{1'd0}, x_fu} : _booth_data_0_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_0_T_13 = 3'h6 == look_up_data ? {{1'd0}, x_fu} : _booth_data_0_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_0_T_15 = 3'h7 == look_up_data ? 69'h0 : _booth_data_0_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_0_lo_lo = {_booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15[33],
+    _booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_0_lo = {_booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15
+    [33],_booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15[33],booth_data_0_lo_lo}
+    ; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_0_T_46 = {_booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15[33],
+    _booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15[33],_booth_data_0_T_15[33],
+    booth_data_0_lo_lo,booth_data_0_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_0_T_48 = {_booth_data_0_T_46,_booth_data_0_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [64:0] _booth_data_0_T_49 = {{1'd0}, _booth_data_0_T_48}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_1 = {regs_1[3],regs_1[2],regs_1[1]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_1_T_3 = 3'h1 == look_up_data_1 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_1_T_5 = 3'h2 == look_up_data_1 ? regs_0 : _booth_data_1_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_1_T_7 = 3'h3 == look_up_data_1 ? _booth_data_0_T : {{1'd0}, _booth_data_1_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_1_T_9 = 3'h4 == look_up_data_1 ? _booth_data_0_T_1 : _booth_data_1_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_1_T_11 = 3'h5 == look_up_data_1 ? {{1'd0}, x_fu} : _booth_data_1_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_1_T_13 = 3'h6 == look_up_data_1 ? {{1'd0}, x_fu} : _booth_data_1_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_1_T_15 = 3'h7 == look_up_data_1 ? 69'h0 : _booth_data_1_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_1_lo_lo = {_booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15[33],
+    _booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_1_lo = {_booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15
+    [33],_booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15[33],booth_data_1_lo_lo}
+    ; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_1_T_46 = {_booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15[33],
+    _booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15[33],_booth_data_1_T_15[33],
+    booth_data_1_lo_lo,booth_data_1_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_1_T_48 = {_booth_data_1_T_46,_booth_data_1_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [65:0] _GEN_0 = {_booth_data_1_T_48, 2'h0}; // @[hard_cal.scala 285:19]
+  wire [66:0] _booth_data_1_T_49 = {{1'd0}, _GEN_0}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_2 = {regs_1[5],regs_1[4],regs_1[3]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_2_T_3 = 3'h1 == look_up_data_2 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_2_T_5 = 3'h2 == look_up_data_2 ? regs_0 : _booth_data_2_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_2_T_7 = 3'h3 == look_up_data_2 ? _booth_data_0_T : {{1'd0}, _booth_data_2_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_2_T_9 = 3'h4 == look_up_data_2 ? _booth_data_0_T_1 : _booth_data_2_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_2_T_11 = 3'h5 == look_up_data_2 ? {{1'd0}, x_fu} : _booth_data_2_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_2_T_13 = 3'h6 == look_up_data_2 ? {{1'd0}, x_fu} : _booth_data_2_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_2_T_15 = 3'h7 == look_up_data_2 ? 69'h0 : _booth_data_2_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_2_lo_lo = {_booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15[33],
+    _booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_2_lo = {_booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15
+    [33],_booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15[33],booth_data_2_lo_lo}
+    ; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_2_T_46 = {_booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15[33],
+    _booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15[33],_booth_data_2_T_15[33],
+    booth_data_2_lo_lo,booth_data_2_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_2_T_48 = {_booth_data_2_T_46,_booth_data_2_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [67:0] _GEN_1 = {_booth_data_2_T_48, 4'h0}; // @[hard_cal.scala 285:19]
+  wire [70:0] _booth_data_2_T_49 = {{3'd0}, _GEN_1}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_3 = {regs_1[7],regs_1[6],regs_1[5]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_3_T_3 = 3'h1 == look_up_data_3 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_3_T_5 = 3'h2 == look_up_data_3 ? regs_0 : _booth_data_3_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_3_T_7 = 3'h3 == look_up_data_3 ? _booth_data_0_T : {{1'd0}, _booth_data_3_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_3_T_9 = 3'h4 == look_up_data_3 ? _booth_data_0_T_1 : _booth_data_3_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_3_T_11 = 3'h5 == look_up_data_3 ? {{1'd0}, x_fu} : _booth_data_3_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_3_T_13 = 3'h6 == look_up_data_3 ? {{1'd0}, x_fu} : _booth_data_3_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_3_T_15 = 3'h7 == look_up_data_3 ? 69'h0 : _booth_data_3_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_3_lo_lo = {_booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15[33],
+    _booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_3_lo = {_booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15
+    [33],_booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15[33],booth_data_3_lo_lo}
+    ; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_3_T_46 = {_booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15[33],
+    _booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15[33],_booth_data_3_T_15[33],
+    booth_data_3_lo_lo,booth_data_3_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_3_T_48 = {_booth_data_3_T_46,_booth_data_3_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [69:0] _GEN_2 = {_booth_data_3_T_48, 6'h0}; // @[hard_cal.scala 285:19]
+  wire [70:0] _booth_data_3_T_49 = {{1'd0}, _GEN_2}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_4 = {regs_1[9],regs_1[8],regs_1[7]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_4_T_3 = 3'h1 == look_up_data_4 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_4_T_5 = 3'h2 == look_up_data_4 ? regs_0 : _booth_data_4_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_4_T_7 = 3'h3 == look_up_data_4 ? _booth_data_0_T : {{1'd0}, _booth_data_4_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_4_T_9 = 3'h4 == look_up_data_4 ? _booth_data_0_T_1 : _booth_data_4_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_4_T_11 = 3'h5 == look_up_data_4 ? {{1'd0}, x_fu} : _booth_data_4_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_4_T_13 = 3'h6 == look_up_data_4 ? {{1'd0}, x_fu} : _booth_data_4_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_4_T_15 = 3'h7 == look_up_data_4 ? 69'h0 : _booth_data_4_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_4_lo_lo = {_booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15[33],
+    _booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_4_lo = {_booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15
+    [33],_booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15[33],booth_data_4_lo_lo}
+    ; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_4_T_46 = {_booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15[33],
+    _booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15[33],_booth_data_4_T_15[33],
+    booth_data_4_lo_lo,booth_data_4_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_4_T_48 = {_booth_data_4_T_46,_booth_data_4_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [71:0] _GEN_3 = {_booth_data_4_T_48, 8'h0}; // @[hard_cal.scala 285:19]
+  wire [78:0] _booth_data_4_T_49 = {{7'd0}, _GEN_3}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_5 = {regs_1[11],regs_1[10],regs_1[9]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_5_T_3 = 3'h1 == look_up_data_5 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_5_T_5 = 3'h2 == look_up_data_5 ? regs_0 : _booth_data_5_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_5_T_7 = 3'h3 == look_up_data_5 ? _booth_data_0_T : {{1'd0}, _booth_data_5_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_5_T_9 = 3'h4 == look_up_data_5 ? _booth_data_0_T_1 : _booth_data_5_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_5_T_11 = 3'h5 == look_up_data_5 ? {{1'd0}, x_fu} : _booth_data_5_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_5_T_13 = 3'h6 == look_up_data_5 ? {{1'd0}, x_fu} : _booth_data_5_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_5_T_15 = 3'h7 == look_up_data_5 ? 69'h0 : _booth_data_5_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_5_lo_lo = {_booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15[33],
+    _booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_5_lo = {_booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15
+    [33],_booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15[33],booth_data_5_lo_lo}
+    ; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_5_T_46 = {_booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15[33],
+    _booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15[33],_booth_data_5_T_15[33],
+    booth_data_5_lo_lo,booth_data_5_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_5_T_48 = {_booth_data_5_T_46,_booth_data_5_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [73:0] _GEN_4 = {_booth_data_5_T_48, 10'h0}; // @[hard_cal.scala 285:19]
+  wire [78:0] _booth_data_5_T_49 = {{5'd0}, _GEN_4}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_6 = {regs_1[13],regs_1[12],regs_1[11]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_6_T_3 = 3'h1 == look_up_data_6 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_6_T_5 = 3'h2 == look_up_data_6 ? regs_0 : _booth_data_6_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_6_T_7 = 3'h3 == look_up_data_6 ? _booth_data_0_T : {{1'd0}, _booth_data_6_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_6_T_9 = 3'h4 == look_up_data_6 ? _booth_data_0_T_1 : _booth_data_6_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_6_T_11 = 3'h5 == look_up_data_6 ? {{1'd0}, x_fu} : _booth_data_6_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_6_T_13 = 3'h6 == look_up_data_6 ? {{1'd0}, x_fu} : _booth_data_6_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_6_T_15 = 3'h7 == look_up_data_6 ? 69'h0 : _booth_data_6_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_6_lo_lo = {_booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15[33],
+    _booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_6_lo = {_booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15
+    [33],_booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15[33],booth_data_6_lo_lo}
+    ; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_6_T_46 = {_booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15[33],
+    _booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15[33],_booth_data_6_T_15[33],
+    booth_data_6_lo_lo,booth_data_6_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_6_T_48 = {_booth_data_6_T_46,_booth_data_6_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [75:0] _GEN_5 = {_booth_data_6_T_48, 12'h0}; // @[hard_cal.scala 285:19]
+  wire [78:0] _booth_data_6_T_49 = {{3'd0}, _GEN_5}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_7 = {regs_1[15],regs_1[14],regs_1[13]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_7_T_3 = 3'h1 == look_up_data_7 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_7_T_5 = 3'h2 == look_up_data_7 ? regs_0 : _booth_data_7_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_7_T_7 = 3'h3 == look_up_data_7 ? _booth_data_0_T : {{1'd0}, _booth_data_7_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_7_T_9 = 3'h4 == look_up_data_7 ? _booth_data_0_T_1 : _booth_data_7_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_7_T_11 = 3'h5 == look_up_data_7 ? {{1'd0}, x_fu} : _booth_data_7_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_7_T_13 = 3'h6 == look_up_data_7 ? {{1'd0}, x_fu} : _booth_data_7_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_7_T_15 = 3'h7 == look_up_data_7 ? 69'h0 : _booth_data_7_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_7_lo_lo = {_booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15[33],
+    _booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_7_lo = {_booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15
+    [33],_booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15[33],booth_data_7_lo_lo}
+    ; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_7_T_46 = {_booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15[33],
+    _booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15[33],_booth_data_7_T_15[33],
+    booth_data_7_lo_lo,booth_data_7_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_7_T_48 = {_booth_data_7_T_46,_booth_data_7_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [77:0] _GEN_6 = {_booth_data_7_T_48, 14'h0}; // @[hard_cal.scala 285:19]
+  wire [78:0] _booth_data_7_T_49 = {{1'd0}, _GEN_6}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_8 = {regs_1[17],regs_1[16],regs_1[15]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_8_T_3 = 3'h1 == look_up_data_8 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_8_T_5 = 3'h2 == look_up_data_8 ? regs_0 : _booth_data_8_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_8_T_7 = 3'h3 == look_up_data_8 ? _booth_data_0_T : {{1'd0}, _booth_data_8_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_8_T_9 = 3'h4 == look_up_data_8 ? _booth_data_0_T_1 : _booth_data_8_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_8_T_11 = 3'h5 == look_up_data_8 ? {{1'd0}, x_fu} : _booth_data_8_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_8_T_13 = 3'h6 == look_up_data_8 ? {{1'd0}, x_fu} : _booth_data_8_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_8_T_15 = 3'h7 == look_up_data_8 ? 69'h0 : _booth_data_8_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_8_lo_lo = {_booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15[33],
+    _booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_8_lo = {_booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15
+    [33],_booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15[33],booth_data_8_lo_lo}
+    ; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_8_T_46 = {_booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15[33],
+    _booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15[33],_booth_data_8_T_15[33],
+    booth_data_8_lo_lo,booth_data_8_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_8_T_48 = {_booth_data_8_T_46,_booth_data_8_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [79:0] _GEN_7 = {_booth_data_8_T_48, 16'h0}; // @[hard_cal.scala 285:19]
+  wire [94:0] _booth_data_8_T_49 = {{15'd0}, _GEN_7}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_9 = {regs_1[19],regs_1[18],regs_1[17]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_9_T_3 = 3'h1 == look_up_data_9 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_9_T_5 = 3'h2 == look_up_data_9 ? regs_0 : _booth_data_9_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_9_T_7 = 3'h3 == look_up_data_9 ? _booth_data_0_T : {{1'd0}, _booth_data_9_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_9_T_9 = 3'h4 == look_up_data_9 ? _booth_data_0_T_1 : _booth_data_9_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_9_T_11 = 3'h5 == look_up_data_9 ? {{1'd0}, x_fu} : _booth_data_9_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_9_T_13 = 3'h6 == look_up_data_9 ? {{1'd0}, x_fu} : _booth_data_9_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_9_T_15 = 3'h7 == look_up_data_9 ? 69'h0 : _booth_data_9_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_9_lo_lo = {_booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15[33],
+    _booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_9_lo = {_booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15
+    [33],_booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15[33],booth_data_9_lo_lo}
+    ; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_9_T_46 = {_booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15[33],
+    _booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15[33],_booth_data_9_T_15[33],
+    booth_data_9_lo_lo,booth_data_9_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_9_T_48 = {_booth_data_9_T_46,_booth_data_9_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [81:0] _GEN_8 = {_booth_data_9_T_48, 18'h0}; // @[hard_cal.scala 285:19]
+  wire [94:0] _booth_data_9_T_49 = {{13'd0}, _GEN_8}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_10 = {regs_1[21],regs_1[20],regs_1[19]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_10_T_3 = 3'h1 == look_up_data_10 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_10_T_5 = 3'h2 == look_up_data_10 ? regs_0 : _booth_data_10_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_10_T_7 = 3'h3 == look_up_data_10 ? _booth_data_0_T : {{1'd0}, _booth_data_10_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_10_T_9 = 3'h4 == look_up_data_10 ? _booth_data_0_T_1 : _booth_data_10_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_10_T_11 = 3'h5 == look_up_data_10 ? {{1'd0}, x_fu} : _booth_data_10_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_10_T_13 = 3'h6 == look_up_data_10 ? {{1'd0}, x_fu} : _booth_data_10_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_10_T_15 = 3'h7 == look_up_data_10 ? 69'h0 : _booth_data_10_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_10_lo_lo = {_booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[33],
+    _booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_10_lo = {_booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[33],
+    _booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[
+    33],booth_data_10_lo_lo}; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_10_T_46 = {_booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[33],
+    _booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[33],_booth_data_10_T_15[
+    33],booth_data_10_lo_lo,booth_data_10_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_10_T_48 = {_booth_data_10_T_46,_booth_data_10_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [83:0] _GEN_9 = {_booth_data_10_T_48, 20'h0}; // @[hard_cal.scala 285:19]
+  wire [94:0] _booth_data_10_T_49 = {{11'd0}, _GEN_9}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_11 = {regs_1[23],regs_1[22],regs_1[21]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_11_T_3 = 3'h1 == look_up_data_11 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_11_T_5 = 3'h2 == look_up_data_11 ? regs_0 : _booth_data_11_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_11_T_7 = 3'h3 == look_up_data_11 ? _booth_data_0_T : {{1'd0}, _booth_data_11_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_11_T_9 = 3'h4 == look_up_data_11 ? _booth_data_0_T_1 : _booth_data_11_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_11_T_11 = 3'h5 == look_up_data_11 ? {{1'd0}, x_fu} : _booth_data_11_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_11_T_13 = 3'h6 == look_up_data_11 ? {{1'd0}, x_fu} : _booth_data_11_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_11_T_15 = 3'h7 == look_up_data_11 ? 69'h0 : _booth_data_11_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_11_lo_lo = {_booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[33],
+    _booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_11_lo = {_booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[33],
+    _booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[
+    33],booth_data_11_lo_lo}; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_11_T_46 = {_booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[33],
+    _booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[33],_booth_data_11_T_15[
+    33],booth_data_11_lo_lo,booth_data_11_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_11_T_48 = {_booth_data_11_T_46,_booth_data_11_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [85:0] _GEN_10 = {_booth_data_11_T_48, 22'h0}; // @[hard_cal.scala 285:19]
+  wire [94:0] _booth_data_11_T_49 = {{9'd0}, _GEN_10}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_12 = {regs_1[25],regs_1[24],regs_1[23]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_12_T_3 = 3'h1 == look_up_data_12 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_12_T_5 = 3'h2 == look_up_data_12 ? regs_0 : _booth_data_12_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_12_T_7 = 3'h3 == look_up_data_12 ? _booth_data_0_T : {{1'd0}, _booth_data_12_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_12_T_9 = 3'h4 == look_up_data_12 ? _booth_data_0_T_1 : _booth_data_12_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_12_T_11 = 3'h5 == look_up_data_12 ? {{1'd0}, x_fu} : _booth_data_12_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_12_T_13 = 3'h6 == look_up_data_12 ? {{1'd0}, x_fu} : _booth_data_12_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_12_T_15 = 3'h7 == look_up_data_12 ? 69'h0 : _booth_data_12_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_12_lo_lo = {_booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[33],
+    _booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_12_lo = {_booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[33],
+    _booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[
+    33],booth_data_12_lo_lo}; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_12_T_46 = {_booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[33],
+    _booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[33],_booth_data_12_T_15[
+    33],booth_data_12_lo_lo,booth_data_12_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_12_T_48 = {_booth_data_12_T_46,_booth_data_12_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [87:0] _GEN_11 = {_booth_data_12_T_48, 24'h0}; // @[hard_cal.scala 285:19]
+  wire [94:0] _booth_data_12_T_49 = {{7'd0}, _GEN_11}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_13 = {regs_1[27],regs_1[26],regs_1[25]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_13_T_3 = 3'h1 == look_up_data_13 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_13_T_5 = 3'h2 == look_up_data_13 ? regs_0 : _booth_data_13_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_13_T_7 = 3'h3 == look_up_data_13 ? _booth_data_0_T : {{1'd0}, _booth_data_13_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_13_T_9 = 3'h4 == look_up_data_13 ? _booth_data_0_T_1 : _booth_data_13_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_13_T_11 = 3'h5 == look_up_data_13 ? {{1'd0}, x_fu} : _booth_data_13_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_13_T_13 = 3'h6 == look_up_data_13 ? {{1'd0}, x_fu} : _booth_data_13_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_13_T_15 = 3'h7 == look_up_data_13 ? 69'h0 : _booth_data_13_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_13_lo_lo = {_booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[33],
+    _booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_13_lo = {_booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[33],
+    _booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[
+    33],booth_data_13_lo_lo}; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_13_T_46 = {_booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[33],
+    _booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[33],_booth_data_13_T_15[
+    33],booth_data_13_lo_lo,booth_data_13_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_13_T_48 = {_booth_data_13_T_46,_booth_data_13_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [89:0] _GEN_12 = {_booth_data_13_T_48, 26'h0}; // @[hard_cal.scala 285:19]
+  wire [94:0] _booth_data_13_T_49 = {{5'd0}, _GEN_12}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_14 = {regs_1[29],regs_1[28],regs_1[27]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_14_T_3 = 3'h1 == look_up_data_14 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_14_T_5 = 3'h2 == look_up_data_14 ? regs_0 : _booth_data_14_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_14_T_7 = 3'h3 == look_up_data_14 ? _booth_data_0_T : {{1'd0}, _booth_data_14_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_14_T_9 = 3'h4 == look_up_data_14 ? _booth_data_0_T_1 : _booth_data_14_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_14_T_11 = 3'h5 == look_up_data_14 ? {{1'd0}, x_fu} : _booth_data_14_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_14_T_13 = 3'h6 == look_up_data_14 ? {{1'd0}, x_fu} : _booth_data_14_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_14_T_15 = 3'h7 == look_up_data_14 ? 69'h0 : _booth_data_14_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_14_lo_lo = {_booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[33],
+    _booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_14_lo = {_booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[33],
+    _booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[
+    33],booth_data_14_lo_lo}; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_14_T_46 = {_booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[33],
+    _booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[33],_booth_data_14_T_15[
+    33],booth_data_14_lo_lo,booth_data_14_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_14_T_48 = {_booth_data_14_T_46,_booth_data_14_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [91:0] _GEN_13 = {_booth_data_14_T_48, 28'h0}; // @[hard_cal.scala 285:19]
+  wire [94:0] _booth_data_14_T_49 = {{3'd0}, _GEN_13}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_15 = {regs_1[31],regs_1[30],regs_1[29]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_15_T_3 = 3'h1 == look_up_data_15 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_15_T_5 = 3'h2 == look_up_data_15 ? regs_0 : _booth_data_15_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_15_T_7 = 3'h3 == look_up_data_15 ? _booth_data_0_T : {{1'd0}, _booth_data_15_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_15_T_9 = 3'h4 == look_up_data_15 ? _booth_data_0_T_1 : _booth_data_15_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_15_T_11 = 3'h5 == look_up_data_15 ? {{1'd0}, x_fu} : _booth_data_15_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_15_T_13 = 3'h6 == look_up_data_15 ? {{1'd0}, x_fu} : _booth_data_15_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_15_T_15 = 3'h7 == look_up_data_15 ? 69'h0 : _booth_data_15_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_15_lo_lo = {_booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[33],
+    _booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_15_lo = {_booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[33],
+    _booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[
+    33],booth_data_15_lo_lo}; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_15_T_46 = {_booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[33],
+    _booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[33],_booth_data_15_T_15[
+    33],booth_data_15_lo_lo,booth_data_15_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_15_T_48 = {_booth_data_15_T_46,_booth_data_15_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [93:0] _GEN_14 = {_booth_data_15_T_48, 30'h0}; // @[hard_cal.scala 285:19]
+  wire [94:0] _booth_data_15_T_49 = {{1'd0}, _GEN_14}; // @[hard_cal.scala 285:19]
+  wire [2:0] look_up_data_16 = {regs_1[33],regs_1[32],regs_1[31]}; // @[Cat.scala 31:58]
+  wire [67:0] _booth_data_16_T_3 = 3'h1 == look_up_data_16 ? regs_0 : 68'h0; // @[Mux.scala 81:58]
+  wire [67:0] _booth_data_16_T_5 = 3'h2 == look_up_data_16 ? regs_0 : _booth_data_16_T_3; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_16_T_7 = 3'h3 == look_up_data_16 ? _booth_data_0_T : {{1'd0}, _booth_data_16_T_5}; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_16_T_9 = 3'h4 == look_up_data_16 ? _booth_data_0_T_1 : _booth_data_16_T_7; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_16_T_11 = 3'h5 == look_up_data_16 ? {{1'd0}, x_fu} : _booth_data_16_T_9; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_16_T_13 = 3'h6 == look_up_data_16 ? {{1'd0}, x_fu} : _booth_data_16_T_11; // @[Mux.scala 81:58]
+  wire [68:0] _booth_data_16_T_15 = 3'h7 == look_up_data_16 ? 69'h0 : _booth_data_16_T_13; // @[Mux.scala 81:58]
+  wire [6:0] booth_data_16_lo_lo = {_booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[33],
+    _booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[33]}; // @[Cat.scala 31:58]
+  wire [14:0] booth_data_16_lo = {_booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[33],
+    _booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[
+    33],booth_data_16_lo_lo}; // @[Cat.scala 31:58]
+  wire [29:0] _booth_data_16_T_46 = {_booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[33],
+    _booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[33],_booth_data_16_T_15[
+    33],booth_data_16_lo_lo,booth_data_16_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _booth_data_16_T_48 = {_booth_data_16_T_46,_booth_data_16_T_15[33:0]}; // @[Cat.scala 31:58]
+  wire [95:0] _GEN_15 = {_booth_data_16_T_48, 32'h0}; // @[hard_cal.scala 285:19]
+  wire [126:0] _booth_data_16_T_49 = {{31'd0}, _GEN_15}; // @[hard_cal.scala 285:19]
+  wire [33:0] _x_fu_T_1 = ~io_data_0; // @[hard_cal.scala 290:53]
+  wire [33:0] _x_fu_T_3 = _x_fu_T_1 + 34'h1; // @[hard_cal.scala 290:67]
+  wire [2:0] _cal_start_T_2 = 3'h7 - 3'h1; // @[hard_cal.scala 297:112]
+  wire [5:0] _GEN_16 = {{3'd0}, _cal_start_T_2}; // @[hard_cal.scala 297:78]
+  wire  _cal_start_T_4 = counter == _GEN_16 ? 1'h0 : cal_start; // @[hard_cal.scala 297:69]
+  wallace_adder_1 cal_module ( // @[hard_cal.scala 295:28]
+    .clock(cal_module_clock),
+    .reset(cal_module_reset),
+    .io_data_in_0(cal_module_io_data_in_0),
+    .io_data_in_1(cal_module_io_data_in_1),
+    .io_data_in_2(cal_module_io_data_in_2),
+    .io_data_in_3(cal_module_io_data_in_3),
+    .io_data_in_4(cal_module_io_data_in_4),
+    .io_data_in_5(cal_module_io_data_in_5),
+    .io_data_in_6(cal_module_io_data_in_6),
+    .io_data_in_7(cal_module_io_data_in_7),
+    .io_data_in_8(cal_module_io_data_in_8),
+    .io_data_in_9(cal_module_io_data_in_9),
+    .io_data_in_10(cal_module_io_data_in_10),
+    .io_data_in_11(cal_module_io_data_in_11),
+    .io_data_in_12(cal_module_io_data_in_12),
+    .io_data_in_13(cal_module_io_data_in_13),
+    .io_data_in_14(cal_module_io_data_in_14),
+    .io_data_in_15(cal_module_io_data_in_15),
+    .io_data_in_16(cal_module_io_data_in_16),
+    .io_result(cal_module_io_result)
+  );
+  assign io_result_0 = cal_start ? cal_module_io_result[33:0] : result_reg[33:0]; // @[hard_cal.scala 303:24]
+  assign io_input_ready = ~cal_start; // @[hard_cal.scala 306:23]
+  assign io_Output_valid = counter == _GEN_16; // @[hard_cal.scala 305:34]
+  assign cal_module_clock = clock;
+  assign cal_module_reset = reset;
+  assign cal_module_io_data_in_0 = {{3'd0}, _booth_data_0_T_49}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_1 = {{1'd0}, _booth_data_1_T_49}; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_2 = _booth_data_2_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_3 = _booth_data_3_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_4 = _booth_data_4_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_5 = _booth_data_5_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_6 = _booth_data_6_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_7 = _booth_data_7_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_8 = _booth_data_8_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_9 = _booth_data_9_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_10 = _booth_data_10_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_11 = _booth_data_11_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_12 = _booth_data_12_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_13 = _booth_data_13_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_14 = _booth_data_14_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_15 = _booth_data_15_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  assign cal_module_io_data_in_16 = _booth_data_16_T_49[67:0]; // @[hard_cal.scala 263:26 275:27]
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 289:19]
+      regs_0 <= 68'h0;
+    end else if (_signed_T) begin
+      regs_0 <= {{34'd0}, io_data_0};
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 291:19]
+      regs_1 <= 68'h0;
+    end else if (_signed_T) begin
+      regs_1 <= {{34'd0}, io_data_1};
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 259:19]
+      counter <= 6'h0;
+    end else if (cal_start) begin
+      counter <= _counter_T_1;
+    end else begin
+      counter <= 6'h0;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 297:21]
+      cal_start <= 1'h0;
+    end else begin
+      cal_start <= _signed_T | _cal_start_T_4;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 302:22]
+      result_reg <= 68'h0;
+    end else if (cal_start) begin
+      result_reg <= cal_module_io_result;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[hard_cal.scala 290:18]
+      x_fu <= 68'h0;
+    end else if (_signed_T) begin
+      x_fu <= {{34'd0}, _x_fu_T_3};
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {3{`RANDOM}};
+  regs_0 = _RAND_0[67:0];
+  _RAND_1 = {3{`RANDOM}};
+  regs_1 = _RAND_1[67:0];
+  _RAND_2 = {1{`RANDOM}};
+  counter = _RAND_2[5:0];
+  _RAND_3 = {1{`RANDOM}};
+  cal_start = _RAND_3[0:0];
+  _RAND_4 = {3{`RANDOM}};
+  result_reg = _RAND_4[67:0];
+  _RAND_5 = {3{`RANDOM}};
+  x_fu = _RAND_5[67:0];
+`endif // RANDOMIZE_REG_INIT
+  if (reset) begin
+    regs_0 = 68'h0;
+  end
+  if (reset) begin
+    regs_1 = 68'h0;
+  end
+  if (reset) begin
+    counter = 6'h0;
+  end
+  if (reset) begin
+    cal_start = 1'h0;
+  end
+  if (reset) begin
+    result_reg = 68'h0;
+  end
+  if (reset) begin
+    x_fu = 68'h0;
   end
   `endif // RANDOMIZE
 end // initial
@@ -3450,45 +6581,43 @@ module muldiv(
   reg [63:0] _RAND_2;
   reg [63:0] _RAND_3;
 `endif // RANDOMIZE_REG_INIT
-  wire  mul_simple_clock; // @[muldiv.scala 328:32]
-  wire  mul_simple_reset; // @[muldiv.scala 328:32]
-  wire [63:0] mul_simple_io_result_0; // @[muldiv.scala 328:32]
-  wire [63:0] mul_simple_io_result_1; // @[muldiv.scala 328:32]
-  wire [63:0] mul_simple_io_data_0; // @[muldiv.scala 328:32]
-  wire [63:0] mul_simple_io_data_1; // @[muldiv.scala 328:32]
-  wire  mul_simple_io_input_valid; // @[muldiv.scala 328:32]
-  wire  mul_simple_io_input_ready; // @[muldiv.scala 328:32]
-  wire  mul_simple_io_Output_valid; // @[muldiv.scala 328:32]
-  wire  mul_simple_io_signed; // @[muldiv.scala 328:32]
-  wire  mul_simple_1_clock; // @[muldiv.scala 329:39]
-  wire  mul_simple_1_reset; // @[muldiv.scala 329:39]
-  wire [31:0] mul_simple_1_io_result_0; // @[muldiv.scala 329:39]
-  wire [31:0] mul_simple_1_io_data_0; // @[muldiv.scala 329:39]
-  wire [31:0] mul_simple_1_io_data_1; // @[muldiv.scala 329:39]
-  wire  mul_simple_1_io_input_valid; // @[muldiv.scala 329:39]
-  wire  mul_simple_1_io_input_ready; // @[muldiv.scala 329:39]
-  wire  mul_simple_1_io_Output_valid; // @[muldiv.scala 329:39]
-  wire  mul_simple_1_io_signed; // @[muldiv.scala 329:39]
-  wire  div_simple_clock; // @[muldiv.scala 359:32]
-  wire  div_simple_reset; // @[muldiv.scala 359:32]
-  wire [63:0] div_simple_io_result_0; // @[muldiv.scala 359:32]
-  wire [63:0] div_simple_io_result_1; // @[muldiv.scala 359:32]
-  wire [63:0] div_simple_io_data_0; // @[muldiv.scala 359:32]
-  wire [63:0] div_simple_io_data_1; // @[muldiv.scala 359:32]
-  wire  div_simple_io_input_valid; // @[muldiv.scala 359:32]
-  wire  div_simple_io_input_ready; // @[muldiv.scala 359:32]
-  wire  div_simple_io_Output_valid; // @[muldiv.scala 359:32]
-  wire  div_simple_io_signed; // @[muldiv.scala 359:32]
-  wire  div_simple_1_clock; // @[muldiv.scala 360:39]
-  wire  div_simple_1_reset; // @[muldiv.scala 360:39]
-  wire [31:0] div_simple_1_io_result_0; // @[muldiv.scala 360:39]
-  wire [31:0] div_simple_1_io_result_1; // @[muldiv.scala 360:39]
-  wire [31:0] div_simple_1_io_data_0; // @[muldiv.scala 360:39]
-  wire [31:0] div_simple_1_io_data_1; // @[muldiv.scala 360:39]
-  wire  div_simple_1_io_input_valid; // @[muldiv.scala 360:39]
-  wire  div_simple_1_io_input_ready; // @[muldiv.scala 360:39]
-  wire  div_simple_1_io_Output_valid; // @[muldiv.scala 360:39]
-  wire  div_simple_1_io_signed; // @[muldiv.scala 360:39]
+  wire  mul_hard_clock; // @[muldiv.scala 356:32]
+  wire  mul_hard_reset; // @[muldiv.scala 356:32]
+  wire [65:0] mul_hard_io_result_0; // @[muldiv.scala 356:32]
+  wire [65:0] mul_hard_io_result_1; // @[muldiv.scala 356:32]
+  wire [65:0] mul_hard_io_data_0; // @[muldiv.scala 356:32]
+  wire [65:0] mul_hard_io_data_1; // @[muldiv.scala 356:32]
+  wire  mul_hard_io_input_valid; // @[muldiv.scala 356:32]
+  wire  mul_hard_io_input_ready; // @[muldiv.scala 356:32]
+  wire  mul_hard_io_Output_valid; // @[muldiv.scala 356:32]
+  wire  mul_hard_1_clock; // @[muldiv.scala 357:39]
+  wire  mul_hard_1_reset; // @[muldiv.scala 357:39]
+  wire [33:0] mul_hard_1_io_result_0; // @[muldiv.scala 357:39]
+  wire [33:0] mul_hard_1_io_data_0; // @[muldiv.scala 357:39]
+  wire [33:0] mul_hard_1_io_data_1; // @[muldiv.scala 357:39]
+  wire  mul_hard_1_io_input_valid; // @[muldiv.scala 357:39]
+  wire  mul_hard_1_io_input_ready; // @[muldiv.scala 357:39]
+  wire  mul_hard_1_io_Output_valid; // @[muldiv.scala 357:39]
+  wire  div_simple_clock; // @[muldiv.scala 385:32]
+  wire  div_simple_reset; // @[muldiv.scala 385:32]
+  wire [63:0] div_simple_io_result_0; // @[muldiv.scala 385:32]
+  wire [63:0] div_simple_io_result_1; // @[muldiv.scala 385:32]
+  wire [63:0] div_simple_io_data_0; // @[muldiv.scala 385:32]
+  wire [63:0] div_simple_io_data_1; // @[muldiv.scala 385:32]
+  wire  div_simple_io_input_valid; // @[muldiv.scala 385:32]
+  wire  div_simple_io_input_ready; // @[muldiv.scala 385:32]
+  wire  div_simple_io_Output_valid; // @[muldiv.scala 385:32]
+  wire  div_simple_io_signed; // @[muldiv.scala 385:32]
+  wire  div_simple_1_clock; // @[muldiv.scala 386:39]
+  wire  div_simple_1_reset; // @[muldiv.scala 386:39]
+  wire [31:0] div_simple_1_io_result_0; // @[muldiv.scala 386:39]
+  wire [31:0] div_simple_1_io_result_1; // @[muldiv.scala 386:39]
+  wire [31:0] div_simple_1_io_data_0; // @[muldiv.scala 386:39]
+  wire [31:0] div_simple_1_io_data_1; // @[muldiv.scala 386:39]
+  wire  div_simple_1_io_input_valid; // @[muldiv.scala 386:39]
+  wire  div_simple_1_io_input_ready; // @[muldiv.scala 386:39]
+  wire  div_simple_1_io_Output_valid; // @[muldiv.scala 386:39]
+  wire  div_simple_1_io_signed; // @[muldiv.scala 386:39]
   wire [23:0] _cal_mul_T_1 = {{9'd0}, io_ctrl[23:9]}; // @[muldiv.scala 300:48]
   wire [23:0] _cal_mul_T_3 = {{12'd0}, io_ctrl[23:12]}; // @[muldiv.scala 300:71]
   wire [23:0] _cal_mul_T_6 = {{10'd0}, io_ctrl[23:10]}; // @[muldiv.scala 301:20]
@@ -3518,52 +6647,61 @@ module muldiv(
   wire  _work_state_T_7 = cal_divw & _work_state_T; // @[muldiv.scala 320:20]
   wire  _work_state_T_8 = work_state == 4'h1; // @[muldiv.scala 321:37]
   wire  _work_state_T_9 = work_state == 4'h2; // @[muldiv.scala 321:69]
-  wire  _cal_end_mul_T_1 = _work_state_T_8 & mul_simple_io_Output_valid; // @[muldiv.scala 340:43]
-  wire  _cal_end_mul_T_3 = _work_state_T_9 & mul_simple_1_io_Output_valid; // @[muldiv.scala 341:44]
+  wire  _cal_end_mul_T_1 = _work_state_T_8 & mul_hard_io_Output_valid; // @[muldiv.scala 368:43]
+  wire  _cal_end_mul_T_3 = _work_state_T_9 & mul_hard_1_io_Output_valid; // @[muldiv.scala 369:44]
   wire  cal_end_mul = _cal_end_mul_T_1 | _cal_end_mul_T_3; // @[Mux.scala 101:16]
   wire  _work_state_T_11 = cal_end_mul & (work_state == 4'h1 | work_state == 4'h2); // @[muldiv.scala 321:22]
   wire  _work_state_T_12 = work_state == 4'h3; // @[muldiv.scala 322:38]
   wire  _work_state_T_13 = work_state == 4'h5; // @[muldiv.scala 322:70]
-  wire  _cal_end_div_T_1 = _work_state_T_12 & div_simple_io_Output_valid; // @[muldiv.scala 371:43]
-  wire  _cal_end_div_T_3 = _work_state_T_13 & div_simple_1_io_Output_valid; // @[muldiv.scala 372:44]
+  wire  _cal_end_div_T_1 = _work_state_T_12 & div_simple_io_Output_valid; // @[muldiv.scala 397:43]
+  wire  _cal_end_div_T_3 = _work_state_T_13 & div_simple_1_io_Output_valid; // @[muldiv.scala 398:44]
   wire  cal_end_div = _cal_end_div_T_1 | _cal_end_div_T_3; // @[Mux.scala 101:16]
   wire  _work_state_T_15 = cal_end_div & (work_state == 4'h3 | work_state == 4'h5); // @[muldiv.scala 322:23]
   wire  _work_state_T_16 = work_state == 4'h4; // @[muldiv.scala 323:21]
   wire [3:0] _work_state_T_17 = _work_state_T_16 ? 4'h0 : work_state; // @[Mux.scala 101:16]
   wire [3:0] _work_state_T_18 = _work_state_T_15 ? 4'h4 : _work_state_T_17; // @[Mux.scala 101:16]
   wire [3:0] _work_state_T_19 = _work_state_T_11 ? 4'h4 : _work_state_T_18; // @[Mux.scala 101:16]
-  reg [63:0] mul_cal_reg; // @[muldiv.scala 343:34]
-  wire [23:0] _access_mul_result_T = {{9'd0}, ctrl_data[23:9]}; // @[muldiv.scala 345:30]
-  wire [23:0] _access_mul_result_T_2 = {{10'd0}, ctrl_data[23:10]}; // @[muldiv.scala 346:30]
-  wire [23:0] _access_mul_result_T_4 = {{11'd0}, ctrl_data[23:11]}; // @[muldiv.scala 347:30]
-  wire [23:0] _access_mul_result_T_6 = {{12'd0}, ctrl_data[23:12]}; // @[muldiv.scala 348:30]
-  wire [23:0] _access_mul_result_T_8 = {{8'd0}, ctrl_data[23:8]}; // @[muldiv.scala 349:30]
-  wire [7:0] access_mul_result_lo_lo = {mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],
-    mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],
-    mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31]}; // @[Cat.scala 31:58]
-  wire [15:0] access_mul_result_lo = {mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],mul_simple_1_io_result_0
-    [31],mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],mul_simple_1_io_result_0
-    [31],mul_simple_1_io_result_0[31],access_mul_result_lo_lo}; // @[Cat.scala 31:58]
-  wire [31:0] _access_mul_result_T_42 = {mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],
-    mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],
-    mul_simple_1_io_result_0[31],mul_simple_1_io_result_0[31],access_mul_result_lo_lo,access_mul_result_lo}; // @[Cat.scala 31:58]
-  wire [31:0] _access_mul_result_T_43 = mul_simple_1_io_result_0; // @[macros.scala 432:65]
-  wire [63:0] _access_mul_result_T_44 = {_access_mul_result_T_42,_access_mul_result_T_43}; // @[Cat.scala 31:58]
-  wire [63:0] _access_mul_result_T_45 = _access_mul_result_T[0] ? mul_simple_io_result_0 : 64'h0; // @[Mux.scala 27:73]
-  wire [63:0] _access_mul_result_T_46 = _access_mul_result_T_2[0] ? mul_simple_io_result_1 : 64'h0; // @[Mux.scala 27:73]
-  wire [63:0] _access_mul_result_T_47 = _access_mul_result_T_4[0] ? mul_simple_io_result_1 : 64'h0; // @[Mux.scala 27:73]
-  wire [63:0] _access_mul_result_T_48 = _access_mul_result_T_6[0] ? mul_simple_io_result_1 : 64'h0; // @[Mux.scala 27:73]
-  wire [63:0] _access_mul_result_T_49 = _access_mul_result_T_8[0] ? _access_mul_result_T_44 : 64'h0; // @[Mux.scala 27:73]
-  wire [63:0] _access_mul_result_T_50 = _access_mul_result_T_45 | _access_mul_result_T_46; // @[Mux.scala 27:73]
-  wire [63:0] _access_mul_result_T_51 = _access_mul_result_T_50 | _access_mul_result_T_47; // @[Mux.scala 27:73]
-  wire [63:0] _access_mul_result_T_52 = _access_mul_result_T_51 | _access_mul_result_T_48; // @[Mux.scala 27:73]
-  wire [63:0] access_mul_result = _access_mul_result_T_52 | _access_mul_result_T_49; // @[Mux.scala 27:73]
-  wire [63:0] cal_mul_result = cal_end_mul ? access_mul_result : mul_cal_reg; // @[muldiv.scala 351:30]
-  reg [63:0] div_cal_reg; // @[muldiv.scala 374:34]
-  wire [23:0] _access_div_result_T = {{1'd0}, ctrl_data[23:1]}; // @[muldiv.scala 376:30]
-  wire [23:0] _access_div_result_T_4 = {{3'd0}, ctrl_data[23:3]}; // @[muldiv.scala 378:30]
-  wire [23:0] _access_div_result_T_6 = {{2'd0}, ctrl_data[23:2]}; // @[muldiv.scala 379:30]
-  wire [23:0] _access_div_result_T_8 = {{4'd0}, ctrl_data[23:4]}; // @[muldiv.scala 380:30]
+  wire  cal_signed = _cal_mul_T_1[0] | _cal_mul_T_6[0] | _cal_mulw_T_1[0] | _cal_mul_T_3[0]; // @[muldiv.scala 358:95]
+  wire [65:0] _T_4 = {io_in1[63],io_in1[63],io_in1}; // @[Cat.scala 31:58]
+  wire [64:0] _T_6 = {1'h0,io_in1}; // @[Cat.scala 31:58]
+  wire [65:0] _T_12 = {io_in2[63],io_in2[63],io_in2}; // @[Cat.scala 31:58]
+  wire [64:0] _T_14 = {1'h0,io_in2}; // @[Cat.scala 31:58]
+  wire [33:0] _T_21 = {io_in1[31],io_in1[31],io_in1[31:0]}; // @[Cat.scala 31:58]
+  wire [32:0] _T_24 = {1'h0,io_in1[31:0]}; // @[Cat.scala 31:58]
+  wire [33:0] _T_31 = {io_in2[31],io_in2[31],io_in2[31:0]}; // @[Cat.scala 31:58]
+  wire [32:0] _T_34 = {1'h0,io_in2[31:0]}; // @[Cat.scala 31:58]
+  wire [131:0] final_result = {mul_hard_io_result_1,mul_hard_io_result_0}; // @[Cat.scala 31:58]
+  reg [63:0] mul_cal_reg; // @[muldiv.scala 372:34]
+  wire [23:0] _access_mul_result_T = {{9'd0}, ctrl_data[23:9]}; // @[muldiv.scala 374:30]
+  wire [23:0] _access_mul_result_T_3 = {{10'd0}, ctrl_data[23:10]}; // @[muldiv.scala 375:30]
+  wire [23:0] _access_mul_result_T_6 = {{11'd0}, ctrl_data[23:11]}; // @[muldiv.scala 376:30]
+  wire [23:0] _access_mul_result_T_9 = {{12'd0}, ctrl_data[23:12]}; // @[muldiv.scala 377:30]
+  wire [23:0] _access_mul_result_T_12 = {{8'd0}, ctrl_data[23:8]}; // @[muldiv.scala 378:30]
+  wire [7:0] access_mul_result_lo_lo = {mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31]
+    ,mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],
+    mul_hard_1_io_result_0[31]}; // @[Cat.scala 31:58]
+  wire [15:0] access_mul_result_lo = {mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],
+    mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],
+    mul_hard_1_io_result_0[31],access_mul_result_lo_lo}; // @[Cat.scala 31:58]
+  wire [31:0] _access_mul_result_T_47 = {mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31
+    ],mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],mul_hard_1_io_result_0[31],
+    mul_hard_1_io_result_0[31],access_mul_result_lo_lo,access_mul_result_lo}; // @[Cat.scala 31:58]
+  wire [63:0] _access_mul_result_T_49 = {_access_mul_result_T_47,mul_hard_1_io_result_0[31:0]}; // @[Cat.scala 31:58]
+  wire [63:0] _access_mul_result_T_50 = _access_mul_result_T[0] ? final_result[63:0] : 64'h0; // @[Mux.scala 27:73]
+  wire [63:0] _access_mul_result_T_51 = _access_mul_result_T_3[0] ? final_result[127:64] : 64'h0; // @[Mux.scala 27:73]
+  wire [63:0] _access_mul_result_T_52 = _access_mul_result_T_6[0] ? final_result[127:64] : 64'h0; // @[Mux.scala 27:73]
+  wire [63:0] _access_mul_result_T_53 = _access_mul_result_T_9[0] ? final_result[127:64] : 64'h0; // @[Mux.scala 27:73]
+  wire [63:0] _access_mul_result_T_54 = _access_mul_result_T_12[0] ? _access_mul_result_T_49 : 64'h0; // @[Mux.scala 27:73]
+  wire [63:0] _access_mul_result_T_55 = _access_mul_result_T_50 | _access_mul_result_T_51; // @[Mux.scala 27:73]
+  wire [63:0] _access_mul_result_T_56 = _access_mul_result_T_55 | _access_mul_result_T_52; // @[Mux.scala 27:73]
+  wire [63:0] _access_mul_result_T_57 = _access_mul_result_T_56 | _access_mul_result_T_53; // @[Mux.scala 27:73]
+  wire [63:0] access_mul_result = _access_mul_result_T_57 | _access_mul_result_T_54; // @[Mux.scala 27:73]
+  wire [63:0] cal_mul_result = cal_end_mul ? access_mul_result : mul_cal_reg; // @[muldiv.scala 380:30]
+  reg [63:0] div_cal_reg; // @[muldiv.scala 400:34]
+  wire [23:0] _access_div_result_T = {{1'd0}, ctrl_data[23:1]}; // @[muldiv.scala 402:30]
+  wire [23:0] _access_div_result_T_4 = {{3'd0}, ctrl_data[23:3]}; // @[muldiv.scala 404:30]
+  wire [23:0] _access_div_result_T_6 = {{2'd0}, ctrl_data[23:2]}; // @[muldiv.scala 405:30]
+  wire [23:0] _access_div_result_T_8 = {{4'd0}, ctrl_data[23:4]}; // @[muldiv.scala 406:30]
   wire [7:0] access_div_result_lo_lo = {div_simple_1_io_result_0[31],div_simple_1_io_result_0[31],
     div_simple_1_io_result_0[31],div_simple_1_io_result_0[31],div_simple_1_io_result_0[31],div_simple_1_io_result_0[31],
     div_simple_1_io_result_0[31],div_simple_1_io_result_0[31]}; // @[Cat.scala 31:58]
@@ -3575,8 +6713,8 @@ module muldiv(
     div_simple_1_io_result_0[31],div_simple_1_io_result_0[31],access_div_result_lo_lo,access_div_result_lo}; // @[Cat.scala 31:58]
   wire [31:0] _access_div_result_T_43 = div_simple_1_io_result_0; // @[macros.scala 432:65]
   wire [63:0] _access_div_result_T_44 = {_access_div_result_T_42,_access_div_result_T_43}; // @[Cat.scala 31:58]
-  wire [23:0] _access_div_result_T_45 = {{5'd0}, ctrl_data[23:5]}; // @[muldiv.scala 381:30]
-  wire [23:0] _access_div_result_T_82 = {{6'd0}, ctrl_data[23:6]}; // @[muldiv.scala 382:30]
+  wire [23:0] _access_div_result_T_45 = {{5'd0}, ctrl_data[23:5]}; // @[muldiv.scala 407:30]
+  wire [23:0] _access_div_result_T_82 = {{6'd0}, ctrl_data[23:6]}; // @[muldiv.scala 408:30]
   wire [7:0] access_div_result_lo_lo_2 = {div_simple_1_io_result_1[31],div_simple_1_io_result_1[31],
     div_simple_1_io_result_1[31],div_simple_1_io_result_1[31],div_simple_1_io_result_1[31],div_simple_1_io_result_1[31],
     div_simple_1_io_result_1[31],div_simple_1_io_result_1[31]}; // @[Cat.scala 31:58]
@@ -3588,7 +6726,7 @@ module muldiv(
     div_simple_1_io_result_1[31],div_simple_1_io_result_1[31],access_div_result_lo_lo_2,access_div_result_lo_2}; // @[Cat.scala 31:58]
   wire [31:0] _access_div_result_T_117 = div_simple_1_io_result_1; // @[macros.scala 432:65]
   wire [63:0] _access_div_result_T_118 = {_access_div_result_T_116,_access_div_result_T_117}; // @[Cat.scala 31:58]
-  wire [23:0] _access_div_result_T_119 = {{7'd0}, ctrl_data[23:7]}; // @[muldiv.scala 383:30]
+  wire [23:0] _access_div_result_T_119 = {{7'd0}, ctrl_data[23:7]}; // @[muldiv.scala 409:30]
   wire [63:0] _access_div_result_T_156 = _access_div_result_T[0] ? div_simple_io_result_0 : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _access_div_result_T_157 = ctrl_data[0] ? div_simple_io_result_0 : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _access_div_result_T_158 = _access_div_result_T_4[0] ? div_simple_io_result_1 : 64'h0; // @[Mux.scala 27:73]
@@ -3604,7 +6742,7 @@ module muldiv(
   wire [63:0] _access_div_result_T_168 = _access_div_result_T_167 | _access_div_result_T_161; // @[Mux.scala 27:73]
   wire [63:0] _access_div_result_T_169 = _access_div_result_T_168 | _access_div_result_T_162; // @[Mux.scala 27:73]
   wire [63:0] access_div_result = _access_div_result_T_169 | _access_div_result_T_163; // @[Mux.scala 27:73]
-  wire [63:0] cal_div_result = cal_end_div ? access_div_result : div_cal_reg; // @[muldiv.scala 385:30]
+  wire [63:0] cal_div_result = cal_end_div ? access_div_result : div_cal_reg; // @[muldiv.scala 411:30]
   wire [63:0] _io_data_out_T_26 = _cal_div_T_1[0] ? cal_div_result : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _io_data_out_T_27 = io_ctrl[0] ? cal_div_result : 64'h0; // @[Mux.scala 27:73]
   wire [63:0] _io_data_out_T_28 = _cal_divw_T_1[0] ? cal_div_result : 64'h0; // @[Mux.scala 27:73]
@@ -3629,30 +6767,28 @@ module muldiv(
   wire [63:0] _io_data_out_T_47 = _io_data_out_T_46 | _io_data_out_T_35; // @[Mux.scala 27:73]
   wire [63:0] _io_data_out_T_48 = _io_data_out_T_47 | _io_data_out_T_36; // @[Mux.scala 27:73]
   wire [63:0] _io_data_out_T_49 = _io_data_out_T_48 | _io_data_out_T_37; // @[Mux.scala 27:73]
-  mul_simple mul_simple ( // @[muldiv.scala 328:32]
-    .clock(mul_simple_clock),
-    .reset(mul_simple_reset),
-    .io_result_0(mul_simple_io_result_0),
-    .io_result_1(mul_simple_io_result_1),
-    .io_data_0(mul_simple_io_data_0),
-    .io_data_1(mul_simple_io_data_1),
-    .io_input_valid(mul_simple_io_input_valid),
-    .io_input_ready(mul_simple_io_input_ready),
-    .io_Output_valid(mul_simple_io_Output_valid),
-    .io_signed(mul_simple_io_signed)
+  mul_hard mul_hard ( // @[muldiv.scala 356:32]
+    .clock(mul_hard_clock),
+    .reset(mul_hard_reset),
+    .io_result_0(mul_hard_io_result_0),
+    .io_result_1(mul_hard_io_result_1),
+    .io_data_0(mul_hard_io_data_0),
+    .io_data_1(mul_hard_io_data_1),
+    .io_input_valid(mul_hard_io_input_valid),
+    .io_input_ready(mul_hard_io_input_ready),
+    .io_Output_valid(mul_hard_io_Output_valid)
   );
-  mul_simple_1 mul_simple_1 ( // @[muldiv.scala 329:39]
-    .clock(mul_simple_1_clock),
-    .reset(mul_simple_1_reset),
-    .io_result_0(mul_simple_1_io_result_0),
-    .io_data_0(mul_simple_1_io_data_0),
-    .io_data_1(mul_simple_1_io_data_1),
-    .io_input_valid(mul_simple_1_io_input_valid),
-    .io_input_ready(mul_simple_1_io_input_ready),
-    .io_Output_valid(mul_simple_1_io_Output_valid),
-    .io_signed(mul_simple_1_io_signed)
+  mul_hard_1 mul_hard_1 ( // @[muldiv.scala 357:39]
+    .clock(mul_hard_1_clock),
+    .reset(mul_hard_1_reset),
+    .io_result_0(mul_hard_1_io_result_0),
+    .io_data_0(mul_hard_1_io_data_0),
+    .io_data_1(mul_hard_1_io_data_1),
+    .io_input_valid(mul_hard_1_io_input_valid),
+    .io_input_ready(mul_hard_1_io_input_ready),
+    .io_Output_valid(mul_hard_1_io_Output_valid)
   );
-  div_simple div_simple ( // @[muldiv.scala 359:32]
+  div_simple div_simple ( // @[muldiv.scala 385:32]
     .clock(div_simple_clock),
     .reset(div_simple_reset),
     .io_result_0(div_simple_io_result_0),
@@ -3664,7 +6800,7 @@ module muldiv(
     .io_Output_valid(div_simple_io_Output_valid),
     .io_signed(div_simple_io_signed)
   );
-  div_simple_1 div_simple_1 ( // @[muldiv.scala 360:39]
+  div_simple_1 div_simple_1 ( // @[muldiv.scala 386:39]
     .clock(div_simple_1_clock),
     .reset(div_simple_1_reset),
     .io_result_0(div_simple_1_io_result_0),
@@ -3678,31 +6814,29 @@ module muldiv(
   );
   assign io_data_out = _io_data_out_T_49 | _io_data_out_T_38; // @[Mux.scala 27:73]
   assign io_pending = work_state != 4'h0 & work_state != 4'h4 | _work_state_T & (cal_mul | cal_mulw | cal_div | cal_divw
-    ); // @[muldiv.scala 429:79]
-  assign mul_simple_clock = clock;
-  assign mul_simple_reset = reset;
-  assign mul_simple_io_data_0 = io_in1; // @[muldiv.scala 333:28]
-  assign mul_simple_io_data_1 = io_in2; // @[muldiv.scala 334:28]
-  assign mul_simple_io_input_valid = _work_state_T & cal_mul; // @[muldiv.scala 337:66]
-  assign mul_simple_io_signed = _cal_mul_T_1[0] | _cal_mul_T_6[0] | _cal_mulw_T_1[0] | _cal_mul_T_3[0]; // @[muldiv.scala 330:95]
-  assign mul_simple_1_clock = clock;
-  assign mul_simple_1_reset = reset;
-  assign mul_simple_1_io_data_0 = io_in1[31:0]; // @[muldiv.scala 335:35]
-  assign mul_simple_1_io_data_1 = io_in2[31:0]; // @[muldiv.scala 336:35]
-  assign mul_simple_1_io_input_valid = _work_state_T & cal_mulw; // @[muldiv.scala 338:72]
-  assign mul_simple_1_io_signed = _cal_mul_T_1[0] | _cal_mul_T_6[0] | _cal_mulw_T_1[0] | _cal_mul_T_3[0]; // @[muldiv.scala 330:95]
+    ); // @[muldiv.scala 455:79]
+  assign mul_hard_clock = clock;
+  assign mul_hard_reset = reset;
+  assign mul_hard_io_data_0 = cal_signed ? _T_4 : {{1'd0}, _T_6}; // @[muldiv.scala 361:34]
+  assign mul_hard_io_data_1 = cal_signed ? _T_12 : {{1'd0}, _T_14}; // @[muldiv.scala 362:34]
+  assign mul_hard_io_input_valid = _work_state_T & cal_mul; // @[muldiv.scala 365:66]
+  assign mul_hard_1_clock = clock;
+  assign mul_hard_1_reset = reset;
+  assign mul_hard_1_io_data_0 = cal_signed ? _T_21 : {{1'd0}, _T_24}; // @[muldiv.scala 363:41]
+  assign mul_hard_1_io_data_1 = cal_signed ? _T_31 : {{1'd0}, _T_34}; // @[muldiv.scala 364:41]
+  assign mul_hard_1_io_input_valid = _work_state_T & cal_mulw; // @[muldiv.scala 366:72]
   assign div_simple_clock = clock;
   assign div_simple_reset = reset;
-  assign div_simple_io_data_0 = io_in1; // @[muldiv.scala 364:28]
-  assign div_simple_io_data_1 = io_in2; // @[muldiv.scala 365:28]
-  assign div_simple_io_input_valid = _work_state_T & cal_div; // @[muldiv.scala 368:66]
-  assign div_simple_io_signed = _cal_div_T_1[0] | _cal_divw_T_1[0] | _cal_div_T_6[0] | _cal_divw_T_6[0]; // @[muldiv.scala 361:96]
+  assign div_simple_io_data_0 = io_in1; // @[muldiv.scala 390:28]
+  assign div_simple_io_data_1 = io_in2; // @[muldiv.scala 391:28]
+  assign div_simple_io_input_valid = _work_state_T & cal_div; // @[muldiv.scala 394:66]
+  assign div_simple_io_signed = _cal_div_T_1[0] | _cal_divw_T_1[0] | _cal_div_T_6[0] | _cal_divw_T_6[0]; // @[muldiv.scala 387:96]
   assign div_simple_1_clock = clock;
   assign div_simple_1_reset = reset;
-  assign div_simple_1_io_data_0 = io_in1[31:0]; // @[muldiv.scala 366:35]
-  assign div_simple_1_io_data_1 = io_in2[31:0]; // @[muldiv.scala 367:35]
-  assign div_simple_1_io_input_valid = _work_state_T & cal_divw; // @[muldiv.scala 369:72]
-  assign div_simple_1_io_signed = _cal_div_T_1[0] | _cal_divw_T_1[0] | _cal_div_T_6[0] | _cal_divw_T_6[0]; // @[muldiv.scala 361:96]
+  assign div_simple_1_io_data_0 = io_in1[31:0]; // @[muldiv.scala 392:35]
+  assign div_simple_1_io_data_1 = io_in2[31:0]; // @[muldiv.scala 393:35]
+  assign div_simple_1_io_input_valid = _work_state_T & cal_divw; // @[muldiv.scala 395:72]
+  assign div_simple_1_io_signed = _cal_div_T_1[0] | _cal_divw_T_1[0] | _cal_div_T_6[0] | _cal_divw_T_6[0]; // @[muldiv.scala 387:96]
   always @(posedge clock or posedge reset) begin
     if (reset) begin // @[Mux.scala 101:16]
       work_state <= 4'h0;
@@ -3726,14 +6860,14 @@ module muldiv(
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[muldiv.scala 352:27]
+    if (reset) begin // @[muldiv.scala 381:27]
       mul_cal_reg <= 64'h0;
     end else if (cal_end_mul) begin
       mul_cal_reg <= access_mul_result;
     end
   end
   always @(posedge clock or posedge reset) begin
-    if (reset) begin // @[muldiv.scala 386:27]
+    if (reset) begin // @[muldiv.scala 412:27]
       div_cal_reg <= 64'h0;
     end else if (cal_end_div) begin
       div_cal_reg <= access_div_result;
