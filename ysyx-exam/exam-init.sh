@@ -14,18 +14,12 @@ if [[ ! -d navy-apps/$d ]]; then
 else
   echo navy-apps/$d already exists
 fi
+
 d="libs/libc"
 if [[ ! -d navy-apps/$d ]]; then
   cp -r $NAVY_HOME/$d `dirname navy-apps/$d`
 else
   echo navy-apps/$d already exists
-fi
-
-d="tools/spike-diff/repo"
-if [[ ! -d nemu/$d ]]; then
-  cp -r $NEMU_HOME/$d `dirname nemu/$d`
-else
-  echo nemu/$d already exists
 fi
 
 d="../am-kernels"
