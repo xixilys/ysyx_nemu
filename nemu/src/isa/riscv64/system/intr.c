@@ -57,7 +57,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu_error_data.mepc      = epc;
   etrace_loop_push(etrace_loop,cpu_error_data,&etrace_loop_index);
   #endif
-  return cpu.special_reg[MEPC];
+  return cpu.special_reg[MTVEC];
 }
 word_t isa_query_intr() {
   return INTR_EMPTY;

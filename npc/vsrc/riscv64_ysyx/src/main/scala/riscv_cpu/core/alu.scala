@@ -32,7 +32,7 @@ class alu extends Module with riscv_macros {
     val answer_sltu  = Mux((io.in1 <  io.in2),1.U,0.U)//无符号小于比较
     val answer_sll   = io.in1 << sa
 
-    val answer_srl   = io.in1 << sa
+    val answer_srl   = io.in1 >> sa
     val answer_srlw  = io.in1(31,0) >> sa_for_32bit
     val answer_sra   = (io.in1.asSInt >> sa).asUInt
     val answer_sraw  = (io.in1(31,0).asSInt >> sa_for_32bit).asUInt
