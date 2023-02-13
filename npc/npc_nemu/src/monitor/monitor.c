@@ -207,9 +207,12 @@ static void load_elf() {
     FILE *fp = fopen(elf_file, "rb");
     Assert(fp, "Can not open '%s'", elf_file);
     int answer = fread(&p->elf_header,sizeof(p->elf_header),1,fp); 
+      //通过魔数来判断是不是正常的elf文件
+    assert(*(uint32_t *)(p->elf_header.e_ident) == 0x464C457F);
 
     p->elf_program_header = (Elf64_Phdr*)malloc(p->elf_header.e_phnum * p->elf_header.e_phentsize);
     p->elf_section_header = (Elf64_Shdr*)malloc(p->elf_header.e_shnum * p->elf_header.e_shentsize);
+
 
     answer = fseek(fp,p->elf_header.e_phoff,SEEK_SET);
 
@@ -217,7 +220,7 @@ static void load_elf() {
 
     printf("answer = %d\n",answer);
 
-
+    printf("size is %lu\n",(size_t)(p->elf_header.e_phnum * p->elf_header.e_phentsize));
     answer = fseek(fp,p->elf_header.e_shoff,SEEK_SET);
     answer = fread(p->elf_section_header,p->elf_header.e_shnum * p->elf_header.e_shentsize,1,fp); 
 

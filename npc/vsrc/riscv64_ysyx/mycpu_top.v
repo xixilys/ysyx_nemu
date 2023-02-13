@@ -1,20 +1,3 @@
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-<<<<<<< HEAD
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-/* verilator lint_off WIDTH */ 
-=======
->>>>>>> a87552d13bcd9e4bdee3027b40bc93f899c95c50
 module alu(
   input  [23:0] io_ctrl,
   input  [63:0] io_in1,

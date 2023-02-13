@@ -226,7 +226,6 @@ static void load_elf() {
   if (elf_read_list == NULL) {
     printf("No elf is given. ftrace is not working.");
     return ;
-
   }
   elf_list * p = elf_read_list;
   do{
@@ -235,12 +234,14 @@ static void load_elf() {
     FILE *fp = fopen(elf_file, "rb");
     Assert(fp, "Can not open '%s'", elf_file);
     int answer = fread(&p->elf_header,sizeof(p->elf_header),1,fp); 
+    // printf("data is %x\n",*(uint32_t * )p->elf_header.e_ident);
+    assert(*(uint32_t *)(p->elf_header.e_ident) == 0x464C457F);
+    printf("size is %lu\n",(size_t)(p->elf_header.e_phnum * p->elf_header.e_phentsize));
 
     p->elf_program_header = malloc(p->elf_header.e_phnum * p->elf_header.e_phentsize);
     p->elf_section_header = malloc(p->elf_header.e_shnum * p->elf_header.e_shentsize);
 
     answer = fseek(fp,p->elf_header.e_phoff,SEEK_SET);
-
     answer = fread(p->elf_program_header,p->elf_header.e_phnum * p->elf_header.e_phentsize,1,fp); 
 
     printf("answer = %d\n",answer);
@@ -251,9 +252,7 @@ static void load_elf() {
 
     for(int i = 0;i < p->elf_header.e_shnum;i++) {
       if(p->elf_section_header[i].sh_type == SHT_STRTAB) {
-
         answer = fseek(fp,p->elf_section_header[i].sh_offset,SEEK_SET);
-      
         if(i != p->elf_header.e_shstrndx) {
           p->elf_string_table = malloc(sizeof(char) * p->elf_section_header[i].sh_size);
           answer = fread(p->elf_string_table,sizeof(char) * p->elf_section_header[i].sh_size ,1,fp); 
@@ -261,17 +260,12 @@ static void load_elf() {
         }else if(i == p->elf_header.e_shstrndx) {
           p->elf_sec_name_table = malloc(sizeof(char) * p->elf_section_header[i].sh_size);
           answer = fread(p->elf_sec_name_table,sizeof(char) * p->elf_section_header[i].sh_size ,1,fp); 
-        }
-          
+        }    
       }else if(p->elf_section_header[i].sh_type == SHT_SYMTAB) { 
-        
         p->sec_entry_num = p->elf_section_header[i].sh_size /  p->elf_section_header[i].sh_entsize;
-    
         p->elf_symbol_table = malloc(p->elf_section_header[i].sh_size );
-
         answer = fseek(fp,p->elf_section_header[i].sh_offset,SEEK_SET);
         answer = fread(p->elf_symbol_table,p->elf_section_header[i].sh_size,1,fp); 
-       
       }
     }
     fclose(fp);
@@ -280,6 +274,7 @@ static void load_elf() {
     // }
     p = p->next;
     }while( p != NULL);
+    // assert(0);
 }
 static int parse_args(int argc, char *argv[]) {
   const struct option table[] = {

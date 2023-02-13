@@ -51,7 +51,6 @@ void sizet_to_string_x(size_t num , char * value) {
     reverse_value [index]  =  temp_value;
     num = num / 16;
     index ++ ;
-    
   }
   
   index --;

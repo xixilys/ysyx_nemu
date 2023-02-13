@@ -40,7 +40,6 @@ CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\"" $(CXXFLAGS)
 LDFLAGS += -lSDL2 -lSDL2_image $(LIBS) 
 
 $(BIN): $(VSRCS) $(CSRCS)
-	python3 $(NPC_HOME)/verilog_add_something.py
 	-rm $(NPC_NEMU_HOME)/include/generated/autoconf.h 
 	-cp $(NPC_HOME)/include/generated/autoconf.h $(NPC_NEMU_HOME)/include/generated/
 	@echo $(CSRCS)
