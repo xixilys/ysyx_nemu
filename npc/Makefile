@@ -37,7 +37,7 @@ CSRCS = $(SRCS) $(CXXSRC)
 # rules for verilator
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\"" $(CXXFLAGS)
-LDFLAGS += -lSDL2 -lSDL2_image $(LIBS) 
+LDFLAGS += -lSDL2  $(LIBS) 
 
 $(BIN): $(VSRCS) $(CSRCS)
 	-rm $(NPC_NEMU_HOME)/include/generated/autoconf.h 

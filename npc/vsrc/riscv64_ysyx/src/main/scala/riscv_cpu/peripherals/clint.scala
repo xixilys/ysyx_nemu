@@ -81,7 +81,6 @@ class timer_periph(base_addr:UInt) extends  Module with riscv_macros {
         mtimecmp_to_be.asUInt,mtimecmp)
     msip := Mux(axi_read_addr === axi_work1 && io.axi_port.wvalid.asBool && axi_write_addr === (base_addr + msip_offset),Cat(0.U(31.W),axi_write_data(0)),msip)
 
-
     io.axi_port.awready  := 1.U
     io.axi_port.wready   := axi_write_state === axi_work1
     io.axi_port.bid      := 0.U

@@ -101,6 +101,7 @@ import chisel3.util._
     
         })
 
+
     }
 
 
@@ -108,6 +109,8 @@ class mycpu_top  extends RawModule with riscv_macros {
         //完全没用到chisel真正好的地方，我是废物呜呜呜呜
     val         aresetn  = IO(Input(Bool())).suggestName("aresetn")
     val         clk     = IO(Input(Bool())).suggestName("aclk")
+    val         can_rx = IO(Input(Bool()))
+    val         can_tx = IO(Output(Bool()))
     // val         ext_int = IO(Input(UInt(6.W)))// 外部中断\
 
     val         axi_mem_port =  IO((new axi_ram_port))
@@ -129,7 +132,7 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     val icache = icache_first//.port
     val dcache_first = Module(new data_cache).io  
     val dcache = dcache_first//.port
-    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,2,Array(0,0X20000000),Array(0,0X2000BFFF)))
+    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,3,Array(0,0X20000000,0x21000000),Array(0,0X2000BFFF,0x2100FFFF)))
     //length总共也就16，比较拉
 
     if(tlb_on) {
@@ -240,113 +243,20 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
 
     //peripherals
     val axi_clint = Module(new timer_periph(0X20000000.U(data_length.W))).io
+    val axi_can = Module(new axi_can_top).io
     _axi_cross_bar.io.s_port(1) <> axi_clint.axi_port
+    _axi_cross_bar.io.s_port(2) <> axi_can.axi_port
+    axi_can.rstn  := aresetn
+    axi_can.clk    := clk
+    axi_can.can_rx := can_rx
+    can_tx := axi_can.can_tx
+
 
     u_riscv_cpu.ext_int.timer := axi_clint.int_line
     
 
     
-
-    // u_axi_cache_bridge.io.aclk             := clk       
-    // u_axi_cache_bridge.io.aresetn          := aresetn
-    // u_axi_cache_bridge.io.s_axi_awid       := Cat(dcache.awid,icache.awid)
-    // u_axi_cache_bridge.io.s_axi_awaddr     := Cat(dcache.awaddr,icache.awaddr)
-    // u_axi_cache_bridge.io.s_axi_awlen      := Cat(dcache.awlen,icache.awlen)
-    // u_axi_cache_bridge.io.s_axi_awsize     := Cat(dcache.awsize,icache.awsize)
-    // u_axi_cache_bridge.io.s_axi_awburst    := Cat(dcache.awburst,icache.awburst)
-    // u_axi_cache_bridge.io.s_axi_awlock     := Cat(dcache.awlock,icache.awlock)
-    // u_axi_cache_bridge.io.s_axi_awcache    := Cat(dcache.awcache,icache.awcache)
-    // u_axi_cache_bridge.io.s_axi_awprot     := Cat(dcache.awprot,icache.awprot)
-    // u_axi_cache_bridge.io.s_axi_awqos      := Cat(0.U(4.W),0.U(4.W))
-    // u_axi_cache_bridge.io.s_axi_awvalid    := Cat(dcache.awvalid,icache.awvalid)
-    // dcache.awready                          := u_axi_cache_bridge.io.s_axi_awready(1)
-    // icache.awready                          := u_axi_cache_bridge.io.s_axi_awready(0)
-
-    // u_axi_cache_bridge.io.s_axi_wid        := Cat(dcache.wid,icache.wid)
-    // u_axi_cache_bridge.io.s_axi_wdata      := Cat(dcache.wdata,icache.wdata)
-    // u_axi_cache_bridge.io.s_axi_wstrb      := Cat(dcache.wstrb,icache.wstrb)
-    // u_axi_cache_bridge.io.s_axi_wlast      := Cat(dcache.wlast,icache.wlast)
-    // u_axi_cache_bridge.io.s_axi_wvalid     := Cat(dcache.wvalid,icache.wvalid)
-    // dcache.wready   := u_axi_cache_bridge.io.s_axi_wready(1)
-    // icache.wready   := u_axi_cache_bridge.io.s_axi_wready(0)
-    // dcache.bid      := u_axi_cache_bridge.io.s_axi_bid(7,4)
-    // icache.bid      := u_axi_cache_bridge.io.s_axi_bid(3,0)
-    // dcache.bresp    := u_axi_cache_bridge.io.s_axi_bresp(3,2)
-    // icache.bresp    := u_axi_cache_bridge.io.s_axi_bresp(1,0)
-    // dcache.bvalid   := u_axi_cache_bridge.io.s_axi_bvalid(1)
-    // icache.bvalid   := u_axi_cache_bridge.io.s_axi_bvalid(0)
-    
-    // u_axi_cache_bridge.io.s_axi_bready     := Cat(dcache.bready,icache.bready)
-    // u_axi_cache_bridge.io.s_axi_arid       := Cat(dcache.arid,icache.arid)
-    // u_axi_cache_bridge.io.s_axi_araddr     := Cat(dcache.araddr,icache.araddr)
-    // u_axi_cache_bridge.io.s_axi_arlen      := Cat(dcache.arlen,icache.arlen)
-    // u_axi_cache_bridge.io.s_axi_arsize     := Cat(dcache.arsize,icache.arsize)
-    // u_axi_cache_bridge.io.s_axi_arburst    := Cat(dcache.arburst,icache.arburst)
-    // u_axi_cache_bridge.io.s_axi_arlock     := Cat(dcache.arlock,icache.arlock)
-    // u_axi_cache_bridge.io.s_axi_arcache    := Cat(dcache.arcache,icache.arcache)
-    // u_axi_cache_bridge.io.s_axi_arprot     := Cat(dcache.arprot,icache.arprot)
-    // u_axi_cache_bridge.io.s_axi_arqos      := Cat(0.U(4.W),0.U(4.W))
-    // u_axi_cache_bridge.io.s_axi_arvalid    := Cat(dcache.arvalid,icache.arvalid)
-
-
-    
-    // dcache.arready            := u_axi_cache_bridge.io.s_axi_arready(1)
-    // icache.arready            := u_axi_cache_bridge.io.s_axi_arready(0)
-    // dcache.rid                := u_axi_cache_bridge.io.s_axi_rid(7,4)
-    // icache.rid                := u_axi_cache_bridge.io.s_axi_rid(3,0)
-    // dcache.rdata              := u_axi_cache_bridge.io.s_axi_rdata(63,32)
-    // icache.rdata              := u_axi_cache_bridge.io.s_axi_rdata(31,0)
-    // dcache.rresp              := u_axi_cache_bridge.io.s_axi_rresp(3,2)
-    // icache.rresp              := u_axi_cache_bridge.io.s_axi_rresp(1,0)
-    // dcache.rlast              := u_axi_cache_bridge.io.s_axi_rlast(1)
-    // icache.rlast              := u_axi_cache_bridge.io.s_axi_rlast(0)
-    // dcache.rvalid             := u_axi_cache_bridge.io.s_axi_rvalid(1)
-    // icache.rvalid             := u_axi_cache_bridge.io.s_axi_rvalid(0)
-
-    // u_axi_cache_bridge.io.s_axi_rready    := Cat(dcache.rready,icache.rready)
-
-
-    // awid                := u_axi_cache_bridge.io.m_axi_awid       
-    // awaddr              := u_axi_cache_bridge.io.m_axi_awaddr     
-    // awlen               := u_axi_cache_bridge.io.m_axi_awlen      
-    // awsize              := u_axi_cache_bridge.io.m_axi_awsize     
-    // awburst             := u_axi_cache_bridge.io.m_axi_awburst    
-    // awlock              :=u_axi_cache_bridge.io.m_axi_awlock     
-    // awcache             :=u_axi_cache_bridge.io.m_axi_awcache    
-    // awprot              :=u_axi_cache_bridge.io.m_axi_awprot     
-    // awqos               :=u_axi_cache_bridge.io.m_axi_awqos      
-    // awvalid             :=u_axi_cache_bridge.io.m_axi_awvalid    
-   
-    // u_axi_cache_bridge.io.m_axi_awready     :=   awready
-    // wid                                     :=u_axi_cache_bridge.io.m_axi_wid        
-    // wdata                                   :=u_axi_cache_bridge.io.m_axi_wdata      
-    // wstrb                                   :=u_axi_cache_bridge.io.m_axi_wstrb      
-    // wlast                                   :=u_axi_cache_bridge.io.m_axi_wlast      
-    // wvalid                                  :=u_axi_cache_bridge.io.m_axi_wvalid     
-    // u_axi_cache_bridge.io.m_axi_wready      := wready
-    // u_axi_cache_bridge.io.m_axi_bid         :=bid
-    // u_axi_cache_bridge.io.m_axi_bresp       := bresp
-    // u_axi_cache_bridge.io.m_axi_bvalid      :=bvalid
-    // bready              :=u_axi_cache_bridge.io.m_axi_bready     
-
-    // arid                :=u_axi_cache_bridge.io.m_axi_arid       
-    // araddr              :=u_axi_cache_bridge.io.m_axi_araddr     
-    // arlen               :=u_axi_cache_bridge.io.m_axi_arlen      
-    // arsize              :=u_axi_cache_bridge.io.m_axi_arsize     
-    // arburst             :=u_axi_cache_bridge.io.m_axi_arburst    
-    // arlock              :=u_axi_cache_bridge.io.m_axi_arlock     
-    // arcache             :=u_axi_cache_bridge.io.m_axi_arcache    
-    // arprot              :=u_axi_cache_bridge.io.m_axi_arprot     
-    // arqos               :=u_axi_cache_bridge.io.m_axi_arqos      
-    // arvalid             :=u_axi_cache_bridge.io.m_axi_arvalid    
-    
-    // u_axi_cache_bridge.io.m_axi_arready   := arready 
-    // u_axi_cache_bridge.io.m_axi_rid    :=    rid 
-    // u_axi_cache_bridge.io.m_axi_rdata  :=    rdata
-    // u_axi_cache_bridge.io.m_axi_rresp  :=    rresp
-    // u_axi_cache_bridge.io.m_axi_rlast  :=    rlast
-    // u_axi_cache_bridge.io.m_axi_rvalid :=    rvalid
-    // rready              := u_axi_cache_bridge.io.m_axi_rready     
+ 
 
     icache_first.stage1_valid_flush := u_riscv_cpu.stage1_valid_flush
     icache_first.inst_ready_to_use := u_riscv_cpu.inst_ready_to_use
