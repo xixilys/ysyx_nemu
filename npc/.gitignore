@@ -9,6 +9,7 @@
 !vsrc/*
 !csrc/*
 !*.py
+!*.scala
 !.gitignore
 !README.md
 !.config
