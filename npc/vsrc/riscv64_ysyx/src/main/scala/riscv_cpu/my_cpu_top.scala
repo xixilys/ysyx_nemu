@@ -132,7 +132,7 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     val icache = icache_first//.port
     val dcache_first = Module(new data_cache).io  
     val dcache = dcache_first//.port
-    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,3,Array(0,0X20000000,0x21000000),Array(0,0X2000BFFF,0x2100FFFF)))
+    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,4,Array(0,0X20000000,0x21000000,0x22000000),Array(0,0X2000BFFF,0x2100FFFF,0x2200FFFF)))
     //length总共也就16，比较拉
 
     if(tlb_on) {
@@ -244,8 +244,11 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     //peripherals
     val axi_clint = Module(new timer_periph(0X20000000.U(data_length.W))).io
     val axi_can = Module(new axi_can_top).io
+    val axi_plic = Module(new plic_periph(0x22000000.U(data_length.W),1)).io
     _axi_cross_bar.io.s_port(1) <> axi_clint.axi_port
     _axi_cross_bar.io.s_port(2) <> axi_can.axi_port
+    _axi_cross_bar.io.s_port(3) <> axi_plic.axi_port
+    
     axi_can.rstn  := aresetn
     axi_can.clk    := clk
     axi_can.can_rx := can_rx
@@ -255,7 +258,7 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     u_riscv_cpu.ext_int.timer := axi_clint.int_line
     
 
-    
+    axi_plic.int_get(0) := axi_can.rx_irq
  
 
     icache_first.stage1_valid_flush := u_riscv_cpu.stage1_valid_flush

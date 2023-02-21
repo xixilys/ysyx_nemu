@@ -9,6 +9,8 @@ import riscv_cpu.peripherals.Margin._
 
 
 class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macros {
+    val bytes_length = 16
+    val bytes_section_length = 12
     val bytes_reserved = 0XBFFF.U 
     val Bound_Address  = base_addr + bytes_reserved
     val Bus_Interface  = "AXI4L"
@@ -17,9 +19,8 @@ class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macr
     
     val plic_priority_addr_base = base_addr
     val plic_enable_addr_base   = base_addr +  base_adder
-    val plic_interrupt_pending  = plic_enable_addr_base  + base_adder
-    val plic_interrupt_response = plic_interrupt_pending + base_adder
-    val plic_interrupt_finish   = plic_interrupt_response + base_adder 
+    val plic_interrupt_pending_addr_base  = plic_enable_addr_base  + base_adder
+    val plic_interrupt_finish_addr_base   = plic_interrupt_pending_addr_base + base_adder 
 
     val int_id_addr = base_addr + 0xB000.U;
     
@@ -27,7 +28,7 @@ class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macr
     val plic_enable_reg = RegInit(VecInit(Seq.fill(int_source)(0.U.asBool())))
     val plic_interrupt_pending_reg = RegInit(VecInit(Seq.fill(int_source)(0.U.asBool())))
     val plic_interrupt_priority_reg = RegInit(VecInit(Seq.fill(int_source)(0.U(8.W))))
-    val plic_interrupt_finish_reg = RegInit(0.U(UInt(int_source.W)))
+    val plic_interrupt_finish_reg = RegInit(0.U(int_source.W))
     val int_id_reg = RegInit(0.U(8.W))
     val read_data  = Wire(UInt(data_length.W))
     
@@ -60,7 +61,7 @@ class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macr
         axi_work2  -> axi_idle
         // axi_work1  -> 
     ))
-    axi_read_addr := Mux(io.axi_port.arvalid.asBool && io.axi_port.arready.asBool,io.axi_port.araddr,axi_read_addr)
+    axi_read_addr  := Mux(io.axi_port.arvalid.asBool && io.axi_port.arready.asBool,io.axi_port.araddr,axi_read_addr)
     axi_write_addr := Mux(io.axi_port.awvalid.asBool && io.axi_port.awready.asBool,io.axi_port.awaddr,axi_write_addr)
     axi_write_size := Mux(io.axi_port.awvalid.asBool && io.axi_port.awready.asBool,axi_size2truesize(io.axi_port.awsize),axi_write_size)
     axi_write_data := io.axi_port.wdata << (io.axi_port.awaddr(2,0) << 3)
@@ -70,14 +71,14 @@ class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macr
             (axi_write_state === axi_work1&& io.axi_port.wvalid.asBool && axi_write_addr === (plic_enable_addr_base + 1.U + index.U) ) ->  axi_write_data(0)
         ))
         plic_interrupt_finish_reg := MuxCase(plic_interrupt_finish_reg(index),Seq(
-            (axi_write_state === axi_work1&& io.axi_port.wvalid.asBool && axi_write_addr === (plic_interrupt_finish + 1.U + index.U) ) -> axi_write_data(0)
+            (axi_write_state === axi_work1&& io.axi_port.wvalid.asBool && axi_write_addr === (plic_interrupt_finish_addr_base + 1.U + index.U) ) -> axi_write_data(0)
         ))
         val pending_data = plic_interrupt_pending_reg(index)
         plic_interrupt_pending_reg(index) := MuxCase(pending_data,Seq(
-            (axi_write_state === axi_work1&& io.axi_port.wvalid.asBool && axi_write_addr === (plic_interrupt_pending + 1.U + index.U) ) ->  axi_write_data(0),
+            (axi_write_state === axi_work1&& io.axi_port.wvalid.asBool && axi_write_addr === (plic_interrupt_pending_addr_base + 1.U + index.U) ) ->  axi_write_data(0),
             (io.int_get(index) && plic_enable_reg(index)) -> 1.U.asBool
         ))
-        plic_interrupt_priority_reg(index) := MuxCase(plic_interrupt_priority_reg,Seq(
+        plic_interrupt_priority_reg(index) := MuxCase(plic_interrupt_priority_reg(index),Seq(
             (axi_write_data === axi_work1 && io.axi_port.wvalid.asBool && axi_write_addr === (plic_priority_addr_base + 1.U + index.U)) ->  axi_write_data
         ))
         // plic_inte 
@@ -93,12 +94,41 @@ class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macr
                 // plic_interrupt_priority_reg(index )),))
                 // Mux(plic_interrupt_priority_reg(index + 1) > plic_interrupt_priority_reg(index),plic_interrupt_priority_reg(index + 1),
                 // plic_interrupt_priority_reg(index ))
-            cal_index(index) := Mux(plic_interrupt_priority_reg(index + 1) > plic_interrupt_priority_reg(index),(index + 1).U,index.U)
+            cal_index(index) := Mux(plic_interrupt_pending_reg(0),Mux(plic_interrupt_pending_reg(1),Mux(plic_interrupt_priority_reg(1) > 
+                plic_interrupt_priority_reg(0),(1.U),0.U),0.U),
+                Mux(plic_interrupt_pending_reg(1),1.U,0.U))
+                //Mux(plic_interrupt_priority_reg(index + 1) > plic_interrupt_priority_reg(index),(index + 1).U,index.U)
         }else{ 
-            cal_data(index) := Mux(cal_data(index - 1) > plic_interrupt_priority_reg(index + 1),cal_data(index - 1),plic_interrupt_priority_reg(index + 1))
-            cal_index(index) := Mux(cal_data(index - 1) > plic_interrupt_priority_reg(index + 1),cal_index(index - 1),(index + 1).U)
+            cal_data(index) :=  Mux(plic_interrupt_pending_reg(index + 1) && (plic_interrupt_priority_reg(index + 1) > cal_data(index - 1)),plic_interrupt_priority_reg(index + 1),
+                    cal_data(index - 1))
+            cal_index(index) := Mux(plic_interrupt_pending_reg(index + 1) && cal_data(index - 1) > plic_interrupt_priority_reg(index + 1),cal_index(index - 1),(index + 1).U)
         }
     }
+    // read_data := Mux()
+    // var simuque: List[UInt] = List()
+    // for (i <- 0 until int_source) {
+    //     simuque = i.asUInt :: simuque
+    // }
+    // val adding_list = simuque.reverse .toSeq
+    
+    val pending_data = plic_interrupt_pending_reg(axi_read_addr(11,0))
+    val enable_data = plic_enable_reg(axi_read_addr(11,0))
+    val interrupt_priority_data = plic_interrupt_priority_reg(axi_read_addr(11,0))
+    val interrupt_finish_data = plic_interrupt_finish_reg(axi_read_addr(11,0))
+    
+
+    read_data := MuxCase(0.U,Seq(
+        (axi_read_addr(bytes_length - 1,bytes_section_length) === plic_priority_addr_base(bytes_length - 1,bytes_section_length) ) -> interrupt_priority_data,
+        (axi_read_addr(bytes_length - 1,bytes_section_length) === plic_interrupt_pending_addr_base(bytes_length - 1,bytes_section_length)) -> pending_data,
+        (axi_read_addr(bytes_length - 1,bytes_section_length) === plic_enable_addr_base(bytes_length - 1,bytes_section_length)) -> enable_data,
+        (axi_read_addr(bytes_length - 1,bytes_section_length) === plic_interrupt_finish_addr_base(bytes_length - 1,bytes_section_length)) -> interrupt_finish_data,
+        (axi_read_addr === int_id_addr) -> (if(int_source <= 1) 0.U else cal_index(int_source - 2))
+    ))
+    // val 
+    // val pending_read_data = Mux
+    
+    
+
     
 
 
@@ -128,6 +158,8 @@ class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macr
     io.axi_port.bid      := 0.U
     io.axi_port.bresp    := 0.U
     io.axi_port.bvalid   := axi_write_state === axi_work2
+
+    io.int_line := plic_interrupt_pending_reg.reduce(_ | _)
 
 
     // ext_int(0)
