@@ -135,7 +135,7 @@ withClockAndReset(clk.asClock,(~resetn).asAsyncReset) {
     val _muldiv  = Module(new muldiv("hard","easy"))
     // val _pc2if   = Module(new pc2if)
     val _regfile = Module(new regfile)
-    val _mtrace_mod = Module(new mem_trace_module(64))
+    // val _mtrace_mod = Module(new mem_trace_module(64))
 
     class inst_buffer_bundle extends Bundle {
         val pc = UInt(data_length.W)
@@ -222,19 +222,34 @@ val stage_fec_1_pc = Wire(UInt(data_length.W))
     val mem_write_data_rl = Wire(UInt(data_length.W))
     val mem_cached = RegInit(0.U(1.W))
     mem_cached := Mux(data_req.asBool,data_cache,mem_cached)
+    if(difftest_on) {
+        val _mtrace_mod = Module(new mem_trace_module(64))
+        _mtrace_mod.io.clock := clk
+        _mtrace_mod.io.reset := ~resetn
+        _mtrace_mod.io.pc    := _mem22wb.io.Mem_trace_budleW.pc
+        _mtrace_mod.io.mem_req := _mem22wb.io.Mem_trace_budleW.mem_fetch_type =/= 0.U
+        _mtrace_mod.io.mem_write_read := Mux1H(Seq(
+            _mem22wb.io.Mem_trace_budleW.mem_fetch_type(0) -> 1.U,
+            _mem22wb.io.Mem_trace_budleW.mem_fetch_type(1) -> 0.U
+        ))
+        _mtrace_mod.io.addr     := _mem22wb.io.Mem_trace_budleW.addr
+        _mtrace_mod.io.mem_size := _mem22wb.io.Mem_trace_budleW.len
+        _mtrace_mod.io.data     := _mem22wb.io.Mem_trace_budleW.data
+        _mtrace_mod.io.mem_cached := _mem22wb.io.Mem_trace_budleW.cache
+    }
 
-    _mtrace_mod.io.clock := clk
-    _mtrace_mod.io.reset := ~resetn
-    _mtrace_mod.io.pc    := _mem22wb.io.Mem_trace_budleW.pc
-    _mtrace_mod.io.mem_req := _mem22wb.io.Mem_trace_budleW.mem_fetch_type =/= 0.U
-    _mtrace_mod.io.mem_write_read := Mux1H(Seq(
-        _mem22wb.io.Mem_trace_budleW.mem_fetch_type(0) -> 1.U,
-        _mem22wb.io.Mem_trace_budleW.mem_fetch_type(1) -> 0.U
-    ))
-    _mtrace_mod.io.addr     := _mem22wb.io.Mem_trace_budleW.addr
-    _mtrace_mod.io.mem_size := _mem22wb.io.Mem_trace_budleW.len
-    _mtrace_mod.io.data     := _mem22wb.io.Mem_trace_budleW.data
-    _mtrace_mod.io.mem_cached := _mem22wb.io.Mem_trace_budleW.cache
+    // _mtrace_mod.io.clock := clk
+    // _mtrace_mod.io.reset := ~resetn
+    // _mtrace_mod.io.pc    := _mem22wb.io.Mem_trace_budleW.pc
+    // _mtrace_mod.io.mem_req := _mem22wb.io.Mem_trace_budleW.mem_fetch_type =/= 0.U
+    // _mtrace_mod.io.mem_write_read := Mux1H(Seq(
+    //     _mem22wb.io.Mem_trace_budleW.mem_fetch_type(0) -> 1.U,
+    //     _mem22wb.io.Mem_trace_budleW.mem_fetch_type(1) -> 0.U
+    // ))
+    // _mtrace_mod.io.addr     := _mem22wb.io.Mem_trace_budleW.addr
+    // _mtrace_mod.io.mem_size := _mem22wb.io.Mem_trace_budleW.len
+    // _mtrace_mod.io.data     := _mem22wb.io.Mem_trace_budleW.data
+    // _mtrace_mod.io.mem_cached := _mem22wb.io.Mem_trace_budleW.cache
 
     data_req := ((_dmemreq.io.req.asBool  )&& !_dmem.io.data_pending)
 
@@ -1145,18 +1160,33 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
 
     val pcw_reg = RegInit(0.U(data_length.W))
     val pcw_reg_reg = RegInit(0.U(data_length.W))
-    val _commit_difftest = Module(new difftest_commit(64))
-    _commit_difftest.io.clock := clk
-    _commit_difftest.io.reset := ~resetn
-    _commit_difftest.io.gpr_wire := _regfile.io.reg_file_alL_out
-    _commit_difftest.io.debug_pc       := Mux(wb_exception,_csr.io.return_pc,_mem22wb.io.Pc_NextW)
-    _commit_difftest.io.pc             := _mem22wb.io.PCW
-    _commit_difftest.io.cpu_ebreak_sign := _mem22wb.io.eBreakW
+    if(difftest_on) {
+        val _commit_difftest = Module(new difftest_commit(64))
+        _commit_difftest.io.clock := clk
+        _commit_difftest.io.reset := ~resetn.asBool
+        _commit_difftest.io.gpr_wire := _regfile.io.reg_file_alL_out
+        _commit_difftest.io.debug_pc       := Mux(wb_exception,_csr.io.return_pc,_mem22wb.io.Pc_NextW)
+        _commit_difftest.io.pc             := _mem22wb.io.PCW
+        _commit_difftest.io.cpu_ebreak_sign := _mem22wb.io.eBreakW
+        _commit_difftest.io.inst_commit := _mem22wb.io.PCW =/= 0.U && pcw_reg =/= _mem22wb.io.PCW
+        _commit_difftest.io.inst_commit := _mem22wb.io.PCW =/= 0.U && pcw_reg =/= _mem22wb.io.PCW
+        // _commit_difftest.io.cpu_timer_int := int_instanceW.timer 
+        _regfile.io.WE3 := RegWriteW.asBool && _commit_difftest.io.data_ok_ok
+    }else {
+        _regfile.io.WE3 := RegWriteW.asBool
+    }
+    // val _commit_difftest = Module(new difftest_commit(64))
+    // _commit_difftest.io.clock := clk
+    // _commit_difftest.io.reset := ~resetn
+    // _commit_difftest.io.gpr_wire := _regfile.io.reg_file_alL_out
+    // _commit_difftest.io.debug_pc       := Mux(wb_exception,_csr.io.return_pc,_mem22wb.io.Pc_NextW)
+    // _commit_difftest.io.pc             := _mem22wb.io.PCW
+    // _commit_difftest.io.cpu_ebreak_sign := _mem22wb.io.eBreakW
 
     pcw_reg :=  _mem22wb.io.PCW
     pcw_reg_reg := pcw_reg
     //进行difftest时候方便
-    _commit_difftest.io.inst_commit := _mem22wb.io.PCW =/= 0.U && pcw_reg =/= _mem22wb.io.PCW
+
     
     ResultW   := _mem22wb.io.ResultW//Mux(_mem22wb.io.MemToRegW_Forward_hasStall.asBool,_mem22wb.io.ReadDataW,_mem22wb.io.ResultW)
     RegWriteW := Mux( wb_exception.asBool ,0.U,_mem22wb.io.RegWriteW_Out)
@@ -1166,7 +1196,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     // ResultW   := Mux(_mem22wb.io.MemToRegW.asBool,_)
     _regfile.io.WD3 := ResultW
     _regfile.io.A3  := _mem22wb.io.WriteRegW
-    _regfile.io.WE3 := RegWriteW.asBool && _commit_difftest.io.data_ok_ok
+    // _regfile.io.WE3 := RegWriteW.asBool && _commit_difftest.io.data_ok_ok
 
 
 

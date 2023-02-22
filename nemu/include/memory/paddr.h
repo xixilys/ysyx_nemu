@@ -5,7 +5,7 @@
 
 #define RESET_VECTOR (CONFIG_MBASE + CONFIG_PC_RESET_OFFSET)
 
-#define mem_inst_fec 1
+#define  mem_inst_fec 1
 #define mem_others   0
 
 

@@ -9,7 +9,9 @@ import scala.reflect.runtime.Macros
 
 trait riscv_macros {
 
+val difftest_on  = false
 val tlb_on = false
+
 val cache_on = 0.U.asBool
 
 val data_length = 64

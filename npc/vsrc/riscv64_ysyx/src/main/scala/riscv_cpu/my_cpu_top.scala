@@ -271,3 +271,6 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
 object my_CPU_top_test extends App{
     (new ChiselStage).emitVerilog(new mycpu_top)
 }
+
+
+

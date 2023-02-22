@@ -114,6 +114,7 @@ void init_mem() {
 }
 
 size_t mem_pc = 0;
+
 word_t paddr_read(paddr_t addr, int len , uint8_t mem_type) {
   #ifdef CONFIG_ITRACE_COND
   mtrace_type mem_read_mtrace = {};

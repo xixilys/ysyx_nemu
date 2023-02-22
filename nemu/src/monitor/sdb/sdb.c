@@ -119,8 +119,6 @@ void sdb_mainloop() {
     return;
   }
 
-
-
 //后面就是检测到底输入了啥
   for (char *str; (str = rl_gets()) != NULL; ) {
     char *str_end = str + strlen(str);
