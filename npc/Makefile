@@ -26,6 +26,7 @@ $(SRC_AUTO_BIND): $(NXDC_FILES)
 # project source
 VSRCS = $(shell find $(abspath ./vsrc/riscv64_ysyx) -name "*.v")
 VSRCS += $(shell find $(abspath ./vsrc/v_lib) -name "*.v")
+VSRCS += $(shell find $(abspath ./vsrc/can_top_src) -name "*.v")
 # CSRCS = $(shell find $(abspath ./csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
 CSRCS = $(SRCS) $(CXXSRC)
 # CSRCS = $(NPC_NEMU_HOME)/nemu-main.c

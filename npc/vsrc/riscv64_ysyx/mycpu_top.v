@@ -530,6 +530,7 @@ module cu(
   output        io_LoadUnsignedD,
   output [1:0]  io_MemWidthD,
   output [63:0] io_ImmD,
+  output        io_ebreakD,
   output        io_data_wD,
   output [23:0] io_muldiv_control,
   output        io_muldiv_cal,
@@ -797,6 +798,7 @@ module cu(
   assign io_LoadUnsignedD = 7'h3 == OpD & (3'h6 == Funct3D | (3'h5 == Funct3D | 3'h4 == Funct3D)); // @[Mux.scala 81:58]
   assign io_MemWidthD = 7'h23 == OpD ? _io_MemWidthD_T_21 : _io_MemWidthD_T_23; // @[Mux.scala 81:58]
   assign io_ImmD = _io_ImmD_T_12 | _GEN_0; // @[Mux.scala 27:73]
+  assign io_ebreakD = io1_InstrD == 32'h100073; // @[cu.scala 262:33]
   assign io_data_wD = 7'h12 == ins_code | (7'h11 == ins_code | (7'h10 == ins_code | (7'h5 == ins_code | (7'h3d ==
     ins_code | (7'h3c == ins_code | (7'h3b == ins_code | (7'h3a == ins_code | (7'h39 == ins_code | (7'h2b == ins_code |
     (7'h2b == ins_code | (7'h2a == ins_code | (7'h29 == ins_code | (7'h28 == ins_code | 7'h27 == ins_code))))))))))))); // @[Mux.scala 81:58]
@@ -1062,6 +1064,7 @@ module ex2mem(
   input  [1:0]  io1_MemRLE,
   input  [1:0]  io1_BranchJump_JrE,
   input  [2:0]  io1_Tlb_Control,
+  input         io1_eBreakE,
   input         io1_fence_i_control,
   input         io_en,
   input         io_clr,
@@ -1071,6 +1074,13 @@ module ex2mem(
   input  [63:0] io_CsrWritedataE,
   input  [31:0] io_ExceptionTypeE,
   input  [63:0] io_RtE,
+  input  [63:0] io_Pc_NextE,
+  input  [63:0] io_mem_trace_budleE_pc,
+  input  [63:0] io_mem_trace_budleE_data,
+  input  [1:0]  io_mem_trace_budleE_mem_fetch_type,
+  input  [63:0] io_mem_trace_budleE_addr,
+  input  [2:0]  io_mem_trace_budleE_len,
+  input         io_mem_trace_budleE_cache,
   output        io_RegWriteM,
   output        io_MemToRegM,
   output [63:0] io_WriteDataM,
@@ -1086,6 +1096,14 @@ module ex2mem(
   output [63:0] io_RtM,
   output [1:0]  io_BranchJump_JrM,
   output [2:0]  io_Tlb_ControlM,
+  output        io_eBreakM,
+  output [63:0] io_Pc_NextM,
+  output [63:0] io_mem_trace_budleM_pc,
+  output [63:0] io_mem_trace_budleM_data,
+  output [1:0]  io_mem_trace_budleM_mem_fetch_type,
+  output [63:0] io_mem_trace_budleM_addr,
+  output [2:0]  io_mem_trace_budleM_len,
+  output        io_mem_trace_budleM_cache,
   output [63:0] io_CsrWritedataM,
   output        io_fence_i_controlM
 );
@@ -1105,8 +1123,16 @@ module ex2mem(
   reg [63:0] _RAND_12;
   reg [31:0] _RAND_13;
   reg [31:0] _RAND_14;
-  reg [63:0] _RAND_15;
-  reg [31:0] _RAND_16;
+  reg [31:0] _RAND_15;
+  reg [63:0] _RAND_16;
+  reg [63:0] _RAND_17;
+  reg [63:0] _RAND_18;
+  reg [31:0] _RAND_19;
+  reg [63:0] _RAND_20;
+  reg [31:0] _RAND_21;
+  reg [31:0] _RAND_22;
+  reg [63:0] _RAND_23;
+  reg [31:0] _RAND_24;
 `endif // RANDOMIZE_REG_INIT
   reg  RegWrite_Reg; // @[ex2mem.scala 59:38]
   reg  MemToReg_Reg; // @[ex2mem.scala 60:38]
@@ -1123,6 +1149,14 @@ module ex2mem(
   reg [63:0] RtM_Reg; // @[ex2mem.scala 82:32]
   reg [1:0] BranchJump_JrM_Reg; // @[ex2mem.scala 83:43]
   reg [2:0] Tlb_Control_Reg; // @[ex2mem.scala 84:43]
+  reg  eBreak_Reg; // @[ex2mem.scala 85:36]
+  reg [63:0] pc_nextReg; // @[ex2mem.scala 86:36]
+  reg [63:0] mem_trace_budleReg_pc; // @[ex2mem.scala 87:43]
+  reg [63:0] mem_trace_budleReg_data; // @[ex2mem.scala 87:43]
+  reg [1:0] mem_trace_budleReg_mem_fetch_type; // @[ex2mem.scala 87:43]
+  reg [63:0] mem_trace_budleReg_addr; // @[ex2mem.scala 87:43]
+  reg [2:0] mem_trace_budleReg_len; // @[ex2mem.scala 87:43]
+  reg  mem_trace_budleReg_cache; // @[ex2mem.scala 87:43]
   reg [63:0] CsrWritedataReg; // @[ex2mem.scala 88:43]
   reg  fence_i_controlReg; // @[ex2mem.scala 90:43]
   assign io_RegWriteM = RegWrite_Reg; // @[ex2mem.scala 124:30]
@@ -1140,6 +1174,14 @@ module ex2mem(
   assign io_RtM = RtM_Reg; // @[ex2mem.scala 146:30]
   assign io_BranchJump_JrM = BranchJump_JrM_Reg; // @[ex2mem.scala 147:30]
   assign io_Tlb_ControlM = Tlb_Control_Reg; // @[ex2mem.scala 148:30]
+  assign io_eBreakM = eBreak_Reg; // @[ex2mem.scala 149:30]
+  assign io_Pc_NextM = pc_nextReg; // @[ex2mem.scala 150:30]
+  assign io_mem_trace_budleM_pc = mem_trace_budleReg_pc; // @[ex2mem.scala 151:30]
+  assign io_mem_trace_budleM_data = mem_trace_budleReg_data; // @[ex2mem.scala 151:30]
+  assign io_mem_trace_budleM_mem_fetch_type = mem_trace_budleReg_mem_fetch_type; // @[ex2mem.scala 151:30]
+  assign io_mem_trace_budleM_addr = mem_trace_budleReg_addr; // @[ex2mem.scala 151:30]
+  assign io_mem_trace_budleM_len = mem_trace_budleReg_len; // @[ex2mem.scala 151:30]
+  assign io_mem_trace_budleM_cache = mem_trace_budleReg_cache; // @[ex2mem.scala 151:30]
   assign io_CsrWritedataM = CsrWritedataReg; // @[ex2mem.scala 152:30]
   assign io_fence_i_controlM = fence_i_controlReg; // @[ex2mem.scala 153:30]
   always @(posedge clock or posedge reset) begin
@@ -1278,6 +1320,78 @@ module ex2mem(
     end
   end
   always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[ex2mem.scala 117:38]
+      eBreak_Reg <= 1'h0;
+    end else if (io_clr) begin // @[ex2mem.scala 117:60]
+      eBreak_Reg <= 1'h0;
+    end else if (io_en) begin
+      eBreak_Reg <= io1_eBreakE;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[ex2mem.scala 118:38]
+      pc_nextReg <= 64'h0;
+    end else if (io_clr) begin // @[ex2mem.scala 118:60]
+      pc_nextReg <= 64'h0;
+    end else if (io_en) begin
+      pc_nextReg <= io_Pc_NextE;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[ex2mem.scala 119:38]
+      mem_trace_budleReg_pc <= 64'h0;
+    end else if (io_clr) begin // @[ex2mem.scala 119:97]
+      mem_trace_budleReg_pc <= 64'h0;
+    end else if (io_en) begin
+      mem_trace_budleReg_pc <= io_mem_trace_budleE_pc;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[ex2mem.scala 119:38]
+      mem_trace_budleReg_data <= 64'h0;
+    end else if (io_clr) begin // @[ex2mem.scala 119:97]
+      mem_trace_budleReg_data <= 64'h0;
+    end else if (io_en) begin
+      mem_trace_budleReg_data <= io_mem_trace_budleE_data;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[ex2mem.scala 119:38]
+      mem_trace_budleReg_mem_fetch_type <= 2'h0;
+    end else if (io_clr) begin // @[ex2mem.scala 119:97]
+      mem_trace_budleReg_mem_fetch_type <= 2'h0;
+    end else if (io_en) begin
+      mem_trace_budleReg_mem_fetch_type <= io_mem_trace_budleE_mem_fetch_type;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[ex2mem.scala 119:38]
+      mem_trace_budleReg_addr <= 64'h0;
+    end else if (io_clr) begin // @[ex2mem.scala 119:97]
+      mem_trace_budleReg_addr <= 64'h0;
+    end else if (io_en) begin
+      mem_trace_budleReg_addr <= io_mem_trace_budleE_addr;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[ex2mem.scala 119:38]
+      mem_trace_budleReg_len <= 3'h0;
+    end else if (io_clr) begin // @[ex2mem.scala 119:97]
+      mem_trace_budleReg_len <= 3'h0;
+    end else if (io_en) begin
+      mem_trace_budleReg_len <= io_mem_trace_budleE_len;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[ex2mem.scala 119:38]
+      mem_trace_budleReg_cache <= 1'h0;
+    end else if (io_clr) begin // @[ex2mem.scala 119:97]
+      mem_trace_budleReg_cache <= 1'h0;
+    end else if (io_en) begin
+      mem_trace_budleReg_cache <= io_mem_trace_budleE_cache;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
     if (reset) begin // @[ex2mem.scala 120:38]
       CsrWritedataReg <= 64'h0;
     end else if (io_clr) begin // @[ex2mem.scala 120:60]
@@ -1361,10 +1475,26 @@ initial begin
   BranchJump_JrM_Reg = _RAND_13[1:0];
   _RAND_14 = {1{`RANDOM}};
   Tlb_Control_Reg = _RAND_14[2:0];
-  _RAND_15 = {2{`RANDOM}};
-  CsrWritedataReg = _RAND_15[63:0];
-  _RAND_16 = {1{`RANDOM}};
-  fence_i_controlReg = _RAND_16[0:0];
+  _RAND_15 = {1{`RANDOM}};
+  eBreak_Reg = _RAND_15[0:0];
+  _RAND_16 = {2{`RANDOM}};
+  pc_nextReg = _RAND_16[63:0];
+  _RAND_17 = {2{`RANDOM}};
+  mem_trace_budleReg_pc = _RAND_17[63:0];
+  _RAND_18 = {2{`RANDOM}};
+  mem_trace_budleReg_data = _RAND_18[63:0];
+  _RAND_19 = {1{`RANDOM}};
+  mem_trace_budleReg_mem_fetch_type = _RAND_19[1:0];
+  _RAND_20 = {2{`RANDOM}};
+  mem_trace_budleReg_addr = _RAND_20[63:0];
+  _RAND_21 = {1{`RANDOM}};
+  mem_trace_budleReg_len = _RAND_21[2:0];
+  _RAND_22 = {1{`RANDOM}};
+  mem_trace_budleReg_cache = _RAND_22[0:0];
+  _RAND_23 = {2{`RANDOM}};
+  CsrWritedataReg = _RAND_23[63:0];
+  _RAND_24 = {1{`RANDOM}};
+  fence_i_controlReg = _RAND_24[0:0];
 `endif // RANDOMIZE_REG_INIT
   if (reset) begin
     RegWrite_Reg = 1'h0;
@@ -1412,6 +1542,30 @@ initial begin
     Tlb_Control_Reg = 3'h0;
   end
   if (reset) begin
+    eBreak_Reg = 1'h0;
+  end
+  if (reset) begin
+    pc_nextReg = 64'h0;
+  end
+  if (reset) begin
+    mem_trace_budleReg_pc = 64'h0;
+  end
+  if (reset) begin
+    mem_trace_budleReg_data = 64'h0;
+  end
+  if (reset) begin
+    mem_trace_budleReg_mem_fetch_type = 2'h0;
+  end
+  if (reset) begin
+    mem_trace_budleReg_addr = 64'h0;
+  end
+  if (reset) begin
+    mem_trace_budleReg_len = 3'h0;
+  end
+  if (reset) begin
+    mem_trace_budleReg_cache = 1'h0;
+  end
+  if (reset) begin
     CsrWritedataReg = 64'h0;
   end
   if (reset) begin
@@ -1439,6 +1593,7 @@ module id2ex(
   input         io1_csrToRegD,
   input         io1_LoadUnsignedD,
   input  [1:0]  io1_MemWidthD,
+  input         io1_ebreakD,
   input         io1_data_wD,
   input  [23:0] io1_muldiv_control,
   input         io1_muldiv_cal,
@@ -1462,6 +1617,7 @@ module id2ex(
   output [11:0] io2_ReadcsrAddrE,
   output [63:0] io2_PCE,
   output [1:0]  io2_BranchJump_JrE,
+  output        io2_eBreakE,
   output        io2_fence_i_control,
   input         io_en,
   input         io_clr,
@@ -1476,6 +1632,7 @@ module id2ex(
   input  [11:0] io_ReadcsrAddrD,
   input  [63:0] io_PCD,
   input  [31:0] io_ExceptionTypeD,
+  input  [63:0] io_Pc_NextD,
   input  [1:0]  io_BranchJump_JrD,
   output [63:0] io_RD1E,
   output [63:0] io_RD2E,
@@ -1483,6 +1640,7 @@ module id2ex(
   output [4:0]  io_R1E,
   output [63:0] io_ImmE,
   output        io_data_wE,
+  output [63:0] io_Pc_NextE,
   output [23:0] io_muldiv_control,
   output        io_alu_calE,
   output        io_muldiv_calE,
@@ -1502,7 +1660,7 @@ module id2ex(
   reg [63:0] _RAND_8;
   reg [31:0] _RAND_9;
   reg [31:0] _RAND_10;
-  reg [31:0] _RAND_11;
+  reg [63:0] _RAND_11;
   reg [31:0] _RAND_12;
   reg [31:0] _RAND_13;
   reg [31:0] _RAND_14;
@@ -1521,6 +1679,8 @@ module id2ex(
   reg [31:0] _RAND_27;
   reg [31:0] _RAND_28;
   reg [31:0] _RAND_29;
+  reg [31:0] _RAND_30;
+  reg [31:0] _RAND_31;
 `endif // RANDOMIZE_REG_INIT
   reg [63:0] RD1E_Reg; // @[id2ex.scala 97:30]
   reg [63:0] RD2E_Reg; // @[id2ex.scala 98:30]
@@ -1533,6 +1693,7 @@ module id2ex(
   reg [63:0] PCE_Reg; // @[id2ex.scala 111:29]
   reg [31:0] ExceptionTypeE_Reg; // @[id2ex.scala 112:40]
   reg [1:0] BranchJump_JrE_Reg; // @[id2ex.scala 114:40]
+  reg [63:0] Pc_NextReg; // @[id2ex.scala 119:32]
   reg  decoder_port_reg_RegWriteD; // @[id2ex.scala 123:38]
   reg  decoder_port_reg_MemToRegD; // @[id2ex.scala 123:38]
   reg  decoder_port_reg_MemWriteD; // @[id2ex.scala 123:38]
@@ -1545,6 +1706,7 @@ module id2ex(
   reg  decoder_port_reg_csrToRegD; // @[id2ex.scala 123:38]
   reg  decoder_port_reg_LoadUnsignedD; // @[id2ex.scala 123:38]
   reg [1:0] decoder_port_reg_MemWidthD; // @[id2ex.scala 123:38]
+  reg  decoder_port_reg_ebreakD; // @[id2ex.scala 123:38]
   reg  decoder_port_reg_data_wD; // @[id2ex.scala 123:38]
   reg [23:0] decoder_port_reg_muldiv_control; // @[id2ex.scala 123:38]
   reg  decoder_port_reg_muldiv_cal; // @[id2ex.scala 123:38]
@@ -1568,6 +1730,7 @@ module id2ex(
   assign io2_ReadcsrAddrE = ReadcsrAddrE_Reg; // @[id2ex.scala 166:23]
   assign io2_PCE = PCE_Reg; // @[id2ex.scala 167:23]
   assign io2_BranchJump_JrE = BranchJump_JrE_Reg; // @[id2ex.scala 170:24]
+  assign io2_eBreakE = decoder_port_reg_ebreakD; // @[id2ex.scala 174:23]
   assign io2_fence_i_control = decoder_port_reg_fence_i_control; // @[id2ex.scala 175:25]
   assign io_csrToRegE_Out = decoder_port_reg_csrToRegD; // @[id2ex.scala 164:26]
   assign io_RD1E = RD1E_Reg; // @[id2ex.scala 153:23]
@@ -1576,6 +1739,7 @@ module id2ex(
   assign io_R1E = R1E_Reg; // @[id2ex.scala 156:23]
   assign io_ImmE = ImmE_Reg; // @[id2ex.scala 158:23]
   assign io_data_wE = decoder_port_reg_data_wD; // @[id2ex.scala 173:23]
+  assign io_Pc_NextE = Pc_NextReg; // @[id2ex.scala 176:23]
   assign io_muldiv_control = decoder_port_reg_muldiv_control; // @[id2ex.scala 177:23]
   assign io_alu_calE = decoder_port_reg_alu_cal; // @[id2ex.scala 146:23]
   assign io_muldiv_calE = decoder_port_reg_muldiv_cal; // @[id2ex.scala 145:23]
@@ -1679,6 +1843,15 @@ module id2ex(
       BranchJump_JrE_Reg <= 2'h0;
     end else if (io_en) begin
       BranchJump_JrE_Reg <= io_BranchJump_JrD;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[id2ex.scala 142:42]
+      Pc_NextReg <= 64'h0;
+    end else if (io_clr) begin // @[id2ex.scala 142:64]
+      Pc_NextReg <= 64'h0;
+    end else if (io_en) begin
+      Pc_NextReg <= io_Pc_NextD;
     end
   end
   always @(posedge clock or posedge reset) begin
@@ -1787,6 +1960,15 @@ module id2ex(
       decoder_port_reg_MemWidthD <= 2'h0;
     end else if (io_en) begin
       decoder_port_reg_MemWidthD <= io1_MemWidthD;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[id2ex.scala 124:28]
+      decoder_port_reg_ebreakD <= 1'h0;
+    end else if (io_clr) begin // @[id2ex.scala 124:77]
+      decoder_port_reg_ebreakD <= 1'h0;
+    end else if (io_en) begin
+      decoder_port_reg_ebreakD <= io1_ebreakD;
     end
   end
   always @(posedge clock or posedge reset) begin
@@ -1910,44 +2092,48 @@ initial begin
   ExceptionTypeE_Reg = _RAND_9[31:0];
   _RAND_10 = {1{`RANDOM}};
   BranchJump_JrE_Reg = _RAND_10[1:0];
-  _RAND_11 = {1{`RANDOM}};
-  decoder_port_reg_RegWriteD = _RAND_11[0:0];
+  _RAND_11 = {2{`RANDOM}};
+  Pc_NextReg = _RAND_11[63:0];
   _RAND_12 = {1{`RANDOM}};
-  decoder_port_reg_MemToRegD = _RAND_12[0:0];
+  decoder_port_reg_RegWriteD = _RAND_12[0:0];
   _RAND_13 = {1{`RANDOM}};
-  decoder_port_reg_MemWriteD = _RAND_13[0:0];
+  decoder_port_reg_MemToRegD = _RAND_13[0:0];
   _RAND_14 = {1{`RANDOM}};
-  decoder_port_reg_ALUCtrlD = _RAND_14[23:0];
+  decoder_port_reg_MemWriteD = _RAND_14[0:0];
   _RAND_15 = {1{`RANDOM}};
-  decoder_port_reg_ALUSrcD_0 = _RAND_15[1:0];
+  decoder_port_reg_ALUCtrlD = _RAND_15[23:0];
   _RAND_16 = {1{`RANDOM}};
-  decoder_port_reg_ALUSrcD_1 = _RAND_16[1:0];
+  decoder_port_reg_ALUSrcD_0 = _RAND_16[1:0];
   _RAND_17 = {1{`RANDOM}};
-  decoder_port_reg_RegDstD = _RAND_17[4:0];
+  decoder_port_reg_ALUSrcD_1 = _RAND_17[1:0];
   _RAND_18 = {1{`RANDOM}};
-  decoder_port_reg_LinkD = _RAND_18[0:0];
+  decoder_port_reg_RegDstD = _RAND_18[4:0];
   _RAND_19 = {1{`RANDOM}};
-  decoder_port_reg_csrWriteD = _RAND_19[0:0];
+  decoder_port_reg_LinkD = _RAND_19[0:0];
   _RAND_20 = {1{`RANDOM}};
-  decoder_port_reg_csrToRegD = _RAND_20[0:0];
+  decoder_port_reg_csrWriteD = _RAND_20[0:0];
   _RAND_21 = {1{`RANDOM}};
-  decoder_port_reg_LoadUnsignedD = _RAND_21[0:0];
+  decoder_port_reg_csrToRegD = _RAND_21[0:0];
   _RAND_22 = {1{`RANDOM}};
-  decoder_port_reg_MemWidthD = _RAND_22[1:0];
+  decoder_port_reg_LoadUnsignedD = _RAND_22[0:0];
   _RAND_23 = {1{`RANDOM}};
-  decoder_port_reg_data_wD = _RAND_23[0:0];
+  decoder_port_reg_MemWidthD = _RAND_23[1:0];
   _RAND_24 = {1{`RANDOM}};
-  decoder_port_reg_muldiv_control = _RAND_24[23:0];
+  decoder_port_reg_ebreakD = _RAND_24[0:0];
   _RAND_25 = {1{`RANDOM}};
-  decoder_port_reg_muldiv_cal = _RAND_25[0:0];
+  decoder_port_reg_data_wD = _RAND_25[0:0];
   _RAND_26 = {1{`RANDOM}};
-  decoder_port_reg_alu_cal = _RAND_26[0:0];
+  decoder_port_reg_muldiv_control = _RAND_26[23:0];
   _RAND_27 = {1{`RANDOM}};
-  decoder_port_reg_csr_control = _RAND_27[5:0];
+  decoder_port_reg_muldiv_cal = _RAND_27[0:0];
   _RAND_28 = {1{`RANDOM}};
-  decoder_port_reg_csr_Imm = _RAND_28[0:0];
+  decoder_port_reg_alu_cal = _RAND_28[0:0];
   _RAND_29 = {1{`RANDOM}};
-  decoder_port_reg_fence_i_control = _RAND_29[0:0];
+  decoder_port_reg_csr_control = _RAND_29[5:0];
+  _RAND_30 = {1{`RANDOM}};
+  decoder_port_reg_csr_Imm = _RAND_30[0:0];
+  _RAND_31 = {1{`RANDOM}};
+  decoder_port_reg_fence_i_control = _RAND_31[0:0];
 `endif // RANDOMIZE_REG_INIT
   if (reset) begin
     RD1E_Reg = 64'h0;
@@ -1981,6 +2167,9 @@ initial begin
   end
   if (reset) begin
     BranchJump_JrE_Reg = 2'h0;
+  end
+  if (reset) begin
+    Pc_NextReg = 64'h0;
   end
   if (reset) begin
     decoder_port_reg_RegWriteD = 1'h0;
@@ -2017,6 +2206,9 @@ initial begin
   end
   if (reset) begin
     decoder_port_reg_MemWidthD = 2'h0;
+  end
+  if (reset) begin
+    decoder_port_reg_ebreakD = 1'h0;
   end
   if (reset) begin
     decoder_port_reg_data_wD = 1'h0;
@@ -2188,6 +2380,14 @@ module mem2wb(
   input  [63:0] io_PCM,
   input  [31:0] io_ExceptionTypeM,
   input  [1:0]  io_BranchJump_JrM,
+  input         io_eBreakM,
+  input  [63:0] io_Pc_NextM,
+  input  [63:0] io_Mem_trace_budleM_pc,
+  input  [63:0] io_Mem_trace_budleM_data,
+  input  [1:0]  io_Mem_trace_budleM_mem_fetch_type,
+  input  [63:0] io_Mem_trace_budleM_addr,
+  input  [2:0]  io_Mem_trace_budleM_len,
+  input         io_Mem_trace_budleM_cache,
   output        io_RegWriteW_Out,
   output [63:0] io_ResultW,
   output [4:0]  io_WriteRegW,
@@ -2196,6 +2396,14 @@ module mem2wb(
   output [63:0] io_PCW,
   output [31:0] io_ExceptionTypeW_Out,
   output [1:0]  io_BranchJump_JrW,
+  output        io_eBreakW,
+  output [63:0] io_Pc_NextW,
+  output [63:0] io_Mem_trace_budleW_pc,
+  output [63:0] io_Mem_trace_budleW_data,
+  output [1:0]  io_Mem_trace_budleW_mem_fetch_type,
+  output [63:0] io_Mem_trace_budleW_addr,
+  output [2:0]  io_Mem_trace_budleW_len,
+  output        io_Mem_trace_budleW_cache,
   output [63:0] io_CsrWritedataW
 );
 `ifdef RANDOMIZE_REG_INIT
@@ -2207,7 +2415,15 @@ module mem2wb(
   reg [63:0] _RAND_5;
   reg [31:0] _RAND_6;
   reg [31:0] _RAND_7;
-  reg [63:0] _RAND_8;
+  reg [31:0] _RAND_8;
+  reg [63:0] _RAND_9;
+  reg [63:0] _RAND_10;
+  reg [63:0] _RAND_11;
+  reg [31:0] _RAND_12;
+  reg [63:0] _RAND_13;
+  reg [31:0] _RAND_14;
+  reg [31:0] _RAND_15;
+  reg [63:0] _RAND_16;
 `endif // RANDOMIZE_REG_INIT
   reg  RegWriteW; // @[mem2wb.scala 51:34]
   reg [63:0] ResultW; // @[mem2wb.scala 54:32]
@@ -2217,6 +2433,14 @@ module mem2wb(
   reg [63:0] PCW; // @[mem2wb.scala 60:28]
   reg [31:0] ExceptionTypeW; // @[mem2wb.scala 62:39]
   reg [1:0] BranchJump_JrW_Reg; // @[mem2wb.scala 64:43]
+  reg  ebreak_Reg; // @[mem2wb.scala 66:40]
+  reg [63:0] pc_nextReg; // @[mem2wb.scala 67:36]
+  reg [63:0] Mem_trace_budleReg_pc; // @[mem2wb.scala 68:43]
+  reg [63:0] Mem_trace_budleReg_data; // @[mem2wb.scala 68:43]
+  reg [1:0] Mem_trace_budleReg_mem_fetch_type; // @[mem2wb.scala 68:43]
+  reg [63:0] Mem_trace_budleReg_addr; // @[mem2wb.scala 68:43]
+  reg [2:0] Mem_trace_budleReg_len; // @[mem2wb.scala 68:43]
+  reg  Mem_trace_budleReg_cache; // @[mem2wb.scala 68:43]
   reg [63:0] CsrWritedataReg; // @[mem2wb.scala 69:40]
   assign io_RegWriteW_Out = RegWriteW; // @[mem2wb.scala 71:36]
   assign io_ResultW = ResultW; // @[mem2wb.scala 74:32]
@@ -2226,6 +2450,14 @@ module mem2wb(
   assign io_PCW = PCW; // @[mem2wb.scala 79:32]
   assign io_ExceptionTypeW_Out = ExceptionTypeW; // @[mem2wb.scala 81:32]
   assign io_BranchJump_JrW = BranchJump_JrW_Reg; // @[mem2wb.scala 82:32]
+  assign io_eBreakW = ebreak_Reg; // @[mem2wb.scala 84:32]
+  assign io_Pc_NextW = pc_nextReg; // @[mem2wb.scala 85:32]
+  assign io_Mem_trace_budleW_pc = Mem_trace_budleReg_pc; // @[mem2wb.scala 86:33]
+  assign io_Mem_trace_budleW_data = Mem_trace_budleReg_data; // @[mem2wb.scala 86:33]
+  assign io_Mem_trace_budleW_mem_fetch_type = Mem_trace_budleReg_mem_fetch_type; // @[mem2wb.scala 86:33]
+  assign io_Mem_trace_budleW_addr = Mem_trace_budleReg_addr; // @[mem2wb.scala 86:33]
+  assign io_Mem_trace_budleW_len = Mem_trace_budleReg_len; // @[mem2wb.scala 86:33]
+  assign io_Mem_trace_budleW_cache = Mem_trace_budleReg_cache; // @[mem2wb.scala 86:33]
   assign io_CsrWritedataW = CsrWritedataReg; // @[mem2wb.scala 107:28]
   always @(posedge clock or posedge reset) begin
     if (reset) begin // @[mem2wb.scala 88:34]
@@ -2300,6 +2532,78 @@ module mem2wb(
     end
   end
   always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[mem2wb.scala 103:34]
+      ebreak_Reg <= 1'h0;
+    end else if (io_clr) begin // @[mem2wb.scala 103:56]
+      ebreak_Reg <= 1'h0;
+    end else if (io_en) begin
+      ebreak_Reg <= io_eBreakM;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[mem2wb.scala 104:34]
+      pc_nextReg <= 64'h0;
+    end else if (io_clr) begin // @[mem2wb.scala 104:56]
+      pc_nextReg <= 64'h0;
+    end else if (io_en) begin
+      pc_nextReg <= io_Pc_NextM;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[mem2wb.scala 105:34]
+      Mem_trace_budleReg_pc <= 64'h0;
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
+      Mem_trace_budleReg_pc <= 64'h0;
+    end else if (io_en) begin
+      Mem_trace_budleReg_pc <= io_Mem_trace_budleM_pc;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[mem2wb.scala 105:34]
+      Mem_trace_budleReg_data <= 64'h0;
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
+      Mem_trace_budleReg_data <= 64'h0;
+    end else if (io_en) begin
+      Mem_trace_budleReg_data <= io_Mem_trace_budleM_data;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[mem2wb.scala 105:34]
+      Mem_trace_budleReg_mem_fetch_type <= 2'h0;
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
+      Mem_trace_budleReg_mem_fetch_type <= 2'h0;
+    end else if (io_en) begin
+      Mem_trace_budleReg_mem_fetch_type <= io_Mem_trace_budleM_mem_fetch_type;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[mem2wb.scala 105:34]
+      Mem_trace_budleReg_addr <= 64'h0;
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
+      Mem_trace_budleReg_addr <= 64'h0;
+    end else if (io_en) begin
+      Mem_trace_budleReg_addr <= io_Mem_trace_budleM_addr;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[mem2wb.scala 105:34]
+      Mem_trace_budleReg_len <= 3'h0;
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
+      Mem_trace_budleReg_len <= 3'h0;
+    end else if (io_en) begin
+      Mem_trace_budleReg_len <= io_Mem_trace_budleM_len;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
+    if (reset) begin // @[mem2wb.scala 105:34]
+      Mem_trace_budleReg_cache <= 1'h0;
+    end else if (io_clr) begin // @[mem2wb.scala 105:93]
+      Mem_trace_budleReg_cache <= 1'h0;
+    end else if (io_en) begin
+      Mem_trace_budleReg_cache <= io_Mem_trace_budleM_cache;
+    end
+  end
+  always @(posedge clock or posedge reset) begin
     if (reset) begin // @[mem2wb.scala 106:34]
       CsrWritedataReg <= 64'h0;
     end else if (io_clr) begin // @[mem2wb.scala 106:56]
@@ -2360,8 +2664,24 @@ initial begin
   ExceptionTypeW = _RAND_6[31:0];
   _RAND_7 = {1{`RANDOM}};
   BranchJump_JrW_Reg = _RAND_7[1:0];
-  _RAND_8 = {2{`RANDOM}};
-  CsrWritedataReg = _RAND_8[63:0];
+  _RAND_8 = {1{`RANDOM}};
+  ebreak_Reg = _RAND_8[0:0];
+  _RAND_9 = {2{`RANDOM}};
+  pc_nextReg = _RAND_9[63:0];
+  _RAND_10 = {2{`RANDOM}};
+  Mem_trace_budleReg_pc = _RAND_10[63:0];
+  _RAND_11 = {2{`RANDOM}};
+  Mem_trace_budleReg_data = _RAND_11[63:0];
+  _RAND_12 = {1{`RANDOM}};
+  Mem_trace_budleReg_mem_fetch_type = _RAND_12[1:0];
+  _RAND_13 = {2{`RANDOM}};
+  Mem_trace_budleReg_addr = _RAND_13[63:0];
+  _RAND_14 = {1{`RANDOM}};
+  Mem_trace_budleReg_len = _RAND_14[2:0];
+  _RAND_15 = {1{`RANDOM}};
+  Mem_trace_budleReg_cache = _RAND_15[0:0];
+  _RAND_16 = {2{`RANDOM}};
+  CsrWritedataReg = _RAND_16[63:0];
 `endif // RANDOMIZE_REG_INIT
   if (reset) begin
     RegWriteW = 1'h0;
@@ -2386,6 +2706,30 @@ initial begin
   end
   if (reset) begin
     BranchJump_JrW_Reg = 2'h0;
+  end
+  if (reset) begin
+    ebreak_Reg = 1'h0;
+  end
+  if (reset) begin
+    pc_nextReg = 64'h0;
+  end
+  if (reset) begin
+    Mem_trace_budleReg_pc = 64'h0;
+  end
+  if (reset) begin
+    Mem_trace_budleReg_data = 64'h0;
+  end
+  if (reset) begin
+    Mem_trace_budleReg_mem_fetch_type = 2'h0;
+  end
+  if (reset) begin
+    Mem_trace_budleReg_addr = 64'h0;
+  end
+  if (reset) begin
+    Mem_trace_budleReg_len = 3'h0;
+  end
+  if (reset) begin
+    Mem_trace_budleReg_cache = 1'h0;
   end
   if (reset) begin
     CsrWritedataReg = 64'h0;
@@ -6592,15 +6936,16 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module regfile(
-  input         clock,
-  input         reset,
-  input  [4:0]  io_A1,
-  input  [4:0]  io_A2,
-  input         io_WE3,
-  input  [4:0]  io_A3,
-  input  [63:0] io_WD3,
-  output [63:0] io_RD1,
-  output [63:0] io_RD2
+  input           clock,
+  input           reset,
+  input  [4:0]    io_A1,
+  input  [4:0]    io_A2,
+  input           io_WE3,
+  input  [4:0]    io_A3,
+  input  [63:0]   io_WD3,
+  output [63:0]   io_RD1,
+  output [63:0]   io_RD2,
+  output [2047:0] io_reg_file_alL_out
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
@@ -6697,6 +7042,12 @@ module regfile(
   wire [63:0] _GEN_27 = 5'h1b == io_A3 ? regs_27 : _GEN_26; // @[regfile.scala 26:{23,23}]
   wire [63:0] _GEN_28 = 5'h1c == io_A3 ? regs_28 : _GEN_27; // @[regfile.scala 26:{23,23}]
   wire [63:0] _GEN_29 = 5'h1d == io_A3 ? regs_29 : _GEN_28; // @[regfile.scala 26:{23,23}]
+  wire [511:0] io_reg_file_alL_out_lo_lo = {regs_7,regs_6,regs_5,regs_4,regs_3,regs_2,regs_1,regs_0}; // @[Cat.scala 31:58]
+  wire [1023:0] io_reg_file_alL_out_lo = {regs_15,regs_14,regs_13,regs_12,regs_11,regs_10,regs_9,regs_8,
+    io_reg_file_alL_out_lo_lo}; // @[Cat.scala 31:58]
+  wire [511:0] io_reg_file_alL_out_hi_lo = {regs_23,regs_22,regs_21,regs_20,regs_19,regs_18,regs_17,regs_16}; // @[Cat.scala 31:58]
+  wire [1023:0] io_reg_file_alL_out_hi = {regs_31,regs_30,regs_29,regs_28,regs_27,regs_26,regs_25,regs_24,
+    io_reg_file_alL_out_hi_lo}; // @[Cat.scala 31:58]
   wire [63:0] _GEN_65 = 5'h1 == io_A1 ? regs_1 : regs_0; // @[regfile.scala 31:{19,19}]
   wire [63:0] _GEN_66 = 5'h2 == io_A1 ? regs_2 : _GEN_65; // @[regfile.scala 31:{19,19}]
   wire [63:0] _GEN_67 = 5'h3 == io_A1 ? regs_3 : _GEN_66; // @[regfile.scala 31:{19,19}]
@@ -6761,6 +7112,7 @@ module regfile(
   wire [63:0] _GEN_127 = 5'h1f == io_A2 ? regs_31 : _GEN_126; // @[regfile.scala 32:{19,19}]
   assign io_RD1 = io_WE3 & io_A1 == io_A3 & io_A1 != 5'h0 ? io_WD3 : _GEN_95; // @[regfile.scala 31:19]
   assign io_RD2 = io_WE3 & io_A2 == io_A3 & io_A2 != 5'h0 ? io_WD3 : _GEN_127; // @[regfile.scala 32:19]
+  assign io_reg_file_alL_out = {io_reg_file_alL_out_hi,io_reg_file_alL_out_lo}; // @[Cat.scala 31:58]
   always @(posedge clock or posedge reset) begin
     if (reset) begin // @[regfile.scala 26:17]
       regs_0 <= 64'h0; // @[regfile.scala 26:{23,23,23,23,23}]
@@ -42455,6 +42807,7 @@ module myCPU(
   reg [31:0] _RAND_33;
   reg [31:0] _RAND_34;
   reg [31:0] _RAND_35;
+  reg [63:0] _RAND_36;
 `endif // RANDOMIZE_REG_INIT
   wire [23:0] _alu_io_ctrl; // @[myCPU.scala 120:22]
   wire [63:0] _alu_io_in1; // @[myCPU.scala 120:22]
@@ -42545,6 +42898,7 @@ module myCPU(
   wire  _cu_io_LoadUnsignedD; // @[myCPU.scala 124:22]
   wire [1:0] _cu_io_MemWidthD; // @[myCPU.scala 124:22]
   wire [63:0] _cu_io_ImmD; // @[myCPU.scala 124:22]
+  wire  _cu_io_ebreakD; // @[myCPU.scala 124:22]
   wire  _cu_io_data_wD; // @[myCPU.scala 124:22]
   wire [23:0] _cu_io_muldiv_control; // @[myCPU.scala 124:22]
   wire  _cu_io_muldiv_cal; // @[myCPU.scala 124:22]
@@ -42583,6 +42937,7 @@ module myCPU(
   wire [1:0] _ex2mem_io1_MemRLE; // @[myCPU.scala 127:26]
   wire [1:0] _ex2mem_io1_BranchJump_JrE; // @[myCPU.scala 127:26]
   wire [2:0] _ex2mem_io1_Tlb_Control; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io1_eBreakE; // @[myCPU.scala 127:26]
   wire  _ex2mem_io1_fence_i_control; // @[myCPU.scala 127:26]
   wire  _ex2mem_io_en; // @[myCPU.scala 127:26]
   wire  _ex2mem_io_clr; // @[myCPU.scala 127:26]
@@ -42592,6 +42947,13 @@ module myCPU(
   wire [63:0] _ex2mem_io_CsrWritedataE; // @[myCPU.scala 127:26]
   wire [31:0] _ex2mem_io_ExceptionTypeE; // @[myCPU.scala 127:26]
   wire [63:0] _ex2mem_io_RtE; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_Pc_NextE; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleE_pc; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleE_data; // @[myCPU.scala 127:26]
+  wire [1:0] _ex2mem_io_mem_trace_budleE_mem_fetch_type; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleE_addr; // @[myCPU.scala 127:26]
+  wire [2:0] _ex2mem_io_mem_trace_budleE_len; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_mem_trace_budleE_cache; // @[myCPU.scala 127:26]
   wire  _ex2mem_io_RegWriteM; // @[myCPU.scala 127:26]
   wire  _ex2mem_io_MemToRegM; // @[myCPU.scala 127:26]
   wire [63:0] _ex2mem_io_WriteDataM; // @[myCPU.scala 127:26]
@@ -42607,6 +42969,14 @@ module myCPU(
   wire [63:0] _ex2mem_io_RtM; // @[myCPU.scala 127:26]
   wire [1:0] _ex2mem_io_BranchJump_JrM; // @[myCPU.scala 127:26]
   wire [2:0] _ex2mem_io_Tlb_ControlM; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_eBreakM; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_Pc_NextM; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleM_pc; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleM_data; // @[myCPU.scala 127:26]
+  wire [1:0] _ex2mem_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 127:26]
+  wire [63:0] _ex2mem_io_mem_trace_budleM_addr; // @[myCPU.scala 127:26]
+  wire [2:0] _ex2mem_io_mem_trace_budleM_len; // @[myCPU.scala 127:26]
+  wire  _ex2mem_io_mem_trace_budleM_cache; // @[myCPU.scala 127:26]
   wire [63:0] _ex2mem_io_CsrWritedataM; // @[myCPU.scala 127:26]
   wire  _ex2mem_io_fence_i_controlM; // @[myCPU.scala 127:26]
   wire  _mem2mem2_clock; // @[myCPU.scala 128:28]
@@ -42621,6 +42991,7 @@ module myCPU(
   wire [1:0] _mem2mem2_io1_MemRLE; // @[myCPU.scala 128:28]
   wire [1:0] _mem2mem2_io1_BranchJump_JrE; // @[myCPU.scala 128:28]
   wire [2:0] _mem2mem2_io1_Tlb_Control; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io1_eBreakE; // @[myCPU.scala 128:28]
   wire  _mem2mem2_io1_fence_i_control; // @[myCPU.scala 128:28]
   wire  _mem2mem2_io_en; // @[myCPU.scala 128:28]
   wire  _mem2mem2_io_clr; // @[myCPU.scala 128:28]
@@ -42630,6 +43001,13 @@ module myCPU(
   wire [63:0] _mem2mem2_io_CsrWritedataE; // @[myCPU.scala 128:28]
   wire [31:0] _mem2mem2_io_ExceptionTypeE; // @[myCPU.scala 128:28]
   wire [63:0] _mem2mem2_io_RtE; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_Pc_NextE; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleE_pc; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleE_data; // @[myCPU.scala 128:28]
+  wire [1:0] _mem2mem2_io_mem_trace_budleE_mem_fetch_type; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleE_addr; // @[myCPU.scala 128:28]
+  wire [2:0] _mem2mem2_io_mem_trace_budleE_len; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_mem_trace_budleE_cache; // @[myCPU.scala 128:28]
   wire  _mem2mem2_io_RegWriteM; // @[myCPU.scala 128:28]
   wire  _mem2mem2_io_MemToRegM; // @[myCPU.scala 128:28]
   wire [63:0] _mem2mem2_io_WriteDataM; // @[myCPU.scala 128:28]
@@ -42645,6 +43023,14 @@ module myCPU(
   wire [63:0] _mem2mem2_io_RtM; // @[myCPU.scala 128:28]
   wire [1:0] _mem2mem2_io_BranchJump_JrM; // @[myCPU.scala 128:28]
   wire [2:0] _mem2mem2_io_Tlb_ControlM; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_eBreakM; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_Pc_NextM; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleM_pc; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleM_data; // @[myCPU.scala 128:28]
+  wire [1:0] _mem2mem2_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 128:28]
+  wire [63:0] _mem2mem2_io_mem_trace_budleM_addr; // @[myCPU.scala 128:28]
+  wire [2:0] _mem2mem2_io_mem_trace_budleM_len; // @[myCPU.scala 128:28]
+  wire  _mem2mem2_io_mem_trace_budleM_cache; // @[myCPU.scala 128:28]
   wire [63:0] _mem2mem2_io_CsrWritedataM; // @[myCPU.scala 128:28]
   wire  _mem2mem2_io_fence_i_controlM; // @[myCPU.scala 128:28]
   wire  _id2ex_clock; // @[myCPU.scala 130:26]
@@ -42661,6 +43047,7 @@ module myCPU(
   wire  _id2ex_io1_csrToRegD; // @[myCPU.scala 130:26]
   wire  _id2ex_io1_LoadUnsignedD; // @[myCPU.scala 130:26]
   wire [1:0] _id2ex_io1_MemWidthD; // @[myCPU.scala 130:26]
+  wire  _id2ex_io1_ebreakD; // @[myCPU.scala 130:26]
   wire  _id2ex_io1_data_wD; // @[myCPU.scala 130:26]
   wire [23:0] _id2ex_io1_muldiv_control; // @[myCPU.scala 130:26]
   wire  _id2ex_io1_muldiv_cal; // @[myCPU.scala 130:26]
@@ -42684,6 +43071,7 @@ module myCPU(
   wire [11:0] _id2ex_io2_ReadcsrAddrE; // @[myCPU.scala 130:26]
   wire [63:0] _id2ex_io2_PCE; // @[myCPU.scala 130:26]
   wire [1:0] _id2ex_io2_BranchJump_JrE; // @[myCPU.scala 130:26]
+  wire  _id2ex_io2_eBreakE; // @[myCPU.scala 130:26]
   wire  _id2ex_io2_fence_i_control; // @[myCPU.scala 130:26]
   wire  _id2ex_io_en; // @[myCPU.scala 130:26]
   wire  _id2ex_io_clr; // @[myCPU.scala 130:26]
@@ -42698,6 +43086,7 @@ module myCPU(
   wire [11:0] _id2ex_io_ReadcsrAddrD; // @[myCPU.scala 130:26]
   wire [63:0] _id2ex_io_PCD; // @[myCPU.scala 130:26]
   wire [31:0] _id2ex_io_ExceptionTypeD; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_Pc_NextD; // @[myCPU.scala 130:26]
   wire [1:0] _id2ex_io_BranchJump_JrD; // @[myCPU.scala 130:26]
   wire [63:0] _id2ex_io_RD1E; // @[myCPU.scala 130:26]
   wire [63:0] _id2ex_io_RD2E; // @[myCPU.scala 130:26]
@@ -42705,6 +43094,7 @@ module myCPU(
   wire [4:0] _id2ex_io_R1E; // @[myCPU.scala 130:26]
   wire [63:0] _id2ex_io_ImmE; // @[myCPU.scala 130:26]
   wire  _id2ex_io_data_wE; // @[myCPU.scala 130:26]
+  wire [63:0] _id2ex_io_Pc_NextE; // @[myCPU.scala 130:26]
   wire [23:0] _id2ex_io_muldiv_control; // @[myCPU.scala 130:26]
   wire  _id2ex_io_alu_calE; // @[myCPU.scala 130:26]
   wire  _id2ex_io_muldiv_calE; // @[myCPU.scala 130:26]
@@ -42736,6 +43126,14 @@ module myCPU(
   wire [63:0] _mem22wb_io_PCM; // @[myCPU.scala 133:27]
   wire [31:0] _mem22wb_io_ExceptionTypeM; // @[myCPU.scala 133:27]
   wire [1:0] _mem22wb_io_BranchJump_JrM; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_eBreakM; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Pc_NextM; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleM_pc; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleM_data; // @[myCPU.scala 133:27]
+  wire [1:0] _mem22wb_io_Mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleM_addr; // @[myCPU.scala 133:27]
+  wire [2:0] _mem22wb_io_Mem_trace_budleM_len; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_Mem_trace_budleM_cache; // @[myCPU.scala 133:27]
   wire  _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 133:27]
   wire [63:0] _mem22wb_io_ResultW; // @[myCPU.scala 133:27]
   wire [4:0] _mem22wb_io_WriteRegW; // @[myCPU.scala 133:27]
@@ -42744,6 +43142,14 @@ module myCPU(
   wire [63:0] _mem22wb_io_PCW; // @[myCPU.scala 133:27]
   wire [31:0] _mem22wb_io_ExceptionTypeW_Out; // @[myCPU.scala 133:27]
   wire [1:0] _mem22wb_io_BranchJump_JrW; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_eBreakW; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Pc_NextW; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleW_pc; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleW_data; // @[myCPU.scala 133:27]
+  wire [1:0] _mem22wb_io_Mem_trace_budleW_mem_fetch_type; // @[myCPU.scala 133:27]
+  wire [63:0] _mem22wb_io_Mem_trace_budleW_addr; // @[myCPU.scala 133:27]
+  wire [2:0] _mem22wb_io_Mem_trace_budleW_len; // @[myCPU.scala 133:27]
+  wire  _mem22wb_io_Mem_trace_budleW_cache; // @[myCPU.scala 133:27]
   wire [63:0] _mem22wb_io_CsrWritedataW; // @[myCPU.scala 133:27]
   wire [63:0] _addr_cal_io_d_vaddr; // @[myCPU.scala 134:31]
   wire [63:0] _addr_cal_io_d_paddr; // @[myCPU.scala 134:31]
@@ -42765,6 +43171,7 @@ module myCPU(
   wire [63:0] _regfile_io_WD3; // @[myCPU.scala 137:26]
   wire [63:0] _regfile_io_RD1; // @[myCPU.scala 137:26]
   wire [63:0] _regfile_io_RD2; // @[myCPU.scala 137:26]
+  wire [2047:0] _regfile_io_reg_file_alL_out; // @[myCPU.scala 137:26]
   wire  fifo_with_bundle_clock; // @[myCPU.scala 159:29]
   wire  fifo_with_bundle_reset; // @[myCPU.scala 159:29]
   wire [1:0] fifo_with_bundle_io_read_en; // @[myCPU.scala 159:29]
@@ -42800,6 +43207,15 @@ module myCPU(
   wire  fifo_with_bundle_io_empty; // @[myCPU.scala 159:29]
   wire  fifo_with_bundle_io_point_write_en; // @[myCPU.scala 159:29]
   wire  fifo_with_bundle_io_point_flush; // @[myCPU.scala 159:29]
+  wire  _mtrace_mod_reset; // @[myCPU.scala 226:33]
+  wire  _mtrace_mod_clock; // @[myCPU.scala 226:33]
+  wire [63:0] _mtrace_mod_data; // @[myCPU.scala 226:33]
+  wire [63:0] _mtrace_mod_pc; // @[myCPU.scala 226:33]
+  wire [63:0] _mtrace_mod_addr; // @[myCPU.scala 226:33]
+  wire  _mtrace_mod_mem_req; // @[myCPU.scala 226:33]
+  wire  _mtrace_mod_mem_write_read; // @[myCPU.scala 226:33]
+  wire [2:0] _mtrace_mod_mem_size; // @[myCPU.scala 226:33]
+  wire  _mtrace_mod_mem_cached; // @[myCPU.scala 226:33]
   wire  stage_fec_1_pc_L_clock; // @[myCPU.scala 436:34]
   wire  stage_fec_1_pc_L_reset; // @[myCPU.scala 436:34]
   wire  stage_fec_1_pc_L_io_stall; // @[myCPU.scala 436:34]
@@ -42938,6 +43354,14 @@ module myCPU(
   wire [63:0] wb_bru_state_io_out_target_pc; // @[myCPU.scala 716:31]
   wire [6:0] wb_bru_state_io_out_lookup_data; // @[myCPU.scala 716:31]
   wire [7:0] wb_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 716:31]
+  wire  _commit_difftest_reset; // @[myCPU.scala 1164:38]
+  wire  _commit_difftest_clock; // @[myCPU.scala 1164:38]
+  wire [2047:0] _commit_difftest_gpr_wire; // @[myCPU.scala 1164:38]
+  wire [63:0] _commit_difftest_pc; // @[myCPU.scala 1164:38]
+  wire [63:0] _commit_difftest_debug_pc; // @[myCPU.scala 1164:38]
+  wire  _commit_difftest_inst_commit; // @[myCPU.scala 1164:38]
+  wire  _commit_difftest_data_ok_ok; // @[myCPU.scala 1164:38]
+  wire  _commit_difftest_cpu_ebreak_sign; // @[myCPU.scala 1164:38]
   wire  _T_2 = ~resetn; // @[myCPU.scala 114:41]
   wire  stage_fec_2_inst_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 179:45]
   wire  stage_fec_2_inst_branch = inst_sram_rdata_L[32]; // @[myCPU.scala 180:47]
@@ -43196,6 +43620,12 @@ module myCPU(
     _Mem_withRL_Data_T_13; // @[Mux.scala 81:58]
   wire [63:0] _Mem_withRL_Data_T_33 = 2'h2 == _mem2mem2_io_MemRLM ? _Mem_withRL_Data_T_15 : _dmem_io_RD; // @[Mux.scala 81:58]
   wire [63:0] Mem_withRL_Data = 2'h1 == _mem2mem2_io_MemRLM ? _Mem_withRL_Data_T_31 : _Mem_withRL_Data_T_33; // @[Mux.scala 81:58]
+  wire [63:0] __mem22wb_io_Mem_trace_budleM_data_T_2 = _mem2mem2_io_mem_trace_budleM_mem_fetch_type[0] ?
+    _mem2mem2_io_mem_trace_budleM_data : 64'h0; // @[Mux.scala 27:73]
+  wire [63:0] __mem22wb_io_Mem_trace_budleM_data_T_3 = _mem2mem2_io_mem_trace_budleM_mem_fetch_type[1] ? Mem_withRL_Data
+     : 64'h0; // @[Mux.scala 27:73]
+  reg [63:0] pcw_reg; // @[myCPU.scala 1161:26]
+  wire  __commit_difftest_io_inst_commit_T_1 = pcw_reg != _mem22wb_io_PCW; // @[myCPU.scala 1171:79]
   wire  csrWriteW = wb_exception ? 1'h0 : _mem22wb_io_csrWriteW; // @[myCPU.scala 1194:25]
   alu _alu ( // @[myCPU.scala 120:22]
     .io_ctrl(_alu_io_ctrl),
@@ -43295,6 +43725,7 @@ module myCPU(
     .io_LoadUnsignedD(_cu_io_LoadUnsignedD),
     .io_MemWidthD(_cu_io_MemWidthD),
     .io_ImmD(_cu_io_ImmD),
+    .io_ebreakD(_cu_io_ebreakD),
     .io_data_wD(_cu_io_data_wD),
     .io_muldiv_control(_cu_io_muldiv_control),
     .io_muldiv_cal(_cu_io_muldiv_cal),
@@ -43339,6 +43770,7 @@ module myCPU(
     .io1_MemRLE(_ex2mem_io1_MemRLE),
     .io1_BranchJump_JrE(_ex2mem_io1_BranchJump_JrE),
     .io1_Tlb_Control(_ex2mem_io1_Tlb_Control),
+    .io1_eBreakE(_ex2mem_io1_eBreakE),
     .io1_fence_i_control(_ex2mem_io1_fence_i_control),
     .io_en(_ex2mem_io_en),
     .io_clr(_ex2mem_io_clr),
@@ -43348,6 +43780,13 @@ module myCPU(
     .io_CsrWritedataE(_ex2mem_io_CsrWritedataE),
     .io_ExceptionTypeE(_ex2mem_io_ExceptionTypeE),
     .io_RtE(_ex2mem_io_RtE),
+    .io_Pc_NextE(_ex2mem_io_Pc_NextE),
+    .io_mem_trace_budleE_pc(_ex2mem_io_mem_trace_budleE_pc),
+    .io_mem_trace_budleE_data(_ex2mem_io_mem_trace_budleE_data),
+    .io_mem_trace_budleE_mem_fetch_type(_ex2mem_io_mem_trace_budleE_mem_fetch_type),
+    .io_mem_trace_budleE_addr(_ex2mem_io_mem_trace_budleE_addr),
+    .io_mem_trace_budleE_len(_ex2mem_io_mem_trace_budleE_len),
+    .io_mem_trace_budleE_cache(_ex2mem_io_mem_trace_budleE_cache),
     .io_RegWriteM(_ex2mem_io_RegWriteM),
     .io_MemToRegM(_ex2mem_io_MemToRegM),
     .io_WriteDataM(_ex2mem_io_WriteDataM),
@@ -43363,6 +43802,14 @@ module myCPU(
     .io_RtM(_ex2mem_io_RtM),
     .io_BranchJump_JrM(_ex2mem_io_BranchJump_JrM),
     .io_Tlb_ControlM(_ex2mem_io_Tlb_ControlM),
+    .io_eBreakM(_ex2mem_io_eBreakM),
+    .io_Pc_NextM(_ex2mem_io_Pc_NextM),
+    .io_mem_trace_budleM_pc(_ex2mem_io_mem_trace_budleM_pc),
+    .io_mem_trace_budleM_data(_ex2mem_io_mem_trace_budleM_data),
+    .io_mem_trace_budleM_mem_fetch_type(_ex2mem_io_mem_trace_budleM_mem_fetch_type),
+    .io_mem_trace_budleM_addr(_ex2mem_io_mem_trace_budleM_addr),
+    .io_mem_trace_budleM_len(_ex2mem_io_mem_trace_budleM_len),
+    .io_mem_trace_budleM_cache(_ex2mem_io_mem_trace_budleM_cache),
     .io_CsrWritedataM(_ex2mem_io_CsrWritedataM),
     .io_fence_i_controlM(_ex2mem_io_fence_i_controlM)
   );
@@ -43379,6 +43826,7 @@ module myCPU(
     .io1_MemRLE(_mem2mem2_io1_MemRLE),
     .io1_BranchJump_JrE(_mem2mem2_io1_BranchJump_JrE),
     .io1_Tlb_Control(_mem2mem2_io1_Tlb_Control),
+    .io1_eBreakE(_mem2mem2_io1_eBreakE),
     .io1_fence_i_control(_mem2mem2_io1_fence_i_control),
     .io_en(_mem2mem2_io_en),
     .io_clr(_mem2mem2_io_clr),
@@ -43388,6 +43836,13 @@ module myCPU(
     .io_CsrWritedataE(_mem2mem2_io_CsrWritedataE),
     .io_ExceptionTypeE(_mem2mem2_io_ExceptionTypeE),
     .io_RtE(_mem2mem2_io_RtE),
+    .io_Pc_NextE(_mem2mem2_io_Pc_NextE),
+    .io_mem_trace_budleE_pc(_mem2mem2_io_mem_trace_budleE_pc),
+    .io_mem_trace_budleE_data(_mem2mem2_io_mem_trace_budleE_data),
+    .io_mem_trace_budleE_mem_fetch_type(_mem2mem2_io_mem_trace_budleE_mem_fetch_type),
+    .io_mem_trace_budleE_addr(_mem2mem2_io_mem_trace_budleE_addr),
+    .io_mem_trace_budleE_len(_mem2mem2_io_mem_trace_budleE_len),
+    .io_mem_trace_budleE_cache(_mem2mem2_io_mem_trace_budleE_cache),
     .io_RegWriteM(_mem2mem2_io_RegWriteM),
     .io_MemToRegM(_mem2mem2_io_MemToRegM),
     .io_WriteDataM(_mem2mem2_io_WriteDataM),
@@ -43403,6 +43858,14 @@ module myCPU(
     .io_RtM(_mem2mem2_io_RtM),
     .io_BranchJump_JrM(_mem2mem2_io_BranchJump_JrM),
     .io_Tlb_ControlM(_mem2mem2_io_Tlb_ControlM),
+    .io_eBreakM(_mem2mem2_io_eBreakM),
+    .io_Pc_NextM(_mem2mem2_io_Pc_NextM),
+    .io_mem_trace_budleM_pc(_mem2mem2_io_mem_trace_budleM_pc),
+    .io_mem_trace_budleM_data(_mem2mem2_io_mem_trace_budleM_data),
+    .io_mem_trace_budleM_mem_fetch_type(_mem2mem2_io_mem_trace_budleM_mem_fetch_type),
+    .io_mem_trace_budleM_addr(_mem2mem2_io_mem_trace_budleM_addr),
+    .io_mem_trace_budleM_len(_mem2mem2_io_mem_trace_budleM_len),
+    .io_mem_trace_budleM_cache(_mem2mem2_io_mem_trace_budleM_cache),
     .io_CsrWritedataM(_mem2mem2_io_CsrWritedataM),
     .io_fence_i_controlM(_mem2mem2_io_fence_i_controlM)
   );
@@ -43421,6 +43884,7 @@ module myCPU(
     .io1_csrToRegD(_id2ex_io1_csrToRegD),
     .io1_LoadUnsignedD(_id2ex_io1_LoadUnsignedD),
     .io1_MemWidthD(_id2ex_io1_MemWidthD),
+    .io1_ebreakD(_id2ex_io1_ebreakD),
     .io1_data_wD(_id2ex_io1_data_wD),
     .io1_muldiv_control(_id2ex_io1_muldiv_control),
     .io1_muldiv_cal(_id2ex_io1_muldiv_cal),
@@ -43444,6 +43908,7 @@ module myCPU(
     .io2_ReadcsrAddrE(_id2ex_io2_ReadcsrAddrE),
     .io2_PCE(_id2ex_io2_PCE),
     .io2_BranchJump_JrE(_id2ex_io2_BranchJump_JrE),
+    .io2_eBreakE(_id2ex_io2_eBreakE),
     .io2_fence_i_control(_id2ex_io2_fence_i_control),
     .io_en(_id2ex_io_en),
     .io_clr(_id2ex_io_clr),
@@ -43458,6 +43923,7 @@ module myCPU(
     .io_ReadcsrAddrD(_id2ex_io_ReadcsrAddrD),
     .io_PCD(_id2ex_io_PCD),
     .io_ExceptionTypeD(_id2ex_io_ExceptionTypeD),
+    .io_Pc_NextD(_id2ex_io_Pc_NextD),
     .io_BranchJump_JrD(_id2ex_io_BranchJump_JrD),
     .io_RD1E(_id2ex_io_RD1E),
     .io_RD2E(_id2ex_io_RD2E),
@@ -43465,6 +43931,7 @@ module myCPU(
     .io_R1E(_id2ex_io_R1E),
     .io_ImmE(_id2ex_io_ImmE),
     .io_data_wE(_id2ex_io_data_wE),
+    .io_Pc_NextE(_id2ex_io_Pc_NextE),
     .io_muldiv_control(_id2ex_io_muldiv_control),
     .io_alu_calE(_id2ex_io_alu_calE),
     .io_muldiv_calE(_id2ex_io_muldiv_calE),
@@ -43500,6 +43967,14 @@ module myCPU(
     .io_PCM(_mem22wb_io_PCM),
     .io_ExceptionTypeM(_mem22wb_io_ExceptionTypeM),
     .io_BranchJump_JrM(_mem22wb_io_BranchJump_JrM),
+    .io_eBreakM(_mem22wb_io_eBreakM),
+    .io_Pc_NextM(_mem22wb_io_Pc_NextM),
+    .io_Mem_trace_budleM_pc(_mem22wb_io_Mem_trace_budleM_pc),
+    .io_Mem_trace_budleM_data(_mem22wb_io_Mem_trace_budleM_data),
+    .io_Mem_trace_budleM_mem_fetch_type(_mem22wb_io_Mem_trace_budleM_mem_fetch_type),
+    .io_Mem_trace_budleM_addr(_mem22wb_io_Mem_trace_budleM_addr),
+    .io_Mem_trace_budleM_len(_mem22wb_io_Mem_trace_budleM_len),
+    .io_Mem_trace_budleM_cache(_mem22wb_io_Mem_trace_budleM_cache),
     .io_RegWriteW_Out(_mem22wb_io_RegWriteW_Out),
     .io_ResultW(_mem22wb_io_ResultW),
     .io_WriteRegW(_mem22wb_io_WriteRegW),
@@ -43508,6 +43983,14 @@ module myCPU(
     .io_PCW(_mem22wb_io_PCW),
     .io_ExceptionTypeW_Out(_mem22wb_io_ExceptionTypeW_Out),
     .io_BranchJump_JrW(_mem22wb_io_BranchJump_JrW),
+    .io_eBreakW(_mem22wb_io_eBreakW),
+    .io_Pc_NextW(_mem22wb_io_Pc_NextW),
+    .io_Mem_trace_budleW_pc(_mem22wb_io_Mem_trace_budleW_pc),
+    .io_Mem_trace_budleW_data(_mem22wb_io_Mem_trace_budleW_data),
+    .io_Mem_trace_budleW_mem_fetch_type(_mem22wb_io_Mem_trace_budleW_mem_fetch_type),
+    .io_Mem_trace_budleW_addr(_mem22wb_io_Mem_trace_budleW_addr),
+    .io_Mem_trace_budleW_len(_mem22wb_io_Mem_trace_budleW_len),
+    .io_Mem_trace_budleW_cache(_mem22wb_io_Mem_trace_budleW_cache),
     .io_CsrWritedataW(_mem22wb_io_CsrWritedataW)
   );
   addr_cal _addr_cal ( // @[myCPU.scala 134:31]
@@ -43534,7 +44017,8 @@ module myCPU(
     .io_A3(_regfile_io_A3),
     .io_WD3(_regfile_io_WD3),
     .io_RD1(_regfile_io_RD1),
-    .io_RD2(_regfile_io_RD2)
+    .io_RD2(_regfile_io_RD2),
+    .io_reg_file_alL_out(_regfile_io_reg_file_alL_out)
   );
   fifo_with_bundle fifo_with_bundle ( // @[myCPU.scala 159:29]
     .clock(fifo_with_bundle_clock),
@@ -43572,6 +44056,17 @@ module myCPU(
     .io_empty(fifo_with_bundle_io_empty),
     .io_point_write_en(fifo_with_bundle_io_point_write_en),
     .io_point_flush(fifo_with_bundle_io_point_flush)
+  );
+  mem_trace_module _mtrace_mod ( // @[myCPU.scala 226:33]
+    .reset(_mtrace_mod_reset),
+    .clock(_mtrace_mod_clock),
+    .data(_mtrace_mod_data),
+    .pc(_mtrace_mod_pc),
+    .addr(_mtrace_mod_addr),
+    .mem_req(_mtrace_mod_mem_req),
+    .mem_write_read(_mtrace_mod_mem_write_read),
+    .mem_size(_mtrace_mod_mem_size),
+    .mem_cached(_mtrace_mod_mem_cached)
   );
   pc_detail stage_fec_1_pc_L ( // @[myCPU.scala 436:34]
     .clock(stage_fec_1_pc_L_clock),
@@ -43735,6 +44230,16 @@ module myCPU(
     .io_out_lookup_data(wb_bru_state_io_out_lookup_data),
     .io_out_pht_lookup_value(wb_bru_state_io_out_pht_lookup_value)
   );
+  difftest_commit _commit_difftest ( // @[myCPU.scala 1164:38]
+    .reset(_commit_difftest_reset),
+    .clock(_commit_difftest_clock),
+    .gpr_wire(_commit_difftest_gpr_wire),
+    .pc(_commit_difftest_pc),
+    .debug_pc(_commit_difftest_debug_pc),
+    .inst_commit(_commit_difftest_inst_commit),
+    .data_ok_ok(_commit_difftest_data_ok_ok),
+    .cpu_ebreak_sign(_commit_difftest_cpu_ebreak_sign)
+  );
   assign inst_cache = Pc_Next[31:29] == 3'h4; // @[macros.scala 481:55]
   assign inst_sram_en = stage2_stall; // @[myCPU.scala 399:17]
   assign inst_sram_addr = _stage_fec_2_branch_answer_T_7 ? _csr_io_return_pc : _Pc_Next_T_3; // @[myCPU.scala 392:19]
@@ -43825,6 +44330,7 @@ module myCPU(
   assign _ex2mem_io1_MemRLE = 2'h0; // @[myCPU.scala 165:15]
   assign _ex2mem_io1_BranchJump_JrE = _id2ex_io2_BranchJump_JrE; // @[myCPU.scala 165:15]
   assign _ex2mem_io1_Tlb_Control = 3'h0; // @[myCPU.scala 165:15]
+  assign _ex2mem_io1_eBreakE = _id2ex_io2_eBreakE; // @[myCPU.scala 165:15]
   assign _ex2mem_io1_fence_i_control = _id2ex_io2_fence_i_control; // @[myCPU.scala 165:15]
   assign _ex2mem_io_en = _cfu_io_StallE; // @[myCPU.scala 212:30]
   assign _ex2mem_io_clr = _cfu_io_FlushM; // @[myCPU.scala 213:30]
@@ -43835,6 +44341,13 @@ module myCPU(
   assign _ex2mem_io_ExceptionTypeE = _id2ex_io_ExceptionTypeE_Out != 32'h0 ? _id2ex_io_ExceptionTypeE_Out : {{19'd0},
     _temp_exceptionE_T_11}; // @[myCPU.scala 941:30]
   assign _ex2mem_io_RtE = Forward_Lock2E ? RD2ForWardE_r : RD2ForWardE_p; // @[myCPU.scala 870:23]
+  assign _ex2mem_io_Pc_NextE = _id2ex_io_Pc_NextE; // @[myCPU.scala 949:25]
+  assign _ex2mem_io_mem_trace_budleE_pc = _id2ex_io2_PCE; // @[myCPU.scala 962:36]
+  assign _ex2mem_io_mem_trace_budleE_data = data_sram_wdata; // @[myCPU.scala 963:38]
+  assign _ex2mem_io_mem_trace_budleE_mem_fetch_type = {_id2ex_io2_MemToRegE,_id2ex_io2_MemWriteE}; // @[Cat.scala 31:58]
+  assign _ex2mem_io_mem_trace_budleE_addr = data_sram_addr; // @[myCPU.scala 965:48]
+  assign _ex2mem_io_mem_trace_budleE_len = {{1'd0}, data_size}; // @[myCPU.scala 966:48]
+  assign _ex2mem_io_mem_trace_budleE_cache = data_cache; // @[myCPU.scala 967:48]
   assign _mem2mem2_clock = clk; // @[myCPU.scala 114:23]
   assign _mem2mem2_reset = ~resetn; // @[myCPU.scala 114:41]
   assign _mem2mem2_io1_RegWriteE = _ex2mem_io_RegWriteM; // @[myCPU.scala 1072:30]
@@ -43847,6 +44360,7 @@ module myCPU(
   assign _mem2mem2_io1_MemRLE = _ex2mem_io_MemRLM; // @[myCPU.scala 1085:30]
   assign _mem2mem2_io1_BranchJump_JrE = _ex2mem_io_BranchJump_JrM; // @[myCPU.scala 1086:30]
   assign _mem2mem2_io1_Tlb_Control = _ex2mem_io_Tlb_ControlM; // @[myCPU.scala 1095:27]
+  assign _mem2mem2_io1_eBreakE = _ex2mem_io1_eBreakE; // @[myCPU.scala 1060:24]
   assign _mem2mem2_io1_fence_i_control = _ex2mem_io_fence_i_controlM; // @[myCPU.scala 1070:31]
   assign _mem2mem2_io_en = _cfu_io_StallM2; // @[myCPU.scala 1114:20]
   assign _mem2mem2_io_clr = _cfu_io_FlushM2; // @[myCPU.scala 1113:20]
@@ -43856,6 +44370,13 @@ module myCPU(
   assign _mem2mem2_io_CsrWritedataE = _ex2mem_io_CsrWritedataM; // @[myCPU.scala 1096:29]
   assign _mem2mem2_io_ExceptionTypeE = mem_exception ? _ex2mem_io_ExceptionTypeM_Out : 32'h0; // @[myCPU.scala 1054:21]
   assign _mem2mem2_io_RtE = _ex2mem_io_RtM; // @[myCPU.scala 1068:18]
+  assign _mem2mem2_io_Pc_NextE = _ex2mem_io_Pc_NextM; // @[myCPU.scala 1059:24]
+  assign _mem2mem2_io_mem_trace_budleE_pc = _ex2mem_io_mem_trace_budleM_pc; // @[myCPU.scala 1069:31]
+  assign _mem2mem2_io_mem_trace_budleE_data = _ex2mem_io_mem_trace_budleM_data; // @[myCPU.scala 1069:31]
+  assign _mem2mem2_io_mem_trace_budleE_mem_fetch_type = _ex2mem_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 1069:31]
+  assign _mem2mem2_io_mem_trace_budleE_addr = _ex2mem_io_mem_trace_budleM_addr; // @[myCPU.scala 1069:31]
+  assign _mem2mem2_io_mem_trace_budleE_len = _ex2mem_io_mem_trace_budleM_len; // @[myCPU.scala 1069:31]
+  assign _mem2mem2_io_mem_trace_budleE_cache = _ex2mem_io_mem_trace_budleM_cache; // @[myCPU.scala 1069:31]
   assign _id2ex_clock = clk; // @[myCPU.scala 114:23]
   assign _id2ex_reset = ~resetn; // @[myCPU.scala 114:41]
   assign _id2ex_io1_RegWriteD = _cu_io_RegWriteD; // @[myCPU.scala 164:15]
@@ -43870,6 +44391,7 @@ module myCPU(
   assign _id2ex_io1_csrToRegD = _cu_io_csrToRegD; // @[myCPU.scala 164:15]
   assign _id2ex_io1_LoadUnsignedD = _cu_io_LoadUnsignedD; // @[myCPU.scala 164:15]
   assign _id2ex_io1_MemWidthD = _cu_io_MemWidthD; // @[myCPU.scala 164:15]
+  assign _id2ex_io1_ebreakD = _cu_io_ebreakD; // @[myCPU.scala 164:15]
   assign _id2ex_io1_data_wD = _cu_io_data_wD; // @[myCPU.scala 164:15]
   assign _id2ex_io1_muldiv_control = _cu_io_muldiv_control; // @[myCPU.scala 164:15]
   assign _id2ex_io1_muldiv_cal = _cu_io_muldiv_cal; // @[myCPU.scala 164:15]
@@ -43889,6 +44411,7 @@ module myCPU(
   assign _id2ex_io_ReadcsrAddrD = _if2id_io_InstrD[31:20]; // @[myCPU.scala 832:38]
   assign _id2ex_io_PCD = _if2id_io_PCD; // @[myCPU.scala 841:28]
   assign _id2ex_io_ExceptionTypeD = __id2ex_io_ExceptionTypeD_T_13[31:0]; // @[myCPU.scala 817:31]
+  assign _id2ex_io_Pc_NextD = pre_decoder_jump ? PCJumpD : _PC_nextD_T_2; // @[Mux.scala 101:16]
   assign _id2ex_io_BranchJump_JrD = {1'h0,__id2ex_io_BranchJump_JrD_T_2}; // @[Cat.scala 31:58]
   assign _if2id_clock = clk; // @[myCPU.scala 114:23]
   assign _if2id_reset = ~resetn; // @[myCPU.scala 114:41]
@@ -43911,6 +44434,15 @@ module myCPU(
   assign _mem22wb_io_PCM = _mem2mem2_io_PCM; // @[myCPU.scala 296:38]
   assign _mem22wb_io_ExceptionTypeM = _mem2mem2_io_ExceptionTypeM_Out; // @[myCPU.scala 1136:33]
   assign _mem22wb_io_BranchJump_JrM = _mem2mem2_io_BranchJump_JrM; // @[myCPU.scala 1140:33]
+  assign _mem22wb_io_eBreakM = _mem2mem2_io_eBreakM; // @[myCPU.scala 1137:33]
+  assign _mem22wb_io_Pc_NextM = _mem2mem2_io_Pc_NextM; // @[myCPU.scala 1138:33]
+  assign _mem22wb_io_Mem_trace_budleM_pc = _mem2mem2_io_mem_trace_budleM_pc; // @[myCPU.scala 1145:37]
+  assign _mem22wb_io_Mem_trace_budleM_data = __mem22wb_io_Mem_trace_budleM_data_T_2 |
+    __mem22wb_io_Mem_trace_budleM_data_T_3; // @[Mux.scala 27:73]
+  assign _mem22wb_io_Mem_trace_budleM_mem_fetch_type = _mem2mem2_io_mem_trace_budleM_mem_fetch_type; // @[myCPU.scala 1146:49]
+  assign _mem22wb_io_Mem_trace_budleM_addr = _mem2mem2_io_mem_trace_budleM_addr; // @[myCPU.scala 1154:39]
+  assign _mem22wb_io_Mem_trace_budleM_len = _mem2mem2_io_mem_trace_budleM_len; // @[myCPU.scala 1153:39]
+  assign _mem22wb_io_Mem_trace_budleM_cache = _mem2mem2_io_mem_trace_budleM_cache; // @[myCPU.scala 1155:39]
   assign _addr_cal_io_d_vaddr = _id2ex_io_ImmE + RD1ForWardE; // @[myCPU.scala 1227:44]
   assign _muldiv_clock = clk; // @[myCPU.scala 114:23]
   assign _muldiv_reset = ~resetn; // @[myCPU.scala 114:41]
@@ -43922,7 +44454,7 @@ module myCPU(
   assign _regfile_reset = ~resetn; // @[myCPU.scala 114:41]
   assign _regfile_io_A1 = _if2id_io_InstrD[19:15]; // @[myCPU.scala 784:29]
   assign _regfile_io_A2 = _if2id_io_InstrD[24:20]; // @[myCPU.scala 785:29]
-  assign _regfile_io_WE3 = wb_exception ? 1'h0 : _mem22wb_io_RegWriteW_Out; // @[myCPU.scala 1192:21]
+  assign _regfile_io_WE3 = RegWriteW & _commit_difftest_data_ok_ok; // @[myCPU.scala 1174:45]
   assign _regfile_io_A3 = _mem22wb_io_WriteRegW; // @[myCPU.scala 1198:21]
   assign _regfile_io_WD3 = _mem22wb_io_ResultW; // @[myCPU.scala 1191:15 304:26]
   assign fifo_with_bundle_clock = clk; // @[myCPU.scala 114:23]
@@ -43949,6 +44481,15 @@ module myCPU(
     _PCSrcD_T_3) != id_true_branch_state | target_addr_error) & ~(ex_exception | mem_exception | mem2_exception |
     wb_exception); // @[myCPU.scala 747:60]
   assign fifo_with_bundle_io_point_flush = _csr_io_exception; // @[myCPU.scala 593:29]
+  assign _mtrace_mod_reset = ~resetn; // @[myCPU.scala 228:33]
+  assign _mtrace_mod_clock = clk; // @[myCPU.scala 227:30]
+  assign _mtrace_mod_data = _mem22wb_io_Mem_trace_budleW_data; // @[myCPU.scala 237:33]
+  assign _mtrace_mod_pc = _mem22wb_io_Mem_trace_budleW_pc; // @[myCPU.scala 229:30]
+  assign _mtrace_mod_addr = _mem22wb_io_Mem_trace_budleW_addr; // @[myCPU.scala 235:33]
+  assign _mtrace_mod_mem_req = _mem22wb_io_Mem_trace_budleW_mem_fetch_type != 2'h0; // @[myCPU.scala 230:79]
+  assign _mtrace_mod_mem_write_read = _mem22wb_io_Mem_trace_budleW_mem_fetch_type[0]; // @[myCPU.scala 232:56]
+  assign _mtrace_mod_mem_size = _mem22wb_io_Mem_trace_budleW_len; // @[myCPU.scala 236:33]
+  assign _mtrace_mod_mem_cached = _mem22wb_io_Mem_trace_budleW_cache; // @[myCPU.scala 238:35]
   assign stage_fec_1_pc_L_clock = clk; // @[myCPU.scala 114:23]
   assign stage_fec_1_pc_L_reset = ~resetn; // @[myCPU.scala 114:41]
   assign stage_fec_1_pc_L_io_stall = stage2_stall; // @[myCPU.scala 459:31]
@@ -44045,6 +44586,13 @@ module myCPU(
   assign wb_bru_state_io_in_target_pc = mem2_bru_state_io_out_target_pc; // @[myCPU.scala 723:26]
   assign wb_bru_state_io_in_lookup_data = mem2_bru_state_io_out_lookup_data; // @[myCPU.scala 723:26]
   assign wb_bru_state_io_in_pht_lookup_value = mem2_bru_state_io_out_pht_lookup_value; // @[myCPU.scala 723:26]
+  assign _commit_difftest_reset = ~resetn; // @[myCPU.scala 1166:38]
+  assign _commit_difftest_clock = clk; // @[myCPU.scala 1165:35]
+  assign _commit_difftest_gpr_wire = _regfile_io_reg_file_alL_out; // @[myCPU.scala 1167:38]
+  assign _commit_difftest_pc = _mem22wb_io_PCW; // @[myCPU.scala 1169:44]
+  assign _commit_difftest_debug_pc = wb_exception ? _csr_io_return_pc : _mem22wb_io_Pc_NextW; // @[myCPU.scala 1168:50]
+  assign _commit_difftest_inst_commit = _PCW_Reg_T & __commit_difftest_io_inst_commit_T_1; // @[myCPU.scala 1172:68]
+  assign _commit_difftest_cpu_ebreak_sign = _mem22wb_io_eBreakW; // @[myCPU.scala 1170:45]
   always @(posedge clk or posedge _T_2) begin
     if (_T_2) begin // @[myCPU.scala 621:36]
       pre_decoder_branchD_flag <= 1'h0;
@@ -44383,6 +44931,13 @@ module myCPU(
       tlb_exception_co0_writeW <= tlb_exception_csr_writeM2;
     end
   end
+  always @(posedge clk or posedge _T_2) begin
+    if (_T_2) begin // @[myCPU.scala 1161:26]
+      pcw_reg <= 64'h0; // @[myCPU.scala 1161:26]
+    end else begin
+      pcw_reg <= _mem22wb_io_PCW; // @[myCPU.scala 1186:13]
+    end
+  end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
 `define RANDOMIZE
@@ -44491,6 +45046,8 @@ initial begin
   tlb_exception_csr_writeM2 = _RAND_34[0:0];
   _RAND_35 = {1{`RANDOM}};
   tlb_exception_co0_writeW = _RAND_35[0:0];
+  _RAND_36 = {2{`RANDOM}};
+  pcw_reg = _RAND_36[63:0];
 `endif // RANDOMIZE_REG_INIT
   if (_T_2) begin
     pre_decoder_branchD_flag = 1'h0;
@@ -44599,6 +45156,9 @@ initial begin
   end
   if (_T_2) begin
     tlb_exception_co0_writeW = 1'h0;
+  end
+  if (_T_2) begin
+    pcw_reg = 64'h0;
   end
   `endif // RANDOMIZE
 end // initial
@@ -66485,11 +67045,11 @@ module mycpu_top(
   wire [1:0] axi_can_top_axi_port_bresp; // @[my_cpu_top.scala 246:25]
   wire  axi_can_top_axi_port_bvalid; // @[my_cpu_top.scala 246:25]
   wire  axi_can_top_axi_port_bready; // @[my_cpu_top.scala 246:25]
-  wire  axi_can_top_rx_irq; // @[my_cpu_top.scala 246:25]
+  wire  axi_can_top_int_wire; // @[my_cpu_top.scala 246:25]
   wire  axi_can_top_can_tx; // @[my_cpu_top.scala 246:25]
   wire  axi_can_top_can_rx; // @[my_cpu_top.scala 246:25]
   wire  axi_can_top_clk; // @[my_cpu_top.scala 246:25]
-  wire  axi_can_top_rstn; // @[my_cpu_top.scala 246:25]
+  wire  axi_can_top_rst_n; // @[my_cpu_top.scala 246:25]
   wire  plic_periph_clock; // @[my_cpu_top.scala 247:26]
   wire  plic_periph_reset; // @[my_cpu_top.scala 247:26]
   wire [63:0] plic_periph_io_axi_port_araddr; // @[my_cpu_top.scala 247:26]
@@ -66767,11 +67327,11 @@ module mycpu_top(
     .axi_port_bresp(axi_can_top_axi_port_bresp),
     .axi_port_bvalid(axi_can_top_axi_port_bvalid),
     .axi_port_bready(axi_can_top_axi_port_bready),
-    .rx_irq(axi_can_top_rx_irq),
+    .int_wire(axi_can_top_int_wire),
     .can_tx(axi_can_top_can_tx),
     .can_rx(axi_can_top_can_rx),
     .clk(axi_can_top_clk),
-    .rstn(axi_can_top_rstn)
+    .rst_n(axi_can_top_rst_n)
   );
   plic_periph plic_periph ( // @[my_cpu_top.scala 247:26]
     .clock(plic_periph_clock),
@@ -66944,7 +67504,7 @@ module mycpu_top(
   assign axi_can_top_axi_port_bready = _axi_cross_bar_io_s_port_2_bready; // @[my_cpu_top.scala 249:33]
   assign axi_can_top_can_rx = can_rx; // @[my_cpu_top.scala 254:20]
   assign axi_can_top_clk = aclk; // @[my_cpu_top.scala 253:20]
-  assign axi_can_top_rstn = aresetn; // @[my_cpu_top.scala 252:19]
+  assign axi_can_top_rst_n = aresetn; // @[my_cpu_top.scala 252:20]
   assign plic_periph_clock = aclk; // @[my_cpu_top.scala 127:23]
   assign plic_periph_reset = ~aresetn; // @[my_cpu_top.scala 127:42]
   assign plic_periph_io_axi_port_araddr = _axi_cross_bar_io_s_port_3_araddr; // @[my_cpu_top.scala 250:33]
@@ -66954,5 +67514,5 @@ module mycpu_top(
   assign plic_periph_io_axi_port_awvalid = _axi_cross_bar_io_s_port_3_awvalid; // @[my_cpu_top.scala 250:33]
   assign plic_periph_io_axi_port_wdata = _axi_cross_bar_io_s_port_3_wdata; // @[my_cpu_top.scala 250:33]
   assign plic_periph_io_axi_port_wvalid = _axi_cross_bar_io_s_port_3_wvalid; // @[my_cpu_top.scala 250:33]
-  assign plic_periph_io_int_get_0 = axi_can_top_rx_irq; // @[my_cpu_top.scala 261:25]
+  assign plic_periph_io_int_get_0 = axi_can_top_int_wire; // @[my_cpu_top.scala 261:25]
 endmodule

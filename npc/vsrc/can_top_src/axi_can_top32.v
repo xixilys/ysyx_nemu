@@ -1,17 +1,4 @@
- /* verilator lint_off WIDTHEXPAND */ 
-
-  //Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
-  //--------------------------------------------------------------------------------
-  //Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-  //Date        : Wed Feb 15 00:20:50 2023
-  //Host        : hxz-System-Product-Name running 64-bit Ubuntu 20.04.5 LTS
-  //Command     : generate_target design_1.bd
-  //Design      : design_1
-  //Purpose     : IP block netlist
-  //--------------------------------------------------------------------------------
-  /* verilator lint_off WIDTHEXPAND */
-  `timescale 1 ps / 1 ps
-  
+/* verilator lint_off WIDTH */
   module axi_can_top32
      (ap_clk_0,
       ap_rst_n_0,

@@ -1,4 +1,4 @@
- /* verilator lint_off WIDTHEXPAND */ 
+
   module axi_can_top
      (clk,
       rst_n,

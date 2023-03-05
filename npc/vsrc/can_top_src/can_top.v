@@ -1,5 +1,4 @@
- /* verilator lint_off WIDTHEXPAND */ 
-
+/* verilator lint_off WIDTH */
   module can_top (
   	rstn,
   	clk,

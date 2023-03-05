@@ -271,11 +271,11 @@ val stage_fec_1_pc = Wire(UInt(data_length.W))
 //-------------MEM----------
     // val ResultM = Wire(UInt(data_length.W))
 
-    val Forward_ResultM = Wire(UInt(data_length.W))
+val Forward_ResultM = Wire(UInt(data_length.W))
 
 
 //-------------MEM2----------
-val Forward_ResultM2 = Wire(UInt(data_length.W))
+    val Forward_ResultM2 = Wire(UInt(data_length.W))
     _dmem.io.req        := _dmemreq.io.req
     _dmem.io.addr_ok    := data_addr_ok
     _dmem.io.data_ok    := data_stage2_stall
@@ -320,16 +320,16 @@ val Forward_ResultM2 = Wire(UInt(data_length.W))
     debug_wb_rf_wnum := _regfile.io.A3
     debug_wb_rf_wdata := _regfile.io.WD3
 //pc有关的一些可以复用的模块
-class pc_in_bundle extends Bundle {
-    val pc_value_in = Input(UInt(data_length.W))
-    val pc_inst_in = Input(UInt(data_length.W))
-    // val pc_valid_In = Input(Bool())
-}
-class pc_out_bundle extends Bundle {
-    val pc_value_out = Output(UInt(data_length.W))
-    val pc_inst_out  = Output(UInt(data_length.W))
-    // val pc_valid_Out = Output(Bool())
-}
+    class pc_in_bundle extends Bundle {
+        val pc_value_in = Input(UInt(data_length.W))
+        val pc_inst_in = Input(UInt(data_length.W))
+        // val pc_valid_In = Input(Bool())
+    }
+    class pc_out_bundle extends Bundle {
+        val pc_value_out = Output(UInt(data_length.W))
+        val pc_inst_out  = Output(UInt(data_length.W))
+        // val pc_valid_Out = Output(Bool())
+    }
 class pc_detail extends Module {
     val io = IO(new Bundle{
         val stall = Input(Bool())

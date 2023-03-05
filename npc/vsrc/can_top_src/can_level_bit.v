@@ -1,23 +1,4 @@
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
- /* verilator lint_off WIDTHEXPAND */ 
-  
-  /* verilator lint_off WIDTHEXPAND */
+/* verilator lint_off WIDTH */
   module can_level_bit (
   	rstn,
   	clk,
