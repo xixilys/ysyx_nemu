@@ -15,7 +15,7 @@ class dmem extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     val    rdata   = Input(UInt(data_length.W))
 
     val    ReadEn      = Input(UInt(1.W)) 
-    val    Physisc_Address       = Input(UInt(data_length.W)) //p Physisc_Address
+    val    Physisc_Address       = Input(UInt(3.W)) //p Physisc_Address
     val    WIDTH   = Input(UInt(2.W)) 
     val    SIGN    = Input(UInt(1.W))
     

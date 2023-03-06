@@ -222,24 +222,20 @@ class  PHTS_with_block_ram (length : Int,ways: Int)  extends Module {
     io.pht_out := phts(ways_araddr_reg).rdata
     // phts(io.ar_pht_addr).rdata
 }
-class  PHTS_banks_oneissue_block_ram (length : Int,width : Int ,ways: Int,bank_num: Int)  extends Module {
+class  PHTS_banks_oneissue_block_ram (length : Int,ways: Int,bank_num: Int)  extends Module {
     val addr_width = (log10(length)/log10(2)).toInt
     val ways_width = (log10(ways)/log10(2)).toInt
     val bank_num_width = (log10(bank_num)/log10(2)).toInt
     val io = IO(new Bundle { //分支指令不支持同时写
         val ar_bank_sel = Input(UInt(bank_num_width.W))
-        val ar_addr_L  = Input(UInt(addr_width.W))
-        val ar_addr_M  = Input(UInt(addr_width.W))
-        val ar_addr_R  = Input(UInt(addr_width.W))
+        val ar_addr  = Input(UInt(addr_width.W))
         val ar_pht_addr = Input(UInt(ways_width.W))
         val aw_addr  = Input(UInt(addr_width.W))
         val aw_pht_addr = Input(UInt(ways_width.W))
         val aw_bank_sel = Input(UInt(bank_num_width.W))
         val write = Input(Bool()) // 0 => 不写入 01 => 部分写入 10 => 全写入
         val in = Input(UInt(8.W))
-        val out_L = Output(UInt(width.W))
-        val out_M = Output(UInt(width.W))
-        val out_R = Output(UInt(width.W))
+        val out = Output(UInt(2.W))
         val pht_out = Output(UInt(8.W))
     })
 
@@ -251,7 +247,7 @@ class  PHTS_banks_oneissue_block_ram (length : Int,width : Int ,ways: Int,bank_n
     for(i <- 0 until bank_num ) {
         phts_banks(i).write := io.aw_bank_sel === i.asUInt &&  io.write
         phts_banks(i).in := io.in
-        phts_banks(i).ar_addr := io.ar_addr_L//MuxLookup(i.asUInt,0.U,Seq(
+        phts_banks(i).ar_addr := io.ar_addr//MuxLookup(i.asUInt,0.U,Seq(
            // io.ar_bank_sel -> ,
      
         phts_banks(i).ar_pht_addr := io.ar_pht_addr//这个应该就是直接用pc中的中间20位生成的一个hascode来进行寻址
@@ -260,9 +256,7 @@ class  PHTS_banks_oneissue_block_ram (length : Int,width : Int ,ways: Int,bank_n
     }
     val ar_bank_sel_reg = RegInit(0.U(bank_num_width.W))
     ar_bank_sel_reg := io.ar_bank_sel
-    io.out_L := phts_banks(ar_bank_sel_reg).out
-    io.out_M := phts_banks(ar_bank_sel_reg).out//phts_banks((io.ar_bank_sel + 1.U)((bank_num_width - 1),0)).out
-    io.out_R := phts_banks(ar_bank_sel_reg).out//phts_banks((io.ar_bank_sel + 2.U)((bank_num_width - 1),0)).out
+    io.out := phts_banks(ar_bank_sel_reg).out
     io.pht_out := phts_banks(ar_bank_sel_reg).pht_out
 
    // io.out := phts(io.ar_pht_addr).out

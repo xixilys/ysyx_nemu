@@ -24,9 +24,10 @@ class dcache_data  extends Module with riscv_macros {
      
     val        en   = Input(UInt(1.W))
     val        wen   = Input(UInt((data_length / 8).W))
-    val        addr   = Input(UInt(data_length.W))
+    val        addr   = Input(UInt(addr_length.W))
     val        wdata   = Input(UInt(data_length.W))
     val        rdata  = Output(UInt(data_length.W))
+    val        sram = Flipped(new sram_port)
   
     })
 
@@ -35,6 +36,7 @@ class dcache_data  extends Module with riscv_macros {
     dcache_data_ram_0.io.wea  := io.wen
     dcache_data_ram_0.io.addra := io.addr(10,4)
     dcache_data_ram_0.io.dina := io.wdata
+    io.sram <> dcache_data_ram_0.io.sram_port
 
     io.rdata   := dcache_data_ram_0.io.douta
 }

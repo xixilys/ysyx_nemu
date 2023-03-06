@@ -181,12 +181,12 @@ class btb_data_with_block_ram(length : Int)  extends Module with riscv_macros {
     val        wen   = Input(UInt(1.W))
     val        raddr   = Input(UInt(addr_width.W))
     val        waddr   = Input(UInt(addr_width.W))
-    val        wdata   = Input(UInt(data_length.W))
-    val        rdata  = Output(UInt(data_length.W))
+    val        wdata   = Input(UInt(32.W))
+    val        rdata  = Output(UInt(32.W))
   
     })
-    //a通道为写 b通道为读
-    val btb_data_ram_0 = Module(new data_ram_simple_two_ports(512,32))
+    //a通道为写 b通道为读Z
+    val btb_data_ram_0 = Module(new data_ram_simple_two_ports(length,32))
     btb_data_ram_0.io.clka := clock.asUInt
     btb_data_ram_0.io.clkb := clock.asUInt
     btb_data_ram_0.io.ena   := io.en
@@ -230,15 +230,15 @@ class BTB_banks_oneissue_with_block_ram(length : Int,bank_num: Int) extends Modu
     val addr_width = (log10(length)/log10(2)).toInt
     val bank_num_width = (log10(bank_num)/log10(2)).toInt
     val io = IO(new Bundle { //分支指令不支持同时写
-        val ar_addr_L  = Input(UInt(data_length.W))
-        val ar_addr_M = Input(UInt(data_length.W))
-        val ar_addr_R = Input(UInt(data_length.W))
-        val aw_addr  = Input(UInt(data_length.W))
-        val aw_target_addr = Input(UInt(data_length.W))
+        val ar_addr_L  = Input(UInt(32.W))
+        val ar_addr_M = Input(UInt(32.W))
+        val ar_addr_R = Input(UInt(32.W))
+        val aw_addr  = Input(UInt(32.W))
+        val aw_target_addr = Input(UInt(32.W))
         val write = Input(Bool()) 
-        val out_L = Output(UInt(data_length.W))
-        val out_M = Output(UInt(data_length.W))
-        val out_R = Output(UInt(data_length.W))
+        val out_L = Output(UInt(32.W))
+        val out_M = Output(UInt(32.W))
+        val out_R = Output(UInt(32.W))
         val hit_L = Output(Bool())
         val hit_M = Output(Bool())
         val hit_R = Output(Bool())
@@ -260,7 +260,7 @@ class BTB_banks_oneissue_with_block_ram(length : Int,bank_num: Int) extends Modu
         // ))
         btb_banks(i).waddr := io.aw_addr(addr_width + 3,4)
     }
-    val ar_addr_reg = RegInit(0.U(data_length.W))
+    val ar_addr_reg = RegInit(0.U(32.W))
     ar_addr_reg :=  io.ar_addr_L
     io.out_L := btb_banks(ar_addr_reg(bank_num_width + 1,2) ).rdata
     io.out_M := btb_banks(ar_addr_reg(bank_num_width + 1,2) ).rdata

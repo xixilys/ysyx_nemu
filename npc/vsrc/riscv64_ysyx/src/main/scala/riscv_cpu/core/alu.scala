@@ -8,7 +8,7 @@ class alu extends Module with riscv_macros {
         
     val io = IO(new Bundle { 
 
-        val ctrl  = Input(UInt(24.W)) // 使用独热码来进行控制
+        val ctrl  = Input(UInt(16.W)) // 使用独热码来进行控制
 
         val in1   = Input(UInt(data_length.W))
         val in2   = Input(UInt(data_length.W))
@@ -62,6 +62,7 @@ class alu extends Module with riscv_macros {
         io.ctrl(ALU_SRA)    -> Mux(io.data_w,answer_sraw,answer_sra),
         io.ctrl(ALU_SRL)    -> Mux(io.data_w,answer_srlw,answer_srl),
         io.ctrl(ALU_SLTU)   -> answer_sltu
+        // io.ctrl(ALU_NULL)   -> 0.U
     ))
     io.result := Mux(io.data_w,sign_extend(normal_result(31,0),32),normal_result)
     io.overflow := (io.ctrl(ALU_ADDE) && (answer_add(data_length) =/= answer_add(data_length - 1))) || (io.ctrl(ALU_SUBE) && (answer_sub(data_length) =/= answer_sub(data_length - 1)))

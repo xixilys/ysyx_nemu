@@ -7,15 +7,22 @@ import firrtl.PrimOps
 import scala.math._
 import scala.reflect.runtime.Macros
 
+abstract class ExplicitInvalidateModule extends Module {
+    ExplicitCompileOptions.NotStrict.copy(explicitInvalidate = true)
+}
+
+
 trait riscv_macros {
 
+// data_length
 val difftest_on  = true
 val tlb_on = false
-
+val log_on = false
 val cache_on = 0.U.asBool
 
 val data_length = 64
 val data_width = 2 // 0 -> byte ,1 -> 2 bytes ,2-> 4 bytes ,3-> 8 bytes 
+val addr_length = 32
 
 val tlb_length = 16
 val tlb_index_width = (log10(tlb_length)/log10(2)).toInt
@@ -62,11 +69,6 @@ val OP_BRANCH = "b1100011".U(7.W)
 //special inst
 val OP_SPECIAL  = "b1110011".U(7.W)
 val OP_FENCE    = "b0001111".U(7.W)
-
-
-
-
-
 
 
 // val OP_BRANCH = "b000001".U(7.W)
@@ -254,26 +256,24 @@ val id_fence_i = id_mret + 1.U
 val id_mynop = 80.U
 
 // alu cmd def
-val ALU_NULL = 0.U
+val ALU_XOR  = 0.U
 val ALU_ADD  = 1.U
 val ALU_ADDE = 2.U
 val ALU_ADDU = 3.U
 val ALU_AND  = 4.U
-val ALU_DIV  = 5.U
-val ALU_DIVU = 6.U
+val ALU_SRL  = 5.U
+val ALU_SUB  = 6.U
 val ALU_LUI  = 7.U
-
+val ALU_SUBE = 8.U
+val ALU_SUBU = 9.U
 val ALU_NOR  = 10.U
 val ALU_OR   = 11.U
 val ALU_SLL  = 12.U
 val ALU_SLT  = 13.U
 val ALU_SLTU = 14.U
 val ALU_SRA  = 15.U
-val ALU_SRL  = 16.U
-val ALU_SUB  = 17.U
-val ALU_SUBE = 18.U
-val ALU_SUBU = 19.U
-val ALU_XOR  = 20.U
+
+
 
 //muldiv cmd def 
 val MULDIV_DIVU   =  0.U
@@ -427,9 +427,15 @@ val MCAUSE_NUM   = 0x342.U
 val MTVEC_NUM    = 0x305.U
 val MIE_NUM      = 0x304.U
 val MIP_NUM      = 0x344.U
-def sign_extend(value:UInt,length:Int,full_length:Int) = 
-    Cat(Cat(Seq.fill(full_length-length)(value(length-1))),value(length-1,0))
+val MHARTID_NUM  = 0xF14.U 
 
+
+// mhartid
+def sign_extend(value:UInt,length:Int,full_length:Int) = 
+    // Cat(Cat(Seq.fill(full_length-length)(value(length-1))),value(length-1,0))
+    Mux(value(length-1),Cat(~0.U((full_length - length).W),value(length - 1,0)),
+        Cat(0.U((full_length - length).W),value(length - 1,0)))
+    
 def sign_extend(value:UInt,length:Int) = 
     Cat(Cat(Seq.fill(data_length-length)(value(length-1))),value(length-1,0))
 
@@ -473,7 +479,7 @@ def br_state_machine_next_state(code:UInt,state:Bool) :UInt = {
     ))
 }
 //riscv忽略所有的不对齐指令
-def check_unaligned(width:UInt,rd:UInt,memrl:UInt):UInt = 0.U
+def check_unaligned(width:UInt,rd:UInt):UInt = 0.U
     //  (memrl === 0.U && MuxCase(1.U,Seq(
     //     (Cat(width,rd(0)) === "b010".U) -> 0.U,
     //     (Cat(width,rd) === "b1000".U) -> 0.U,
@@ -559,13 +565,17 @@ def check_mapped(address : UInt) :Bool = {
         ))
     class int_bundle extends Bundle {
         val timer = Bool()
+        val out_int = Bool()
     }
 
     class int_cause_code  {
-        val time_code = 17.U((data_length - 1).W)
+        val ext_int_code = 11.U((data_length - 1).W)
+        val time_code = 7.U((data_length - 1).W)
     }
     //status 
     val MIE_POSITION = 3
 
     val MTIE = 7
+    val MEIE = 11
+    val MPIE = 7
 }

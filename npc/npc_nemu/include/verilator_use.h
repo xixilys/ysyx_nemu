@@ -22,7 +22,7 @@ void sim_end();
 void single_cycle() ;
 void reset(int  n) ;
 void cpu_commited_func(void);
-void set_gpr_ptr(const svOpenArrayHandle r);
+void set_lys_gpr_ptr(const svOpenArrayHandle r);
 void set_pc_ptr(size_t r);
 void set_debug_pc_ptr(size_t r);
 void mem_trace_func(const svOpenArrayHandle r,size_t mem_write_state,size_t size,size_t cache);

@@ -15,7 +15,7 @@
 #endif
 
 using namespace std;
-#define open_dump 0
+#define open_dump 1
 Vtop *top = new Vtop;
 VerilatedFstC* tfp = NULL;
 extern "C" void sim_init() {	
@@ -42,13 +42,13 @@ extern "C" void step_and_dump_wave(){
 extern "C" void single_cycle() {
 	// printf(contextp->time)
 	// cout << contextp->time() << endl;
-	top->aclk = 0; step_and_dump_wave();
-	top->aclk = 1; step_and_dump_wave();
+	top->clock = 0; step_and_dump_wave();
+	top->clock = 1; step_and_dump_wave();
 }
 extern "C" void reset(int n) {
-	top->aresetn = 0;
+	top->reset = 1;
 	while(n -- > 0) single_cycle();
-	top->aresetn = 1;
+	top->reset = 0;
 }
 
 extern "C" void sim_end(){

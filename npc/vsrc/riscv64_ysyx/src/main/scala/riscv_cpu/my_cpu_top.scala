@@ -5,7 +5,7 @@ import chisel3.stage._
 import chisel3.util._
 
 
-     class axi_crossbar_0 extends BlackBox{
+class axi_crossbar_0 extends BlackBox{
         val io = IO(new Bundle{
           
         
@@ -105,28 +105,41 @@ import chisel3.util._
     }
 
 
-class mycpu_top  extends RawModule with riscv_macros {
+class mycpu_top  extends Module with riscv_macros {
+    // override val compileOptions = ExplicitCompileOptions.NotStrict.copy(explicitInvalidate = true)
         //完全没用到chisel真正好的地方，我是废物呜呜呜呜
-    val         aresetn  = IO(Input(Bool())).suggestName("aresetn")
-    val         clk     = IO(Input(Bool())).suggestName("aclk")
-    val         can_rx = IO(Input(Bool()))
-    val         can_tx = IO(Output(Bool()))
+    // val         aresetn  = IO(Input(Bool())).suggestName("reset")
+    // val         clk     = IO(Input(Bool())).suggestName("clock")
     // val         ext_int = IO(Input(UInt(6.W)))// 外部中断\
 
-    val         axi_mem_port =  IO((new axi_ram_port))
+    val        axi_mem_port =  IO((new axi_ram_port)) 
+    // val        io_slave  = IO(Flipped(new axi_ram_port))
+    val        io_interrupt = IO(Input(Bool()))
+
+    val        can_rx     = IO(Input(Bool()))
+    val        can_tx     = IO(Output(Bool()))
+
+    val        io_sram0 = IO(Flipped(new sram_port))
+    val        io_sram1 = IO(Flipped(new sram_port))
+    val        io_sram2 = IO(Flipped(new sram_port))
+    val        io_sram3 = IO(Flipped(new sram_port))
+    val        io_sram4 = IO(Flipped(new sram_port))
+    val        io_sram5 = IO(Flipped(new sram_port))
+    val        io_sram6 = IO(Flipped(new sram_port))
+    val        io_sram7 = IO(Flipped(new sram_port))
         //IO(Vec(2,(new axi_ram_port)))
 
 
-    val   debug_wb_pc       = IO(Output(UInt(32.W)))
-    val   debug_wb_rf_wen   = IO(Output(UInt(4.W)))
-    val   debug_wb_rf_wnum  = IO(Output(UInt(5.W)))
-    val   debug_wb_rf_wdata = IO(Output(UInt(32.W)))
+    // val   debug_wb_pc       = IO(Output(UInt(32.W)))
+    // val   debug_wb_rf_wen   = IO(Output(UInt(4.W)))
+    // val   debug_wb_rf_wnum  = IO(Output(UInt(5.W)))
+    // val   debug_wb_rf_wdata = IO(Output(UInt(32.W)))
 
     
-
-withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
+    // override def desiredName = "ysyx_22040886"
+// withClockAndReset(clk.asClock,(aresetn).asAsyncReset) {
+    // io_slave <> 0.U.asTypeOf(new axi_ram_port)
     // val u_axi_cache_bridge = Module(new axi_crossbar_0)
-    // axi_mem
     val u_riscv_cpu = Module(new myCPU)
     val icache_first = Module(new inst_cache).io
     val icache = icache_first//.port
@@ -134,7 +147,8 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     val dcache = dcache_first//.port
     val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,5,Array(0,0X20000000,0x21000000,0x22000000,0x30000000),Array(0,0X2000BFFF,0x2100FFFF,0x2200FFFF,0x3fffffff)))
     //length总共也就16，比较拉
-
+    //length总共也就16，比较拉
+    
     if(tlb_on) {
         val tlb  = Module(new double_ports_tlb_for_inst_and_data(0)).io
 
@@ -150,7 +164,7 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
         dcache_first.csr_asid := u_riscv_cpu.csr_asid
 
         tlb.dcache_port.vaddr := Mux(u_riscv_cpu.tlbp_search_en,u_riscv_cpu.tlbp_search_vaddr,dcache_first.v_addr_for_tlb)
-        tlb.dcache_port.req   := dcache_first.tlb_req
+        tlb.dcache_port.req   := 0.U.asBool
         tlb.dcache_port.wr    := dcache_first.stage1_wr
         dcache_first.p_addr_for_tlb := tlb.dcache_port.paddr
         dcache_first.tlb_exception   := Cat(tlb.tlb_dirty_exception,tlb.dcache_port.tlb_search_ineffective_exception,
@@ -223,12 +237,10 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     
 
 
-    debug_wb_pc             := u_riscv_cpu.debug_wb_pc
-    debug_wb_rf_wdata       := u_riscv_cpu.debug_wb_rf_wdata
-    debug_wb_rf_wen         := u_riscv_cpu.debug_wb_rf_wen
-    debug_wb_rf_wnum        := u_riscv_cpu.debug_wb_rf_wnum
-    u_riscv_cpu.clk          := clk
-    u_riscv_cpu.resetn       := aresetn
+    // debug_wb_pc             := u_riscv_cpu.debug_wb_pc
+    // debug_wb_rf_wdata       := u_riscv_cpu.debug_wb_rf_wdata
+    // debug_wb_rf_wen         := u_riscv_cpu.debug_wb_rf_wen
+    // debug_wb_rf_wnum        := u_riscv_cpu.debug_wb_rf_wnum
 
     u_riscv_cpu.stage2_stall      := icache_first.stage2_stall
 
@@ -242,24 +254,50 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     _axi_cross_bar.io.m_port(1) <> dcache.port
 
     //peripherals
-    val axi_clint = Module(new timer_periph(0X20000000.U(data_length.W))).io
+    val axi_clint = Module(new timer_periph(0X02000000.U(data_length.W))).io
+
+
+    _axi_cross_bar.io.s_port(1) <> axi_clint.axi_port
+
+    u_riscv_cpu.ext_int.timer := axi_clint.int_line
+    u_riscv_cpu.ext_int.out_int := io_interrupt
+
+    
+
+
+    icache_first.stage1_valid_flush := u_riscv_cpu.stage1_valid_flush
+    icache_first.inst_ready_to_use := u_riscv_cpu.inst_ready_to_use
+    icache_first.inst_buffer_full   := u_riscv_cpu.inst_buffer_full
+    io_sram0 <> icache_first.sram(0)
+    io_sram1 <> icache_first.sram(1)
+    io_sram2 <> icache_first.sram(2)
+    io_sram3 <> icache_first.sram(3)
+    io_sram4 <> dcache_first.sram(0)
+    io_sram5 <> dcache_first.sram(1)
+    io_sram6 <> dcache_first.sram(2)
+    io_sram7 <> dcache_first.sram(3)
+
+        //peripherals
+
     val axi_can = Module(new axi_can_top).io
     val axi_plic = Module(new plic_periph(0x22000000.U(data_length.W),1)).io
     val axi2apb = Module(new AXI4ToAPB(32,32,32,64,
         Array(0x30000000),Array(0x3fffffff)))
     
-    _axi_cross_bar.io.s_port(1) <> axi_clint.axi_port
+
+    val spi_controler = Module(new spi(32,32)).io
+
+    
+
     _axi_cross_bar.io.s_port(2) <> axi_can.axi_port
     _axi_cross_bar.io.s_port(3) <> axi_plic.axi_port
     _axi_cross_bar.io.s_port(4) <> axi2apb.io.axi_port
     
-    axi_can.rst_n  := aresetn
-    axi_can.clk    := clk
+    axi_can.rst_n  := reset
+    axi_can.clk    := clock.asBool
     axi_can.can_rx := can_rx
     can_tx := axi_can.can_tx
 
-
-    u_riscv_cpu.ext_int.timer := axi_clint.int_line
     
 
     axi_plic.int_get(0) := axi_can.int_wire
@@ -269,8 +307,22 @@ withClockAndReset(clk.asClock,(~aresetn).asAsyncReset) {
     icache_first.inst_ready_to_use := u_riscv_cpu.inst_ready_to_use
     icache_first.inst_buffer_full   := u_riscv_cpu.inst_buffer_full
 
+    // spi flash 
+    spi_controler.clk := clock.asBool
+    spi_controler.resetn := reset
+    spi_controler.in <> axi2apb.io.apb_port
+    spi_controler.in_pprot := 0.U
 
-}}
+    val spi_flash = Module(new spiFlash).io
+    spi_flash.clk := clock.asBool
+    spi_flash.cs := spi_controler.spi_cs
+    spi_flash.mosi := spi_controler.spi_mosi
+    spi_controler.spi_miso := spi_flash.miso
+
+
+}
+
+
 
 object my_CPU_top_test extends App{
     (new ChiselStage).emitVerilog(new mycpu_top)

@@ -13,14 +13,14 @@ import javax.swing.plaf.basic.BasicToolBarUI
 class  branch_prediction   extends Module  with riscv_macros{
    
     val io = IO(new Bundle { //分支指令不支持同时写
-        val pc = Input(UInt(data_length.W)) //一般是支持同时判断两条指令pc和pc+4和pc+8，而对于处于八位边界的指令，还是和cache一样不做处理，只发射一条指令，我想要cache支持一次出三条了，草
-        val pc_plus = Input(UInt(data_length.W)) 
-        val pc_plus_plus = Input(UInt(data_length.W))
-        val write_pc = Input(UInt(data_length.W))
+        val pc = Input(UInt(addr_length.W)) //一般是支持同时判断两条指令pc和pc+4和pc+8，而对于处于八位边界的指令，还是和cache一样不做处理，只发射一条指令，我想要cache支持一次出三条了，草
+        val pc_plus = Input(UInt(addr_length.W)) 
+        val pc_plus_plus = Input(UInt(addr_length.W))
+        val write_pc = Input(UInt(addr_length.W))
         val aw_pht_ways_addr = Input(UInt(4.W))
         val aw_pht_addr = Input(UInt(7.W))
         val aw_bht_addr   = Input(UInt(7.W))
-        val aw_target_addr = Input(UInt(data_length.W))
+        val aw_target_addr = Input(UInt(addr_length.W))
         val btb_write = Input(Bool())
         val bht_write = Input(Bool())
         val pht_write = Input(Bool()) 
@@ -38,9 +38,9 @@ class  branch_prediction   extends Module  with riscv_macros{
 
         val btb_hit = Vec(3,Output(Bool()))
      
-        val pre_target_L = Output(UInt(data_length.W))
-        val pre_target_M = Output(UInt(data_length.W))
-        val pre_target_R = Output(UInt(data_length.W))  
+        val pre_target_L = Output(UInt(addr_length.W))
+        val pre_target_M = Output(UInt(addr_length.W))
+        val pre_target_R = Output(UInt(addr_length.W))  
         val stage2_stall = Input(Bool())
         val stage2_flush = Input(Bool())
 
@@ -197,9 +197,9 @@ class  branch_prediction_with_blockram   extends Module  with riscv_macros{
     })//使用一//相当于要查两个表，不知道延迟会到多高
     
     val pc_hash = Hash(io.pc(19,4)) //
-    val phts_banks = Module(new PHTS_banks_oneissue_block_ram(128,2,8,4)).io
+    val phts_banks = Module(new PHTS_banks_oneissue_block_ram(128,8,4)).io
     val bhts_banks = Module(new BHT_banks_oneissue(128,3,4)).io//以后这些都还可以改，也不着急
-    val btb_banks = Module(new BTB_banks_oneissue_with_block_ram(512,4)).io
+    val btb_banks = Module(new BTB_banks_oneissue_with_block_ram(64,4)).io
    // val stage_2_bht  = RegInit(VecInit(Seq.fill(3)(0.U(7.W))))
     val stage_2_pht_lookup = RegInit(VecInit(Seq.fill(3)(0.U(7.W))))
     val stage_2_pc = RegInit(0.U(data_length.W))
@@ -243,9 +243,7 @@ class  branch_prediction_with_blockram   extends Module  with riscv_macros{
     phts_banks.ar_bank_sel := io.pc(3,2)
     phts_banks.ar_pht_addr := pc_hash//stage_2_pc_hash    
 
-    phts_banks.ar_addr_L := stage_1_pht_lookup(0)
-    phts_banks.ar_addr_M := stage_1_pht_lookup(1)
-    phts_banks.ar_addr_R := stage_1_pht_lookup(2)   
+    phts_banks.ar_addr := stage_1_pht_lookup(0)
 
     stage_1_pht_lookup(0) := Cat(bhts_banks.out_L ,io.pc(14,11))
     stage_1_pht_lookup(1) := stage_1_pht_lookup(0)// Cat(bhts_banks.out_L ,io.pc(13,10))//Cat(bhts_banks.out_M ,io.pc_plus(13,10))
@@ -285,7 +283,7 @@ class  branch_prediction_with_blockram   extends Module  with riscv_macros{
     // pht_table_value := Mux(stage2_stall_reg,phts_banks.pht_out,pht_table_value)
 
 
-    io.out_L := phts_banks.out_L
+    io.out_L := phts_banks.out
     io.out_M := io.out_L//phts_banks.out_M
     io.out_R := io.out_L//phts_banks.out_R
 

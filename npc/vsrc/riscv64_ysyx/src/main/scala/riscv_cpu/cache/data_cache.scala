@@ -21,34 +21,36 @@ class data_cache  extends Module with riscv_macros {
         val csr_asid = Input(UInt(8.W))
         val stage1_wr = Output(Bool())
 
-        val v_addr_for_tlb = Output(UInt(data_length.W))
-        val p_addr_for_tlb = Input(UInt(data_length.W))
+        val v_addr_for_tlb = Output(UInt(addr_length.W))
+        val p_addr_for_tlb = Input(UInt(addr_length.W))
         //发起tlb查找请求
         //部分地址需要进行mmu 映射
-        val tlb_req        = Output(Bool())
+        
         val tlb_exception  = Input(UInt(3.W))
         //stage1就需要把产生例外的信息扔到内核里面去
         val stage1_tlb_exception = Output(UInt(3.W))
         val data_wstrb = Input(UInt((data_length / 8).W))
 
          // from cpu  sram like
-        val     sram_req    = Input(UInt(1.W))
-        val     sram_wr     = Input(UInt(1.W))
-        val     sram_size   = Input(UInt(3.W))
-        val     sram_addr   = Input(UInt(data_length.W))
-        val     sram_wdata  = Input(UInt(data_length.W))
-        val     sram_addr_ok= Output(UInt(1.W))
-        val     sram_data_ok= Output(UInt(1.W))
-        val     sram_rdata  = Output(UInt(data_length.W))
+        val sram_req    = Input(UInt(1.W))
+        val sram_wr     = Input(UInt(1.W))
+        val sram_size   = Input(UInt(3.W))
+        val sram_addr   = Input(UInt(addr_length.W))
+        val sram_wdata  = Input(UInt(data_length.W))
+        val sram_addr_ok= Output(UInt(1.W))
+        val sram_data_ok= Output(UInt(1.W))
+        val sram_rdata  = Output(UInt(data_length.W))
         // val     sram_data_valid = Output(UInt(3.W))
 
         // val     sram_rdata_L  = Output(UInt(32.W))
         // val     sram_rdata_M  = Output(UInt(32.W))
         // val     sram_rdata_R  = Output(UInt(32.W))
 
-        val     sram_cache = Input(UInt(1.W))
-        val     fence_i_control = Input(Bool())
+        val sram_cache = Input(UInt(1.W))
+        val fence_i_control = Input(Bool())
+        val sram = Vec(bank_num * 2,Flipped(new sram_port))
     })
+    val tlb_req        = Wire(Bool())
 
     val work_state = RegInit("b11000".U(5.W))
     val access_work_state = Wire(UInt(5.W))
@@ -66,10 +68,10 @@ class data_cache  extends Module with riscv_macros {
     
     val way0_wen =  Wire(Vec(bank_num,UInt(1.W)))
     val way1_wen =  Wire(Vec(bank_num,UInt(1.W)))
-    val stage1_sram_addr_reg = RegInit(0.U(data_length.W))
+    val stage1_sram_addr_reg = RegInit(0.U(addr_length.W))
     val stage1_sram_cache_reg = RegInit(0.U(1.W))
     val stage1_sram_wdata_reg = RegInit(0.U(data_length.W))
-    val stage1_sram_size_reg = RegInit(0.U(2.W))
+    val stage1_sram_size_reg = RegInit(0.U(3.W))
     val stage1_sram_wr_reg = RegInit(0.U(1.W))
     val stage1_sram_req_reg = RegInit(0.U.asBool)
 
@@ -79,7 +81,7 @@ class data_cache  extends Module with riscv_macros {
     val stage1_sram_valid1_reg  = RegInit(0.U.asBool)
     val stage1_wstrb_reg = RegInit(0.U((data_length / 8).W))
     
-    val stage1_sram_phy_addr_reg = RegInit(0.U(data_length.W))
+    val stage1_sram_phy_addr_reg = RegInit(0.U(addr_length.W))
     val stage1_exception  =  RegInit(0.U(3.W))
     // val stage1_sram_hit_reg  = RegInit(0.U.asBool)
     // val stage1_sram_hit_reg  = RegInit(0.U.asBool)
@@ -94,6 +96,11 @@ class data_cache  extends Module with riscv_macros {
     val dcache_data_way1 =  VecInit(Seq.fill(bank_num)(Module(new dcache_data).io))
     val hit_0_reg       = RegInit(0.U(1.W))
     val hit_1_reg       = RegInit(0.U(1.W))
+
+    io.sram(0) <> dcache_data_way0(0).sram
+    io.sram(1) <> dcache_data_way0(1).sram
+    io.sram(2) <> dcache_data_way1(0).sram
+    io.sram(3) <> dcache_data_way1(1).sram
 
     //val state_reset = "b00000".U;
     // val state_miss_write_write_1 = "b10000".U
@@ -131,8 +138,6 @@ class data_cache  extends Module with riscv_macros {
 
     val state_data_ready = "b11000".U;
     val state_lookup = "b11001".U;
-
-
     //清空整个dcache
     //只有当 dirty and valid才需要write back
     val data_cache_under_write_all_back = RegInit(0.U.asBool())
@@ -218,10 +223,10 @@ class data_cache  extends Module with riscv_macros {
 
     val stage1_addr_line_mapping = memory_mapping(stage1_sram_addr_reg)
 
-    io.tlb_req := check_mapped(stage1_sram_addr_reg) && stage1_sram_req_reg
+    tlb_req := check_mapped(stage1_sram_addr_reg) && stage1_sram_req_reg
     io.v_addr_for_tlb := stage1_sram_addr_reg
     io.stage1_wr      := stage1_sram_wr_reg
-    stage1_sram_phy_addr_reg  := Mux(stage1_stall_reg,memory_mapping(Mux(io.tlb_req,io.p_addr_for_tlb,stage1_sram_addr_reg)),stage1_sram_phy_addr_reg)
+    stage1_sram_phy_addr_reg  := Mux(stage1_stall_reg,memory_mapping(Mux(tlb_req,io.p_addr_for_tlb,stage1_sram_addr_reg)),stage1_sram_phy_addr_reg)
     stage1_exception := Mux(stage2_stall,0.U,io.tlb_exception)
 
     
@@ -252,6 +257,7 @@ class data_cache  extends Module with riscv_macros {
         state_access_ram_write_0-> Mux(io.port.awready.asBool,Mux(io.port.wready.asBool,state_access_ram_write_2,state_access_ram_write_1),work_state),
         state_access_ram_write_1-> Mux(io.port.wready.asBool,state_access_ram_write_2,work_state),
         state_access_ram_write_2-> Mux(io.port.bvalid.asBool ,state_data_ready,state_access_ram_write_2),
+
         state_lookup            -> state_ready_lookup_will_to_be,
         state_miss_access_ram_read_0 -> Mux(io.port.arready.asBool,state_miss_access_ram_read_1,work_state),
         state_miss_access_ram_read_1 -> Mux(io.port.rlast.asBool && io.port.rvalid.asBool,Mux(stage1_sram_wr_reg.asBool,state_miss_write_update,state_miss_read_update),work_state),
@@ -267,25 +273,26 @@ class data_cache  extends Module with riscv_macros {
         state_miss_write_write_1  -> Mux(io.port.wready.asBool && write_counter === (bank_num - 1).U , state_miss_write_write_2,work_state),
         state_miss_write_write_2  -> Mux(io.port.bvalid.asBool,state_miss_access_ram_read_2,work_state),
         //状态机利用之前的write back的
-        state_clear_all_cache_0   -> Mux(data_should_write_back,state_clear_write_cache_0,Mux(data_all_write_back,state_clear_all_cache_1,work_state)),
+        // state_clear_all_cache_0   -> Mux(data_should_write_back,state_clear_write_cache_0,Mux(data_all_write_back,state_clear_all_cache_1,work_state)),
+         state_clear_all_cache_0   -> Mux(data_should_write_back,state_clear_write_cache_0,Mux(data_all_write_back,state_data_ready,work_state)),
         state_clear_write_cache_0 -> Mux(io.port.awready.asBool,state_clear_write_cache_1,work_state),
         state_clear_write_cache_1 -> Mux(io.port.wready.asBool && write_counter === (bank_num - 1).U,state_clear_write_cache_2,work_state),
         state_clear_write_cache_2 -> Mux(io.port.bvalid.asBool,state_clear_all_cache_1,work_state),
         state_clear_all_cache_1   -> Mux(data_all_write_back,state_data_ready,state_clear_all_cache_0)))
       
-    val access_work_state_for_stall = MuxLookup(work_state,work_state,Seq(
-        state_access_ram_read_1 -> Mux(io.port.rvalid.asBool,state_data_ready,work_state),
-        state_data_ready        -> state_ready_lookup_should_be,
-        state_access_ram_write_2->  Mux(io.port.bvalid.asBool  ,state_data_ready,state_access_ram_write_2),
-        state_lookup            -> state_ready_lookup_should_be,
-        state_miss_read_update    -> state_data_ready,
-        state_miss_write_update   -> state_data_ready))
+    val access_work_state_for_stall = MuxLookup(work_state,work_state(4,3),Seq(
+        state_access_ram_read_1 -> Mux(io.port.rvalid.asBool,state_data_ready(4,3),work_state(4,3)),
+        state_data_ready        -> state_ready_lookup_should_be(4,3),
+        state_access_ram_write_2->  Mux(io.port.bvalid.asBool ,state_data_ready(4,3),state_access_ram_write_2(4,3)),
+        state_lookup            -> state_ready_lookup_should_be(4,3),
+        state_miss_read_update    -> state_data_ready(4,3),
+        state_miss_write_update   -> state_data_ready(4,3)))
 
     state_lookup_for_less_delay := MuxLookup(work_state,work_state,Seq(
         state_data_ready        -> state_ready_lookup_should_be,
         state_lookup            -> state_ready_lookup_should_be))
 
-    stage2_stall := access_work_state_for_stall(4,3) === "b11".U || stage1_exception =/= 0.U// || access_work_state_for_stall === state_data_ready  //|| access_work_state === state_lookup_write
+    stage2_stall := access_work_state_for_stall=== "b11".U || stage1_exception =/= 0.U
    //stage1 打一拍接收数据
     work_state := Mux(stage1_exception =/= 0.U,state_lookup,access_work_state)
     //axi总线写完下一刻就读可能会导致数据错误
@@ -374,7 +381,7 @@ class data_cache  extends Module with riscv_macros {
             (work_state === state_miss_write_update  && lru(stage1_sram_addr_reg(10,4)) === 0.U)),stage1_wstrb_reg,Cat(Seq.fill(8)(way0_wen(i))))
         wen_way1_wire(i) :=  Mux( stage1_sram_addr_reg(3) === i.asUInt && ((state_lookup_for_less_delay === state_lookup && stage1_sram_wr_reg.asBool && stage1_sram_hit1_reg && stage1_sram_valid1_reg)||
             (work_state === state_miss_write_update  && lru(stage1_sram_addr_reg(10,4)) === 1.U)),stage1_wstrb_reg,Cat(Seq.fill(8)(way1_wen(i))))
-    }
+    } 
     for(i <- 0 to (bank_num - 1)) {
         way0_wen(i)  := Mux(i.asUInt === read_counter,way0_burst_read_wen ,0.U) 
         way1_wen(i)  := Mux(i.asUInt === read_counter,way1_burst_read_wen ,0.U) 
@@ -388,8 +395,8 @@ class data_cache  extends Module with riscv_macros {
     
     dcache_tag_0.wen := Mux((work_state === state_miss_access_ram_read_1 ||work_state === state_miss_access_ram_read_3 ) && lru(stage1_sram_addr_reg(10,4)) === 0.U,1.U,0.U)
     dcache_tag_1.wen := Mux((work_state === state_miss_access_ram_read_1 ||work_state === state_miss_access_ram_read_3 ) && lru(stage1_sram_addr_reg(10,4)) === 1.U,1.U,0.U)//最近使用的是cache 0
-    dcache_tag_0.wdata := Mux((work_state === state_miss_access_ram_read_1 ||work_state === state_miss_access_ram_read_3 ) ,Cat(1.U(1.W),stage1_sram_addr_reg(63,11)),0.U)
-    dcache_tag_1.wdata := Mux((work_state === state_miss_access_ram_read_1 ||work_state === state_miss_access_ram_read_3 ) ,Cat(1.U(1.W),stage1_sram_addr_reg(63,11)),0.U)
+    dcache_tag_0.wdata := Mux((work_state === state_miss_access_ram_read_1 ||work_state === state_miss_access_ram_read_3 ) ,Cat(1.U(1.W),stage1_sram_addr_reg(addr_length - 1,11)),0.U)
+    dcache_tag_1.wdata := Mux((work_state === state_miss_access_ram_read_1 ||work_state === state_miss_access_ram_read_3 ) ,Cat(1.U(1.W),stage1_sram_addr_reg(addr_length - 1,11)),0.U)
       
     //axi signal
 // r 读数据通道
@@ -397,16 +404,16 @@ class data_cache  extends Module with riscv_macros {
 // ar 读地址通道
     io.port.arid := 1.U
     io.port.araddr := Mux(work_state === state_access_ram_read_0,Cat(stage1_sram_phy_addr_reg),
-        Mux(work_state === state_miss_access_ram_read_0 || work_state === state_miss_access_ram_read_2,Cat(stage1_sram_phy_addr_reg(data_length - 1,4),0.U(4.W)),0.U))
+        Mux(work_state === state_miss_access_ram_read_0 || work_state === state_miss_access_ram_read_2,Cat(stage1_sram_phy_addr_reg(addr_length - 1,4),0.U(4.W)),0.U))
     io.port.arlen  := Mux(stage1_sram_cache_reg.asBool,(bank_num - 1).U,0.U)
     io.port.arsize :=  Mux(stage1_sram_cache_reg.asBool,"b011".U,stage1_sram_size_reg)
         //     0.U -> "b000".U,
         //     1.U -> "b001".U
         // )))
     io.port.arburst := Mux(stage1_sram_cache_reg.asBool,1.U,0.U)
-    io.port.arlock  := 0.U
-    io.port.arcache := 0.U
-    io.port.arprot  := 0.U
+    // io.port.arlock  := 0.U
+    // io.port.arcache := 0.U
+    // io.port.arprot  := 0.U
 
     stage2_addr_same_as_stage1 := stage2_sram_addr_reg === stage1_sram_addr_reg
     val stage2_write_stage1_read = stage2_sram_write_reg && !stage1_sram_wr_reg
@@ -426,7 +433,7 @@ class data_cache  extends Module with riscv_macros {
 // aw 写地址通道
     io.port.awid    := "b0001".U
     io.port.awaddr  := MuxLookup(work_state,0.U,Seq(
-        state_access_ram_write_0 -> Cat(stage1_sram_phy_addr_reg(data_length - 1,0)),
+        state_access_ram_write_0 -> Cat(stage1_sram_phy_addr_reg(addr_length - 1,0)),
         state_miss_write_read_0 ->  awaddr_miss_addr,//Cat(Mux(lru(stage1_sram_addr_reg(11,5)) === 0.U,dcache_tag_0.tag,dcache_tag_1.tag),stage1_sram_phy_addr_reg(11,5),0.U(5.W)),
         state_miss_write_write_0 -> awaddr_miss_addr,//Cat(Mux(lru(stage1_sram_addr_reg(11,5)) === 0.U,dcache_tag_0.tag,dcache_tag_1.tag),stage1_sram_phy_addr_reg(11,5),0.U(5.W))//脏数据写回
         state_clear_write_cache_0  -> Cat(Mux(data_write_back_way,dcache_tag_1.tag,dcache_tag_0.tag),data_write_back_counter(sum_width  - 1,0),0.U(4.W))))
@@ -436,19 +443,31 @@ class data_cache  extends Module with riscv_macros {
         //     1.U -> "b001".U
         // )))
     io.port.awburst := Mux(stage1_sram_cache_reg.asBool || work_state === state_clear_write_cache_0,"b01".U,0.U)
-    io.port.awlock  := "b00".U
-    io.port.awcache := "b0000".U // _0握手
-    io.port.awprot  := "b000".U
+    // io.port.awlock  := "b00".U
+    // io.port.awcache := "b0000".U // _0握手
+    // io.port.awprot  := "b000".U
     io.port.awvalid := Mux(work_state === state_access_ram_write_0 || work_state ===state_miss_write_write_0 || work_state === state_miss_write_read_0 
          || work_state === state_clear_write_cache_0 ,1.U,0.U).asBool && stage1_exception === 0.U
 // w 写数据通道
-    io.port.wid    := "b0001".U //
-    io.port.wdata  := Mux(work_state === state_access_ram_write_1 || work_state === state_access_ram_write_0,stage1_sram_wdata_reg,Mux(work_state === state_miss_write_read_1 || work_state === state_miss_write_read_0 ||
-      work_state === state_miss_write_write_0   || work_state === state_miss_write_write_1
-      || work_state === state_clear_write_cache_0 || work_state === state_clear_write_cache_1,writeback_data ,0.U))
+    // io.port.wid    := "b0001".U //
+    
+    // val axi_line_wdata = stage1_sram_wdata_reg << ( stage1_sram_phy_addr_reg(data_length_width - 1,0) << 3)
+    val axi_line_wdata = MuxLookup(stage1_sram_phy_addr_reg(data_length_width - 1,0),stage1_sram_wdata_reg,Seq(
+        1.U -> Cat(stage1_sram_wdata_reg((data_length - 1 - 1 * 8),0),0.U((8*1).W)),
+        2.U -> Cat(stage1_sram_wdata_reg((data_length - 1 - 2 * 8),0),0.U((8*2).W)),
+        3.U -> Cat(stage1_sram_wdata_reg((data_length - 1 - 3 * 8),0),0.U((8*3).W)),
+        4.U -> Cat(stage1_sram_wdata_reg((data_length - 1 - 4 * 8),0),0.U((8*4).W)),
+        5.U -> Cat(stage1_sram_wdata_reg((data_length - 1 - 5 * 8),0),0.U((8*5).W)),
+        6.U -> Cat(stage1_sram_wdata_reg((data_length - 1 - 6 * 8),0),0.U((8*6).W)),
+        7.U -> Cat(stage1_sram_wdata_reg((data_length - 1 - 7 * 8),0),0.U((8*7).W))
+    ))
+    io.port.wdata  := Mux(work_state === state_access_ram_write_1 || work_state === state_access_ram_write_0,
+        axi_line_wdata,Mux(work_state === state_miss_write_read_1 || work_state === state_miss_write_read_0 ||
+      work_state === state_miss_write_write_0   || work_state === state_miss_write_write_1 || 
+      work_state === state_clear_write_cache_0 || work_state === state_clear_write_cache_1,writeback_data ,0.U))
     io.port.wstrb  := Mux(work_state === state_access_ram_write_1 || work_state === state_access_ram_write_0 ,stage1_wstrb_reg,Mux(work_state === state_miss_write_read_1 || work_state === state_miss_write_read_0 ||
-      work_state === state_miss_write_write_0   ||  work_state === state_miss_write_write_1 || 
-      work_state === state_clear_write_cache_0 || work_state === state_clear_write_cache_1,"b11111111".U ,0.U))
+      work_state === state_miss_write_write_0   ||  work_state === state_miss_write_write_1 ||
+      work_state === state_clear_write_cache_0 || work_state === state_clear_write_cache_1 ,"b11111111".U ,0.U))
     io.port.wlast  := work_state === state_access_ram_write_1 ||(work_state === state_access_ram_write_0 && io.port.wready.asBool) || ((work_state === state_miss_write_read_1 || work_state === state_miss_write_write_1 
         || work_state === state_clear_write_cache_0 || work_state === state_clear_write_cache_1) 
         && write_counter === (bank_num - 1).U )

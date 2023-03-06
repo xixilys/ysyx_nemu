@@ -8,8 +8,8 @@ class decoder_port extends Bundle {
         val   RegWriteD     =      Output(UInt(1.W))
         val   MemToRegD     =      Output(UInt(1.W))
         val   MemWriteD     =      Output(UInt(1.W))
-        val   ALUCtrlD      =      Output(UInt(24.W)) // 独热码
-        val   ALUSrcD       =      Vec(2,Output(UInt(2.W)))
+        val   ALUCtrlD      =      Output(UInt(16.W)) // 独热码
+        val   ALUSrcD       =      Vec(2,Output(Bool()))
         val   RegDstD       =      Output(UInt(5.W))
         val   ImmUnsigned   =      Output(UInt(1.W))
         val   BranchD       =      Output(UInt(6.W))
@@ -20,7 +20,7 @@ class decoder_port extends Bundle {
         val   csrToRegD     =      Output(UInt(1.W))
         val   LoadUnsignedD =      Output(UInt(1.W))
         val   MemWidthD     =      Output(UInt(2.W))
-        val   MemRLD        =      Output(UInt(2.W))
+
         val   ImmD          =      Output(UInt(64.W))
         val   ebreakD       =      Output(Bool())
         val   data_wD        =      Output(Bool())
@@ -28,7 +28,7 @@ class decoder_port extends Bundle {
         val   muldiv_cal    = Output(Bool())
         val   alu_cal       = Output(Bool())
         //use for csr control inst
-        val   csr_control   = Output(UInt(6.W))
+        val   csr_control   = Output(UInt(3.W))
         val   csr_Imm       = Output(Bool())
         //用于进行difftest用的，告诉仿真环境这个指令可以跳过
         val   inst_should_skip = Output(Bool())
@@ -192,21 +192,22 @@ class cu extends Module with riscv_macros {
             "b001".U -> Cat(id_fence_i,inst_type_special)   
         ))))
 
-    
     val ins_code  = inst_code_type(inst_code_type.getWidth - 1,3)
     val inst_type = inst_code_type(2,0)
     
     io.fence_i_control :=  io1.InstrD === "b0000_0000_0000_00000_001_00000_0001111".U
     
 
-    io.csrToRegD :=    MuxLookup(ins_code ,0.U,Seq(id_csrrc  -> 1.U,
+    io.csrToRegD :=    MuxLookup(ins_code ,0.U,Seq(
+        id_csrrc  -> 1.U,
         id_csrrs  -> 1.U,
         id_csrrw  -> 1.U,
         id_csrrwi -> 1.U,
         id_csrrsi -> 1.U,
         id_csrrci -> 1.U
         ))
-    io.csrWriteD := MuxLookup(ins_code ,0.U,Seq(id_csrrc  -> 1.U,
+    io.csrWriteD := MuxLookup(ins_code ,0.U,Seq(
+        id_csrrc  -> 1.U,
         id_csrrs  -> 1.U,
         id_csrrw  -> 1.U,
         id_csrrwi -> 1.U,
@@ -455,7 +456,6 @@ io.RegWriteD := MuxLookup(ins_code,0.U,Seq(
             "b010".U  -> 1.U,//id_sw,
             "b011".U  -> 1.U//id_sd
         ))))
-    io.MemRLD       := 0.U
     io1.Tlb_Control := 0.U
     io1.dmem_addr_cal := MuxLookup(OpD,0.U,Seq(
         OP_L    -> MuxLookup(Funct3D,id_null,Seq(

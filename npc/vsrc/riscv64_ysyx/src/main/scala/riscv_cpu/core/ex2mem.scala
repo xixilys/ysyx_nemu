@@ -46,15 +46,14 @@ class ex2mem extends Module with riscv_macros {//
         val   PCM   = Output(UInt(data_length.W))
         val   BadVAddrM   = Output(UInt(data_length.W))
         val   ExceptionTypeM_Out = Output(UInt(32.W))
-        val   MemRLM      = Output(UInt(2.W))
         val   RtM         = Output(UInt(data_length.W))
-        val   BranchJump_JrM = Output(UInt(2.W))
-        val   Tlb_ControlM   = Output(UInt(3.W))
+        val   BranchJump_JrM = Output(Bool())
+        // val   Tlb_ControlM   = Output(UInt(3.W))
         val   eBreakM        = Output(Bool())
         val   Pc_NextM       = Output(UInt(data_length.W))
         val   mem_trace_budleM = Output(new mtrace_relative_bundle)
         val   CsrWritedataM  = Output(UInt(data_length.W))
-        val   fence_i_controlM = Output(Bool())
+        // val   fence_i_controlM = Output(Bool())
     })
         val   RegWrite_Reg  = RegInit(0.U(1.W))
         val   MemToReg_Reg  = RegInit(0.U(1.W))
@@ -78,16 +77,15 @@ class ex2mem extends Module with riscv_macros {//
         val   PC_Reg  = RegInit(0.U(data_length.W))
         val   BadVAddr_Reg  = RegInit(0.U(data_length.W))
         val   ExceptionType_Reg= RegInit(0.U(32.W))
-        val   MemRLM_Reg      = RegInit(0.U(2.W))
         val   RtM_Reg = RegInit(0.U(data_length.W))
-        val   BranchJump_JrM_Reg = RegInit(0.U(2.W))
-        val   Tlb_Control_Reg   =  RegInit(0.U(3.W))
+        val   BranchJump_JrM_Reg = RegInit(0.U.asBool)
+        // val   Tlb_Control_Reg   =  RegInit(0.U(3.W))
         val   eBreak_Reg  = RegInit(0.U.asBool())
         val   pc_nextReg  = RegInit(0.U(data_length.W))
         val   mem_trace_budleReg = RegInit(0.U.asTypeOf(new mtrace_relative_bundle))
         val   CsrWritedataReg    = RegInit(0.U(data_length.W))
 
-        val   fence_i_controlReg = RegInit(0.U(io1.fence_i_control.getWidth))
+        // val   fence_i_controlReg = RegInit(0.U(io1.fence_i_control.getWidth))
 
   
         RegWrite_Reg:=            Mux(io.clr.asBool,0.U, Mux(io.en.asBool,io1.RegWriteE ,  RegWrite_Reg))
@@ -110,15 +108,15 @@ class ex2mem extends Module with riscv_macros {//
         BadVAddr_Reg         :=   Mux(io.clr.asBool,0.U, Mux(io.en.asBool,io.BadVAddrE, BadVAddr_Reg))
         ExceptionType_Reg    :=   Mux(io.clr.asBool,0.U, Mux(io.en.asBool,io.ExceptionTypeE, ExceptionType_Reg))
         MemToReg_Reg         :=   Mux(io.clr.asBool,0.U, Mux(io.en.asBool,io1.MemToRegE, MemToReg_Reg ))
-        MemRLM_Reg           :=   Mux(io.clr.asBool,0.U, Mux(io.en.asBool,io1.MemRLE, MemRLM_Reg ))
+
         RtM_Reg              :=   Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.RtE,RtM_Reg))
         BranchJump_JrM_Reg   :=   Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io1.BranchJump_JrE, BranchJump_JrM_Reg))
-        Tlb_Control_Reg      :=   Mux(io.clr.asBool,0.U, Mux(io.en.asBool,io1.Tlb_Control, Tlb_Control_Reg))
+        // Tlb_Control_Reg      :=   Mux(io.clr.asBool,0.U, Mux(io.en.asBool,io1.Tlb_Control, Tlb_Control_Reg))
         eBreak_Reg           :=   Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io1.eBreakE,eBreak_Reg))
         pc_nextReg           :=   Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.Pc_NextE,pc_nextReg)) 
         mem_trace_budleReg   :=   Mux(io.clr.asBool,0.U.asTypeOf(new mtrace_relative_bundle),Mux(io.en.asBool,io.mem_trace_budleE,mem_trace_budleReg))
         CsrWritedataReg      :=   Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.CsrWritedataE,CsrWritedataReg))
-        fence_i_controlReg   :=   Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io1.fence_i_control,fence_i_controlReg))
+        // fence_i_controlReg   :=   Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io1.fence_i_control,fence_i_controlReg))
 
 
         io.RegWriteM         := RegWrite_Reg
@@ -142,15 +140,14 @@ class ex2mem extends Module with riscv_macros {//
         io.PCM               := PC_Reg
         io.BadVAddrM         := BadVAddr_Reg
         io.ExceptionTypeM_Out:= ExceptionType_Reg
-        io.MemRLM            := MemRLM_Reg 
         io.RtM               := RtM_Reg 
         io.BranchJump_JrM    := BranchJump_JrM_Reg 
-        io.Tlb_ControlM      := Tlb_Control_Reg
+        // io.Tlb_ControlM      := Tlb_Control_Reg
         io.eBreakM           := eBreak_Reg
         io.Pc_NextM          := pc_nextReg
         io.mem_trace_budleM  := mem_trace_budleReg
         io.CsrWritedataM     := CsrWritedataReg 
-        io.fence_i_controlM  := fence_i_controlReg
+        // io.fence_i_controlM  := fence_i_controlReg
 }   
 // object ex2mem_test extends App{
 //     (new ChiselStage).emitVerilog(new ex2mem)

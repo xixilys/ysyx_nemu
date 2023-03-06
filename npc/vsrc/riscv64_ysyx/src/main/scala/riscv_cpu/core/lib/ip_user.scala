@@ -121,6 +121,19 @@ class S011HD1P_X32Y2D128_BW extends BlackBox {
         val D    = Input(UInt(Bits.W))
     }) 
 }
+class sram_port extends  Bundle {
+    val Bits = 128;
+    val Word_Depth = 64;
+    val Add_Width = 6;
+    val Wen_Width = 128;
+
+    val addr  = Input(UInt(Add_Width.W))
+    val cen   = Input(Bool()) 
+    val wen   = Input(Bool())
+    val wmask = Input(UInt(Wen_Width.W))
+    val wdata = Input(UInt(Bits.W))
+    val rdata = Output(UInt(Bits.W))
+}
 //把ysyx提供的ip核封装一层
 class  ysyx_sram_with_mask(width:Int) extends Module{
     val Bits = 128;
@@ -136,11 +149,12 @@ class  ysyx_sram_with_mask(width:Int) extends Module{
         val        addra   = Input(UInt(my_addr_width.W))
         val        dina  = Input(UInt(width.W))
         val        douta  = Output(UInt(width.W))
+        val        sram_port = Flipped(new sram_port)
+
     })
-    val sram = Module(new S011HD1P_X32Y2D128_BW).io
-    sram.CEN := !io.ena.asBool
-    sram.CLK := clock.asBool
-    sram.WEN := io.wea === 0.U
+    // val sram = Module(new S011HD1P_X32Y2D128_BW).io
+    io.sram_port.cen := !io.ena.asBool
+    io.sram_port.wen := io.wea === 0.U
 
     // val shift_bits = io.addra(bits_should_shift - 1,0)
     val final_write_data = Wire(Vec(Bits/width,(UInt(Bits.W))))
@@ -158,14 +172,14 @@ class  ysyx_sram_with_mask(width:Int) extends Module{
     }
 
     
-    sram.D := final_write_data(io.addra(bits_should_shift - 1,0))
-    sram.BWEN := final_ena_data.asUInt//final_ena_data(io.addra(bits_should_shift - 1,0))
-    sram.A := io.addra(my_addr_width - 1,bits_should_shift)
+    io.sram_port.wdata := final_write_data(io.addra(bits_should_shift - 1,0))
+    io.sram_port.wmask := final_ena_data.asUInt//final_ena_data(io.addra(bits_should_shift - 1,0))
+    io.sram_port.addr := io.addra(my_addr_width - 1,bits_should_shift)
     val addr_reg  = RegNext(io.addra)
     val shift_num  = addr_reg(bits_should_shift - 1,0)
     val sram_data_bundle = Wire(Vec(Bits / width,UInt(width.W)))
     sram_data_bundle.zipWithIndex.foreach{ case(a,index) =>
-        sram_data_bundle(index) := sram.Q((index + 1) * width  - 1, index  * width)
+        sram_data_bundle(index) := io.sram_port.rdata((index + 1) * width  - 1, index  * width)
     }
     io.douta := sram_data_bundle(shift_num)
 

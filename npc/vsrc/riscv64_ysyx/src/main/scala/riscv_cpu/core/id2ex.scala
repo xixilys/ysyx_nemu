@@ -9,7 +9,7 @@ class ex_in_and_out_port extends Bundle {
     val    RegWriteE= Output(UInt(1.W))
     val    MemToRegE= Output(UInt(1.W))
     val    MemWriteE= Output(UInt(1.W))
-    val    ALUCtrlE= Output(UInt(24.W))
+    val    ALUCtrlE= Output(UInt(16.W))
     val    ALUSrcE= Vec(2,Output(Bool()))
     val    RegDstE= Output(UInt(5.W))
     val    LinkE= Output(UInt(1.W))
@@ -23,12 +23,11 @@ class ex_in_and_out_port extends Bundle {
     val    ReadcsrAddrE= Output(UInt(12.W))
 
     val    PCE= Output(UInt(data_length.W))
-    val    MemRLE=      Output(UInt(2.W))
 
-    val    BranchJump_JrE = Output(UInt(2.W))
-    val    Tlb_Control    = Output(UInt(3.W))
+    val    BranchJump_JrE = Output(Bool())
+    // val    Tlb_Control    = Output(UInt(3.W))
     val    eBreakE        = Output(Bool())
-    val    fence_i_control = Output(Bool())
+    // val    fence_i_control = Output(Bool())
  
     
    
@@ -61,13 +60,14 @@ class id2ex extends Module with riscv_macros{ //觉得除法器那一块有很�
     val         PCD = Input(UInt(data_length.W))
     val         ExceptionTypeD= Input(UInt(32.W))
     val         Pc_NextD = Input(UInt(data_length.W))
+
     // val         
 
 
     
-    val         BranchJump_JrD = Input(UInt(2.W))
+    val         BranchJump_JrD = Input(Bool())
     val         BadVaddrD = Input(UInt(data_length.W))
-    val         Tlb_Control = Input(UInt(3.W))
+    // val         Tlb_Control = Input(UInt(3.W))
 
     
     val         RD1E= Output(UInt(data_length.W))
@@ -84,14 +84,16 @@ class id2ex extends Module with riscv_macros{ //觉得除法器那一块有很�
     val         muldiv_calE = Output(Bool())
     val         inst_should_skipE = Output(Bool())
     val         ExceptionTypeE_Out = Output(UInt(32.W))
-    val         csr_controlE   = Output(UInt(6.W))
+    val         csr_controlE   = Output(UInt(3.W))
     val         csr_ImmE       = Output(Bool())
+
+    val         fence_i_controlE = Output(Bool())
     
     })
     val    RegWriteE_Reg = RegInit(0.U(1.W))
     val    MemToRegE_Reg = RegInit(0.U(1.W))
     val    MemWriteE_Reg = RegInit(0.U(1.W))
-    val    ALUCtrlE_Reg = RegInit(0.U(24.W))
+    val    ALUCtrlE_Reg = RegInit(0.U(16.W))
     val    ALUSrcE_Reg = RegInit(VecInit(Seq.fill(2)(0.U(2.W))))
     val    RegDstE_Reg = RegInit(0.U(5.W))
     val    RD1E_Reg = RegInit(0.U(data_length.W))
@@ -104,6 +106,7 @@ class id2ex extends Module with riscv_macros{ //觉得除法器那一块有很�
     val    PCPlus4E_Reg = RegInit(0.U(data_length.W))
     val    LoadUnsignedE_Reg = RegInit(0.U(1.W))
     val    MemWidthE_Reg = RegInit(0.U(2.W))
+    val    fence_i_controlE_Reg = RegInit(0.U.asBool)
 
 
     val    WritecsrAddrE_Reg = RegInit(0.U(12.W))
@@ -111,9 +114,9 @@ class id2ex extends Module with riscv_macros{ //觉得除法器那一块有很�
     val    PCE_Reg = RegInit(0.U(data_length.W))
     val    ExceptionTypeE_Reg = RegInit(0.U(32.W))
     val    MemRLE_Reg       = RegInit(0.U(2.W))
-    val    BranchJump_JrE_Reg = RegInit(0.U(2.W))
+    val    BranchJump_JrE_Reg = RegInit(0.U.asBool)
     val    BadVaddrE_Reg = RegInit(0.U(data_length.W))
-    val    Tlb_Control_Reg   = RegInit(0.U(3.W))
+    // val    Tlb_Control_Reg   = RegInit(0.U(3.W))
     val    ebreak_Reg  = RegInit(0.U.asBool)
     val    data_WReg = RegInit(0.U.asBool)
     val    Pc_NextReg = RegInit(0.U(data_length.W))
@@ -138,7 +141,7 @@ class id2ex extends Module with riscv_macros{ //觉得除法器那一块有很�
     ExceptionTypeE_Reg      :=        Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.ExceptionTypeD,ExceptionTypeE_Reg))
     BranchJump_JrE_Reg      :=        Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.BranchJump_JrD, BranchJump_JrE_Reg))
     BadVaddrE_Reg           :=        Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.BadVaddrD, BadVaddrE_Reg))  
-    Tlb_Control_Reg         :=        Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.Tlb_Control, Tlb_Control_Reg))  
+    // Tlb_Control_Reg         :=        Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.Tlb_Control, Tlb_Control_Reg))  
     Pc_NextReg              :=        Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.Pc_NextD,Pc_NextReg))
 
 
@@ -165,19 +168,21 @@ class id2ex extends Module with riscv_macros{ //觉得除法器那一块有很�
     io2.WritecsrAddrE := WritecsrAddrE_Reg 
     io2.ReadcsrAddrE  := ReadcsrAddrE_Reg 
     io2.PCE           := PCE_Reg 
-    io2.MemRLE        := decoder_port_reg.MemRLD
+
     io.ExceptionTypeE_Out:= ExceptionTypeE_Reg 
     io2.BranchJump_JrE := BranchJump_JrE_Reg 
     io.BadVaddrE      := BadVaddrE_Reg 
-    io2.Tlb_Control   := Tlb_Control_Reg
-    io.data_wE        := decoder_port_reg.data_wD
-    io2.eBreakE       := decoder_port_reg.ebreakD
-    io2.fence_i_control := decoder_port_reg.fence_i_control
-    io.Pc_NextE       := Pc_NextReg
-    io.muldiv_control := decoder_port_reg.muldiv_control
+    
+    // io2.Tlb_Control   := Tlb_Control_Reg
+    io.data_wE            := decoder_port_reg.data_wD
+    io2.eBreakE           := decoder_port_reg.ebreakD
+    io.fence_i_controlE   := decoder_port_reg.fence_i_control
+    io.Pc_NextE           := Pc_NextReg
+    io.muldiv_control     := decoder_port_reg.muldiv_control
     io.inst_should_skipE  := decoder_port_reg.inst_should_skip
-    io.csr_controlE   := decoder_port_reg.csr_control
-    io.csr_ImmE       := decoder_port_reg.csr_Imm
+    io.csr_controlE       := decoder_port_reg.csr_control
+    io.csr_ImmE           := decoder_port_reg.csr_Imm
+
 }
 
 // object id2ex_test extends App{

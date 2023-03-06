@@ -23,9 +23,9 @@ class mem2wb extends Module with riscv_macros {//
         val   CsrWritedataM = Input(UInt(data_length.W))
         val   PCM = Input(UInt(data_length.W))
         val   BadVAddrM = Input(UInt(data_length.W))
-        val   ExceptionTypeM = Input(UInt(32.W))
-        val   BranchJump_JrM = Input(UInt(2.W))
-        val   Tlb_ControlM    = Input(UInt(3.W))
+        val   ExceptionTypeM = Input(UInt((32 -1) .W))
+        val   BranchJump_JrM = Input(Bool())
+        // val   Tlb_ControlM    = Input(UInt(3.W))
         val   eBreakM         = Input(Bool())
         val   Pc_NextM        = Input(UInt(data_length.W))
         val   Mem_trace_budleM = Input(new mtrace_relative_bundle)
@@ -39,9 +39,9 @@ class mem2wb extends Module with riscv_macros {//
         val   WritecsrAddrW      = Output(UInt(12.W))
         val   PCW                = Output(UInt(data_length.W))
         val   BadVAddrW          = Output(UInt(data_length.W))
-        val   ExceptionTypeW_Out = Output(UInt(32.W))
-        val   BranchJump_JrW     = Output(UInt(2.W))
-        val   Tlb_ControlW       = Output(UInt(3.W))
+        val   ExceptionTypeW_Out = Output(UInt((32 - 1).W))
+        val   BranchJump_JrW     = Output(Bool())
+        // val   Tlb_ControlW       = Output(UInt(3.W))
         val   eBreakW            = Output(Bool())
         val   Pc_NextW           = Output(UInt(data_length.W))
         val   Mem_trace_budleW   = Output(new mtrace_relative_bundle)
@@ -59,10 +59,10 @@ class mem2wb extends Module with riscv_macros {//
 
         val   PCW = RegInit(0.U(data_length.W))
         val   BadVAddrW = RegInit(0.U(data_length.W))
-        val   ExceptionTypeW = RegInit(0.U(32.W))
+        val   ExceptionTypeW = RegInit(0.U((32 -1).W))
         
-        val   BranchJump_JrW_Reg = RegInit(0.U(2.W))
-        val   Tlb_Control_Reg = RegInit(0.U(3.W))
+        val   BranchJump_JrW_Reg = RegInit(0.U.asBool)
+        // val   Tlb_Control_Reg = RegInit(0.U(3.W))
         val   ebreak_Reg      = RegInit(0.U.asBool)
         val   pc_nextReg  = RegInit(0.U(data_length.W))
         val   Mem_trace_budleReg = RegInit(0.U.asTypeOf(new mtrace_relative_bundle))
@@ -80,7 +80,7 @@ class mem2wb extends Module with riscv_macros {//
         io.BadVAddrW           := BadVAddrW
         io.ExceptionTypeW_Out  := ExceptionTypeW
         io.BranchJump_JrW      := BranchJump_JrW_Reg   
-        io.Tlb_ControlW        := Tlb_Control_Reg
+        // io.Tlb_ControlW        := Tlb_Control_Reg
         io.eBreakW             := ebreak_Reg
         io.Pc_NextW            := pc_nextReg
         io.Mem_trace_budleW     := Mem_trace_budleReg
@@ -99,7 +99,8 @@ class mem2wb extends Module with riscv_macros {//
         BadVAddrW          := Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io. BadVAddrM,BadVAddrW))
         ExceptionTypeW     := Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io. ExceptionTypeM,ExceptionTypeW))
         BranchJump_JrW_Reg         :=        Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.BranchJump_JrM, BranchJump_JrW_Reg))
-        Tlb_Control_Reg    := Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io. Tlb_ControlM,Tlb_Control_Reg))
+        
+        // Tlb_Control_Reg    := Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io. Tlb_ControlM,Tlb_Control_Reg))
         ebreak_Reg         := Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.eBreakM,ebreak_Reg))
         pc_nextReg         := Mux(io.clr.asBool,0.U,Mux(io.en.asBool,io.Pc_NextM,pc_nextReg))
         Mem_trace_budleReg := Mux(io.clr.asBool,0.U.asTypeOf(new mtrace_relative_bundle),Mux(io.en.asBool,io.Mem_trace_budleM,Mem_trace_budleReg))

@@ -11,9 +11,9 @@
       axi_port_arlen,
       axi_port_arsize,
       axi_port_arburst,
-      axi_port_arlock,
-      axi_port_arcache,
-      axi_port_arprot,
+      // axi_port_arlock,
+      // axi_port_arcache,
+      // axi_port_arprot,
       axi_port_arvalid,
       axi_port_arready,
       axi_port_rid,
@@ -27,12 +27,12 @@
       axi_port_awlen,
       axi_port_awsize,
       axi_port_awburst,
-      axi_port_awlock,
-      axi_port_awcache,
-      axi_port_awprot,
+      // axi_port_awlock,
+      // axi_port_awcache,
+      // axi_port_awprot,
       axi_port_awvalid,
       axi_port_awready,
-      axi_port_wid,
+      // axi_port_wid,
       axi_port_wdata,
       axi_port_wstrb,
       axi_port_wlast,
@@ -52,13 +52,13 @@
   output [0:0]int_wire;
   
   input [4-1:0] axi_port_arid;
-  input [64-1:0] axi_port_araddr;
-  input [4-1:0] axi_port_arlen;
+  input [32-1:0] axi_port_araddr;
+  input [8-1:0] axi_port_arlen;
   input [3-1:0] axi_port_arsize;
   input [2-1:0] axi_port_arburst;
-  input [2-1:0] axi_port_arlock;
-  input [4-1:0] axi_port_arcache;
-  input [3-1:0] axi_port_arprot;
+  // input [2-1:0] axi_port_arlock;
+  // input [4-1:0] axi_port_arcache;
+  // input [3-1:0] axi_port_arprot;
   input axi_port_arvalid;
   output axi_port_arready;
   output [4-1:0] axi_port_rid;
@@ -68,16 +68,16 @@
   output axi_port_rvalid;
   input axi_port_rready;
   input [4-1:0] axi_port_awid;
-  input [64-1:0] axi_port_awaddr;
-  input [4-1:0] axi_port_awlen;
+  input [32-1:0] axi_port_awaddr;
+  input [8-1:0] axi_port_awlen;
   input [3-1:0] axi_port_awsize;
   input [2-1:0] axi_port_awburst;
-  input [2-1:0] axi_port_awlock;
-  input [4-1:0] axi_port_awcache;
-  input [3-1:0] axi_port_awprot;
+  // input [2-1:0] axi_port_awlock;
+  // input [4-1:0] axi_port_awcache;
+  // input [3-1:0] axi_port_awprot;
   input axi_port_awvalid;
   output axi_port_awready;
-  input [4-1:0] axi_port_wid;
+  // input [4-1:0] axi_port_wid;
   input [64-1:0] axi_port_wdata;
   input [8-1:0] axi_port_wstrb;
   input axi_port_wlast;
@@ -90,7 +90,7 @@
   
   
   
-    parameter [63:0] CAN_BASE_ADDR = 64'h21000000;
+    parameter [31:0] CAN_BASE_ADDR = 32'h21000000;
     parameter [15:0] LOCAL_ID = 16'b1;
     parameter [15:0] RX_ID_SHORT_FILTER =  16'b00000000011 ; // acks the id 00000000011(3)
     parameter [15:0] RX_ID_SHORT_MASK  =  16'b11111111111 ;
@@ -101,8 +101,8 @@
   assign axi_port_bid = 0;
   
   assign axi_port_rdata[63:32] = 0;
-  wire [63:0]araddr;
-  wire [63:0]awaddr;
+  wire [31:0]araddr;
+  wire [31:0]awaddr;
   
   wire [3:0] wstrb;
   

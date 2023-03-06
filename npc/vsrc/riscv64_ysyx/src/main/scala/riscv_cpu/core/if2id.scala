@@ -13,7 +13,7 @@ class if2id(length_width :Int,bank_width:Int) extends Module with riscv_macros{
         val en  = Input(UInt(1.W))
         val clr  = Input(UInt(1.W))
 
-        val InstrF = Input(UInt(data_length.W))
+        val InstrF = Input(UInt(32.W))
         val PCPlus4F  = Input(UInt(data_length.W))
         val PCPlus8F  = Input(UInt(data_length.W))
         val PCF       = Input(UInt(data_length.W))

@@ -30,15 +30,15 @@ class inst_port extends Bundle with riscv_macros{
     val   inst_rdata = Input(UInt(32.W))
     val   inst_hit = Input(UInt(1.W))
 }
-class myCPU extends RawModule with riscv_macros {//
+class myCPU extends Module with riscv_macros {//
         //完全没用到chisel真正好的地方，我是废物呜呜呜呜    
     //ext int
     val   ext_int = IO(Input(new int_bundle))
     // val   int_timer = IO(Input(Bool()))
 
 
-    val   resetn  = IO(Input(Bool())).suggestName("resetn")
-    val   clk    = IO(Input(Bool())).suggestName("clk")
+    // val   reset  = IO(Input(Bool())).suggestName("reset")
+    // val   clk    = IO(Input(Bool())).suggestName("clk")
     
     val   inst_cache = IO(Output(UInt(1.W)))
     val   inst_req = IO(Output(UInt(1.W))).suggestName("inst_sram_en")
@@ -75,7 +75,7 @@ class myCPU extends RawModule with riscv_macros {//
     val   data_req = IO(Output(UInt(1.W))).suggestName("data_sram_en")
     val   data_wr = IO(Output(UInt(1.W))).suggestName("data_sram_wen")
     val   data_size = IO(Output(UInt(data_width.W)))
-    val   data_addr = IO(Output(UInt(data_length.W))).suggestName("data_sram_addr")
+    val   data_addr = IO(Output(UInt(addr_length.W))).suggestName("data_sram_addr")
     val   data_wdata = IO(Output(UInt(data_length.W))).suggestName("data_sram_wdata")
     val   data_cache = IO(Output(UInt(1.W)))
     val   data_addr_ok = IO(Input(UInt(1.W)))
@@ -97,23 +97,21 @@ class myCPU extends RawModule with riscv_macros {//
 
    // val   data_hit = IO(Input(UInt(1.W)))
    
-    val   debug_wb_pc       = IO(Output(UInt(data_length.W)))
-    val   debug_wb_rf_wen   = IO(Output(UInt(4.W)))
-    val   debug_wb_rf_wnum  = IO(Output(UInt(5.W)))
-    val   debug_wb_rf_wdata = IO(Output(UInt(data_length.W)))
+    // val   debug_wb_pc       = IO(Output(UInt(data_length.W)))
+    // val   debug_wb_rf_wen   = IO(Output(UInt(4.W)))
+    // val   debug_wb_rf_wnum  = IO(Output(UInt(5.W)))
+    // val   debug_wb_rf_wdata = IO(Output(UInt(data_length.W)))
 
     val   csr_tlb_read_data  = IO(Flipped(new tlb_write_or_read_port))
     val   csr_tlb_write_data = IO(new tlb_write_or_read_port)
+
 
     val   tlb_write_en      = IO(Output(Bool()))
     val   icache_tag_flush  = IO(Output(Bool()))
 
         
 
-    override def desiredName = "myCPU"
-withClockAndReset(clk.asClock,(~resetn).asAsyncReset) {
-  
- 
+    override def desiredName = "lys_cpu"
 
 
 // ------实例化所有模块,并且连接部分线
@@ -135,7 +133,7 @@ withClockAndReset(clk.asClock,(~resetn).asAsyncReset) {
     val _muldiv  = Module(new muldiv("hard","easy"))
     // val _pc2if   = Module(new pc2if)
     val _regfile = Module(new regfile)
-    // val _mtrace_mod = Module(new mem_trace_module(64))
+
 
     class inst_buffer_bundle extends Bundle {
         val pc = UInt(data_length.W)
@@ -189,7 +187,7 @@ val stage_fec_1_pc = Wire(UInt(data_length.W))
     //-------------ID----------
     // val branch_error = Wire(Bool())
     val immSB  = sign_extend(Cat(_if2id.io.InstrD(31),_if2id.io.InstrD(7),_if2id.io.InstrD(30,25),_if2id.io.InstrD(11,8),0.U(1.W)),13)
-    val ExceptionTypeD_Out = Wire(UInt(data_length.W))
+    val ExceptionTypeD_Out = Wire(UInt(32.W))
     _id2ex.io.en            :=  _cfu.io.StallD
     _id2ex.io.clr           :=  _cfu.io.FlushE
     val InstrD = _if2id.io.InstrD
@@ -217,6 +215,8 @@ val stage_fec_1_pc = Wire(UInt(data_length.W))
     val BadVAddrE  = Wire(UInt(data_length.W))
     val RtM = _ex2mem.io.RtM
     val ReadData_dmem = data_rdata
+    val resultE = Wire(UInt(data_length.W))
+    val CalCsrDataE = Wire(UInt(data_length.W))
 
 
     val mem_write_data_rl = Wire(UInt(data_length.W))
@@ -224,8 +224,9 @@ val stage_fec_1_pc = Wire(UInt(data_length.W))
     mem_cached := Mux(data_req.asBool,data_cache,mem_cached)
     if(difftest_on) {
         val _mtrace_mod = Module(new mem_trace_module(64))
-        _mtrace_mod.io.clock := clk
-        _mtrace_mod.io.reset := ~resetn
+        _mtrace_mod.io.
+        clock := clock.asBool
+        _mtrace_mod.io.reset := ~reset.asBool
         _mtrace_mod.io.pc    := _mem22wb.io.Mem_trace_budleW.pc
         _mtrace_mod.io.mem_req := _mem22wb.io.Mem_trace_budleW.mem_fetch_type =/= 0.U
         _mtrace_mod.io.mem_write_read := Mux1H(Seq(
@@ -237,20 +238,9 @@ val stage_fec_1_pc = Wire(UInt(data_length.W))
         _mtrace_mod.io.data     := _mem22wb.io.Mem_trace_budleW.data
         _mtrace_mod.io.mem_cached := _mem22wb.io.Mem_trace_budleW.cache
     }
-
-    // _mtrace_mod.io.clock := clk
-    // _mtrace_mod.io.reset := ~resetn
-    // _mtrace_mod.io.pc    := _mem22wb.io.Mem_trace_budleW.pc
-    // _mtrace_mod.io.mem_req := _mem22wb.io.Mem_trace_budleW.mem_fetch_type =/= 0.U
-    // _mtrace_mod.io.mem_write_read := Mux1H(Seq(
-    //     _mem22wb.io.Mem_trace_budleW.mem_fetch_type(0) -> 1.U,
-    //     _mem22wb.io.Mem_trace_budleW.mem_fetch_type(1) -> 0.U
-    // ))
-    // _mtrace_mod.io.addr     := _mem22wb.io.Mem_trace_budleW.addr
-    // _mtrace_mod.io.mem_size := _mem22wb.io.Mem_trace_budleW.len
-    // _mtrace_mod.io.data     := _mem22wb.io.Mem_trace_budleW.data
-    // _mtrace_mod.io.mem_cached := _mem22wb.io.Mem_trace_budleW.cache
-
+   
+    tlbp_search_en := 0.U.asBool
+    
     data_req := ((_dmemreq.io.req.asBool  )&& !_dmem.io.data_pending)
 
     data_addr := _dmemreq.io.addr
@@ -258,24 +248,26 @@ val stage_fec_1_pc = Wire(UInt(data_length.W))
     data_wstrb := _dmemreq.io.wstrb
 
     data_wr := _dmemreq.io.wr//无论是写的还是读的LR，在exe阶段都得取数据
-    mem_write_data_rl :=  Mux(_ex2mem.io.MemRLM === "b10".U,
-        MuxLookup(_ex2mem.io.PhyAddrM(1,0),RtM,Seq(
-            0.U -> Cat(data_rdata(31,8),RtM(31,24)),
-            1.U -> Cat(data_rdata(31,16),RtM(31,16)),
-            2.U -> Cat(data_rdata(31,24),RtM(31,8))
-        )),MuxLookup(_ex2mem.io.PhyAddrM(1,0),_ex2mem.io.RtM,Seq(
-            1.U -> Cat(RtM(23,0),ReadData_dmem(7,0)),
-            2.U -> Cat(RtM(15,0),ReadData_dmem(15,0)),
-            3.U -> Cat(RtM(7,0),ReadData_dmem(23,0))
-        ))) 
+    mem_write_data_rl :=  _ex2mem.io.RtM
+    //    MuxLookup(_ex2mem.io.PhyAddrM(1,0),_ex2mem.io.RtM,Seq(
+    //         1.U -> Cat(RtM(23,0),ReadData_dmem(7,0)),
+    //         2.U -> Cat(RtM(15,0),ReadData_dmem(15,0)),
+    //         3.U -> Cat(RtM(7,0),ReadData_dmem(23,0))
+    //     ))
+
 //-------------MEM----------
     // val ResultM = Wire(UInt(data_length.W))
 
 val Forward_ResultM = Wire(UInt(data_length.W))
+// val fence_i_controlMReg = RegInit(0.U.asBool) 
+
+val fence_i_controlMReg = RegInit(0.U.asBool)
+fence_i_controlMReg := Mux(_ex2mem.io.clr.asBool,0.U,
+        Mux(_ex2mem.io.en.asBool,_id2ex.io.fence_i_controlE,fence_i_controlMReg))
 
 
 //-------------MEM2----------
-    val Forward_ResultM2 = Wire(UInt(data_length.W))
+val Forward_ResultM2 = Wire(UInt(data_length.W))
     _dmem.io.req        := _dmemreq.io.req
     _dmem.io.addr_ok    := data_addr_ok
     _dmem.io.data_ok    := data_stage2_stall
@@ -283,7 +275,7 @@ val Forward_ResultM = Wire(UInt(data_length.W))
     _dmem.io.ReadEn     := _mem2mem2.io.MemToRegM
     _dmem.io.WIDTH      := _mem2mem2.io.MemWidthM
     _dmem.io.SIGN := !_mem2mem2.io.LoadUnsignedM.asBool
-    _dmem.io.Physisc_Address := _mem2mem2.io.PhyAddrM
+    _dmem.io.Physisc_Address := _mem2mem2.io.PhyAddrM(2,0)
 
 
 
@@ -297,7 +289,7 @@ val Forward_ResultM = Wire(UInt(data_length.W))
     _mem22wb.io.csrWriteM            := _mem2mem2.io.csrWriteM
     _mem22wb.io.WritecsrAddrM        := _mem2mem2.io.WritecsrAddrM 
 
-    _mem22wb.io.Tlb_ControlM         := _mem2mem2.io.Tlb_ControlM
+
 
 //-------------WB----------
 
@@ -307,29 +299,25 @@ val Forward_ResultM = Wire(UInt(data_length.W))
     val PCW_Reg = RegInit(0.U(data_length.W))
     val slot_Reg = RegInit(0.U(1.W))
     val branchjump_Jr_Reg = RegInit(0.U(2.W))
-    val Exception_state_Reg = RegInit(0.U(1.W))
+   
     PCW_Reg := Mux(_mem22wb.io.PCW =/= 0.U,_mem22wb.io.PCW,PCW_Reg)
     branchjump_Jr_Reg := Mux(_mem22wb.io.PCW =/= 0.U,_mem22wb.io.BranchJump_JrW,branchjump_Jr_Reg)
-    Exception_state_Reg := Mux(_mem22wb.io.PCW =/= 0.U,_mem22wb.io.ExceptionTypeW_Out =/= 0.U,Exception_state_Reg )
-    val Exception_state =  Mux(_mem22wb.io.PCW =/= 0.U,_mem22wb.io.ExceptionTypeW_Out =/= 0.U,Exception_state_Reg  )
-    // val wb_expction_type
+
     val reg_pc = RegInit(0.U(data_length.W))
     reg_pc := _mem22wb.io.PCW
-    debug_wb_pc := _mem22wb.io.PCW
-    debug_wb_rf_wen := Mux(reg_pc === _mem22wb.io.PCW,0.U,Mux(RegWriteW.asBool,0xf.U,0.U))
-    debug_wb_rf_wnum := _regfile.io.A3
-    debug_wb_rf_wdata := _regfile.io.WD3
+
+
 //pc有关的一些可以复用的模块
-    class pc_in_bundle extends Bundle {
-        val pc_value_in = Input(UInt(data_length.W))
-        val pc_inst_in = Input(UInt(data_length.W))
-        // val pc_valid_In = Input(Bool())
-    }
-    class pc_out_bundle extends Bundle {
-        val pc_value_out = Output(UInt(data_length.W))
-        val pc_inst_out  = Output(UInt(data_length.W))
-        // val pc_valid_Out = Output(Bool())
-    }
+class pc_in_bundle extends Bundle {
+    val pc_value_in = Input(UInt(addr_length.W))
+    val pc_inst_in = Input(UInt(32.W))
+    // val pc_valid_In = Input(Bool())
+}
+class pc_out_bundle extends Bundle {
+    val pc_value_out = Output(UInt(addr_length.W))
+    val pc_inst_out  = Output(UInt(32.W))
+    // val pc_valid_Out = Output(Bool())
+}
 class pc_detail extends Module {
     val io = IO(new Bundle{
         val stall = Input(Bool())
@@ -337,11 +325,11 @@ class pc_detail extends Module {
     })
     val io_in = IO(new pc_in_bundle)
     val io_out = IO(new pc_out_bundle)
-      val pc_value = Reg(UInt(data_length.W))//RegInit(Cat(0xbfbf.U,0xfffc.U))
+    val pc_value = Reg(UInt(addr_length.W))//RegInit(Cat(0xbfbf.U,0xfffc.U))
     //pc_value := Mux(reset.asBool,Cat(0xbfbf.U,0xfff4.U),Mux(io.flush,0.U,Mux(io.stall,io_in.pc_value_in,pc_value)))
-    pc_value := Mux(reset.asBool,Cat(0x7FFF.U,0xfffc.U),Mux(io.flush,0.U,Mux(io.stall,io_in.pc_value_in,pc_value)))
+    pc_value := Mux(reset.asBool,Cat(0x2FFF.U,0xfffc.U),Mux(io.flush,0.U,Mux(io.stall,io_in.pc_value_in,pc_value)))
     io_out.pc_value_out := pc_value
-    val pc_inst = RegInit(0.U(data_length.W))
+    val pc_inst = RegInit(0.U(32.W))
     pc_inst  := Mux(io.flush,0.U,Mux(io.stall,io_in.pc_inst_in,pc_inst))
     io_out.pc_inst_out  := pc_inst
 }
@@ -350,11 +338,10 @@ class pc_detail extends Module {
  // ---------- PC_cal ----------
     //_pc2if.io <> io//sram like增加AXI总线接口，仅仅增加了一个握手
        val ready_to_branch_pre = Wire(Bool())
-    //pc_next 不在這裡算
+    //inst_addr 不在這裡算
     val stage_fec_1_pc_next = Wire(UInt(data_length.W))
-    val Pc_Next = Wire(UInt(data_length.W))
     val Pc_Next_normal = Wire(UInt(data_length.W))
-    val pc_next_wait = RegInit(0.U(data_length.W))
+    val pc_next_wait   = RegInit(0.U(data_length.W))
 
     val ready_to_branch = Wire(Bool())
     pc_next_wait := Mux(ready_to_branch || ready_to_branch_pre,Pc_Next_normal,pc_next_wait)
@@ -389,17 +376,17 @@ class pc_detail extends Module {
     
 // Mux(_csr.io.exception.asBool,_csr.io.return_pc,Mux(returnPc_req_wait,exception_Pc_reg,Mux(pc_req_wait && !(ready_to_branch /*|| ready_to_branch_pre*/),pc_next_wait,Pc_Next_normal)))
 //发现分支有错误需要修改的时候，这时候如果pc_req_wait变化的话，就需要判断
-    Pc_Next := Mux(_csr.io.exception.asBool,_csr.io.return_pc,Mux(returnPc_req_wait,exception_Pc_reg,Mux(ready_to_branch,Pc_Next_normal,Mux(pc_req_wait,pc_next_wait,Pc_Next_normal))))
+    inst_addr := Mux(_csr.io.exception.asBool,_csr.io.return_pc,Mux(returnPc_req_wait,exception_Pc_reg,Mux(ready_to_branch,Pc_Next_normal,Mux(pc_req_wait,pc_next_wait,Pc_Next_normal))))
 
 
 
     val pc_fetch = Wire(UInt(data_length.W)) // 这玩意是最后真的扔到cache中的指针
-    pc_fetch := Pc_Next
-    inst_cache  := check_cached(Pc_Next)
+    pc_fetch := inst_addr
+    inst_cache  := check_cached(inst_addr)
     inst_req    := stage2_stall//_pre_cfu.io.stage_pc_cal_stall
-    inst_ready_to_use := Pc_Next(1,0) === 0.U 
+    inst_ready_to_use := inst_addr(1,0) === 0.U 
     //虚地址cache
-    inst_addr   := Pc_Next
+
 
     inst_size := 2.U // 一直都是32位，也就是2.U
     inst_wdata := 0.U //写请求的写数据，咱们只需要读数据即可
@@ -434,31 +421,24 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     
     // val bru = Module(new branch_prediction).io
     val stage_fec_1_pc_L = Module(new pc_detail)
-    val stage_fec_1_pc_M = Module(new pc_detail)
-    val stage_fec_1_pc_R = Module(new pc_detail)
+
     val stage_fec_1_pc_valid = RegInit(0.U(3.W))
 
     stage_fec_1_pc_valid := Mux(stage_fec_1_flush,0.U,Mux(stage_fec_1_stall,pc_valid,stage_fec_1_pc_valid))
   
     stage_fec_1_pc_L.io_in.pc_inst_in := 0.U
     stage_fec_1_pc_L.io_in.pc_value_in := pc_fetch
-    stage_fec_1_pc_M.io_in.pc_inst_in := 0.U
-    //===============================================可能要改
-    stage_fec_1_pc_M.io_in.pc_value_in := pc_fetch//Cat(pc_fetch(31,5),pc_fetch(4,2) + 1.U ,pc_fetch(1,0))
-    // pc_fetch + 4.U//
-    stage_fec_1_pc_R.io_in.pc_inst_in := 0.U
-    stage_fec_1_pc_R.io_in.pc_value_in := pc_fetch//Cat(pc_fetch(31,5),pc_fetch(4,2) + 2.U ,pc_fetch(1,0))
-    // pc_fetch + 8.U//
+
 
     //===============================================可能要改
     //flush and stall
     stage_fec_1_pc_L.io.flush := stage_fec_1_flush
-    stage_fec_1_pc_M.io.flush := stage_fec_1_flush
-    stage_fec_1_pc_R.io.flush := stage_fec_1_flush
+    // stage_fec_1_pc_M.io.flush := stage_fec_1_flush
+    // stage_fec_1_pc_R.io.flush := stage_fec_1_flush
 
     stage_fec_1_pc_L.io.stall := stage_fec_1_stall
-    stage_fec_1_pc_M.io.stall := stage_fec_1_stall
-    stage_fec_1_pc_R.io.stall := stage_fec_1_stall
+    // stage_fec_1_pc_M.io.stall := stage_fec_1_stall
+    // stage_fec_1_pc_R.io.stall := stage_fec_1_stall
 
 
     stage_fec_1_pc := stage_fec_1_pc_L.io_out.pc_value_out
@@ -468,7 +448,7 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     bru.pc := stage_fec_1_pc_L.io_out.pc_value_out
     bru.pc_plus := bru.pc//stage_fec_1_pc_M.io_out.pc_value_out
     bru.pc_plus_plus := bru.pc//stage_fec_1_pc_R.io_out.pc_value_out
-    bru.sram_pc := Pc_Next
+    bru.sram_pc := inst_addr
 
     val stage_fec_1_valid = RegInit(0.U.asBool)
 
@@ -534,8 +514,7 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     
 
     val stage_fec_2_pc_L = Module(new pc_detail)
-    val stage_fec_2_pc_M = Module(new pc_detail)
-    val stage_fec_2_pc_R = Module(new pc_detail)
+
     val stage_fec_2_data_valid = RegInit(0.U.asBool) //这一阶段的指令
     val stage_fec_2_req = RegInit(0.U.asBool)
 
@@ -546,20 +525,13 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     stage_fec_2_pc_L.io_in.pc_inst_in := stage_fec_1_pc_L.io_out.pc_inst_out
     stage_fec_2_pc_L.io_in.pc_value_in := stage_fec_1_pc_L.io_out.pc_value_out
 
-    stage_fec_2_pc_M.io_in.pc_inst_in := stage_fec_1_pc_M.io_out.pc_inst_out
-    stage_fec_2_pc_M.io_in.pc_value_in := stage_fec_1_pc_M.io_out.pc_value_out 
-
-    stage_fec_2_pc_R.io_in.pc_inst_in := stage_fec_1_pc_R.io_out.pc_inst_out
-    stage_fec_2_pc_R.io_in.pc_value_in := stage_fec_1_pc_R.io_out.pc_value_out 
-
+  
     //flush and stall
     stage_fec_2_pc_L.io.flush := stage_fec_2_flush
-    stage_fec_2_pc_M.io.flush := stage_fec_2_flush
-    stage_fec_2_pc_R.io.flush := stage_fec_2_flush
+
 
     stage_fec_2_pc_L.io.stall := stage_fec_2_stall
-    stage_fec_2_pc_M.io.stall := stage_fec_2_stall
-    stage_fec_2_pc_R.io.stall := stage_fec_2_stall
+
 
     val inst_buffer_write_bundle = Wire(new inst_buffer_bundle)
     inst_buffer_write_bundle.exception_type := inst_tlb_exception
@@ -626,7 +598,7 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
 //full是用来控制前面流水线停止的，和这里无关
     val PCF =     _if2id.io.PCF 
 
-    _if2id.io.PCF            :=  inst_buffer_read_out.pc
+    _if2id.io.PCF            := inst_buffer_read_out.pc
     _if2id.io.PCPlus4F       := _if2id.io.PCF  + 4.U
     _if2id.io.PCPlus8F       := _if2id.io.PCF  + 8.U
     _if2id.io.en             := _cfu.io.StallD //相当于清空ID阶段的所有数据
@@ -638,7 +610,7 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
 
 
     val id_exception = RegInit(0.U.asBool)
-    id_exception := Mux(_cfu.io.FlushD.asBool,0.U,Mux(_cfu.io.StallD.asBool,inst_buffer_read_out.pc(1,0) =/= 0.U || inst_buffer_read_out.exception_type =/= 0.U,id_exception))
+    id_exception := Mux(_cfu.io.FlushD.asBool,0.U,Mux(_cfu.io.StallD.asBool,_if2id.io.PCF(1,0) =/= 0.U || inst_buffer_read_out.exception_type =/= 0.U,id_exception))
 
     val ex_exception = RegInit(0.U.asBool)
     ex_exception := Mux(_cfu.io.FlushE.asBool,0.U,Mux(_cfu.io.StallE.asBool,_id2ex.io.ExceptionTypeD =/= 0.U,ex_exception))
@@ -650,12 +622,12 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     mem2_exception := Mux(_cfu.io.FlushM2.asBool,0.U,Mux(_cfu.io.StallM2.asBool,_mem2mem2.io.ExceptionTypeE =/= 0.U,mem2_exception))
 
     val wb_exception = RegInit(0.U.asBool)
-    wb_exception := Mux(_cfu.io.FlushW.asBool,0.U,Mux(_cfu.io.StallW.asBool,_mem22wb.io.ExceptionTypeM =/= 0.U,wb_exception))
+    wb_exception := Mux(_cfu.io.FlushW.asBool,0.U,Mux(_cfu.io.StallW.asBool,mem2_exception,wb_exception))
     //======================================
     //下面定义流水线每一级的bru状态信息
 
-    class bru_bundle extends Bundle {
-        val pht = Input(UInt(2.W))
+    class bru_bundle (pht_has:Boolean) extends Bundle {
+        val pht = if(pht_has)Input(UInt(2.W))else Input(UInt(0.W))
         val bht = Input(UInt(7.W))
         val hashcode = Input(UInt(4.W))
         val target_pc = Input(UInt(data_length.W))
@@ -664,15 +636,15 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
         // val pc_valid_In = Input(Bool())
     }
 
-    class bru_detail extends Module {
+    class bru_detail(pht_has:Boolean) extends Module {
         val io = IO(new Bundle{
             val stall = Input(Bool())
             val flush = Input(Bool())   
         })
-        val io_in = IO(new bru_bundle)
-        val io_out = IO(Flipped(new bru_bundle))
+        val io_in = IO(new bru_bundle(pht_has))
+        val io_out = IO(Flipped(new bru_bundle(pht_has)))
 
-          val pht_value = RegInit(0.U(2.W))//RegInit(Cat(0xbfbf.U,0xfffc.U))
+          val pht_value = if(pht_has)RegInit(0.U(2.W)) else Reg(UInt(0.W))//RegInit(Cat(0xbfbf.U,0xfffc.U))
           val bht_value = RegInit(0.U(7.W))
           val hashcode_value = RegInit(0.U(4.W))
           val target_pc_value = RegInit(0.U(data_length.W))
@@ -697,23 +669,23 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     val id_true_branch_state = RegInit(0.U.asBool)
     id_true_branch_state := Mux(_cfu.io.FlushD.asBool,0.U,Mux(_cfu.io.StallD.asBool,inst_buffer_read_out.true_branch_state,id_true_branch_state))
 
-    val id_bru_state =  Module(new bru_detail)
+    val id_bru_state =  Module(new bru_detail(true))
     id_bru_state.io.flush := _cfu.io.FlushD
     id_bru_state.io.stall := _cfu.io.StallD
 
-    val ex_bru_state =  Module(new bru_detail)
+    val ex_bru_state =  Module(new bru_detail(true))
     ex_bru_state.io.flush := _cfu.io.FlushE
     ex_bru_state.io.stall := _cfu.io.StallE
 
-    val mem_bru_state =  Module(new bru_detail)
+    val mem_bru_state =  Module(new bru_detail(false))
     mem_bru_state.io.flush := _cfu.io.FlushM
     mem_bru_state.io.stall := _cfu.io.StallM
 
-    val mem2_bru_state =  Module(new bru_detail)
+    val mem2_bru_state =  Module(new bru_detail(false))
     mem2_bru_state.io.flush := _cfu.io.FlushM2
     mem2_bru_state.io.stall := _cfu.io.StallM2
 
-    val wb_bru_state =  Module(new bru_detail)
+    val wb_bru_state =  Module(new bru_detail(false))
     wb_bru_state.io.flush := _cfu.io.FlushW
     wb_bru_state.io.stall := _cfu.io.StallW
 
@@ -727,15 +699,12 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     val inst_tlb_exceptionE = RegInit(0.U.asBool)
     inst_tlb_exceptionE := Mux(_cfu.io.FlushE.asBool,0.U,Mux(_cfu.io.StallE.asBool,_if2id.io.ExceptionTypeD_Out =/= 0.U,inst_tlb_exceptionE))
 
-        id_bru_state.io_in.lookup_data := inst_buffer_read_out.pre_lookup_data
-        id_bru_state.io_in.hashcode := inst_buffer_read_out.pre_hashcode
-        id_bru_state.io_in.target_pc := inst_buffer_read_out.pre_pc_target
-        id_bru_state.io_in.pht := inst_buffer_read_out.pre_pht
-        id_bru_state.io_in.bht := inst_buffer_read_out.pre_bht
-        id_bru_state.io_in.pht_lookup_value := inst_buffer_read_out.pre_lookup_value
-
-    val branch_stateD = id_bru_state.io_out.pht(1) //根据状态机的意义，第一位代表有没有发生分支跳转
-
+    id_bru_state.io_in.lookup_data := inst_buffer_read_out.pre_lookup_data
+    id_bru_state.io_in.hashcode := inst_buffer_read_out.pre_hashcode
+    id_bru_state.io_in.target_pc := inst_buffer_read_out.pre_pc_target
+    id_bru_state.io_in.pht := inst_buffer_read_out.pre_pht
+    id_bru_state.io_in.bht := inst_buffer_read_out.pre_bht
+    id_bru_state.io_in.pht_lookup_value := inst_buffer_read_out.pre_lookup_value
 
 
     val target_neq_branchD = ( id_bru_state.io_out.target_pc =/= PCBranchD ) 
@@ -803,9 +772,18 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     val int_instanceM2 = RegInit(0.U.asTypeOf(new int_bundle))
     val int_instanceW  = RegInit(0.U.asTypeOf(new int_bundle))
 
+    val int_disable = Wire(Bool())
+    val resultM2_for_disable = Wire(UInt(data_length.W))
+    int_disable := ( _id2ex.io2.WritecsrAddrE === MSTATUS_NUM && _id2ex.io2.csrWriteE.asBool && !CalCsrDataE(MIE_POSITION) ) || 
+                    ( _ex2mem.io.WritecsrAddrM === MSTATUS_NUM && _ex2mem.io.csrWriteM.asBool && !_ex2mem.io.CsrWritedataM(MIE_POSITION) ) ||
+                    ( _mem2mem2.io.WritecsrAddrM === MSTATUS_NUM && _mem2mem2.io.csrWriteM.asBool && !_mem2mem2.io.CsrWritedataM(MIE_POSITION)) || 
+                    ( _csr.io.csr_write_addr === MSTATUS_NUM && _csr.io.csr_write_en.asBool && !_csr.io.csr_write_data(MIE_POSITION)) 
 
+    val ext_int_with_enable = Wire(new int_bundle)
+    ext_int_with_enable.timer := ext_int.timer && _csr.io.int_type_able.timer && _csr.io.Int_able && !int_disable
+    ext_int_with_enable.out_int := ext_int.out_int && _csr.io.int_type.out_int && _csr.io.Int_able && !int_disable
 
-    int_instanceE := Mux(_cfu.io.FlushE.asBool,  0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallE.asBool,ext_int,int_instanceE))
+    int_instanceE := Mux(_cfu.io.FlushE.asBool,  0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallE.asBool,ext_int_with_enable,int_instanceE))
     int_instanceM := Mux(_cfu.io.FlushM.asBool,  0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallM.asBool,int_instanceE,int_instanceM))
     int_instanceM2 := Mux(_cfu.io.FlushM2.asBool,0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallM2.asBool,int_instanceM,int_instanceM2))
     int_instanceW := Mux(_cfu.io.FlushW.asBool,  0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallW.asBool,int_instanceM2,int_instanceW))
@@ -814,7 +792,8 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
   
 
     
-    _id2ex.io.ExceptionTypeD  := Mux((ext_int.timer & _csr.io.int_type_able.timer) && _csr.io.Int_able.asBool,EXCEP_MASK_INT,Mux( ExceptionTypeD_Out === 0.U,(
+    _id2ex.io.ExceptionTypeD  := Mux(((ext_int.timer && _csr.io.int_type_able.timer) || 
+        (ext_int.out_int && _csr.io.int_type_able.out_int)) && _csr.io.Int_able.asBool && !int_disable,EXCEP_MASK_INT,Mux( ExceptionTypeD_Out === 0.U,(
         (Mux(_cu.io1.BadInstrD.asBool,EXCEP_MASK_RI,0.U)) | 
         (Mux(_cu.io1.SysCallD.asBool,EXCEP_MASK_Sys,0.U)) |
         /*(Mux(_cu.io1.BreakD.asBool,EXCEP_MASK_Bp,0.U))    |*/
@@ -827,22 +806,17 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     _id2ex.io.ImmD:= ImmD
     _id2ex.io.RD1D:= Mux(_cfu.io.Forward1D(0),Forward_ResultM,Mux(_cfu.io.Forward1D(1),Forward_ResultM2,_regfile.io.RD1))
     _id2ex.io.RD2D:= Mux(_cfu.io.Forward2D(0),Forward_ResultM,Mux(_cfu.io.Forward2D(1),Forward_ResultM2,_regfile.io.RD2))
-    _id2ex.io.WritecsrAddrD := InstrD(31,20)//Mux(_cu.io1.Tlb_Control(2),"b00000".U,InstrD(15,11))
+    _id2ex.io.WritecsrAddrD := InstrD(31,20)
 
     _id2ex.io.ReadcsrAddrD  := InstrD(31,20)
-   /*     MuxCase(InstrD(15,11),Seq(
-        _cu.io1.EretD.asBool     -> "b01110".U ,
-        _cu.io1.Tlb_Control(2)   -> "b01010".U ,
-        _cu.io1.Tlb_Control(1)   -> "b00000".U ,
-        _cu.io1.Tlb_Control(0)   -> "b00000".U
-    ))*/
-        // Mux(_cu.io1.EretD.asBool,"b01110".U , Mux(_cu.io1.Tlb_Control(2),"b01010".U,Mux(InstrD(15,11)))
+
+
     _id2ex.io.PCPlus4D      := PCPLus4D
     _id2ex.io.PCD          := _if2id.io.PCD
     //说明这一条指令为分支或者间接跳转指令
-    _id2ex.io.BranchJump_JrD  := Cat(0.U(1.W),pre_decoder_branchD_flag.asBool || pre_decoder_jump.asBool)
+    _id2ex.io.BranchJump_JrD  := pre_decoder_branchD_flag.asBool || pre_decoder_jump.asBool
     _id2ex.io.BadVaddrD    := BadVAddrD
-    _id2ex.io.Tlb_Control  := _cu.io1.Tlb_Control
+
 
  //&& !inst_buffer.empty
     _pre_cfu.io.branch_error := inst_buffer.point_write_en//(_cu.io.JumpD.asBool || _br.io.exe.asBool) //&& _cfu.io.StallD.asBool
@@ -931,7 +905,6 @@ inst_tlb_exceptionM := Mux(_cfu.io.FlushM.asBool,0.U,Mux(_cfu.io.StallM.asBool,i
     // _dmemreq.io.addr_ok   := io.data_addr_ok
     _dmemreq.io.addr_ok   := data_addr_ok
     _dmemreq.io.WriteDataE := WriteDataE
-    _dmemreq.io.memrl := _id2ex.io2.MemRLE
     
 
 
@@ -966,14 +939,14 @@ inst_tlb_exceptionM := Mux(_cfu.io.FlushM.asBool,0.U,Mux(_cfu.io.StallM.asBool,i
     _ex2mem.io.mem_trace_budleE.len            := data_size
     _ex2mem.io.mem_trace_budleE.cache          := data_cache
 
-    data_fence_i_control := _ex2mem.io.fence_i_controlM
+    data_fence_i_control := fence_i_controlMReg
 
     val csr_src1 = Wire(UInt(data_length.W))
     val csr_src2 = Wire(UInt(data_length.W))
 
     csr_src1 := Mux(_id2ex.io.csr_ImmE,unsign_extend(_id2ex.io.R1E,5),RD1ForWardE)
     csr_src2 := Forward_csr_data
-    val CalCsrDataE = Mux1H(Seq(
+    CalCsrDataE := Mux1H(Seq(
         _id2ex.io.csr_controlE(csr_control_csrrs) -> (csr_src2 | csr_src1),
         _id2ex.io.csr_controlE(csr_control_csrrc) -> (csr_src2 & ( ~csr_src1)),
         _id2ex.io.csr_controlE(csr_control_csrrw) -> csr_src1
@@ -986,9 +959,9 @@ inst_tlb_exceptionM := Mux(_cfu.io.FlushM.asBool,0.U,Mux(_cfu.io.StallM.asBool,i
     _csr.io.csr_write_addr := _mem22wb.io.WritecsrAddrW
 
 
-    val resultE = Mux1H(Seq(
+    resultE := Mux1H(Seq(
         _id2ex.io.alu_calE -> _alu.io.result,
-        csrToRegE.asBool -> CalCsrDataE,
+        csrToRegE.asBool -> csr_src2,
        _id2ex.io2.LinkE.asBool -> _id2ex.io2.PCPlus4E,
        _id2ex.io.muldiv_calE -> _muldiv.io.data_out
     ))
@@ -1042,8 +1015,7 @@ tlb_read_index    := Forward_ResultM(tlb_index_width - 1,0)
 
 
 
-//tlb_control(2) 代表为tlbp指令
-tlbp_search_en    := _ex2mem.io.Tlb_ControlM(2)
+
 //hit，第32位为0，不命中，第32位为1
 tlb_searched_index_value := Cat(!tlb_search_hit,0.U((32 - tlb_index_width - 1).W),tlb_search_index)
 
@@ -1061,13 +1033,12 @@ _mem2mem2.io1.eBreakE  := _ex2mem.io1.eBreakE
 _mem2mem2.io.WriteRegE := _ex2mem.io.WriteRegM
 _mem2mem2.io.PhyAddrE := _ex2mem.io.PhyAddrM
 
-_mem2mem2.io.csrWriteE := _ex2mem.io.csrWriteM.asBool || _ex2mem.io.Tlb_ControlM(2)
+_mem2mem2.io.csrWriteE := _ex2mem.io.csrWriteM.asBool || 0.U.asBool
 
 
 _mem2mem2.io.ExceptionTypeE := ExceptionM//_ex2mem.io.ExceptionTypeM_Out
 _mem2mem2.io.RtE := _ex2mem.io.RtM
 _mem2mem2.io.mem_trace_budleE := _ex2mem.io.mem_trace_budleM
-_mem2mem2.io1.fence_i_control := _ex2mem.io.fence_i_controlM
 
 _mem2mem2.io1.RegWriteE      := _ex2mem.io.RegWriteM
 _mem2mem2.io1.MemToRegE      := _ex2mem.io.MemToRegM
@@ -1078,11 +1049,11 @@ _mem2mem2.io1.LoadUnsignedE  := _ex2mem.io.LoadUnsignedM
 _mem2mem2.io1.MemWidthE      := _ex2mem.io.MemWidthM
 
 
-_mem2mem2.io1.csrWriteE      := _ex2mem.io.csrWriteM.asBool || _ex2mem.io.Tlb_ControlM(2) || data_tlb_exception =/= 0.U
+_mem2mem2.io1.csrWriteE      := _ex2mem.io.csrWriteM.asBool || 0.U.asBool || data_tlb_exception =/= 0.U
 _mem2mem2.io1.WritecsrAddrE  := Mux(data_tlb_exception =/= 0.U || inst_tlb_exceptionM,"b01010".U,_ex2mem.io.WritecsrAddrM)
 _mem2mem2.io1.PCE            := _ex2mem.io.PCM
 
-_mem2mem2.io1.MemRLE         := _ex2mem.io.MemRLM
+// _mem2mem2.io1.MemRLE         := _ex2mem.io.MemRLM
 _mem2mem2.io1.BranchJump_JrE := _ex2mem.io.BranchJump_JrM
 
 _mem2mem2.io1.LinkE          := _ex2mem.io.LinkM
@@ -1092,7 +1063,7 @@ _mem2mem2.io1.ALUSrcE    := 0.U.asTypeOf(_id2ex.io2.ALUSrcE)
 _mem2mem2.io1.ReadcsrAddrE := 0.U
 
 _mem2mem2.io.csrToRegE  := _ex2mem.io.csrToRegM
-_mem2mem2.io1.Tlb_Control := _ex2mem.io.Tlb_ControlM
+
 _mem2mem2.io.CsrWritedataE  := _ex2mem.io.CsrWritedataM
 
 val tlb_exception_csr_writeM2 = RegInit(0.U.asBool)
@@ -1117,23 +1088,25 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
 
     val Mem_withRL_Data    = Wire(UInt(data_length.W)) 
     Forward_ResultM2 := ResultM2_Reg
+    resultM2_for_disable := ResultM2_Reg
     val ResultM2   = Mux( _mem2mem2.io.MemToRegM.asBool, Mem_withRL_Data, ResultM2_Reg)
     //   _ex2mem.io.MemToRegM.asBool -> Mem_withRL_Data //刚加的
 
         // --------------
-    Mem_withRL_Data := MuxLookup(_mem2mem2.io.MemRLM,_dmem.io.RD,Seq(
-        "b10".U -> MuxLookup(_mem2mem2.io.PhyAddrM(1,0),_dmem.io.RD,Seq(
-            "b00".U   -> Cat(_dmem.io.RD(7,0),_mem2mem2.io.RtM(23,0)),
-            "b01".U   -> Cat(_dmem.io.RD(15,0),_mem2mem2.io.RtM(15,0)),
-            "b10".U   -> Cat(_dmem.io.RD(23,0),_mem2mem2.io.RtM(7,0))    
-        )),
-        "b01".U  -> MuxLookup(_mem2mem2.io.PhyAddrM(1,0),_dmem.io.RD,Seq(
-            "b01".U   -> Cat(_mem2mem2.io.RtM(31,24),_dmem.io.RD(31,8)),
-            "b10".U   -> Cat(_mem2mem2.io.RtM(31,16),_dmem.io.RD(31,16)),
-            "b11".U   -> Cat(_mem2mem2.io.RtM(31,8),_dmem.io.RD(31,24))  
-        ))
-    )) 
-    _mem22wb.io.ExceptionTypeM  := _mem2mem2.io.ExceptionTypeM_Out
+    Mem_withRL_Data := _dmem.io.RD
+        // MuxLookup(_mem2mem2.io.MemRLM,_dmem.io.RD,Seq(
+    //     "b10".U -> MuxLookup(_mem2mem2.io.PhyAddrM(1,0),_dmem.io.RD,Seq(
+    //         "b00".U   -> Cat(_dmem.io.RD(7,0),_mem2mem2.io.RtM(23,0)),
+    //         "b01".U   -> Cat(_dmem.io.RD(15,0),_mem2mem2.io.RtM(15,0)),
+    //         "b10".U   -> Cat(_dmem.io.RD(23,0),_mem2mem2.io.RtM(7,0))    
+    //     )),
+    //     "b01".U  -> MuxLookup(_mem2mem2.io.PhyAddrM(1,0),_dmem.io.RD,Seq(
+    //         "b01".U   -> Cat(_mem2mem2.io.RtM(31,24),_dmem.io.RD(31,8)),
+    //         "b10".U   -> Cat(_mem2mem2.io.RtM(31,16),_dmem.io.RD(31,16)),
+    //         "b11".U   -> Cat(_mem2mem2.io.RtM(31,8),_dmem.io.RD(31,24))  
+    //     ))
+    // )) 
+    _mem22wb.io.ExceptionTypeM  := _mem2mem2.io.ExceptionTypeM_Out(31,1)
     _mem22wb.io.eBreakM         := _mem2mem2.io.eBreakM
     _mem22wb.io.Pc_NextM        := _mem2mem2.io.Pc_NextM
     _mem22wb.io.ResultM         := ResultM2
@@ -1162,31 +1135,32 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     val pcw_reg_reg = RegInit(0.U(data_length.W))
     if(difftest_on) {
         val _commit_difftest = Module(new difftest_commit(64))
-        _commit_difftest.io.clock := clk
-        _commit_difftest.io.reset := ~resetn.asBool
+        _commit_difftest.io.clock := clock.asBool
+        _commit_difftest.io.reset := reset.asBool
         _commit_difftest.io.gpr_wire := _regfile.io.reg_file_alL_out
         _commit_difftest.io.debug_pc       := Mux(wb_exception,_csr.io.return_pc,_mem22wb.io.Pc_NextW)
         _commit_difftest.io.pc             := _mem22wb.io.PCW
         _commit_difftest.io.cpu_ebreak_sign := _mem22wb.io.eBreakW
         _commit_difftest.io.inst_commit := _mem22wb.io.PCW =/= 0.U && pcw_reg =/= _mem22wb.io.PCW
-        _commit_difftest.io.inst_commit := _mem22wb.io.PCW =/= 0.U && pcw_reg =/= _mem22wb.io.PCW
-        // _commit_difftest.io.cpu_timer_int := int_instanceW.timer 
+        _commit_difftest.io.cpu_timer_int := int_instanceW.timer 
         _regfile.io.WE3 := RegWriteW.asBool && _commit_difftest.io.data_ok_ok
     }else {
         _regfile.io.WE3 := RegWriteW.asBool
     }
-    // val _commit_difftest = Module(new difftest_commit(64))
-    // _commit_difftest.io.clock := clk
-    // _commit_difftest.io.reset := ~resetn
-    // _commit_difftest.io.gpr_wire := _regfile.io.reg_file_alL_out
-    // _commit_difftest.io.debug_pc       := Mux(wb_exception,_csr.io.return_pc,_mem22wb.io.Pc_NextW)
-    // _commit_difftest.io.pc             := _mem22wb.io.PCW
-    // _commit_difftest.io.cpu_ebreak_sign := _mem22wb.io.eBreakW
+    if(log_on) {
+        val _log_printf = Module(new log_print(64))
+        _log_printf.io.clock := clock.asBool
+        _log_printf.io.reset := reset.asBool
+        _log_printf.io.pc    := _mem22wb.io.PCW
+        _log_printf.io.inst_commit := _mem22wb.io.PCW =/= 0.U && pcw_reg =/= _mem22wb.io.PCW
+        _log_printf.io.cpu_ebreak_sign := _mem22wb.io.eBreakW
+    }
+    
 
     pcw_reg :=  _mem22wb.io.PCW
     pcw_reg_reg := pcw_reg
     //进行difftest时候方便
-
+    
     
     ResultW   := _mem22wb.io.ResultW//Mux(_mem22wb.io.MemToRegW_Forward_hasStall.asBool,_mem22wb.io.ReadDataW,_mem22wb.io.ResultW)
     RegWriteW := Mux( wb_exception.asBool ,0.U,_mem22wb.io.RegWriteW_Out)
@@ -1196,11 +1170,11 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     // ResultW   := Mux(_mem22wb.io.MemToRegW.asBool,_)
     _regfile.io.WD3 := ResultW
     _regfile.io.A3  := _mem22wb.io.WriteRegW
-    // _regfile.io.WE3 := RegWriteW.asBool && _commit_difftest.io.data_ok_ok
 
 
 
-    tlb_write_en := _mem22wb.io.Tlb_ControlW(0)
+
+    tlb_write_en := 0.U.asBool
     tlb_write_index :=  ResultW(tlb_index_width - 1,0)
 
    // 提交阶段将数据写回到分支预测的表项中
@@ -1227,7 +1201,6 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     _addr_cal.io.d_vaddr := _id2ex.io.ImmE + RD1ForWardE//_id2ex.io.RD1E//_id2ex.i//RD1ForWardE
     // _addr_cal.io.i_vaddr := _pc2if.io.PCP
     _dmemreq.io.VAddrE:=  _addr_cal.io.d_paddr //_alu.io.result//alu里面的结果计算出来可能就要用来取数据 // 数据地质一定是加法算出来的，不经过alu里面一堆高延迟路径
-    _addr_cal.io.d_memrl := _id2ex.io2.MemRLE
    
               
 
@@ -1241,15 +1214,16 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     _csr.io.mem_bad_vaddr := _mem22wb.io.BadVAddrW
     _csr.io.csr_write_en  := csrWriteW.asBool || tlb_exception_co0_writeW
     _csr.io.exception_type_i := ExceptionTypeW
-    _csr.io.in_branchjump_jr   :=Mux(_mem22wb.io.PCW =/= 0.U,_mem22wb.io.BranchJump_JrW,branchjump_Jr_Reg)
+    // _csr.io.in_branchjump_jr   :=Mux(_mem22wb.io.PCW =/= 0.U,_mem22wb.io.BranchJump_JrW,branchjump_Jr_Reg)
     icache_tag_flush := _csr.io.icache_tags_flush
 
     //tlb的这些东西全都不引入前递策略
     csr_tlb_read_data := _csr.io.csr_tlb_read_data
     _csr.io.csr_tlb_write_data := tlb_read_dataM2.tlb_read_data
-    _csr.io.csr_tlb_write_en    := _mem2mem2.io.Tlb_ControlM(1)
-    _csr.io.csr_index_tlb_write_able := _mem22wb.io.Tlb_ControlW(2)
+    _csr.io.csr_tlb_write_en    := 0.U.asBool
+    _csr.io.csr_index_tlb_write_able := 0.U.asBool
     _csr.io.csr_write_data   := _mem22wb.io.CsrWritedataW
+    _csr.io.stageW_pc        := _mem22wb.io.PCW
     // _csr.io.csr_write_data := 0.U
 
 
@@ -1262,8 +1236,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     _cfu.io.JumpD        := pre_decoder_jump
     _cfu.io.JRD         := pre_decoder_jr
     _cfu.io.CanBranchD  :=  Mux(((id_exception | ex_exception |mem_exception | mem2_exception | wb_exception) === 0.U),1.U,0.U)
-        // Mux((ExceptionTypeD_Out | _id2ex.io.ExceptionTypeE_Out | 
-        // _ex2mem.io.ExceptionTypeM_Out | _mem22wb.io.ExceptionTypeW_Out) =/= 0.U, 0.U,1.U)
+     
     _cfu.io.BranchD_Flag := pre_decoder_branchD_flag
     _cfu.io.DivPendingE         := _muldiv.io.pending
     _cfu.io.AddrPendingE        := _dmemreq.io.addr_pending //data地址等待
@@ -1297,19 +1270,19 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
     _cfu.io.R2D                 := R2D
     _cfu.io.R1E                 := _id2ex.io.R1E
     _cfu.io.R2E                 := _id2ex.io.R2E   
-    _cfu.io.MemRLE              := _id2ex.io2.MemRLE
+
 
     _cfu.io.csrWriteM2 := _mem2mem2.io.csrWriteM
     _cfu.io.WritecsrAddrM2 := _mem2mem2.io.WritecsrAddrM
     _cfu.io.WriteRegM2  :=  _mem2mem2.io.WriteRegM
     _cfu.io.MemToRegM2  :=  _mem2mem2.io.MemToRegM
     _cfu.io.RegWriteM2  :=  _mem2mem2.io.RegWriteM
-    _cfu.io.data_fence_i_control := _ex2mem.io.fence_i_controlM
+    _cfu.io.data_fence_i_control := fence_i_controlMReg
 
     
     // _cfu.io.data_cache_stage2_stall := data_stage2_stall
 
-    }
+    // }
 }
 
 // object myCPU_core_test extends App{

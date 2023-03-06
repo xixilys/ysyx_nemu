@@ -28,7 +28,7 @@ class cfu extends Module with riscv_macros {
         val     DataPendingM = Input(UInt(1.W))
         
         val     InException = Input(UInt(1.W))
-        val     MemRLE       = Input(UInt(2.W))
+
 
         val     WriteRegE = Input(UInt(5.W))
         val     MemToRegE = Input(UInt(1.W))
@@ -148,7 +148,7 @@ class cfu extends Module with riscv_macros {
                 (/*io.R1D =/= 0.U &&*/ io.R1D === io.WriteRegM2 && io.RegWriteM2.asBool && io.MemToRegM2.asBool) 
 
 
-    // val memrlStall = Mux(io.MemRLE === 0.U || io.MemToRegE.asBool,0.U.asBool,1.U.asBool)
+
     
 
 

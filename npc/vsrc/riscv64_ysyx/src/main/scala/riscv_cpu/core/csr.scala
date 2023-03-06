@@ -17,8 +17,9 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
 
     val      pc = Input(UInt(data_length.W))
     val      mem_bad_vaddr = Input(UInt(data_length.W))
-    val      exception_type_i = Input(UInt(32.W))
-    val      in_branchjump_jr = Input(UInt(2.W))
+    val      exception_type_i = Input(UInt(31.W))
+    // val      in_branchjump_jr = Input(UInt(2.W))
+    
 
     val      return_pc = Output(UInt(data_length.W))
     val      exception = Output(UInt(1.W))
@@ -34,6 +35,7 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     val      icache_tags_flush = Output(Bool())
 
     val      int_type = Input(new int_bundle)
+    val      stageW_pc = Input(UInt(data_length.W))
 
     
 
@@ -82,13 +84,14 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     pc_Reg := io.pc
     
     // val 
-    //目前只有timer中断,后面慢慢加呗
-    val commit_int = (io.int_type.timer && csr_mie(MTIE)) && csr_status(MIE_NUM)
-    val exception_type   = Cat(io.exception_type_i(31,1),commit_int)//15-8分别是六根硬件中断线和两根软件中断线
+    //目前只有time中断,后面慢慢加呗 有了外部中断
+    val commit_int = ((io.int_type.timer && csr_mie(MTIE)) || 
+                      (io.int_type.out_int && csr_mie(MEIE)))  && csr_status(MIE_POSITION) && (io.stageW_pc =/= 0.U)
+    val exception_type   = Cat(io.exception_type_i(30,0),commit_int)//15-8分别是六根硬件中断线和两根软件中断线
 
     //不能是fence_i
     val commit_exception =(exception_type(30,0) =/= 0.U) && !exception_type(EXCEP_FENCE_I)//不等和等于运算更加耗时
-    val commit_eret  = Mux(exception_type(31) && !exception_type(EXCEP_AdELI),1.U(1.W),0.U(1.W) ) //判断到底是啥例外，如果是eret过程中的地址错乱的话，就不是eret例外
+    val commit_eret  = exception_type(31) //判断到底是啥例外，如果是eret过程中的地址错乱的话，就不是eret例外
     val commit_fence_i = exception_type(EXCEP_FENCE_I)
     io.exception     :=  commit_exception || commit_eret.asBool // 有没异常或者是回调的东西
 
@@ -109,7 +112,8 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
 //中断的cause值
     val int_cause_code_ins = new int_cause_code
     val int_code = Mux1H(Seq(
-        io.int_type.timer -> int_cause_code_ins.time_code
+        io.int_type.timer -> int_cause_code_ins.time_code,
+        io.int_type.out_int -> int_cause_code_ins.ext_int_code
     ))
     
     // val i
@@ -132,7 +136,8 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
         MTVEC_NUM   -> csr_mtvec,
         MSTATUS_NUM -> csr_status,
         MIP_NUM     -> csr_mip,
-        MIE_NUM     -> csr_mie
+        MIE_NUM     -> csr_mie,
+        MHARTID_NUM -> 0.U 
     ))
     //write
     val csr_write_able = io.csr_write_en.asBool && write_addr_sel === csr_ADDR_SEL_INDEX
@@ -162,8 +167,11 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     // val 
     csr_status_to_vec.zipWithIndex.foreach{case(a,index) =>
         if(index == MIE_POSITION) {
-            a := Mux(commit_int,0.U.asBool,csr_status(index))
-        }  else{
+            a := Mux(commit_int,0.U.asBool,
+                Mux(commit_eret.asBool,csr_status(MPIE),csr_status(index)))
+        }else if(index == MPIE) {
+            a := Mux(commit_eret.asBool,1.U,csr_status(index))
+        }else {
             a := csr_status(index)
         }
     }
@@ -174,22 +182,25 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     csr_status_to_be   := MuxCase(csr_status_to_vec.asUInt,Seq(
         (io.csr_write_en.asBool && io.csr_write_addr === MSTATUS_NUM) -> io.csr_write_data
     ))
+
     csr_mtvec  := MuxCase(csr_mtvec,Seq(
         (io.csr_write_en.asBool && io.csr_write_addr === MTVEC_NUM)  -> io.csr_write_data
     ))
+
     csr_cause  := MuxCase(csr_cause,Seq(
         (io.csr_write_en.asBool && io.csr_write_addr === MCAUSE_NUM) -> io.csr_write_data,
         commit_exception.asBool -> cause_exccode))
     
-
     csr_mie     := MuxCase(csr_mie,Seq(
         (io.csr_write_en.asBool && io.csr_write_addr === MIE_NUM)  -> io.csr_write_data
     ))
 
     io.int_type_able.timer := csr_mie(MTIE)
+    io.int_type_able.out_int := csr_mie(MEIE)
     val csr_mip_to_be = Wire(Vec(data_length,Bool()))
     csr_mip_to_be.zipWithIndex.foreach{case(a,index) =>
-        if(index == MTIE) { a := io.int_type.timer}
+        if(index == MTIE) { a :=Mux(commit_int,io.int_type.timer,csr_mip(index))}
+        else if(index == MEIE) { a := Mux(commit_int,io.int_type.out_int,csr_mip(index))}
         else {a := 0.U.asBool } 
     }
     csr_mip     := MuxCase(csr_mip_to_be.asUInt,Seq(

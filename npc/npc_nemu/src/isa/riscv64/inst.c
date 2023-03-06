@@ -36,7 +36,7 @@ void cpu_commited_func(void){
   cpu_commited = 0;
 }
 
-void set_gpr_ptr(const svOpenArrayHandle r){
+void set_lys_gpr_ptr(const svOpenArrayHandle r){
   cpu_gpr = (size_t*)(((VerilatedDpiOpenVar*)r)->datap());
   // cpu.gpr =  (size_t * )cpu_gpr;
 

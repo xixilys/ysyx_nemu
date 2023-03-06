@@ -13,17 +13,17 @@ class dmemreq extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存
     val     MemWriteE = Input(UInt(1.W))
     val     MemToRegE = Input(UInt(1.W))
     val     MemWidthE = Input(UInt(2.W))
-    val     VAddrE = Input(UInt(data_length.W))
+    val     VAddrE = Input(UInt(addr_length.W))
     val     WriteDataE = Input(UInt(data_length.W))
     val     addr_ok = Input(UInt(1.W))
-    val     memrl = Input(UInt(2.W))
+    // val     memrl = Input(UInt(2.W))
     // val     MemRLE   = Input(UInt(2.W))
 
     val     req = Output(UInt(1.W))
     // val     wr = Output(UInt(4.W))
     val     wr = Output(UInt(1.W))
     val     size = Output(UInt(2.W))
-    val     addr = Output(UInt(data_length.W))
+    val     addr = Output(UInt(addr_length.W))
     val     wdata = Output(UInt(data_length.W))
     val     addr_pending = Output(UInt(1.W))
     val     wstrb = Output(UInt((data_length / 8).W))
@@ -49,8 +49,8 @@ class dmemreq extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存
         "b000".U -> unsign_extend(Cat(data(15,0)),16),
         "b010".U -> unsign_extend(Cat(data(15,0),0.U(16.W)),32),
         "b100".U -> unsign_extend(Cat(data(15,0),0.U(32.W)),48),
-        "b110".U -> unsign_extend(Cat(data(15,0),0.U(48.W)),64))
-        )
+        "b110".U -> unsign_extend(Cat(data(15,0),0.U(48.W)),64)))
+        
     def get_word(data : UInt,offset:UInt) :UInt = {
         MuxLookup(Cat(offset),0.U,Seq(
             "b000".U -> unsign_extend(Cat(data(31,0)),32),
@@ -58,7 +58,7 @@ class dmemreq extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存
         ))
     }
 
-    def get_data(data:UInt,offset:UInt,width:UInt,memwl:UInt):UInt = {//感觉有问题，可以根据cpu书160页改!！！！
+    def get_data(data:UInt,offset:UInt,width:UInt):UInt = {//感觉有问题，可以根据cpu书160页改!！！！
         val ra = offset(2,0)
         MuxLookup(width,0.U,Seq(
             0.U -> get_byte(data,ra),
@@ -67,7 +67,7 @@ class dmemreq extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存
             3.U -> Mux(offset === 0.U ,data,0.U)))
         }
 
-    def get_wstrb(sram_size:UInt,offset:UInt,memrl:UInt) = {
+    def get_wstrb(sram_size:UInt,offset:UInt) = {
         MuxLookup((sram_size),0.U,Seq(
             0.U -> MuxLookup(offset,0.U,Seq(
                     0.U -> "b00000001".U,
@@ -93,8 +93,7 @@ class dmemreq extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存
                     0.U -> "b11111111".U
             ))
         ))
-    
-}
+    }
         
     val ra = io.VAddrE(2,0)//offset，实地址的后两位代表一个偏之
     io.addr_pending := 0.U
@@ -110,8 +109,8 @@ class dmemreq extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存
     // )),0.U)
     io.size     := (io.MemWidthE)
     io.addr     := io.VAddrE//Cat(io.VAddrE(data_length,2),Mux(io.memrl =/= 0.U,0.U,io.VAddrE(1,0)))
-    io.wstrb    := get_wstrb(io.MemWidthE,ra,io.memrl)
-    io.wdata    := Mux(check_cached(io.VAddrE).asBool,get_data(io.WriteDataE,ra,io.MemWidthE,io.memrl),io.WriteDataE)
+    io.wstrb    := get_wstrb(io.MemWidthE,ra)
+    io.wdata    := Mux(check_cached(io.VAddrE).asBool,get_data(io.WriteDataE,ra,io.MemWidthE),io.WriteDataE)
     io.req      := io.en.asBool && (io.MemToRegE.asBool || io.MemWriteE.asBool)
 
 }

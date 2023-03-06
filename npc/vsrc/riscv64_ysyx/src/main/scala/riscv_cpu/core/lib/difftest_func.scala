@@ -18,6 +18,7 @@ class difftest_commit (data_length:Int)extends BlackBox {
         val inst_commit = Input(Bool())
         val data_ok_ok = Output(Bool())
         val cpu_ebreak_sign = Input(Bool())
+        val cpu_timer_int = Input(Bool())
     })
 
 }
@@ -34,4 +35,13 @@ class mem_trace_module (data_length:Int) extends BlackBox {
         val mem_cached = Input(Bool())
     })
 
+}
+class log_print(data_length:Int) extends  BlackBox {
+    val io = IO(new Bundle{
+        val reset = Input(Bool())
+        val clock = Input(Bool())
+        val pc = Input(UInt(data_length.W))
+        val inst_commit = Input(Bool())
+        val cpu_ebreak_sign = Input(Bool())
+    })
 }

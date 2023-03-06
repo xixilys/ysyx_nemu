@@ -60,14 +60,15 @@ class axi_ram_port extends Bundle {
      // axi
         // ar
         val         data_length = 64
+        val         addr_length = 32
         val         arid    = Output(UInt(4.W))
-        val         araddr  = Output(UInt(data_length.W))
-        val         arlen   = Output(UInt(4.W))
+        val         araddr  = Output(UInt(addr_length.W))
+        val         arlen   = Output(UInt(8.W))
         val         arsize  = Output(UInt(3.W))
         val         arburst = Output(UInt(2.W))
-        val         arlock  = Output(UInt(2.W))
-        val         arcache = Output(UInt(4.W))
-        val         arprot  = Output(UInt(3.W))
+        // val         arlock  = Output(UInt(2.W))
+        // val         arcache = Output(UInt(4.W))
+        // val         arprot  = Output(UInt(3.W))
         val         arvalid = Output(UInt(1.W))
         val         arready = Input(UInt(1.W))
         //r
@@ -81,17 +82,17 @@ class axi_ram_port extends Bundle {
 
         //aw
         val         awid    = Output(UInt(4.W))
-        val         awaddr  = Output(UInt(data_length.W))
-        val         awlen   = Output(UInt(4.W))
+        val         awaddr  = Output(UInt(addr_length.W))
+        val         awlen   = Output(UInt(8.W))
         val         awsize  = Output(UInt(3.W))
         val         awburst = Output(UInt(2.W))
-        val         awlock  = Output(UInt(2.W))
-        val         awcache = Output(UInt(4.W))
-        val         awprot  = Output(UInt(3.W))
+        // val         awlock  = Output(UInt(2.W))
+        // val         awcache = Output(UInt(4.W))
+        // val         awprot  = Output(UInt(3.W))
         val        awvalid  = Output(UInt(1.W))
         val        awready  = Input(UInt(1.W))
         //w
-        val         wid      = Output(UInt(4.W))
+        // val         wid      = Output(UInt(4.W))
         val         wdata    = Output(UInt(data_length.W))
         val         wstrb    = Output(UInt((data_length / 8).W))
         val         wlast    = Output(UInt(1.W))
@@ -164,9 +165,9 @@ class axi_cross_bar(cross_num:Int)  extends Module with riscv_macros{
         io.s_port.arlen    := r_select_port.arlen  
         io.s_port.arsize   := r_select_port.arsize 
         io.s_port.arburst  := r_select_port.arburst
-        io.s_port.arlock   := r_select_port.arlock 
-        io.s_port.arcache  := r_select_port.arcache
-        io.s_port.arprot   := r_select_port.arprot 
+        // io.s_port.arlock   := r_select_port.arlock 
+        // io.s_port.arcache  := r_select_port.arcache
+        // io.s_port.arprot   := r_select_port.arprot 
         io.s_port.arvalid  := r_select_port.arvalid
         io.s_port.rready   := r_select_port.rready
 
@@ -179,12 +180,12 @@ class axi_cross_bar(cross_num:Int)  extends Module with riscv_macros{
         io.s_port.awlen     := w_select_port.awlen            
         io.s_port.awsize    := w_select_port.awsize   
         io.s_port.awburst   := w_select_port.awburst  
-        io.s_port.awlock    := w_select_port.awlock   
-        io.s_port.awcache   := w_select_port.awcache  
-        io.s_port.awprot    := w_select_port.awprot   
+        // io.s_port.awlock    := w_select_port.awlock   
+        // io.s_port.awcache   := w_select_port.awcache  
+        // io.s_port.awprot    := w_select_port.awprot   
         io.s_port.awvalid   := w_select_port.awvalid   
 
-        io.s_port.wid       := w_select_port.wid      
+        // io.s_port.wid       := w_select_port.wid      
         io.s_port.wdata     := w_select_port.wdata    
         io.s_port.wstrb     := w_select_port.wstrb    
         io.s_port.wlast     := w_select_port.wlast    
@@ -213,12 +214,11 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
         select_s_port_num_r.zipWithIndex.foreach{case(a,index) =>
                 if(index == 0) {
                         if(slave_num > 1) {
-                               
-                                val r_to_be = Mux(access_select_s_port_num_r.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                                val r_to_be = Mux(access_select_s_port_num_r.drop(1).reduce(_ | _),0.U.asBool,1.U.asBool)
                                 access_select_s_port_num_r(0) := Mux(master_cross_bar.s_port.arvalid.asBool,
                                         access_select_s_port_num_r.drop(1).reduce(_ | _) === 0.U,select_s_port_num_r(index))
                                 select_s_port_num_r(index) := r_to_be
-                                val w_to_be = Mux(access_select_s_port_num_w.asUInt(slave_num - 1,1) =/= 0.U,0.U.asBool,1.U.asBool)
+                                val w_to_be = Mux(access_select_s_port_num_w.drop(1).reduce(_ | _),0.U.asBool,1.U.asBool)
                                 access_select_s_port_num_w(index) := Mux(master_cross_bar.s_port.awvalid.asBool,
                                         access_select_s_port_num_w.drop(1).reduce(_ | _) === 0.U,select_s_port_num_w(index))
                                 select_s_port_num_w(index) := w_to_be
@@ -247,7 +247,7 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
         // s_port := Mux1H(select_s_port_num_r)
         val select_port = master_cross_bar.s_port 
 
-        val master_bundle_arready = Wire(Vec(slave_num,master_cross_bar.s_port.araddr.cloneType))  
+        val master_bundle_arready = Wire(Vec(slave_num,master_cross_bar.s_port.arready.cloneType))  
         val master_bundle_rid     = Wire(Vec(slave_num,master_cross_bar.s_port.rid.cloneType))
         val master_bundle_rdata   = Wire(Vec(slave_num,master_cross_bar.s_port.rdata.cloneType))
         val master_bundle_rresp   = Wire(Vec(slave_num,master_cross_bar.s_port.rresp.cloneType))
@@ -285,14 +285,11 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                         io.s_port(index).arlen    := select_port.arlen  
                         io.s_port(index).arsize   := select_port.arsize 
                         io.s_port(index).arburst  := select_port.arburst
-                        io.s_port(index).arlock   := select_port.arlock 
-                        io.s_port(index).arcache  := select_port.arcache
-                        io.s_port(index).arprot   := select_port.arprot 
+                        // io.s_port(index).arlock   := select_port.arlock 
+                        // io.s_port(index).arcache  := select_port.arcache
+                        // io.s_port(index).arprot   := select_port.arprot 
                         io.s_port(index).arvalid  := select_port.arvalid
                         io.s_port(index).rready   := select_port.rready
-
-
-
 
                 }.otherwise{
                         io.s_port(index).arid     := 0.U 
@@ -300,9 +297,9 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                         io.s_port(index).arlen    := 0.U 
                         io.s_port(index).arsize   := 0.U 
                         io.s_port(index).arburst  := 0.U
-                        io.s_port(index).arlock   := 0.U 
-                        io.s_port(index).arcache  := 0.U
-                        io.s_port(index).arprot   := 0.U 
+                        // io.s_port(index).arlock   := 0.U 
+                        // io.s_port(index).arcache  := 0.U
+                        // io.s_port(index).arprot   := 0.U 
                         io.s_port(index).arvalid  := 0.U
                         io.s_port(index).rready   := 0.U
                 }
@@ -312,11 +309,11 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                         io.s_port(index).awlen     := select_port.awlen            
                         io.s_port(index).awsize    := select_port.awsize   
                         io.s_port(index).awburst   := select_port.awburst  
-                        io.s_port(index).awlock    := select_port.awlock   
-                        io.s_port(index).awcache   := select_port.awcache  
-                        io.s_port(index).awprot    := select_port.awprot   
+                        // io.s_port(index).awlock    := select_port.awlock   
+                        // io.s_port(index).awcache   := select_port.awcache  
+                        // io.s_port(index).awprot    := select_port.awprot   
                         io.s_port(index).awvalid   := select_port.awvalid   
-                        io.s_port(index).wid       := select_port.wid      
+                        // io.s_port(index).wid       := select_port.wid      
                         io.s_port(index).wdata     := select_port.wdata    
                         io.s_port(index).wstrb     := select_port.wstrb    
                         io.s_port(index).wlast     := select_port.wlast    
@@ -330,11 +327,11 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                         io.s_port(index).awlen     := 0.U        
                         io.s_port(index).awsize    := 0.U
                         io.s_port(index).awburst   := 0.U
-                        io.s_port(index).awlock    := 0.U
-                        io.s_port(index).awcache   := 0.U
-                        io.s_port(index).awprot    := 0.U
+                        // io.s_port(index).awlock    := 0.U
+                        // io.s_port(index).awcache   := 0.U
+                        // io.s_port(index).awprot    := 0.U
                         io.s_port(index).awvalid   := 0.U 
-                        io.s_port(index).wid       := 0.U
+                        // io.s_port(index).wid       := 0.U
                         io.s_port(index).wdata     := 0.U
                         io.s_port(index).wstrb     := 0.U
                         io.s_port(index).wlast     := 0.U
@@ -356,16 +353,9 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
         master_cross_bar.s_port.rresp           := Mux1H(access_select_s_port_num_r,master_bundle_rresp)
         master_cross_bar.s_port.rlast           := Mux1H(access_select_s_port_num_r,master_bundle_rlast) 
         master_cross_bar.s_port.rvalid           := Mux1H(access_select_s_port_num_r,master_bundle_rvalid)
-
-
-        
-        
-
-        
-        
-
-        
-       
-
         
 }
+
+// object crossbar_test extends App{
+//     (new ChiselStage).emitVerilog(new axi_cross_bar_addr_switch(2,2,Array(0,0X02000000),Array(0,0X0200BFFF)))
+// }
