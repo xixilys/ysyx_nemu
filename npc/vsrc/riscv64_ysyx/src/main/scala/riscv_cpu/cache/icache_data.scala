@@ -23,10 +23,9 @@ class icache_data  extends Module with riscv_macros {
     val io = IO(new Bundle {
         val        en   = Input(UInt(1.W))
         val        wen   = Input(UInt((data_length / 8).W))
-        val        addr   = Input(UInt(addr_length.W))
+        val        addr   = Input(UInt(data_length.W))
         val        wdata   = Input(UInt(data_length.W))
         val        rdata  = Output(UInt(40.W))
-        val        sram = Flipped(new sram_port)
     })
     //开始拼
     val icache_data_ram_0 = Module(new ysyx_sram_with_mask(64))
@@ -34,7 +33,6 @@ class icache_data  extends Module with riscv_macros {
     icache_data_ram_0.io.wea  := io.wen
     icache_data_ram_0.io.addra := io.addr(10,4)
     icache_data_ram_0.io.dina := io.wdata
-    io.sram <> icache_data_ram_0.io.sram_port
     val addr_reg = RegNext(io.addr)
 
     val get_data =    Mux(addr_reg(2),icache_data_ram_0.io.douta(63,32),icache_data_ram_0.io.douta(31,0)) 

@@ -119,14 +119,14 @@ class mycpu_top  extends Module with riscv_macros {
     val        can_rx     = IO(Input(Bool()))
     val        can_tx     = IO(Output(Bool()))
 
-    val        io_sram0 = IO(Flipped(new sram_port))
-    val        io_sram1 = IO(Flipped(new sram_port))
-    val        io_sram2 = IO(Flipped(new sram_port))
-    val        io_sram3 = IO(Flipped(new sram_port))
-    val        io_sram4 = IO(Flipped(new sram_port))
-    val        io_sram5 = IO(Flipped(new sram_port))
-    val        io_sram6 = IO(Flipped(new sram_port))
-    val        io_sram7 = IO(Flipped(new sram_port))
+    // val        io_sram0 = IO(Flipped(new sram_port))
+    // val        io_sram1 = IO(Flipped(new sram_port))
+    // val        io_sram2 = IO(Flipped(new sram_port))
+    // val        io_sram3 = IO(Flipped(new sram_port))
+    // val        io_sram4 = IO(Flipped(new sram_port))
+    // val        io_sram5 = IO(Flipped(new sram_port))
+    // val        io_sram6 = IO(Flipped(new sram_port))
+    // val        io_sram7 = IO(Flipped(new sram_port))
         //IO(Vec(2,(new axi_ram_port)))
 
 
@@ -268,14 +268,14 @@ class mycpu_top  extends Module with riscv_macros {
     icache_first.stage1_valid_flush := u_riscv_cpu.stage1_valid_flush
     icache_first.inst_ready_to_use := u_riscv_cpu.inst_ready_to_use
     icache_first.inst_buffer_full   := u_riscv_cpu.inst_buffer_full
-    io_sram0 <> icache_first.sram(0)
-    io_sram1 <> icache_first.sram(1)
-    io_sram2 <> icache_first.sram(2)
-    io_sram3 <> icache_first.sram(3)
-    io_sram4 <> dcache_first.sram(0)
-    io_sram5 <> dcache_first.sram(1)
-    io_sram6 <> dcache_first.sram(2)
-    io_sram7 <> dcache_first.sram(3)
+    // io_sram0 <> icache_first.sram(0)
+    // io_sram1 <> icache_first.sram(1)
+    // io_sram2 <> icache_first.sram(2)
+    // io_sram3 <> icache_first.sram(3)
+    // io_sram4 <> dcache_first.sram(0)
+    // io_sram5 <> dcache_first.sram(1)
+    // io_sram6 <> dcache_first.sram(2)
+    // io_sram7 <> dcache_first.sram(3)
 
         //peripherals
 
@@ -309,7 +309,7 @@ class mycpu_top  extends Module with riscv_macros {
 
     // spi flash 
     spi_controler.clk := clock.asBool
-    spi_controler.resetn := reset
+    spi_controler.resetn := !reset.asBool
     spi_controler.in <> axi2apb.io.apb_port
     spi_controler.in_pprot := 0.U
 

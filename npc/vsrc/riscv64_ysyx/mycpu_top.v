@@ -24974,7 +24974,6 @@ module lys_cpu(
   wire  _commit_difftest_inst_commit; // @[myCPU.scala 1137:38]
   wire  _commit_difftest_data_ok_ok; // @[myCPU.scala 1137:38]
   wire  _commit_difftest_cpu_ebreak_sign; // @[myCPU.scala 1137:38]
-  wire  _commit_difftest_cpu_timer_int; // @[myCPU.scala 1137:38]
   wire  stage_fec_2_inst_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 177:45]
   wire  stage_fec_2_inst_branch = inst_sram_rdata_L[32]; // @[myCPU.scala 178:47]
   reg  pre_decoder_branchD_flag; // @[myCPU.scala 180:44]
@@ -25794,8 +25793,7 @@ module lys_cpu(
     .debug_pc(_commit_difftest_debug_pc),
     .inst_commit(_commit_difftest_inst_commit),
     .data_ok_ok(_commit_difftest_data_ok_ok),
-    .cpu_ebreak_sign(_commit_difftest_cpu_ebreak_sign),
-    .cpu_timer_int(_commit_difftest_cpu_timer_int)
+    .cpu_ebreak_sign(_commit_difftest_cpu_ebreak_sign)
   );
   assign inst_cache = inst_sram_addr[31:29] == 3'h4; // @[macros.scala 487:55]
   assign inst_sram_en = stage2_stall; // @[myCPU.scala 386:17]
@@ -26118,7 +26116,6 @@ module lys_cpu(
   assign _commit_difftest_debug_pc = wb_exception ? _csr_io_return_pc : _mem22wb_io_Pc_NextW; // @[myCPU.scala 1141:50]
   assign _commit_difftest_inst_commit = _PCW_Reg_T & pcw_reg != _mem22wb_io_PCW; // @[myCPU.scala 1144:68]
   assign _commit_difftest_cpu_ebreak_sign = _mem22wb_io_eBreakW; // @[myCPU.scala 1143:45]
-  assign _commit_difftest_cpu_timer_int = int_instanceW_timer; // @[myCPU.scala 1145:43]
   always @(posedge clock) begin
     if (reset) begin // @[myCPU.scala 180:44]
       pre_decoder_branchD_flag <= 1'h0; // @[myCPU.scala 180:44]
@@ -28518,45 +28515,58 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module ysyx_sram_with_mask(
-  input          clock,
-  input  [7:0]   io_wea,
-  input  [6:0]   io_addra,
-  input  [63:0]  io_dina,
-  output [63:0]  io_douta,
-  output [5:0]   io_sram_port_addr,
-  output         io_sram_port_wen,
-  output [127:0] io_sram_port_wmask,
-  output [127:0] io_sram_port_wdata,
-  input  [127:0] io_sram_port_rdata
+  input         clock,
+  input  [7:0]  io_wea,
+  input  [6:0]  io_addra,
+  input  [63:0] io_dina,
+  output [63:0] io_douta
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
 `endif // RANDOMIZE_REG_INIT
-  wire [127:0] final_write_data_1 = {io_dina, 64'h0}; // @[ip_user.scala 163:44]
-  wire [7:0] ena_budle__0 = io_wea[0] ? 8'h0 : 8'hff; // @[ip_user.scala 168:35]
-  wire [7:0] ena_budle__1 = io_wea[1] ? 8'h0 : 8'hff; // @[ip_user.scala 168:35]
-  wire [7:0] ena_budle__2 = io_wea[2] ? 8'h0 : 8'hff; // @[ip_user.scala 168:35]
-  wire [7:0] ena_budle__3 = io_wea[3] ? 8'h0 : 8'hff; // @[ip_user.scala 168:35]
-  wire [7:0] ena_budle__4 = io_wea[4] ? 8'h0 : 8'hff; // @[ip_user.scala 168:35]
-  wire [7:0] ena_budle__5 = io_wea[5] ? 8'h0 : 8'hff; // @[ip_user.scala 168:35]
-  wire [7:0] ena_budle__6 = io_wea[6] ? 8'h0 : 8'hff; // @[ip_user.scala 168:35]
-  wire [7:0] ena_budle__7 = io_wea[7] ? 8'h0 : 8'hff; // @[ip_user.scala 168:35]
+  wire [127:0] S011HD1P_X32Y2D128_BW_Q; // @[ip_user.scala 140:22]
+  wire  S011HD1P_X32Y2D128_BW_CLK; // @[ip_user.scala 140:22]
+  wire  S011HD1P_X32Y2D128_BW_CEN; // @[ip_user.scala 140:22]
+  wire  S011HD1P_X32Y2D128_BW_WEN; // @[ip_user.scala 140:22]
+  wire [127:0] S011HD1P_X32Y2D128_BW_BWEN; // @[ip_user.scala 140:22]
+  wire [5:0] S011HD1P_X32Y2D128_BW_A; // @[ip_user.scala 140:22]
+  wire [127:0] S011HD1P_X32Y2D128_BW_D; // @[ip_user.scala 140:22]
+  wire [127:0] final_write_data_1 = {io_dina, 64'h0}; // @[ip_user.scala 149:44]
+  wire [7:0] ena_budle__0 = io_wea[0] ? 8'h0 : 8'hff; // @[ip_user.scala 154:35]
+  wire [7:0] ena_budle__1 = io_wea[1] ? 8'h0 : 8'hff; // @[ip_user.scala 154:35]
+  wire [7:0] ena_budle__2 = io_wea[2] ? 8'h0 : 8'hff; // @[ip_user.scala 154:35]
+  wire [7:0] ena_budle__3 = io_wea[3] ? 8'h0 : 8'hff; // @[ip_user.scala 154:35]
+  wire [7:0] ena_budle__4 = io_wea[4] ? 8'h0 : 8'hff; // @[ip_user.scala 154:35]
+  wire [7:0] ena_budle__5 = io_wea[5] ? 8'h0 : 8'hff; // @[ip_user.scala 154:35]
+  wire [7:0] ena_budle__6 = io_wea[6] ? 8'h0 : 8'hff; // @[ip_user.scala 154:35]
+  wire [7:0] ena_budle__7 = io_wea[7] ? 8'h0 : 8'hff; // @[ip_user.scala 154:35]
   wire [63:0] _final_ena_data_0_T_2 = {ena_budle__7,ena_budle__6,ena_budle__5,ena_budle__4,ena_budle__3,ena_budle__2,
-    ena_budle__1,ena_budle__0}; // @[ip_user.scala 170:96]
-  wire [63:0] final_ena_data_0 = ~io_addra[0] ? _final_ena_data_0_T_2 : 64'hffffffffffffffff; // @[ip_user.scala 170:38]
-  wire [63:0] final_ena_data_1 = io_addra[0] ? _final_ena_data_0_T_2 : 64'hffffffffffffffff; // @[ip_user.scala 170:38]
-  wire [127:0] final_write_data_0 = {{64'd0}, io_dina}; // @[ip_user.scala 160:32 163:33]
-  reg [6:0] addr_reg; // @[ip_user.scala 178:28]
-  wire  shift_num = addr_reg[0]; // @[ip_user.scala 179:30]
-  wire [63:0] sram_data_bundle_0 = io_sram_port_rdata[63:0]; // @[ip_user.scala 182:54]
-  wire [63:0] sram_data_bundle_1 = io_sram_port_rdata[127:64]; // @[ip_user.scala 182:54]
-  assign io_douta = shift_num ? sram_data_bundle_1 : sram_data_bundle_0; // @[ip_user.scala 184:{14,14}]
-  assign io_sram_port_addr = io_addra[6:1]; // @[ip_user.scala 177:34]
-  assign io_sram_port_wen = io_wea == 8'h0; // @[ip_user.scala 157:32]
-  assign io_sram_port_wmask = {final_ena_data_1,final_ena_data_0}; // @[ip_user.scala 176:42]
-  assign io_sram_port_wdata = io_addra[0] ? final_write_data_1 : final_write_data_0; // @[ip_user.scala 175:{24,24}]
+    ena_budle__1,ena_budle__0}; // @[ip_user.scala 156:96]
+  wire [63:0] final_ena_data_0 = ~io_addra[0] ? _final_ena_data_0_T_2 : 64'hffffffffffffffff; // @[ip_user.scala 156:38]
+  wire [63:0] final_ena_data_1 = io_addra[0] ? _final_ena_data_0_T_2 : 64'hffffffffffffffff; // @[ip_user.scala 156:38]
+  wire [127:0] final_write_data_0 = {{64'd0}, io_dina}; // @[ip_user.scala 146:32 149:33]
+  reg [6:0] addr_reg; // @[ip_user.scala 164:28]
+  wire  shift_num = addr_reg[0]; // @[ip_user.scala 165:30]
+  wire [63:0] sram_data_bundle_0 = S011HD1P_X32Y2D128_BW_Q[63:0]; // @[ip_user.scala 168:42]
+  wire [63:0] sram_data_bundle_1 = S011HD1P_X32Y2D128_BW_Q[127:64]; // @[ip_user.scala 168:42]
+  S011HD1P_X32Y2D128_BW S011HD1P_X32Y2D128_BW ( // @[ip_user.scala 140:22]
+    .Q(S011HD1P_X32Y2D128_BW_Q),
+    .CLK(S011HD1P_X32Y2D128_BW_CLK),
+    .CEN(S011HD1P_X32Y2D128_BW_CEN),
+    .WEN(S011HD1P_X32Y2D128_BW_WEN),
+    .BWEN(S011HD1P_X32Y2D128_BW_BWEN),
+    .A(S011HD1P_X32Y2D128_BW_A),
+    .D(S011HD1P_X32Y2D128_BW_D)
+  );
+  assign io_douta = shift_num ? sram_data_bundle_1 : sram_data_bundle_0; // @[ip_user.scala 170:{14,14}]
+  assign S011HD1P_X32Y2D128_BW_CLK = clock; // @[ip_user.scala 142:23]
+  assign S011HD1P_X32Y2D128_BW_CEN = 1'h0; // @[ip_user.scala 141:17]
+  assign S011HD1P_X32Y2D128_BW_WEN = io_wea == 8'h0; // @[ip_user.scala 143:24]
+  assign S011HD1P_X32Y2D128_BW_BWEN = {final_ena_data_1,final_ena_data_0}; // @[ip_user.scala 162:33]
+  assign S011HD1P_X32Y2D128_BW_A = io_addra[6:1]; // @[ip_user.scala 163:23]
+  assign S011HD1P_X32Y2D128_BW_D = io_addra[0] ? final_write_data_1 : final_write_data_0; // @[ip_user.scala 161:{12,12}]
   always @(posedge clock) begin
-    addr_reg <= io_addra; // @[ip_user.scala 178:28]
+    addr_reg <= io_addra; // @[ip_user.scala 164:28]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -28605,32 +28615,22 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module icache_data(
-  input          clock,
-  input  [7:0]   io_wen,
-  input  [31:0]  io_addr,
-  input  [63:0]  io_wdata,
-  output [39:0]  io_rdata,
-  output [5:0]   io_sram_addr,
-  output         io_sram_wen,
-  output [127:0] io_sram_wmask,
-  output [127:0] io_sram_wdata,
-  input  [127:0] io_sram_rdata
+  input         clock,
+  input  [7:0]  io_wen,
+  input  [63:0] io_addr,
+  input  [63:0] io_wdata,
+  output [39:0] io_rdata
 );
 `ifdef RANDOMIZE_REG_INIT
-  reg [31:0] _RAND_0;
+  reg [63:0] _RAND_0;
 `endif // RANDOMIZE_REG_INIT
-  wire  icache_data_ram_0_clock; // @[icache_data.scala 32:35]
-  wire [7:0] icache_data_ram_0_io_wea; // @[icache_data.scala 32:35]
-  wire [6:0] icache_data_ram_0_io_addra; // @[icache_data.scala 32:35]
-  wire [63:0] icache_data_ram_0_io_dina; // @[icache_data.scala 32:35]
-  wire [63:0] icache_data_ram_0_io_douta; // @[icache_data.scala 32:35]
-  wire [5:0] icache_data_ram_0_io_sram_port_addr; // @[icache_data.scala 32:35]
-  wire  icache_data_ram_0_io_sram_port_wen; // @[icache_data.scala 32:35]
-  wire [127:0] icache_data_ram_0_io_sram_port_wmask; // @[icache_data.scala 32:35]
-  wire [127:0] icache_data_ram_0_io_sram_port_wdata; // @[icache_data.scala 32:35]
-  wire [127:0] icache_data_ram_0_io_sram_port_rdata; // @[icache_data.scala 32:35]
-  reg [31:0] addr_reg; // @[icache_data.scala 38:27]
-  wire [31:0] get_data = addr_reg[2] ? icache_data_ram_0_io_douta[63:32] : icache_data_ram_0_io_douta[31:0]; // @[icache_data.scala 40:26]
+  wire  icache_data_ram_0_clock; // @[icache_data.scala 31:35]
+  wire [7:0] icache_data_ram_0_io_wea; // @[icache_data.scala 31:35]
+  wire [6:0] icache_data_ram_0_io_addra; // @[icache_data.scala 31:35]
+  wire [63:0] icache_data_ram_0_io_dina; // @[icache_data.scala 31:35]
+  wire [63:0] icache_data_ram_0_io_douta; // @[icache_data.scala 31:35]
+  reg [63:0] addr_reg; // @[icache_data.scala 36:27]
+  wire [31:0] get_data = addr_reg[2] ? icache_data_ram_0_io_douta[63:32] : icache_data_ram_0_io_douta[31:0]; // @[icache_data.scala 38:26]
   wire [6:0] io_rdata_opD = get_data[6:0]; // @[macros.scala 532:24]
   wire [2:0] io_rdata_Funct3D = get_data[14:12]; // @[macros.scala 533:28]
   wire [1:0] _io_rdata_T_3 = 3'h1 == io_rdata_Funct3D ? 2'h2 : {{1'd0}, 3'h0 == io_rdata_Funct3D}; // @[Mux.scala 81:58]
@@ -28644,30 +28644,20 @@ module icache_data(
   wire  _io_rdata_T_19 = io_rdata_opD == 7'h63; // @[macros.scala 528:13]
   wire [32:0] io_rdata_lo = {_io_rdata_T_19,get_data}; // @[Cat.scala 31:58]
   wire [6:0] io_rdata_hi = {_io_rdata_T_13,_io_rdata_T_18}; // @[Cat.scala 31:58]
-  ysyx_sram_with_mask icache_data_ram_0 ( // @[icache_data.scala 32:35]
+  ysyx_sram_with_mask icache_data_ram_0 ( // @[icache_data.scala 31:35]
     .clock(icache_data_ram_0_clock),
     .io_wea(icache_data_ram_0_io_wea),
     .io_addra(icache_data_ram_0_io_addra),
     .io_dina(icache_data_ram_0_io_dina),
-    .io_douta(icache_data_ram_0_io_douta),
-    .io_sram_port_addr(icache_data_ram_0_io_sram_port_addr),
-    .io_sram_port_wen(icache_data_ram_0_io_sram_port_wen),
-    .io_sram_port_wmask(icache_data_ram_0_io_sram_port_wmask),
-    .io_sram_port_wdata(icache_data_ram_0_io_sram_port_wdata),
-    .io_sram_port_rdata(icache_data_ram_0_io_sram_port_rdata)
+    .io_douta(icache_data_ram_0_io_douta)
   );
   assign io_rdata = {io_rdata_hi,io_rdata_lo}; // @[Cat.scala 31:58]
-  assign io_sram_addr = icache_data_ram_0_io_sram_port_addr; // @[icache_data.scala 37:13]
-  assign io_sram_wen = icache_data_ram_0_io_sram_port_wen; // @[icache_data.scala 37:13]
-  assign io_sram_wmask = icache_data_ram_0_io_sram_port_wmask; // @[icache_data.scala 37:13]
-  assign io_sram_wdata = icache_data_ram_0_io_sram_port_wdata; // @[icache_data.scala 37:13]
   assign icache_data_ram_0_clock = clock;
-  assign icache_data_ram_0_io_wea = io_wen; // @[icache_data.scala 34:31]
-  assign icache_data_ram_0_io_addra = io_addr[10:4]; // @[icache_data.scala 35:42]
-  assign icache_data_ram_0_io_dina = io_wdata; // @[icache_data.scala 36:31]
-  assign icache_data_ram_0_io_sram_port_rdata = io_sram_rdata; // @[icache_data.scala 37:13]
+  assign icache_data_ram_0_io_wea = io_wen; // @[icache_data.scala 33:31]
+  assign icache_data_ram_0_io_addra = io_addr[10:4]; // @[icache_data.scala 34:42]
+  assign icache_data_ram_0_io_dina = io_wdata; // @[icache_data.scala 35:31]
   always @(posedge clock) begin
-    addr_reg <= io_addr; // @[icache_data.scala 38:27]
+    addr_reg <= io_addr; // @[icache_data.scala 36:27]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -28705,8 +28695,8 @@ initial begin
       `endif
     `endif
 `ifdef RANDOMIZE_REG_INIT
-  _RAND_0 = {1{`RANDOM}};
-  addr_reg = _RAND_0[31:0];
+  _RAND_0 = {2{`RANDOM}};
+  addr_reg = _RAND_0[63:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
@@ -28716,50 +28706,30 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module inst_cache(
-  input          clock,
-  input          reset,
-  output [31:0]  io_port_araddr,
-  output [7:0]   io_port_arlen,
-  output [2:0]   io_port_arsize,
-  output [1:0]   io_port_arburst,
-  output         io_port_arvalid,
-  input          io_port_arready,
-  input  [63:0]  io_port_rdata,
-  input          io_port_rlast,
-  input          io_port_rvalid,
-  input          io_stage2_flush,
-  output         io_stage2_stall,
-  input          io_stage1_valid_flush,
-  input          io_inst_ready_to_use,
-  input          io_inst_buffer_full,
-  output [63:0]  io_v_addr_for_tlb,
-  input  [63:0]  io_p_addr_for_tlb,
-  input          io_sram_req,
-  input  [63:0]  io_sram_addr,
-  output [1:0]   io_sram_write_en,
-  output [39:0]  io_sram_rdata_L,
-  input          io_sram_cache,
-  input          io_tag_valid_flush,
-  output [5:0]   io_sram_0_addr,
-  output         io_sram_0_wen,
-  output [127:0] io_sram_0_wmask,
-  output [127:0] io_sram_0_wdata,
-  input  [127:0] io_sram_0_rdata,
-  output [5:0]   io_sram_1_addr,
-  output         io_sram_1_wen,
-  output [127:0] io_sram_1_wmask,
-  output [127:0] io_sram_1_wdata,
-  input  [127:0] io_sram_1_rdata,
-  output [5:0]   io_sram_2_addr,
-  output         io_sram_2_wen,
-  output [127:0] io_sram_2_wmask,
-  output [127:0] io_sram_2_wdata,
-  input  [127:0] io_sram_2_rdata,
-  output [5:0]   io_sram_3_addr,
-  output         io_sram_3_wen,
-  output [127:0] io_sram_3_wmask,
-  output [127:0] io_sram_3_wdata,
-  input  [127:0] io_sram_3_rdata
+  input         clock,
+  input         reset,
+  output [31:0] io_port_araddr,
+  output [7:0]  io_port_arlen,
+  output [2:0]  io_port_arsize,
+  output [1:0]  io_port_arburst,
+  output        io_port_arvalid,
+  input         io_port_arready,
+  input  [63:0] io_port_rdata,
+  input         io_port_rlast,
+  input         io_port_rvalid,
+  input         io_stage2_flush,
+  output        io_stage2_stall,
+  input         io_stage1_valid_flush,
+  input         io_inst_ready_to_use,
+  input         io_inst_buffer_full,
+  output [63:0] io_v_addr_for_tlb,
+  input  [63:0] io_p_addr_for_tlb,
+  input         io_sram_req,
+  input  [63:0] io_sram_addr,
+  output [1:0]  io_sram_write_en,
+  output [39:0] io_sram_rdata_L,
+  input         io_sram_cache,
+  input         io_tag_valid_flush
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -28924,44 +28894,24 @@ module inst_cache(
   wire  icache_tag_1_io_tag_all_flush; // @[inst_cache.scala 85:34]
   wire  icache_data_clock; // @[inst_cache.scala 91:55]
   wire [7:0] icache_data_io_wen; // @[inst_cache.scala 91:55]
-  wire [31:0] icache_data_io_addr; // @[inst_cache.scala 91:55]
+  wire [63:0] icache_data_io_addr; // @[inst_cache.scala 91:55]
   wire [63:0] icache_data_io_wdata; // @[inst_cache.scala 91:55]
   wire [39:0] icache_data_io_rdata; // @[inst_cache.scala 91:55]
-  wire [5:0] icache_data_io_sram_addr; // @[inst_cache.scala 91:55]
-  wire  icache_data_io_sram_wen; // @[inst_cache.scala 91:55]
-  wire [127:0] icache_data_io_sram_wmask; // @[inst_cache.scala 91:55]
-  wire [127:0] icache_data_io_sram_wdata; // @[inst_cache.scala 91:55]
-  wire [127:0] icache_data_io_sram_rdata; // @[inst_cache.scala 91:55]
   wire  icache_data_1_clock; // @[inst_cache.scala 91:55]
   wire [7:0] icache_data_1_io_wen; // @[inst_cache.scala 91:55]
-  wire [31:0] icache_data_1_io_addr; // @[inst_cache.scala 91:55]
+  wire [63:0] icache_data_1_io_addr; // @[inst_cache.scala 91:55]
   wire [63:0] icache_data_1_io_wdata; // @[inst_cache.scala 91:55]
   wire [39:0] icache_data_1_io_rdata; // @[inst_cache.scala 91:55]
-  wire [5:0] icache_data_1_io_sram_addr; // @[inst_cache.scala 91:55]
-  wire  icache_data_1_io_sram_wen; // @[inst_cache.scala 91:55]
-  wire [127:0] icache_data_1_io_sram_wmask; // @[inst_cache.scala 91:55]
-  wire [127:0] icache_data_1_io_sram_wdata; // @[inst_cache.scala 91:55]
-  wire [127:0] icache_data_1_io_sram_rdata; // @[inst_cache.scala 91:55]
   wire  icache_data_2_clock; // @[inst_cache.scala 92:55]
   wire [7:0] icache_data_2_io_wen; // @[inst_cache.scala 92:55]
-  wire [31:0] icache_data_2_io_addr; // @[inst_cache.scala 92:55]
+  wire [63:0] icache_data_2_io_addr; // @[inst_cache.scala 92:55]
   wire [63:0] icache_data_2_io_wdata; // @[inst_cache.scala 92:55]
   wire [39:0] icache_data_2_io_rdata; // @[inst_cache.scala 92:55]
-  wire [5:0] icache_data_2_io_sram_addr; // @[inst_cache.scala 92:55]
-  wire  icache_data_2_io_sram_wen; // @[inst_cache.scala 92:55]
-  wire [127:0] icache_data_2_io_sram_wmask; // @[inst_cache.scala 92:55]
-  wire [127:0] icache_data_2_io_sram_wdata; // @[inst_cache.scala 92:55]
-  wire [127:0] icache_data_2_io_sram_rdata; // @[inst_cache.scala 92:55]
   wire  icache_data_3_clock; // @[inst_cache.scala 92:55]
   wire [7:0] icache_data_3_io_wen; // @[inst_cache.scala 92:55]
-  wire [31:0] icache_data_3_io_addr; // @[inst_cache.scala 92:55]
+  wire [63:0] icache_data_3_io_addr; // @[inst_cache.scala 92:55]
   wire [63:0] icache_data_3_io_wdata; // @[inst_cache.scala 92:55]
   wire [39:0] icache_data_3_io_rdata; // @[inst_cache.scala 92:55]
-  wire [5:0] icache_data_3_io_sram_addr; // @[inst_cache.scala 92:55]
-  wire  icache_data_3_io_sram_wen; // @[inst_cache.scala 92:55]
-  wire [127:0] icache_data_3_io_sram_wmask; // @[inst_cache.scala 92:55]
-  wire [127:0] icache_data_3_io_sram_wdata; // @[inst_cache.scala 92:55]
-  wire [127:0] icache_data_3_io_sram_rdata; // @[inst_cache.scala 92:55]
   reg  lru_0; // @[inst_cache.scala 76:22]
   reg  lru_1; // @[inst_cache.scala 76:22]
   reg  lru_2; // @[inst_cache.scala 76:22]
@@ -29359,48 +29309,28 @@ module inst_cache(
     .io_wen(icache_data_io_wen),
     .io_addr(icache_data_io_addr),
     .io_wdata(icache_data_io_wdata),
-    .io_rdata(icache_data_io_rdata),
-    .io_sram_addr(icache_data_io_sram_addr),
-    .io_sram_wen(icache_data_io_sram_wen),
-    .io_sram_wmask(icache_data_io_sram_wmask),
-    .io_sram_wdata(icache_data_io_sram_wdata),
-    .io_sram_rdata(icache_data_io_sram_rdata)
+    .io_rdata(icache_data_io_rdata)
   );
   icache_data icache_data_1 ( // @[inst_cache.scala 91:55]
     .clock(icache_data_1_clock),
     .io_wen(icache_data_1_io_wen),
     .io_addr(icache_data_1_io_addr),
     .io_wdata(icache_data_1_io_wdata),
-    .io_rdata(icache_data_1_io_rdata),
-    .io_sram_addr(icache_data_1_io_sram_addr),
-    .io_sram_wen(icache_data_1_io_sram_wen),
-    .io_sram_wmask(icache_data_1_io_sram_wmask),
-    .io_sram_wdata(icache_data_1_io_sram_wdata),
-    .io_sram_rdata(icache_data_1_io_sram_rdata)
+    .io_rdata(icache_data_1_io_rdata)
   );
   icache_data icache_data_2 ( // @[inst_cache.scala 92:55]
     .clock(icache_data_2_clock),
     .io_wen(icache_data_2_io_wen),
     .io_addr(icache_data_2_io_addr),
     .io_wdata(icache_data_2_io_wdata),
-    .io_rdata(icache_data_2_io_rdata),
-    .io_sram_addr(icache_data_2_io_sram_addr),
-    .io_sram_wen(icache_data_2_io_sram_wen),
-    .io_sram_wmask(icache_data_2_io_sram_wmask),
-    .io_sram_wdata(icache_data_2_io_sram_wdata),
-    .io_sram_rdata(icache_data_2_io_sram_rdata)
+    .io_rdata(icache_data_2_io_rdata)
   );
   icache_data icache_data_3 ( // @[inst_cache.scala 92:55]
     .clock(icache_data_3_clock),
     .io_wen(icache_data_3_io_wen),
     .io_addr(icache_data_3_io_addr),
     .io_wdata(icache_data_3_io_wdata),
-    .io_rdata(icache_data_3_io_rdata),
-    .io_sram_addr(icache_data_3_io_sram_addr),
-    .io_sram_wen(icache_data_3_io_sram_wen),
-    .io_sram_wmask(icache_data_3_io_sram_wmask),
-    .io_sram_wdata(icache_data_3_io_sram_wdata),
-    .io_sram_rdata(icache_data_3_io_sram_rdata)
+    .io_rdata(icache_data_3_io_rdata)
   );
   assign io_port_araddr = _io_port_araddr_T_5[31:0]; // @[inst_cache.scala 284:20]
   assign io_port_arlen = {{7'd0}, stage1_sram_cache_reg}; // @[inst_cache.scala 287:20]
@@ -29411,22 +29341,6 @@ module inst_cache(
   assign io_v_addr_for_tlb = stage1_addr_line_mapping; // @[inst_cache.scala 141:23]
   assign io_sram_write_en = io_inst_buffer_full ? 2'h0 : _io_sram_write_en_T_5; // @[inst_cache.scala 323:28]
   assign io_sram_rdata_L = _stage2_stall_T_5 & has_stage2_stall ? access_sram_rdata_L : sram_rdata_L_Reg; // @[inst_cache.scala 248:27]
-  assign io_sram_0_addr = icache_data_io_sram_addr; // @[inst_cache.scala 91:{36,36}]
-  assign io_sram_0_wen = icache_data_io_sram_wen; // @[inst_cache.scala 91:{36,36}]
-  assign io_sram_0_wmask = icache_data_io_sram_wmask; // @[inst_cache.scala 91:{36,36}]
-  assign io_sram_0_wdata = icache_data_io_sram_wdata; // @[inst_cache.scala 91:{36,36}]
-  assign io_sram_1_addr = icache_data_1_io_sram_addr; // @[inst_cache.scala 91:{36,36}]
-  assign io_sram_1_wen = icache_data_1_io_sram_wen; // @[inst_cache.scala 91:{36,36}]
-  assign io_sram_1_wmask = icache_data_1_io_sram_wmask; // @[inst_cache.scala 91:{36,36}]
-  assign io_sram_1_wdata = icache_data_1_io_sram_wdata; // @[inst_cache.scala 91:{36,36}]
-  assign io_sram_2_addr = icache_data_2_io_sram_addr; // @[inst_cache.scala 92:{36,36}]
-  assign io_sram_2_wen = icache_data_2_io_sram_wen; // @[inst_cache.scala 92:{36,36}]
-  assign io_sram_2_wmask = icache_data_2_io_sram_wmask; // @[inst_cache.scala 92:{36,36}]
-  assign io_sram_2_wdata = icache_data_2_io_sram_wdata; // @[inst_cache.scala 92:{36,36}]
-  assign io_sram_3_addr = icache_data_3_io_sram_addr; // @[inst_cache.scala 92:{36,36}]
-  assign io_sram_3_wen = icache_data_3_io_sram_wen; // @[inst_cache.scala 92:{36,36}]
-  assign io_sram_3_wmask = icache_data_3_io_sram_wmask; // @[inst_cache.scala 92:{36,36}]
-  assign io_sram_3_wdata = icache_data_3_io_sram_wdata; // @[inst_cache.scala 92:{36,36}]
   assign icache_tag_clock = clock;
   assign icache_tag_reset = reset;
   assign icache_tag_io_wen = _stage1_finished_T_1 & _lru_T_8; // @[inst_cache.scala 272:63]
@@ -29441,24 +29355,20 @@ module inst_cache(
   assign icache_tag_1_io_tag_all_flush = io_tag_valid_flush; // @[inst_cache.scala 90:32]
   assign icache_data_clock = clock;
   assign icache_data_io_wen = _icache_data_way0_0_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 243:79]
-  assign icache_data_io_addr = stage1_addr_line_mapping[31:0]; // @[inst_cache.scala 168:34 91:36]
+  assign icache_data_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 168:34 91:36]
   assign icache_data_io_wdata = {io_port_rdata[63:32],io_port_rdata[31:0]}; // @[Cat.scala 31:58]
-  assign icache_data_io_sram_rdata = io_sram_0_rdata; // @[inst_cache.scala 91:36 94:30]
   assign icache_data_1_clock = clock;
   assign icache_data_1_io_wen = _icache_data_way0_1_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 243:79]
-  assign icache_data_1_io_addr = stage1_addr_line_mapping[31:0]; // @[inst_cache.scala 168:34 91:36]
+  assign icache_data_1_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 168:34 91:36]
   assign icache_data_1_io_wdata = {io_port_rdata[63:32],io_port_rdata[31:0]}; // @[Cat.scala 31:58]
-  assign icache_data_1_io_sram_rdata = io_sram_1_rdata; // @[inst_cache.scala 91:36 95:30]
   assign icache_data_2_clock = clock;
   assign icache_data_2_io_wen = _icache_data_way1_0_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 245:79]
-  assign icache_data_2_io_addr = stage1_addr_line_mapping[31:0]; // @[inst_cache.scala 173:34 92:36]
+  assign icache_data_2_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 173:34 92:36]
   assign icache_data_2_io_wdata = {io_port_rdata[63:32],io_port_rdata[31:0]}; // @[Cat.scala 31:58]
-  assign icache_data_2_io_sram_rdata = io_sram_2_rdata; // @[inst_cache.scala 92:36 96:30]
   assign icache_data_3_clock = clock;
   assign icache_data_3_io_wen = _icache_data_way1_1_wen_T_7 ? 8'hff : 8'h0; // @[inst_cache.scala 245:79]
-  assign icache_data_3_io_addr = stage1_addr_line_mapping[31:0]; // @[inst_cache.scala 173:34 92:36]
+  assign icache_data_3_io_addr = stage1_addr_line_mapping; // @[inst_cache.scala 173:34 92:36]
   assign icache_data_3_io_wdata = {io_port_rdata[63:32],io_port_rdata[31:0]}; // @[Cat.scala 31:58]
-  assign icache_data_3_io_sram_rdata = io_sram_3_rdata; // @[inst_cache.scala 92:36 97:30]
   always @(posedge clock) begin
     if (reset) begin // @[inst_cache.scala 76:22]
       lru_0 <= 1'h0; // @[inst_cache.scala 76:22]
@@ -33551,106 +33461,66 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module dcache_data(
-  input          clock,
-  input  [7:0]   io_wen,
-  input  [31:0]  io_addr,
-  input  [63:0]  io_wdata,
-  output [63:0]  io_rdata,
-  output [5:0]   io_sram_addr,
-  output         io_sram_wen,
-  output [127:0] io_sram_wmask,
-  output [127:0] io_sram_wdata,
-  input  [127:0] io_sram_rdata
+  input         clock,
+  input  [7:0]  io_wen,
+  input  [63:0] io_addr,
+  input  [63:0] io_wdata,
+  output [63:0] io_rdata
 );
-  wire  dcache_data_ram_0_clock; // @[dcache_data.scala 34:35]
-  wire [7:0] dcache_data_ram_0_io_wea; // @[dcache_data.scala 34:35]
-  wire [6:0] dcache_data_ram_0_io_addra; // @[dcache_data.scala 34:35]
-  wire [63:0] dcache_data_ram_0_io_dina; // @[dcache_data.scala 34:35]
-  wire [63:0] dcache_data_ram_0_io_douta; // @[dcache_data.scala 34:35]
-  wire [5:0] dcache_data_ram_0_io_sram_port_addr; // @[dcache_data.scala 34:35]
-  wire  dcache_data_ram_0_io_sram_port_wen; // @[dcache_data.scala 34:35]
-  wire [127:0] dcache_data_ram_0_io_sram_port_wmask; // @[dcache_data.scala 34:35]
-  wire [127:0] dcache_data_ram_0_io_sram_port_wdata; // @[dcache_data.scala 34:35]
-  wire [127:0] dcache_data_ram_0_io_sram_port_rdata; // @[dcache_data.scala 34:35]
-  ysyx_sram_with_mask dcache_data_ram_0 ( // @[dcache_data.scala 34:35]
+  wire  dcache_data_ram_0_clock; // @[dcache_data.scala 33:35]
+  wire [7:0] dcache_data_ram_0_io_wea; // @[dcache_data.scala 33:35]
+  wire [6:0] dcache_data_ram_0_io_addra; // @[dcache_data.scala 33:35]
+  wire [63:0] dcache_data_ram_0_io_dina; // @[dcache_data.scala 33:35]
+  wire [63:0] dcache_data_ram_0_io_douta; // @[dcache_data.scala 33:35]
+  ysyx_sram_with_mask dcache_data_ram_0 ( // @[dcache_data.scala 33:35]
     .clock(dcache_data_ram_0_clock),
     .io_wea(dcache_data_ram_0_io_wea),
     .io_addra(dcache_data_ram_0_io_addra),
     .io_dina(dcache_data_ram_0_io_dina),
-    .io_douta(dcache_data_ram_0_io_douta),
-    .io_sram_port_addr(dcache_data_ram_0_io_sram_port_addr),
-    .io_sram_port_wen(dcache_data_ram_0_io_sram_port_wen),
-    .io_sram_port_wmask(dcache_data_ram_0_io_sram_port_wmask),
-    .io_sram_port_wdata(dcache_data_ram_0_io_sram_port_wdata),
-    .io_sram_port_rdata(dcache_data_ram_0_io_sram_port_rdata)
+    .io_douta(dcache_data_ram_0_io_douta)
   );
-  assign io_rdata = dcache_data_ram_0_io_douta; // @[dcache_data.scala 41:16]
-  assign io_sram_addr = dcache_data_ram_0_io_sram_port_addr; // @[dcache_data.scala 39:13]
-  assign io_sram_wen = dcache_data_ram_0_io_sram_port_wen; // @[dcache_data.scala 39:13]
-  assign io_sram_wmask = dcache_data_ram_0_io_sram_port_wmask; // @[dcache_data.scala 39:13]
-  assign io_sram_wdata = dcache_data_ram_0_io_sram_port_wdata; // @[dcache_data.scala 39:13]
+  assign io_rdata = dcache_data_ram_0_io_douta; // @[dcache_data.scala 39:16]
   assign dcache_data_ram_0_clock = clock;
-  assign dcache_data_ram_0_io_wea = io_wen; // @[dcache_data.scala 36:31]
-  assign dcache_data_ram_0_io_addra = io_addr[10:4]; // @[dcache_data.scala 37:42]
-  assign dcache_data_ram_0_io_dina = io_wdata; // @[dcache_data.scala 38:31]
-  assign dcache_data_ram_0_io_sram_port_rdata = io_sram_rdata; // @[dcache_data.scala 39:13]
+  assign dcache_data_ram_0_io_wea = io_wen; // @[dcache_data.scala 35:31]
+  assign dcache_data_ram_0_io_addra = io_addr[10:4]; // @[dcache_data.scala 36:42]
+  assign dcache_data_ram_0_io_dina = io_wdata; // @[dcache_data.scala 37:31]
 endmodule
 module data_cache(
-  input          clock,
-  input          reset,
-  output [31:0]  io_port_araddr,
-  output [7:0]   io_port_arlen,
-  output [2:0]   io_port_arsize,
-  output [1:0]   io_port_arburst,
-  output         io_port_arvalid,
-  input          io_port_arready,
-  input  [63:0]  io_port_rdata,
-  input          io_port_rlast,
-  input          io_port_rvalid,
-  output [31:0]  io_port_awaddr,
-  output [7:0]   io_port_awlen,
-  output [2:0]   io_port_awsize,
-  output [1:0]   io_port_awburst,
-  output         io_port_awvalid,
-  input          io_port_awready,
-  output [63:0]  io_port_wdata,
-  output [7:0]   io_port_wstrb,
-  output         io_port_wlast,
-  output         io_port_wvalid,
-  input          io_port_wready,
-  input          io_port_bvalid,
-  output         io_stage2_stall,
-  output [31:0]  io_v_addr_for_tlb,
-  input  [31:0]  io_p_addr_for_tlb,
-  input  [7:0]   io_data_wstrb,
-  input          io_sram_req,
-  input          io_sram_wr,
-  input  [2:0]   io_sram_size,
-  input  [31:0]  io_sram_addr,
-  input  [63:0]  io_sram_wdata,
-  output [63:0]  io_sram_rdata,
-  input          io_sram_cache,
-  input          io_fence_i_control,
-  output [5:0]   io_sram_0_addr,
-  output         io_sram_0_wen,
-  output [127:0] io_sram_0_wmask,
-  output [127:0] io_sram_0_wdata,
-  input  [127:0] io_sram_0_rdata,
-  output [5:0]   io_sram_1_addr,
-  output         io_sram_1_wen,
-  output [127:0] io_sram_1_wmask,
-  output [127:0] io_sram_1_wdata,
-  input  [127:0] io_sram_1_rdata,
-  output [5:0]   io_sram_2_addr,
-  output         io_sram_2_wen,
-  output [127:0] io_sram_2_wmask,
-  output [127:0] io_sram_2_wdata,
-  input  [127:0] io_sram_2_rdata,
-  output [5:0]   io_sram_3_addr,
-  output         io_sram_3_wen,
-  output [127:0] io_sram_3_wmask,
-  output [127:0] io_sram_3_wdata,
-  input  [127:0] io_sram_3_rdata
+  input         clock,
+  input         reset,
+  output [31:0] io_port_araddr,
+  output [7:0]  io_port_arlen,
+  output [2:0]  io_port_arsize,
+  output [1:0]  io_port_arburst,
+  output        io_port_arvalid,
+  input         io_port_arready,
+  input  [63:0] io_port_rdata,
+  input         io_port_rlast,
+  input         io_port_rvalid,
+  output [31:0] io_port_awaddr,
+  output [7:0]  io_port_awlen,
+  output [2:0]  io_port_awsize,
+  output [1:0]  io_port_awburst,
+  output        io_port_awvalid,
+  input         io_port_awready,
+  output [63:0] io_port_wdata,
+  output [7:0]  io_port_wstrb,
+  output        io_port_wlast,
+  output        io_port_wvalid,
+  input         io_port_wready,
+  input         io_port_bvalid,
+  output        io_stage2_stall,
+  output [31:0] io_v_addr_for_tlb,
+  input  [31:0] io_p_addr_for_tlb,
+  input  [7:0]  io_data_wstrb,
+  input         io_sram_req,
+  input         io_sram_wr,
+  input  [2:0]  io_sram_size,
+  input  [31:0] io_sram_addr,
+  input  [63:0] io_sram_wdata,
+  output [63:0] io_sram_rdata,
+  input         io_sram_cache,
+  input         io_fence_i_control
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -34084,44 +33954,24 @@ module data_cache(
   wire  dcache_tag_1_io_w_valid; // @[data_cache.scala 63:30]
   wire  dcache_data_clock; // @[data_cache.scala 95:62]
   wire [7:0] dcache_data_io_wen; // @[data_cache.scala 95:62]
-  wire [31:0] dcache_data_io_addr; // @[data_cache.scala 95:62]
+  wire [63:0] dcache_data_io_addr; // @[data_cache.scala 95:62]
   wire [63:0] dcache_data_io_wdata; // @[data_cache.scala 95:62]
   wire [63:0] dcache_data_io_rdata; // @[data_cache.scala 95:62]
-  wire [5:0] dcache_data_io_sram_addr; // @[data_cache.scala 95:62]
-  wire  dcache_data_io_sram_wen; // @[data_cache.scala 95:62]
-  wire [127:0] dcache_data_io_sram_wmask; // @[data_cache.scala 95:62]
-  wire [127:0] dcache_data_io_sram_wdata; // @[data_cache.scala 95:62]
-  wire [127:0] dcache_data_io_sram_rdata; // @[data_cache.scala 95:62]
   wire  dcache_data_1_clock; // @[data_cache.scala 95:62]
   wire [7:0] dcache_data_1_io_wen; // @[data_cache.scala 95:62]
-  wire [31:0] dcache_data_1_io_addr; // @[data_cache.scala 95:62]
+  wire [63:0] dcache_data_1_io_addr; // @[data_cache.scala 95:62]
   wire [63:0] dcache_data_1_io_wdata; // @[data_cache.scala 95:62]
   wire [63:0] dcache_data_1_io_rdata; // @[data_cache.scala 95:62]
-  wire [5:0] dcache_data_1_io_sram_addr; // @[data_cache.scala 95:62]
-  wire  dcache_data_1_io_sram_wen; // @[data_cache.scala 95:62]
-  wire [127:0] dcache_data_1_io_sram_wmask; // @[data_cache.scala 95:62]
-  wire [127:0] dcache_data_1_io_sram_wdata; // @[data_cache.scala 95:62]
-  wire [127:0] dcache_data_1_io_sram_rdata; // @[data_cache.scala 95:62]
   wire  dcache_data_2_clock; // @[data_cache.scala 96:62]
   wire [7:0] dcache_data_2_io_wen; // @[data_cache.scala 96:62]
-  wire [31:0] dcache_data_2_io_addr; // @[data_cache.scala 96:62]
+  wire [63:0] dcache_data_2_io_addr; // @[data_cache.scala 96:62]
   wire [63:0] dcache_data_2_io_wdata; // @[data_cache.scala 96:62]
   wire [63:0] dcache_data_2_io_rdata; // @[data_cache.scala 96:62]
-  wire [5:0] dcache_data_2_io_sram_addr; // @[data_cache.scala 96:62]
-  wire  dcache_data_2_io_sram_wen; // @[data_cache.scala 96:62]
-  wire [127:0] dcache_data_2_io_sram_wmask; // @[data_cache.scala 96:62]
-  wire [127:0] dcache_data_2_io_sram_wdata; // @[data_cache.scala 96:62]
-  wire [127:0] dcache_data_2_io_sram_rdata; // @[data_cache.scala 96:62]
   wire  dcache_data_3_clock; // @[data_cache.scala 96:62]
   wire [7:0] dcache_data_3_io_wen; // @[data_cache.scala 96:62]
-  wire [31:0] dcache_data_3_io_addr; // @[data_cache.scala 96:62]
+  wire [63:0] dcache_data_3_io_addr; // @[data_cache.scala 96:62]
   wire [63:0] dcache_data_3_io_wdata; // @[data_cache.scala 96:62]
   wire [63:0] dcache_data_3_io_rdata; // @[data_cache.scala 96:62]
-  wire [5:0] dcache_data_3_io_sram_addr; // @[data_cache.scala 96:62]
-  wire  dcache_data_3_io_sram_wen; // @[data_cache.scala 96:62]
-  wire [127:0] dcache_data_3_io_sram_wmask; // @[data_cache.scala 96:62]
-  wire [127:0] dcache_data_3_io_sram_wdata; // @[data_cache.scala 96:62]
-  wire [127:0] dcache_data_3_io_sram_rdata; // @[data_cache.scala 96:62]
   reg [4:0] work_state; // @[data_cache.scala 55:29]
   reg [2:0] write_counter; // @[data_cache.scala 57:33]
   reg [2:0] read_counter; // @[data_cache.scala 58:32]
@@ -35212,6 +35062,7 @@ module data_cache(
   wire  _way1_dirty_T_15 = _way0_dirty_T_5 & _GEN_384 ? 1'h0 : _way1_dirty_T_14; // @[data_cache.scala 209:12]
   wire  dirty_victim = _way0_dirty_T_7 ? _GEN_640 : _GEN_1152; // @[data_cache.scala 214:24]
   wire [10:0] _T_3 = {data_write_back_counter[6:0],4'h0}; // @[Cat.scala 31:58]
+  wire [31:0] _T_4 = data_cache_under_write_back ? {{21'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 218:30]
   wire  _tlb_req_T_4 = ~stage1_addr_line_mapping[31] | stage1_addr_line_mapping[31:30] == 2'h3; // @[macros.scala 492:18]
   wire  tlb_req = _tlb_req_T_4 & stage1_sram_req_reg; // @[data_cache.scala 226:51]
   wire  _lru_T_4 = _hit_T_1 ? 1'h0 : _GEN_384; // @[data_cache.scala 235:12]
@@ -35408,48 +35259,28 @@ module data_cache(
     .io_wen(dcache_data_io_wen),
     .io_addr(dcache_data_io_addr),
     .io_wdata(dcache_data_io_wdata),
-    .io_rdata(dcache_data_io_rdata),
-    .io_sram_addr(dcache_data_io_sram_addr),
-    .io_sram_wen(dcache_data_io_sram_wen),
-    .io_sram_wmask(dcache_data_io_sram_wmask),
-    .io_sram_wdata(dcache_data_io_sram_wdata),
-    .io_sram_rdata(dcache_data_io_sram_rdata)
+    .io_rdata(dcache_data_io_rdata)
   );
   dcache_data dcache_data_1 ( // @[data_cache.scala 95:62]
     .clock(dcache_data_1_clock),
     .io_wen(dcache_data_1_io_wen),
     .io_addr(dcache_data_1_io_addr),
     .io_wdata(dcache_data_1_io_wdata),
-    .io_rdata(dcache_data_1_io_rdata),
-    .io_sram_addr(dcache_data_1_io_sram_addr),
-    .io_sram_wen(dcache_data_1_io_sram_wen),
-    .io_sram_wmask(dcache_data_1_io_sram_wmask),
-    .io_sram_wdata(dcache_data_1_io_sram_wdata),
-    .io_sram_rdata(dcache_data_1_io_sram_rdata)
+    .io_rdata(dcache_data_1_io_rdata)
   );
   dcache_data dcache_data_2 ( // @[data_cache.scala 96:62]
     .clock(dcache_data_2_clock),
     .io_wen(dcache_data_2_io_wen),
     .io_addr(dcache_data_2_io_addr),
     .io_wdata(dcache_data_2_io_wdata),
-    .io_rdata(dcache_data_2_io_rdata),
-    .io_sram_addr(dcache_data_2_io_sram_addr),
-    .io_sram_wen(dcache_data_2_io_sram_wen),
-    .io_sram_wmask(dcache_data_2_io_sram_wmask),
-    .io_sram_wdata(dcache_data_2_io_sram_wdata),
-    .io_sram_rdata(dcache_data_2_io_sram_rdata)
+    .io_rdata(dcache_data_2_io_rdata)
   );
   dcache_data dcache_data_3 ( // @[data_cache.scala 96:62]
     .clock(dcache_data_3_clock),
     .io_wen(dcache_data_3_io_wen),
     .io_addr(dcache_data_3_io_addr),
     .io_wdata(dcache_data_3_io_wdata),
-    .io_rdata(dcache_data_3_io_rdata),
-    .io_sram_addr(dcache_data_3_io_sram_addr),
-    .io_sram_wen(dcache_data_3_io_sram_wen),
-    .io_sram_wmask(dcache_data_3_io_sram_wmask),
-    .io_sram_wdata(dcache_data_3_io_sram_wdata),
-    .io_sram_rdata(dcache_data_3_io_sram_rdata)
+    .io_rdata(dcache_data_3_io_rdata)
   );
   assign io_port_araddr = work_state == 5'h1 ? stage1_sram_phy_addr_reg : _io_port_araddr_T_6; // @[data_cache.scala 406:26]
   assign io_port_arlen = {{7'd0}, stage1_sram_cache_reg}; // @[data_cache.scala 408:20]
@@ -35469,22 +35300,6 @@ module data_cache(
   assign io_stage2_stall = access_work_state_for_stall == 2'h3; // @[data_cache.scala 295:48]
   assign io_v_addr_for_tlb = stage1_addr_line_mapping; // @[data_cache.scala 227:23]
   assign io_sram_rdata = stage2_stall_reg ? _io_sram_rdata_T_3 : sram_rdata_reg; // @[data_cache.scala 485:25]
-  assign io_sram_0_addr = dcache_data_io_sram_addr; // @[data_cache.scala 95:{36,36}]
-  assign io_sram_0_wen = dcache_data_io_sram_wen; // @[data_cache.scala 95:{36,36}]
-  assign io_sram_0_wmask = dcache_data_io_sram_wmask; // @[data_cache.scala 95:{36,36}]
-  assign io_sram_0_wdata = dcache_data_io_sram_wdata; // @[data_cache.scala 95:{36,36}]
-  assign io_sram_1_addr = dcache_data_1_io_sram_addr; // @[data_cache.scala 95:{36,36}]
-  assign io_sram_1_wen = dcache_data_1_io_sram_wen; // @[data_cache.scala 95:{36,36}]
-  assign io_sram_1_wmask = dcache_data_1_io_sram_wmask; // @[data_cache.scala 95:{36,36}]
-  assign io_sram_1_wdata = dcache_data_1_io_sram_wdata; // @[data_cache.scala 95:{36,36}]
-  assign io_sram_2_addr = dcache_data_2_io_sram_addr; // @[data_cache.scala 96:{36,36}]
-  assign io_sram_2_wen = dcache_data_2_io_sram_wen; // @[data_cache.scala 96:{36,36}]
-  assign io_sram_2_wmask = dcache_data_2_io_sram_wmask; // @[data_cache.scala 96:{36,36}]
-  assign io_sram_2_wdata = dcache_data_2_io_sram_wdata; // @[data_cache.scala 96:{36,36}]
-  assign io_sram_3_addr = dcache_data_3_io_sram_addr; // @[data_cache.scala 96:{36,36}]
-  assign io_sram_3_wen = dcache_data_3_io_sram_wen; // @[data_cache.scala 96:{36,36}]
-  assign io_sram_3_wmask = dcache_data_3_io_sram_wmask; // @[data_cache.scala 96:{36,36}]
-  assign io_sram_3_wdata = dcache_data_3_io_sram_wdata; // @[data_cache.scala 96:{36,36}]
   assign dcache_tag_clock = clock;
   assign dcache_tag_reset = reset;
   assign dcache_tag_io_wen = _way0_burst_read_wen_T_2 & _way0_dirty_T_7; // @[data_cache.scala 396:122]
@@ -35500,28 +35315,24 @@ module data_cache(
   assign dcache_data_clock = clock;
   assign dcache_data_io_wen = ~stage1_addr_line_mapping[3] & (_way0_dirty_T_4 | _way0_dirty_T_12) ? stage1_wstrb_reg :
     _wen_way0_wire_0_T_13; // @[data_cache.scala 380:33]
-  assign dcache_data_io_addr = data_cache_under_write_back ? {{21'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 369:40]
+  assign dcache_data_io_addr = {{32'd0}, _T_4}; // @[data_cache.scala 369:34 95:36]
   assign dcache_data_io_wdata = _way0_dirty_T_9 | _way0_dirty_T ? stage1_sram_wdata_reg : _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 370:41]
-  assign dcache_data_io_sram_rdata = io_sram_0_rdata; // @[data_cache.scala 100:16 95:36]
   assign dcache_data_1_clock = clock;
   assign dcache_data_1_io_wen = stage1_addr_line_mapping[3] & (_way0_dirty_T_4 | _way0_dirty_T_12) ? stage1_wstrb_reg :
     _wen_way0_wire_1_T_13; // @[data_cache.scala 380:33]
-  assign dcache_data_1_io_addr = data_cache_under_write_back ? {{21'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 369:40]
+  assign dcache_data_1_io_addr = {{32'd0}, _T_4}; // @[data_cache.scala 369:34 95:36]
   assign dcache_data_1_io_wdata = _way0_dirty_T_9 | _way0_dirty_T ? stage1_sram_wdata_reg :
     _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 370:41]
-  assign dcache_data_1_io_sram_rdata = io_sram_1_rdata; // @[data_cache.scala 101:16 95:36]
   assign dcache_data_2_clock = clock;
   assign dcache_data_2_io_wen = _wen_way0_wire_0_T_1 & (_way1_dirty_T_4 | _way1_dirty_T_12) ? stage1_wstrb_reg :
     _wen_way1_wire_0_T_13; // @[data_cache.scala 382:33]
-  assign dcache_data_2_io_addr = data_cache_under_write_back ? {{21'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 373:40]
+  assign dcache_data_2_io_addr = {{32'd0}, _T_4}; // @[data_cache.scala 373:34 96:36]
   assign dcache_data_2_io_wdata = _dcache_data_way0_0_wdata_T_2 ? stage1_sram_wdata_reg : _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 374:41]
-  assign dcache_data_2_io_sram_rdata = io_sram_2_rdata; // @[data_cache.scala 102:16 96:36]
   assign dcache_data_3_clock = clock;
   assign dcache_data_3_io_wen = stage1_addr_line_mapping[3] & (_way1_dirty_T_4 | _way1_dirty_T_12) ? stage1_wstrb_reg :
     _wen_way1_wire_1_T_13; // @[data_cache.scala 382:33]
-  assign dcache_data_3_io_addr = data_cache_under_write_back ? {{21'd0}, _T_3} : stage1_addr_line_mapping; // @[data_cache.scala 373:40]
+  assign dcache_data_3_io_addr = {{32'd0}, _T_4}; // @[data_cache.scala 373:34 96:36]
   assign dcache_data_3_io_wdata = _dcache_data_way0_0_wdata_T_2 ? stage1_sram_wdata_reg : _dcache_data_way0_0_wdata_T_6; // @[data_cache.scala 374:41]
-  assign dcache_data_3_io_sram_rdata = io_sram_3_rdata; // @[data_cache.scala 103:16 96:36]
   always @(posedge clock) begin
     if (reset) begin // @[data_cache.scala 55:29]
       work_state <= 5'h18; // @[data_cache.scala 55:29]
@@ -40666,88 +40477,40 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module mycpu_top(
-  input          clock,
-  input          reset,
-  output [3:0]   axi_mem_port_arid,
-  output [31:0]  axi_mem_port_araddr,
-  output [7:0]   axi_mem_port_arlen,
-  output [2:0]   axi_mem_port_arsize,
-  output [1:0]   axi_mem_port_arburst,
-  output         axi_mem_port_arvalid,
-  input          axi_mem_port_arready,
-  input  [3:0]   axi_mem_port_rid,
-  input  [63:0]  axi_mem_port_rdata,
-  input  [1:0]   axi_mem_port_rresp,
-  input          axi_mem_port_rlast,
-  input          axi_mem_port_rvalid,
-  output         axi_mem_port_rready,
-  output [3:0]   axi_mem_port_awid,
-  output [31:0]  axi_mem_port_awaddr,
-  output [7:0]   axi_mem_port_awlen,
-  output [2:0]   axi_mem_port_awsize,
-  output [1:0]   axi_mem_port_awburst,
-  output         axi_mem_port_awvalid,
-  input          axi_mem_port_awready,
-  output [63:0]  axi_mem_port_wdata,
-  output [7:0]   axi_mem_port_wstrb,
-  output         axi_mem_port_wlast,
-  output         axi_mem_port_wvalid,
-  input          axi_mem_port_wready,
-  input  [3:0]   axi_mem_port_bid,
-  input  [1:0]   axi_mem_port_bresp,
-  input          axi_mem_port_bvalid,
-  output         axi_mem_port_bready,
-  input          io_interrupt,
-  input          can_rx,
-  output         can_tx,
-  output [5:0]   io_sram0_addr,
-  output         io_sram0_cen,
-  output         io_sram0_wen,
-  output [127:0] io_sram0_wmask,
-  output [127:0] io_sram0_wdata,
-  input  [127:0] io_sram0_rdata,
-  output [5:0]   io_sram1_addr,
-  output         io_sram1_cen,
-  output         io_sram1_wen,
-  output [127:0] io_sram1_wmask,
-  output [127:0] io_sram1_wdata,
-  input  [127:0] io_sram1_rdata,
-  output [5:0]   io_sram2_addr,
-  output         io_sram2_cen,
-  output         io_sram2_wen,
-  output [127:0] io_sram2_wmask,
-  output [127:0] io_sram2_wdata,
-  input  [127:0] io_sram2_rdata,
-  output [5:0]   io_sram3_addr,
-  output         io_sram3_cen,
-  output         io_sram3_wen,
-  output [127:0] io_sram3_wmask,
-  output [127:0] io_sram3_wdata,
-  input  [127:0] io_sram3_rdata,
-  output [5:0]   io_sram4_addr,
-  output         io_sram4_cen,
-  output         io_sram4_wen,
-  output [127:0] io_sram4_wmask,
-  output [127:0] io_sram4_wdata,
-  input  [127:0] io_sram4_rdata,
-  output [5:0]   io_sram5_addr,
-  output         io_sram5_cen,
-  output         io_sram5_wen,
-  output [127:0] io_sram5_wmask,
-  output [127:0] io_sram5_wdata,
-  input  [127:0] io_sram5_rdata,
-  output [5:0]   io_sram6_addr,
-  output         io_sram6_cen,
-  output         io_sram6_wen,
-  output [127:0] io_sram6_wmask,
-  output [127:0] io_sram6_wdata,
-  input  [127:0] io_sram6_rdata,
-  output [5:0]   io_sram7_addr,
-  output         io_sram7_cen,
-  output         io_sram7_wen,
-  output [127:0] io_sram7_wmask,
-  output [127:0] io_sram7_wdata,
-  input  [127:0] io_sram7_rdata
+  input         clock,
+  input         reset,
+  output [3:0]  axi_mem_port_arid,
+  output [31:0] axi_mem_port_araddr,
+  output [7:0]  axi_mem_port_arlen,
+  output [2:0]  axi_mem_port_arsize,
+  output [1:0]  axi_mem_port_arburst,
+  output        axi_mem_port_arvalid,
+  input         axi_mem_port_arready,
+  input  [3:0]  axi_mem_port_rid,
+  input  [63:0] axi_mem_port_rdata,
+  input  [1:0]  axi_mem_port_rresp,
+  input         axi_mem_port_rlast,
+  input         axi_mem_port_rvalid,
+  output        axi_mem_port_rready,
+  output [3:0]  axi_mem_port_awid,
+  output [31:0] axi_mem_port_awaddr,
+  output [7:0]  axi_mem_port_awlen,
+  output [2:0]  axi_mem_port_awsize,
+  output [1:0]  axi_mem_port_awburst,
+  output        axi_mem_port_awvalid,
+  input         axi_mem_port_awready,
+  output [63:0] axi_mem_port_wdata,
+  output [7:0]  axi_mem_port_wstrb,
+  output        axi_mem_port_wlast,
+  output        axi_mem_port_wvalid,
+  input         axi_mem_port_wready,
+  input  [3:0]  axi_mem_port_bid,
+  input  [1:0]  axi_mem_port_bresp,
+  input         axi_mem_port_bvalid,
+  output        axi_mem_port_bready,
+  input         io_interrupt,
+  input         can_rx,
+  output        can_tx
 );
   wire  u_riscv_cpu_clock; // @[my_cpu_top.scala 143:29]
   wire  u_riscv_cpu_reset; // @[my_cpu_top.scala 143:29]
@@ -40798,26 +40561,6 @@ module mycpu_top(
   wire [39:0] inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 144:30]
   wire  inst_cache_io_sram_cache; // @[my_cpu_top.scala 144:30]
   wire  inst_cache_io_tag_valid_flush; // @[my_cpu_top.scala 144:30]
-  wire [5:0] inst_cache_io_sram_0_addr; // @[my_cpu_top.scala 144:30]
-  wire  inst_cache_io_sram_0_wen; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_0_wmask; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_0_wdata; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_0_rdata; // @[my_cpu_top.scala 144:30]
-  wire [5:0] inst_cache_io_sram_1_addr; // @[my_cpu_top.scala 144:30]
-  wire  inst_cache_io_sram_1_wen; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_1_wmask; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_1_wdata; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_1_rdata; // @[my_cpu_top.scala 144:30]
-  wire [5:0] inst_cache_io_sram_2_addr; // @[my_cpu_top.scala 144:30]
-  wire  inst_cache_io_sram_2_wen; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_2_wmask; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_2_wdata; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_2_rdata; // @[my_cpu_top.scala 144:30]
-  wire [5:0] inst_cache_io_sram_3_addr; // @[my_cpu_top.scala 144:30]
-  wire  inst_cache_io_sram_3_wen; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_3_wmask; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_3_wdata; // @[my_cpu_top.scala 144:30]
-  wire [127:0] inst_cache_io_sram_3_rdata; // @[my_cpu_top.scala 144:30]
   wire  data_cache_clock; // @[my_cpu_top.scala 146:30]
   wire  data_cache_reset; // @[my_cpu_top.scala 146:30]
   wire [31:0] data_cache_io_port_araddr; // @[my_cpu_top.scala 146:30]
@@ -40853,26 +40596,6 @@ module mycpu_top(
   wire [63:0] data_cache_io_sram_rdata; // @[my_cpu_top.scala 146:30]
   wire  data_cache_io_sram_cache; // @[my_cpu_top.scala 146:30]
   wire  data_cache_io_fence_i_control; // @[my_cpu_top.scala 146:30]
-  wire [5:0] data_cache_io_sram_0_addr; // @[my_cpu_top.scala 146:30]
-  wire  data_cache_io_sram_0_wen; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_0_wmask; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_0_wdata; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_0_rdata; // @[my_cpu_top.scala 146:30]
-  wire [5:0] data_cache_io_sram_1_addr; // @[my_cpu_top.scala 146:30]
-  wire  data_cache_io_sram_1_wen; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_1_wmask; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_1_wdata; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_1_rdata; // @[my_cpu_top.scala 146:30]
-  wire [5:0] data_cache_io_sram_2_addr; // @[my_cpu_top.scala 146:30]
-  wire  data_cache_io_sram_2_wen; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_2_wmask; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_2_wdata; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_2_rdata; // @[my_cpu_top.scala 146:30]
-  wire [5:0] data_cache_io_sram_3_addr; // @[my_cpu_top.scala 146:30]
-  wire  data_cache_io_sram_3_wen; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_3_wmask; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_3_wdata; // @[my_cpu_top.scala 146:30]
-  wire [127:0] data_cache_io_sram_3_rdata; // @[my_cpu_top.scala 146:30]
   wire  _axi_cross_bar_clock; // @[my_cpu_top.scala 148:32]
   wire  _axi_cross_bar_reset; // @[my_cpu_top.scala 148:32]
   wire [31:0] _axi_cross_bar_io_m_port_0_araddr; // @[my_cpu_top.scala 148:32]
@@ -41160,27 +40883,7 @@ module mycpu_top(
     .io_sram_write_en(inst_cache_io_sram_write_en),
     .io_sram_rdata_L(inst_cache_io_sram_rdata_L),
     .io_sram_cache(inst_cache_io_sram_cache),
-    .io_tag_valid_flush(inst_cache_io_tag_valid_flush),
-    .io_sram_0_addr(inst_cache_io_sram_0_addr),
-    .io_sram_0_wen(inst_cache_io_sram_0_wen),
-    .io_sram_0_wmask(inst_cache_io_sram_0_wmask),
-    .io_sram_0_wdata(inst_cache_io_sram_0_wdata),
-    .io_sram_0_rdata(inst_cache_io_sram_0_rdata),
-    .io_sram_1_addr(inst_cache_io_sram_1_addr),
-    .io_sram_1_wen(inst_cache_io_sram_1_wen),
-    .io_sram_1_wmask(inst_cache_io_sram_1_wmask),
-    .io_sram_1_wdata(inst_cache_io_sram_1_wdata),
-    .io_sram_1_rdata(inst_cache_io_sram_1_rdata),
-    .io_sram_2_addr(inst_cache_io_sram_2_addr),
-    .io_sram_2_wen(inst_cache_io_sram_2_wen),
-    .io_sram_2_wmask(inst_cache_io_sram_2_wmask),
-    .io_sram_2_wdata(inst_cache_io_sram_2_wdata),
-    .io_sram_2_rdata(inst_cache_io_sram_2_rdata),
-    .io_sram_3_addr(inst_cache_io_sram_3_addr),
-    .io_sram_3_wen(inst_cache_io_sram_3_wen),
-    .io_sram_3_wmask(inst_cache_io_sram_3_wmask),
-    .io_sram_3_wdata(inst_cache_io_sram_3_wdata),
-    .io_sram_3_rdata(inst_cache_io_sram_3_rdata)
+    .io_tag_valid_flush(inst_cache_io_tag_valid_flush)
   );
   data_cache data_cache ( // @[my_cpu_top.scala 146:30]
     .clock(data_cache_clock),
@@ -41217,27 +40920,7 @@ module mycpu_top(
     .io_sram_wdata(data_cache_io_sram_wdata),
     .io_sram_rdata(data_cache_io_sram_rdata),
     .io_sram_cache(data_cache_io_sram_cache),
-    .io_fence_i_control(data_cache_io_fence_i_control),
-    .io_sram_0_addr(data_cache_io_sram_0_addr),
-    .io_sram_0_wen(data_cache_io_sram_0_wen),
-    .io_sram_0_wmask(data_cache_io_sram_0_wmask),
-    .io_sram_0_wdata(data_cache_io_sram_0_wdata),
-    .io_sram_0_rdata(data_cache_io_sram_0_rdata),
-    .io_sram_1_addr(data_cache_io_sram_1_addr),
-    .io_sram_1_wen(data_cache_io_sram_1_wen),
-    .io_sram_1_wmask(data_cache_io_sram_1_wmask),
-    .io_sram_1_wdata(data_cache_io_sram_1_wdata),
-    .io_sram_1_rdata(data_cache_io_sram_1_rdata),
-    .io_sram_2_addr(data_cache_io_sram_2_addr),
-    .io_sram_2_wen(data_cache_io_sram_2_wen),
-    .io_sram_2_wmask(data_cache_io_sram_2_wmask),
-    .io_sram_2_wdata(data_cache_io_sram_2_wdata),
-    .io_sram_2_rdata(data_cache_io_sram_2_rdata),
-    .io_sram_3_addr(data_cache_io_sram_3_addr),
-    .io_sram_3_wen(data_cache_io_sram_3_wen),
-    .io_sram_3_wmask(data_cache_io_sram_3_wmask),
-    .io_sram_3_wdata(data_cache_io_sram_3_wdata),
-    .io_sram_3_rdata(data_cache_io_sram_3_rdata)
+    .io_fence_i_control(data_cache_io_fence_i_control)
   );
   axi_cross_bar_addr_switch _axi_cross_bar ( // @[my_cpu_top.scala 148:32]
     .clock(_axi_cross_bar_clock),
@@ -41508,46 +41191,6 @@ module mycpu_top(
   assign axi_mem_port_wvalid = _axi_cross_bar_io_s_port_0_wvalid; // @[my_cpu_top.scala 251:18]
   assign axi_mem_port_bready = _axi_cross_bar_io_s_port_0_bready; // @[my_cpu_top.scala 251:18]
   assign can_tx = axi_can_top_can_tx; // @[my_cpu_top.scala 299:12]
-  assign io_sram0_addr = inst_cache_io_sram_0_addr; // @[my_cpu_top.scala 271:14]
-  assign io_sram0_cen = 1'h0; // @[my_cpu_top.scala 271:14]
-  assign io_sram0_wen = inst_cache_io_sram_0_wen; // @[my_cpu_top.scala 271:14]
-  assign io_sram0_wmask = inst_cache_io_sram_0_wmask; // @[my_cpu_top.scala 271:14]
-  assign io_sram0_wdata = inst_cache_io_sram_0_wdata; // @[my_cpu_top.scala 271:14]
-  assign io_sram1_addr = inst_cache_io_sram_1_addr; // @[my_cpu_top.scala 272:14]
-  assign io_sram1_cen = 1'h0; // @[my_cpu_top.scala 272:14]
-  assign io_sram1_wen = inst_cache_io_sram_1_wen; // @[my_cpu_top.scala 272:14]
-  assign io_sram1_wmask = inst_cache_io_sram_1_wmask; // @[my_cpu_top.scala 272:14]
-  assign io_sram1_wdata = inst_cache_io_sram_1_wdata; // @[my_cpu_top.scala 272:14]
-  assign io_sram2_addr = inst_cache_io_sram_2_addr; // @[my_cpu_top.scala 273:14]
-  assign io_sram2_cen = 1'h0; // @[my_cpu_top.scala 273:14]
-  assign io_sram2_wen = inst_cache_io_sram_2_wen; // @[my_cpu_top.scala 273:14]
-  assign io_sram2_wmask = inst_cache_io_sram_2_wmask; // @[my_cpu_top.scala 273:14]
-  assign io_sram2_wdata = inst_cache_io_sram_2_wdata; // @[my_cpu_top.scala 273:14]
-  assign io_sram3_addr = inst_cache_io_sram_3_addr; // @[my_cpu_top.scala 274:14]
-  assign io_sram3_cen = 1'h0; // @[my_cpu_top.scala 274:14]
-  assign io_sram3_wen = inst_cache_io_sram_3_wen; // @[my_cpu_top.scala 274:14]
-  assign io_sram3_wmask = inst_cache_io_sram_3_wmask; // @[my_cpu_top.scala 274:14]
-  assign io_sram3_wdata = inst_cache_io_sram_3_wdata; // @[my_cpu_top.scala 274:14]
-  assign io_sram4_addr = data_cache_io_sram_0_addr; // @[my_cpu_top.scala 275:14]
-  assign io_sram4_cen = 1'h0; // @[my_cpu_top.scala 275:14]
-  assign io_sram4_wen = data_cache_io_sram_0_wen; // @[my_cpu_top.scala 275:14]
-  assign io_sram4_wmask = data_cache_io_sram_0_wmask; // @[my_cpu_top.scala 275:14]
-  assign io_sram4_wdata = data_cache_io_sram_0_wdata; // @[my_cpu_top.scala 275:14]
-  assign io_sram5_addr = data_cache_io_sram_1_addr; // @[my_cpu_top.scala 276:14]
-  assign io_sram5_cen = 1'h0; // @[my_cpu_top.scala 276:14]
-  assign io_sram5_wen = data_cache_io_sram_1_wen; // @[my_cpu_top.scala 276:14]
-  assign io_sram5_wmask = data_cache_io_sram_1_wmask; // @[my_cpu_top.scala 276:14]
-  assign io_sram5_wdata = data_cache_io_sram_1_wdata; // @[my_cpu_top.scala 276:14]
-  assign io_sram6_addr = data_cache_io_sram_2_addr; // @[my_cpu_top.scala 277:14]
-  assign io_sram6_cen = 1'h0; // @[my_cpu_top.scala 277:14]
-  assign io_sram6_wen = data_cache_io_sram_2_wen; // @[my_cpu_top.scala 277:14]
-  assign io_sram6_wmask = data_cache_io_sram_2_wmask; // @[my_cpu_top.scala 277:14]
-  assign io_sram6_wdata = data_cache_io_sram_2_wdata; // @[my_cpu_top.scala 277:14]
-  assign io_sram7_addr = data_cache_io_sram_3_addr; // @[my_cpu_top.scala 278:14]
-  assign io_sram7_cen = 1'h0; // @[my_cpu_top.scala 278:14]
-  assign io_sram7_wen = data_cache_io_sram_3_wen; // @[my_cpu_top.scala 278:14]
-  assign io_sram7_wmask = data_cache_io_sram_3_wmask; // @[my_cpu_top.scala 278:14]
-  assign io_sram7_wdata = data_cache_io_sram_3_wdata; // @[my_cpu_top.scala 278:14]
   assign u_riscv_cpu_clock = clock;
   assign u_riscv_cpu_reset = reset;
   assign u_riscv_cpu_ext_int_timer = timer_periph_io_int_line; // @[my_cpu_top.scala 262:31]
@@ -41572,10 +41215,6 @@ module mycpu_top(
   assign inst_cache_io_sram_addr = u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 218:29]
   assign inst_cache_io_sram_cache = u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 220:29]
   assign inst_cache_io_tag_valid_flush = u_riscv_cpu_icache_tag_flush; // @[my_cpu_top.scala 249:34]
-  assign inst_cache_io_sram_0_rdata = io_sram0_rdata; // @[my_cpu_top.scala 271:14]
-  assign inst_cache_io_sram_1_rdata = io_sram1_rdata; // @[my_cpu_top.scala 272:14]
-  assign inst_cache_io_sram_2_rdata = io_sram2_rdata; // @[my_cpu_top.scala 273:14]
-  assign inst_cache_io_sram_3_rdata = io_sram3_rdata; // @[my_cpu_top.scala 274:14]
   assign data_cache_clock = clock;
   assign data_cache_reset = reset;
   assign data_cache_io_port_arready = _axi_cross_bar_io_m_port_1_arready; // @[my_cpu_top.scala 254:33]
@@ -41594,10 +41233,6 @@ module mycpu_top(
   assign data_cache_io_sram_wdata = u_riscv_cpu_data_sram_wdata; // @[my_cpu_top.scala 211:23]
   assign data_cache_io_sram_cache = u_riscv_cpu_data_cache; // @[my_cpu_top.scala 208:23]
   assign data_cache_io_fence_i_control = u_riscv_cpu_data_fence_i_control; // @[my_cpu_top.scala 212:28]
-  assign data_cache_io_sram_0_rdata = io_sram4_rdata; // @[my_cpu_top.scala 275:14]
-  assign data_cache_io_sram_1_rdata = io_sram5_rdata; // @[my_cpu_top.scala 276:14]
-  assign data_cache_io_sram_2_rdata = io_sram6_rdata; // @[my_cpu_top.scala 277:14]
-  assign data_cache_io_sram_3_rdata = io_sram7_rdata; // @[my_cpu_top.scala 278:14]
   assign _axi_cross_bar_clock = clock;
   assign _axi_cross_bar_reset = reset;
   assign _axi_cross_bar_io_m_port_0_araddr = inst_cache_io_port_araddr; // @[my_cpu_top.scala 253:33]
@@ -41703,7 +41338,7 @@ module mycpu_top(
   assign axi2apb_io_apb_port_pready = spi_in_pready; // @[my_cpu_top.scala 313:22]
   assign axi2apb_io_apb_port_prdata = spi_in_prdata; // @[my_cpu_top.scala 313:22]
   assign spi_clk = clock; // @[my_cpu_top.scala 311:32]
-  assign spi_resetn = reset; // @[my_cpu_top.scala 312:26]
+  assign spi_resetn = ~reset; // @[my_cpu_top.scala 312:29]
   assign spi_in_psel = axi2apb_io_apb_port_psel; // @[my_cpu_top.scala 313:22]
   assign spi_in_penable = axi2apb_io_apb_port_penable; // @[my_cpu_top.scala 313:22]
   assign spi_in_pwrite = axi2apb_io_apb_port_pwrite; // @[my_cpu_top.scala 313:22]

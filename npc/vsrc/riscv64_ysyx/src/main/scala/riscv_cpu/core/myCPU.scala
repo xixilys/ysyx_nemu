@@ -1142,7 +1142,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
         _commit_difftest.io.pc             := _mem22wb.io.PCW
         _commit_difftest.io.cpu_ebreak_sign := _mem22wb.io.eBreakW
         _commit_difftest.io.inst_commit := _mem22wb.io.PCW =/= 0.U && pcw_reg =/= _mem22wb.io.PCW
-        _commit_difftest.io.cpu_timer_int := int_instanceW.timer 
+        // _commit_difftest.io.cpu_timer_int := int_instanceW.timer 
         _regfile.io.WE3 := RegWriteW.asBool && _commit_difftest.io.data_ok_ok
     }else {
         _regfile.io.WE3 := RegWriteW.asBool

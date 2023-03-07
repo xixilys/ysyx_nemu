@@ -48,7 +48,7 @@ class data_cache  extends Module with riscv_macros {
 
         val sram_cache = Input(UInt(1.W))
         val fence_i_control = Input(Bool())
-        val sram = Vec(bank_num * 2,Flipped(new sram_port))
+        // val sram = Vec(bank_num * 2,Flipped(new sram_port))
     })
     val tlb_req        = Wire(Bool())
 
@@ -97,10 +97,10 @@ class data_cache  extends Module with riscv_macros {
     val hit_0_reg       = RegInit(0.U(1.W))
     val hit_1_reg       = RegInit(0.U(1.W))
 
-    io.sram(0) <> dcache_data_way0(0).sram
-    io.sram(1) <> dcache_data_way0(1).sram
-    io.sram(2) <> dcache_data_way1(0).sram
-    io.sram(3) <> dcache_data_way1(1).sram
+    // io.sram(0) <> dcache_data_way0(0).sram
+    // io.sram(1) <> dcache_data_way0(1).sram
+    // io.sram(2) <> dcache_data_way1(0).sram
+    // io.sram(3) <> dcache_data_way1(1).sram
 
     //val state_reset = "b00000".U;
     // val state_miss_write_write_1 = "b10000".U
