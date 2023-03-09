@@ -4,6 +4,8 @@
 #include <isa.h>
 #include <verilator_use.h>
 
+
+
 #if defined(CONFIG_PMEM_MALLOC)
 static uint8_t *pmem = NULL;
 #else // CONFIG_PMEM_GARRAY
@@ -14,6 +16,15 @@ static uint8_t pmem[CONFIG_MSIZE] PG_ALIGN = {};
 #define read_type 1
 #define write_type 2
 #endif
+
+#define spi_flash_base 0x30000000
+#define spi_flash_max  0x3fffffff
+
+#define uart_base 0x10000000
+#define uart_max  0x10000fff
+
+#define clint_base 0x02000000
+#define clint_max  0x0200ffff
 
 uint8_t *guest_to_host(paddr_t paddr)
 {
@@ -129,6 +140,8 @@ void init_mem()
 }
 
 size_t mem_pc = 0;
+
+extern "C" void flash_read(uint64_t addr, uint64_t *data) ;
 word_t paddr_read(paddr_t addr, int len, uint8_t mem_type,int skip)
 {
 #ifdef CONFIG_ITRACE_COND
@@ -138,6 +151,7 @@ word_t paddr_read(paddr_t addr, int len, uint8_t mem_type,int skip)
   mem_read_mtrace.paddr = addr;
   mem_read_mtrace.pc = mem_pc;
 #endif
+// printf("in_mem\n");
   //如果在所设定的内存范围内
   if (likely(in_pmem(addr)))
   {
@@ -157,11 +171,36 @@ word_t paddr_read(paddr_t addr, int len, uint8_t mem_type,int skip)
     return pmem_data; // mem_read_mtrace.data;
   }
   //如果不在设定的内存地址范围内，则进行MMIO处理
-  if(skip == 1) {
-    IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
-  }else {
-    IFDEF(CONFIG_DEVICE, return mmio_read_without_skip(addr, len));
+  //MMIO目前只模拟了flash
+
+  if(addr <= spi_flash_max && addr >= spi_flash_base) {
+    word_t spi_data = 0;
+    flash_read(addr - spi_flash_base,&spi_data);
+    switch (len) {
+    case 1: return ((uint8_t)spi_data);
+    case 2: return (uint16_t )spi_data;
+    case 4: return (uint32_t )spi_data;
+    case 8: return spi_data;
+    default: MUXDEF(CONFIG_RT_CHECK, assert(0), return 0);
+    return spi_data; 
+    }
+  }else if(addr <= uart_max && addr >= uart_base ) {
+    // out_of_bound
+    inst_diff_skip();
+    return 0;
+  }else if(addr <= clint_max && addr >= clint_base) {
+    // printf("addr is %lx\n",addr);
+    inst_diff_skip();
+    return 0; 
   }
+  // else if()
+  // if(skip == 1) {
+  //   // printf("sbhjy\n");
+
+  //   // IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
+  // }else {
+  //   // IFDEF(CONFIG_DEVICE, return mmio_read_without_skip(addr, len));
+  // }
   
   out_of_bound(addr);
   return 0;
@@ -187,12 +226,19 @@ void paddr_write(paddr_t addr, int len, word_t data,int skip)
     pmem_write(addr, len, data);
     return;
   }
-  if(skip == 1) {
-    IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return );
-  }else {
-    IFDEF(CONFIG_DEVICE, mmio_write_without_skip(addr, len, data); return );
+  if(addr <= clint_max && addr >= clint_base) {
+    // printf("write addr is %lx\n",addr);
+    inst_diff_skip();
+    return ; 
   }
-  out_of_bound(addr);
+  //写可以不做处理
+  // if(skip == 1) {
+  //   printf("here\n");
+  //   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return );
+  // }else {
+  //   IFDEF(CONFIG_DEVICE, mmio_write_without_skip(addr, len, data); return );
+  // }
+  // out_of_bound(addr);
 }
 
 #ifdef CONFIG_ITRACE_COND

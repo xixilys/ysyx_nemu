@@ -12,12 +12,12 @@ endif
 # VERILATOR_CFLAGS += -MMD --build -cc  \
 # 				-O3 --x-assign fast --x-initial fast --noassert
 # VERILATOR_CFLAGS += --trace
-# NPC_HOME = /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc
+# YSYX_SIM_HOME = /home/ddddddd/SynologyDrive/ysyx/ysyx-workbench/npc
 
 
 
-# VSRCS = $(shell find $(abspath $(NPC_HOME)/vsrc/riscv64_ysyx) -name "*.v")
-# CSRCS = $(shell find $(abspath $(NPC_HOME)/csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
+# VSRCS = $(shell find $(abspath $(YSYX_SIM_HOME)/vsrc/riscv64_ysyx) -name "*.v")
+# CSRCS = $(shell find $(abspath $(YSYX_SIM_HOME)/csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
 
 
 
@@ -30,7 +30,7 @@ LDFLAGS := -O2 $(LDFLAGS)
 # VER_CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\"" 
 # VER_LDFLAGS += -lSDL2 -lSDL2_image 
 
-# VERI_BUILD_DIR = $(NPC_HOME)/build
+# VERI_BUILD_DIR = $(YSYX_SIM_HOME)/build
 # Verilator_OBJ_DIR = $(VERI_BUILD_DIR)/obj_dir
 # BIN = $(VERI_BUILD_DIR)/$(TOPNAME)
 

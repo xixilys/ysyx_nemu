@@ -53,14 +53,19 @@ static bool g_print_step = false;
 #endif
 
 
-void device_update();
+
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
-  IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+  // IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+
+
+  /*
+  下面都是奇怪的东西
+  */
   WP* p = head;
   bool cal_state;
   while(p != NULL){
@@ -83,6 +88,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 
 
 static void exec_once(Decode *s, vaddr_t pc) {
+  // printf("pc is %lx\n",pc);
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
@@ -91,6 +97,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
         nemu_state.state = NEMU_STOP; 
      }
   }
+  cpu.pc = s->dnpc;
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
@@ -120,6 +127,8 @@ static void exec_once(Decode *s, vaddr_t pc) {
 //   printf("log buffer %s\n",s->logbuf);
 }
 
+void device_update();
+
 static void execute(uint64_t n) {
   Decode s;
  // printf("n = %lud\n",n);传一个负数进来，注意形参n为无符号数，就会一直跑直到break;
@@ -132,8 +141,8 @@ static void execute(uint64_t n) {
     trace_and_difftest(&s, cpu.pc);
 
     if (nemu_state.state != NEMU_RUNNING) break;
-    static uint64_t run_counter = 0;
-    IFDEF(CONFIG_DEVICE, device_update());
+    // static uint64_t run_counter = 0;
+    // IFDEF(CONFIG_DEVICE, device_update());
   }
 }
 

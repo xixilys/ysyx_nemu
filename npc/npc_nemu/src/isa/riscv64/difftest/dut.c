@@ -5,6 +5,7 @@
 #include <isa.h>
 #include <cpu/difftest.h>
 #include "../local-include/reg.h"
+#include <verilator_use.h>
 // int num_index = 0;
 const char *sbregs[]={
   "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
@@ -31,11 +32,22 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
       printf("reg %d ",i);
       printf(" %s wrong\n",sbregs[i]);
       ref_reg_show(ref_r, pc);
+      printf("mvtec is %lx\n",CSR(MTVEC));
+      // printf("")
       return false;
     }
   }
-  if(cpu.pc != ref_r -> pc) {
-    printf("cpu_pc = %lx and ref pc = %lx\n", cpu.pc, ref_r -> pc);
+  if(pc != ref_r -> pc) {
+    // for(int h = 0;h<=5;h++) {
+    //   single_cycle();
+    // }
+    
+    // single_cycle();
+    // single_cycle()/;
+    // single_cycle(); 
+    // print)
+    // printf("time scala is %lx \n",contextp->time());
+    printf("ref pc  = %lx and cpu_pc  = %lx\n", pc, ref_r -> pc);
     printf("pc wrong\n");
     ref_reg_show(ref_r, ref_r -> pc);
     return false;

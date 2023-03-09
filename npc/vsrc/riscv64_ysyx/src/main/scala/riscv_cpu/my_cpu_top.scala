@@ -145,7 +145,8 @@ class mycpu_top  extends Module with riscv_macros {
     val icache = icache_first//.port
     val dcache_first = Module(new data_cache).io  
     val dcache = dcache_first//.port
-    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,5,Array(0,0X20000000,0x21000000,0x22000000,0x30000000),Array(0,0X2000BFFF,0x2100FFFF,0x2200FFFF,0x3fffffff)))
+    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,6,Array(0,0X20000000,0x21000000,0x22000000,0x30000000,0x1000_0000),
+        Array(0,0X2000BFFF,0x2100FFFF,0x2200FFFF,0x3fffffff,0x1000_0fff)))
     //length总共也就16，比较拉
     //length总共也就16，比较拉
     
@@ -283,15 +284,19 @@ class mycpu_top  extends Module with riscv_macros {
     val axi_plic = Module(new plic_periph(0x22000000.U(data_length.W),1)).io
     val axi2apb = Module(new AXI4ToAPB(32,32,32,64,
         Array(0x30000000),Array(0x3fffffff)))
+    val axi2apb_uart = Module(new AXI4ToAPB(32,32,32,64,
+        Array(0x10000000),Array(0x10000FFF)))
     
 
     val spi_controler = Module(new spi(32,32)).io
+    val uart_controler = Module(new uart(32,32)).io
 
     
 
     _axi_cross_bar.io.s_port(2) <> axi_can.axi_port
     _axi_cross_bar.io.s_port(3) <> axi_plic.axi_port
     _axi_cross_bar.io.s_port(4) <> axi2apb.io.axi_port
+    _axi_cross_bar.io.s_port(5) <> axi2apb_uart.io.axi_port
     
     axi_can.rst_n  := reset
     axi_can.clk    := clock.asBool
@@ -311,13 +316,20 @@ class mycpu_top  extends Module with riscv_macros {
     spi_controler.clk := clock.asBool
     spi_controler.resetn := !reset.asBool
     spi_controler.in <> axi2apb.io.apb_port
-    spi_controler.in_pprot := 0.U
+    spi_controler.in_pprot := 1.U
 
     val spi_flash = Module(new spiFlash).io
-    spi_flash.clk := clock.asBool
+    spi_flash.clk := spi_controler.spi_clk
     spi_flash.cs := spi_controler.spi_cs
     spi_flash.mosi := spi_controler.spi_mosi
     spi_controler.spi_miso := spi_flash.miso
+
+    //uart
+    uart_controler.clk := clock.asBool
+    uart_controler.resetn := !reset.asBool
+    uart_controler.in    <> axi2apb_uart.io.apb_port
+    uart_controler.in_pprot := 1.U
+    uart_controler.uart_rx := 0.U
 
 
 }

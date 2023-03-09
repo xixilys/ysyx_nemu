@@ -17,6 +17,8 @@ void init_isa();
 // reg
 extern CPU_state cpu;
 
+#define CSR(i) cpu.special_reg[i]
+
 void isa_reg_display();
 word_t isa_reg_str2val(const char *name, bool *success);
 
@@ -41,5 +43,8 @@ word_t isa_query_intr();
 // difftest
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc);
 void isa_difftest_attach();
+void checkregs(CPU_state *ref, vaddr_t pc);
+void inst_diff_skip(void);
+extern bool is_skip_ref ;
 
 #endif

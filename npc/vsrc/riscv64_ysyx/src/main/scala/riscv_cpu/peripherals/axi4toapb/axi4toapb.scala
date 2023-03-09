@@ -40,7 +40,7 @@ class AXI4ToAPB(apb_addr_w :Int,apb_data_w:Int,axi_addr_w:Int,axi_data_w:Int,
     val apb_read_data = RegInit(0.U(apb_data_w.W))
     val apb_strb_data = RegInit(0.U((apb_data_w / 8).W))
     apb_write_data := Mux(io.axi_port.wvalid.asBool && io.axi_port.wready.asBool,io.axi_port.wdata,apb_write_data)
-    apb_read_data := Mux(io.axi_port.rvalid.asBool && io.axi_port.rready.asBool,io.apb_port.prdata,apb_read_data)
+    apb_read_data := Mux(!apb_write_read_state && apb_state === apb_state_data && io.apb_port.pready,io.apb_port.prdata,apb_read_data)
     apb_strb_data := Mux(io.axi_port.arvalid.asBool && io.axi_port.arready.asBool,MuxLookup(io.axi_port.arsize,0.U,Seq(
         0.U -> "b0001".U,
         1.U -> "b0011".U,
@@ -67,7 +67,8 @@ class AXI4ToAPB(apb_addr_w :Int,apb_data_w:Int,axi_addr_w:Int,axi_data_w:Int,
     // io.apb_port.pslverr
 
     //axi signal
-    io.axi_port.rdata := apb_read_data
+    io.axi_port.rdata := Cat(Mux(!apb_write_read_state && apb_state === apb_state_data && io.apb_port.pready,io.apb_port.prdata,apb_read_data),
+        Mux(!apb_write_read_state && apb_state === apb_state_data && io.apb_port.pready,io.apb_port.prdata,apb_read_data))
     io.axi_port.rvalid := !apb_write_read_state && apb_state === apb_state_finish
     io.axi_port.rlast  := !apb_write_read_state && apb_state === apb_state_finish
     

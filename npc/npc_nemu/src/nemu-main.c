@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 // printf("hxz sbsbsbsbsb\n");
 //verilator仿真开始了
 
-  sim_init();
+  sim_init(argc, argv);
   // printf("sbsbsb\n");
   reset(10);
 

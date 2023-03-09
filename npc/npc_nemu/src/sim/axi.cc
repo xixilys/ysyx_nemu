@@ -10,9 +10,42 @@
 #include<verilated_vcd_c.h>   
 #include<verilator_use.h>   
 #include<iostream>
+#include<memory/host.h>
  
 
-#include<memory/paddr.h>
+// #include<memory/paddr.h>
+// axi mem sim 
+uint8_t axi_sim_mem[0x8000000] = {};
+
+static word_t axi_mem_read(paddr_t addr, int len)
+{
+
+    if( addr < (paddr_t)0x80000000 || (paddr_t)addr >= (paddr_t)(0x88000000)) {
+        printf("addr is %lx\n",addr);
+        assert(0);
+    }
+    // printf("axi_sim_mem is %lx\n",addr);
+    uint64_t axi_read_addr = (uint64_t)addr +  (uint64_t)axi_sim_mem - (uint64_t)0x80000000;
+    // printf("axi_read_addr is %lx\n",axi_read_addr);
+    word_t read_data  = host_read(axi_read_addr,len);
+    return read_data;
+
+//   word_t ret = host_read(guest_to_host(addr), len);
+//   return ret;
+}
+
+static void axi_mem_write(paddr_t addr, int len, word_t data)
+{
+    if( addr < (paddr_t)0x80000000 || (paddr_t)addr >= (paddr_t)(0x88000000)) {
+        printf("addr is %lx\n",addr);
+        assert(0);
+    }
+
+    // uint8_t * axi_write_addr =(uint8_t*)((addr - 0x80000000) + (paddr_t)axi_sim_mem);
+    uint64_t axi_write_addr = (uint64_t)addr +  (uint64_t)axi_sim_mem - (uint64_t)0x80000000;
+    host_write( axi_write_addr, len, data ) ;
+}
+
 
 #if defined(__GNUC__) && !defined(__clang__)
 #pragma GCC diagnostic pop
@@ -66,7 +99,7 @@ uint64_t read_data_to_axi_data(uint64_t get_data,uint64_t addr,int burst_mode) {
 //         if(top->axi_mem_port_0_arvalid == 1){
 //             //完成地址的握手
 //             axi_handle->read_work_state = AXI_DATA_READ;
-//             axi_handle->read_addr = top->axi_mem_port_0_araddr;
+//             axi_handle->read_addr = top->axi_mem_port_0_araddr;axi_sim_mem
 //             axi_handle->read_len = top->axi_mem_port_0_arlen;
 //             axi_handle->read_size = top->axi_mem_port_0_arsize;
 //         }break;
@@ -143,7 +176,7 @@ extern "C" void AXI_ResponseHandler_Data(AXI_ResponseSignal* axi_handle){
         // size_t sb_read_addr = axi_handle->read_addr - (axi_handle->read_addr) % 8;
         //
 
-        top->axi_mem_port_rdata = read_data_to_axi_data(paddr_read(axi_handle->read_addr,axi_size_to_bytes_num(axi_handle->read_size),mem_inst_fec,0),axi_handle->read_addr,axi_handle->read_len > 0);
+        top->axi_mem_port_rdata = read_data_to_axi_data(axi_mem_read(axi_handle->read_addr,axi_size_to_bytes_num(axi_handle->read_size)),axi_handle->read_addr,axi_handle->read_len > 0);
       
         if(top->axi_mem_port_rready){
             axi_handle->read_addr += axi_size_to_bytes_num(axi_handle->read_size);
@@ -187,7 +220,7 @@ extern "C" void AXI_ResponseHandler_Data(AXI_ResponseSignal* axi_handle){
         top->axi_mem_port_wready =  1;
         static int num_to_stop = 0;
         if(top->axi_mem_port_wvalid){
-            paddr_write(axi_handle->write_addr,axi_size_to_bytes_num(axi_handle->write_size),top->axi_mem_port_wdata,0);
+            axi_mem_write(axi_handle->write_addr,axi_size_to_bytes_num(axi_handle->write_size),top->axi_mem_port_wdata);
             
             axi_handle->write_addr += axi_size_to_bytes_num(axi_handle->write_size );
             axi_handle->write_counter ++;

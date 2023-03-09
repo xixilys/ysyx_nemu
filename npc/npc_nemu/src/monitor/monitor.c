@@ -23,7 +23,7 @@ static void welcome() {
         "to record the trace. This may lead to a large log file. "
         "If it is not necessary, you can disable it in menuconfig"));
   Log("Build time: %s, %s", __TIME__, __DATE__);
-  printf("Welcome to %s-NPC!\n", ASNI_FMT(str(__GUEST_ISA__), ASNI_FG_YELLOW ASNI_BG_RED));
+  printf("Welcome to %s-NEMU!\n", ASNI_FMT(str(__GUEST_ISA__), ASNI_FG_YELLOW ASNI_BG_RED));
   printf("For help, type \"help\"\n");
   //Log("Exercise: Please remove me in the source code and compile NEMU again.");
   assert(1);
@@ -207,12 +207,9 @@ static void load_elf() {
     FILE *fp = fopen(elf_file, "rb");
     Assert(fp, "Can not open '%s'", elf_file);
     int answer = fread(&p->elf_header,sizeof(p->elf_header),1,fp); 
-      //通过魔数来判断是不是正常的elf文件
-    assert(*(uint32_t *)(p->elf_header.e_ident) == 0x464C457F);
 
     p->elf_program_header = (Elf64_Phdr*)malloc(p->elf_header.e_phnum * p->elf_header.e_phentsize);
     p->elf_section_header = (Elf64_Shdr*)malloc(p->elf_header.e_shnum * p->elf_header.e_shentsize);
-
 
     answer = fseek(fp,p->elf_header.e_phoff,SEEK_SET);
 
@@ -220,7 +217,7 @@ static void load_elf() {
 
     printf("answer = %d\n",answer);
 
-    printf("size is %lu\n",(size_t)(p->elf_header.e_phnum * p->elf_header.e_phentsize));
+
     answer = fseek(fp,p->elf_header.e_shoff,SEEK_SET);
     answer = fread(p->elf_section_header,p->elf_header.e_shnum * p->elf_header.e_shentsize,1,fp); 
 
@@ -315,7 +312,7 @@ void init_monitor(int argc, char *argv[]) {
   init_mem();
 
   /* Initialize devices. */
-  IFDEF(CONFIG_DEVICE, init_device());
+  // IFDEF(CONFIG_DEVICE, init_device());
 
   /* Perform ISA dependent initialization. */
   init_isa();
@@ -353,7 +350,7 @@ void am_init_monitor() {
   init_mem();
   init_isa();
   load_img();
-  IFDEF(CONFIG_DEVICE, init_device());
+  // IFDEF(CONFIG_DEVICE, init_device());
   welcome();
 }
 #endif
