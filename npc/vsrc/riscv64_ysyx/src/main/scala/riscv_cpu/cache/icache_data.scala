@@ -9,13 +9,14 @@ class icache_data_ram extends BlackBox {
      
     val        clka = Input(UInt(1.W))
     val        ena  = Input(UInt(1.W))
-    val        wea   = Input(UInt(5.W))
+    val        wea   = Input(UInt(8.W))
     val        addra   = Input(UInt(7.W))
-    val        dina  = Input(UInt(40.W))
-    val        douta  = Output(UInt(40.W))
+    val        dina  = Input(UInt(64.W))
+    val        douta  = Output(UInt(64.W))
   
     })
 }
+
 
 
 class icache_data  extends Module with riscv_macros {
@@ -28,15 +29,34 @@ class icache_data  extends Module with riscv_macros {
         val        rdata  = Output(UInt(40.W))
     })
     //开始拼
-    val icache_data_ram_0 = Module(new ysyx_sram_with_mask(64))
-    icache_data_ram_0.io.ena   := io.en
-    icache_data_ram_0.io.wea  := io.wen
-    icache_data_ram_0.io.addra := io.addr(10,4)
-    icache_data_ram_0.io.dina := io.wdata
-    val addr_reg = RegNext(io.addr)
+    if(on_board == 1) {
+        val icache_data_ram_0 = Module(new icache_data_ram)
+        icache_data_ram_0.io.ena   := io.en
+        icache_data_ram_0.io.wea  := io.wen
+        icache_data_ram_0.io.addra := io.addr(10,4)
+        icache_data_ram_0.io.dina := io.wdata
+        val addr_reg = RegNext(io.addr)
+        val get_data =    Mux(addr_reg(2),icache_data_ram_0.io.douta(63,32),icache_data_ram_0.io.douta(31,0)) 
+        io.rdata   := Cat(Branch_data_Decoder(get_data),Jump_Decoder(get_data),Branch_Decoder(get_data),get_data)
 
-    val get_data =    Mux(addr_reg(2),icache_data_ram_0.io.douta(63,32),icache_data_ram_0.io.douta(31,0)) 
-    io.rdata   := Cat(Branch_data_Decoder(get_data),Jump_Decoder(get_data),Branch_Decoder(get_data),get_data)
+
+    }else{
+
+
+        val icache_data_ram_0 = Module(new ysyx_sram_with_mask(64))
+        icache_data_ram_0.io.ena   := io.en
+        icache_data_ram_0.io.wea  := io.wen
+        icache_data_ram_0.io.addra := io.addr(10,4)
+        icache_data_ram_0.io.dina := io.wdata
+        val addr_reg = RegNext(io.addr)
+        val get_data =    Mux(addr_reg(2),icache_data_ram_0.io.douta(63,32),icache_data_ram_0.io.douta(31,0)) 
+        io.rdata   := Cat(Branch_data_Decoder(get_data),Jump_Decoder(get_data),Branch_Decoder(get_data),get_data)
+    }
+    // val icache_data_ram_0 = if(on_board == 1) Module(new ysyx_sram_with_mask(64)) else Module(new icache_data_ram)
+    // if()
+    // if(on_board)
+
+ 
 }
 // object icache_data_test extends App{
 //     (new ChiselStage).emitVerilog(new icache_data)

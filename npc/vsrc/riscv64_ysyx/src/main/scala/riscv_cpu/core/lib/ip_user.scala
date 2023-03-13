@@ -77,7 +77,7 @@ class data_ram_one_port_with_latency( length: Int,width:Int) extends Module {
 }
 
 
-class data_ram_simple_two_ports( length: Int,width:Int) extends Module {
+class data_ram_simple_two_ports( length: Int,width:Int) extends Module with riscv_macros{
     val addr_width = (log10(length)/log10(2)).toInt
     val width_width = width / 8//(log10(width)/log10(2)).toInt
     val io = IO(new Bundle {
@@ -94,12 +94,17 @@ class data_ram_simple_two_ports( length: Int,width:Int) extends Module {
         val        doutb  = Output(UInt(width.W))
   
     })
-    val table = Module(new Look_up_table_read_first_(length,width)).io
-    table.ar_addr := io.addra
-    table.aw_addr := io.addrb
-    table.in      := io.dina
-    table.write   := io.wea
-    io.doutb      := table.out
+    // if(on_board == 1) {
+
+    // }else{
+        val table = Module(new Look_up_table_read_first_(length,width)).io
+        table.ar_addr := io.addra
+        table.aw_addr := io.addrb
+        table.in      := io.dina
+        table.write   := io.wea
+        io.doutb      := table.out
+    // }
+
 
 }
 // parameter Bits = 128;
@@ -217,3 +222,13 @@ class  ysyx_sram_with_mask(width:Int) extends Module{
 // object data_ram_one_port_test extends App{
 //     (new ChiselStage).emitVerilog(new data_ram_one_simple_two_ports(128,32))
 // }
+
+class axi_ram extends  BlackBox {
+    val io = IO(new Bundle {
+        val s_aclk = Input(Bool())
+        val s_aresetn = Input(Bool())
+        val rsta_busy = Output(Bool())
+        val rstb_busy = Output(Bool())
+        val s_axi = Flipped(new axi_ram_port)  
+    })
+}

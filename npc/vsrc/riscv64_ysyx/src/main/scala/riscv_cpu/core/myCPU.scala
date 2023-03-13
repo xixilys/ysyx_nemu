@@ -136,11 +136,11 @@ class myCPU extends Module with riscv_macros {//
 
 
     class inst_buffer_bundle extends Bundle {
-        val pc = UInt(data_length.W)
+        val pc = UInt(addr_length.W)
         val inst = UInt(32.W)
 
         val exception_type = UInt(2.W)        
-        val pre_pc_target = UInt(data_length.W)
+        val pre_pc_target = UInt(addr_length.W)
         val pre_lookup_data = UInt(7.W)
         val pre_hashcode    = UInt(4.W)
         val pre_pht         = UInt(2.W)
@@ -154,11 +154,11 @@ class myCPU extends Module with riscv_macros {//
         val true_branch_state        = Bool()
     }
 
-    val inst_buffer = Module(new fifo_with_bundle(16,new inst_buffer_bundle,3,2)).io
+    val inst_buffer = Module(new fifo_with_bundle(16,new inst_buffer_bundle,1,1)).io
 
     // io.inst_port_test <> _pc2if.io.inst_port_test
     // inst_port_test <> _pc2if.io.inst_port_test
-//    _if2id.io <> _pc2if.io
+// _if2id.io <> _pc2if.io
    _cu.io     <> _id2ex.io1
    _id2ex.io2 <> _ex2mem.io1
 
@@ -419,7 +419,6 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     val req_wait = RegInit(0.U.asBool)
 
     
-    // val bru = Module(new branch_prediction).io
     val stage_fec_1_pc_L = Module(new pc_detail)
 
     val stage_fec_1_pc_valid = RegInit(0.U(3.W))
@@ -446,9 +445,7 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
 
     val bru = Module(new branch_prediction_with_blockram).io
     bru.pc := stage_fec_1_pc_L.io_out.pc_value_out
-    bru.pc_plus := bru.pc//stage_fec_1_pc_M.io_out.pc_value_out
-    bru.pc_plus_plus := bru.pc//stage_fec_1_pc_R.io_out.pc_value_out
-    bru.sram_pc := inst_addr
+
 
     val stage_fec_1_valid = RegInit(0.U.asBool)
 
@@ -474,36 +471,27 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     val stage_fec_2_valid = RegInit(0.U.asBool)
     stage_fec_2_valid := Mux(stage_fec_2_stall,Mux(inst_buffer.point_write_en,access_stage1_sram_valid,stage_fec_1_valid),stage_fec_2_valid)
 
-    val stage_fec_2_bht  = RegInit(VecInit(Seq.fill(3)(0.U(7.W))))
-    val stage_fec_2_pht  = Wire(Vec(3,UInt(2.W)))
-    val stage_fec_2_pre_target = Wire(Vec(3,UInt(data_length.W)))
+    val stage_fec_2_bht  = RegInit(VecInit(Seq.fill(1)(0.U(7.W))))
+    val stage_fec_2_pht  = Wire(Vec(1,UInt(2.W)))
+    val stage_fec_2_pre_target = Wire(Vec(1,UInt(data_length.W)))
 
-    val stage_fec_2_hascode  = RegInit(VecInit(Seq.fill(3)(0.U(4.W))))
-    val stage_fec_2_lookup_data  = Wire(Vec(3,UInt(7.W)))
+    val stage_fec_2_hascode  = RegInit(VecInit(Seq.fill(1)(0.U(4.W))))
+    val stage_fec_2_lookup_data  = Wire(Vec(1,UInt(7.W)))
 
-    stage_fec_2_lookup_data := bru.lookup_data
+    stage_fec_2_lookup_data(0) := bru.lookup_data(0)
 
 
-    stage_fec_2_bht(0) := Mux(stage2_flush,0.U,Mux(stage2_stall,bru.bht_L,stage_fec_2_bht(0)))
-    stage_fec_2_bht(1) := Mux(stage2_flush,0.U,Mux(stage2_stall,bru.bht_M,stage_fec_2_bht(1)))
-    stage_fec_2_bht(2) := Mux(stage2_flush,0.U,Mux(stage2_stall,bru.bht_R,stage_fec_2_bht(2)))
+    stage_fec_2_bht(0) := Mux(stage2_flush,0.U,Mux(stage2_stall,bru.bht,stage_fec_2_bht(0)))
+    stage_fec_2_pht(0) := bru.out
 
-    stage_fec_2_pht(0) := bru.out_L
-    stage_fec_2_pht(1) := bru.out_M
-    stage_fec_2_pht(2) := bru.out_R
-
-    stage_fec_2_pre_target(0) := bru.pre_target_L
-    stage_fec_2_pre_target(1) := bru.pre_target_M
-    stage_fec_2_pre_target(2) := bru.pre_target_R
-
+    stage_fec_2_pre_target(0) := bru.pre_target
     stage_fec_2_hascode(0)  :=  Mux(stage2_flush,0.U,Mux(stage2_stall,Hash(bru.pc(19,4)),stage_fec_2_hascode(0)))
-    stage_fec_2_hascode(1)  :=  Mux(stage2_flush,0.U,Mux(stage2_stall,Hash(bru.pc(19,4)),stage_fec_2_hascode(1)))
-    stage_fec_2_hascode(2)  :=  Mux(stage2_flush,0.U,Mux(stage2_stall,Hash(bru.pc(19,4)),stage_fec_2_hascode(2)))
+
 
     val stage_fec_2_stall_reg = RegInit(0.U.asBool)
     stage_fec_2_stall_reg := stage_fec_2_stall
 //关闭分支预测
-    stage_fec_2_branch_answer := commit_bru_reg && bru.pre_L.asBool && (stage_fec_2_inst_branch || stage_fec_2_inst_jump) && bru.btb_hit(0) && stage_fec_2_stall_reg && stage_fec_2_valid && !_csr.io.exception.asBool
+    stage_fec_2_branch_answer := commit_bru_reg && bru.pre.asBool && (stage_fec_2_inst_branch || stage_fec_2_inst_jump) && bru.btb_hit(0) && stage_fec_2_stall_reg && stage_fec_2_valid && !_csr.io.exception.asBool
     ready_to_branch_pre := stage_fec_2_branch_answer
 
     // val stage_fec_2_branch_answer_reg = RegInit(0.U.asBool)
@@ -540,7 +528,6 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
 
     inst_buffer_write_bundle.pre_bht        := stage_fec_2_bht(0)
     inst_buffer_write_bundle.pre_pht        := stage_fec_2_pht(0)
-    inst_buffer_write_bundle.pre_lookup_value := bru.pht_lookup_value_out
     inst_buffer_write_bundle.pre_lookup_data  := stage_fec_2_lookup_data(0)
 
     inst_buffer_write_bundle.pre_decoder_branchD_flag := inst_rdata_L(32)
@@ -551,16 +538,18 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     inst_buffer_write_bundle.pre_hashcode             := stage_fec_2_hascode(0)
     inst_buffer_write_bundle.pre_pc_target            := stage_fec_2_pre_target(0)
     inst_buffer_write_bundle.true_branch_state        := true_branch_state
-  
+    inst_buffer_write_bundle.pre_lookup_value         := bru.pht_lookup_value_out
 
 
 
     inst_buffer.write_en    := Mux(stage_fec_2_data_valid || 1.U.asBool,inst_write_en,0.U)
     inst_buffer.write_in(0) := inst_buffer_write_bundle
+
+    //  inst_buffer.write_in(1) := inst_buffer.write_in(0)//Cat(jr_Decoder(inst_rdata_M(31,0)),inst_rdata_M(39,32),bru.pht_out,true_branch_state,stage_fec_2_bht(1),stage_fec_2_pht(1),stage_fec_2_pre_target(1),stage_fec_2_hascode(1),stage_fec_2_lookup_data(1),inst_rdata_M(31,0),stage_fec_2_pc_M.io_out.pc_value_out)
+    // inst_buffer.write_in(2) := inst_buffer.write_in(0)//Cat(jr_Decoder(inst_rdata_R(31,0)),inst_rdata_R(39,32),bru.pht_out,true_branch_state,stage_fec_2_bht(2),stage_fec_2_pht(2),stage_fec_2_pre_target(2),stage_fec_2_hascode(2),stage_fec_2_lookup_data(2),inst_rdata_R(31,0),stage_fec_2_pc_R.io_out.pc_value_out)
     // inst_buffer.write_in(0) := Cat(inst_tlb_exception,jr_Decoder(inst_rdata_L(31,0)),inst_rdata_L(39,32),bru.pht_out,true_branch_state,stage_fec_2_bht(0),stage_fec_2_pht(0),stage_fec_2_pre_target(0),stage_fec_2_hascode(0),stage_fec_2_lookup_data(0),inst_rdata_L(31,0),stage_fec_2_pc_L.io_out.pc_value_out)
     // inst_buffer.write_in(0) := Cat(inst_tlb_exception,jr_Decoder((31,0)),inst_rdata_L(39,32),bru.pht_out,true_branch_state,stage_fec_2_bht(0),stage_fec_2_pht(0),stage_fec_2_pre_target(0),stage_fec_2_hascode(0),stage_fec_2_lookup_data(0)
-    inst_buffer.write_in(1) := inst_buffer.write_in(0)//Cat(jr_Decoder(inst_rdata_M(31,0)),inst_rdata_M(39,32),bru.pht_out,true_branch_state,stage_fec_2_bht(1),stage_fec_2_pht(1),stage_fec_2_pre_target(1),stage_fec_2_hascode(1),stage_fec_2_lookup_data(1),inst_rdata_M(31,0),stage_fec_2_pc_M.io_out.pc_value_out)
-    inst_buffer.write_in(2) := inst_buffer.write_in(0)//Cat(jr_Decoder(inst_rdata_R(31,0)),inst_rdata_R(39,32),bru.pht_out,true_branch_state,stage_fec_2_bht(2),stage_fec_2_pht(2),stage_fec_2_pre_target(2),stage_fec_2_hascode(2),stage_fec_2_lookup_data(2),inst_rdata_R(31,0),stage_fec_2_pc_R.io_out.pc_value_out)
+   
     inst_buffer.read_en     := Mux(_cfu.io.StallF.asBool,1.U,0.U) //继续流水线流下去，就发射一条指令
     inst_buffer.point_flush := _csr.io.exception
 
@@ -677,15 +666,15 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     ex_bru_state.io.flush := _cfu.io.FlushE
     ex_bru_state.io.stall := _cfu.io.StallE
 
-    val mem_bru_state =  Module(new bru_detail(false))
+    val mem_bru_state =  Module(new bru_detail(true))
     mem_bru_state.io.flush := _cfu.io.FlushM
     mem_bru_state.io.stall := _cfu.io.StallM
 
-    val mem2_bru_state =  Module(new bru_detail(false))
+    val mem2_bru_state =  Module(new bru_detail(true))
     mem2_bru_state.io.flush := _cfu.io.FlushM2
     mem2_bru_state.io.stall := _cfu.io.StallM2
 
-    val wb_bru_state =  Module(new bru_detail(false))
+    val wb_bru_state =  Module(new bru_detail(true))
     wb_bru_state.io.flush := _cfu.io.FlushW
     wb_bru_state.io.stall := _cfu.io.StallW
 
@@ -1094,18 +1083,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
 
         // --------------
     Mem_withRL_Data := _dmem.io.RD
-        // MuxLookup(_mem2mem2.io.MemRLM,_dmem.io.RD,Seq(
-    //     "b10".U -> MuxLookup(_mem2mem2.io.PhyAddrM(1,0),_dmem.io.RD,Seq(
-    //         "b00".U   -> Cat(_dmem.io.RD(7,0),_mem2mem2.io.RtM(23,0)),
-    //         "b01".U   -> Cat(_dmem.io.RD(15,0),_mem2mem2.io.RtM(15,0)),
-    //         "b10".U   -> Cat(_dmem.io.RD(23,0),_mem2mem2.io.RtM(7,0))    
-    //     )),
-    //     "b01".U  -> MuxLookup(_mem2mem2.io.PhyAddrM(1,0),_dmem.io.RD,Seq(
-    //         "b01".U   -> Cat(_mem2mem2.io.RtM(31,24),_dmem.io.RD(31,8)),
-    //         "b10".U   -> Cat(_mem2mem2.io.RtM(31,16),_dmem.io.RD(31,16)),
-    //         "b11".U   -> Cat(_mem2mem2.io.RtM(31,8),_dmem.io.RD(31,24))  
-    //     ))
-    // )) 
+ 
     _mem22wb.io.ExceptionTypeM  := _mem2mem2.io.ExceptionTypeM_Out(31,1)
     _mem22wb.io.eBreakM         := _mem2mem2.io.eBreakM
     _mem22wb.io.Pc_NextM        := _mem2mem2.io.Pc_NextM
@@ -1179,7 +1157,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
 
    // 提交阶段将数据写回到分支预测的表项中
    bru.bht_in := wb_bru_state.io_out.bht
-   bru.pht_in := wb_bru_state.io_out.pht_lookup_value
+   bru.pht_in := wb_bru_state.io_out.pht
    bru.bht_write := _mem22wb.io.BranchJump_JrW(0)
    bru.pht_write := bru.bht_write
    bru.btb_write := bru.bht_write
@@ -1188,6 +1166,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
    bru.aw_target_addr := wb_bru_state.io_out.target_pc
    bru.aw_pht_ways_addr := wb_bru_state.io_out.hashcode
    bru.write_pc := _mem22wb.io.PCW
+
     // -----------------others that I can not understand
     val disable_cache = RegInit(0.U(1.W))
     disable_cache := Mux((PCF === 0xbfc0005.U<<4 ),1.U,disable_cache)

@@ -14,5 +14,6 @@ class uart (apb_addr_w:Int,apb_data_w:Int)extends  BlackBox {
         val in_pprot = Input(UInt(3.W))
         val uart_rx = Input(Bool())
         val uart_tx = Output(Bool())
+        val o_interrupt = Output(Bool())
     })
 }        

@@ -112,12 +112,23 @@ class mycpu_top  extends Module with riscv_macros {
     // val         clk     = IO(Input(Bool())).suggestName("clock")
     // val         ext_int = IO(Input(UInt(6.W)))// 外部中断\
 
-    val        axi_mem_port =  IO((new axi_ram_port)) 
+    val        axi_mem_port =  IO(if(on_board == 1) Output(UInt(0.W)) else  (new axi_ram_port) ) 
     // val        io_slave  = IO(Flipped(new axi_ram_port))
     val        io_interrupt = IO(Input(Bool()))
 
     val        can_rx     = IO(Input(Bool()))
     val        can_tx     = IO(Output(Bool()))
+
+    val  spi_flash_cs   = IO(if(on_board == 1 )Output(UInt(2.W)) else Output(UInt(0.W)))
+    val  spi_flash_clk  = IO(if(on_board == 1 )Output(Bool()) else Output(UInt(0.W)))
+    val  spi_flash_mosi = IO(if(on_board == 1 )Output(Bool()) else Output(UInt(0.W)))
+    val  spi_flash_miso = IO(if(on_board == 1 )Input(Bool()) else Input(UInt(0.W)))
+
+    val  uart_rx = IO(Input(Bool()))
+    val  uart_tx = IO(Output(Bool()))
+
+
+    // val        spi_mosi
 
     // val        io_sram0 = IO(Flipped(new sram_port))
     // val        io_sram1 = IO(Flipped(new sram_port))
@@ -248,8 +259,17 @@ class mycpu_top  extends Module with riscv_macros {
 
     icache_first.stage2_flush := u_riscv_cpu.stage2_flush
     icache_first.tag_valid_flush := u_riscv_cpu.icache_tag_flush
+    if(on_board == 1) {
+        val axi_block_ram = Module(new axi_ram).io
+        axi_block_ram.s_axi <> _axi_cross_bar.io.s_port(0)
+        axi_block_ram.s_aclk := clock.asBool
+        axi_block_ram.s_aresetn := !reset.asBool
+        axi_mem_port := 0.U
 
-    axi_mem_port <> _axi_cross_bar.io.s_port(0)
+    }else {
+        axi_mem_port <> _axi_cross_bar.io.s_port(0)
+    }
+
     // axi_mem_port(1) <> dcache.port
     _axi_cross_bar.io.m_port(0) <> icache.port
     _axi_cross_bar.io.m_port(1) <> dcache.port
@@ -281,7 +301,7 @@ class mycpu_top  extends Module with riscv_macros {
         //peripherals
 
     val axi_can = Module(new axi_can_top).io
-    val axi_plic = Module(new plic_periph(0x22000000.U(data_length.W),1)).io
+    val axi_plic = Module(new plic_periph(0x22000000.U(data_length.W),2)).io
     val axi2apb = Module(new AXI4ToAPB(32,32,32,64,
         Array(0x30000000),Array(0x3fffffff)))
     val axi2apb_uart = Module(new AXI4ToAPB(32,32,32,64,
@@ -306,6 +326,7 @@ class mycpu_top  extends Module with riscv_macros {
     
 
     axi_plic.int_get(0) := axi_can.int_wire
+    axi_plic.int_get(1) := uart_controler.o_interrupt
  
 
     icache_first.stage1_valid_flush := u_riscv_cpu.stage1_valid_flush
@@ -317,19 +338,32 @@ class mycpu_top  extends Module with riscv_macros {
     spi_controler.resetn := !reset.asBool
     spi_controler.in <> axi2apb.io.apb_port
     spi_controler.in_pprot := 1.U
-
-    val spi_flash = Module(new spiFlash).io
-    spi_flash.clk := spi_controler.spi_clk
-    spi_flash.cs := spi_controler.spi_cs
-    spi_flash.mosi := spi_controler.spi_mosi
-    spi_controler.spi_miso := spi_flash.miso
+    if(on_board == 0) {
+        val spi_flash = Module(new spiFlash).io
+        spi_flash.clk := spi_controler.spi_clk
+        spi_flash.cs := spi_controler.spi_cs
+        spi_flash.mosi := spi_controler.spi_mosi
+        spi_controler.spi_miso := spi_flash.miso
+        spi_flash_clk := 0.U
+        spi_flash_mosi := 0.U
+        spi_flash_cs := 0.U
+        
+    }else {
+        spi_flash_clk := spi_controler.spi_clk
+        spi_flash_cs  := spi_controler.spi_cs
+        spi_flash_mosi := spi_controler.spi_mosi
+        spi_controler.spi_miso := spi_flash_miso
+    }
 
     //uart
     uart_controler.clk := clock.asBool
     uart_controler.resetn := !reset.asBool
     uart_controler.in    <> axi2apb_uart.io.apb_port
     uart_controler.in_pprot := 1.U
-    uart_controler.uart_rx := 0.U
+    uart_controler.uart_rx := uart_rx
+    uart_tx := uart_controler.uart_tx
+
+
 
 
 }

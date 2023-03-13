@@ -15,7 +15,13 @@ abstract class ExplicitInvalidateModule extends Module {
 trait riscv_macros {
 
 // data_length
-val difftest_on  = true
+var difftest_on  = true
+val on_board = 1
+if(on_board == 1) {
+    difftest_on  = false
+}else{
+    difftest_on  = true
+}
 val tlb_on = false
 val log_on = false
 val cache_on = 0.U.asBool

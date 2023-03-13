@@ -105,18 +105,14 @@ class  PHTS_banks_oneissue (length : Int,width : Int ,ways: Int,bank_num: Int)  
     val bank_num_width = (log10(bank_num)/log10(2)).toInt
     val io = IO(new Bundle { //分支指令不支持同时写
         val ar_bank_sel = Input(UInt(bank_num_width.W))
-        val ar_addr_L  = Input(UInt(addr_width.W))
-        val ar_addr_M  = Input(UInt(addr_width.W))
-        val ar_addr_R  = Input(UInt(addr_width.W))
+        val ar_addr  = Input(UInt(addr_width.W))
         val ar_pht_addr = Input(UInt(ways_width.W))
         val aw_addr  = Input(UInt(addr_width.W))
         val aw_pht_addr = Input(UInt(ways_width.W))
         val aw_bank_sel = Input(UInt(bank_num_width.W))
         val write = Input(Bool()) // 0 => 不写入 01 => 部分写入 10 => 全写入
         val in = Input(UInt(width.W))
-        val out_L = Output(UInt(width.W))
-        val out_M = Output(UInt(width.W))
-        val out_R = Output(UInt(width.W))
+        val out = Output(UInt(width.W))
     })
 
 
@@ -127,17 +123,15 @@ class  PHTS_banks_oneissue (length : Int,width : Int ,ways: Int,bank_num: Int)  
     for(i <- 0 until bank_num ) {
         phts_banks(i).write := io.aw_bank_sel === i.asUInt &&  io.write
         phts_banks(i).in := io.in
-        phts_banks(i).ar_addr := io.ar_addr_L//MuxLookup(i.asUInt,0.U,Seq(
+        phts_banks(i).ar_addr := io.ar_addr//MuxLookup(i.asUInt,0.U,Seq(
            // io.ar_bank_sel -> ,
      
         phts_banks(i).ar_pht_addr := io.ar_pht_addr//这个应该就是直接用pc中的中间20位生成的一个hascode来进行寻址
         phts_banks(i).aw_addr := io.aw_addr
         phts_banks(i).aw_pht_addr := io.aw_pht_addr
     }
-    io.out_L := phts_banks(io.ar_bank_sel).out
-    io.out_M := phts_banks(io.ar_bank_sel).out//phts_banks((io.ar_bank_sel + 1.U)((bank_num_width - 1),0)).out
-    io.out_R := phts_banks(io.ar_bank_sel).out//phts_banks((io.ar_bank_sel + 2.U)((bank_num_width - 1),0)).out
-   // io.out := phts(io.ar_pht_addr).out
+    io.out := phts_banks(io.ar_bank_sel).out
+   
 }
 
 
@@ -172,17 +166,32 @@ class pht_data_with_block_ram(length : Int)  extends Module with riscv_macros {
     val        rdata  = Output(UInt(8.W))
   
     })
-    //a通道为写 b通道为读
-    val btb_data_ram_0 = Module(new data_ram_simple_two_ports(length,8))
-    btb_data_ram_0.io.clka := clock.asUInt
-    btb_data_ram_0.io.clkb := clock.asUInt
-    btb_data_ram_0.io.ena   := io.en
-    btb_data_ram_0.io.enb   := io.en
-    btb_data_ram_0.io.wea  := io.wen
-    btb_data_ram_0.io.addra := io.waddr
-    btb_data_ram_0.io.addrb := io.raddr
-    btb_data_ram_0.io.dina := io.wdata
-    io.rdata     := btb_data_ram_0.io.doutb
+    
+    if(on_board == 1) {
+        val btb_data_ram_0 = Module(new pht_data_ram(length))
+        btb_data_ram_0.io.clka := clock.asUInt
+        btb_data_ram_0.io.clkb := clock.asUInt
+        btb_data_ram_0.io.ena   := io.en
+        btb_data_ram_0.io.enb   := io.en
+        btb_data_ram_0.io.wea  := io.wen
+        btb_data_ram_0.io.addra := io.waddr
+        btb_data_ram_0.io.addrb := io.raddr
+        btb_data_ram_0.io.dina := io.wdata
+        io.rdata     := btb_data_ram_0.io.doutb
+    }else {
+ //a通道为写 b通道为读
+        val btb_data_ram_0 = Module(new data_ram_simple_two_ports(length,8))
+        btb_data_ram_0.io.clka := clock.asUInt
+        btb_data_ram_0.io.clkb := clock.asUInt
+        btb_data_ram_0.io.ena   := io.en
+        btb_data_ram_0.io.enb   := io.en
+        btb_data_ram_0.io.wea  := io.wen
+        btb_data_ram_0.io.addra := io.waddr
+        btb_data_ram_0.io.addrb := io.raddr
+        btb_data_ram_0.io.dina := io.wdata
+        io.rdata     := btb_data_ram_0.io.doutb
+    }
+   
 }
 
 class  PHTS_with_block_ram (length : Int,ways: Int)  extends Module {
@@ -222,7 +231,7 @@ class  PHTS_with_block_ram (length : Int,ways: Int)  extends Module {
     io.pht_out := phts(ways_araddr_reg).rdata
     // phts(io.ar_pht_addr).rdata
 }
-class  PHTS_banks_oneissue_block_ram (length : Int,ways: Int,bank_num: Int)  extends Module {
+class  PHTS_banks_oneissue_block_ram (length : Int,width:Int,ways: Int,bank_num: Int)  extends Module {
     val addr_width = (log10(length)/log10(2)).toInt
     val ways_width = (log10(ways)/log10(2)).toInt
     val bank_num_width = (log10(bank_num)/log10(2)).toInt

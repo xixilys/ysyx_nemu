@@ -73,57 +73,43 @@ class BTB_banks_oneissue(length : Int,bank_num: Int) extends Module  with riscv_
     val addr_width = (log10(length)/log10(2)).toInt
     val bank_num_width = (log10(bank_num)/log10(2)).toInt
     val io = IO(new Bundle { //分支指令不支持同时写
-        val ar_addr_L  = Input(UInt(data_length.W))
-        val ar_addr_M = Input(UInt(data_length.W))
-        val ar_addr_R = Input(UInt(data_length.W))
-        val aw_addr  = Input(UInt(data_length.W))
-        val aw_target_addr = Input(UInt(data_length.W))
+        val ar_addr  = Input(UInt(addr_length.W))
+        val aw_addr  = Input(UInt(addr_length.W))
+        val aw_target_addr = Input(UInt(addr_length.W))
         val write = Input(Bool()) 
-        val out_L = Output(UInt(data_length.W))
-        val out_M = Output(UInt(data_length.W))
-        val out_R = Output(UInt(data_length.W))
-        val hit_L = Output(Bool())
-        val hit_M = Output(Bool())
-        val hit_R = Output(Bool())
+        val out = Output(UInt(addr_length.W))
+        val hit = Output(Bool())
+    
     })
     //选择一直都是存width宽度的数据，尽量降低PHTS的复杂度ar_pht_addr
     //还没确定后面分支恢复的时候的时序，先按照不停流水线来做吧
     val tag_banks = VecInit(Seq.fill(bank_num)(Module(new Look_up_table_read_first_(length,1 + 17 - (bank_num_width  + addr_width + 2))).io))
-    val btb_banks = VecInit(Seq.fill(bank_num)(Module(new Look_up_table_read_first_(length,32)).io))
+    //要对齐喵
+    val btb_banks = VecInit(Seq.fill(bank_num)(Module(new Look_up_table_read_first_(length,(addr_length ))).io))
     for(i <- 0 until bank_num ) {
         btb_banks(i).write := io.aw_addr(bank_num_width + 1,2) === i.asUInt &&  io.write
         btb_banks(i).in := io.aw_target_addr
-        btb_banks(i).ar_addr := io.ar_addr_L(addr_width + 3,4)
-        // MuxLookup(i.asUInt,0.U,Seq(
-        // io.ar_addr_L(bank_num_width + 1,2) -> io.ar_addr_L(addr_width + 3,4),       
-        // io.ar_addr_M(bank_num_width + 1,2) -> io.ar_addr_M(addr_width + 3,4),
-        // io.ar_addr_R(bank_num_width + 1,2) -> io.ar_addr_R(addr_width + 3,4)
-        // ))
-        btb_banks(i).aw_addr := io.aw_addr(addr_width + 3,4)
+        btb_banks(i).ar_addr := io.ar_addr(addr_width + 3,(2 + bank_num_width))
+        btb_banks(i).aw_addr := io.aw_addr(addr_width + 3,(2 + bank_num_width))
     }
-    io.out_L := btb_banks(io.ar_addr_L(bank_num_width + 1,2) ).out
-    io.out_M := btb_banks(io.ar_addr_M(bank_num_width + 1,2) ).out
-    io.out_R := btb_banks(io.ar_addr_R(bank_num_width + 1,2) ).out
+    // io.out := btb_banks(io.ar_addr(bank_num_width + 1,2) ).out
 
     for(i <- 0 until bank_num ) {
         tag_banks(i).write := io.aw_addr(bank_num_width + 1,2) === i.asUInt &&  io.write
         tag_banks(i).in := Cat(1.U(1.W),io.aw_addr(16,bank_num_width + addr_width + 2))
-        tag_banks(i).ar_addr := io.ar_addr_L(addr_width + 3,4)
+        tag_banks(i).ar_addr := io.ar_addr(addr_width + 3,(2 + bank_num_width))
         //     MuxLookup(i.asUInt,0.U,Seq(
         //     io.ar_addr_L(bank_num_width + 1,2) -> io.ar_addr_L(addr_width + 3,4),       
         //     io.ar_addr_M(bank_num_width + 1,2) -> io.ar_addr_M(addr_width + 3,4),
         //     io.ar_addr_R(bank_num_width + 1,2) -> io.ar_addr_R(addr_width + 3,4)
         // ))
-        tag_banks(i).aw_addr := io.aw_addr(addr_width + 3,4)
+        tag_banks(i).aw_addr := io.aw_addr(addr_width + 3,(2 + bank_num_width))
     }
 
-    io.out_L := btb_banks(io.ar_addr_L(bank_num_width + 1,2)).out
-    io.out_M := btb_banks(io.ar_addr_M(bank_num_width + 1,2)).out
-    io.out_R := btb_banks(io.ar_addr_R(bank_num_width + 1,2)).out
+    io.out := btb_banks(io.ar_addr(bank_num_width + 1,2)).out
+
     //为什么是16呢，因为官方测试程序里面最大位宽就是第17位
-    io.hit_L := tag_banks(io.ar_addr_L(bank_num_width + 1,2)).out(16 - bank_num_width - addr_width - 2 ,0) === io.ar_addr_L(16 , (bank_num_width  + addr_width + 2)) && tag_banks(io.ar_addr_L(bank_num_width + 1 ,2)).out(16 - bank_num_width - addr_width - 2 + 1) 
-    io.hit_M := tag_banks(io.ar_addr_M(bank_num_width + 1,2)).out(16 - bank_num_width - addr_width - 2 ,0) === io.ar_addr_M(16 , (bank_num_width  + addr_width + 2)) && tag_banks(io.ar_addr_M(bank_num_width + 1 ,2)).out(16 - bank_num_width - addr_width - 2 + 1)
-    io.hit_R := tag_banks(io.ar_addr_R(bank_num_width + 1,2)).out(16 - bank_num_width - addr_width - 2 ,0) === io.ar_addr_R(16 , (bank_num_width  + addr_width + 2)) && tag_banks(io.ar_addr_R(bank_num_width + 1 ,2)).out(16 - bank_num_width - addr_width - 2 + 1)
+    io.hit := tag_banks(io.ar_addr(bank_num_width + 1,2)).out(16 - bank_num_width - addr_width - 2 ,0) === io.ar_addr(16 , (bank_num_width  + addr_width + 2)) && tag_banks(io.ar_addr(bank_num_width + 1 ,2)).out(16 - bank_num_width - addr_width - 2 + 1) 
 }
 // object BTBS_banks_test extends App{
 //     (new ChiselStage).emitVerilog(new BTB_banks(128,4))
@@ -138,7 +124,7 @@ class BTB_banks_oneissue(length : Int,bank_num: Int) extends Module  with riscv_
 //   input enb;
 //   input [8:0]addrb;
 //   output [31:0]doutb;
-class btb_data_ram(length : Int) extends BlackBox with riscv_macros{
+class btb_data_ram(length : Int) extends BlackBox {
      val addr_width = (log10(length)/log10(2)).toInt
     val io = IO(new Bundle {
      
@@ -149,13 +135,13 @@ class btb_data_ram(length : Int) extends BlackBox with riscv_macros{
     val        wea   = Input(UInt(1.W)) //没有使能对于字的写
     //a端口为读 端口为写
     val        addra   = Input(UInt(addr_width.W))
-    val        dina  = Input(UInt(data_length.W))
+    val        dina  = Input(UInt(32.W))
     val        addrb   = Input(UInt(addr_width.W))
-    val        doutb  = Output(UInt(data_length.W))
+    val        doutb  = Output(UInt(32.W))
   
     })
 }
-class btb_tag_ram(length : Int) extends BlackBox with riscv_macros{
+class btb_tag_ram(length : Int) extends BlackBox {
      val addr_width = (log10(length)/log10(2)).toInt
     val io = IO(new Bundle {
      
@@ -186,16 +172,30 @@ class btb_data_with_block_ram(length : Int)  extends Module with riscv_macros {
   
     })
     //a通道为写 b通道为读Z
-    val btb_data_ram_0 = Module(new data_ram_simple_two_ports(length,32))
-    btb_data_ram_0.io.clka := clock.asUInt
-    btb_data_ram_0.io.clkb := clock.asUInt
-    btb_data_ram_0.io.ena   := io.en
-    btb_data_ram_0.io.enb   := io.en
-    btb_data_ram_0.io.wea  := io.wen
-    btb_data_ram_0.io.addra := io.waddr
-    btb_data_ram_0.io.addrb := io.raddr
-    btb_data_ram_0.io.dina := io.wdata
-    io.rdata     := btb_data_ram_0.io.doutb
+    if(on_board == 1) {
+        val btb_data_ram_0 = Module(new btb_data_ram(512))
+        btb_data_ram_0.io.clka := clock.asUInt
+        btb_data_ram_0.io.clkb := clock.asUInt
+        btb_data_ram_0.io.ena   := io.en
+        btb_data_ram_0.io.enb   := io.en
+        btb_data_ram_0.io.wea  := io.wen
+        btb_data_ram_0.io.addra := io.waddr
+        btb_data_ram_0.io.addrb := io.raddr
+        btb_data_ram_0.io.dina := io.wdata
+        io.rdata     := btb_data_ram_0.io.doutb    
+    }else{
+        val btb_data_ram_0 = Module(new data_ram_simple_two_ports(length,32))
+        btb_data_ram_0.io.clka := clock.asUInt
+        btb_data_ram_0.io.clkb := clock.asUInt
+        btb_data_ram_0.io.ena   := io.en
+        btb_data_ram_0.io.enb   := io.en
+        btb_data_ram_0.io.wea  := io.wen
+        btb_data_ram_0.io.addra := io.waddr
+        btb_data_ram_0.io.addrb := io.raddr
+        btb_data_ram_0.io.dina := io.wdata
+        io.rdata     := btb_data_ram_0.io.doutb
+    }
+    
 }
 
 
@@ -213,16 +213,32 @@ class btb_tag_with_block_ram(length : Int)  extends Module with riscv_macros {
   
     })
     //a通道为写 b通道为读
-    val btb_tag_ram_0 = Module(new data_ram_simple_two_ports(512,8))
-    btb_tag_ram_0.io.clka := clock.asUInt
-    btb_tag_ram_0.io.clkb := clock.asUInt
-    btb_tag_ram_0.io.ena   := io.en
-    btb_tag_ram_0.io.enb   := io.en
-    btb_tag_ram_0.io.wea  := io.wen
-    btb_tag_ram_0.io.addra := io.waddr
-    btb_tag_ram_0.io.addrb := io.raddr
-    btb_tag_ram_0.io.dina := io.wdata
-    io.rdata     := btb_tag_ram_0.io.doutb
+    if(on_board == 1 ) {
+        val btb_tag_ram_0 = Module(new btb_tag_ram(512))
+        btb_tag_ram_0.io.clka := clock.asUInt
+        btb_tag_ram_0.io.clkb := clock.asUInt
+        btb_tag_ram_0.io.ena   := io.en
+        btb_tag_ram_0.io.enb   := io.en
+        btb_tag_ram_0.io.wea  := io.wen
+        btb_tag_ram_0.io.addra := io.waddr
+        btb_tag_ram_0.io.addrb := io.raddr
+        btb_tag_ram_0.io.dina := io.wdata
+        io.rdata     := btb_tag_ram_0.io.doutb
+    }else{
+        val btb_tag_ram_0 = Module(new data_ram_simple_two_ports(512,8))
+        btb_tag_ram_0.io.clka := clock.asUInt
+        btb_tag_ram_0.io.clkb := clock.asUInt
+        btb_tag_ram_0.io.ena   := io.en
+        btb_tag_ram_0.io.enb   := io.en
+        btb_tag_ram_0.io.wea  := io.wen
+        btb_tag_ram_0.io.addra := io.waddr
+        btb_tag_ram_0.io.addrb := io.raddr
+        btb_tag_ram_0.io.dina := io.wdata
+        io.rdata     := btb_tag_ram_0.io.doutb
+
+
+    }
+        
 }
 
 class BTB_banks_oneissue_with_block_ram(length : Int,bank_num: Int) extends Module  with riscv_macros{
@@ -230,18 +246,12 @@ class BTB_banks_oneissue_with_block_ram(length : Int,bank_num: Int) extends Modu
     val addr_width = (log10(length)/log10(2)).toInt
     val bank_num_width = (log10(bank_num)/log10(2)).toInt
     val io = IO(new Bundle { //分支指令不支持同时写
-        val ar_addr_L  = Input(UInt(32.W))
-        val ar_addr_M = Input(UInt(32.W))
-        val ar_addr_R = Input(UInt(32.W))
+        val ar_addr  = Input(UInt(32.W))
         val aw_addr  = Input(UInt(32.W))
         val aw_target_addr = Input(UInt(32.W))
         val write = Input(Bool()) 
-        val out_L = Output(UInt(32.W))
-        val out_M = Output(UInt(32.W))
-        val out_R = Output(UInt(32.W))
-        val hit_L = Output(Bool())
-        val hit_M = Output(Bool())
-        val hit_R = Output(Bool())
+        val out = Output(UInt(32.W))
+        val hit = Output(Bool())
     })
     //选择一直都是存width宽度的数据，尽量降低PHTS的复杂度ar_pht_addr
     //还没确定后面分支恢复的时候的时序，先按照不停流水线来做吧
@@ -252,25 +262,17 @@ class BTB_banks_oneissue_with_block_ram(length : Int,bank_num: Int) extends Modu
         btb_banks(i).en := 1.U
         btb_banks(i).wen := io.aw_addr(bank_num_width + 1,2) === i.asUInt &&  io.write
         btb_banks(i).wdata := io.aw_target_addr
-        btb_banks(i).raddr := io.ar_addr_L(addr_width + 3,4)
-        // MuxLookup(i.asUInt,0.U,Seq(
-        // io.ar_addr_L(bank_num_width + 1,2) -> io.ar_addr_L(addr_width + 3,4),       
-        // io.ar_addr_M(bank_num_width + 1,2) -> io.ar_addr_M(addr_width + 3,4),
-        // io.ar_addr_R(bank_num_width + 1,2) -> io.ar_addr_R(addr_width + 3,4)
-        // ))
+        btb_banks(i).raddr := io.ar_addr(addr_width + 3,4)
         btb_banks(i).waddr := io.aw_addr(addr_width + 3,4)
     }
     val ar_addr_reg = RegInit(0.U(32.W))
-    ar_addr_reg :=  io.ar_addr_L
-    io.out_L := btb_banks(ar_addr_reg(bank_num_width + 1,2) ).rdata
-    io.out_M := btb_banks(ar_addr_reg(bank_num_width + 1,2) ).rdata
-    io.out_R := btb_banks(ar_addr_reg(bank_num_width + 1,2) ).rdata
-
+    ar_addr_reg :=  io.ar_addr
+    io.out := btb_banks(ar_addr_reg(bank_num_width + 1,2) ).rdata
     for(i <- 0 until bank_num ) {
         tag_banks(i).en := 1.U
         tag_banks(i).wen := io.aw_addr(bank_num_width + 1,2) === i.asUInt &&  io.write
         tag_banks(i).wdata := Cat(1.U(1.W),io.aw_addr(16,bank_num_width + addr_width + 2))
-        tag_banks(i).raddr := io.ar_addr_L(addr_width + 3,4)
+        tag_banks(i).raddr := io.ar_addr(addr_width + 3,4)
         //     MuxLookup(i.asUInt,0.U,Seq(
         //     io.ar_addr_L(bank_num_width + 1,2) -> io.ar_addr_L(addr_width + 3,4),       
         //     io.ar_addr_M(bank_num_width + 1,2) -> io.ar_addr_M(addr_width + 3,4),
@@ -283,7 +285,5 @@ class BTB_banks_oneissue_with_block_ram(length : Int,bank_num: Int) extends Modu
     // io.out_M := btb_banks(io.ar_addr_M(bank_num_width + 1,2)).rdata
     // io.out_R := btb_banks(io.ar_addr_R(bank_num_width + 1,2)).rdata
     //为什么是16呢，因为官方测试程序里面最大位宽就是第17位
-    io.hit_L := tag_banks(ar_addr_reg(bank_num_width + 1,2)).rdata(16 - bank_num_width - addr_width - 2 ,0) === io.ar_addr_L(16 , (bank_num_width  + addr_width + 2)) && tag_banks(ar_addr_reg(bank_num_width + 1 ,2)).rdata(16 - bank_num_width - addr_width - 2 + 1) 
-    io.hit_M := tag_banks(ar_addr_reg(bank_num_width + 1,2)).rdata(16 - bank_num_width - addr_width - 2 ,0) === io.ar_addr_M(16 , (bank_num_width  + addr_width + 2)) && tag_banks(ar_addr_reg(bank_num_width + 1 ,2)).rdata(16 - bank_num_width - addr_width - 2 + 1)
-    io.hit_R := tag_banks(ar_addr_reg(bank_num_width + 1,2)).rdata(16 - bank_num_width - addr_width - 2 ,0) === io.ar_addr_R(16 , (bank_num_width  + addr_width + 2)) && tag_banks(ar_addr_reg(bank_num_width + 1 ,2)).rdata(16 - bank_num_width - addr_width - 2 + 1)
+    io.hit := tag_banks(ar_addr_reg(bank_num_width + 1,2)).rdata(16 - bank_num_width - addr_width - 2 ,0) === io.ar_addr(16 , (bank_num_width  + addr_width + 2)) && tag_banks(ar_addr_reg(bank_num_width + 1 ,2)).rdata(16 - bank_num_width - addr_width - 2 + 1) 
 }

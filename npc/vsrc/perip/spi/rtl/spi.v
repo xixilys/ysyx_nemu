@@ -130,7 +130,7 @@ wire [`P_ADDR_W-1:0] paddr_align = {in_paddr[`P_ADDR_W-1:2], 2'b00};
 always@(posedge clk or negedge resetn) begin
   if(!resetn)
     paddr_reg <= 32'h0;
-  if(in_psel && in_penable)
+  else if(in_psel && in_penable) 
     paddr_reg <= paddr_align;
 end
 

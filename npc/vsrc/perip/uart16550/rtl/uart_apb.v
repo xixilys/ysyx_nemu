@@ -17,6 +17,7 @@ module uart_apb (
      , input   wire [3:0]  in_pstrb
      , input   wire        uart_rx       // serial output
      , output  wire        uart_tx       // serial input
+     , output  wire        o_interrupt
 );
    //--------------------------------------------------
    wire   rtsn;
@@ -38,6 +39,7 @@ module uart_apb (
    //--------------------------------------------------------
    assign in_pready = in_psel && in_penable;
    assign in_pslverr = 1'b0;
+   assign o_interrupt = interrupt;
    //assign reg_we  = resetn & in_psel & ~in_penable &  in_pwrite;
    assign reg_we  = resetn & in_psel & in_penable &  in_pwrite;
    assign reg_re  = resetn & in_psel & in_penable & ~in_pwrite;
