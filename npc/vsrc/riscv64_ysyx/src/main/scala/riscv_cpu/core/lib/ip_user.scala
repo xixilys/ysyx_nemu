@@ -232,3 +232,10 @@ class axi_ram extends  BlackBox {
         val s_axi = Flipped(new axi_ram_port)  
     })
 }
+
+class clk_pll extends  BlackBox {
+    val io = IO(new Bundle {
+        val clk_in1 = Input(Bool())
+        val clk_out1 = Output(Bool())
+    }) 
+}

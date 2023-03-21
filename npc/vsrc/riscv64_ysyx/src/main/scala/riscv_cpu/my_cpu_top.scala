@@ -111,46 +111,46 @@ class mycpu_top  extends Module with riscv_macros {
     // val         aresetn  = IO(Input(Bool())).suggestName("reset")
     // val         clk     = IO(Input(Bool())).suggestName("clock")
     // val         ext_int = IO(Input(UInt(6.W)))// 外部中断\
-
+    //按键是按下低电平，相当于就是低电平复位，而chisel是高电平复位
     val        axi_mem_port =  IO(if(on_board == 1) Output(UInt(0.W)) else  (new axi_ram_port) ) 
+    val        resetn  = reset.asBool
+    val        resetp  = !reset.asBool
     // val        io_slave  = IO(Flipped(new axi_ram_port))
     val        io_interrupt = IO(Input(Bool()))
 
     val        can_rx     = IO(Input(Bool()))
     val        can_tx     = IO(Output(Bool()))
+    val        led_shine  = IO(Vec(2,Output(Bool())))
 
-    val  spi_flash_cs   = IO(if(on_board == 1 )Output(UInt(2.W)) else Output(UInt(0.W)))
+    
+    val  spi_flash_cs   = IO(if(on_board == 1 )Output(Bool()) else Output(UInt(0.W)))
     val  spi_flash_clk  = IO(if(on_board == 1 )Output(Bool()) else Output(UInt(0.W)))
     val  spi_flash_mosi = IO(if(on_board == 1 )Output(Bool()) else Output(UInt(0.W)))
     val  spi_flash_miso = IO(if(on_board == 1 )Input(Bool()) else Input(UInt(0.W)))
+    val  spi_flash_hold = IO(if(on_board == 1 )Output(Bool()) else Output(UInt(0.W)))
+    val  spi_flash_wp   = IO(if(on_board == 1 )Output(Bool()) else Output(UInt(0.W)))
 
     val  uart_rx = IO(Input(Bool()))
     val  uart_tx = IO(Output(Bool()))
 
+    val sys_clk = Wire(Bool())
+    if(on_board == 1) {
+        val pll_instance = Module(new clk_pll)
+        pll_instance.io.clk_in1 := clock.asBool
+        sys_clk := pll_instance.io.clk_out1.asBool
+    }else{
+        sys_clk := clock.asBool
+    }
+   
+    withClockAndReset(sys_clk.asClock,resetp.asBool) {
 
-    // val        spi_mosi
+   
+    val (counter,a_signal ) = Counter(1.U.asBool,10000000)
+    // led_shine := Mux)
+    val led_shine_reg = RegInit(0.U.asBool)
+    led_shine(0) := led_shine_reg
+    led_shine_reg := Mux(a_signal,!led_shine_reg,led_shine_reg)
 
-    // val        io_sram0 = IO(Flipped(new sram_port))
-    // val        io_sram1 = IO(Flipped(new sram_port))
-    // val        io_sram2 = IO(Flipped(new sram_port))
-    // val        io_sram3 = IO(Flipped(new sram_port))
-    // val        io_sram4 = IO(Flipped(new sram_port))
-    // val        io_sram5 = IO(Flipped(new sram_port))
-    // val        io_sram6 = IO(Flipped(new sram_port))
-    // val        io_sram7 = IO(Flipped(new sram_port))
-        //IO(Vec(2,(new axi_ram_port)))
-
-
-    // val   debug_wb_pc       = IO(Output(UInt(32.W)))
-    // val   debug_wb_rf_wen   = IO(Output(UInt(4.W)))
-    // val   debug_wb_rf_wnum  = IO(Output(UInt(5.W)))
-    // val   debug_wb_rf_wdata = IO(Output(UInt(32.W)))
-
-    
-    // override def desiredName = "ysyx_22040886"
-// withClockAndReset(clk.asClock,(aresetn).asAsyncReset) {
-    // io_slave <> 0.U.asTypeOf(new axi_ram_port)
-    // val u_axi_cache_bridge = Module(new axi_crossbar_0)
     val u_riscv_cpu = Module(new myCPU)
     val icache_first = Module(new inst_cache).io
     val icache = icache_first//.port
@@ -262,8 +262,8 @@ class mycpu_top  extends Module with riscv_macros {
     if(on_board == 1) {
         val axi_block_ram = Module(new axi_ram).io
         axi_block_ram.s_axi <> _axi_cross_bar.io.s_port(0)
-        axi_block_ram.s_aclk := clock.asBool
-        axi_block_ram.s_aresetn := !reset.asBool
+        axi_block_ram.s_aclk := sys_clk.asBool
+        axi_block_ram.s_aresetn := resetn
         axi_mem_port := 0.U
 
     }else {
@@ -318,8 +318,8 @@ class mycpu_top  extends Module with riscv_macros {
     _axi_cross_bar.io.s_port(4) <> axi2apb.io.axi_port
     _axi_cross_bar.io.s_port(5) <> axi2apb_uart.io.axi_port
     
-    axi_can.rst_n  := reset
-    axi_can.clk    := clock.asBool
+    axi_can.rst_n  := resetn
+    axi_can.clk    := sys_clk.asBool
     axi_can.can_rx := can_rx
     can_tx := axi_can.can_tx
 
@@ -334,8 +334,8 @@ class mycpu_top  extends Module with riscv_macros {
     icache_first.inst_buffer_full   := u_riscv_cpu.inst_buffer_full
 
     // spi flash 
-    spi_controler.clk := clock.asBool
-    spi_controler.resetn := !reset.asBool
+    spi_controler.clk := sys_clk.asBool
+    spi_controler.resetn := resetn
     spi_controler.in <> axi2apb.io.apb_port
     spi_controler.in_pprot := 1.U
     if(on_board == 0) {
@@ -347,24 +347,28 @@ class mycpu_top  extends Module with riscv_macros {
         spi_flash_clk := 0.U
         spi_flash_mosi := 0.U
         spi_flash_cs := 0.U
+        spi_flash_hold  := 1.U
+        spi_flash_wp    := 1.U
         
     }else {
         spi_flash_clk := spi_controler.spi_clk
-        spi_flash_cs  := spi_controler.spi_cs
+        spi_flash_cs  := spi_controler.spi_cs(0)
         spi_flash_mosi := spi_controler.spi_mosi
         spi_controler.spi_miso := spi_flash_miso
+        spi_flash_hold  := 1.U.asBool
+        spi_flash_wp    := 1.U.asBool
     }
 
     //uart
-    uart_controler.clk := clock.asBool
-    uart_controler.resetn := !reset.asBool
+    uart_controler.clk := sys_clk.asBool
+    uart_controler.resetn := resetn
     uart_controler.in    <> axi2apb_uart.io.apb_port
     uart_controler.in_pprot := 1.U
     uart_controler.uart_rx := uart_rx
     uart_tx := uart_controler.uart_tx
 
 
-
+    }
 
 }
 

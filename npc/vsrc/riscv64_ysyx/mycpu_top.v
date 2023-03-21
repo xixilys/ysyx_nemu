@@ -6321,8 +6321,8 @@ endmodule
 module Look_up_table_read_first_with_bundle(
   input         clock,
   input         reset,
-  input  [3:0]  io_ar_addr,
-  input  [3:0]  io_aw_addr,
+  input  [2:0]  io_ar_addr,
+  input  [2:0]  io_aw_addr,
   input         io_write,
   input  [31:0] io_in_pc,
   input  [31:0] io_in_inst,
@@ -6455,110 +6455,6 @@ module Look_up_table_read_first_with_bundle(
   reg [31:0] _RAND_101;
   reg [31:0] _RAND_102;
   reg [31:0] _RAND_103;
-  reg [31:0] _RAND_104;
-  reg [31:0] _RAND_105;
-  reg [31:0] _RAND_106;
-  reg [31:0] _RAND_107;
-  reg [31:0] _RAND_108;
-  reg [31:0] _RAND_109;
-  reg [31:0] _RAND_110;
-  reg [31:0] _RAND_111;
-  reg [31:0] _RAND_112;
-  reg [31:0] _RAND_113;
-  reg [31:0] _RAND_114;
-  reg [31:0] _RAND_115;
-  reg [31:0] _RAND_116;
-  reg [31:0] _RAND_117;
-  reg [31:0] _RAND_118;
-  reg [31:0] _RAND_119;
-  reg [31:0] _RAND_120;
-  reg [31:0] _RAND_121;
-  reg [31:0] _RAND_122;
-  reg [31:0] _RAND_123;
-  reg [31:0] _RAND_124;
-  reg [31:0] _RAND_125;
-  reg [31:0] _RAND_126;
-  reg [31:0] _RAND_127;
-  reg [31:0] _RAND_128;
-  reg [31:0] _RAND_129;
-  reg [31:0] _RAND_130;
-  reg [31:0] _RAND_131;
-  reg [31:0] _RAND_132;
-  reg [31:0] _RAND_133;
-  reg [31:0] _RAND_134;
-  reg [31:0] _RAND_135;
-  reg [31:0] _RAND_136;
-  reg [31:0] _RAND_137;
-  reg [31:0] _RAND_138;
-  reg [31:0] _RAND_139;
-  reg [31:0] _RAND_140;
-  reg [31:0] _RAND_141;
-  reg [31:0] _RAND_142;
-  reg [31:0] _RAND_143;
-  reg [31:0] _RAND_144;
-  reg [31:0] _RAND_145;
-  reg [31:0] _RAND_146;
-  reg [31:0] _RAND_147;
-  reg [31:0] _RAND_148;
-  reg [31:0] _RAND_149;
-  reg [31:0] _RAND_150;
-  reg [31:0] _RAND_151;
-  reg [31:0] _RAND_152;
-  reg [31:0] _RAND_153;
-  reg [31:0] _RAND_154;
-  reg [31:0] _RAND_155;
-  reg [31:0] _RAND_156;
-  reg [31:0] _RAND_157;
-  reg [31:0] _RAND_158;
-  reg [31:0] _RAND_159;
-  reg [31:0] _RAND_160;
-  reg [31:0] _RAND_161;
-  reg [31:0] _RAND_162;
-  reg [31:0] _RAND_163;
-  reg [31:0] _RAND_164;
-  reg [31:0] _RAND_165;
-  reg [31:0] _RAND_166;
-  reg [31:0] _RAND_167;
-  reg [31:0] _RAND_168;
-  reg [31:0] _RAND_169;
-  reg [31:0] _RAND_170;
-  reg [31:0] _RAND_171;
-  reg [31:0] _RAND_172;
-  reg [31:0] _RAND_173;
-  reg [31:0] _RAND_174;
-  reg [31:0] _RAND_175;
-  reg [31:0] _RAND_176;
-  reg [31:0] _RAND_177;
-  reg [31:0] _RAND_178;
-  reg [31:0] _RAND_179;
-  reg [31:0] _RAND_180;
-  reg [31:0] _RAND_181;
-  reg [31:0] _RAND_182;
-  reg [31:0] _RAND_183;
-  reg [31:0] _RAND_184;
-  reg [31:0] _RAND_185;
-  reg [31:0] _RAND_186;
-  reg [31:0] _RAND_187;
-  reg [31:0] _RAND_188;
-  reg [31:0] _RAND_189;
-  reg [31:0] _RAND_190;
-  reg [31:0] _RAND_191;
-  reg [31:0] _RAND_192;
-  reg [31:0] _RAND_193;
-  reg [31:0] _RAND_194;
-  reg [31:0] _RAND_195;
-  reg [31:0] _RAND_196;
-  reg [31:0] _RAND_197;
-  reg [31:0] _RAND_198;
-  reg [31:0] _RAND_199;
-  reg [31:0] _RAND_200;
-  reg [31:0] _RAND_201;
-  reg [31:0] _RAND_202;
-  reg [31:0] _RAND_203;
-  reg [31:0] _RAND_204;
-  reg [31:0] _RAND_205;
-  reg [31:0] _RAND_206;
-  reg [31:0] _RAND_207;
 `endif // RANDOMIZE_REG_INIT
   reg [31:0] btb_0_pc; // @[ports_lookup_table.scala 105:22]
   reg [31:0] btb_0_inst; // @[ports_lookup_table.scala 105:22]
@@ -6664,2748 +6560,1292 @@ module Look_up_table_read_first_with_bundle(
   reg [5:0] btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
   reg  btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
   reg  btb_7_true_branch_state; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_8_pc; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_8_inst; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_8_exception_type; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_8_pre_pc_target; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_8_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
-  reg [3:0] btb_8_pre_hashcode; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_8_pre_pht; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_8_pre_bht; // @[ports_lookup_table.scala 105:22]
-  reg  btb_8_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
-  reg  btb_8_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
-  reg [5:0] btb_8_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
-  reg  btb_8_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
-  reg  btb_8_true_branch_state; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_9_pc; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_9_inst; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_9_exception_type; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_9_pre_pc_target; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_9_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
-  reg [3:0] btb_9_pre_hashcode; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_9_pre_pht; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_9_pre_bht; // @[ports_lookup_table.scala 105:22]
-  reg  btb_9_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
-  reg  btb_9_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
-  reg [5:0] btb_9_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
-  reg  btb_9_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
-  reg  btb_9_true_branch_state; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_10_pc; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_10_inst; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_10_exception_type; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_10_pre_pc_target; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_10_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
-  reg [3:0] btb_10_pre_hashcode; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_10_pre_pht; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_10_pre_bht; // @[ports_lookup_table.scala 105:22]
-  reg  btb_10_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
-  reg  btb_10_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
-  reg [5:0] btb_10_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
-  reg  btb_10_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
-  reg  btb_10_true_branch_state; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_11_pc; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_11_inst; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_11_exception_type; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_11_pre_pc_target; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_11_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
-  reg [3:0] btb_11_pre_hashcode; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_11_pre_pht; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_11_pre_bht; // @[ports_lookup_table.scala 105:22]
-  reg  btb_11_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
-  reg  btb_11_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
-  reg [5:0] btb_11_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
-  reg  btb_11_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
-  reg  btb_11_true_branch_state; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_12_pc; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_12_inst; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_12_exception_type; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_12_pre_pc_target; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_12_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
-  reg [3:0] btb_12_pre_hashcode; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_12_pre_pht; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_12_pre_bht; // @[ports_lookup_table.scala 105:22]
-  reg  btb_12_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
-  reg  btb_12_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
-  reg [5:0] btb_12_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
-  reg  btb_12_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
-  reg  btb_12_true_branch_state; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_13_pc; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_13_inst; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_13_exception_type; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_13_pre_pc_target; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_13_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
-  reg [3:0] btb_13_pre_hashcode; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_13_pre_pht; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_13_pre_bht; // @[ports_lookup_table.scala 105:22]
-  reg  btb_13_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
-  reg  btb_13_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
-  reg [5:0] btb_13_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
-  reg  btb_13_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
-  reg  btb_13_true_branch_state; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_14_pc; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_14_inst; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_14_exception_type; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_14_pre_pc_target; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_14_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
-  reg [3:0] btb_14_pre_hashcode; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_14_pre_pht; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_14_pre_bht; // @[ports_lookup_table.scala 105:22]
-  reg  btb_14_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
-  reg  btb_14_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
-  reg [5:0] btb_14_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
-  reg  btb_14_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
-  reg  btb_14_true_branch_state; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_15_pc; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_15_inst; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_15_exception_type; // @[ports_lookup_table.scala 105:22]
-  reg [31:0] btb_15_pre_pc_target; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_15_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
-  reg [3:0] btb_15_pre_hashcode; // @[ports_lookup_table.scala 105:22]
-  reg [1:0] btb_15_pre_pht; // @[ports_lookup_table.scala 105:22]
-  reg [6:0] btb_15_pre_bht; // @[ports_lookup_table.scala 105:22]
-  reg  btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
-  reg  btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
-  reg [5:0] btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
-  reg  btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
-  reg  btb_15_true_branch_state; // @[ports_lookup_table.scala 105:22]
-  wire  _GEN_1 = 4'h1 == io_ar_addr ? btb_1_true_branch_state : btb_0_true_branch_state; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_2 = 4'h2 == io_ar_addr ? btb_2_true_branch_state : _GEN_1; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_3 = 4'h3 == io_ar_addr ? btb_3_true_branch_state : _GEN_2; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_4 = 4'h4 == io_ar_addr ? btb_4_true_branch_state : _GEN_3; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_5 = 4'h5 == io_ar_addr ? btb_5_true_branch_state : _GEN_4; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_6 = 4'h6 == io_ar_addr ? btb_6_true_branch_state : _GEN_5; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_7 = 4'h7 == io_ar_addr ? btb_7_true_branch_state : _GEN_6; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_8 = 4'h8 == io_ar_addr ? btb_8_true_branch_state : _GEN_7; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_9 = 4'h9 == io_ar_addr ? btb_9_true_branch_state : _GEN_8; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_10 = 4'ha == io_ar_addr ? btb_10_true_branch_state : _GEN_9; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_11 = 4'hb == io_ar_addr ? btb_11_true_branch_state : _GEN_10; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_12 = 4'hc == io_ar_addr ? btb_12_true_branch_state : _GEN_11; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_13 = 4'hd == io_ar_addr ? btb_13_true_branch_state : _GEN_12; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_14 = 4'he == io_ar_addr ? btb_14_true_branch_state : _GEN_13; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_17 = 4'h1 == io_ar_addr ? btb_1_pre_decoder_jr : btb_0_pre_decoder_jr; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_18 = 4'h2 == io_ar_addr ? btb_2_pre_decoder_jr : _GEN_17; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_19 = 4'h3 == io_ar_addr ? btb_3_pre_decoder_jr : _GEN_18; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_20 = 4'h4 == io_ar_addr ? btb_4_pre_decoder_jr : _GEN_19; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_21 = 4'h5 == io_ar_addr ? btb_5_pre_decoder_jr : _GEN_20; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_22 = 4'h6 == io_ar_addr ? btb_6_pre_decoder_jr : _GEN_21; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_23 = 4'h7 == io_ar_addr ? btb_7_pre_decoder_jr : _GEN_22; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_24 = 4'h8 == io_ar_addr ? btb_8_pre_decoder_jr : _GEN_23; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_25 = 4'h9 == io_ar_addr ? btb_9_pre_decoder_jr : _GEN_24; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_26 = 4'ha == io_ar_addr ? btb_10_pre_decoder_jr : _GEN_25; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_27 = 4'hb == io_ar_addr ? btb_11_pre_decoder_jr : _GEN_26; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_28 = 4'hc == io_ar_addr ? btb_12_pre_decoder_jr : _GEN_27; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_29 = 4'hd == io_ar_addr ? btb_13_pre_decoder_jr : _GEN_28; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_30 = 4'he == io_ar_addr ? btb_14_pre_decoder_jr : _GEN_29; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_33 = 4'h1 == io_ar_addr ? btb_1_pre_decoder_branchdata : btb_0_pre_decoder_branchdata; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_34 = 4'h2 == io_ar_addr ? btb_2_pre_decoder_branchdata : _GEN_33; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_35 = 4'h3 == io_ar_addr ? btb_3_pre_decoder_branchdata : _GEN_34; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_36 = 4'h4 == io_ar_addr ? btb_4_pre_decoder_branchdata : _GEN_35; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_37 = 4'h5 == io_ar_addr ? btb_5_pre_decoder_branchdata : _GEN_36; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_38 = 4'h6 == io_ar_addr ? btb_6_pre_decoder_branchdata : _GEN_37; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_39 = 4'h7 == io_ar_addr ? btb_7_pre_decoder_branchdata : _GEN_38; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_40 = 4'h8 == io_ar_addr ? btb_8_pre_decoder_branchdata : _GEN_39; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_41 = 4'h9 == io_ar_addr ? btb_9_pre_decoder_branchdata : _GEN_40; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_42 = 4'ha == io_ar_addr ? btb_10_pre_decoder_branchdata : _GEN_41; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_43 = 4'hb == io_ar_addr ? btb_11_pre_decoder_branchdata : _GEN_42; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_44 = 4'hc == io_ar_addr ? btb_12_pre_decoder_branchdata : _GEN_43; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_45 = 4'hd == io_ar_addr ? btb_13_pre_decoder_branchdata : _GEN_44; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_46 = 4'he == io_ar_addr ? btb_14_pre_decoder_branchdata : _GEN_45; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_49 = 4'h1 == io_ar_addr ? btb_1_pre_decoder_jump : btb_0_pre_decoder_jump; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_50 = 4'h2 == io_ar_addr ? btb_2_pre_decoder_jump : _GEN_49; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_51 = 4'h3 == io_ar_addr ? btb_3_pre_decoder_jump : _GEN_50; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_52 = 4'h4 == io_ar_addr ? btb_4_pre_decoder_jump : _GEN_51; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_53 = 4'h5 == io_ar_addr ? btb_5_pre_decoder_jump : _GEN_52; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_54 = 4'h6 == io_ar_addr ? btb_6_pre_decoder_jump : _GEN_53; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_55 = 4'h7 == io_ar_addr ? btb_7_pre_decoder_jump : _GEN_54; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_56 = 4'h8 == io_ar_addr ? btb_8_pre_decoder_jump : _GEN_55; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_57 = 4'h9 == io_ar_addr ? btb_9_pre_decoder_jump : _GEN_56; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_58 = 4'ha == io_ar_addr ? btb_10_pre_decoder_jump : _GEN_57; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_59 = 4'hb == io_ar_addr ? btb_11_pre_decoder_jump : _GEN_58; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_60 = 4'hc == io_ar_addr ? btb_12_pre_decoder_jump : _GEN_59; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_61 = 4'hd == io_ar_addr ? btb_13_pre_decoder_jump : _GEN_60; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_62 = 4'he == io_ar_addr ? btb_14_pre_decoder_jump : _GEN_61; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_65 = 4'h1 == io_ar_addr ? btb_1_pre_decoder_branchD_flag : btb_0_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_66 = 4'h2 == io_ar_addr ? btb_2_pre_decoder_branchD_flag : _GEN_65; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_67 = 4'h3 == io_ar_addr ? btb_3_pre_decoder_branchD_flag : _GEN_66; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_68 = 4'h4 == io_ar_addr ? btb_4_pre_decoder_branchD_flag : _GEN_67; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_69 = 4'h5 == io_ar_addr ? btb_5_pre_decoder_branchD_flag : _GEN_68; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_70 = 4'h6 == io_ar_addr ? btb_6_pre_decoder_branchD_flag : _GEN_69; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_71 = 4'h7 == io_ar_addr ? btb_7_pre_decoder_branchD_flag : _GEN_70; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_72 = 4'h8 == io_ar_addr ? btb_8_pre_decoder_branchD_flag : _GEN_71; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_73 = 4'h9 == io_ar_addr ? btb_9_pre_decoder_branchD_flag : _GEN_72; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_74 = 4'ha == io_ar_addr ? btb_10_pre_decoder_branchD_flag : _GEN_73; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_75 = 4'hb == io_ar_addr ? btb_11_pre_decoder_branchD_flag : _GEN_74; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_76 = 4'hc == io_ar_addr ? btb_12_pre_decoder_branchD_flag : _GEN_75; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_77 = 4'hd == io_ar_addr ? btb_13_pre_decoder_branchD_flag : _GEN_76; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_78 = 4'he == io_ar_addr ? btb_14_pre_decoder_branchD_flag : _GEN_77; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_97 = 4'h1 == io_ar_addr ? btb_1_pre_bht : btb_0_pre_bht; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_98 = 4'h2 == io_ar_addr ? btb_2_pre_bht : _GEN_97; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_99 = 4'h3 == io_ar_addr ? btb_3_pre_bht : _GEN_98; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_100 = 4'h4 == io_ar_addr ? btb_4_pre_bht : _GEN_99; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_101 = 4'h5 == io_ar_addr ? btb_5_pre_bht : _GEN_100; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_102 = 4'h6 == io_ar_addr ? btb_6_pre_bht : _GEN_101; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_103 = 4'h7 == io_ar_addr ? btb_7_pre_bht : _GEN_102; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_104 = 4'h8 == io_ar_addr ? btb_8_pre_bht : _GEN_103; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_105 = 4'h9 == io_ar_addr ? btb_9_pre_bht : _GEN_104; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_106 = 4'ha == io_ar_addr ? btb_10_pre_bht : _GEN_105; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_107 = 4'hb == io_ar_addr ? btb_11_pre_bht : _GEN_106; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_108 = 4'hc == io_ar_addr ? btb_12_pre_bht : _GEN_107; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_109 = 4'hd == io_ar_addr ? btb_13_pre_bht : _GEN_108; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_110 = 4'he == io_ar_addr ? btb_14_pre_bht : _GEN_109; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_113 = 4'h1 == io_ar_addr ? btb_1_pre_pht : btb_0_pre_pht; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_114 = 4'h2 == io_ar_addr ? btb_2_pre_pht : _GEN_113; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_115 = 4'h3 == io_ar_addr ? btb_3_pre_pht : _GEN_114; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_116 = 4'h4 == io_ar_addr ? btb_4_pre_pht : _GEN_115; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_117 = 4'h5 == io_ar_addr ? btb_5_pre_pht : _GEN_116; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_118 = 4'h6 == io_ar_addr ? btb_6_pre_pht : _GEN_117; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_119 = 4'h7 == io_ar_addr ? btb_7_pre_pht : _GEN_118; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_120 = 4'h8 == io_ar_addr ? btb_8_pre_pht : _GEN_119; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_121 = 4'h9 == io_ar_addr ? btb_9_pre_pht : _GEN_120; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_122 = 4'ha == io_ar_addr ? btb_10_pre_pht : _GEN_121; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_123 = 4'hb == io_ar_addr ? btb_11_pre_pht : _GEN_122; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_124 = 4'hc == io_ar_addr ? btb_12_pre_pht : _GEN_123; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_125 = 4'hd == io_ar_addr ? btb_13_pre_pht : _GEN_124; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_126 = 4'he == io_ar_addr ? btb_14_pre_pht : _GEN_125; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_129 = 4'h1 == io_ar_addr ? btb_1_pre_hashcode : btb_0_pre_hashcode; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_130 = 4'h2 == io_ar_addr ? btb_2_pre_hashcode : _GEN_129; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_131 = 4'h3 == io_ar_addr ? btb_3_pre_hashcode : _GEN_130; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_132 = 4'h4 == io_ar_addr ? btb_4_pre_hashcode : _GEN_131; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_133 = 4'h5 == io_ar_addr ? btb_5_pre_hashcode : _GEN_132; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_134 = 4'h6 == io_ar_addr ? btb_6_pre_hashcode : _GEN_133; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_135 = 4'h7 == io_ar_addr ? btb_7_pre_hashcode : _GEN_134; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_136 = 4'h8 == io_ar_addr ? btb_8_pre_hashcode : _GEN_135; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_137 = 4'h9 == io_ar_addr ? btb_9_pre_hashcode : _GEN_136; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_138 = 4'ha == io_ar_addr ? btb_10_pre_hashcode : _GEN_137; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_139 = 4'hb == io_ar_addr ? btb_11_pre_hashcode : _GEN_138; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_140 = 4'hc == io_ar_addr ? btb_12_pre_hashcode : _GEN_139; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_141 = 4'hd == io_ar_addr ? btb_13_pre_hashcode : _GEN_140; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_142 = 4'he == io_ar_addr ? btb_14_pre_hashcode : _GEN_141; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_145 = 4'h1 == io_ar_addr ? btb_1_pre_lookup_data : btb_0_pre_lookup_data; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_146 = 4'h2 == io_ar_addr ? btb_2_pre_lookup_data : _GEN_145; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_147 = 4'h3 == io_ar_addr ? btb_3_pre_lookup_data : _GEN_146; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_148 = 4'h4 == io_ar_addr ? btb_4_pre_lookup_data : _GEN_147; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_149 = 4'h5 == io_ar_addr ? btb_5_pre_lookup_data : _GEN_148; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_150 = 4'h6 == io_ar_addr ? btb_6_pre_lookup_data : _GEN_149; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_151 = 4'h7 == io_ar_addr ? btb_7_pre_lookup_data : _GEN_150; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_152 = 4'h8 == io_ar_addr ? btb_8_pre_lookup_data : _GEN_151; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_153 = 4'h9 == io_ar_addr ? btb_9_pre_lookup_data : _GEN_152; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_154 = 4'ha == io_ar_addr ? btb_10_pre_lookup_data : _GEN_153; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_155 = 4'hb == io_ar_addr ? btb_11_pre_lookup_data : _GEN_154; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_156 = 4'hc == io_ar_addr ? btb_12_pre_lookup_data : _GEN_155; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_157 = 4'hd == io_ar_addr ? btb_13_pre_lookup_data : _GEN_156; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_158 = 4'he == io_ar_addr ? btb_14_pre_lookup_data : _GEN_157; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_161 = 4'h1 == io_ar_addr ? btb_1_pre_pc_target : btb_0_pre_pc_target; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_162 = 4'h2 == io_ar_addr ? btb_2_pre_pc_target : _GEN_161; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_163 = 4'h3 == io_ar_addr ? btb_3_pre_pc_target : _GEN_162; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_164 = 4'h4 == io_ar_addr ? btb_4_pre_pc_target : _GEN_163; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_165 = 4'h5 == io_ar_addr ? btb_5_pre_pc_target : _GEN_164; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_166 = 4'h6 == io_ar_addr ? btb_6_pre_pc_target : _GEN_165; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_167 = 4'h7 == io_ar_addr ? btb_7_pre_pc_target : _GEN_166; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_168 = 4'h8 == io_ar_addr ? btb_8_pre_pc_target : _GEN_167; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_169 = 4'h9 == io_ar_addr ? btb_9_pre_pc_target : _GEN_168; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_170 = 4'ha == io_ar_addr ? btb_10_pre_pc_target : _GEN_169; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_171 = 4'hb == io_ar_addr ? btb_11_pre_pc_target : _GEN_170; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_172 = 4'hc == io_ar_addr ? btb_12_pre_pc_target : _GEN_171; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_173 = 4'hd == io_ar_addr ? btb_13_pre_pc_target : _GEN_172; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_174 = 4'he == io_ar_addr ? btb_14_pre_pc_target : _GEN_173; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_177 = 4'h1 == io_ar_addr ? btb_1_exception_type : btb_0_exception_type; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_178 = 4'h2 == io_ar_addr ? btb_2_exception_type : _GEN_177; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_179 = 4'h3 == io_ar_addr ? btb_3_exception_type : _GEN_178; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_180 = 4'h4 == io_ar_addr ? btb_4_exception_type : _GEN_179; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_181 = 4'h5 == io_ar_addr ? btb_5_exception_type : _GEN_180; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_182 = 4'h6 == io_ar_addr ? btb_6_exception_type : _GEN_181; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_183 = 4'h7 == io_ar_addr ? btb_7_exception_type : _GEN_182; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_184 = 4'h8 == io_ar_addr ? btb_8_exception_type : _GEN_183; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_185 = 4'h9 == io_ar_addr ? btb_9_exception_type : _GEN_184; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_186 = 4'ha == io_ar_addr ? btb_10_exception_type : _GEN_185; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_187 = 4'hb == io_ar_addr ? btb_11_exception_type : _GEN_186; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_188 = 4'hc == io_ar_addr ? btb_12_exception_type : _GEN_187; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_189 = 4'hd == io_ar_addr ? btb_13_exception_type : _GEN_188; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_190 = 4'he == io_ar_addr ? btb_14_exception_type : _GEN_189; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_193 = 4'h1 == io_ar_addr ? btb_1_inst : btb_0_inst; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_194 = 4'h2 == io_ar_addr ? btb_2_inst : _GEN_193; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_195 = 4'h3 == io_ar_addr ? btb_3_inst : _GEN_194; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_196 = 4'h4 == io_ar_addr ? btb_4_inst : _GEN_195; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_197 = 4'h5 == io_ar_addr ? btb_5_inst : _GEN_196; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_198 = 4'h6 == io_ar_addr ? btb_6_inst : _GEN_197; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_199 = 4'h7 == io_ar_addr ? btb_7_inst : _GEN_198; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_200 = 4'h8 == io_ar_addr ? btb_8_inst : _GEN_199; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_201 = 4'h9 == io_ar_addr ? btb_9_inst : _GEN_200; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_202 = 4'ha == io_ar_addr ? btb_10_inst : _GEN_201; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_203 = 4'hb == io_ar_addr ? btb_11_inst : _GEN_202; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_204 = 4'hc == io_ar_addr ? btb_12_inst : _GEN_203; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_205 = 4'hd == io_ar_addr ? btb_13_inst : _GEN_204; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_206 = 4'he == io_ar_addr ? btb_14_inst : _GEN_205; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_209 = 4'h1 == io_ar_addr ? btb_1_pc : btb_0_pc; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_210 = 4'h2 == io_ar_addr ? btb_2_pc : _GEN_209; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_211 = 4'h3 == io_ar_addr ? btb_3_pc : _GEN_210; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_212 = 4'h4 == io_ar_addr ? btb_4_pc : _GEN_211; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_213 = 4'h5 == io_ar_addr ? btb_5_pc : _GEN_212; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_214 = 4'h6 == io_ar_addr ? btb_6_pc : _GEN_213; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_215 = 4'h7 == io_ar_addr ? btb_7_pc : _GEN_214; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_216 = 4'h8 == io_ar_addr ? btb_8_pc : _GEN_215; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_217 = 4'h9 == io_ar_addr ? btb_9_pc : _GEN_216; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_218 = 4'ha == io_ar_addr ? btb_10_pc : _GEN_217; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_219 = 4'hb == io_ar_addr ? btb_11_pc : _GEN_218; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_220 = 4'hc == io_ar_addr ? btb_12_pc : _GEN_219; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_221 = 4'hd == io_ar_addr ? btb_13_pc : _GEN_220; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_222 = 4'he == io_ar_addr ? btb_14_pc : _GEN_221; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_238 = 4'h1 == io_aw_addr ? btb_1_pc : btb_0_pc; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_239 = 4'h1 == io_aw_addr ? btb_1_inst : btb_0_inst; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_240 = 4'h1 == io_aw_addr ? btb_1_exception_type : btb_0_exception_type; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_241 = 4'h1 == io_aw_addr ? btb_1_pre_pc_target : btb_0_pre_pc_target; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_242 = 4'h1 == io_aw_addr ? btb_1_pre_lookup_data : btb_0_pre_lookup_data; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_243 = 4'h1 == io_aw_addr ? btb_1_pre_hashcode : btb_0_pre_hashcode; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_244 = 4'h1 == io_aw_addr ? btb_1_pre_pht : btb_0_pre_pht; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_245 = 4'h1 == io_aw_addr ? btb_1_pre_bht : btb_0_pre_bht; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_247 = 4'h1 == io_aw_addr ? btb_1_pre_decoder_branchD_flag : btb_0_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_248 = 4'h1 == io_aw_addr ? btb_1_pre_decoder_jump : btb_0_pre_decoder_jump; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_249 = 4'h1 == io_aw_addr ? btb_1_pre_decoder_branchdata : btb_0_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_250 = 4'h1 == io_aw_addr ? btb_1_pre_decoder_jr : btb_0_pre_decoder_jr; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_251 = 4'h1 == io_aw_addr ? btb_1_true_branch_state : btb_0_true_branch_state; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_252 = 4'h2 == io_aw_addr ? btb_2_pc : _GEN_238; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_253 = 4'h2 == io_aw_addr ? btb_2_inst : _GEN_239; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_254 = 4'h2 == io_aw_addr ? btb_2_exception_type : _GEN_240; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_255 = 4'h2 == io_aw_addr ? btb_2_pre_pc_target : _GEN_241; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_256 = 4'h2 == io_aw_addr ? btb_2_pre_lookup_data : _GEN_242; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_257 = 4'h2 == io_aw_addr ? btb_2_pre_hashcode : _GEN_243; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_258 = 4'h2 == io_aw_addr ? btb_2_pre_pht : _GEN_244; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_259 = 4'h2 == io_aw_addr ? btb_2_pre_bht : _GEN_245; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_261 = 4'h2 == io_aw_addr ? btb_2_pre_decoder_branchD_flag : _GEN_247; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_262 = 4'h2 == io_aw_addr ? btb_2_pre_decoder_jump : _GEN_248; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_263 = 4'h2 == io_aw_addr ? btb_2_pre_decoder_branchdata : _GEN_249; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_264 = 4'h2 == io_aw_addr ? btb_2_pre_decoder_jr : _GEN_250; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_265 = 4'h2 == io_aw_addr ? btb_2_true_branch_state : _GEN_251; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_266 = 4'h3 == io_aw_addr ? btb_3_pc : _GEN_252; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_267 = 4'h3 == io_aw_addr ? btb_3_inst : _GEN_253; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_268 = 4'h3 == io_aw_addr ? btb_3_exception_type : _GEN_254; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_269 = 4'h3 == io_aw_addr ? btb_3_pre_pc_target : _GEN_255; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_270 = 4'h3 == io_aw_addr ? btb_3_pre_lookup_data : _GEN_256; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_271 = 4'h3 == io_aw_addr ? btb_3_pre_hashcode : _GEN_257; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_272 = 4'h3 == io_aw_addr ? btb_3_pre_pht : _GEN_258; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_273 = 4'h3 == io_aw_addr ? btb_3_pre_bht : _GEN_259; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_275 = 4'h3 == io_aw_addr ? btb_3_pre_decoder_branchD_flag : _GEN_261; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_276 = 4'h3 == io_aw_addr ? btb_3_pre_decoder_jump : _GEN_262; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_277 = 4'h3 == io_aw_addr ? btb_3_pre_decoder_branchdata : _GEN_263; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_278 = 4'h3 == io_aw_addr ? btb_3_pre_decoder_jr : _GEN_264; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_279 = 4'h3 == io_aw_addr ? btb_3_true_branch_state : _GEN_265; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_280 = 4'h4 == io_aw_addr ? btb_4_pc : _GEN_266; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_281 = 4'h4 == io_aw_addr ? btb_4_inst : _GEN_267; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_282 = 4'h4 == io_aw_addr ? btb_4_exception_type : _GEN_268; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_283 = 4'h4 == io_aw_addr ? btb_4_pre_pc_target : _GEN_269; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_284 = 4'h4 == io_aw_addr ? btb_4_pre_lookup_data : _GEN_270; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_285 = 4'h4 == io_aw_addr ? btb_4_pre_hashcode : _GEN_271; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_286 = 4'h4 == io_aw_addr ? btb_4_pre_pht : _GEN_272; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_287 = 4'h4 == io_aw_addr ? btb_4_pre_bht : _GEN_273; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_289 = 4'h4 == io_aw_addr ? btb_4_pre_decoder_branchD_flag : _GEN_275; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_290 = 4'h4 == io_aw_addr ? btb_4_pre_decoder_jump : _GEN_276; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_291 = 4'h4 == io_aw_addr ? btb_4_pre_decoder_branchdata : _GEN_277; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_292 = 4'h4 == io_aw_addr ? btb_4_pre_decoder_jr : _GEN_278; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_293 = 4'h4 == io_aw_addr ? btb_4_true_branch_state : _GEN_279; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_294 = 4'h5 == io_aw_addr ? btb_5_pc : _GEN_280; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_295 = 4'h5 == io_aw_addr ? btb_5_inst : _GEN_281; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_296 = 4'h5 == io_aw_addr ? btb_5_exception_type : _GEN_282; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_297 = 4'h5 == io_aw_addr ? btb_5_pre_pc_target : _GEN_283; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_298 = 4'h5 == io_aw_addr ? btb_5_pre_lookup_data : _GEN_284; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_299 = 4'h5 == io_aw_addr ? btb_5_pre_hashcode : _GEN_285; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_300 = 4'h5 == io_aw_addr ? btb_5_pre_pht : _GEN_286; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_301 = 4'h5 == io_aw_addr ? btb_5_pre_bht : _GEN_287; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_303 = 4'h5 == io_aw_addr ? btb_5_pre_decoder_branchD_flag : _GEN_289; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_304 = 4'h5 == io_aw_addr ? btb_5_pre_decoder_jump : _GEN_290; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_305 = 4'h5 == io_aw_addr ? btb_5_pre_decoder_branchdata : _GEN_291; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_306 = 4'h5 == io_aw_addr ? btb_5_pre_decoder_jr : _GEN_292; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_307 = 4'h5 == io_aw_addr ? btb_5_true_branch_state : _GEN_293; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_308 = 4'h6 == io_aw_addr ? btb_6_pc : _GEN_294; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_309 = 4'h6 == io_aw_addr ? btb_6_inst : _GEN_295; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_310 = 4'h6 == io_aw_addr ? btb_6_exception_type : _GEN_296; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_311 = 4'h6 == io_aw_addr ? btb_6_pre_pc_target : _GEN_297; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_312 = 4'h6 == io_aw_addr ? btb_6_pre_lookup_data : _GEN_298; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_313 = 4'h6 == io_aw_addr ? btb_6_pre_hashcode : _GEN_299; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_314 = 4'h6 == io_aw_addr ? btb_6_pre_pht : _GEN_300; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_315 = 4'h6 == io_aw_addr ? btb_6_pre_bht : _GEN_301; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_317 = 4'h6 == io_aw_addr ? btb_6_pre_decoder_branchD_flag : _GEN_303; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_318 = 4'h6 == io_aw_addr ? btb_6_pre_decoder_jump : _GEN_304; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_319 = 4'h6 == io_aw_addr ? btb_6_pre_decoder_branchdata : _GEN_305; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_320 = 4'h6 == io_aw_addr ? btb_6_pre_decoder_jr : _GEN_306; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_321 = 4'h6 == io_aw_addr ? btb_6_true_branch_state : _GEN_307; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_322 = 4'h7 == io_aw_addr ? btb_7_pc : _GEN_308; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_323 = 4'h7 == io_aw_addr ? btb_7_inst : _GEN_309; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_324 = 4'h7 == io_aw_addr ? btb_7_exception_type : _GEN_310; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_325 = 4'h7 == io_aw_addr ? btb_7_pre_pc_target : _GEN_311; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_326 = 4'h7 == io_aw_addr ? btb_7_pre_lookup_data : _GEN_312; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_327 = 4'h7 == io_aw_addr ? btb_7_pre_hashcode : _GEN_313; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_328 = 4'h7 == io_aw_addr ? btb_7_pre_pht : _GEN_314; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_329 = 4'h7 == io_aw_addr ? btb_7_pre_bht : _GEN_315; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_331 = 4'h7 == io_aw_addr ? btb_7_pre_decoder_branchD_flag : _GEN_317; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_332 = 4'h7 == io_aw_addr ? btb_7_pre_decoder_jump : _GEN_318; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_333 = 4'h7 == io_aw_addr ? btb_7_pre_decoder_branchdata : _GEN_319; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_334 = 4'h7 == io_aw_addr ? btb_7_pre_decoder_jr : _GEN_320; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_335 = 4'h7 == io_aw_addr ? btb_7_true_branch_state : _GEN_321; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_336 = 4'h8 == io_aw_addr ? btb_8_pc : _GEN_322; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_337 = 4'h8 == io_aw_addr ? btb_8_inst : _GEN_323; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_338 = 4'h8 == io_aw_addr ? btb_8_exception_type : _GEN_324; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_339 = 4'h8 == io_aw_addr ? btb_8_pre_pc_target : _GEN_325; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_340 = 4'h8 == io_aw_addr ? btb_8_pre_lookup_data : _GEN_326; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_341 = 4'h8 == io_aw_addr ? btb_8_pre_hashcode : _GEN_327; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_342 = 4'h8 == io_aw_addr ? btb_8_pre_pht : _GEN_328; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_343 = 4'h8 == io_aw_addr ? btb_8_pre_bht : _GEN_329; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_345 = 4'h8 == io_aw_addr ? btb_8_pre_decoder_branchD_flag : _GEN_331; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_346 = 4'h8 == io_aw_addr ? btb_8_pre_decoder_jump : _GEN_332; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_347 = 4'h8 == io_aw_addr ? btb_8_pre_decoder_branchdata : _GEN_333; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_348 = 4'h8 == io_aw_addr ? btb_8_pre_decoder_jr : _GEN_334; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_349 = 4'h8 == io_aw_addr ? btb_8_true_branch_state : _GEN_335; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_350 = 4'h9 == io_aw_addr ? btb_9_pc : _GEN_336; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_351 = 4'h9 == io_aw_addr ? btb_9_inst : _GEN_337; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_352 = 4'h9 == io_aw_addr ? btb_9_exception_type : _GEN_338; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_353 = 4'h9 == io_aw_addr ? btb_9_pre_pc_target : _GEN_339; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_354 = 4'h9 == io_aw_addr ? btb_9_pre_lookup_data : _GEN_340; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_355 = 4'h9 == io_aw_addr ? btb_9_pre_hashcode : _GEN_341; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_356 = 4'h9 == io_aw_addr ? btb_9_pre_pht : _GEN_342; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_357 = 4'h9 == io_aw_addr ? btb_9_pre_bht : _GEN_343; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_359 = 4'h9 == io_aw_addr ? btb_9_pre_decoder_branchD_flag : _GEN_345; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_360 = 4'h9 == io_aw_addr ? btb_9_pre_decoder_jump : _GEN_346; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_361 = 4'h9 == io_aw_addr ? btb_9_pre_decoder_branchdata : _GEN_347; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_362 = 4'h9 == io_aw_addr ? btb_9_pre_decoder_jr : _GEN_348; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_363 = 4'h9 == io_aw_addr ? btb_9_true_branch_state : _GEN_349; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_364 = 4'ha == io_aw_addr ? btb_10_pc : _GEN_350; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_365 = 4'ha == io_aw_addr ? btb_10_inst : _GEN_351; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_366 = 4'ha == io_aw_addr ? btb_10_exception_type : _GEN_352; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_367 = 4'ha == io_aw_addr ? btb_10_pre_pc_target : _GEN_353; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_368 = 4'ha == io_aw_addr ? btb_10_pre_lookup_data : _GEN_354; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_369 = 4'ha == io_aw_addr ? btb_10_pre_hashcode : _GEN_355; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_370 = 4'ha == io_aw_addr ? btb_10_pre_pht : _GEN_356; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_371 = 4'ha == io_aw_addr ? btb_10_pre_bht : _GEN_357; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_373 = 4'ha == io_aw_addr ? btb_10_pre_decoder_branchD_flag : _GEN_359; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_374 = 4'ha == io_aw_addr ? btb_10_pre_decoder_jump : _GEN_360; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_375 = 4'ha == io_aw_addr ? btb_10_pre_decoder_branchdata : _GEN_361; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_376 = 4'ha == io_aw_addr ? btb_10_pre_decoder_jr : _GEN_362; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_377 = 4'ha == io_aw_addr ? btb_10_true_branch_state : _GEN_363; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_378 = 4'hb == io_aw_addr ? btb_11_pc : _GEN_364; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_379 = 4'hb == io_aw_addr ? btb_11_inst : _GEN_365; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_380 = 4'hb == io_aw_addr ? btb_11_exception_type : _GEN_366; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_381 = 4'hb == io_aw_addr ? btb_11_pre_pc_target : _GEN_367; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_382 = 4'hb == io_aw_addr ? btb_11_pre_lookup_data : _GEN_368; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_383 = 4'hb == io_aw_addr ? btb_11_pre_hashcode : _GEN_369; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_384 = 4'hb == io_aw_addr ? btb_11_pre_pht : _GEN_370; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_385 = 4'hb == io_aw_addr ? btb_11_pre_bht : _GEN_371; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_387 = 4'hb == io_aw_addr ? btb_11_pre_decoder_branchD_flag : _GEN_373; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_388 = 4'hb == io_aw_addr ? btb_11_pre_decoder_jump : _GEN_374; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_389 = 4'hb == io_aw_addr ? btb_11_pre_decoder_branchdata : _GEN_375; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_390 = 4'hb == io_aw_addr ? btb_11_pre_decoder_jr : _GEN_376; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_391 = 4'hb == io_aw_addr ? btb_11_true_branch_state : _GEN_377; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_392 = 4'hc == io_aw_addr ? btb_12_pc : _GEN_378; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_393 = 4'hc == io_aw_addr ? btb_12_inst : _GEN_379; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_394 = 4'hc == io_aw_addr ? btb_12_exception_type : _GEN_380; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_395 = 4'hc == io_aw_addr ? btb_12_pre_pc_target : _GEN_381; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_396 = 4'hc == io_aw_addr ? btb_12_pre_lookup_data : _GEN_382; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_397 = 4'hc == io_aw_addr ? btb_12_pre_hashcode : _GEN_383; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_398 = 4'hc == io_aw_addr ? btb_12_pre_pht : _GEN_384; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_399 = 4'hc == io_aw_addr ? btb_12_pre_bht : _GEN_385; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_401 = 4'hc == io_aw_addr ? btb_12_pre_decoder_branchD_flag : _GEN_387; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_402 = 4'hc == io_aw_addr ? btb_12_pre_decoder_jump : _GEN_388; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_403 = 4'hc == io_aw_addr ? btb_12_pre_decoder_branchdata : _GEN_389; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_404 = 4'hc == io_aw_addr ? btb_12_pre_decoder_jr : _GEN_390; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_405 = 4'hc == io_aw_addr ? btb_12_true_branch_state : _GEN_391; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_406 = 4'hd == io_aw_addr ? btb_13_pc : _GEN_392; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_407 = 4'hd == io_aw_addr ? btb_13_inst : _GEN_393; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_408 = 4'hd == io_aw_addr ? btb_13_exception_type : _GEN_394; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_409 = 4'hd == io_aw_addr ? btb_13_pre_pc_target : _GEN_395; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_410 = 4'hd == io_aw_addr ? btb_13_pre_lookup_data : _GEN_396; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_411 = 4'hd == io_aw_addr ? btb_13_pre_hashcode : _GEN_397; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_412 = 4'hd == io_aw_addr ? btb_13_pre_pht : _GEN_398; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_413 = 4'hd == io_aw_addr ? btb_13_pre_bht : _GEN_399; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_415 = 4'hd == io_aw_addr ? btb_13_pre_decoder_branchD_flag : _GEN_401; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_416 = 4'hd == io_aw_addr ? btb_13_pre_decoder_jump : _GEN_402; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_417 = 4'hd == io_aw_addr ? btb_13_pre_decoder_branchdata : _GEN_403; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_418 = 4'hd == io_aw_addr ? btb_13_pre_decoder_jr : _GEN_404; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_419 = 4'hd == io_aw_addr ? btb_13_true_branch_state : _GEN_405; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_420 = 4'he == io_aw_addr ? btb_14_pc : _GEN_406; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_421 = 4'he == io_aw_addr ? btb_14_inst : _GEN_407; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_422 = 4'he == io_aw_addr ? btb_14_exception_type : _GEN_408; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_423 = 4'he == io_aw_addr ? btb_14_pre_pc_target : _GEN_409; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_424 = 4'he == io_aw_addr ? btb_14_pre_lookup_data : _GEN_410; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_425 = 4'he == io_aw_addr ? btb_14_pre_hashcode : _GEN_411; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_426 = 4'he == io_aw_addr ? btb_14_pre_pht : _GEN_412; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_427 = 4'he == io_aw_addr ? btb_14_pre_bht : _GEN_413; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_429 = 4'he == io_aw_addr ? btb_14_pre_decoder_branchD_flag : _GEN_415; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_430 = 4'he == io_aw_addr ? btb_14_pre_decoder_jump : _GEN_416; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_431 = 4'he == io_aw_addr ? btb_14_pre_decoder_branchdata : _GEN_417; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_432 = 4'he == io_aw_addr ? btb_14_pre_decoder_jr : _GEN_418; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_433 = 4'he == io_aw_addr ? btb_14_true_branch_state : _GEN_419; // @[ports_lookup_table.scala 107:{27,27}]
-  assign io_out_pc = 4'hf == io_ar_addr ? btb_15_pc : _GEN_222; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_inst = 4'hf == io_ar_addr ? btb_15_inst : _GEN_206; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_exception_type = 4'hf == io_ar_addr ? btb_15_exception_type : _GEN_190; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_pc_target = 4'hf == io_ar_addr ? btb_15_pre_pc_target : _GEN_174; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_lookup_data = 4'hf == io_ar_addr ? btb_15_pre_lookup_data : _GEN_158; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_hashcode = 4'hf == io_ar_addr ? btb_15_pre_hashcode : _GEN_142; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_pht = 4'hf == io_ar_addr ? btb_15_pre_pht : _GEN_126; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_bht = 4'hf == io_ar_addr ? btb_15_pre_bht : _GEN_110; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_decoder_branchD_flag = 4'hf == io_ar_addr ? btb_15_pre_decoder_branchD_flag : _GEN_78; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_decoder_jump = 4'hf == io_ar_addr ? btb_15_pre_decoder_jump : _GEN_62; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_decoder_branchdata = 4'hf == io_ar_addr ? btb_15_pre_decoder_branchdata : _GEN_46; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_decoder_jr = 4'hf == io_ar_addr ? btb_15_pre_decoder_jr : _GEN_30; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_true_branch_state = 4'hf == io_ar_addr ? btb_15_true_branch_state : _GEN_14; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_1 = 3'h1 == io_ar_addr ? btb_1_true_branch_state : btb_0_true_branch_state; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_2 = 3'h2 == io_ar_addr ? btb_2_true_branch_state : _GEN_1; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_3 = 3'h3 == io_ar_addr ? btb_3_true_branch_state : _GEN_2; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_4 = 3'h4 == io_ar_addr ? btb_4_true_branch_state : _GEN_3; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_5 = 3'h5 == io_ar_addr ? btb_5_true_branch_state : _GEN_4; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_6 = 3'h6 == io_ar_addr ? btb_6_true_branch_state : _GEN_5; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_9 = 3'h1 == io_ar_addr ? btb_1_pre_decoder_jr : btb_0_pre_decoder_jr; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_10 = 3'h2 == io_ar_addr ? btb_2_pre_decoder_jr : _GEN_9; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_11 = 3'h3 == io_ar_addr ? btb_3_pre_decoder_jr : _GEN_10; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_12 = 3'h4 == io_ar_addr ? btb_4_pre_decoder_jr : _GEN_11; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_13 = 3'h5 == io_ar_addr ? btb_5_pre_decoder_jr : _GEN_12; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_14 = 3'h6 == io_ar_addr ? btb_6_pre_decoder_jr : _GEN_13; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_17 = 3'h1 == io_ar_addr ? btb_1_pre_decoder_branchdata : btb_0_pre_decoder_branchdata; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_18 = 3'h2 == io_ar_addr ? btb_2_pre_decoder_branchdata : _GEN_17; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_19 = 3'h3 == io_ar_addr ? btb_3_pre_decoder_branchdata : _GEN_18; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_20 = 3'h4 == io_ar_addr ? btb_4_pre_decoder_branchdata : _GEN_19; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_21 = 3'h5 == io_ar_addr ? btb_5_pre_decoder_branchdata : _GEN_20; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_22 = 3'h6 == io_ar_addr ? btb_6_pre_decoder_branchdata : _GEN_21; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_25 = 3'h1 == io_ar_addr ? btb_1_pre_decoder_jump : btb_0_pre_decoder_jump; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_26 = 3'h2 == io_ar_addr ? btb_2_pre_decoder_jump : _GEN_25; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_27 = 3'h3 == io_ar_addr ? btb_3_pre_decoder_jump : _GEN_26; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_28 = 3'h4 == io_ar_addr ? btb_4_pre_decoder_jump : _GEN_27; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_29 = 3'h5 == io_ar_addr ? btb_5_pre_decoder_jump : _GEN_28; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_30 = 3'h6 == io_ar_addr ? btb_6_pre_decoder_jump : _GEN_29; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_33 = 3'h1 == io_ar_addr ? btb_1_pre_decoder_branchD_flag : btb_0_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_34 = 3'h2 == io_ar_addr ? btb_2_pre_decoder_branchD_flag : _GEN_33; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_35 = 3'h3 == io_ar_addr ? btb_3_pre_decoder_branchD_flag : _GEN_34; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_36 = 3'h4 == io_ar_addr ? btb_4_pre_decoder_branchD_flag : _GEN_35; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_37 = 3'h5 == io_ar_addr ? btb_5_pre_decoder_branchD_flag : _GEN_36; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_38 = 3'h6 == io_ar_addr ? btb_6_pre_decoder_branchD_flag : _GEN_37; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_49 = 3'h1 == io_ar_addr ? btb_1_pre_bht : btb_0_pre_bht; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_50 = 3'h2 == io_ar_addr ? btb_2_pre_bht : _GEN_49; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_51 = 3'h3 == io_ar_addr ? btb_3_pre_bht : _GEN_50; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_52 = 3'h4 == io_ar_addr ? btb_4_pre_bht : _GEN_51; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_53 = 3'h5 == io_ar_addr ? btb_5_pre_bht : _GEN_52; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_54 = 3'h6 == io_ar_addr ? btb_6_pre_bht : _GEN_53; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_57 = 3'h1 == io_ar_addr ? btb_1_pre_pht : btb_0_pre_pht; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_58 = 3'h2 == io_ar_addr ? btb_2_pre_pht : _GEN_57; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_59 = 3'h3 == io_ar_addr ? btb_3_pre_pht : _GEN_58; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_60 = 3'h4 == io_ar_addr ? btb_4_pre_pht : _GEN_59; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_61 = 3'h5 == io_ar_addr ? btb_5_pre_pht : _GEN_60; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_62 = 3'h6 == io_ar_addr ? btb_6_pre_pht : _GEN_61; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_65 = 3'h1 == io_ar_addr ? btb_1_pre_hashcode : btb_0_pre_hashcode; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_66 = 3'h2 == io_ar_addr ? btb_2_pre_hashcode : _GEN_65; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_67 = 3'h3 == io_ar_addr ? btb_3_pre_hashcode : _GEN_66; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_68 = 3'h4 == io_ar_addr ? btb_4_pre_hashcode : _GEN_67; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_69 = 3'h5 == io_ar_addr ? btb_5_pre_hashcode : _GEN_68; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_70 = 3'h6 == io_ar_addr ? btb_6_pre_hashcode : _GEN_69; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_73 = 3'h1 == io_ar_addr ? btb_1_pre_lookup_data : btb_0_pre_lookup_data; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_74 = 3'h2 == io_ar_addr ? btb_2_pre_lookup_data : _GEN_73; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_75 = 3'h3 == io_ar_addr ? btb_3_pre_lookup_data : _GEN_74; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_76 = 3'h4 == io_ar_addr ? btb_4_pre_lookup_data : _GEN_75; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_77 = 3'h5 == io_ar_addr ? btb_5_pre_lookup_data : _GEN_76; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_78 = 3'h6 == io_ar_addr ? btb_6_pre_lookup_data : _GEN_77; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_81 = 3'h1 == io_ar_addr ? btb_1_pre_pc_target : btb_0_pre_pc_target; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_82 = 3'h2 == io_ar_addr ? btb_2_pre_pc_target : _GEN_81; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_83 = 3'h3 == io_ar_addr ? btb_3_pre_pc_target : _GEN_82; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_84 = 3'h4 == io_ar_addr ? btb_4_pre_pc_target : _GEN_83; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_85 = 3'h5 == io_ar_addr ? btb_5_pre_pc_target : _GEN_84; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_86 = 3'h6 == io_ar_addr ? btb_6_pre_pc_target : _GEN_85; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_89 = 3'h1 == io_ar_addr ? btb_1_exception_type : btb_0_exception_type; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_90 = 3'h2 == io_ar_addr ? btb_2_exception_type : _GEN_89; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_91 = 3'h3 == io_ar_addr ? btb_3_exception_type : _GEN_90; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_92 = 3'h4 == io_ar_addr ? btb_4_exception_type : _GEN_91; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_93 = 3'h5 == io_ar_addr ? btb_5_exception_type : _GEN_92; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_94 = 3'h6 == io_ar_addr ? btb_6_exception_type : _GEN_93; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_97 = 3'h1 == io_ar_addr ? btb_1_inst : btb_0_inst; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_98 = 3'h2 == io_ar_addr ? btb_2_inst : _GEN_97; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_99 = 3'h3 == io_ar_addr ? btb_3_inst : _GEN_98; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_100 = 3'h4 == io_ar_addr ? btb_4_inst : _GEN_99; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_101 = 3'h5 == io_ar_addr ? btb_5_inst : _GEN_100; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_102 = 3'h6 == io_ar_addr ? btb_6_inst : _GEN_101; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_105 = 3'h1 == io_ar_addr ? btb_1_pc : btb_0_pc; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_106 = 3'h2 == io_ar_addr ? btb_2_pc : _GEN_105; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_107 = 3'h3 == io_ar_addr ? btb_3_pc : _GEN_106; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_108 = 3'h4 == io_ar_addr ? btb_4_pc : _GEN_107; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_109 = 3'h5 == io_ar_addr ? btb_5_pc : _GEN_108; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_110 = 3'h6 == io_ar_addr ? btb_6_pc : _GEN_109; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_126 = 3'h1 == io_aw_addr ? btb_1_pc : btb_0_pc; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_127 = 3'h1 == io_aw_addr ? btb_1_inst : btb_0_inst; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_128 = 3'h1 == io_aw_addr ? btb_1_exception_type : btb_0_exception_type; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_129 = 3'h1 == io_aw_addr ? btb_1_pre_pc_target : btb_0_pre_pc_target; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_130 = 3'h1 == io_aw_addr ? btb_1_pre_lookup_data : btb_0_pre_lookup_data; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_131 = 3'h1 == io_aw_addr ? btb_1_pre_hashcode : btb_0_pre_hashcode; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_132 = 3'h1 == io_aw_addr ? btb_1_pre_pht : btb_0_pre_pht; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_133 = 3'h1 == io_aw_addr ? btb_1_pre_bht : btb_0_pre_bht; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_135 = 3'h1 == io_aw_addr ? btb_1_pre_decoder_branchD_flag : btb_0_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_136 = 3'h1 == io_aw_addr ? btb_1_pre_decoder_jump : btb_0_pre_decoder_jump; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_137 = 3'h1 == io_aw_addr ? btb_1_pre_decoder_branchdata : btb_0_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_138 = 3'h1 == io_aw_addr ? btb_1_pre_decoder_jr : btb_0_pre_decoder_jr; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_139 = 3'h1 == io_aw_addr ? btb_1_true_branch_state : btb_0_true_branch_state; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_140 = 3'h2 == io_aw_addr ? btb_2_pc : _GEN_126; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_141 = 3'h2 == io_aw_addr ? btb_2_inst : _GEN_127; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_142 = 3'h2 == io_aw_addr ? btb_2_exception_type : _GEN_128; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_143 = 3'h2 == io_aw_addr ? btb_2_pre_pc_target : _GEN_129; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_144 = 3'h2 == io_aw_addr ? btb_2_pre_lookup_data : _GEN_130; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_145 = 3'h2 == io_aw_addr ? btb_2_pre_hashcode : _GEN_131; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_146 = 3'h2 == io_aw_addr ? btb_2_pre_pht : _GEN_132; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_147 = 3'h2 == io_aw_addr ? btb_2_pre_bht : _GEN_133; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_149 = 3'h2 == io_aw_addr ? btb_2_pre_decoder_branchD_flag : _GEN_135; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_150 = 3'h2 == io_aw_addr ? btb_2_pre_decoder_jump : _GEN_136; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_151 = 3'h2 == io_aw_addr ? btb_2_pre_decoder_branchdata : _GEN_137; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_152 = 3'h2 == io_aw_addr ? btb_2_pre_decoder_jr : _GEN_138; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_153 = 3'h2 == io_aw_addr ? btb_2_true_branch_state : _GEN_139; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_154 = 3'h3 == io_aw_addr ? btb_3_pc : _GEN_140; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_155 = 3'h3 == io_aw_addr ? btb_3_inst : _GEN_141; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_156 = 3'h3 == io_aw_addr ? btb_3_exception_type : _GEN_142; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_157 = 3'h3 == io_aw_addr ? btb_3_pre_pc_target : _GEN_143; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_158 = 3'h3 == io_aw_addr ? btb_3_pre_lookup_data : _GEN_144; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_159 = 3'h3 == io_aw_addr ? btb_3_pre_hashcode : _GEN_145; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_160 = 3'h3 == io_aw_addr ? btb_3_pre_pht : _GEN_146; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_161 = 3'h3 == io_aw_addr ? btb_3_pre_bht : _GEN_147; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_163 = 3'h3 == io_aw_addr ? btb_3_pre_decoder_branchD_flag : _GEN_149; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_164 = 3'h3 == io_aw_addr ? btb_3_pre_decoder_jump : _GEN_150; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_165 = 3'h3 == io_aw_addr ? btb_3_pre_decoder_branchdata : _GEN_151; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_166 = 3'h3 == io_aw_addr ? btb_3_pre_decoder_jr : _GEN_152; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_167 = 3'h3 == io_aw_addr ? btb_3_true_branch_state : _GEN_153; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_168 = 3'h4 == io_aw_addr ? btb_4_pc : _GEN_154; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_169 = 3'h4 == io_aw_addr ? btb_4_inst : _GEN_155; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_170 = 3'h4 == io_aw_addr ? btb_4_exception_type : _GEN_156; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_171 = 3'h4 == io_aw_addr ? btb_4_pre_pc_target : _GEN_157; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_172 = 3'h4 == io_aw_addr ? btb_4_pre_lookup_data : _GEN_158; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_173 = 3'h4 == io_aw_addr ? btb_4_pre_hashcode : _GEN_159; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_174 = 3'h4 == io_aw_addr ? btb_4_pre_pht : _GEN_160; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_175 = 3'h4 == io_aw_addr ? btb_4_pre_bht : _GEN_161; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_177 = 3'h4 == io_aw_addr ? btb_4_pre_decoder_branchD_flag : _GEN_163; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_178 = 3'h4 == io_aw_addr ? btb_4_pre_decoder_jump : _GEN_164; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_179 = 3'h4 == io_aw_addr ? btb_4_pre_decoder_branchdata : _GEN_165; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_180 = 3'h4 == io_aw_addr ? btb_4_pre_decoder_jr : _GEN_166; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_181 = 3'h4 == io_aw_addr ? btb_4_true_branch_state : _GEN_167; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_182 = 3'h5 == io_aw_addr ? btb_5_pc : _GEN_168; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_183 = 3'h5 == io_aw_addr ? btb_5_inst : _GEN_169; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_184 = 3'h5 == io_aw_addr ? btb_5_exception_type : _GEN_170; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_185 = 3'h5 == io_aw_addr ? btb_5_pre_pc_target : _GEN_171; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_186 = 3'h5 == io_aw_addr ? btb_5_pre_lookup_data : _GEN_172; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_187 = 3'h5 == io_aw_addr ? btb_5_pre_hashcode : _GEN_173; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_188 = 3'h5 == io_aw_addr ? btb_5_pre_pht : _GEN_174; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_189 = 3'h5 == io_aw_addr ? btb_5_pre_bht : _GEN_175; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_191 = 3'h5 == io_aw_addr ? btb_5_pre_decoder_branchD_flag : _GEN_177; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_192 = 3'h5 == io_aw_addr ? btb_5_pre_decoder_jump : _GEN_178; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_193 = 3'h5 == io_aw_addr ? btb_5_pre_decoder_branchdata : _GEN_179; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_194 = 3'h5 == io_aw_addr ? btb_5_pre_decoder_jr : _GEN_180; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_195 = 3'h5 == io_aw_addr ? btb_5_true_branch_state : _GEN_181; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_196 = 3'h6 == io_aw_addr ? btb_6_pc : _GEN_182; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_197 = 3'h6 == io_aw_addr ? btb_6_inst : _GEN_183; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_198 = 3'h6 == io_aw_addr ? btb_6_exception_type : _GEN_184; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_199 = 3'h6 == io_aw_addr ? btb_6_pre_pc_target : _GEN_185; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_200 = 3'h6 == io_aw_addr ? btb_6_pre_lookup_data : _GEN_186; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_201 = 3'h6 == io_aw_addr ? btb_6_pre_hashcode : _GEN_187; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_202 = 3'h6 == io_aw_addr ? btb_6_pre_pht : _GEN_188; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_203 = 3'h6 == io_aw_addr ? btb_6_pre_bht : _GEN_189; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_205 = 3'h6 == io_aw_addr ? btb_6_pre_decoder_branchD_flag : _GEN_191; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_206 = 3'h6 == io_aw_addr ? btb_6_pre_decoder_jump : _GEN_192; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_207 = 3'h6 == io_aw_addr ? btb_6_pre_decoder_branchdata : _GEN_193; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_208 = 3'h6 == io_aw_addr ? btb_6_pre_decoder_jr : _GEN_194; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_209 = 3'h6 == io_aw_addr ? btb_6_true_branch_state : _GEN_195; // @[ports_lookup_table.scala 107:{27,27}]
+  assign io_out_pc = 3'h7 == io_ar_addr ? btb_7_pc : _GEN_110; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_inst = 3'h7 == io_ar_addr ? btb_7_inst : _GEN_102; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_exception_type = 3'h7 == io_ar_addr ? btb_7_exception_type : _GEN_94; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_pc_target = 3'h7 == io_ar_addr ? btb_7_pre_pc_target : _GEN_86; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_lookup_data = 3'h7 == io_ar_addr ? btb_7_pre_lookup_data : _GEN_78; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_hashcode = 3'h7 == io_ar_addr ? btb_7_pre_hashcode : _GEN_70; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_pht = 3'h7 == io_ar_addr ? btb_7_pre_pht : _GEN_62; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_bht = 3'h7 == io_ar_addr ? btb_7_pre_bht : _GEN_54; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_decoder_branchD_flag = 3'h7 == io_ar_addr ? btb_7_pre_decoder_branchD_flag : _GEN_38; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_decoder_jump = 3'h7 == io_ar_addr ? btb_7_pre_decoder_jump : _GEN_30; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_decoder_branchdata = 3'h7 == io_ar_addr ? btb_7_pre_decoder_branchdata : _GEN_22; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_decoder_jr = 3'h7 == io_ar_addr ? btb_7_pre_decoder_jr : _GEN_14; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_true_branch_state = 3'h7 == io_ar_addr ? btb_7_true_branch_state : _GEN_6; // @[ports_lookup_table.scala 106:{12,12}]
   always @(posedge clock) begin
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pc <= _GEN_420;
+        btb_0_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_inst <= _GEN_421;
+        btb_0_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_exception_type <= _GEN_422;
+        btb_0_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_pc_target <= _GEN_423;
+        btb_0_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_lookup_data <= _GEN_424;
+        btb_0_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_hashcode <= _GEN_425;
+        btb_0_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_pht <= _GEN_426;
+        btb_0_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_bht <= _GEN_427;
+        btb_0_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_decoder_branchD_flag <= _GEN_429;
+        btb_0_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_decoder_jump <= _GEN_430;
+        btb_0_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_decoder_branchdata <= _GEN_431;
+        btb_0_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_decoder_jr <= _GEN_432;
+        btb_0_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_true_branch_state <= _GEN_433;
+        btb_0_true_branch_state <= _GEN_209;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pc <= _GEN_420;
+        btb_1_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_inst <= _GEN_421;
+        btb_1_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_exception_type <= _GEN_422;
+        btb_1_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_pc_target <= _GEN_423;
+        btb_1_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_lookup_data <= _GEN_424;
+        btb_1_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_hashcode <= _GEN_425;
+        btb_1_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_pht <= _GEN_426;
+        btb_1_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_bht <= _GEN_427;
+        btb_1_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_decoder_branchD_flag <= _GEN_429;
+        btb_1_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_decoder_jump <= _GEN_430;
+        btb_1_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_decoder_branchdata <= _GEN_431;
+        btb_1_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_decoder_jr <= _GEN_432;
+        btb_1_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_true_branch_state <= _GEN_433;
+        btb_1_true_branch_state <= _GEN_209;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pc <= _GEN_420;
+        btb_2_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_inst <= _GEN_421;
+        btb_2_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_exception_type <= _GEN_422;
+        btb_2_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_pc_target <= _GEN_423;
+        btb_2_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_lookup_data <= _GEN_424;
+        btb_2_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_hashcode <= _GEN_425;
+        btb_2_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_pht <= _GEN_426;
+        btb_2_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_bht <= _GEN_427;
+        btb_2_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_decoder_branchD_flag <= _GEN_429;
+        btb_2_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_decoder_jump <= _GEN_430;
+        btb_2_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_decoder_branchdata <= _GEN_431;
+        btb_2_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_decoder_jr <= _GEN_432;
+        btb_2_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_true_branch_state <= _GEN_433;
+        btb_2_true_branch_state <= _GEN_209;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_pc <= _GEN_420;
+        btb_3_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_inst <= _GEN_421;
+        btb_3_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_exception_type <= _GEN_422;
+        btb_3_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_pre_pc_target <= _GEN_423;
+        btb_3_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_pre_lookup_data <= _GEN_424;
+        btb_3_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_pre_hashcode <= _GEN_425;
+        btb_3_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_pre_pht <= _GEN_426;
+        btb_3_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_pre_bht <= _GEN_427;
+        btb_3_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_pre_decoder_branchD_flag <= _GEN_429;
+        btb_3_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_pre_decoder_jump <= _GEN_430;
+        btb_3_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_pre_decoder_branchdata <= _GEN_431;
+        btb_3_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_pre_decoder_jr <= _GEN_432;
+        btb_3_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_3_true_branch_state <= _GEN_433;
+        btb_3_true_branch_state <= _GEN_209;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_pc <= _GEN_420;
+        btb_4_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_inst <= _GEN_421;
+        btb_4_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_exception_type <= _GEN_422;
+        btb_4_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_pre_pc_target <= _GEN_423;
+        btb_4_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_pre_lookup_data <= _GEN_424;
+        btb_4_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_pre_hashcode <= _GEN_425;
+        btb_4_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_pre_pht <= _GEN_426;
+        btb_4_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_pre_bht <= _GEN_427;
+        btb_4_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_pre_decoder_branchD_flag <= _GEN_429;
+        btb_4_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_pre_decoder_jump <= _GEN_430;
+        btb_4_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_pre_decoder_branchdata <= _GEN_431;
+        btb_4_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_pre_decoder_jr <= _GEN_432;
+        btb_4_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_4_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_4_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_4_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_4_true_branch_state <= _GEN_433;
+        btb_4_true_branch_state <= _GEN_209;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_pc <= _GEN_420;
+        btb_5_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_inst <= _GEN_421;
+        btb_5_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_exception_type <= _GEN_422;
+        btb_5_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_pre_pc_target <= _GEN_423;
+        btb_5_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_pre_lookup_data <= _GEN_424;
+        btb_5_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_pre_hashcode <= _GEN_425;
+        btb_5_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_pre_pht <= _GEN_426;
+        btb_5_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_pre_bht <= _GEN_427;
+        btb_5_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_pre_decoder_branchD_flag <= _GEN_429;
+        btb_5_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_pre_decoder_jump <= _GEN_430;
+        btb_5_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_pre_decoder_branchdata <= _GEN_431;
+        btb_5_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_pre_decoder_jr <= _GEN_432;
+        btb_5_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_5_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_5_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_5_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_5_true_branch_state <= _GEN_433;
+        btb_5_true_branch_state <= _GEN_209;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_pc <= _GEN_420;
+        btb_6_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_inst <= _GEN_421;
+        btb_6_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_exception_type <= _GEN_422;
+        btb_6_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_pre_pc_target <= _GEN_423;
+        btb_6_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_pre_lookup_data <= _GEN_424;
+        btb_6_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_pre_hashcode <= _GEN_425;
+        btb_6_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_pre_pht <= _GEN_426;
+        btb_6_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_pre_bht <= _GEN_427;
+        btb_6_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_pre_decoder_branchD_flag <= _GEN_429;
+        btb_6_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_pre_decoder_jump <= _GEN_430;
+        btb_6_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_pre_decoder_branchdata <= _GEN_431;
+        btb_6_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_pre_decoder_jr <= _GEN_432;
+        btb_6_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_6_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_6_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_6_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_6_true_branch_state <= _GEN_433;
+        btb_6_true_branch_state <= _GEN_209;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_pc <= _GEN_420;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_inst <= _GEN_421;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_exception_type <= _GEN_422;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_pre_pc_target <= _GEN_423;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_pre_lookup_data <= _GEN_424;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_pre_hashcode <= _GEN_425;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_pre_pht <= _GEN_426;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_pre_bht <= _GEN_427;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_pre_decoder_branchD_flag <= _GEN_429;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_pre_decoder_jump <= _GEN_430;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_pre_decoder_branchdata <= _GEN_431;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_pre_decoder_jr <= _GEN_432;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_7_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_7_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_7_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_7_true_branch_state <= _GEN_433;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_pc <= _GEN_420;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_inst <= _GEN_421;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_exception_type <= _GEN_422;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_pre_pc_target <= _GEN_423;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_pre_lookup_data <= _GEN_424;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_pre_hashcode <= _GEN_425;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_pre_pht <= _GEN_426;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_pre_bht <= _GEN_427;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_pre_decoder_branchD_flag <= _GEN_429;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_pre_decoder_jump <= _GEN_430;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_pre_decoder_branchdata <= _GEN_431;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_pre_decoder_jr <= _GEN_432;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_8_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h8 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_8_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_8_true_branch_state <= _GEN_433;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_pc <= _GEN_420;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_inst <= _GEN_421;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_exception_type <= _GEN_422;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_pre_pc_target <= _GEN_423;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_pre_lookup_data <= _GEN_424;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_pre_hashcode <= _GEN_425;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_pre_pht <= _GEN_426;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_pre_bht <= _GEN_427;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_pre_decoder_branchD_flag <= _GEN_429;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_pre_decoder_jump <= _GEN_430;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_pre_decoder_branchdata <= _GEN_431;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_pre_decoder_jr <= _GEN_432;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_9_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'h9 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_9_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_9_true_branch_state <= _GEN_433;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_pc <= _GEN_420;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_inst <= _GEN_421;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_exception_type <= _GEN_422;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_pre_pc_target <= _GEN_423;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_pre_lookup_data <= _GEN_424;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_pre_hashcode <= _GEN_425;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_pre_pht <= _GEN_426;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_pre_bht <= _GEN_427;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_pre_decoder_branchD_flag <= _GEN_429;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_pre_decoder_jump <= _GEN_430;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_pre_decoder_branchdata <= _GEN_431;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_pre_decoder_jr <= _GEN_432;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_10_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'ha == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_10_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_10_true_branch_state <= _GEN_433;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_pc <= _GEN_420;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_inst <= _GEN_421;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_exception_type <= _GEN_422;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_pre_pc_target <= _GEN_423;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_pre_lookup_data <= _GEN_424;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_pre_hashcode <= _GEN_425;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_pre_pht <= _GEN_426;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_pre_bht <= _GEN_427;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_pre_decoder_branchD_flag <= _GEN_429;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_pre_decoder_jump <= _GEN_430;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_pre_decoder_branchdata <= _GEN_431;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_pre_decoder_jr <= _GEN_432;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_11_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hb == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_11_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_11_true_branch_state <= _GEN_433;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_pc <= _GEN_420;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_inst <= _GEN_421;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_exception_type <= _GEN_422;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_pre_pc_target <= _GEN_423;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_pre_lookup_data <= _GEN_424;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_pre_hashcode <= _GEN_425;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_pre_pht <= _GEN_426;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_pre_bht <= _GEN_427;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_pre_decoder_branchD_flag <= _GEN_429;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_pre_decoder_jump <= _GEN_430;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_pre_decoder_branchdata <= _GEN_431;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_pre_decoder_jr <= _GEN_432;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_12_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hc == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_12_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_12_true_branch_state <= _GEN_433;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_pc <= _GEN_420;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_inst <= _GEN_421;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_exception_type <= _GEN_422;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_pre_pc_target <= _GEN_423;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_pre_lookup_data <= _GEN_424;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_pre_hashcode <= _GEN_425;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_pre_pht <= _GEN_426;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_pre_bht <= _GEN_427;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_pre_decoder_branchD_flag <= _GEN_429;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_pre_decoder_jump <= _GEN_430;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_pre_decoder_branchdata <= _GEN_431;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_pre_decoder_jr <= _GEN_432;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_13_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hd == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_13_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_13_true_branch_state <= _GEN_433;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pc <= io_in_pc;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pc <= btb_15_pc; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_pc <= _GEN_420;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_inst <= io_in_inst;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_inst <= btb_15_inst; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_inst <= _GEN_421;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_exception_type <= 2'h0;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_exception_type <= btb_15_exception_type; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_exception_type <= _GEN_422;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_pc_target <= io_in_pre_pc_target;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_pc_target <= btb_15_pre_pc_target; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_pre_pc_target <= _GEN_423;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_lookup_data <= btb_15_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_pre_lookup_data <= _GEN_424;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_hashcode <= io_in_pre_hashcode;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_hashcode <= btb_15_pre_hashcode; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_pre_hashcode <= _GEN_425;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_pht <= io_in_pre_pht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_pht <= btb_15_pre_pht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_pre_pht <= _GEN_426;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_bht <= io_in_pre_bht;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_bht <= btb_15_pre_bht; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_pre_bht <= _GEN_427;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_decoder_branchD_flag <= btb_15_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_pre_decoder_branchD_flag <= _GEN_429;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_decoder_jump <= btb_15_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_pre_decoder_jump <= _GEN_430;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_decoder_branchdata <= btb_15_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_pre_decoder_branchdata <= _GEN_431;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_pre_decoder_jr <= btb_15_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_pre_decoder_jr <= _GEN_432;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_14_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'he == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_true_branch_state <= io_in_true_branch_state;
-      end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_14_true_branch_state <= btb_15_true_branch_state; // @[ports_lookup_table.scala 107:27]
-      end else begin
-        btb_14_true_branch_state <= _GEN_433;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pc <= io_in_pc;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pc <= _GEN_420;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_inst <= io_in_inst;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_inst <= _GEN_421;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_exception_type <= 2'h0;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_exception_type <= _GEN_422;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_pc_target <= io_in_pre_pc_target;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_pc_target <= _GEN_423;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_lookup_data <= _GEN_424;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_hashcode <= io_in_pre_hashcode;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_hashcode <= _GEN_425;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_pht <= io_in_pre_pht;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_pht <= _GEN_426;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_bht <= io_in_pre_bht;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_bht <= _GEN_427;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_decoder_branchD_flag <= _GEN_429;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_decoder_jump <= _GEN_430;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_decoder_branchdata <= _GEN_431;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_pre_decoder_jr <= _GEN_432;
-      end
-    end
-    if (reset) begin // @[ports_lookup_table.scala 105:22]
-      btb_15_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (4'hf == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
-      if (io_write) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_true_branch_state <= io_in_true_branch_state;
-      end else if (!(4'hf == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_15_true_branch_state <= _GEN_433;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_true_branch_state <= _GEN_209;
       end
     end
   end
@@ -9653,214 +8093,6 @@ initial begin
   btb_7_pre_decoder_jr = _RAND_102[0:0];
   _RAND_103 = {1{`RANDOM}};
   btb_7_true_branch_state = _RAND_103[0:0];
-  _RAND_104 = {1{`RANDOM}};
-  btb_8_pc = _RAND_104[31:0];
-  _RAND_105 = {1{`RANDOM}};
-  btb_8_inst = _RAND_105[31:0];
-  _RAND_106 = {1{`RANDOM}};
-  btb_8_exception_type = _RAND_106[1:0];
-  _RAND_107 = {1{`RANDOM}};
-  btb_8_pre_pc_target = _RAND_107[31:0];
-  _RAND_108 = {1{`RANDOM}};
-  btb_8_pre_lookup_data = _RAND_108[6:0];
-  _RAND_109 = {1{`RANDOM}};
-  btb_8_pre_hashcode = _RAND_109[3:0];
-  _RAND_110 = {1{`RANDOM}};
-  btb_8_pre_pht = _RAND_110[1:0];
-  _RAND_111 = {1{`RANDOM}};
-  btb_8_pre_bht = _RAND_111[6:0];
-  _RAND_112 = {1{`RANDOM}};
-  btb_8_pre_decoder_branchD_flag = _RAND_112[0:0];
-  _RAND_113 = {1{`RANDOM}};
-  btb_8_pre_decoder_jump = _RAND_113[0:0];
-  _RAND_114 = {1{`RANDOM}};
-  btb_8_pre_decoder_branchdata = _RAND_114[5:0];
-  _RAND_115 = {1{`RANDOM}};
-  btb_8_pre_decoder_jr = _RAND_115[0:0];
-  _RAND_116 = {1{`RANDOM}};
-  btb_8_true_branch_state = _RAND_116[0:0];
-  _RAND_117 = {1{`RANDOM}};
-  btb_9_pc = _RAND_117[31:0];
-  _RAND_118 = {1{`RANDOM}};
-  btb_9_inst = _RAND_118[31:0];
-  _RAND_119 = {1{`RANDOM}};
-  btb_9_exception_type = _RAND_119[1:0];
-  _RAND_120 = {1{`RANDOM}};
-  btb_9_pre_pc_target = _RAND_120[31:0];
-  _RAND_121 = {1{`RANDOM}};
-  btb_9_pre_lookup_data = _RAND_121[6:0];
-  _RAND_122 = {1{`RANDOM}};
-  btb_9_pre_hashcode = _RAND_122[3:0];
-  _RAND_123 = {1{`RANDOM}};
-  btb_9_pre_pht = _RAND_123[1:0];
-  _RAND_124 = {1{`RANDOM}};
-  btb_9_pre_bht = _RAND_124[6:0];
-  _RAND_125 = {1{`RANDOM}};
-  btb_9_pre_decoder_branchD_flag = _RAND_125[0:0];
-  _RAND_126 = {1{`RANDOM}};
-  btb_9_pre_decoder_jump = _RAND_126[0:0];
-  _RAND_127 = {1{`RANDOM}};
-  btb_9_pre_decoder_branchdata = _RAND_127[5:0];
-  _RAND_128 = {1{`RANDOM}};
-  btb_9_pre_decoder_jr = _RAND_128[0:0];
-  _RAND_129 = {1{`RANDOM}};
-  btb_9_true_branch_state = _RAND_129[0:0];
-  _RAND_130 = {1{`RANDOM}};
-  btb_10_pc = _RAND_130[31:0];
-  _RAND_131 = {1{`RANDOM}};
-  btb_10_inst = _RAND_131[31:0];
-  _RAND_132 = {1{`RANDOM}};
-  btb_10_exception_type = _RAND_132[1:0];
-  _RAND_133 = {1{`RANDOM}};
-  btb_10_pre_pc_target = _RAND_133[31:0];
-  _RAND_134 = {1{`RANDOM}};
-  btb_10_pre_lookup_data = _RAND_134[6:0];
-  _RAND_135 = {1{`RANDOM}};
-  btb_10_pre_hashcode = _RAND_135[3:0];
-  _RAND_136 = {1{`RANDOM}};
-  btb_10_pre_pht = _RAND_136[1:0];
-  _RAND_137 = {1{`RANDOM}};
-  btb_10_pre_bht = _RAND_137[6:0];
-  _RAND_138 = {1{`RANDOM}};
-  btb_10_pre_decoder_branchD_flag = _RAND_138[0:0];
-  _RAND_139 = {1{`RANDOM}};
-  btb_10_pre_decoder_jump = _RAND_139[0:0];
-  _RAND_140 = {1{`RANDOM}};
-  btb_10_pre_decoder_branchdata = _RAND_140[5:0];
-  _RAND_141 = {1{`RANDOM}};
-  btb_10_pre_decoder_jr = _RAND_141[0:0];
-  _RAND_142 = {1{`RANDOM}};
-  btb_10_true_branch_state = _RAND_142[0:0];
-  _RAND_143 = {1{`RANDOM}};
-  btb_11_pc = _RAND_143[31:0];
-  _RAND_144 = {1{`RANDOM}};
-  btb_11_inst = _RAND_144[31:0];
-  _RAND_145 = {1{`RANDOM}};
-  btb_11_exception_type = _RAND_145[1:0];
-  _RAND_146 = {1{`RANDOM}};
-  btb_11_pre_pc_target = _RAND_146[31:0];
-  _RAND_147 = {1{`RANDOM}};
-  btb_11_pre_lookup_data = _RAND_147[6:0];
-  _RAND_148 = {1{`RANDOM}};
-  btb_11_pre_hashcode = _RAND_148[3:0];
-  _RAND_149 = {1{`RANDOM}};
-  btb_11_pre_pht = _RAND_149[1:0];
-  _RAND_150 = {1{`RANDOM}};
-  btb_11_pre_bht = _RAND_150[6:0];
-  _RAND_151 = {1{`RANDOM}};
-  btb_11_pre_decoder_branchD_flag = _RAND_151[0:0];
-  _RAND_152 = {1{`RANDOM}};
-  btb_11_pre_decoder_jump = _RAND_152[0:0];
-  _RAND_153 = {1{`RANDOM}};
-  btb_11_pre_decoder_branchdata = _RAND_153[5:0];
-  _RAND_154 = {1{`RANDOM}};
-  btb_11_pre_decoder_jr = _RAND_154[0:0];
-  _RAND_155 = {1{`RANDOM}};
-  btb_11_true_branch_state = _RAND_155[0:0];
-  _RAND_156 = {1{`RANDOM}};
-  btb_12_pc = _RAND_156[31:0];
-  _RAND_157 = {1{`RANDOM}};
-  btb_12_inst = _RAND_157[31:0];
-  _RAND_158 = {1{`RANDOM}};
-  btb_12_exception_type = _RAND_158[1:0];
-  _RAND_159 = {1{`RANDOM}};
-  btb_12_pre_pc_target = _RAND_159[31:0];
-  _RAND_160 = {1{`RANDOM}};
-  btb_12_pre_lookup_data = _RAND_160[6:0];
-  _RAND_161 = {1{`RANDOM}};
-  btb_12_pre_hashcode = _RAND_161[3:0];
-  _RAND_162 = {1{`RANDOM}};
-  btb_12_pre_pht = _RAND_162[1:0];
-  _RAND_163 = {1{`RANDOM}};
-  btb_12_pre_bht = _RAND_163[6:0];
-  _RAND_164 = {1{`RANDOM}};
-  btb_12_pre_decoder_branchD_flag = _RAND_164[0:0];
-  _RAND_165 = {1{`RANDOM}};
-  btb_12_pre_decoder_jump = _RAND_165[0:0];
-  _RAND_166 = {1{`RANDOM}};
-  btb_12_pre_decoder_branchdata = _RAND_166[5:0];
-  _RAND_167 = {1{`RANDOM}};
-  btb_12_pre_decoder_jr = _RAND_167[0:0];
-  _RAND_168 = {1{`RANDOM}};
-  btb_12_true_branch_state = _RAND_168[0:0];
-  _RAND_169 = {1{`RANDOM}};
-  btb_13_pc = _RAND_169[31:0];
-  _RAND_170 = {1{`RANDOM}};
-  btb_13_inst = _RAND_170[31:0];
-  _RAND_171 = {1{`RANDOM}};
-  btb_13_exception_type = _RAND_171[1:0];
-  _RAND_172 = {1{`RANDOM}};
-  btb_13_pre_pc_target = _RAND_172[31:0];
-  _RAND_173 = {1{`RANDOM}};
-  btb_13_pre_lookup_data = _RAND_173[6:0];
-  _RAND_174 = {1{`RANDOM}};
-  btb_13_pre_hashcode = _RAND_174[3:0];
-  _RAND_175 = {1{`RANDOM}};
-  btb_13_pre_pht = _RAND_175[1:0];
-  _RAND_176 = {1{`RANDOM}};
-  btb_13_pre_bht = _RAND_176[6:0];
-  _RAND_177 = {1{`RANDOM}};
-  btb_13_pre_decoder_branchD_flag = _RAND_177[0:0];
-  _RAND_178 = {1{`RANDOM}};
-  btb_13_pre_decoder_jump = _RAND_178[0:0];
-  _RAND_179 = {1{`RANDOM}};
-  btb_13_pre_decoder_branchdata = _RAND_179[5:0];
-  _RAND_180 = {1{`RANDOM}};
-  btb_13_pre_decoder_jr = _RAND_180[0:0];
-  _RAND_181 = {1{`RANDOM}};
-  btb_13_true_branch_state = _RAND_181[0:0];
-  _RAND_182 = {1{`RANDOM}};
-  btb_14_pc = _RAND_182[31:0];
-  _RAND_183 = {1{`RANDOM}};
-  btb_14_inst = _RAND_183[31:0];
-  _RAND_184 = {1{`RANDOM}};
-  btb_14_exception_type = _RAND_184[1:0];
-  _RAND_185 = {1{`RANDOM}};
-  btb_14_pre_pc_target = _RAND_185[31:0];
-  _RAND_186 = {1{`RANDOM}};
-  btb_14_pre_lookup_data = _RAND_186[6:0];
-  _RAND_187 = {1{`RANDOM}};
-  btb_14_pre_hashcode = _RAND_187[3:0];
-  _RAND_188 = {1{`RANDOM}};
-  btb_14_pre_pht = _RAND_188[1:0];
-  _RAND_189 = {1{`RANDOM}};
-  btb_14_pre_bht = _RAND_189[6:0];
-  _RAND_190 = {1{`RANDOM}};
-  btb_14_pre_decoder_branchD_flag = _RAND_190[0:0];
-  _RAND_191 = {1{`RANDOM}};
-  btb_14_pre_decoder_jump = _RAND_191[0:0];
-  _RAND_192 = {1{`RANDOM}};
-  btb_14_pre_decoder_branchdata = _RAND_192[5:0];
-  _RAND_193 = {1{`RANDOM}};
-  btb_14_pre_decoder_jr = _RAND_193[0:0];
-  _RAND_194 = {1{`RANDOM}};
-  btb_14_true_branch_state = _RAND_194[0:0];
-  _RAND_195 = {1{`RANDOM}};
-  btb_15_pc = _RAND_195[31:0];
-  _RAND_196 = {1{`RANDOM}};
-  btb_15_inst = _RAND_196[31:0];
-  _RAND_197 = {1{`RANDOM}};
-  btb_15_exception_type = _RAND_197[1:0];
-  _RAND_198 = {1{`RANDOM}};
-  btb_15_pre_pc_target = _RAND_198[31:0];
-  _RAND_199 = {1{`RANDOM}};
-  btb_15_pre_lookup_data = _RAND_199[6:0];
-  _RAND_200 = {1{`RANDOM}};
-  btb_15_pre_hashcode = _RAND_200[3:0];
-  _RAND_201 = {1{`RANDOM}};
-  btb_15_pre_pht = _RAND_201[1:0];
-  _RAND_202 = {1{`RANDOM}};
-  btb_15_pre_bht = _RAND_202[6:0];
-  _RAND_203 = {1{`RANDOM}};
-  btb_15_pre_decoder_branchD_flag = _RAND_203[0:0];
-  _RAND_204 = {1{`RANDOM}};
-  btb_15_pre_decoder_jump = _RAND_204[0:0];
-  _RAND_205 = {1{`RANDOM}};
-  btb_15_pre_decoder_branchdata = _RAND_205[5:0];
-  _RAND_206 = {1{`RANDOM}};
-  btb_15_pre_decoder_jr = _RAND_206[0:0];
-  _RAND_207 = {1{`RANDOM}};
-  btb_15_true_branch_state = _RAND_207[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
@@ -9910,8 +8142,8 @@ module fifo_with_bundle(
 `endif // RANDOMIZE_REG_INIT
   wire  Look_up_table_read_first_with_bundle_clock; // @[fifo.scala 118:55]
   wire  Look_up_table_read_first_with_bundle_reset; // @[fifo.scala 118:55]
-  wire [3:0] Look_up_table_read_first_with_bundle_io_ar_addr; // @[fifo.scala 118:55]
-  wire [3:0] Look_up_table_read_first_with_bundle_io_aw_addr; // @[fifo.scala 118:55]
+  wire [2:0] Look_up_table_read_first_with_bundle_io_ar_addr; // @[fifo.scala 118:55]
+  wire [2:0] Look_up_table_read_first_with_bundle_io_aw_addr; // @[fifo.scala 118:55]
   wire  Look_up_table_read_first_with_bundle_io_write; // @[fifo.scala 118:55]
   wire [31:0] Look_up_table_read_first_with_bundle_io_in_pc; // @[fifo.scala 118:55]
   wire [31:0] Look_up_table_read_first_with_bundle_io_in_inst; // @[fifo.scala 118:55]
@@ -9938,17 +8170,17 @@ module fifo_with_bundle(
   wire [5:0] Look_up_table_read_first_with_bundle_io_out_pre_decoder_branchdata; // @[fifo.scala 118:55]
   wire  Look_up_table_read_first_with_bundle_io_out_pre_decoder_jr; // @[fifo.scala 118:55]
   wire  Look_up_table_read_first_with_bundle_io_out_true_branch_state; // @[fifo.scala 118:55]
-  reg [3:0] write_length_points; // @[fifo.scala 121:38]
-  reg [3:0] read_length_points; // @[fifo.scala 123:37]
+  reg [2:0] write_length_points; // @[fifo.scala 121:38]
+  reg [2:0] read_length_points; // @[fifo.scala 123:37]
   wire [1:0] _GEN_0 = {{1'd0}, io_write_en}; // @[Mux.scala 81:61]
   wire  _write_length_points_T = io_point_flush | io_point_write_en; // @[fifo.scala 147:47]
   wire [2:0] _write_length_points_T_2 = {{1'd0}, _GEN_0}; // @[fifo.scala 147:134]
-  wire [3:0] _GEN_3 = {{3'd0}, _write_length_points_T_2[0]}; // @[fifo.scala 147:93]
-  wire [3:0] _write_length_points_T_7 = write_length_points + _GEN_3; // @[fifo.scala 147:93]
+  wire [2:0] _GEN_3 = {{2'd0}, _write_length_points_T_2[0]}; // @[fifo.scala 147:93]
+  wire [2:0] _write_length_points_T_7 = write_length_points + _GEN_3; // @[fifo.scala 147:93]
   wire [1:0] _GEN_4 = {{1'd0}, io_read_en}; // @[fifo.scala 149:131]
   wire [2:0] _read_length_points_T_2 = {{1'd0}, _GEN_4}; // @[fifo.scala 149:131]
-  wire [3:0] _GEN_5 = {{3'd0}, _read_length_points_T_2[0]}; // @[fifo.scala 149:92]
-  wire [3:0] _read_length_points_T_7 = read_length_points + _GEN_5; // @[fifo.scala 149:92]
+  wire [2:0] _GEN_5 = {{2'd0}, _read_length_points_T_2[0]}; // @[fifo.scala 149:92]
+  wire [2:0] _read_length_points_T_7 = read_length_points + _GEN_5; // @[fifo.scala 149:92]
   wire [31:0] fifo_banks_0_out_pc = Look_up_table_read_first_with_bundle_io_out_pc; // @[fifo.scala 118:{29,29}]
   wire [31:0] fifo_banks_0_out_inst = Look_up_table_read_first_with_bundle_io_out_inst; // @[fifo.scala 118:{29,29}]
   wire [1:0] fifo_banks_0_out_exception_type = Look_up_table_read_first_with_bundle_io_out_exception_type; // @[fifo.scala 118:{29,29}]
@@ -9964,7 +8196,7 @@ module fifo_with_bundle(
     Look_up_table_read_first_with_bundle_io_out_pre_decoder_branchdata; // @[fifo.scala 118:{29,29}]
   wire  fifo_banks_0_out_pre_decoder_jr = Look_up_table_read_first_with_bundle_io_out_pre_decoder_jr; // @[fifo.scala 118:{29,29}]
   wire  fifo_banks_0_out_true_branch_state = Look_up_table_read_first_with_bundle_io_out_true_branch_state; // @[fifo.scala 118:{29,29}]
-  wire [3:0] _io_full_T_1 = write_length_points + 4'h1; // @[fifo.scala 160:37]
+  wire [2:0] _io_full_T_1 = write_length_points + 3'h1; // @[fifo.scala 160:37]
   Look_up_table_read_first_with_bundle Look_up_table_read_first_with_bundle ( // @[fifo.scala 118:55]
     .clock(Look_up_table_read_first_with_bundle_clock),
     .reset(Look_up_table_read_first_with_bundle_reset),
@@ -10031,16 +8263,16 @@ module fifo_with_bundle(
   assign Look_up_table_read_first_with_bundle_io_in_true_branch_state = io_write_in_0_true_branch_state; // @[fifo.scala 118:29 129:38]
   always @(posedge clock) begin
     if (reset) begin // @[fifo.scala 121:38]
-      write_length_points <= 4'h0; // @[fifo.scala 121:38]
+      write_length_points <= 3'h0; // @[fifo.scala 121:38]
     end else if (io_point_flush | io_point_write_en) begin // @[fifo.scala 147:31]
-      write_length_points <= 4'h0;
+      write_length_points <= 3'h0;
     end else begin
       write_length_points <= _write_length_points_T_7;
     end
     if (reset) begin // @[fifo.scala 123:37]
-      read_length_points <= 4'h0; // @[fifo.scala 123:37]
+      read_length_points <= 3'h0; // @[fifo.scala 123:37]
     end else if (_write_length_points_T) begin // @[fifo.scala 149:30]
-      read_length_points <= 4'h0;
+      read_length_points <= 3'h0;
     end else begin
       read_length_points <= _read_length_points_T_7;
     end
@@ -10082,9 +8314,9 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  write_length_points = _RAND_0[3:0];
+  write_length_points = _RAND_0[2:0];
   _RAND_1 = {1{`RANDOM}};
-  read_length_points = _RAND_1[3:0];
+  read_length_points = _RAND_1[2:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
@@ -28543,18 +26775,27 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module mycpu_top(
-  input        clock,
-  input        reset,
-  input        io_interrupt,
-  input        can_rx,
-  output       can_tx,
-  output [1:0] spi_flash_cs,
-  output       spi_flash_clk,
-  output       spi_flash_mosi,
-  input        spi_flash_miso,
-  input        uart_rx,
-  output       uart_tx
+  input   clock,
+  input   reset,
+  input   io_interrupt,
+  input   can_rx,
+  output  can_tx,
+  output  led_shine,
+  output  spi_flash_cs,
+  output  spi_flash_clk,
+  output  spi_flash_mosi,
+  input   spi_flash_miso,
+  output  spi_flash_hold,
+  output  spi_flash_wp,
+  input   uart_rx,
+  output  uart_tx
 );
+`ifdef RANDOMIZE_REG_INIT
+  reg [31:0] _RAND_0;
+  reg [31:0] _RAND_1;
+`endif // RANDOMIZE_REG_INIT
+  wire  pll_instance_clk_in1; // @[my_cpu_top.scala 138:34]
+  wire  pll_instance_clk_out1; // @[my_cpu_top.scala 138:34]
   wire  u_riscv_cpu_clock; // @[my_cpu_top.scala 154:29]
   wire  u_riscv_cpu_reset; // @[my_cpu_top.scala 154:29]
   wire  u_riscv_cpu_ext_int_timer; // @[my_cpu_top.scala 154:29]
@@ -28955,6 +27196,15 @@ module mycpu_top(
   wire  uart_apb_uart_rx; // @[my_cpu_top.scala 312:32]
   wire  uart_apb_uart_tx; // @[my_cpu_top.scala 312:32]
   wire  uart_apb_o_interrupt; // @[my_cpu_top.scala 312:32]
+  wire  resetp = ~reset; // @[my_cpu_top.scala 117:26]
+  reg [23:0] counter; // @[Counter.scala 62:40]
+  wire  wrap_wrap = counter == 24'h98967f; // @[Counter.scala 74:24]
+  wire [23:0] _wrap_value_T_1 = counter + 24'h1; // @[Counter.scala 78:24]
+  reg  led_shine_reg; // @[my_cpu_top.scala 150:32]
+  clk_pll pll_instance ( // @[my_cpu_top.scala 138:34]
+    .clk_in1(pll_instance_clk_in1),
+    .clk_out1(pll_instance_clk_out1)
+  );
   lys_cpu u_riscv_cpu ( // @[my_cpu_top.scala 154:29]
     .clock(u_riscv_cpu_clock),
     .reset(u_riscv_cpu_reset),
@@ -29380,12 +27630,16 @@ module mycpu_top(
     .o_interrupt(uart_apb_o_interrupt)
   );
   assign can_tx = axi_can_top_can_tx; // @[my_cpu_top.scala 324:12]
-  assign spi_flash_cs = spi_spi_cs; // @[my_cpu_top.scala 353:23]
-  assign spi_flash_clk = spi_spi_clk; // @[my_cpu_top.scala 352:23]
-  assign spi_flash_mosi = spi_spi_mosi; // @[my_cpu_top.scala 354:24]
-  assign uart_tx = uart_apb_uart_tx; // @[my_cpu_top.scala 364:13]
-  assign u_riscv_cpu_clock = clock;
-  assign u_riscv_cpu_reset = reset;
+  assign led_shine = led_shine_reg; // @[my_cpu_top.scala 151:15]
+  assign spi_flash_cs = spi_spi_cs[0]; // @[my_cpu_top.scala 355:46]
+  assign spi_flash_clk = spi_spi_clk; // @[my_cpu_top.scala 354:23]
+  assign spi_flash_mosi = spi_spi_mosi; // @[my_cpu_top.scala 356:24]
+  assign spi_flash_hold = 1'h1; // @[my_cpu_top.scala 358:25]
+  assign spi_flash_wp = 1'h1; // @[my_cpu_top.scala 359:25]
+  assign uart_tx = uart_apb_uart_tx; // @[my_cpu_top.scala 368:13]
+  assign pll_instance_clk_in1 = clock; // @[my_cpu_top.scala 139:42]
+  assign u_riscv_cpu_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 145:31]
+  assign u_riscv_cpu_reset = ~reset; // @[my_cpu_top.scala 117:26]
   assign u_riscv_cpu_ext_int_timer = timer_periph_io_int_line; // @[my_cpu_top.scala 283:31]
   assign u_riscv_cpu_ext_int_out_int = io_interrupt; // @[my_cpu_top.scala 284:33]
   assign u_riscv_cpu_inst_sram_rdata_L = inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 239:32]
@@ -29393,8 +27647,8 @@ module mycpu_top(
   assign u_riscv_cpu_stage2_stall = inst_cache_io_stage2_stall; // @[my_cpu_top.scala 257:35]
   assign u_riscv_cpu_data_sram_rdata = data_cache_io_sram_rdata; // @[my_cpu_top.scala 226:28]
   assign u_riscv_cpu_data_stage2_stall = data_cache_io_stage2_stall; // @[my_cpu_top.scala 248:35]
-  assign inst_cache_clock = clock;
-  assign inst_cache_reset = reset;
+  assign inst_cache_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 145:31]
+  assign inst_cache_reset = ~reset; // @[my_cpu_top.scala 117:26]
   assign inst_cache_io_port_arready = _axi_cross_bar_io_m_port_0_arready; // @[my_cpu_top.scala 274:33]
   assign inst_cache_io_port_rdata = _axi_cross_bar_io_m_port_0_rdata; // @[my_cpu_top.scala 274:33]
   assign inst_cache_io_port_rlast = _axi_cross_bar_io_m_port_0_rlast; // @[my_cpu_top.scala 274:33]
@@ -29408,8 +27662,8 @@ module mycpu_top(
   assign inst_cache_io_sram_addr = u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 230:29]
   assign inst_cache_io_sram_cache = u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 232:29]
   assign inst_cache_io_tag_valid_flush = u_riscv_cpu_icache_tag_flush; // @[my_cpu_top.scala 261:34]
-  assign data_cache_clock = clock;
-  assign data_cache_reset = reset;
+  assign data_cache_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 145:31]
+  assign data_cache_reset = ~reset; // @[my_cpu_top.scala 117:26]
   assign data_cache_io_port_arready = _axi_cross_bar_io_m_port_1_arready; // @[my_cpu_top.scala 275:33]
   assign data_cache_io_port_rdata = _axi_cross_bar_io_m_port_1_rdata; // @[my_cpu_top.scala 275:33]
   assign data_cache_io_port_rlast = _axi_cross_bar_io_m_port_1_rlast; // @[my_cpu_top.scala 275:33]
@@ -29426,8 +27680,8 @@ module mycpu_top(
   assign data_cache_io_sram_wdata = u_riscv_cpu_data_sram_wdata; // @[my_cpu_top.scala 223:23]
   assign data_cache_io_sram_cache = u_riscv_cpu_data_cache; // @[my_cpu_top.scala 220:23]
   assign data_cache_io_fence_i_control = u_riscv_cpu_data_fence_i_control; // @[my_cpu_top.scala 224:28]
-  assign _axi_cross_bar_clock = clock;
-  assign _axi_cross_bar_reset = reset;
+  assign _axi_cross_bar_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 145:31]
+  assign _axi_cross_bar_reset = ~reset; // @[my_cpu_top.scala 117:26]
   assign _axi_cross_bar_io_m_port_0_araddr = inst_cache_io_port_araddr; // @[my_cpu_top.scala 274:33]
   assign _axi_cross_bar_io_m_port_0_arlen = inst_cache_io_port_arlen; // @[my_cpu_top.scala 274:33]
   assign _axi_cross_bar_io_m_port_0_arsize = inst_cache_io_port_arsize; // @[my_cpu_top.scala 274:33]
@@ -29483,8 +27737,8 @@ module mycpu_top(
   assign _axi_cross_bar_io_s_port_5_awready = axi2apb_uart_io_axi_port_awready; // @[my_cpu_top.scala 319:33]
   assign _axi_cross_bar_io_s_port_5_wready = axi2apb_uart_io_axi_port_wready; // @[my_cpu_top.scala 319:33]
   assign _axi_cross_bar_io_s_port_5_bvalid = axi2apb_uart_io_axi_port_bvalid; // @[my_cpu_top.scala 319:33]
-  assign axi_ram_s_aclk = clock; // @[my_cpu_top.scala 265:39]
-  assign axi_ram_s_aresetn = ~reset; // @[my_cpu_top.scala 266:36]
+  assign axi_ram_s_aclk = pll_instance_clk_out1; // @[my_cpu_top.scala 140:45]
+  assign axi_ram_s_aresetn = reset; // @[my_cpu_top.scala 116:32]
   assign axi_ram_s_axi_arid = _axi_cross_bar_io_s_port_0_arid; // @[my_cpu_top.scala 264:29]
   assign axi_ram_s_axi_araddr = _axi_cross_bar_io_s_port_0_araddr; // @[my_cpu_top.scala 264:29]
   assign axi_ram_s_axi_arlen = _axi_cross_bar_io_s_port_0_arlen; // @[my_cpu_top.scala 264:29]
@@ -29503,8 +27757,8 @@ module mycpu_top(
   assign axi_ram_s_axi_wlast = _axi_cross_bar_io_s_port_0_wlast; // @[my_cpu_top.scala 264:29]
   assign axi_ram_s_axi_wvalid = _axi_cross_bar_io_s_port_0_wvalid; // @[my_cpu_top.scala 264:29]
   assign axi_ram_s_axi_bready = _axi_cross_bar_io_s_port_0_bready; // @[my_cpu_top.scala 264:29]
-  assign timer_periph_clock = clock;
-  assign timer_periph_reset = reset;
+  assign timer_periph_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 145:31]
+  assign timer_periph_reset = ~reset; // @[my_cpu_top.scala 117:26]
   assign timer_periph_io_axi_port_araddr = _axi_cross_bar_io_s_port_1_araddr; // @[my_cpu_top.scala 281:33]
   assign timer_periph_io_axi_port_arvalid = _axi_cross_bar_io_s_port_1_arvalid; // @[my_cpu_top.scala 281:33]
   assign timer_periph_io_axi_port_rready = _axi_cross_bar_io_s_port_1_rready; // @[my_cpu_top.scala 281:33]
@@ -29532,10 +27786,10 @@ module mycpu_top(
   assign axi_can_top_axi_port_wvalid = _axi_cross_bar_io_s_port_2_wvalid; // @[my_cpu_top.scala 316:33]
   assign axi_can_top_axi_port_bready = _axi_cross_bar_io_s_port_2_bready; // @[my_cpu_top.scala 316:33]
   assign axi_can_top_can_rx = can_rx; // @[my_cpu_top.scala 323:20]
-  assign axi_can_top_clk = clock; // @[my_cpu_top.scala 322:29]
-  assign axi_can_top_rst_n = reset; // @[my_cpu_top.scala 321:20]
-  assign plic_periph_clock = clock;
-  assign plic_periph_reset = reset;
+  assign axi_can_top_clk = pll_instance_clk_out1; // @[my_cpu_top.scala 140:45]
+  assign axi_can_top_rst_n = reset; // @[my_cpu_top.scala 116:32]
+  assign plic_periph_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 145:31]
+  assign plic_periph_reset = ~reset; // @[my_cpu_top.scala 117:26]
   assign plic_periph_io_axi_port_araddr = _axi_cross_bar_io_s_port_3_araddr; // @[my_cpu_top.scala 317:33]
   assign plic_periph_io_axi_port_arvalid = _axi_cross_bar_io_s_port_3_arvalid; // @[my_cpu_top.scala 317:33]
   assign plic_periph_io_axi_port_rready = _axi_cross_bar_io_s_port_3_rready; // @[my_cpu_top.scala 317:33]
@@ -29545,8 +27799,8 @@ module mycpu_top(
   assign plic_periph_io_axi_port_wvalid = _axi_cross_bar_io_s_port_3_wvalid; // @[my_cpu_top.scala 317:33]
   assign plic_periph_io_int_get_0 = axi_can_top_int_wire; // @[my_cpu_top.scala 328:25]
   assign plic_periph_io_int_get_1 = uart_apb_o_interrupt; // @[my_cpu_top.scala 329:25]
-  assign axi2apb_clock = clock;
-  assign axi2apb_reset = reset;
+  assign axi2apb_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 145:31]
+  assign axi2apb_reset = ~reset; // @[my_cpu_top.scala 117:26]
   assign axi2apb_io_axi_port_araddr = _axi_cross_bar_io_s_port_4_araddr; // @[my_cpu_top.scala 318:33]
   assign axi2apb_io_axi_port_arsize = _axi_cross_bar_io_s_port_4_arsize; // @[my_cpu_top.scala 318:33]
   assign axi2apb_io_axi_port_arvalid = _axi_cross_bar_io_s_port_4_arvalid; // @[my_cpu_top.scala 318:33]
@@ -29556,8 +27810,8 @@ module mycpu_top(
   assign axi2apb_io_axi_port_wvalid = _axi_cross_bar_io_s_port_4_wvalid; // @[my_cpu_top.scala 318:33]
   assign axi2apb_io_apb_port_pready = spi_in_pready; // @[my_cpu_top.scala 339:22]
   assign axi2apb_io_apb_port_prdata = spi_in_prdata; // @[my_cpu_top.scala 339:22]
-  assign axi2apb_uart_clock = clock;
-  assign axi2apb_uart_reset = reset;
+  assign axi2apb_uart_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 145:31]
+  assign axi2apb_uart_reset = ~reset; // @[my_cpu_top.scala 117:26]
   assign axi2apb_uart_io_axi_port_araddr = _axi_cross_bar_io_s_port_5_araddr; // @[my_cpu_top.scala 319:33]
   assign axi2apb_uart_io_axi_port_arsize = _axi_cross_bar_io_s_port_5_arsize; // @[my_cpu_top.scala 319:33]
   assign axi2apb_uart_io_axi_port_arvalid = _axi_cross_bar_io_s_port_5_arvalid; // @[my_cpu_top.scala 319:33]
@@ -29565,10 +27819,10 @@ module mycpu_top(
   assign axi2apb_uart_io_axi_port_awvalid = _axi_cross_bar_io_s_port_5_awvalid; // @[my_cpu_top.scala 319:33]
   assign axi2apb_uart_io_axi_port_wdata = _axi_cross_bar_io_s_port_5_wdata; // @[my_cpu_top.scala 319:33]
   assign axi2apb_uart_io_axi_port_wvalid = _axi_cross_bar_io_s_port_5_wvalid; // @[my_cpu_top.scala 319:33]
-  assign axi2apb_uart_io_apb_port_pready = uart_apb_in_pready; // @[my_cpu_top.scala 361:26]
-  assign axi2apb_uart_io_apb_port_prdata = uart_apb_in_prdata; // @[my_cpu_top.scala 361:26]
-  assign spi_clk = clock; // @[my_cpu_top.scala 337:32]
-  assign spi_resetn = ~reset; // @[my_cpu_top.scala 338:29]
+  assign axi2apb_uart_io_apb_port_pready = uart_apb_in_pready; // @[my_cpu_top.scala 365:26]
+  assign axi2apb_uart_io_apb_port_prdata = uart_apb_in_prdata; // @[my_cpu_top.scala 365:26]
+  assign spi_clk = pll_instance_clk_out1; // @[my_cpu_top.scala 140:45]
+  assign spi_resetn = reset; // @[my_cpu_top.scala 116:32]
   assign spi_in_psel = axi2apb_io_apb_port_psel; // @[my_cpu_top.scala 339:22]
   assign spi_in_penable = axi2apb_io_apb_port_penable; // @[my_cpu_top.scala 339:22]
   assign spi_in_pwrite = axi2apb_io_apb_port_pwrite; // @[my_cpu_top.scala 339:22]
@@ -29576,15 +27830,76 @@ module mycpu_top(
   assign spi_in_paddr = axi2apb_io_apb_port_paddr; // @[my_cpu_top.scala 339:22]
   assign spi_in_pstrb = axi2apb_io_apb_port_pstrb; // @[my_cpu_top.scala 339:22]
   assign spi_in_pprot = 3'h1; // @[my_cpu_top.scala 340:28]
-  assign spi_spi_miso = spi_flash_miso; // @[my_cpu_top.scala 355:32]
-  assign uart_apb_clk = clock; // @[my_cpu_top.scala 359:33]
-  assign uart_apb_resetn = ~reset; // @[my_cpu_top.scala 360:30]
-  assign uart_apb_in_psel = axi2apb_uart_io_apb_port_psel; // @[my_cpu_top.scala 361:26]
-  assign uart_apb_in_penable = axi2apb_uart_io_apb_port_penable; // @[my_cpu_top.scala 361:26]
-  assign uart_apb_in_pwrite = axi2apb_uart_io_apb_port_pwrite; // @[my_cpu_top.scala 361:26]
-  assign uart_apb_in_pwdata = axi2apb_uart_io_apb_port_pwdata; // @[my_cpu_top.scala 361:26]
-  assign uart_apb_in_paddr = axi2apb_uart_io_apb_port_paddr; // @[my_cpu_top.scala 361:26]
-  assign uart_apb_in_pstrb = axi2apb_uart_io_apb_port_pstrb; // @[my_cpu_top.scala 361:26]
-  assign uart_apb_in_pprot = 3'h1; // @[my_cpu_top.scala 362:29]
-  assign uart_apb_uart_rx = uart_rx; // @[my_cpu_top.scala 363:28]
+  assign spi_spi_miso = spi_flash_miso; // @[my_cpu_top.scala 357:32]
+  assign uart_apb_clk = pll_instance_clk_out1; // @[my_cpu_top.scala 140:45]
+  assign uart_apb_resetn = reset; // @[my_cpu_top.scala 116:32]
+  assign uart_apb_in_psel = axi2apb_uart_io_apb_port_psel; // @[my_cpu_top.scala 365:26]
+  assign uart_apb_in_penable = axi2apb_uart_io_apb_port_penable; // @[my_cpu_top.scala 365:26]
+  assign uart_apb_in_pwrite = axi2apb_uart_io_apb_port_pwrite; // @[my_cpu_top.scala 365:26]
+  assign uart_apb_in_pwdata = axi2apb_uart_io_apb_port_pwdata; // @[my_cpu_top.scala 365:26]
+  assign uart_apb_in_paddr = axi2apb_uart_io_apb_port_paddr; // @[my_cpu_top.scala 365:26]
+  assign uart_apb_in_pstrb = axi2apb_uart_io_apb_port_pstrb; // @[my_cpu_top.scala 365:26]
+  assign uart_apb_in_pprot = 3'h1; // @[my_cpu_top.scala 366:29]
+  assign uart_apb_uart_rx = uart_rx; // @[my_cpu_top.scala 367:28]
+  always @(posedge pll_instance_clk_out1) begin
+    if (resetp) begin // @[Counter.scala 62:40]
+      counter <= 24'h0; // @[Counter.scala 62:40]
+    end else if (wrap_wrap) begin // @[Counter.scala 88:20]
+      counter <= 24'h0; // @[Counter.scala 88:28]
+    end else begin
+      counter <= _wrap_value_T_1; // @[Counter.scala 78:15]
+    end
+    if (resetp) begin // @[my_cpu_top.scala 150:32]
+      led_shine_reg <= 1'h0; // @[my_cpu_top.scala 150:32]
+    end else if (wrap_wrap) begin // @[my_cpu_top.scala 152:25]
+      led_shine_reg <= ~led_shine_reg;
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {1{`RANDOM}};
+  counter = _RAND_0[23:0];
+  _RAND_1 = {1{`RANDOM}};
+  led_shine_reg = _RAND_1[0:0];
+`endif // RANDOMIZE_REG_INIT
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
 endmodule
