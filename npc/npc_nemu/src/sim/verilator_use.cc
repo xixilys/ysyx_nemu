@@ -16,7 +16,7 @@
 #endif
 
 using namespace std;
-#define open_dump 1
+#define open_dump 0
 
 Vtop *top = new Vtop;
 VerilatedFstC* tfp = NULL;
@@ -37,7 +37,7 @@ void sim_init(int argc, char **argv) {
 	//soc test only
 	// /home/ddddddd/my_learn/cpu_relative/ysyxSoC_test/ysyx/program/bin/flash/memtest-flash.bin
 	// flash_init("/home/ddddddd/my_learn/cpu_relative/ysyxSoC_test/ysyx/program/bin/loader/rtthread-loader.bin");
-	flash_init("/home/ddddddd/my_learn/cpu_relative/ysyxSoC_test/ysyx/prog/bin/mem/hello-mem.bin");
+	flash_init("/home/ddddddd/my_learn/cpu_relative/ysyx4_soc/ysyx/prog/bin_backup/mem/rtthread-mem.bin");
 }
 extern uint64_t g_nr_guest_inst;
 void step_and_dump_wave(){
@@ -58,9 +58,9 @@ void single_cycle() {
 }
 
 void reset(int n) {
-	top->reset = 1;
-	while(n -- > 0) single_cycle();
 	top->reset = 0;
+	while(n -- > 0) single_cycle();
+	top->reset = 1;
 }
 
 void sim_end(){

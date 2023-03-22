@@ -38,13 +38,7 @@ class axi_crossbar_0 extends BlackBox{
         val s_axi_arid     =   Input(UInt(8.W))        
         val s_axi_araddr   =   Input(UInt(64.W))        
         val s_axi_arlen    =   Input(UInt(8.W))        
-        val s_axi_arsize   =   Input(UInt(6.W))        
-        val s_axi_arburst  =   Input(UInt(4.W))        
-        val s_axi_arlock   =   Input(UInt(4.W))        
-        val s_axi_arcache  =   Input(UInt(8.W))        
-        val s_axi_arprot   =   Input(UInt(6.W))       
-        val s_axi_arqos    =   Input(UInt(8.W))        
-        val s_axi_arvalid  =   Input(UInt(2.W))        
+        val s_axi_arsize   =   Input(UInt(6.W))        /* verilator lint_off PINMISSING */
         val s_axi_arready  =   Output(UInt(2.W))        
         val s_axi_rid      =   Output(UInt(8.W))        
         val s_axi_rdata    =   Output(UInt(64.W))       
@@ -64,10 +58,7 @@ class axi_crossbar_0 extends BlackBox{
         val m_axi_awcache  =   Output(UInt(4.W) )        
         val m_axi_awprot   =   Output(UInt(3.W) )        
         val m_axi_awqos    =   Output(UInt(4.W) )        
-        val m_axi_awvalid  =   Output(UInt(1.W) )        
-        
-        val m_axi_awready  =   Input(UInt(1.W) )        
-        val m_axi_wid      =   Output(UInt(4.W) )        
+        val m_axi_awvalid  =   Output(UInt(1.W) )        /* verilator lint_off PINMISSING */
         val m_axi_wdata    =   Output(UInt(32.W) )        
         val m_axi_wstrb    =   Output(UInt(4.W) )        
         val m_axi_wlast    =   Output(UInt(1.W) )        
@@ -120,7 +111,7 @@ class mycpu_top  extends Module with riscv_macros {
 
     val        can_rx     = IO(Input(Bool()))
     val        can_tx     = IO(Output(Bool()))
-    val        led_shine  = IO(Vec(2,Output(Bool())))
+    // val        led_shine  = IO(Vec(2,Output(Bool())))
 
     
     val  spi_flash_cs   = IO(if(on_board == 1 )Output(Bool()) else Output(UInt(0.W)))
@@ -145,19 +136,19 @@ class mycpu_top  extends Module with riscv_macros {
     withClockAndReset(sys_clk.asClock,resetp.asBool) {
 
    
-    val (counter,a_signal ) = Counter(1.U.asBool,10000000)
+    // val (counter,a_signal ) = Counter(1.U.asBool,10000000)
     // led_shine := Mux)
-    val led_shine_reg = RegInit(0.U.asBool)
-    led_shine(0) := led_shine_reg
-    led_shine_reg := Mux(a_signal,!led_shine_reg,led_shine_reg)
+    // val led_shine_reg = RegInit(0.U.asBool)
+    // led_shine(0) := led_shine_reg
+    // led_shine_reg := Mux(a_signal,!led_shine_reg,led_shine_reg)
 
     val u_riscv_cpu = Module(new myCPU)
     val icache_first = Module(new inst_cache).io
     val icache = icache_first//.port
     val dcache_first = Module(new data_cache).io  
     val dcache = dcache_first//.port
-    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,6,Array(0,0X20000000,0x21000000,0x22000000,0x30000000,0x1000_0000),
-        Array(0,0X2000BFFF,0x2100FFFF,0x2200FFFF,0x3fffffff,0x1000_0fff)))
+    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,6,Array(0,0X0200_0000,0x21000000,0x22000000,0x30000000,0x1000_0000),
+        Array(0,0X0200_BFFF,0x2100FFFF,0x2200FFFF,0x3fffffff,0x1000_0fff)))
     //length总共也就16，比较拉
     //length总共也就16，比较拉
     

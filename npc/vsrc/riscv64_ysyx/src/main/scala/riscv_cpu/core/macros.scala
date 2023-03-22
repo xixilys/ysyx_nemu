@@ -16,7 +16,7 @@ trait riscv_macros {
 
 // data_length
 var difftest_on  = true
-val on_board = 1
+val on_board = 0
 if(on_board == 1) {
     difftest_on  = false
 }else{

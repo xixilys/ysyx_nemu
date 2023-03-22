@@ -5,7 +5,7 @@ INC_PATH ?=
 
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
-				-O0 --x-assign fast --x-initial fast --noassert 
+				-O3 --x-assign fast --x-initial fast --noassert 
 VERILATOR_CFLAGS += --trace-fst -j 4
 VERILATOR_CFLAGS += --threads 3
 
