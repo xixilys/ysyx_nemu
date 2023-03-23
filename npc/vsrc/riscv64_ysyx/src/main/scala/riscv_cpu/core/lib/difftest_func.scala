@@ -18,7 +18,7 @@ class difftest_commit (data_length:Int)extends BlackBox {
         val inst_commit = Input(Bool())
         val data_ok_ok = Output(Bool())
         val cpu_ebreak_sign = Input(Bool())
-        // val cpu_timer_int = Input(Bool())
+        val cpu_timer_int = Input(Bool())
     })
 
 }

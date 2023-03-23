@@ -30002,6 +30002,7 @@ module lys_cpu(
   wire  _commit_difftest_inst_commit; // @[myCPU.scala 1115:38]
   wire  _commit_difftest_data_ok_ok; // @[myCPU.scala 1115:38]
   wire  _commit_difftest_cpu_ebreak_sign; // @[myCPU.scala 1115:38]
+  wire  _commit_difftest_cpu_timer_int; // @[myCPU.scala 1115:38]
   wire  stage_fec_2_inst_jump = inst_sram_rdata_L[33]; // @[myCPU.scala 177:45]
   wire  stage_fec_2_inst_branch = inst_sram_rdata_L[32]; // @[myCPU.scala 178:47]
   reg  pre_decoder_branchD_flag; // @[myCPU.scala 180:44]
@@ -30804,7 +30805,8 @@ module lys_cpu(
     .debug_pc(_commit_difftest_debug_pc),
     .inst_commit(_commit_difftest_inst_commit),
     .data_ok_ok(_commit_difftest_data_ok_ok),
-    .cpu_ebreak_sign(_commit_difftest_cpu_ebreak_sign)
+    .cpu_ebreak_sign(_commit_difftest_cpu_ebreak_sign),
+    .cpu_timer_int(_commit_difftest_cpu_timer_int)
   );
   assign inst_cache = inst_sram_addr[31:29] == 3'h4; // @[macros.scala 493:55]
   assign inst_sram_en = stage2_stall; // @[myCPU.scala 386:17]
@@ -31123,6 +31125,7 @@ module lys_cpu(
   assign _commit_difftest_debug_pc = wb_exception ? _csr_io_return_pc : _mem22wb_io_Pc_NextW; // @[myCPU.scala 1119:50]
   assign _commit_difftest_inst_commit = _PCW_Reg_T & pcw_reg != _mem22wb_io_PCW; // @[myCPU.scala 1122:68]
   assign _commit_difftest_cpu_ebreak_sign = _mem22wb_io_eBreakW; // @[myCPU.scala 1121:45]
+  assign _commit_difftest_cpu_timer_int = int_instanceW_timer; // @[myCPU.scala 1123:43]
   always @(posedge clock) begin
     if (reset) begin // @[myCPU.scala 180:44]
       pre_decoder_branchD_flag <= 1'h0; // @[myCPU.scala 180:44]
