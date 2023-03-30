@@ -64,7 +64,7 @@ class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macr
     axi_read_addr  := Mux(io.axi_port.arvalid.asBool && io.axi_port.arready.asBool,io.axi_port.araddr,axi_read_addr)
     axi_write_addr := Mux(io.axi_port.awvalid.asBool && io.axi_port.awready.asBool,io.axi_port.awaddr,axi_write_addr)
     axi_write_size := Mux(io.axi_port.awvalid.asBool && io.axi_port.awready.asBool,axi_size2truesize(io.axi_port.awsize),axi_write_size)
-    axi_write_data := io.axi_port.wdata << (io.axi_port.awaddr(2,0) << 3)
+    axi_write_data := io.axi_port.wdata >> (axi_write_addr(2,0) << 3)
 
     io.int_get.zipWithIndex.foreach{case(a,index) => 
         plic_enable_reg(index) := MuxCase(plic_enable_reg(index),Seq(
@@ -79,7 +79,7 @@ class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macr
             (io.int_get(index) && plic_enable_reg(index)) -> 1.U.asBool
         ))
         plic_interrupt_priority_reg(index) := MuxCase(plic_interrupt_priority_reg(index),Seq(
-            (axi_write_data === axi_work1 && io.axi_port.wvalid.asBool && axi_write_addr === (plic_priority_addr_base + 1.U + index.U)) ->  axi_write_data
+            (axi_write_state === axi_work1 && io.axi_port.wvalid.asBool && axi_write_addr === (plic_priority_addr_base + 1.U + index.U)) ->  axi_write_data
         ))
         // plic_inte 
     }
@@ -111,10 +111,10 @@ class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macr
     // }
     // val adding_list = simuque.reverse .toSeq
     
-    val pending_data = plic_interrupt_pending_reg(axi_read_addr(11,0))
-    val enable_data = plic_enable_reg(axi_read_addr(11,0))
-    val interrupt_priority_data = plic_interrupt_priority_reg(axi_read_addr(11,0))
-    val interrupt_finish_data = plic_interrupt_finish_reg(axi_read_addr(11,0))
+    val pending_data = plic_interrupt_pending_reg(axi_read_addr(11,0) - 1.U)
+    val enable_data = plic_enable_reg(axi_read_addr(11,0) - 1.U)
+    val interrupt_priority_data = plic_interrupt_priority_reg(axi_read_addr(11,0) - 1.U)
+    val interrupt_finish_data = plic_interrupt_finish_reg(axi_read_addr(11,0) - 1.U)
     
 
     read_data := MuxCase(0.U,Seq(
@@ -123,7 +123,8 @@ class plic_periph(base_addr:UInt,int_source:Int) extends  Module with riscv_macr
         (axi_read_addr(bytes_length - 1,bytes_section_length) === plic_enable_addr_base(bytes_length - 1,bytes_section_length)) -> enable_data,
         (axi_read_addr(bytes_length - 1,bytes_section_length) === plic_interrupt_finish_addr_base(bytes_length - 1,bytes_section_length)) -> interrupt_finish_data,
         (axi_read_addr === int_id_addr) -> (if(int_source <= 1) 0.U else cal_index(int_source - 2))
-    ))
+    )) << (axi_read_addr(2,0) << 3)
+
     // val 
     // val pending_read_data = Mux
     

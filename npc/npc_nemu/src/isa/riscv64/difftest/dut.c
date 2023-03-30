@@ -15,7 +15,7 @@ const char *sbregs[]={
 };
 void ref_reg_show(CPU_state *ref_r, vaddr_t pc) {
    int i;
-  printf("ref reg :\n");
+  printf("hardware  reg :\n");
   for(i = 0;i<8;i++) {
     for( int j = 0;j<4;j ++) {
       printf("%4s : %016lx  ",sbregs[i*4 + j],ref_r->gpr[i*4 + j]);

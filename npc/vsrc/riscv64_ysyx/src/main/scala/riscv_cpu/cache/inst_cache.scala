@@ -65,6 +65,7 @@ class inst_cache  extends Module with riscv_macros {
         val     sram_cache = Input(UInt(1.W))
 
         val     tag_valid_flush = Input(Bool())
+        val     pre_branch = Input(Bool())
 
         // val     sram = Vec(2 * 2,Flipped(new sram_port))
 
@@ -216,7 +217,7 @@ class inst_cache  extends Module with riscv_macros {
 
     val stage2_write_en_reg = RegInit(0.U(2.W))
     //要分支并且inst_buffer并不是空的
-    stage2_write_en_reg := Mux(io.stage1_valid_flush,0.U,Mux(stage2_stall,1.U,stage2_write_en_reg))
+    stage2_write_en_reg := Mux(io.stage1_valid_flush ||(io.pre_branch && !io.inst_buffer_full),0.U,Mux(stage2_stall,1.U,stage2_write_en_reg))
        
     //stage 3  存入指令缓冲队列，在issue阶段前仍然为顺序结构
 

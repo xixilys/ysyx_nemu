@@ -80,6 +80,7 @@ static long load_img() {
 
   fseek(fp, 0, SEEK_SET);
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
+  // flash_in
   assert(ret == 1);
 
   fclose(fp);
@@ -163,24 +164,7 @@ void ftrace_loop_print(ftrace_type * loop,int index) {
           temp_ftrace.type = func_ret;
           //==================
 
-
-
-
-
-
-
-
-
           ftrace_loop_push(ftrace_loop,temp_ftrace , &ftrace_loop_index);
-
-
-
-
-
-
-
-
-
 
                     //==================
           return;

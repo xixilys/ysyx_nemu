@@ -68,6 +68,7 @@ class myCPU extends Module with riscv_macros {//
     val   stage2_flush = IO(Output(Bool()))
     val   stage2_stall = IO(Input(Bool()))
     val   stage1_valid_flush = IO(Output(Bool()))
+    val   pre_branch = IO(Output(Bool()))
     val   inst_ready_to_use = IO(Output(Bool()))
 
     val   inst_buffer_full = IO(Output(Bool()))
@@ -318,7 +319,7 @@ class pc_out_bundle extends Bundle {
     val pc_inst_out  = Output(UInt(32.W))
     // val pc_valid_Out = Output(Bool())
 }
-class pc_detail extends Module {
+class pc_detail extends Module with riscv_macros{
     val io = IO(new Bundle{
         val stall = Input(Bool())
         val flush = Input(Bool())   
@@ -327,7 +328,7 @@ class pc_detail extends Module {
     val io_out = IO(new pc_out_bundle)
     val pc_value = Reg(UInt(addr_length.W))//RegInit(Cat(0xbfbf.U,0xfffc.U))
     //pc_value := Mux(reset.asBool,Cat(0xbfbf.U,0xfff4.U),Mux(io.flush,0.U,Mux(io.stall,io_in.pc_value_in,pc_value)))
-    pc_value := Mux(reset.asBool,Cat(0x2FFF.U,0xfffc.U),Mux(io.flush,0.U,Mux(io.stall,io_in.pc_value_in,pc_value)))
+    pc_value := Mux(reset.asBool,reset_vec,Mux(io.flush,0.U,Mux(io.stall,io_in.pc_value_in,pc_value)))
     io_out.pc_value_out := pc_value
     val pc_inst = RegInit(0.U(32.W))
     pc_inst  := Mux(io.flush,0.U,Mux(io.stall,io_in.pc_inst_in,pc_inst))
@@ -496,7 +497,9 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
 
     // val stage_fec_2_branch_answer_reg = RegInit(0.U.asBool)
     //stage_fec_2_branch_answer_reg := Mux(stage_fec_2_stall_reg,stage_fec_2_branch_answer,stage_fec_2_branch_answer_reg)
-    val true_branch_state = stage_fec_2_branch_answer //Mux(stage_fec_2_stall_reg,stage_fec_2_branch_answer,stage_fec_2_branch_answer_reg)
+    val stage_fec_2_pre_branch_state = RegInit(0.U.asBool)
+    val true_branch_state = stage_fec_2_branch_answer || stage_fec_2_pre_branch_state //Mux(stage_fec_2_stall_reg,stage_fec_2_branch_answer,stage_fec_2_branch_answer_reg)
+    stage_fec_2_pre_branch_state := Mux(inst_buffer.write_en(0),0.U.asBool,Mux(stage_fec_2_branch_answer,1.U.asBool,stage_fec_2_pre_branch_state))
 
     stage_fec_2_branch_target  := stage_fec_2_pre_target(0)
     
@@ -564,7 +567,8 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     _pre_cfu.io.stage2_stall := stage2_stall
     //同时也在写入，就不需要将上一个指令写入进行修改
     //只需要清空取指令部分所有的数据
-    stage1_valid_flush := inst_buffer.point_write_en.asBool  || ready_to_branch_pre || _csr.io.exception.asBool
+    stage1_valid_flush := inst_buffer.point_write_en.asBool  || /*ready_to_branch_pre ||*/ _csr.io.exception.asBool
+    pre_branch := ready_to_branch_pre
     // when(inst_buffer.point_write_en.asBool && inst_buffer.empty.asBool && inst_write_en === 0.U) {
     //     stage1_valid_flush := 2.U
     // }.elsewhen(((inst_buffer.point_write_en.asBool && (!inst_buffer.empty.asBool || (inst_buffer.empty.asBool && inst_write_en =/= 0.U))) || inst_buffer.point_flush.asBool) ){//此时fifo写入的任何数据都无用
@@ -1137,6 +1141,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
 
     pcw_reg :=  _mem22wb.io.PCW
     pcw_reg_reg := pcw_reg
+    
     //进行difftest时候方便
     
     

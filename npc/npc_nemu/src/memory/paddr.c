@@ -26,6 +26,9 @@ static uint8_t pmem[CONFIG_MSIZE] PG_ALIGN = {};
 #define clint_base 0x02000000
 #define clint_max  0x0200ffff
 
+#define plic_base 0x22000000
+#define plic_max  0x2200FFFF
+
 uint8_t *guest_to_host(paddr_t paddr)
 {
   return pmem + paddr - CONFIG_MBASE;
@@ -192,6 +195,9 @@ word_t paddr_read(paddr_t addr, int len, uint8_t mem_type,int skip)
     // printf("addr is %lx\n",addr);
     inst_diff_skip();
     return 0; 
+  }else if(addr <= plic_max && addr >= plic_base) {
+    inst_diff_skip();
+    return 0;
   }
   // else if()
   // if(skip == 1) {

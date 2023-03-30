@@ -280,6 +280,7 @@ class mycpu_top  extends Module with riscv_macros {
     icache_first.stage1_valid_flush := u_riscv_cpu.stage1_valid_flush
     icache_first.inst_ready_to_use := u_riscv_cpu.inst_ready_to_use
     icache_first.inst_buffer_full   := u_riscv_cpu.inst_buffer_full
+    icache_first.pre_branch         := u_riscv_cpu.pre_branch
     // io_sram0 <> icache_first.sram(0)
     // io_sram1 <> icache_first.sram(1)
     // io_sram2 <> icache_first.sram(2)

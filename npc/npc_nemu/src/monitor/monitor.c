@@ -65,6 +65,9 @@ static char *diff_so_file = NULL;
 static char *img_file = NULL;
 static int difftest_port = 1234;
 
+
+extern "C" void flash_init(char *img);
+extern uint8_t axi_sim_mem[0x8000000];
 static long load_img() {
   if (img_file == NULL) {
     Log("No image is given. Use the default build-in image.");
@@ -81,7 +84,15 @@ static long load_img() {
 
   fseek(fp, 0, SEEK_SET);
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
+
+  flash_init(img_file);
+  
   assert(ret == 1);
+  
+  fclose(fp);
+  fp = fopen(img_file, "rb");
+  fseek(fp, 0, SEEK_SET);
+  ret = fread(axi_sim_mem,size,1,fp);
 
   fclose(fp);
   return size;
