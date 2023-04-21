@@ -5,7 +5,7 @@ INC_PATH ?=
 
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
-				-O0 --x-assign fast --x-initial fast --noassert 
+				-O3 --x-assign fast --x-initial fast --noassert 
 VERILATOR_CFLAGS += --trace-fst -j 4
 VERILATOR_CFLAGS += --threads 3
 
@@ -30,7 +30,7 @@ V_INC_PATH += $(abspath ./vsrc/perip/sdram/rtl)
 V_INC_PATH += $(abspath ./vsrc/perip/sdram/tb)
 
 # project source
-VSRCS = $(shell find $(abspath ./vsrc/riscv64_ysyx) -name "*.v")
+VSRCS = $(shell find $(abspath ./vsrc/riscv64_ysyx) -name "mycpu_top.v")
 VSRCS += $(shell find $(abspath ./vsrc/v_lib) -name "*.v")
 VSRCS += $(shell find $(abspath ./vsrc/can_top_src) -name "*.v")
 VSRCS += $(shell find $(abspath ./vsrc/perip) -name "*.v")
@@ -54,7 +54,7 @@ LDFLAGS += -lSDL2  $(LIBS)
 $(BIN): $(VSRCS) $(CSRCS)
 	-rm $(NPC_NEMU_HOME)/include/generated/autoconf.h 
 	-cp $(NPC_HOME)/include/generated/autoconf.h $(NPC_NEMU_HOME)/include/generated/
-	@echo $(CSRCS)
+	@echo $(VSRCS)
 	@rm -rf $(OBJ_DIR)
 	$(VERILATOR) $(VERILATOR_CFLAGS) \
 		-top $(TOPNAME) $^ $(addprefix -I, $(V_INC_PATH))\

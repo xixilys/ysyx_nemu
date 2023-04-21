@@ -227,8 +227,8 @@ class axi_ram extends  BlackBox {
     val io = IO(new Bundle {
         val s_aclk = Input(Bool())
         val s_aresetn = Input(Bool())
-        val rsta_busy = Output(Bool())
-        val rstb_busy = Output(Bool())
+        // val rsta_busy = Output(Bool())
+        // val rstb_busy = Output(Bool())
         val s_axi = Flipped(new axi_ram_port)  
     })
 }

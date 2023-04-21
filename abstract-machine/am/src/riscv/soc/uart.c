@@ -4,8 +4,11 @@
 
 
 #define UART0_IRQ   (10)
+#define UART_FREQ    46000000
 
 #define UART_DEFAULT_BAUDRATE               115200
+// UART_FREQ/(16*UART_DEFAULT_BAUDRATE)
+#define UART_CONFIG_NUM 3
 
 #define UART_BASE            (0x10000000L)
 
@@ -51,8 +54,11 @@ void virt_uart_init(void)
 
     uint8_t lcr = uart_read_reg(LCR);
     uart_write_reg(LCR, lcr | (1 << 7));
-    uart_write_reg(DLL, 0x01);
-    uart_write_reg(DLM, 0x00);
+    // UART_CONFIG_NUM
+
+    uart_write_reg(DLM,(UART_CONFIG_NUM & (0xff00)) >> 8 );
+    uart_write_reg(DLL,UART_CONFIG_NUM & (0x00ff) );
+    
 
     lcr = 0;
     uart_write_reg(LCR, lcr | (3 << 0));

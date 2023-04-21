@@ -26,7 +26,8 @@ size_t * cpu_gpr = NULL;
 size_t debug_pc = 0;
 size_t now_pc = 0;
 int cpu_commited = 1;
-int cpu_int = 0;
+
+int_source cpu_int = {0 , 0};
 
 bool is_skip_ref = false;
 void checkregs(CPU_state *ref, vaddr_t pc) {
@@ -126,13 +127,19 @@ static int decode_exec(Decode *s) {
     }
   }
   //只写了一个定时器中断
-  if(cpu_int == 1 && BITS(CSR(MIE),7,7) == 1 && BITS(CSR(MSTATUS),3,3) == 1 ) {
+  if(cpu_int.timer == 1 && cpu_int.out != 1&& BITS(CSR(MIE),7,7) == 1 && BITS(CSR(MSTATUS),3,3) == 1 ) {
     
     s->dnpc = isa_raise_intr(0x8000000000000007,s->pc);
     //清除中断使能位
     CSR(MSTATUS) = CSR(MSTATUS) &(~(size_t)(1 << 3));
     CSR(MIP) = CSR(MIP) | (1 << 7 );
-  }else {
+    printf("out int is  %d\n",cpu_int.out);
+  }else if(cpu_int.out == 1 && BITS(CSR(MIE),11,11) == 1 && BITS(CSR(MSTATUS),3,3) == 1 ) {
+    s->dnpc = isa_raise_intr(0x800000000000000f,s->pc);
+    CSR(MSTATUS) = CSR(MSTATUS) &(~(size_t)(1 << 3));
+    CSR(MIP) = CSR(MIP) | (1 << 11 );
+  }
+  else {
 
 
 
@@ -256,7 +263,8 @@ static int decode_exec(Decode *s) {
 
   R(0) = 0; // reset $zero to 0
   }
-  cpu_int = 0;
+  cpu_int.timer = 0;
+  cpu_int.out = 0;
 
   if(mtrace_debuger.debug_mem_state == 1) {
 
@@ -286,9 +294,7 @@ static int decode_exec(Decode *s) {
 void cpu_commited_func(void){
   cpu_commited = 0;
 }
-void cpu_could_int(void) {
-  cpu_int = 1;
-}
+
 
 void set_gpr_ptr_lys(const svOpenArrayHandle r){
   cpu_gpr = (size_t*)(((VerilatedDpiOpenVar*)r)->datap());

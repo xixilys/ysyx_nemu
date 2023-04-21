@@ -31,6 +31,7 @@ class icache_data  extends Module with riscv_macros {
     //开始拼
     if(on_board == 1) {
         val icache_data_ram_0 = Module(new icache_data_ram)
+        icache_data_ram_0.io.clka  := clock.asBool
         icache_data_ram_0.io.ena   := io.en
         icache_data_ram_0.io.wea  := io.wen
         icache_data_ram_0.io.addra := io.addr(10,4)

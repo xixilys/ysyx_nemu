@@ -402,7 +402,7 @@ val  commit_bru_reg = RegInit(1.U.asBool)
 commit_cache_reg := Mux(_cfu.io.StallE.asBool && _cu.io1.commit_cache_ins,!commit_cache_reg,commit_cache_reg)
 commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_cache_ins,commit_bru_reg)
     val stage_fec_1_stall = stage2_stall//_pre_cfu.io.stage_fec_1_stall
-    val stage_fec_1_flush = _csr.io.exception.asBool && !stage2_stall
+    val stage_fec_1_flush = (_csr.io.exception.asBool || ready_to_branch || ready_to_branch_pre) && !stage2_stall
     val stage_fec_1_cached = RegInit(0.U(1.W))
 
 
@@ -567,7 +567,7 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
     _pre_cfu.io.stage2_stall := stage2_stall
     //同时也在写入，就不需要将上一个指令写入进行修改
     //只需要清空取指令部分所有的数据
-    stage1_valid_flush := inst_buffer.point_write_en.asBool  || /*ready_to_branch_pre ||*/ _csr.io.exception.asBool
+    stage1_valid_flush := inst_buffer.point_write_en.asBool  || (ready_to_branch_pre && !stage_fec_1_stall) || _csr.io.exception.asBool
     pre_branch := ready_to_branch_pre
     // when(inst_buffer.point_write_en.asBool && inst_buffer.empty.asBool && inst_write_en === 0.U) {
     //     stage1_valid_flush := 2.U
@@ -774,7 +774,7 @@ commit_bru_reg := Mux(_cfu.io.StallE.asBool && commit_bru_reg,!_cu.io1.commit_ca
 
     val ext_int_with_enable = Wire(new int_bundle)
     ext_int_with_enable.timer := ext_int.timer && _csr.io.int_type_able.timer && _csr.io.Int_able && !int_disable
-    ext_int_with_enable.out_int := ext_int.out_int && _csr.io.int_type.out_int && _csr.io.Int_able && !int_disable
+    ext_int_with_enable.out_int := ext_int.out_int && _csr.io.int_type_able.out_int && _csr.io.Int_able && !int_disable
 
     int_instanceE := Mux(_cfu.io.FlushE.asBool,  0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallE.asBool,ext_int_with_enable,int_instanceE))
     int_instanceM := Mux(_cfu.io.FlushM.asBool,  0.U.asTypeOf(new int_bundle),Mux(_cfu.io.StallM.asBool,int_instanceE,int_instanceM))
@@ -1125,6 +1125,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
         _commit_difftest.io.cpu_ebreak_sign := _mem22wb.io.eBreakW
         _commit_difftest.io.inst_commit := _mem22wb.io.PCW =/= 0.U && pcw_reg =/= _mem22wb.io.PCW
         _commit_difftest.io.cpu_timer_int := int_instanceW.timer 
+        _commit_difftest.io.cpu_out_int   := int_instanceW.out_int 
         _regfile.io.WE3 := RegWriteW.asBool && _commit_difftest.io.data_ok_ok
     }else {
         _regfile.io.WE3 := RegWriteW.asBool
@@ -1136,6 +1137,7 @@ _mem2mem2.io.ALUOutE         := _ex2mem.io.ALUOutM
         _log_printf.io.pc    := _mem22wb.io.PCW
         _log_printf.io.inst_commit := _mem22wb.io.PCW =/= 0.U && pcw_reg =/= _mem22wb.io.PCW
         _log_printf.io.cpu_ebreak_sign := _mem22wb.io.eBreakW
+        _log_printf.io.write_data := Mux(_regfile.io.WE3.asBool,_regfile.io.WD3,0.U)
     }
     
 

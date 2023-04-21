@@ -23,12 +23,19 @@ void sim_end();
 void single_cycle() ;
 void reset(int  n) ;
 void cpu_commited_func(void);
-void cpu_could_int(void);
+void cpu_timer_int_get(void);
+void cpu_out_int_get(void);
 void set_gpr_ptr_lys(const svOpenArrayHandle r);
 void set_pc_ptr(size_t r);
 void set_debug_pc_ptr(size_t r);
 void mem_trace_func(const svOpenArrayHandle r,size_t mem_write_state,size_t size,size_t cache);
 void cpu_ebreak();
+
+typedef struct {
+  int timer;
+  int out;
+}int_source;
+extern int_source cpu_int ;
 
 #ifdef __cplusplus
 }

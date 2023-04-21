@@ -11,6 +11,9 @@
 #include<verilator_use.h>   
 #include<iostream>
 #include<memory/host.h>
+// #include <cpu/cpu.h>
+#include <isa.h>
+
  
 
 // #include<memory/paddr.h>
@@ -37,7 +40,7 @@ static word_t axi_mem_read(paddr_t addr, int len)
 static void axi_mem_write(paddr_t addr, int len, word_t data)
 {
     if( addr < (paddr_t)0x80000000 || (paddr_t)addr >= (paddr_t)(0x88000000)) {
-        printf("addr is %lx\n",addr);
+        printf("addr is %lx and pc is %lx \n",addr,cpu.pc);
         assert(0);
     }
 
@@ -221,17 +224,13 @@ extern "C" void AXI_ResponseHandler_Data(AXI_ResponseSignal* axi_handle){
         static int num_to_stop = 0;
         if(top->axi_mem_port_wvalid){
             axi_mem_write(axi_handle->write_addr,axi_size_to_bytes_num(axi_handle->write_size),top->axi_mem_port_wdata);
-            
             axi_handle->write_addr += axi_size_to_bytes_num(axi_handle->write_size );
             axi_handle->write_counter ++;
             if(axi_handle->write_counter > axi_handle->write_len || top->axi_mem_port_wlast) {
                 axi_handle->write_work_state = AXI_DATA_READY ;
                 write_end = 1;
                 axi_handle->write_counter = 0;
-                
             }
-            
-            
         }
         break;
     default:

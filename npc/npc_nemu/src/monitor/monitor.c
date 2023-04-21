@@ -71,7 +71,14 @@ extern uint8_t axi_sim_mem[0x8000000];
 static long load_img() {
   if (img_file == NULL) {
     Log("No image is given. Use the default build-in image.");
-    return 4096; // built-in image size
+    FILE * fp = fopen("/home/ddddddd/my_learn/cpu_relative/ysyx4_soc/ysyx/prog/src/rtthread/bsp/qemu-riscv-virt64/rtthread.bin", "rb");
+    fseek(fp, 0, SEEK_END);
+    long size = ftell(fp);
+    Log("The image is %s, size = %ld", img_file, size);
+    fseek(fp, 0, SEEK_SET);
+    fread(axi_sim_mem,size,1,fp);
+    fclose(fp);
+    return size;
   }
 
   FILE *fp = fopen(img_file, "rb");
@@ -90,6 +97,7 @@ static long load_img() {
   assert(ret == 1);
   
   fclose(fp);
+
   fp = fopen(img_file, "rb");
   fseek(fp, 0, SEEK_SET);
   ret = fread(axi_sim_mem,size,1,fp);

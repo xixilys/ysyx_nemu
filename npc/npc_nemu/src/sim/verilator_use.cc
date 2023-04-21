@@ -16,11 +16,19 @@
 #endif
 
 using namespace std;
-#define open_dump 1
+#define open_dump 0
 
 Vtop *top = new Vtop;
 VerilatedFstC* tfp = NULL;
 extern "C" void flash_init(char *img);
+
+void cpu_timer_int_get(void) {
+	cpu_int.timer   = 1;  
+}
+void cpu_out_int_get(void){
+	cpu_int.out = 1;
+	
+}
 
 void sim_init(int argc, char **argv) {	
 	contextp->debug(0);
@@ -34,10 +42,7 @@ void sim_init(int argc, char **argv) {
 	#if(open_dump) 
 	tfp->open("dump_difftest.fst");	
 	#endif
-	//soc test only
-	// /home/ddddddd/my_learn/cpu_relative/ysyxSoC_test/ysyx/program/bin/flash/memtest-flash.bin
-	// flash_init("/home/ddddddd/my_learn/cpu_relative/ysyxSoC_test/ysyx/program/bin/loader/rtthread-loader.bin");
-	// flash_init("/home/ddddddd/my_learn/cpu_relative/ysyx4_soc/ysyx/prog/bin/mem/rtthread-mem.bin");
+	top->io_interrupt = 1;
 }
 extern uint64_t g_nr_guest_inst;
 void step_and_dump_wave(){

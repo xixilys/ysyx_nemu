@@ -185,7 +185,7 @@
     .RX_ID_SHORT_MASK  ( RX_ID_SHORT_MASK ),
     .RX_ID_LONG_FILTER ( 29'h12345678    ),
     .RX_ID_LONG_MASK   ( 29'h1fffffff    ),
-    .default_c_PTS     ( 16'd34          ),
+    .default_c_PTS     ( 16'd15          ),
     .default_c_PBS1    ( 16'd5           ),
     .default_c_PBS2    ( 16'd10          )
      )can_top_0

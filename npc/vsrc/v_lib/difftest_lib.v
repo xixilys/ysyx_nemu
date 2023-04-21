@@ -206,7 +206,8 @@
 // endmodule //difftest_commit_module
 
 import "DPI-C" function void cpu_commited_func();
-import "DPI-C" function void cpu_could_int();
+import "DPI-C" function void cpu_timer_int_get();
+import "DPI-C" function void cpu_out_int_get();
 import "DPI-C" function void set_gpr_ptr_lys(input logic [63:0] a []);
 import "DPI-C" function void set_pc_ptr(input logic [63:0] a);
 import "DPI-C" function void set_debug_pc_ptr(input logic [63:0] a);
@@ -243,6 +244,7 @@ module difftest_commit (
     input [`data_length - 1:0]debug_pc,
     input inst_commit,
     input cpu_timer_int,
+    input cpu_out_int,
     output reg data_ok_ok,
     input cpu_ebreak_sign
 );
@@ -271,7 +273,10 @@ module difftest_commit (
         cpu_commited_func();
     end
     if(reset == 1'b0 && cpu_timer_int == 1'b1) begin
-      cpu_could_int();
+      cpu_timer_int_get();
+    end
+    if(reset == 1'b0 && cpu_out_int == 1'b1) begin 
+      cpu_out_int_get();
     end
     if(cpu_ebreak_sign == 1'b1) begin
       cpu_ebreak();

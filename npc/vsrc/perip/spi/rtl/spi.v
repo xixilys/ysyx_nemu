@@ -164,9 +164,10 @@ assign in_pready = cmd_state == `CMD_SPI_CSR  && spi_fire ||
                 cmd_state == `CMD_RD_RXD0  && spi_fire; 
 
 assign in_pslverr = pslverr_spi;
-
 assign spi_tx_data1 = 32'h03000000 | {8'b0, paddr_in[23:0]}; //addr and readd cmd
-assign spi_tx_data0 = 32'h00000000;   //spi read 32bit data
+// assign spi_tx_data1 = 32'h03000000 | {8'b0, 24'b0}; //addr and readd cmd
+
+assign spi_tx_data0 = 32'hffffffff;   //spi read 32bit data
 assign spi_ctl_data = `SPI_CTL_SS | `SPI_CTL_DIV | `SPI_CTL_RD_ENDIAN | `SPI_CTL_ASS | 
                       `SPI_CTL_IE | `SPI_CTL_TX_NEGEDGE | `SPI_CTL_GO | `SPI_CTL_CHAR_LEN;
                       //`SPI_CTL_IE | `SPI_CTL_GO | `SPI_CTL_CHAR_LEN;

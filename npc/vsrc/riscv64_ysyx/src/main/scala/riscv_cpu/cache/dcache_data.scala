@@ -31,6 +31,7 @@ class dcache_data  extends Module with riscv_macros {
     })
     if(on_board == 1) {
         val dcache_data_ram_0 = Module(new dcache_data_ram)
+        dcache_data_ram_0.io.clka  := clock.asBool
         dcache_data_ram_0.io.ena   := io.en
         dcache_data_ram_0.io.wea  := io.wen
         dcache_data_ram_0.io.addra := io.addr(10,4)

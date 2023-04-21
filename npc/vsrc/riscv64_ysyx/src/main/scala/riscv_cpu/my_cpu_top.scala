@@ -123,6 +123,10 @@ class mycpu_top  extends Module with riscv_macros {
 
     val  uart_rx = IO(Input(Bool()))
     val  uart_tx = IO(Output(Bool()))
+    val  board_reset = IO(Output(Bool()))
+
+
+
 
     val sys_clk = Wire(Bool())
     if(on_board == 1) {
@@ -135,7 +139,7 @@ class mycpu_top  extends Module with riscv_macros {
    
     withClockAndReset(sys_clk.asClock,resetp.asBool) {
 
-   
+    board_reset := RegNext(~reset.asBool)
     // val (counter,a_signal ) = Counter(1.U.asBool,10000000)
     // led_shine := Mux)
     // val led_shine_reg = RegInit(0.U.asBool)
@@ -147,8 +151,8 @@ class mycpu_top  extends Module with riscv_macros {
     val icache = icache_first//.port
     val dcache_first = Module(new data_cache).io  
     val dcache = dcache_first//.port
-    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,6,Array(0,0X0200_0000,0x21000000,0x22000000,0x30000000,0x1000_0000),
-        Array(0,0X0200_BFFF,0x2100FFFF,0x2200FFFF,0x3fffffff,0x1000_0fff)))
+    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,6,Array(0,0X0200_0000,0x21000000,0x0c000000,0x30000000,0x1000_0000),
+        Array(0,0X0200_BFFF,0x2100FFFF,0x0cFFFFFF,0x3fffffff,0x1000_0fff)))
     //length总共也就16，比较拉
     //length总共也就16，比较拉
     
@@ -293,7 +297,7 @@ class mycpu_top  extends Module with riscv_macros {
         //peripherals
 
     val axi_can = Module(new axi_can_top).io
-    val axi_plic = Module(new plic_periph(0x22000000.U(data_length.W),2)).io
+    val axi_plic = Module(new plic_periph(0x0c000000.U(data_length.W),2)).io
     val axi2apb = Module(new AXI4ToAPB(32,32,32,64,
         Array(0x30000000),Array(0x3fffffff)))
     val axi2apb_uart = Module(new AXI4ToAPB(32,32,32,64,
@@ -369,6 +373,5 @@ class mycpu_top  extends Module with riscv_macros {
 object my_CPU_top_test extends App{
     (new ChiselStage).emitVerilog(new mycpu_top)
 }
-
 
 
