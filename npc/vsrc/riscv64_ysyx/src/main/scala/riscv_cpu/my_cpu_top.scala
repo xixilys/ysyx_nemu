@@ -103,10 +103,10 @@ class mycpu_top  extends Module with riscv_macros {
     // val         clk     = IO(Input(Bool())).suggestName("clock")
     // val         ext_int = IO(Input(UInt(6.W)))// 外部中断\
     //按键是按下低电平，相当于就是低电平复位，而chisel是高电平复位
-    val        axi_mem_port =  IO(if(on_board == 1) Output(UInt(0.W)) else  (new axi_ram_port) ) 
+    val        axi_mem_port =  IO(if(on_board == 1) Output(UInt(0.W)) else  (new axi_ram_port(64,32)) ) 
     val        resetn  = reset.asBool
     val        resetp  = !reset.asBool
-    // val        io_slave  = IO(Flipped(new axi_ram_port))
+    // val        io_slave  = IO(Flipped(new axi_ram_port(64,32)))
     val        io_interrupt = IO(Input(Bool()))
 
     val        can_rx     = IO(Input(Bool()))
@@ -129,14 +129,37 @@ class mycpu_top  extends Module with riscv_macros {
 
 
     val sys_clk = Wire(Bool())
+    val can_clk_50 = Wire(Bool())
+    val axi_can_port = Wire(new axi_ram_port(32,32))
+    val axi_can_port_after_convert = Wire(new axi_ram_port(32,32))
     if(on_board == 1) {
         val pll_instance = Module(new clk_pll)
         pll_instance.io.clk_in1 := clock.asBool
         sys_clk := pll_instance.io.clk_out1.asBool
+        can_clk_50 := pll_instance.io.clk_out2.asBool
+        val can_axi_clock_converter = Module(new axi_clock_converter)
+        can_axi_clock_converter.io.m_axi_aclk := sys_clk
+        can_axi_clock_converter.io.s_axi_aclk := can_clk_50
+        can_axi_clock_converter.io.m_axi_aresetn := resetn
+        can_axi_clock_converter.io.s_axi_aresetn := resetn
+        axi_can_port_after_convert <> can_axi_clock_converter.io.s_axi
+        axi_can_port <> can_axi_clock_converter.io.m_axi
     }else{
         sys_clk := clock.asBool
+        can_clk_50 := clock.asBool
+        axi_can_port <> axi_can_port_after_convert
     }
-   
+
+    withClockAndReset(can_clk_50.asClock,resetp.asBool) {
+        val axi_can = Module(new axi_can_32).io
+       
+        axi_can.axi_port         <> axi_can_port_after_convert
+        axi_can.rst_n  := resetn
+        axi_can.clk    := sys_clk.asBool
+        axi_can.can_rx := can_rx
+        can_tx := axi_can.can_tx
+        
+    }
     withClockAndReset(sys_clk.asClock,resetp.asBool) {
 
     board_reset := RegNext(~reset.asBool)
@@ -277,7 +300,7 @@ class mycpu_top  extends Module with riscv_macros {
 
     u_riscv_cpu.ext_int.timer := axi_clint.int_line
     u_riscv_cpu.ext_int.out_int := io_interrupt
-
+    val axi32_to_64_converter = Module(new axi_converter)
     
 
 
@@ -296,7 +319,10 @@ class mycpu_top  extends Module with riscv_macros {
 
         //peripherals
 
-    val axi_can = Module(new axi_can_top).io
+    // val axi_can = Module(new axi_can_32).io
+    
+
+    
     val axi_plic = Module(new plic_periph(0x0c000000.U(data_length.W),2)).io
     val axi2apb = Module(new AXI4ToAPB(32,32,32,64,
         Array(0x30000000),Array(0x3fffffff)))
@@ -309,19 +335,15 @@ class mycpu_top  extends Module with riscv_macros {
 
     
 
-    _axi_cross_bar.io.s_port(2) <> axi_can.axi_port
+    _axi_cross_bar.io.s_port(2) <>  axi32_to_64_converter.io.master 
     _axi_cross_bar.io.s_port(3) <> axi_plic.axi_port
     _axi_cross_bar.io.s_port(4) <> axi2apb.io.axi_port
     _axi_cross_bar.io.s_port(5) <> axi2apb_uart.io.axi_port
-    
-    axi_can.rst_n  := resetn
-    axi_can.clk    := sys_clk.asBool
-    axi_can.can_rx := can_rx
-    can_tx := axi_can.can_tx
+    axi_can_port <> axi32_to_64_converter.io.slave
 
     
 
-    axi_plic.int_get(0) := axi_can.int_wire
+    axi_plic.int_get(0) := 0.U.asBool
     axi_plic.int_get(1) := uart_controler.o_interrupt
  
 
@@ -345,7 +367,6 @@ class mycpu_top  extends Module with riscv_macros {
         spi_flash_cs := 0.U
         spi_flash_hold  := 1.U
         spi_flash_wp    := 1.U
-        
     }else {
         spi_flash_clk := spi_controler.spi_clk
         spi_flash_cs  := spi_controler.spi_cs(0)

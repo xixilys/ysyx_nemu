@@ -56,11 +56,62 @@ import firrtl.FirrtlProtos
 
         
 // }
-class axi_ram_port extends Bundle {
+// class axi_ram_port(64,32) extends Bundle {
+//      // axi
+//         // ar
+//         val         data_length = 64
+//         val         addr_length = 32
+//         val         arid    = Output(UInt(4.W))
+//         val         araddr  = Output(UInt(addr_length.W))
+//         val         arlen   = Output(UInt(8.W))
+//         val         arsize  = Output(UInt(3.W))
+//         val         arburst = Output(UInt(2.W))
+//         // val         arlock  = Output(UInt(2.W))
+//         // val         arcache = Output(UInt(4.W))
+//         // val         arprot  = Output(UInt(3.W))
+//         val         arvalid = Output(UInt(1.W))
+//         val         arready = Input(UInt(1.W))
+//         //r
+//         val         rid     = Input(UInt(4.W))
+//         val         rdata   = Input(UInt(data_length.W))
+//         val         rresp   = Input(UInt(2.W))
+//         val         rlast   = Input(UInt(1.W))
+//         val         rvalid  = Input(UInt(1.W))
+//         val         rready  = Output(UInt(1.W))
+
+
+//         //aw
+//         val         awid    = Output(UInt(4.W))
+//         val         awaddr  = Output(UInt(addr_length.W))
+//         val         awlen   = Output(UInt(8.W))
+//         val         awsize  = Output(UInt(3.W))
+//         val         awburst = Output(UInt(2.W))
+//         // val         awlock  = Output(UInt(2.W))
+//         // val         awcache = Output(UInt(4.W))
+//         // val         awprot  = Output(UInt(3.W))
+//         val        awvalid  = Output(UInt(1.W))
+//         val        awready  = Input(UInt(1.W))
+//         //w
+//         // val         wid      = Output(UInt(4.W))
+//         val         wdata    = Output(UInt(data_length.W))
+//         val         wstrb    = Output(UInt((data_length / 8).W))
+//         val         wlast    = Output(UInt(1.W))
+//         val         wvalid   = Output(UInt(1.W))
+//         val         wready   = Input(UInt(1.W))
+//         //b
+//         val         bid     = Input(UInt(4.W))
+//         val         bresp   = Input(UInt(2.W))
+//         val         bvalid  = Input(UInt(1.W))
+//         val         bready  = Output(UInt(1.W))
+        
+// }
+
+
+class axi_ram_port(data_length:Int,addr_length:Int)extends Bundle {
      // axi
         // ar
-        val         data_length = 64
-        val         addr_length = 32
+        // val         data_length = 64
+        // val         addr_length = 32
         val         arid    = Output(UInt(4.W))
         val         araddr  = Output(UInt(addr_length.W))
         val         arlen   = Output(UInt(8.W))
@@ -105,14 +156,12 @@ class axi_ram_port extends Bundle {
         val         bready  = Output(UInt(1.W))
         
 }
-
-
 //先不考虑延时的问题
 
 class axi_cross_bar(cross_num:Int)  extends Module with riscv_macros{
         val io = IO(new Bundle {
-                val m_port = Flipped((Vec(cross_num,(new axi_ram_port))))
-                val s_port = new axi_ram_port
+                val m_port = Flipped((Vec(cross_num,(new axi_ram_port(64,32)))))
+                val s_port = new axi_ram_port(64,32)
         })
 
         val judge_num_width = log2Up(cross_num)
@@ -199,8 +248,8 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
                                         extends Module with riscv_macros {
         val io = IO(new Bundle {
                 //0号是默认选择的地址空间，如果没
-                val m_port = Flipped((Vec(cross_num,(new axi_ram_port))))
-                val s_port = (Vec(slave_num,(new axi_ram_port)))
+                val m_port = Flipped((Vec(cross_num,(new axi_ram_port(64,32)))))
+                val s_port = (Vec(slave_num,(new axi_ram_port(64,32))))
         })
         val master_cross_bar = Module(new  axi_cross_bar(cross_num)).io
         master_cross_bar.m_port  <> io.m_port
@@ -352,10 +401,26 @@ class axi_cross_bar_addr_switch(cross_num:Int,slave_num:Int,start_addr:Array[Big
         master_cross_bar.s_port.rdata           := Mux1H(access_select_s_port_num_r,master_bundle_rdata)
         master_cross_bar.s_port.rresp           := Mux1H(access_select_s_port_num_r,master_bundle_rresp)
         master_cross_bar.s_port.rlast           := Mux1H(access_select_s_port_num_r,master_bundle_rlast) 
-        master_cross_bar.s_port.rvalid           := Mux1H(access_select_s_port_num_r,master_bundle_rvalid)
+        master_cross_bar.s_port.rvalid          := Mux1H(access_select_s_port_num_r,master_bundle_rvalid)
         
 }
 
-// object crossbar_test extends App{
-//     (new ChiselStage).emitVerilog(new axi_cross_bar_addr_switch(2,2,Array(0,0X02000000),Array(0,0X0200BFFF)))
-// }
+class axi_converter extends Module {
+        val io = IO(new Bundle {
+                val master  = Flipped(new axi_ram_port(64,32))
+                val slave   = new axi_ram_port(32,32)
+        })
+        io.master <> io.slave
+}
+
+class axi_clock_converter extends BlackBox {
+        val io = IO(new Bundle {
+                val m_axi  = Flipped(new axi_ram_port(32,32))
+                val s_axi  = new axi_ram_port(32,32)
+                val s_axi_aclk = Input(Bool())
+                val s_axi_aresetn = Input(Bool())
+                val m_axi_aclk = Input(Bool())
+                val m_axi_aresetn = Input(Bool())
+        })
+        
+}

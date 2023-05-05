@@ -15,7 +15,7 @@ class data_cache  extends Module with riscv_macros {
     val sum_width =  10 - 4 + 1
     val io = IO(new Bundle {
        
-        val port = new axi_ram_port
+        val port = new axi_ram_port(64,32)
         
         val stage2_stall = Output(Bool())
         val csr_asid = Input(UInt(8.W))

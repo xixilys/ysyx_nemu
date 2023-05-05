@@ -17,7 +17,7 @@ class inst_cache  extends Module with riscv_macros {
     val inst_cache_ways_num = 2;
 
     val io = IO(new Bundle {
-        val port = new axi_ram_port
+        val port = new axi_ram_port(64,32)
         val     sram_hit   = Output(UInt(1.W))
         // val     sram_write_en  = Output(UInt(2.W))
         val     fec_1_pc_valid = Output(UInt(3.W))

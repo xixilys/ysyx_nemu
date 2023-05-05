@@ -9,7 +9,7 @@ import chisel3.util._
 class AXI4ToAPB(apb_addr_w :Int,apb_data_w:Int,axi_addr_w:Int,axi_data_w:Int,
     start_addr:Array[BigInt],end_addr:Array[BigInt]) extends Module {
     val io = IO(new Bundle{
-        val axi_port =  Flipped(new axi_ram_port)
+        val axi_port =  Flipped(new axi_ram_port(64,32))
         val apb_port =  Flipped(new apb_bundle(32,32))
     })
     // apb 信号读和写不能同时使用

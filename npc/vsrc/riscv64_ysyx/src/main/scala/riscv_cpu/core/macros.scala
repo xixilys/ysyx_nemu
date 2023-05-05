@@ -16,14 +16,14 @@ trait riscv_macros {
 
 // data_length
 var difftest_on  = true
-val on_board = 0
+val on_board = 1
 if(on_board == 1) {
     difftest_on  = false
 }else{
     difftest_on  = true
 }
 
-val reset_vec = Cat(0x8000.U(16.W),0x0000.U(16.W)) - 0x4.U(32.W)
+val reset_vec = Cat(0x3000.U(16.W),0x0000.U(16.W)) - 0x4.U(32.W)
 val tlb_on = false
 val log_on = true
 val cache_on = 0.U.asBool

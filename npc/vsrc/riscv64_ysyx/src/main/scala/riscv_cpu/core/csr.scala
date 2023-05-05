@@ -111,9 +111,9 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     io.icache_tags_flush := commit_fence_i
 //中断的cause值
     val int_cause_code_ins = new int_cause_code
-    val int_code = Mux1H(Seq(
-        io.int_type.timer -> int_cause_code_ins.time_code,
-        io.int_type.out_int -> int_cause_code_ins.ext_int_code
+    val int_code = MuxCase(0.U,Seq(
+        io.int_type.out_int -> int_cause_code_ins.ext_int_code,
+        io.int_type.timer -> int_cause_code_ins.time_code
     ))
     
     // val i
@@ -199,8 +199,8 @@ class csr extends Module with riscv_macros {//hi = Input(UInt(32.W))lo寄存器
     io.int_type_able.out_int := csr_mie(MEIE)
     val csr_mip_to_be = Wire(Vec(data_length,Bool()))
     csr_mip_to_be.zipWithIndex.foreach{case(a,index) =>
-        if(index == MTIE) { a :=Mux(commit_int,io.int_type.timer,csr_mip(index))}
-        else if(index == MEIE) { a := Mux(commit_int,io.int_type.out_int,csr_mip(index))}
+        if(index == MTIE) { a :=Mux(commit_int,io.int_type.timer && !io.int_type.out_int ,csr_mip(index))}
+        else if(index == MEIE) { a := Mux(commit_int,io.int_type.out_int ,csr_mip(index))}
         else {a := 0.U.asBool } 
     }
     csr_mip     := MuxCase(csr_mip_to_be.asUInt,Seq(

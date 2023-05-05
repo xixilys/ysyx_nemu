@@ -18,7 +18,7 @@ class timer_periph(base_addr:UInt) extends  Module with riscv_macros {
     val mtime_offset    = 0xBFF8.U
 
     val io = IO(new Bundle {
-        val axi_port = Flipped(new axi_ram_port)
+        val axi_port = Flipped(new axi_ram_port(64,32))
         val int_line = Output(Bool())
         val mie = Output(Bool())
     })
