@@ -16,7 +16,7 @@
 #endif
 
 using namespace std;
-#define open_dump 0
+// #define open_dump 
 
 Vtop *top = new Vtop;
 VerilatedFstC* tfp = NULL;
@@ -42,7 +42,7 @@ void sim_init(int argc, char **argv) {
 	#if(open_dump) 
 	tfp->open("dump_difftest.fst");	
 	#endif
-	top->io_interrupt = 1;
+	top->io_interrupt = 0;
 }
 extern uint64_t g_nr_guest_inst;
 void step_and_dump_wave(){

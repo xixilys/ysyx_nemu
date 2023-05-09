@@ -2,10 +2,17 @@ TOPNAME = mycpu_top
 NXDC_FILES = pin_bind.nxdc
 INC_PATH ?=
 
+FAST_RUN = 1
 
 VERILATOR = verilator
+ifeq ($(FAST_RUN),0)
+VERILATOR_CFLAGS += -MMD --build -cc  \
+				-O0 --x-assign fast --x-initial fast --noassert 
+else 
 VERILATOR_CFLAGS += -MMD --build -cc  \
 				-O3 --x-assign fast --x-initial fast --noassert 
+endif
+		
 VERILATOR_CFLAGS += --trace-fst -j 4
 VERILATOR_CFLAGS += --threads 3
 
@@ -32,7 +39,7 @@ V_INC_PATH += $(abspath ./vsrc/perip/sdram/tb)
 # project source
 VSRCS = $(shell find $(abspath ./vsrc/riscv64_ysyx) -name "mycpu_top.v")
 VSRCS += $(shell find $(abspath ./vsrc/v_lib) -name "*.v")
-VSRCS += $(shell find $(abspath ./vsrc/can_top_src) -name "*.v")
+VSRCS += $(shell find $(abspath ./vsrc/axi_can_top_1) -name "*.v")
 VSRCS += $(shell find $(abspath ./vsrc/perip) -name "*.v")
 # CSRCS = $(shell find $(abspath ./csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
 SOC_CSRC_LIB_HOME =  ./vsrc/perip/spiFlash
@@ -40,6 +47,12 @@ SOC_CSRC_LIB_HOME += ./vsrc/perip/kdb
 SOC_CSRC_LIB_HOME += ./vsrc/perip/screen
 CXXSRC += $(abspath $(shell find $(SOC_CSRC_LIB_HOME) -name "*.cpp"))
 CSRCS = $(SRCS) $(CXXSRC)
+ 
+ifeq ($(FAST_RUN) , 0)
+CFLAGS += -Dopen_dump=1
+else 
+CFLAGS += -Dopen_dump=0
+endif
 # CSRCS = $(NPC_NEMU_HOME)/nemu-main.c
 
 # rules for lib

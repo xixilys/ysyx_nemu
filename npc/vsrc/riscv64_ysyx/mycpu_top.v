@@ -256,11 +256,9 @@ module csr(
   output [63:0] io_csr_read_data,
   output        io_icache_tags_flush,
   input         io_int_type_timer,
-  input         io_int_type_out_int,
   input  [63:0] io_stageW_pc,
   output        io_Int_able,
-  output        io_int_type_able_timer,
-  output        io_int_type_able_out_int
+  output        io_int_type_able_timer
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [63:0] _RAND_0;
@@ -342,9 +340,8 @@ module csr(
   wire  csr_status_to_vec_9 = csr_status[9]; // @[csr.scala 175:28]
   wire  csr_status_to_vec_8 = csr_status[8]; // @[csr.scala 175:28]
   reg [63:0] csr_mie; // @[csr.scala 73:28]
-  wire  _commit_int_T_3 = io_int_type_out_int & csr_mie[11]; // @[csr.scala 89:44]
-  wire  _commit_int_T_4 = io_int_type_timer & csr_mie[7] | _commit_int_T_3; // @[csr.scala 88:60]
-  wire  commit_int = _commit_int_T_4 & csr_status[3] & io_stageW_pc != 64'h0; // @[csr.scala 89:92]
+  wire  _commit_int_T_1 = io_int_type_timer & csr_mie[7]; // @[csr.scala 88:42]
+  wire  commit_int = _commit_int_T_1 & csr_status[3] & io_stageW_pc != 64'h0; // @[csr.scala 89:92]
   wire [31:0] exception_type = {io_exception_type_i,commit_int}; // @[Cat.scala 31:58]
   wire  commit_eret = exception_type[31]; // @[csr.scala 94:38]
   wire  csr_status_to_vec_7 = commit_eret | csr_status[7]; // @[csr.scala 173:21]
@@ -379,8 +376,7 @@ module csr(
   wire [63:0] csr_read_data_Wire = 12'hf14 == io_csr_read_addr ? 64'h0 : _csr_read_data_Wire_T_11; // @[Mux.scala 81:58]
   wire [63:0] _io_return_pc_T_2 = io_pc + 64'h4; // @[csr.scala 109:38]
   wire [63:0] _io_return_pc_T_3 = _commit_exception_T_2[0] ? _io_return_pc_T_2 : csr_mtvec; // @[Mux.scala 101:16]
-  wire [62:0] _int_code_T = io_int_type_timer ? 63'h7 : 63'h0; // @[Mux.scala 101:16]
-  wire [62:0] int_code = io_int_type_out_int ? 63'hb : _int_code_T; // @[Mux.scala 101:16]
+  wire [62:0] int_code = io_int_type_timer ? 63'h7 : 63'h0; // @[Mux.scala 101:16]
   wire [63:0] _cause_exccode_T_2 = {1'h1,int_code}; // @[Cat.scala 31:58]
   wire [31:0] _cause_exccode_T_3 = {{8'd0}, exception_type[31:8]}; // @[csr.scala 123:23]
   wire [63:0] _cause_exccode_T_5 = exception_type[0] ? _cause_exccode_T_2 : 64'h0; // @[Mux.scala 27:73]
@@ -391,8 +387,8 @@ module csr(
   wire  _csr_mtvec_T_2 = io_csr_write_en & io_csr_write_addr == 12'h305; // @[csr.scala 187:33]
   wire  _csr_cause_T_2 = io_csr_write_en & io_csr_write_addr == 12'h342; // @[csr.scala 191:33]
   wire  _csr_mie_T_2 = io_csr_write_en & io_csr_write_addr == 12'h304; // @[csr.scala 195:33]
-  wire  csr_mip_to_be_7 = commit_int ? io_int_type_timer & ~io_int_type_out_int : csr_mip[7]; // @[csr.scala 202:36]
-  wire  csr_mip_to_be_11 = commit_int ? io_int_type_out_int : csr_mip[11]; // @[csr.scala 203:42]
+  wire  csr_mip_to_be_7 = commit_int ? io_int_type_timer : csr_mip[7]; // @[csr.scala 202:36]
+  wire  csr_mip_to_be_11 = commit_int ? 1'h0 : csr_mip[11]; // @[csr.scala 203:42]
   wire [63:0] _csr_mip_T = {32'h0,16'h0,4'h0,csr_mip_to_be_11,1'h0,2'h0,csr_mip_to_be_7,1'h0,2'h0,4'h0}; // @[csr.scala 206:42]
   wire  _csr_mip_T_3 = io_csr_write_en & io_csr_write_addr == 12'h344; // @[csr.scala 207:33]
   assign io_return_pc = commit_eret ? csr_epc : _io_return_pc_T_3; // @[Mux.scala 101:16]
@@ -401,7 +397,6 @@ module csr(
   assign io_icache_tags_flush = _commit_exception_T_2[0]; // @[csr.scala 95:40]
   assign io_Int_able = csr_status[3]; // @[csr.scala 164:30]
   assign io_int_type_able_timer = csr_mie[7]; // @[csr.scala 198:38]
-  assign io_int_type_able_out_int = csr_mie[11]; // @[csr.scala 199:40]
   always @(posedge clock) begin
     if (reset) begin // @[csr.scala 61:28]
       csr_cause <= 64'h400000; // @[csr.scala 61:28]
@@ -1783,9 +1778,9 @@ module if2id(
   input  [63:0] io_PCPlus4F,
   input  [63:0] io_PCF,
   input  [1:0]  io_ExceptionTypeF,
-  (*mark_debug = "true"*)output [31:0] io_InstrD,
+      (*mark_debug = "true"*)output [31:0] io_InstrD,
   output [63:0] io_PCPlus4D,
-  (*mark_debug = "true"*)output [63:0] io_PCD,
+      (*mark_debug = "true"*)output [63:0] io_PCD,
   output [1:0]  io_ExceptionTypeD_Out
 );
 `ifdef RANDOMIZE_REG_INIT
@@ -6364,8 +6359,8 @@ endmodule
 module Look_up_table_read_first_with_bundle(
   input         clock,
   input         reset,
-  input  [1:0]  io_ar_addr,
-  input  [1:0]  io_aw_addr,
+  input  [2:0]  io_ar_addr,
+  input  [2:0]  io_aw_addr,
   input         io_write,
   input  [31:0] io_in_pc,
   input  [31:0] io_in_inst,
@@ -6446,6 +6441,58 @@ module Look_up_table_read_first_with_bundle(
   reg [31:0] _RAND_49;
   reg [31:0] _RAND_50;
   reg [31:0] _RAND_51;
+  reg [31:0] _RAND_52;
+  reg [31:0] _RAND_53;
+  reg [31:0] _RAND_54;
+  reg [31:0] _RAND_55;
+  reg [31:0] _RAND_56;
+  reg [31:0] _RAND_57;
+  reg [31:0] _RAND_58;
+  reg [31:0] _RAND_59;
+  reg [31:0] _RAND_60;
+  reg [31:0] _RAND_61;
+  reg [31:0] _RAND_62;
+  reg [31:0] _RAND_63;
+  reg [31:0] _RAND_64;
+  reg [31:0] _RAND_65;
+  reg [31:0] _RAND_66;
+  reg [31:0] _RAND_67;
+  reg [31:0] _RAND_68;
+  reg [31:0] _RAND_69;
+  reg [31:0] _RAND_70;
+  reg [31:0] _RAND_71;
+  reg [31:0] _RAND_72;
+  reg [31:0] _RAND_73;
+  reg [31:0] _RAND_74;
+  reg [31:0] _RAND_75;
+  reg [31:0] _RAND_76;
+  reg [31:0] _RAND_77;
+  reg [31:0] _RAND_78;
+  reg [31:0] _RAND_79;
+  reg [31:0] _RAND_80;
+  reg [31:0] _RAND_81;
+  reg [31:0] _RAND_82;
+  reg [31:0] _RAND_83;
+  reg [31:0] _RAND_84;
+  reg [31:0] _RAND_85;
+  reg [31:0] _RAND_86;
+  reg [31:0] _RAND_87;
+  reg [31:0] _RAND_88;
+  reg [31:0] _RAND_89;
+  reg [31:0] _RAND_90;
+  reg [31:0] _RAND_91;
+  reg [31:0] _RAND_92;
+  reg [31:0] _RAND_93;
+  reg [31:0] _RAND_94;
+  reg [31:0] _RAND_95;
+  reg [31:0] _RAND_96;
+  reg [31:0] _RAND_97;
+  reg [31:0] _RAND_98;
+  reg [31:0] _RAND_99;
+  reg [31:0] _RAND_100;
+  reg [31:0] _RAND_101;
+  reg [31:0] _RAND_102;
+  reg [31:0] _RAND_103;
 `endif // RANDOMIZE_REG_INIT
   reg [31:0] btb_0_pc; // @[ports_lookup_table.scala 105:22]
   reg [31:0] btb_0_inst; // @[ports_lookup_table.scala 105:22]
@@ -6499,616 +6546,1344 @@ module Look_up_table_read_first_with_bundle(
   reg [5:0] btb_3_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
   reg  btb_3_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
   reg  btb_3_true_branch_state; // @[ports_lookup_table.scala 105:22]
-  wire  _GEN_1 = 2'h1 == io_ar_addr ? btb_1_true_branch_state : btb_0_true_branch_state; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_2 = 2'h2 == io_ar_addr ? btb_2_true_branch_state : _GEN_1; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_5 = 2'h1 == io_ar_addr ? btb_1_pre_decoder_jr : btb_0_pre_decoder_jr; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_6 = 2'h2 == io_ar_addr ? btb_2_pre_decoder_jr : _GEN_5; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_9 = 2'h1 == io_ar_addr ? btb_1_pre_decoder_branchdata : btb_0_pre_decoder_branchdata; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [5:0] _GEN_10 = 2'h2 == io_ar_addr ? btb_2_pre_decoder_branchdata : _GEN_9; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_13 = 2'h1 == io_ar_addr ? btb_1_pre_decoder_jump : btb_0_pre_decoder_jump; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_14 = 2'h2 == io_ar_addr ? btb_2_pre_decoder_jump : _GEN_13; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_17 = 2'h1 == io_ar_addr ? btb_1_pre_decoder_branchD_flag : btb_0_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 106:{12,12}]
-  wire  _GEN_18 = 2'h2 == io_ar_addr ? btb_2_pre_decoder_branchD_flag : _GEN_17; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_25 = 2'h1 == io_ar_addr ? btb_1_pre_bht : btb_0_pre_bht; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_26 = 2'h2 == io_ar_addr ? btb_2_pre_bht : _GEN_25; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_29 = 2'h1 == io_ar_addr ? btb_1_pre_pht : btb_0_pre_pht; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_30 = 2'h2 == io_ar_addr ? btb_2_pre_pht : _GEN_29; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_33 = 2'h1 == io_ar_addr ? btb_1_pre_hashcode : btb_0_pre_hashcode; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [3:0] _GEN_34 = 2'h2 == io_ar_addr ? btb_2_pre_hashcode : _GEN_33; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_37 = 2'h1 == io_ar_addr ? btb_1_pre_lookup_data : btb_0_pre_lookup_data; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [6:0] _GEN_38 = 2'h2 == io_ar_addr ? btb_2_pre_lookup_data : _GEN_37; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_41 = 2'h1 == io_ar_addr ? btb_1_pre_pc_target : btb_0_pre_pc_target; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_42 = 2'h2 == io_ar_addr ? btb_2_pre_pc_target : _GEN_41; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_45 = 2'h1 == io_ar_addr ? btb_1_exception_type : btb_0_exception_type; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [1:0] _GEN_46 = 2'h2 == io_ar_addr ? btb_2_exception_type : _GEN_45; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_49 = 2'h1 == io_ar_addr ? btb_1_inst : btb_0_inst; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_50 = 2'h2 == io_ar_addr ? btb_2_inst : _GEN_49; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_53 = 2'h1 == io_ar_addr ? btb_1_pc : btb_0_pc; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_54 = 2'h2 == io_ar_addr ? btb_2_pc : _GEN_53; // @[ports_lookup_table.scala 106:{12,12}]
-  wire [31:0] _GEN_70 = 2'h1 == io_aw_addr ? btb_1_pc : btb_0_pc; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_71 = 2'h1 == io_aw_addr ? btb_1_inst : btb_0_inst; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_72 = 2'h1 == io_aw_addr ? btb_1_exception_type : btb_0_exception_type; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_73 = 2'h1 == io_aw_addr ? btb_1_pre_pc_target : btb_0_pre_pc_target; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_74 = 2'h1 == io_aw_addr ? btb_1_pre_lookup_data : btb_0_pre_lookup_data; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_75 = 2'h1 == io_aw_addr ? btb_1_pre_hashcode : btb_0_pre_hashcode; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_76 = 2'h1 == io_aw_addr ? btb_1_pre_pht : btb_0_pre_pht; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_77 = 2'h1 == io_aw_addr ? btb_1_pre_bht : btb_0_pre_bht; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_79 = 2'h1 == io_aw_addr ? btb_1_pre_decoder_branchD_flag : btb_0_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_80 = 2'h1 == io_aw_addr ? btb_1_pre_decoder_jump : btb_0_pre_decoder_jump; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_81 = 2'h1 == io_aw_addr ? btb_1_pre_decoder_branchdata : btb_0_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_82 = 2'h1 == io_aw_addr ? btb_1_pre_decoder_jr : btb_0_pre_decoder_jr; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_83 = 2'h1 == io_aw_addr ? btb_1_true_branch_state : btb_0_true_branch_state; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_84 = 2'h2 == io_aw_addr ? btb_2_pc : _GEN_70; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_85 = 2'h2 == io_aw_addr ? btb_2_inst : _GEN_71; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_86 = 2'h2 == io_aw_addr ? btb_2_exception_type : _GEN_72; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [31:0] _GEN_87 = 2'h2 == io_aw_addr ? btb_2_pre_pc_target : _GEN_73; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_88 = 2'h2 == io_aw_addr ? btb_2_pre_lookup_data : _GEN_74; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [3:0] _GEN_89 = 2'h2 == io_aw_addr ? btb_2_pre_hashcode : _GEN_75; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [1:0] _GEN_90 = 2'h2 == io_aw_addr ? btb_2_pre_pht : _GEN_76; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [6:0] _GEN_91 = 2'h2 == io_aw_addr ? btb_2_pre_bht : _GEN_77; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_93 = 2'h2 == io_aw_addr ? btb_2_pre_decoder_branchD_flag : _GEN_79; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_94 = 2'h2 == io_aw_addr ? btb_2_pre_decoder_jump : _GEN_80; // @[ports_lookup_table.scala 107:{27,27}]
-  wire [5:0] _GEN_95 = 2'h2 == io_aw_addr ? btb_2_pre_decoder_branchdata : _GEN_81; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_96 = 2'h2 == io_aw_addr ? btb_2_pre_decoder_jr : _GEN_82; // @[ports_lookup_table.scala 107:{27,27}]
-  wire  _GEN_97 = 2'h2 == io_aw_addr ? btb_2_true_branch_state : _GEN_83; // @[ports_lookup_table.scala 107:{27,27}]
-  assign io_out_pc = 2'h3 == io_ar_addr ? btb_3_pc : _GEN_54; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_inst = 2'h3 == io_ar_addr ? btb_3_inst : _GEN_50; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_exception_type = 2'h3 == io_ar_addr ? btb_3_exception_type : _GEN_46; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_pc_target = 2'h3 == io_ar_addr ? btb_3_pre_pc_target : _GEN_42; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_lookup_data = 2'h3 == io_ar_addr ? btb_3_pre_lookup_data : _GEN_38; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_hashcode = 2'h3 == io_ar_addr ? btb_3_pre_hashcode : _GEN_34; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_pht = 2'h3 == io_ar_addr ? btb_3_pre_pht : _GEN_30; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_bht = 2'h3 == io_ar_addr ? btb_3_pre_bht : _GEN_26; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_decoder_branchD_flag = 2'h3 == io_ar_addr ? btb_3_pre_decoder_branchD_flag : _GEN_18; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_decoder_jump = 2'h3 == io_ar_addr ? btb_3_pre_decoder_jump : _GEN_14; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_decoder_branchdata = 2'h3 == io_ar_addr ? btb_3_pre_decoder_branchdata : _GEN_10; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_pre_decoder_jr = 2'h3 == io_ar_addr ? btb_3_pre_decoder_jr : _GEN_6; // @[ports_lookup_table.scala 106:{12,12}]
-  assign io_out_true_branch_state = 2'h3 == io_ar_addr ? btb_3_true_branch_state : _GEN_2; // @[ports_lookup_table.scala 106:{12,12}]
+  reg [31:0] btb_4_pc; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_4_inst; // @[ports_lookup_table.scala 105:22]
+  reg [1:0] btb_4_exception_type; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_4_pre_pc_target; // @[ports_lookup_table.scala 105:22]
+  reg [6:0] btb_4_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
+  reg [3:0] btb_4_pre_hashcode; // @[ports_lookup_table.scala 105:22]
+  reg [1:0] btb_4_pre_pht; // @[ports_lookup_table.scala 105:22]
+  reg [6:0] btb_4_pre_bht; // @[ports_lookup_table.scala 105:22]
+  reg  btb_4_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
+  reg  btb_4_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
+  reg [5:0] btb_4_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
+  reg  btb_4_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
+  reg  btb_4_true_branch_state; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_5_pc; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_5_inst; // @[ports_lookup_table.scala 105:22]
+  reg [1:0] btb_5_exception_type; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_5_pre_pc_target; // @[ports_lookup_table.scala 105:22]
+  reg [6:0] btb_5_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
+  reg [3:0] btb_5_pre_hashcode; // @[ports_lookup_table.scala 105:22]
+  reg [1:0] btb_5_pre_pht; // @[ports_lookup_table.scala 105:22]
+  reg [6:0] btb_5_pre_bht; // @[ports_lookup_table.scala 105:22]
+  reg  btb_5_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
+  reg  btb_5_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
+  reg [5:0] btb_5_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
+  reg  btb_5_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
+  reg  btb_5_true_branch_state; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_6_pc; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_6_inst; // @[ports_lookup_table.scala 105:22]
+  reg [1:0] btb_6_exception_type; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_6_pre_pc_target; // @[ports_lookup_table.scala 105:22]
+  reg [6:0] btb_6_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
+  reg [3:0] btb_6_pre_hashcode; // @[ports_lookup_table.scala 105:22]
+  reg [1:0] btb_6_pre_pht; // @[ports_lookup_table.scala 105:22]
+  reg [6:0] btb_6_pre_bht; // @[ports_lookup_table.scala 105:22]
+  reg  btb_6_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
+  reg  btb_6_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
+  reg [5:0] btb_6_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
+  reg  btb_6_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
+  reg  btb_6_true_branch_state; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_7_pc; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_7_inst; // @[ports_lookup_table.scala 105:22]
+  reg [1:0] btb_7_exception_type; // @[ports_lookup_table.scala 105:22]
+  reg [31:0] btb_7_pre_pc_target; // @[ports_lookup_table.scala 105:22]
+  reg [6:0] btb_7_pre_lookup_data; // @[ports_lookup_table.scala 105:22]
+  reg [3:0] btb_7_pre_hashcode; // @[ports_lookup_table.scala 105:22]
+  reg [1:0] btb_7_pre_pht; // @[ports_lookup_table.scala 105:22]
+  reg [6:0] btb_7_pre_bht; // @[ports_lookup_table.scala 105:22]
+  reg  btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 105:22]
+  reg  btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 105:22]
+  reg [5:0] btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 105:22]
+  reg  btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 105:22]
+  reg  btb_7_true_branch_state; // @[ports_lookup_table.scala 105:22]
+  wire  _GEN_1 = 3'h1 == io_ar_addr ? btb_1_true_branch_state : btb_0_true_branch_state; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_2 = 3'h2 == io_ar_addr ? btb_2_true_branch_state : _GEN_1; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_3 = 3'h3 == io_ar_addr ? btb_3_true_branch_state : _GEN_2; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_4 = 3'h4 == io_ar_addr ? btb_4_true_branch_state : _GEN_3; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_5 = 3'h5 == io_ar_addr ? btb_5_true_branch_state : _GEN_4; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_6 = 3'h6 == io_ar_addr ? btb_6_true_branch_state : _GEN_5; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_9 = 3'h1 == io_ar_addr ? btb_1_pre_decoder_jr : btb_0_pre_decoder_jr; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_10 = 3'h2 == io_ar_addr ? btb_2_pre_decoder_jr : _GEN_9; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_11 = 3'h3 == io_ar_addr ? btb_3_pre_decoder_jr : _GEN_10; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_12 = 3'h4 == io_ar_addr ? btb_4_pre_decoder_jr : _GEN_11; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_13 = 3'h5 == io_ar_addr ? btb_5_pre_decoder_jr : _GEN_12; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_14 = 3'h6 == io_ar_addr ? btb_6_pre_decoder_jr : _GEN_13; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_17 = 3'h1 == io_ar_addr ? btb_1_pre_decoder_branchdata : btb_0_pre_decoder_branchdata; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_18 = 3'h2 == io_ar_addr ? btb_2_pre_decoder_branchdata : _GEN_17; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_19 = 3'h3 == io_ar_addr ? btb_3_pre_decoder_branchdata : _GEN_18; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_20 = 3'h4 == io_ar_addr ? btb_4_pre_decoder_branchdata : _GEN_19; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_21 = 3'h5 == io_ar_addr ? btb_5_pre_decoder_branchdata : _GEN_20; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [5:0] _GEN_22 = 3'h6 == io_ar_addr ? btb_6_pre_decoder_branchdata : _GEN_21; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_25 = 3'h1 == io_ar_addr ? btb_1_pre_decoder_jump : btb_0_pre_decoder_jump; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_26 = 3'h2 == io_ar_addr ? btb_2_pre_decoder_jump : _GEN_25; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_27 = 3'h3 == io_ar_addr ? btb_3_pre_decoder_jump : _GEN_26; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_28 = 3'h4 == io_ar_addr ? btb_4_pre_decoder_jump : _GEN_27; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_29 = 3'h5 == io_ar_addr ? btb_5_pre_decoder_jump : _GEN_28; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_30 = 3'h6 == io_ar_addr ? btb_6_pre_decoder_jump : _GEN_29; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_33 = 3'h1 == io_ar_addr ? btb_1_pre_decoder_branchD_flag : btb_0_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_34 = 3'h2 == io_ar_addr ? btb_2_pre_decoder_branchD_flag : _GEN_33; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_35 = 3'h3 == io_ar_addr ? btb_3_pre_decoder_branchD_flag : _GEN_34; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_36 = 3'h4 == io_ar_addr ? btb_4_pre_decoder_branchD_flag : _GEN_35; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_37 = 3'h5 == io_ar_addr ? btb_5_pre_decoder_branchD_flag : _GEN_36; // @[ports_lookup_table.scala 106:{12,12}]
+  wire  _GEN_38 = 3'h6 == io_ar_addr ? btb_6_pre_decoder_branchD_flag : _GEN_37; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_49 = 3'h1 == io_ar_addr ? btb_1_pre_bht : btb_0_pre_bht; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_50 = 3'h2 == io_ar_addr ? btb_2_pre_bht : _GEN_49; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_51 = 3'h3 == io_ar_addr ? btb_3_pre_bht : _GEN_50; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_52 = 3'h4 == io_ar_addr ? btb_4_pre_bht : _GEN_51; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_53 = 3'h5 == io_ar_addr ? btb_5_pre_bht : _GEN_52; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_54 = 3'h6 == io_ar_addr ? btb_6_pre_bht : _GEN_53; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_57 = 3'h1 == io_ar_addr ? btb_1_pre_pht : btb_0_pre_pht; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_58 = 3'h2 == io_ar_addr ? btb_2_pre_pht : _GEN_57; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_59 = 3'h3 == io_ar_addr ? btb_3_pre_pht : _GEN_58; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_60 = 3'h4 == io_ar_addr ? btb_4_pre_pht : _GEN_59; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_61 = 3'h5 == io_ar_addr ? btb_5_pre_pht : _GEN_60; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_62 = 3'h6 == io_ar_addr ? btb_6_pre_pht : _GEN_61; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_65 = 3'h1 == io_ar_addr ? btb_1_pre_hashcode : btb_0_pre_hashcode; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_66 = 3'h2 == io_ar_addr ? btb_2_pre_hashcode : _GEN_65; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_67 = 3'h3 == io_ar_addr ? btb_3_pre_hashcode : _GEN_66; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_68 = 3'h4 == io_ar_addr ? btb_4_pre_hashcode : _GEN_67; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_69 = 3'h5 == io_ar_addr ? btb_5_pre_hashcode : _GEN_68; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [3:0] _GEN_70 = 3'h6 == io_ar_addr ? btb_6_pre_hashcode : _GEN_69; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_73 = 3'h1 == io_ar_addr ? btb_1_pre_lookup_data : btb_0_pre_lookup_data; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_74 = 3'h2 == io_ar_addr ? btb_2_pre_lookup_data : _GEN_73; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_75 = 3'h3 == io_ar_addr ? btb_3_pre_lookup_data : _GEN_74; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_76 = 3'h4 == io_ar_addr ? btb_4_pre_lookup_data : _GEN_75; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_77 = 3'h5 == io_ar_addr ? btb_5_pre_lookup_data : _GEN_76; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [6:0] _GEN_78 = 3'h6 == io_ar_addr ? btb_6_pre_lookup_data : _GEN_77; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_81 = 3'h1 == io_ar_addr ? btb_1_pre_pc_target : btb_0_pre_pc_target; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_82 = 3'h2 == io_ar_addr ? btb_2_pre_pc_target : _GEN_81; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_83 = 3'h3 == io_ar_addr ? btb_3_pre_pc_target : _GEN_82; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_84 = 3'h4 == io_ar_addr ? btb_4_pre_pc_target : _GEN_83; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_85 = 3'h5 == io_ar_addr ? btb_5_pre_pc_target : _GEN_84; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_86 = 3'h6 == io_ar_addr ? btb_6_pre_pc_target : _GEN_85; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_89 = 3'h1 == io_ar_addr ? btb_1_exception_type : btb_0_exception_type; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_90 = 3'h2 == io_ar_addr ? btb_2_exception_type : _GEN_89; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_91 = 3'h3 == io_ar_addr ? btb_3_exception_type : _GEN_90; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_92 = 3'h4 == io_ar_addr ? btb_4_exception_type : _GEN_91; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_93 = 3'h5 == io_ar_addr ? btb_5_exception_type : _GEN_92; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [1:0] _GEN_94 = 3'h6 == io_ar_addr ? btb_6_exception_type : _GEN_93; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_97 = 3'h1 == io_ar_addr ? btb_1_inst : btb_0_inst; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_98 = 3'h2 == io_ar_addr ? btb_2_inst : _GEN_97; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_99 = 3'h3 == io_ar_addr ? btb_3_inst : _GEN_98; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_100 = 3'h4 == io_ar_addr ? btb_4_inst : _GEN_99; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_101 = 3'h5 == io_ar_addr ? btb_5_inst : _GEN_100; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_102 = 3'h6 == io_ar_addr ? btb_6_inst : _GEN_101; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_105 = 3'h1 == io_ar_addr ? btb_1_pc : btb_0_pc; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_106 = 3'h2 == io_ar_addr ? btb_2_pc : _GEN_105; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_107 = 3'h3 == io_ar_addr ? btb_3_pc : _GEN_106; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_108 = 3'h4 == io_ar_addr ? btb_4_pc : _GEN_107; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_109 = 3'h5 == io_ar_addr ? btb_5_pc : _GEN_108; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_110 = 3'h6 == io_ar_addr ? btb_6_pc : _GEN_109; // @[ports_lookup_table.scala 106:{12,12}]
+  wire [31:0] _GEN_126 = 3'h1 == io_aw_addr ? btb_1_pc : btb_0_pc; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_127 = 3'h1 == io_aw_addr ? btb_1_inst : btb_0_inst; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_128 = 3'h1 == io_aw_addr ? btb_1_exception_type : btb_0_exception_type; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_129 = 3'h1 == io_aw_addr ? btb_1_pre_pc_target : btb_0_pre_pc_target; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_130 = 3'h1 == io_aw_addr ? btb_1_pre_lookup_data : btb_0_pre_lookup_data; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_131 = 3'h1 == io_aw_addr ? btb_1_pre_hashcode : btb_0_pre_hashcode; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_132 = 3'h1 == io_aw_addr ? btb_1_pre_pht : btb_0_pre_pht; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_133 = 3'h1 == io_aw_addr ? btb_1_pre_bht : btb_0_pre_bht; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_135 = 3'h1 == io_aw_addr ? btb_1_pre_decoder_branchD_flag : btb_0_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_136 = 3'h1 == io_aw_addr ? btb_1_pre_decoder_jump : btb_0_pre_decoder_jump; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_137 = 3'h1 == io_aw_addr ? btb_1_pre_decoder_branchdata : btb_0_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_138 = 3'h1 == io_aw_addr ? btb_1_pre_decoder_jr : btb_0_pre_decoder_jr; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_139 = 3'h1 == io_aw_addr ? btb_1_true_branch_state : btb_0_true_branch_state; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_140 = 3'h2 == io_aw_addr ? btb_2_pc : _GEN_126; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_141 = 3'h2 == io_aw_addr ? btb_2_inst : _GEN_127; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_142 = 3'h2 == io_aw_addr ? btb_2_exception_type : _GEN_128; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_143 = 3'h2 == io_aw_addr ? btb_2_pre_pc_target : _GEN_129; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_144 = 3'h2 == io_aw_addr ? btb_2_pre_lookup_data : _GEN_130; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_145 = 3'h2 == io_aw_addr ? btb_2_pre_hashcode : _GEN_131; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_146 = 3'h2 == io_aw_addr ? btb_2_pre_pht : _GEN_132; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_147 = 3'h2 == io_aw_addr ? btb_2_pre_bht : _GEN_133; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_149 = 3'h2 == io_aw_addr ? btb_2_pre_decoder_branchD_flag : _GEN_135; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_150 = 3'h2 == io_aw_addr ? btb_2_pre_decoder_jump : _GEN_136; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_151 = 3'h2 == io_aw_addr ? btb_2_pre_decoder_branchdata : _GEN_137; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_152 = 3'h2 == io_aw_addr ? btb_2_pre_decoder_jr : _GEN_138; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_153 = 3'h2 == io_aw_addr ? btb_2_true_branch_state : _GEN_139; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_154 = 3'h3 == io_aw_addr ? btb_3_pc : _GEN_140; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_155 = 3'h3 == io_aw_addr ? btb_3_inst : _GEN_141; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_156 = 3'h3 == io_aw_addr ? btb_3_exception_type : _GEN_142; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_157 = 3'h3 == io_aw_addr ? btb_3_pre_pc_target : _GEN_143; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_158 = 3'h3 == io_aw_addr ? btb_3_pre_lookup_data : _GEN_144; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_159 = 3'h3 == io_aw_addr ? btb_3_pre_hashcode : _GEN_145; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_160 = 3'h3 == io_aw_addr ? btb_3_pre_pht : _GEN_146; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_161 = 3'h3 == io_aw_addr ? btb_3_pre_bht : _GEN_147; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_163 = 3'h3 == io_aw_addr ? btb_3_pre_decoder_branchD_flag : _GEN_149; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_164 = 3'h3 == io_aw_addr ? btb_3_pre_decoder_jump : _GEN_150; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_165 = 3'h3 == io_aw_addr ? btb_3_pre_decoder_branchdata : _GEN_151; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_166 = 3'h3 == io_aw_addr ? btb_3_pre_decoder_jr : _GEN_152; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_167 = 3'h3 == io_aw_addr ? btb_3_true_branch_state : _GEN_153; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_168 = 3'h4 == io_aw_addr ? btb_4_pc : _GEN_154; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_169 = 3'h4 == io_aw_addr ? btb_4_inst : _GEN_155; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_170 = 3'h4 == io_aw_addr ? btb_4_exception_type : _GEN_156; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_171 = 3'h4 == io_aw_addr ? btb_4_pre_pc_target : _GEN_157; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_172 = 3'h4 == io_aw_addr ? btb_4_pre_lookup_data : _GEN_158; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_173 = 3'h4 == io_aw_addr ? btb_4_pre_hashcode : _GEN_159; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_174 = 3'h4 == io_aw_addr ? btb_4_pre_pht : _GEN_160; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_175 = 3'h4 == io_aw_addr ? btb_4_pre_bht : _GEN_161; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_177 = 3'h4 == io_aw_addr ? btb_4_pre_decoder_branchD_flag : _GEN_163; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_178 = 3'h4 == io_aw_addr ? btb_4_pre_decoder_jump : _GEN_164; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_179 = 3'h4 == io_aw_addr ? btb_4_pre_decoder_branchdata : _GEN_165; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_180 = 3'h4 == io_aw_addr ? btb_4_pre_decoder_jr : _GEN_166; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_181 = 3'h4 == io_aw_addr ? btb_4_true_branch_state : _GEN_167; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_182 = 3'h5 == io_aw_addr ? btb_5_pc : _GEN_168; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_183 = 3'h5 == io_aw_addr ? btb_5_inst : _GEN_169; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_184 = 3'h5 == io_aw_addr ? btb_5_exception_type : _GEN_170; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_185 = 3'h5 == io_aw_addr ? btb_5_pre_pc_target : _GEN_171; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_186 = 3'h5 == io_aw_addr ? btb_5_pre_lookup_data : _GEN_172; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_187 = 3'h5 == io_aw_addr ? btb_5_pre_hashcode : _GEN_173; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_188 = 3'h5 == io_aw_addr ? btb_5_pre_pht : _GEN_174; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_189 = 3'h5 == io_aw_addr ? btb_5_pre_bht : _GEN_175; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_191 = 3'h5 == io_aw_addr ? btb_5_pre_decoder_branchD_flag : _GEN_177; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_192 = 3'h5 == io_aw_addr ? btb_5_pre_decoder_jump : _GEN_178; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_193 = 3'h5 == io_aw_addr ? btb_5_pre_decoder_branchdata : _GEN_179; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_194 = 3'h5 == io_aw_addr ? btb_5_pre_decoder_jr : _GEN_180; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_195 = 3'h5 == io_aw_addr ? btb_5_true_branch_state : _GEN_181; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_196 = 3'h6 == io_aw_addr ? btb_6_pc : _GEN_182; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_197 = 3'h6 == io_aw_addr ? btb_6_inst : _GEN_183; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_198 = 3'h6 == io_aw_addr ? btb_6_exception_type : _GEN_184; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [31:0] _GEN_199 = 3'h6 == io_aw_addr ? btb_6_pre_pc_target : _GEN_185; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_200 = 3'h6 == io_aw_addr ? btb_6_pre_lookup_data : _GEN_186; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [3:0] _GEN_201 = 3'h6 == io_aw_addr ? btb_6_pre_hashcode : _GEN_187; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [1:0] _GEN_202 = 3'h6 == io_aw_addr ? btb_6_pre_pht : _GEN_188; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [6:0] _GEN_203 = 3'h6 == io_aw_addr ? btb_6_pre_bht : _GEN_189; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_205 = 3'h6 == io_aw_addr ? btb_6_pre_decoder_branchD_flag : _GEN_191; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_206 = 3'h6 == io_aw_addr ? btb_6_pre_decoder_jump : _GEN_192; // @[ports_lookup_table.scala 107:{27,27}]
+  wire [5:0] _GEN_207 = 3'h6 == io_aw_addr ? btb_6_pre_decoder_branchdata : _GEN_193; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_208 = 3'h6 == io_aw_addr ? btb_6_pre_decoder_jr : _GEN_194; // @[ports_lookup_table.scala 107:{27,27}]
+  wire  _GEN_209 = 3'h6 == io_aw_addr ? btb_6_true_branch_state : _GEN_195; // @[ports_lookup_table.scala 107:{27,27}]
+  assign io_out_pc = 3'h7 == io_ar_addr ? btb_7_pc : _GEN_110; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_inst = 3'h7 == io_ar_addr ? btb_7_inst : _GEN_102; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_exception_type = 3'h7 == io_ar_addr ? btb_7_exception_type : _GEN_94; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_pc_target = 3'h7 == io_ar_addr ? btb_7_pre_pc_target : _GEN_86; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_lookup_data = 3'h7 == io_ar_addr ? btb_7_pre_lookup_data : _GEN_78; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_hashcode = 3'h7 == io_ar_addr ? btb_7_pre_hashcode : _GEN_70; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_pht = 3'h7 == io_ar_addr ? btb_7_pre_pht : _GEN_62; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_bht = 3'h7 == io_ar_addr ? btb_7_pre_bht : _GEN_54; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_decoder_branchD_flag = 3'h7 == io_ar_addr ? btb_7_pre_decoder_branchD_flag : _GEN_38; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_decoder_jump = 3'h7 == io_ar_addr ? btb_7_pre_decoder_jump : _GEN_30; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_decoder_branchdata = 3'h7 == io_ar_addr ? btb_7_pre_decoder_branchdata : _GEN_22; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_pre_decoder_jr = 3'h7 == io_ar_addr ? btb_7_pre_decoder_jr : _GEN_14; // @[ports_lookup_table.scala 106:{12,12}]
+  assign io_out_true_branch_state = 3'h7 == io_ar_addr ? btb_7_true_branch_state : _GEN_6; // @[ports_lookup_table.scala 106:{12,12}]
   always @(posedge clock) begin
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pc <= io_in_pc;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pc <= btb_3_pc; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pc <= _GEN_84;
+        btb_0_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_inst <= io_in_inst;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_inst <= btb_3_inst; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_inst <= _GEN_85;
+        btb_0_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_exception_type <= 2'h0;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_exception_type <= btb_3_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_exception_type <= _GEN_86;
+        btb_0_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_pc_target <= io_in_pre_pc_target;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_pc_target <= btb_3_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_pc_target <= _GEN_87;
+        btb_0_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_lookup_data <= btb_3_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_lookup_data <= _GEN_88;
+        btb_0_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_hashcode <= io_in_pre_hashcode;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_hashcode <= btb_3_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_hashcode <= _GEN_89;
+        btb_0_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_pht <= io_in_pre_pht;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_pht <= btb_3_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_pht <= _GEN_90;
+        btb_0_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_bht <= io_in_pre_bht;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_bht <= btb_3_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_bht <= _GEN_91;
+        btb_0_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_decoder_branchD_flag <= btb_3_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_decoder_branchD_flag <= _GEN_93;
+        btb_0_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_decoder_jump <= btb_3_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_decoder_jump <= _GEN_94;
+        btb_0_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_decoder_branchdata <= btb_3_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_decoder_branchdata <= _GEN_95;
+        btb_0_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_pre_decoder_jr <= btb_3_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_pre_decoder_jr <= _GEN_96;
+        btb_0_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_0_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h0 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_0_true_branch_state <= io_in_true_branch_state;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_0_true_branch_state <= btb_3_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_0_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_0_true_branch_state <= _GEN_97;
+        btb_0_true_branch_state <= _GEN_209;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pc <= io_in_pc;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pc <= btb_3_pc; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pc <= _GEN_84;
+        btb_1_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_inst <= io_in_inst;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_inst <= btb_3_inst; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_inst <= _GEN_85;
+        btb_1_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_exception_type <= 2'h0;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_exception_type <= btb_3_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_exception_type <= _GEN_86;
+        btb_1_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_pc_target <= io_in_pre_pc_target;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_pc_target <= btb_3_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_pc_target <= _GEN_87;
+        btb_1_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_lookup_data <= btb_3_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_lookup_data <= _GEN_88;
+        btb_1_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_hashcode <= io_in_pre_hashcode;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_hashcode <= btb_3_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_hashcode <= _GEN_89;
+        btb_1_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_pht <= io_in_pre_pht;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_pht <= btb_3_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_pht <= _GEN_90;
+        btb_1_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_bht <= io_in_pre_bht;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_bht <= btb_3_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_bht <= _GEN_91;
+        btb_1_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_decoder_branchD_flag <= btb_3_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_decoder_branchD_flag <= _GEN_93;
+        btb_1_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_decoder_jump <= btb_3_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_decoder_jump <= _GEN_94;
+        btb_1_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_decoder_branchdata <= btb_3_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_decoder_branchdata <= _GEN_95;
+        btb_1_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_pre_decoder_jr <= btb_3_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_pre_decoder_jr <= _GEN_96;
+        btb_1_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_1_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h1 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_1_true_branch_state <= io_in_true_branch_state;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_1_true_branch_state <= btb_3_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_1_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_1_true_branch_state <= _GEN_97;
+        btb_1_true_branch_state <= _GEN_209;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pc <= io_in_pc;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pc <= btb_3_pc; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pc <= _GEN_84;
+        btb_2_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_inst <= io_in_inst;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_inst <= btb_3_inst; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_inst <= _GEN_85;
+        btb_2_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_exception_type <= 2'h0;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_exception_type <= btb_3_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_exception_type <= _GEN_86;
+        btb_2_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_pc_target <= io_in_pre_pc_target;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_pc_target <= btb_3_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_pc_target <= _GEN_87;
+        btb_2_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_lookup_data <= btb_3_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_lookup_data <= _GEN_88;
+        btb_2_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_hashcode <= io_in_pre_hashcode;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_hashcode <= btb_3_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_hashcode <= _GEN_89;
+        btb_2_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_pht <= io_in_pre_pht;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_pht <= btb_3_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_pht <= _GEN_90;
+        btb_2_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_bht <= io_in_pre_bht;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_bht <= btb_3_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_bht <= _GEN_91;
+        btb_2_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_decoder_branchD_flag <= btb_3_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_decoder_branchD_flag <= _GEN_93;
+        btb_2_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_decoder_jump <= btb_3_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_decoder_jump <= _GEN_94;
+        btb_2_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_decoder_branchdata <= btb_3_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_decoder_branchdata <= _GEN_95;
+        btb_2_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_pre_decoder_jr <= btb_3_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_pre_decoder_jr <= _GEN_96;
+        btb_2_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_2_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h2 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_2_true_branch_state <= io_in_true_branch_state;
-      end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
-        btb_2_true_branch_state <= btb_3_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_2_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
       end else begin
-        btb_2_true_branch_state <= _GEN_97;
+        btb_2_true_branch_state <= _GEN_209;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pc <= io_in_pc;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pc <= _GEN_84;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_pc <= _GEN_196;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_inst <= io_in_inst;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_inst <= _GEN_85;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_inst <= _GEN_197;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_exception_type <= 2'h0;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_exception_type <= _GEN_86;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_exception_type <= _GEN_198;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_pc_target <= io_in_pre_pc_target;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_pc_target <= _GEN_87;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_pre_pc_target <= _GEN_199;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_lookup_data <= io_in_pre_lookup_data;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_lookup_data <= _GEN_88;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_pre_lookup_data <= _GEN_200;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_hashcode <= io_in_pre_hashcode;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_hashcode <= _GEN_89;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_pre_hashcode <= _GEN_201;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_pht <= io_in_pre_pht;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_pht <= _GEN_90;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_pre_pht <= _GEN_202;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_bht <= io_in_pre_bht;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_bht <= _GEN_91;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_pre_bht <= _GEN_203;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_decoder_branchD_flag <= _GEN_93;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_pre_decoder_branchD_flag <= _GEN_205;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_decoder_jump <= io_in_pre_decoder_jump;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_decoder_jump <= _GEN_94;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_pre_decoder_jump <= _GEN_206;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_decoder_branchdata <= _GEN_95;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_pre_decoder_branchdata <= _GEN_207;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_pre_decoder_jr <= io_in_pre_decoder_jr;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_pre_decoder_jr <= _GEN_96;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_pre_decoder_jr <= _GEN_208;
       end
     end
     if (reset) begin // @[ports_lookup_table.scala 105:22]
       btb_3_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
-    end else if (2'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+    end else if (3'h3 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
       if (io_write) begin // @[ports_lookup_table.scala 107:27]
         btb_3_true_branch_state <= io_in_true_branch_state;
-      end else if (!(2'h3 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
-        btb_3_true_branch_state <= _GEN_97;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_3_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_3_true_branch_state <= _GEN_209;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pc <= io_in_pc;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_pc <= _GEN_196;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_inst <= io_in_inst;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_inst <= _GEN_197;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_exception_type <= 2'h0;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_exception_type <= _GEN_198;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_pc_target <= io_in_pre_pc_target;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_pre_pc_target <= _GEN_199;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_lookup_data <= io_in_pre_lookup_data;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_pre_lookup_data <= _GEN_200;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_hashcode <= io_in_pre_hashcode;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_pre_hashcode <= _GEN_201;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_pht <= io_in_pre_pht;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_pre_pht <= _GEN_202;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_bht <= io_in_pre_bht;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_pre_bht <= _GEN_203;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_pre_decoder_branchD_flag <= _GEN_205;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_jump <= io_in_pre_decoder_jump;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_pre_decoder_jump <= _GEN_206;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_pre_decoder_branchdata <= _GEN_207;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_jr <= io_in_pre_decoder_jr;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_pre_decoder_jr <= _GEN_208;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_4_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h4 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_true_branch_state <= io_in_true_branch_state;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_4_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_4_true_branch_state <= _GEN_209;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pc <= io_in_pc;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_pc <= _GEN_196;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_inst <= io_in_inst;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_inst <= _GEN_197;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_exception_type <= 2'h0;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_exception_type <= _GEN_198;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_pc_target <= io_in_pre_pc_target;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_pre_pc_target <= _GEN_199;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_lookup_data <= io_in_pre_lookup_data;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_pre_lookup_data <= _GEN_200;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_hashcode <= io_in_pre_hashcode;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_pre_hashcode <= _GEN_201;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_pht <= io_in_pre_pht;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_pre_pht <= _GEN_202;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_bht <= io_in_pre_bht;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_pre_bht <= _GEN_203;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_pre_decoder_branchD_flag <= _GEN_205;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_jump <= io_in_pre_decoder_jump;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_pre_decoder_jump <= _GEN_206;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_pre_decoder_branchdata <= _GEN_207;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_jr <= io_in_pre_decoder_jr;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_pre_decoder_jr <= _GEN_208;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_5_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h5 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_true_branch_state <= io_in_true_branch_state;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_5_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_5_true_branch_state <= _GEN_209;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pc <= io_in_pc;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pc <= btb_7_pc; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_pc <= _GEN_196;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_inst <= io_in_inst;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_inst <= btb_7_inst; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_inst <= _GEN_197;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_exception_type <= 2'h0;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_exception_type <= btb_7_exception_type; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_exception_type <= _GEN_198;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_pc_target <= io_in_pre_pc_target;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_pc_target <= btb_7_pre_pc_target; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_pre_pc_target <= _GEN_199;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_lookup_data <= io_in_pre_lookup_data;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_lookup_data <= btb_7_pre_lookup_data; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_pre_lookup_data <= _GEN_200;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_hashcode <= io_in_pre_hashcode;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_hashcode <= btb_7_pre_hashcode; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_pre_hashcode <= _GEN_201;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_pht <= io_in_pre_pht;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_pht <= btb_7_pre_pht; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_pre_pht <= _GEN_202;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_bht <= io_in_pre_bht;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_bht <= btb_7_pre_bht; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_pre_bht <= _GEN_203;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_branchD_flag <= btb_7_pre_decoder_branchD_flag; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_pre_decoder_branchD_flag <= _GEN_205;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_jump <= io_in_pre_decoder_jump;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_jump <= btb_7_pre_decoder_jump; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_pre_decoder_jump <= _GEN_206;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_branchdata <= btb_7_pre_decoder_branchdata; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_pre_decoder_branchdata <= _GEN_207;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_jr <= io_in_pre_decoder_jr;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_pre_decoder_jr <= btb_7_pre_decoder_jr; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_pre_decoder_jr <= _GEN_208;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_6_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h6 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_true_branch_state <= io_in_true_branch_state;
+      end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:27]
+        btb_6_true_branch_state <= btb_7_true_branch_state; // @[ports_lookup_table.scala 107:27]
+      end else begin
+        btb_6_true_branch_state <= _GEN_209;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_pc <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pc <= io_in_pc;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pc <= _GEN_196;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_inst <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_inst <= io_in_inst;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_inst <= _GEN_197;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_exception_type <= 2'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_exception_type <= 2'h0;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_exception_type <= _GEN_198;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_pre_pc_target <= 32'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_pc_target <= io_in_pre_pc_target;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_pc_target <= _GEN_199;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_pre_lookup_data <= 7'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_lookup_data <= io_in_pre_lookup_data;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_lookup_data <= _GEN_200;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_pre_hashcode <= 4'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_hashcode <= io_in_pre_hashcode;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_hashcode <= _GEN_201;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_pre_pht <= 2'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_pht <= io_in_pre_pht;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_pht <= _GEN_202;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_pre_bht <= 7'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_bht <= io_in_pre_bht;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_bht <= _GEN_203;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_pre_decoder_branchD_flag <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_branchD_flag <= io_in_pre_decoder_branchD_flag;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_branchD_flag <= _GEN_205;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_pre_decoder_jump <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_jump <= io_in_pre_decoder_jump;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_jump <= _GEN_206;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_pre_decoder_branchdata <= 6'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_branchdata <= io_in_pre_decoder_branchdata;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_branchdata <= _GEN_207;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_pre_decoder_jr <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_jr <= io_in_pre_decoder_jr;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_pre_decoder_jr <= _GEN_208;
+      end
+    end
+    if (reset) begin // @[ports_lookup_table.scala 105:22]
+      btb_7_true_branch_state <= 1'h0; // @[ports_lookup_table.scala 105:22]
+    end else if (3'h7 == io_aw_addr) begin // @[ports_lookup_table.scala 107:21]
+      if (io_write) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_true_branch_state <= io_in_true_branch_state;
+      end else if (!(3'h7 == io_aw_addr)) begin // @[ports_lookup_table.scala 107:27]
+        btb_7_true_branch_state <= _GEN_209;
       end
     end
   end
@@ -7252,6 +8027,110 @@ initial begin
   btb_3_pre_decoder_jr = _RAND_50[0:0];
   _RAND_51 = {1{`RANDOM}};
   btb_3_true_branch_state = _RAND_51[0:0];
+  _RAND_52 = {1{`RANDOM}};
+  btb_4_pc = _RAND_52[31:0];
+  _RAND_53 = {1{`RANDOM}};
+  btb_4_inst = _RAND_53[31:0];
+  _RAND_54 = {1{`RANDOM}};
+  btb_4_exception_type = _RAND_54[1:0];
+  _RAND_55 = {1{`RANDOM}};
+  btb_4_pre_pc_target = _RAND_55[31:0];
+  _RAND_56 = {1{`RANDOM}};
+  btb_4_pre_lookup_data = _RAND_56[6:0];
+  _RAND_57 = {1{`RANDOM}};
+  btb_4_pre_hashcode = _RAND_57[3:0];
+  _RAND_58 = {1{`RANDOM}};
+  btb_4_pre_pht = _RAND_58[1:0];
+  _RAND_59 = {1{`RANDOM}};
+  btb_4_pre_bht = _RAND_59[6:0];
+  _RAND_60 = {1{`RANDOM}};
+  btb_4_pre_decoder_branchD_flag = _RAND_60[0:0];
+  _RAND_61 = {1{`RANDOM}};
+  btb_4_pre_decoder_jump = _RAND_61[0:0];
+  _RAND_62 = {1{`RANDOM}};
+  btb_4_pre_decoder_branchdata = _RAND_62[5:0];
+  _RAND_63 = {1{`RANDOM}};
+  btb_4_pre_decoder_jr = _RAND_63[0:0];
+  _RAND_64 = {1{`RANDOM}};
+  btb_4_true_branch_state = _RAND_64[0:0];
+  _RAND_65 = {1{`RANDOM}};
+  btb_5_pc = _RAND_65[31:0];
+  _RAND_66 = {1{`RANDOM}};
+  btb_5_inst = _RAND_66[31:0];
+  _RAND_67 = {1{`RANDOM}};
+  btb_5_exception_type = _RAND_67[1:0];
+  _RAND_68 = {1{`RANDOM}};
+  btb_5_pre_pc_target = _RAND_68[31:0];
+  _RAND_69 = {1{`RANDOM}};
+  btb_5_pre_lookup_data = _RAND_69[6:0];
+  _RAND_70 = {1{`RANDOM}};
+  btb_5_pre_hashcode = _RAND_70[3:0];
+  _RAND_71 = {1{`RANDOM}};
+  btb_5_pre_pht = _RAND_71[1:0];
+  _RAND_72 = {1{`RANDOM}};
+  btb_5_pre_bht = _RAND_72[6:0];
+  _RAND_73 = {1{`RANDOM}};
+  btb_5_pre_decoder_branchD_flag = _RAND_73[0:0];
+  _RAND_74 = {1{`RANDOM}};
+  btb_5_pre_decoder_jump = _RAND_74[0:0];
+  _RAND_75 = {1{`RANDOM}};
+  btb_5_pre_decoder_branchdata = _RAND_75[5:0];
+  _RAND_76 = {1{`RANDOM}};
+  btb_5_pre_decoder_jr = _RAND_76[0:0];
+  _RAND_77 = {1{`RANDOM}};
+  btb_5_true_branch_state = _RAND_77[0:0];
+  _RAND_78 = {1{`RANDOM}};
+  btb_6_pc = _RAND_78[31:0];
+  _RAND_79 = {1{`RANDOM}};
+  btb_6_inst = _RAND_79[31:0];
+  _RAND_80 = {1{`RANDOM}};
+  btb_6_exception_type = _RAND_80[1:0];
+  _RAND_81 = {1{`RANDOM}};
+  btb_6_pre_pc_target = _RAND_81[31:0];
+  _RAND_82 = {1{`RANDOM}};
+  btb_6_pre_lookup_data = _RAND_82[6:0];
+  _RAND_83 = {1{`RANDOM}};
+  btb_6_pre_hashcode = _RAND_83[3:0];
+  _RAND_84 = {1{`RANDOM}};
+  btb_6_pre_pht = _RAND_84[1:0];
+  _RAND_85 = {1{`RANDOM}};
+  btb_6_pre_bht = _RAND_85[6:0];
+  _RAND_86 = {1{`RANDOM}};
+  btb_6_pre_decoder_branchD_flag = _RAND_86[0:0];
+  _RAND_87 = {1{`RANDOM}};
+  btb_6_pre_decoder_jump = _RAND_87[0:0];
+  _RAND_88 = {1{`RANDOM}};
+  btb_6_pre_decoder_branchdata = _RAND_88[5:0];
+  _RAND_89 = {1{`RANDOM}};
+  btb_6_pre_decoder_jr = _RAND_89[0:0];
+  _RAND_90 = {1{`RANDOM}};
+  btb_6_true_branch_state = _RAND_90[0:0];
+  _RAND_91 = {1{`RANDOM}};
+  btb_7_pc = _RAND_91[31:0];
+  _RAND_92 = {1{`RANDOM}};
+  btb_7_inst = _RAND_92[31:0];
+  _RAND_93 = {1{`RANDOM}};
+  btb_7_exception_type = _RAND_93[1:0];
+  _RAND_94 = {1{`RANDOM}};
+  btb_7_pre_pc_target = _RAND_94[31:0];
+  _RAND_95 = {1{`RANDOM}};
+  btb_7_pre_lookup_data = _RAND_95[6:0];
+  _RAND_96 = {1{`RANDOM}};
+  btb_7_pre_hashcode = _RAND_96[3:0];
+  _RAND_97 = {1{`RANDOM}};
+  btb_7_pre_pht = _RAND_97[1:0];
+  _RAND_98 = {1{`RANDOM}};
+  btb_7_pre_bht = _RAND_98[6:0];
+  _RAND_99 = {1{`RANDOM}};
+  btb_7_pre_decoder_branchD_flag = _RAND_99[0:0];
+  _RAND_100 = {1{`RANDOM}};
+  btb_7_pre_decoder_jump = _RAND_100[0:0];
+  _RAND_101 = {1{`RANDOM}};
+  btb_7_pre_decoder_branchdata = _RAND_101[5:0];
+  _RAND_102 = {1{`RANDOM}};
+  btb_7_pre_decoder_jr = _RAND_102[0:0];
+  _RAND_103 = {1{`RANDOM}};
+  btb_7_true_branch_state = _RAND_103[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
@@ -7301,8 +8180,8 @@ module fifo_with_bundle(
 `endif // RANDOMIZE_REG_INIT
   wire  Look_up_table_read_first_with_bundle_clock; // @[fifo.scala 118:55]
   wire  Look_up_table_read_first_with_bundle_reset; // @[fifo.scala 118:55]
-  wire [1:0] Look_up_table_read_first_with_bundle_io_ar_addr; // @[fifo.scala 118:55]
-  wire [1:0] Look_up_table_read_first_with_bundle_io_aw_addr; // @[fifo.scala 118:55]
+  wire [2:0] Look_up_table_read_first_with_bundle_io_ar_addr; // @[fifo.scala 118:55]
+  wire [2:0] Look_up_table_read_first_with_bundle_io_aw_addr; // @[fifo.scala 118:55]
   wire  Look_up_table_read_first_with_bundle_io_write; // @[fifo.scala 118:55]
   wire [31:0] Look_up_table_read_first_with_bundle_io_in_pc; // @[fifo.scala 118:55]
   wire [31:0] Look_up_table_read_first_with_bundle_io_in_inst; // @[fifo.scala 118:55]
@@ -7329,17 +8208,17 @@ module fifo_with_bundle(
   wire [5:0] Look_up_table_read_first_with_bundle_io_out_pre_decoder_branchdata; // @[fifo.scala 118:55]
   wire  Look_up_table_read_first_with_bundle_io_out_pre_decoder_jr; // @[fifo.scala 118:55]
   wire  Look_up_table_read_first_with_bundle_io_out_true_branch_state; // @[fifo.scala 118:55]
-  reg [1:0] write_length_points; // @[fifo.scala 121:38]
-  reg [1:0] read_length_points; // @[fifo.scala 123:37]
+  reg [2:0] write_length_points; // @[fifo.scala 121:38]
+  reg [2:0] read_length_points; // @[fifo.scala 123:37]
   wire [1:0] _GEN_0 = {{1'd0}, io_write_en}; // @[Mux.scala 81:61]
   wire  _write_length_points_T = io_point_flush | io_point_write_en; // @[fifo.scala 147:47]
   wire [2:0] _write_length_points_T_2 = {{1'd0}, _GEN_0}; // @[fifo.scala 147:134]
-  wire [1:0] _GEN_3 = {{1'd0}, _write_length_points_T_2[0]}; // @[fifo.scala 147:93]
-  wire [1:0] _write_length_points_T_7 = write_length_points + _GEN_3; // @[fifo.scala 147:93]
+  wire [2:0] _GEN_3 = {{2'd0}, _write_length_points_T_2[0]}; // @[fifo.scala 147:93]
+  wire [2:0] _write_length_points_T_7 = write_length_points + _GEN_3; // @[fifo.scala 147:93]
   wire [1:0] _GEN_4 = {{1'd0}, io_read_en}; // @[fifo.scala 149:131]
   wire [2:0] _read_length_points_T_2 = {{1'd0}, _GEN_4}; // @[fifo.scala 149:131]
-  wire [1:0] _GEN_5 = {{1'd0}, _read_length_points_T_2[0]}; // @[fifo.scala 149:92]
-  wire [1:0] _read_length_points_T_7 = read_length_points + _GEN_5; // @[fifo.scala 149:92]
+  wire [2:0] _GEN_5 = {{2'd0}, _read_length_points_T_2[0]}; // @[fifo.scala 149:92]
+  wire [2:0] _read_length_points_T_7 = read_length_points + _GEN_5; // @[fifo.scala 149:92]
   wire [31:0] fifo_banks_0_out_pc = Look_up_table_read_first_with_bundle_io_out_pc; // @[fifo.scala 118:{29,29}]
   wire [31:0] fifo_banks_0_out_inst = Look_up_table_read_first_with_bundle_io_out_inst; // @[fifo.scala 118:{29,29}]
   wire [1:0] fifo_banks_0_out_exception_type = Look_up_table_read_first_with_bundle_io_out_exception_type; // @[fifo.scala 118:{29,29}]
@@ -7355,7 +8234,7 @@ module fifo_with_bundle(
     Look_up_table_read_first_with_bundle_io_out_pre_decoder_branchdata; // @[fifo.scala 118:{29,29}]
   wire  fifo_banks_0_out_pre_decoder_jr = Look_up_table_read_first_with_bundle_io_out_pre_decoder_jr; // @[fifo.scala 118:{29,29}]
   wire  fifo_banks_0_out_true_branch_state = Look_up_table_read_first_with_bundle_io_out_true_branch_state; // @[fifo.scala 118:{29,29}]
-  wire [1:0] _io_full_T_1 = write_length_points + 2'h1; // @[fifo.scala 160:37]
+  wire [2:0] _io_full_T_1 = write_length_points + 3'h1; // @[fifo.scala 160:37]
   Look_up_table_read_first_with_bundle Look_up_table_read_first_with_bundle ( // @[fifo.scala 118:55]
     .clock(Look_up_table_read_first_with_bundle_clock),
     .reset(Look_up_table_read_first_with_bundle_reset),
@@ -7422,16 +8301,16 @@ module fifo_with_bundle(
   assign Look_up_table_read_first_with_bundle_io_in_true_branch_state = io_write_in_0_true_branch_state; // @[fifo.scala 118:29 129:38]
   always @(posedge clock) begin
     if (reset) begin // @[fifo.scala 121:38]
-      write_length_points <= 2'h0; // @[fifo.scala 121:38]
+      write_length_points <= 3'h0; // @[fifo.scala 121:38]
     end else if (io_point_flush | io_point_write_en) begin // @[fifo.scala 147:31]
-      write_length_points <= 2'h0;
+      write_length_points <= 3'h0;
     end else begin
       write_length_points <= _write_length_points_T_7;
     end
     if (reset) begin // @[fifo.scala 123:37]
-      read_length_points <= 2'h0; // @[fifo.scala 123:37]
+      read_length_points <= 3'h0; // @[fifo.scala 123:37]
     end else if (_write_length_points_T) begin // @[fifo.scala 149:30]
-      read_length_points <= 2'h0;
+      read_length_points <= 3'h0;
     end else begin
       read_length_points <= _read_length_points_T_7;
     end
@@ -7473,9 +8352,9 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  write_length_points = _RAND_0[1:0];
+  write_length_points = _RAND_0[2:0];
   _RAND_1 = {1{`RANDOM}};
-  read_length_points = _RAND_1[1:0];
+  read_length_points = _RAND_1[2:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
@@ -10091,7 +10970,6 @@ module lys_cpu(
   input         clock,
   input         reset,
   input         ext_int_timer,
-  input         ext_int_out_int,
   output        inst_cache,
   output        inst_sram_en,
   output [63:0] inst_sram_addr,
@@ -10147,17 +11025,13 @@ module lys_cpu(
   reg [31:0] _RAND_28;
   reg [31:0] _RAND_29;
   reg [31:0] _RAND_30;
-  reg [31:0] _RAND_31;
+  reg [63:0] _RAND_31;
   reg [31:0] _RAND_32;
-  reg [31:0] _RAND_33;
+  reg [63:0] _RAND_33;
   reg [31:0] _RAND_34;
-  reg [63:0] _RAND_35;
+  reg [31:0] _RAND_35;
   reg [31:0] _RAND_36;
   reg [63:0] _RAND_37;
-  reg [31:0] _RAND_38;
-  reg [31:0] _RAND_39;
-  reg [31:0] _RAND_40;
-  reg [63:0] _RAND_41;
 `endif // RANDOMIZE_REG_INIT
   wire [15:0] _alu_io_ctrl; // @[myCPU.scala 119:22]
   wire [63:0] _alu_io_in1; // @[myCPU.scala 119:22]
@@ -10228,11 +11102,9 @@ module lys_cpu(
   wire [63:0] _csr_io_csr_read_data; // @[myCPU.scala 122:22]
   wire  _csr_io_icache_tags_flush; // @[myCPU.scala 122:22]
   wire  _csr_io_int_type_timer; // @[myCPU.scala 122:22]
-  wire  _csr_io_int_type_out_int; // @[myCPU.scala 122:22]
   wire [63:0] _csr_io_stageW_pc; // @[myCPU.scala 122:22]
   wire  _csr_io_Int_able; // @[myCPU.scala 122:22]
   wire  _csr_io_int_type_able_timer; // @[myCPU.scala 122:22]
-  wire  _csr_io_int_type_able_out_int; // @[myCPU.scala 122:22]
   wire [31:0] _cu_io1_InstrD; // @[myCPU.scala 123:22]
   wire  _cu_io1_BadInstrD; // @[myCPU.scala 123:22]
   wire  _cu_io1_SysCallD; // @[myCPU.scala 123:22]
@@ -10757,13 +11629,9 @@ module lys_cpu(
   wire [24:0] _GEN_14 = {{4'd0}, _ExceptionTypeD_Out_T_9}; // @[Mux.scala 27:73]
   wire [24:0] _ExceptionTypeD_Out_T_10 = _GEN_14 | _ExceptionTypeD_Out_T_7; // @[Mux.scala 27:73]
   reg  int_instanceE_timer; // @[myCPU.scala 763:33]
-  reg  int_instanceE_out_int; // @[myCPU.scala 763:33]
   reg  int_instanceM_timer; // @[myCPU.scala 764:33]
-  reg  int_instanceM_out_int; // @[myCPU.scala 764:33]
   reg  int_instanceM2_timer; // @[myCPU.scala 765:33]
-  reg  int_instanceM2_out_int; // @[myCPU.scala 765:33]
   reg  int_instanceW_timer; // @[myCPU.scala 766:33]
-  reg  int_instanceW_out_int; // @[myCPU.scala 766:33]
   wire [2:0] _CalCsrDataE_T = _id2ex_io_csr_controlE; // @[myCPU.scala 943:31]
   wire [63:0] _Forward_csr_data_T_1 = 2'h1 == _cfu_io_ForwardcsrE ? _ex2mem_io_WriteDataM : _csr_io_csr_read_data; // @[Mux.scala 81:58]
   wire [63:0] Forward_csr_data = 2'h2 == _cfu_io_ForwardcsrE ? _mem2mem2_io_WriteDataM : _Forward_csr_data_T_1; // @[Mux.scala 81:58]
@@ -10798,12 +11666,8 @@ module lys_cpu(
   wire  _ext_int_with_enable_timer_T = ext_int_timer & _csr_io_int_type_able_timer; // @[myCPU.scala 776:48]
   wire  _ext_int_with_enable_timer_T_2 = ~int_disable; // @[myCPU.scala 776:102]
   wire  ext_int_with_enable_timer = ext_int_timer & _csr_io_int_type_able_timer & _csr_io_Int_able & ~int_disable; // @[myCPU.scala 776:99]
-  wire  _ext_int_with_enable_out_int_T = ext_int_out_int & _csr_io_int_type_able_out_int; // @[myCPU.scala 777:52]
-  wire  ext_int_with_enable_out_int = ext_int_out_int & _csr_io_int_type_able_out_int & _csr_io_Int_able &
-    _ext_int_with_enable_timer_T_2; // @[myCPU.scala 777:105]
-  wire  __id2ex_io_ExceptionTypeD_T_2 = _ext_int_with_enable_timer_T | _ext_int_with_enable_out_int_T; // @[myCPU.scala 788:86]
-  wire  __id2ex_io_ExceptionTypeD_T_6 = __id2ex_io_ExceptionTypeD_T_2 & _csr_io_Int_able &
-    _ext_int_with_enable_timer_T_2; // @[myCPU.scala 789:88]
+  wire  __id2ex_io_ExceptionTypeD_T_6 = _ext_int_with_enable_timer_T & _csr_io_Int_able & _ext_int_with_enable_timer_T_2
+    ; // @[myCPU.scala 789:88]
   wire [31:0] ExceptionTypeD_Out = {{7'd0}, _ExceptionTypeD_Out_T_10}; // @[myCPU.scala 191:34 753:24]
   wire [10:0] __id2ex_io_ExceptionTypeD_T_9 = __if2id_io_InstrF_T ? 11'h400 : 11'h0; // @[myCPU.scala 790:13]
   wire [8:0] __id2ex_io_ExceptionTypeD_T_11 = __if2id_io_InstrF_T_1 ? 9'h100 : 9'h0; // @[myCPU.scala 791:13]
@@ -10929,11 +11793,9 @@ module lys_cpu(
     .io_csr_read_data(_csr_io_csr_read_data),
     .io_icache_tags_flush(_csr_io_icache_tags_flush),
     .io_int_type_timer(_csr_io_int_type_timer),
-    .io_int_type_out_int(_csr_io_int_type_out_int),
     .io_stageW_pc(_csr_io_stageW_pc),
     .io_Int_able(_csr_io_Int_able),
-    .io_int_type_able_timer(_csr_io_int_type_able_timer),
-    .io_int_type_able_out_int(_csr_io_int_type_able_out_int)
+    .io_int_type_able_timer(_csr_io_int_type_able_timer)
   );
   cu _cu ( // @[myCPU.scala 123:22]
     .io1_InstrD(_cu_io1_InstrD),
@@ -11415,7 +12277,6 @@ module lys_cpu(
   assign _csr_io_pc = _PCW_Reg_T ? _mem22wb_io_PCW : PCW_Reg; // @[myCPU.scala 1199:25]
   assign _csr_io_exception_type_i = _mem22wb_io_ExceptionTypeW_Out; // @[myCPU.scala 1202:30]
   assign _csr_io_int_type_timer = int_instanceW_timer; // @[myCPU.scala 1198:22]
-  assign _csr_io_int_type_out_int = int_instanceW_out_int; // @[myCPU.scala 1198:22]
   assign _csr_io_stageW_pc = _mem22wb_io_PCW; // @[myCPU.scala 1212:30]
   assign _cu_io1_InstrD = _if2id_io_InstrD; // @[myCPU.scala 748:20]
   assign _dmem_io_data_ok = data_stage2_stall; // @[myCPU.scala 274:25]
@@ -11824,26 +12685,12 @@ module lys_cpu(
     end else if (_commit_cache_reg_T) begin // @[myCPU.scala 779:82]
       int_instanceE_timer <= ext_int_with_enable_timer;
     end
-    if (reset) begin // @[myCPU.scala 763:33]
-      int_instanceE_out_int <= 1'h0; // @[myCPU.scala 763:33]
-    end else if (_ex_exception_T) begin // @[myCPU.scala 779:25]
-      int_instanceE_out_int <= 1'h0;
-    end else if (_commit_cache_reg_T) begin // @[myCPU.scala 779:82]
-      int_instanceE_out_int <= ext_int_with_enable_out_int;
-    end
     if (reset) begin // @[myCPU.scala 764:33]
       int_instanceM_timer <= 1'h0; // @[myCPU.scala 764:33]
     end else if (_mem_exception_T) begin // @[myCPU.scala 780:25]
       int_instanceM_timer <= 1'h0;
     end else if (_mem_exception_T_1) begin // @[myCPU.scala 780:82]
       int_instanceM_timer <= int_instanceE_timer;
-    end
-    if (reset) begin // @[myCPU.scala 764:33]
-      int_instanceM_out_int <= 1'h0; // @[myCPU.scala 764:33]
-    end else if (_mem_exception_T) begin // @[myCPU.scala 780:25]
-      int_instanceM_out_int <= 1'h0;
-    end else if (_mem_exception_T_1) begin // @[myCPU.scala 780:82]
-      int_instanceM_out_int <= int_instanceE_out_int;
     end
     if (reset) begin // @[myCPU.scala 765:33]
       int_instanceM2_timer <= 1'h0; // @[myCPU.scala 765:33]
@@ -11852,26 +12699,12 @@ module lys_cpu(
     end else if (_mem2_exception_T_1) begin // @[myCPU.scala 781:82]
       int_instanceM2_timer <= int_instanceM_timer;
     end
-    if (reset) begin // @[myCPU.scala 765:33]
-      int_instanceM2_out_int <= 1'h0; // @[myCPU.scala 765:33]
-    end else if (_mem2_exception_T) begin // @[myCPU.scala 781:26]
-      int_instanceM2_out_int <= 1'h0;
-    end else if (_mem2_exception_T_1) begin // @[myCPU.scala 781:82]
-      int_instanceM2_out_int <= int_instanceM_out_int;
-    end
     if (reset) begin // @[myCPU.scala 766:33]
       int_instanceW_timer <= 1'h0; // @[myCPU.scala 766:33]
     end else if (_wb_exception_T) begin // @[myCPU.scala 782:25]
       int_instanceW_timer <= 1'h0;
     end else if (_wb_exception_T_1) begin // @[myCPU.scala 782:82]
       int_instanceW_timer <= int_instanceM2_timer;
-    end
-    if (reset) begin // @[myCPU.scala 766:33]
-      int_instanceW_out_int <= 1'h0; // @[myCPU.scala 766:33]
-    end else if (_wb_exception_T) begin // @[myCPU.scala 782:25]
-      int_instanceW_out_int <= 1'h0;
-    end else if (_wb_exception_T_1) begin // @[myCPU.scala 782:82]
-      int_instanceW_out_int <= int_instanceM2_out_int;
     end
     if (reset) begin // @[myCPU.scala 830:34]
       Forward_Lock1E <= 1'h0; // @[myCPU.scala 830:34]
@@ -12027,35 +12860,27 @@ initial begin
   _RAND_26 = {1{`RANDOM}};
   int_instanceE_timer = _RAND_26[0:0];
   _RAND_27 = {1{`RANDOM}};
-  int_instanceE_out_int = _RAND_27[0:0];
+  int_instanceM_timer = _RAND_27[0:0];
   _RAND_28 = {1{`RANDOM}};
-  int_instanceM_timer = _RAND_28[0:0];
+  int_instanceM2_timer = _RAND_28[0:0];
   _RAND_29 = {1{`RANDOM}};
-  int_instanceM_out_int = _RAND_29[0:0];
+  int_instanceW_timer = _RAND_29[0:0];
   _RAND_30 = {1{`RANDOM}};
-  int_instanceM2_timer = _RAND_30[0:0];
-  _RAND_31 = {1{`RANDOM}};
-  int_instanceM2_out_int = _RAND_31[0:0];
+  Forward_Lock1E = _RAND_30[0:0];
+  _RAND_31 = {2{`RANDOM}};
+  RD1ForWardE_r = _RAND_31[63:0];
   _RAND_32 = {1{`RANDOM}};
-  int_instanceW_timer = _RAND_32[0:0];
-  _RAND_33 = {1{`RANDOM}};
-  int_instanceW_out_int = _RAND_33[0:0];
+  inst_tlb_exceptionM = _RAND_32[0:0];
+  _RAND_33 = {2{`RANDOM}};
+  RD2ForWardE_r = _RAND_33[63:0];
   _RAND_34 = {1{`RANDOM}};
-  Forward_Lock1E = _RAND_34[0:0];
-  _RAND_35 = {2{`RANDOM}};
-  RD1ForWardE_r = _RAND_35[63:0];
+  Forward_Lock2E = _RAND_34[0:0];
+  _RAND_35 = {1{`RANDOM}};
+  tlb_exception_csr_writeM2 = _RAND_35[0:0];
   _RAND_36 = {1{`RANDOM}};
-  inst_tlb_exceptionM = _RAND_36[0:0];
+  tlb_exception_co0_writeW = _RAND_36[0:0];
   _RAND_37 = {2{`RANDOM}};
-  RD2ForWardE_r = _RAND_37[63:0];
-  _RAND_38 = {1{`RANDOM}};
-  Forward_Lock2E = _RAND_38[0:0];
-  _RAND_39 = {1{`RANDOM}};
-  tlb_exception_csr_writeM2 = _RAND_39[0:0];
-  _RAND_40 = {1{`RANDOM}};
-  tlb_exception_co0_writeW = _RAND_40[0:0];
-  _RAND_41 = {2{`RANDOM}};
-  pcw_reg = _RAND_41[63:0];
+  pcw_reg = _RAND_37[63:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
@@ -25614,6 +26439,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module axi_converter(
+  input         clock,
+  input         reset,
   input  [3:0]  io_master_arid,
   input  [31:0] io_master_araddr,
   input  [7:0]  io_master_arlen,
@@ -25665,8 +26492,17 @@ module axi_converter(
   input         io_slave_bvalid,
   output        io_slave_bready
 );
+`ifdef RANDOMIZE_REG_INIT
+  reg [31:0] _RAND_0;
+`endif // RANDOMIZE_REG_INIT
+  reg [31:0] raddr_reg; // @[axi_ram_port.scala 414:32]
+  wire [63:0] _GEN_0 = io_master_awaddr[2] ? {{32'd0}, io_master_wdata[63:32]} : io_master_wdata; // @[axi_ram_port.scala 416:50 417:32 420:32]
+  wire [7:0] _GEN_1 = io_master_awaddr[2] ? {{4'd0}, io_master_wstrb[7:4]} : io_master_wstrb; // @[axi_ram_port.scala 416:50 418:32 421:32]
+  wire [63:0] _io_master_rdata_T = {32'h0,io_slave_rdata}; // @[Cat.scala 31:58]
+  wire [95:0] _io_master_rdata_T_1 = {_io_master_rdata_T, 32'h0}; // @[axi_ram_port.scala 424:66]
+  wire [95:0] _GEN_2 = raddr_reg[2] ? _io_master_rdata_T_1 : {{64'd0}, io_slave_rdata}; // @[axi_ram_port.scala 423:43 424:33 426:33]
   assign io_master_arready = io_slave_arready; // @[axi_ram_port.scala 413:19]
-  assign io_master_rdata = {{32'd0}, io_slave_rdata}; // @[axi_ram_port.scala 413:19]
+  assign io_master_rdata = _GEN_2[63:0];
   assign io_master_rlast = io_slave_rlast; // @[axi_ram_port.scala 413:19]
   assign io_master_rvalid = io_slave_rvalid; // @[axi_ram_port.scala 413:19]
   assign io_master_awready = io_slave_awready; // @[axi_ram_port.scala 413:19]
@@ -25685,11 +26521,63 @@ module axi_converter(
   assign io_slave_awsize = io_master_awsize; // @[axi_ram_port.scala 413:19]
   assign io_slave_awburst = io_master_awburst; // @[axi_ram_port.scala 413:19]
   assign io_slave_awvalid = io_master_awvalid; // @[axi_ram_port.scala 413:19]
-  assign io_slave_wdata = io_master_wdata[31:0]; // @[axi_ram_port.scala 413:19]
-  assign io_slave_wstrb = io_master_wstrb[3:0]; // @[axi_ram_port.scala 413:19]
+  assign io_slave_wdata = _GEN_0[31:0];
+  assign io_slave_wstrb = _GEN_1[3:0];
   assign io_slave_wlast = io_master_wlast; // @[axi_ram_port.scala 413:19]
   assign io_slave_wvalid = io_master_wvalid; // @[axi_ram_port.scala 413:19]
   assign io_slave_bready = io_master_bready; // @[axi_ram_port.scala 413:19]
+  always @(posedge clock) begin
+    if (reset) begin // @[axi_ram_port.scala 414:32]
+      raddr_reg <= 32'h0; // @[axi_ram_port.scala 414:32]
+    end else if (io_master_arvalid & io_master_arready) begin // @[axi_ram_port.scala 415:25]
+      raddr_reg <= io_master_araddr;
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {1{`RANDOM}};
+  raddr_reg = _RAND_0[31:0];
+`endif // RANDOMIZE_REG_INIT
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
 endmodule
 module plic_periph(
   input         clock,
@@ -26018,7 +26906,6 @@ endmodule
 module mycpu_top(
   input   clock,
   input   reset,
-  input   io_interrupt,
   input   can_rx,
   output  can_tx,
   output  spi_flash_cs,
@@ -26034,630 +26921,466 @@ module mycpu_top(
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
 `endif // RANDOMIZE_REG_INIT
-  wire  pll_instance_clk_in1; // @[my_cpu_top.scala 136:34]
-  wire  pll_instance_clk_out1; // @[my_cpu_top.scala 136:34]
-  wire  pll_instance_clk_out2; // @[my_cpu_top.scala 136:34]
-  wire [3:0] can_axi_clock_converter_m_axi_arid; // @[my_cpu_top.scala 140:45]
-  wire [31:0] can_axi_clock_converter_m_axi_araddr; // @[my_cpu_top.scala 140:45]
-  wire [7:0] can_axi_clock_converter_m_axi_arlen; // @[my_cpu_top.scala 140:45]
-  wire [2:0] can_axi_clock_converter_m_axi_arsize; // @[my_cpu_top.scala 140:45]
-  wire [1:0] can_axi_clock_converter_m_axi_arburst; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_arvalid; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_arready; // @[my_cpu_top.scala 140:45]
-  wire [3:0] can_axi_clock_converter_m_axi_rid; // @[my_cpu_top.scala 140:45]
-  wire [31:0] can_axi_clock_converter_m_axi_rdata; // @[my_cpu_top.scala 140:45]
-  wire [1:0] can_axi_clock_converter_m_axi_rresp; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_rlast; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_rvalid; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_rready; // @[my_cpu_top.scala 140:45]
-  wire [3:0] can_axi_clock_converter_m_axi_awid; // @[my_cpu_top.scala 140:45]
-  wire [31:0] can_axi_clock_converter_m_axi_awaddr; // @[my_cpu_top.scala 140:45]
-  wire [7:0] can_axi_clock_converter_m_axi_awlen; // @[my_cpu_top.scala 140:45]
-  wire [2:0] can_axi_clock_converter_m_axi_awsize; // @[my_cpu_top.scala 140:45]
-  wire [1:0] can_axi_clock_converter_m_axi_awburst; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_awvalid; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_awready; // @[my_cpu_top.scala 140:45]
-  wire [31:0] can_axi_clock_converter_m_axi_wdata; // @[my_cpu_top.scala 140:45]
-  wire [3:0] can_axi_clock_converter_m_axi_wstrb; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_wlast; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_wvalid; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_wready; // @[my_cpu_top.scala 140:45]
-  wire [3:0] can_axi_clock_converter_m_axi_bid; // @[my_cpu_top.scala 140:45]
-  wire [1:0] can_axi_clock_converter_m_axi_bresp; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_bvalid; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_bready; // @[my_cpu_top.scala 140:45]
-  wire [3:0] can_axi_clock_converter_s_axi_arid; // @[my_cpu_top.scala 140:45]
-  wire [31:0] can_axi_clock_converter_s_axi_araddr; // @[my_cpu_top.scala 140:45]
-  wire [7:0] can_axi_clock_converter_s_axi_arlen; // @[my_cpu_top.scala 140:45]
-  wire [2:0] can_axi_clock_converter_s_axi_arsize; // @[my_cpu_top.scala 140:45]
-  wire [1:0] can_axi_clock_converter_s_axi_arburst; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_arvalid; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_arready; // @[my_cpu_top.scala 140:45]
-  wire [3:0] can_axi_clock_converter_s_axi_rid; // @[my_cpu_top.scala 140:45]
-  wire [31:0] can_axi_clock_converter_s_axi_rdata; // @[my_cpu_top.scala 140:45]
-  wire [1:0] can_axi_clock_converter_s_axi_rresp; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_rlast; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_rvalid; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_rready; // @[my_cpu_top.scala 140:45]
-  wire [3:0] can_axi_clock_converter_s_axi_awid; // @[my_cpu_top.scala 140:45]
-  wire [31:0] can_axi_clock_converter_s_axi_awaddr; // @[my_cpu_top.scala 140:45]
-  wire [7:0] can_axi_clock_converter_s_axi_awlen; // @[my_cpu_top.scala 140:45]
-  wire [2:0] can_axi_clock_converter_s_axi_awsize; // @[my_cpu_top.scala 140:45]
-  wire [1:0] can_axi_clock_converter_s_axi_awburst; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_awvalid; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_awready; // @[my_cpu_top.scala 140:45]
-  wire [31:0] can_axi_clock_converter_s_axi_wdata; // @[my_cpu_top.scala 140:45]
-  wire [3:0] can_axi_clock_converter_s_axi_wstrb; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_wlast; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_wvalid; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_wready; // @[my_cpu_top.scala 140:45]
-  wire [3:0] can_axi_clock_converter_s_axi_bid; // @[my_cpu_top.scala 140:45]
-  wire [1:0] can_axi_clock_converter_s_axi_bresp; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_bvalid; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_bready; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_aclk; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_s_axi_aresetn; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_aclk; // @[my_cpu_top.scala 140:45]
-  wire  can_axi_clock_converter_m_axi_aresetn; // @[my_cpu_top.scala 140:45]
-  wire [3:0] axi_can_32_axi_port_arid; // @[my_cpu_top.scala 154:29]
-  wire [31:0] axi_can_32_axi_port_araddr; // @[my_cpu_top.scala 154:29]
-  wire [7:0] axi_can_32_axi_port_arlen; // @[my_cpu_top.scala 154:29]
-  wire [2:0] axi_can_32_axi_port_arsize; // @[my_cpu_top.scala 154:29]
-  wire [1:0] axi_can_32_axi_port_arburst; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_arvalid; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_arready; // @[my_cpu_top.scala 154:29]
-  wire [3:0] axi_can_32_axi_port_rid; // @[my_cpu_top.scala 154:29]
-  wire [31:0] axi_can_32_axi_port_rdata; // @[my_cpu_top.scala 154:29]
-  wire [1:0] axi_can_32_axi_port_rresp; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_rlast; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_rvalid; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_rready; // @[my_cpu_top.scala 154:29]
-  wire [3:0] axi_can_32_axi_port_awid; // @[my_cpu_top.scala 154:29]
-  wire [31:0] axi_can_32_axi_port_awaddr; // @[my_cpu_top.scala 154:29]
-  wire [7:0] axi_can_32_axi_port_awlen; // @[my_cpu_top.scala 154:29]
-  wire [2:0] axi_can_32_axi_port_awsize; // @[my_cpu_top.scala 154:29]
-  wire [1:0] axi_can_32_axi_port_awburst; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_awvalid; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_awready; // @[my_cpu_top.scala 154:29]
-  wire [31:0] axi_can_32_axi_port_wdata; // @[my_cpu_top.scala 154:29]
-  wire [3:0] axi_can_32_axi_port_wstrb; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_wlast; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_wvalid; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_wready; // @[my_cpu_top.scala 154:29]
-  wire [3:0] axi_can_32_axi_port_bid; // @[my_cpu_top.scala 154:29]
-  wire [1:0] axi_can_32_axi_port_bresp; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_bvalid; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_axi_port_bready; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_can_intr; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_can_tx; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_can_rx; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_clk; // @[my_cpu_top.scala 154:29]
-  wire  axi_can_32_rst_n; // @[my_cpu_top.scala 154:29]
-  wire  u_riscv_cpu_clock; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_reset; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_ext_int_timer; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_ext_int_out_int; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_inst_sram_en; // @[my_cpu_top.scala 172:29]
-  wire [63:0] u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 172:29]
-  wire [39:0] u_riscv_cpu_inst_sram_rdata_L; // @[my_cpu_top.scala 172:29]
-  wire [1:0] u_riscv_cpu_inst_write_en; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_stage2_flush; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_stage2_stall; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_pre_branch; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_data_sram_en; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_data_sram_wen; // @[my_cpu_top.scala 172:29]
-  wire [1:0] u_riscv_cpu_data_size; // @[my_cpu_top.scala 172:29]
-  wire [31:0] u_riscv_cpu_data_sram_addr; // @[my_cpu_top.scala 172:29]
-  wire [63:0] u_riscv_cpu_data_sram_wdata; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_data_cache; // @[my_cpu_top.scala 172:29]
-  wire [63:0] u_riscv_cpu_data_sram_rdata; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_data_stage2_stall; // @[my_cpu_top.scala 172:29]
-  wire [7:0] u_riscv_cpu_data_wstrb; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_data_fence_i_control; // @[my_cpu_top.scala 172:29]
-  wire  u_riscv_cpu_icache_tag_flush; // @[my_cpu_top.scala 172:29]
-  wire  inst_cache_clock; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_reset; // @[my_cpu_top.scala 173:30]
-  wire [31:0] inst_cache_io_port_araddr; // @[my_cpu_top.scala 173:30]
-  wire [7:0] inst_cache_io_port_arlen; // @[my_cpu_top.scala 173:30]
-  wire [2:0] inst_cache_io_port_arsize; // @[my_cpu_top.scala 173:30]
-  wire [1:0] inst_cache_io_port_arburst; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_port_arvalid; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_port_arready; // @[my_cpu_top.scala 173:30]
-  wire [63:0] inst_cache_io_port_rdata; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_port_rlast; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_port_rvalid; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_stage2_flush; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_stage2_stall; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_stage1_valid_flush; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_inst_ready_to_use; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_inst_buffer_full; // @[my_cpu_top.scala 173:30]
-  wire [63:0] inst_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 173:30]
-  wire [63:0] inst_cache_io_p_addr_for_tlb; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_sram_req; // @[my_cpu_top.scala 173:30]
-  wire [63:0] inst_cache_io_sram_addr; // @[my_cpu_top.scala 173:30]
-  wire [1:0] inst_cache_io_sram_write_en; // @[my_cpu_top.scala 173:30]
-  wire [39:0] inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_sram_cache; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_tag_valid_flush; // @[my_cpu_top.scala 173:30]
-  wire  inst_cache_io_pre_branch; // @[my_cpu_top.scala 173:30]
-  wire  data_cache_clock; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_reset; // @[my_cpu_top.scala 175:30]
-  wire [31:0] data_cache_io_port_araddr; // @[my_cpu_top.scala 175:30]
-  wire [7:0] data_cache_io_port_arlen; // @[my_cpu_top.scala 175:30]
-  wire [2:0] data_cache_io_port_arsize; // @[my_cpu_top.scala 175:30]
-  wire [1:0] data_cache_io_port_arburst; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_port_arvalid; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_port_arready; // @[my_cpu_top.scala 175:30]
-  wire [63:0] data_cache_io_port_rdata; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_port_rlast; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_port_rvalid; // @[my_cpu_top.scala 175:30]
-  wire [31:0] data_cache_io_port_awaddr; // @[my_cpu_top.scala 175:30]
-  wire [7:0] data_cache_io_port_awlen; // @[my_cpu_top.scala 175:30]
-  wire [2:0] data_cache_io_port_awsize; // @[my_cpu_top.scala 175:30]
-  wire [1:0] data_cache_io_port_awburst; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_port_awvalid; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_port_awready; // @[my_cpu_top.scala 175:30]
-  wire [63:0] data_cache_io_port_wdata; // @[my_cpu_top.scala 175:30]
-  wire [7:0] data_cache_io_port_wstrb; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_port_wlast; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_port_wvalid; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_port_wready; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_port_bvalid; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_stage2_stall; // @[my_cpu_top.scala 175:30]
-  wire [31:0] data_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 175:30]
-  wire [31:0] data_cache_io_p_addr_for_tlb; // @[my_cpu_top.scala 175:30]
-  wire [7:0] data_cache_io_data_wstrb; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_sram_req; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_sram_wr; // @[my_cpu_top.scala 175:30]
-  wire [2:0] data_cache_io_sram_size; // @[my_cpu_top.scala 175:30]
-  wire [31:0] data_cache_io_sram_addr; // @[my_cpu_top.scala 175:30]
-  wire [63:0] data_cache_io_sram_wdata; // @[my_cpu_top.scala 175:30]
-  wire [63:0] data_cache_io_sram_rdata; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_sram_cache; // @[my_cpu_top.scala 175:30]
-  wire  data_cache_io_fence_i_control; // @[my_cpu_top.scala 175:30]
-  wire  _axi_cross_bar_clock; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_reset; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_m_port_0_araddr; // @[my_cpu_top.scala 177:32]
-  wire [7:0] _axi_cross_bar_io_m_port_0_arlen; // @[my_cpu_top.scala 177:32]
-  wire [2:0] _axi_cross_bar_io_m_port_0_arsize; // @[my_cpu_top.scala 177:32]
-  wire [1:0] _axi_cross_bar_io_m_port_0_arburst; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_0_arvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_0_arready; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_m_port_0_rdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_0_rlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_0_rvalid; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_m_port_1_araddr; // @[my_cpu_top.scala 177:32]
-  wire [7:0] _axi_cross_bar_io_m_port_1_arlen; // @[my_cpu_top.scala 177:32]
-  wire [2:0] _axi_cross_bar_io_m_port_1_arsize; // @[my_cpu_top.scala 177:32]
-  wire [1:0] _axi_cross_bar_io_m_port_1_arburst; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_1_arvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_1_arready; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_m_port_1_rdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_1_rlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_1_rvalid; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_m_port_1_awaddr; // @[my_cpu_top.scala 177:32]
-  wire [7:0] _axi_cross_bar_io_m_port_1_awlen; // @[my_cpu_top.scala 177:32]
-  wire [2:0] _axi_cross_bar_io_m_port_1_awsize; // @[my_cpu_top.scala 177:32]
-  wire [1:0] _axi_cross_bar_io_m_port_1_awburst; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_1_awvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_1_awready; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_m_port_1_wdata; // @[my_cpu_top.scala 177:32]
-  wire [7:0] _axi_cross_bar_io_m_port_1_wstrb; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_1_wlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_1_wvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_1_wready; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_m_port_1_bvalid; // @[my_cpu_top.scala 177:32]
-  wire [3:0] _axi_cross_bar_io_s_port_0_arid; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_0_araddr; // @[my_cpu_top.scala 177:32]
-  wire [7:0] _axi_cross_bar_io_s_port_0_arlen; // @[my_cpu_top.scala 177:32]
-  wire [2:0] _axi_cross_bar_io_s_port_0_arsize; // @[my_cpu_top.scala 177:32]
-  wire [1:0] _axi_cross_bar_io_s_port_0_arburst; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_arvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_arready; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_0_rdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_rlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_rvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_rready; // @[my_cpu_top.scala 177:32]
-  wire [3:0] _axi_cross_bar_io_s_port_0_awid; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_0_awaddr; // @[my_cpu_top.scala 177:32]
-  wire [7:0] _axi_cross_bar_io_s_port_0_awlen; // @[my_cpu_top.scala 177:32]
-  wire [2:0] _axi_cross_bar_io_s_port_0_awsize; // @[my_cpu_top.scala 177:32]
-  wire [1:0] _axi_cross_bar_io_s_port_0_awburst; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_awvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_awready; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_0_wdata; // @[my_cpu_top.scala 177:32]
-  wire [7:0] _axi_cross_bar_io_s_port_0_wstrb; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_wlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_wvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_wready; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_bvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_0_bready; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_1_araddr; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_1_arvalid; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_1_rdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_1_rlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_1_rvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_1_rready; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_1_awaddr; // @[my_cpu_top.scala 177:32]
-  wire [2:0] _axi_cross_bar_io_s_port_1_awsize; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_1_awvalid; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_1_wdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_1_wvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_1_wready; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_1_bvalid; // @[my_cpu_top.scala 177:32]
-  wire [3:0] _axi_cross_bar_io_s_port_2_arid; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_2_araddr; // @[my_cpu_top.scala 177:32]
-  wire [7:0] _axi_cross_bar_io_s_port_2_arlen; // @[my_cpu_top.scala 177:32]
-  wire [2:0] _axi_cross_bar_io_s_port_2_arsize; // @[my_cpu_top.scala 177:32]
-  wire [1:0] _axi_cross_bar_io_s_port_2_arburst; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_arvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_arready; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_2_rdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_rlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_rvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_rready; // @[my_cpu_top.scala 177:32]
-  wire [3:0] _axi_cross_bar_io_s_port_2_awid; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_2_awaddr; // @[my_cpu_top.scala 177:32]
-  wire [7:0] _axi_cross_bar_io_s_port_2_awlen; // @[my_cpu_top.scala 177:32]
-  wire [2:0] _axi_cross_bar_io_s_port_2_awsize; // @[my_cpu_top.scala 177:32]
-  wire [1:0] _axi_cross_bar_io_s_port_2_awburst; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_awvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_awready; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_2_wdata; // @[my_cpu_top.scala 177:32]
-  wire [7:0] _axi_cross_bar_io_s_port_2_wstrb; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_wlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_wvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_wready; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_bvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_2_bready; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_3_araddr; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_3_arvalid; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_3_rdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_3_rlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_3_rvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_3_rready; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_3_awaddr; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_3_awvalid; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_3_wdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_3_wvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_3_wready; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_3_bvalid; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_4_araddr; // @[my_cpu_top.scala 177:32]
-  wire [2:0] _axi_cross_bar_io_s_port_4_arsize; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_4_arvalid; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_4_rdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_4_rlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_4_rvalid; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_4_awaddr; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_4_awvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_4_awready; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_4_wdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_4_wvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_4_wready; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_4_bvalid; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_5_araddr; // @[my_cpu_top.scala 177:32]
-  wire [2:0] _axi_cross_bar_io_s_port_5_arsize; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_5_arvalid; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_5_rdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_5_rlast; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_5_rvalid; // @[my_cpu_top.scala 177:32]
-  wire [31:0] _axi_cross_bar_io_s_port_5_awaddr; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_5_awvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_5_awready; // @[my_cpu_top.scala 177:32]
-  wire [63:0] _axi_cross_bar_io_s_port_5_wdata; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_5_wvalid; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_5_wready; // @[my_cpu_top.scala 177:32]
-  wire  _axi_cross_bar_io_s_port_5_bvalid; // @[my_cpu_top.scala 177:32]
-  wire  axi_ram_s_aclk; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_aresetn; // @[my_cpu_top.scala 281:35]
-  wire [3:0] axi_ram_s_axi_arid; // @[my_cpu_top.scala 281:35]
-  wire [31:0] axi_ram_s_axi_araddr; // @[my_cpu_top.scala 281:35]
-  wire [7:0] axi_ram_s_axi_arlen; // @[my_cpu_top.scala 281:35]
-  wire [2:0] axi_ram_s_axi_arsize; // @[my_cpu_top.scala 281:35]
-  wire [1:0] axi_ram_s_axi_arburst; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_arvalid; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_arready; // @[my_cpu_top.scala 281:35]
-  wire [3:0] axi_ram_s_axi_rid; // @[my_cpu_top.scala 281:35]
-  wire [63:0] axi_ram_s_axi_rdata; // @[my_cpu_top.scala 281:35]
-  wire [1:0] axi_ram_s_axi_rresp; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_rlast; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_rvalid; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_rready; // @[my_cpu_top.scala 281:35]
-  wire [3:0] axi_ram_s_axi_awid; // @[my_cpu_top.scala 281:35]
-  wire [31:0] axi_ram_s_axi_awaddr; // @[my_cpu_top.scala 281:35]
-  wire [7:0] axi_ram_s_axi_awlen; // @[my_cpu_top.scala 281:35]
-  wire [2:0] axi_ram_s_axi_awsize; // @[my_cpu_top.scala 281:35]
-  wire [1:0] axi_ram_s_axi_awburst; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_awvalid; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_awready; // @[my_cpu_top.scala 281:35]
-  wire [63:0] axi_ram_s_axi_wdata; // @[my_cpu_top.scala 281:35]
-  wire [7:0] axi_ram_s_axi_wstrb; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_wlast; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_wvalid; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_wready; // @[my_cpu_top.scala 281:35]
-  wire [3:0] axi_ram_s_axi_bid; // @[my_cpu_top.scala 281:35]
-  wire [1:0] axi_ram_s_axi_bresp; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_bvalid; // @[my_cpu_top.scala 281:35]
-  wire  axi_ram_s_axi_bready; // @[my_cpu_top.scala 281:35]
-  wire  timer_periph_clock; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_reset; // @[my_cpu_top.scala 296:27]
-  wire [31:0] timer_periph_io_axi_port_araddr; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_axi_port_arvalid; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_axi_port_arready; // @[my_cpu_top.scala 296:27]
-  wire [63:0] timer_periph_io_axi_port_rdata; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_axi_port_rlast; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_axi_port_rvalid; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_axi_port_rready; // @[my_cpu_top.scala 296:27]
-  wire [31:0] timer_periph_io_axi_port_awaddr; // @[my_cpu_top.scala 296:27]
-  wire [2:0] timer_periph_io_axi_port_awsize; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_axi_port_awvalid; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_axi_port_awready; // @[my_cpu_top.scala 296:27]
-  wire [63:0] timer_periph_io_axi_port_wdata; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_axi_port_wvalid; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_axi_port_wready; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_axi_port_bvalid; // @[my_cpu_top.scala 296:27]
-  wire  timer_periph_io_int_line; // @[my_cpu_top.scala 296:27]
-  wire [3:0] axi32_to_64_converter_io_master_arid; // @[my_cpu_top.scala 303:39]
-  wire [31:0] axi32_to_64_converter_io_master_araddr; // @[my_cpu_top.scala 303:39]
-  wire [7:0] axi32_to_64_converter_io_master_arlen; // @[my_cpu_top.scala 303:39]
-  wire [2:0] axi32_to_64_converter_io_master_arsize; // @[my_cpu_top.scala 303:39]
-  wire [1:0] axi32_to_64_converter_io_master_arburst; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_arvalid; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_arready; // @[my_cpu_top.scala 303:39]
-  wire [63:0] axi32_to_64_converter_io_master_rdata; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_rlast; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_rvalid; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_rready; // @[my_cpu_top.scala 303:39]
-  wire [3:0] axi32_to_64_converter_io_master_awid; // @[my_cpu_top.scala 303:39]
-  wire [31:0] axi32_to_64_converter_io_master_awaddr; // @[my_cpu_top.scala 303:39]
-  wire [7:0] axi32_to_64_converter_io_master_awlen; // @[my_cpu_top.scala 303:39]
-  wire [2:0] axi32_to_64_converter_io_master_awsize; // @[my_cpu_top.scala 303:39]
-  wire [1:0] axi32_to_64_converter_io_master_awburst; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_awvalid; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_awready; // @[my_cpu_top.scala 303:39]
-  wire [63:0] axi32_to_64_converter_io_master_wdata; // @[my_cpu_top.scala 303:39]
-  wire [7:0] axi32_to_64_converter_io_master_wstrb; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_wlast; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_wvalid; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_wready; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_bvalid; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_master_bready; // @[my_cpu_top.scala 303:39]
-  wire [3:0] axi32_to_64_converter_io_slave_arid; // @[my_cpu_top.scala 303:39]
-  wire [31:0] axi32_to_64_converter_io_slave_araddr; // @[my_cpu_top.scala 303:39]
-  wire [7:0] axi32_to_64_converter_io_slave_arlen; // @[my_cpu_top.scala 303:39]
-  wire [2:0] axi32_to_64_converter_io_slave_arsize; // @[my_cpu_top.scala 303:39]
-  wire [1:0] axi32_to_64_converter_io_slave_arburst; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_arvalid; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_arready; // @[my_cpu_top.scala 303:39]
-  wire [31:0] axi32_to_64_converter_io_slave_rdata; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_rlast; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_rvalid; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_rready; // @[my_cpu_top.scala 303:39]
-  wire [3:0] axi32_to_64_converter_io_slave_awid; // @[my_cpu_top.scala 303:39]
-  wire [31:0] axi32_to_64_converter_io_slave_awaddr; // @[my_cpu_top.scala 303:39]
-  wire [7:0] axi32_to_64_converter_io_slave_awlen; // @[my_cpu_top.scala 303:39]
-  wire [2:0] axi32_to_64_converter_io_slave_awsize; // @[my_cpu_top.scala 303:39]
-  wire [1:0] axi32_to_64_converter_io_slave_awburst; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_awvalid; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_awready; // @[my_cpu_top.scala 303:39]
-  wire [31:0] axi32_to_64_converter_io_slave_wdata; // @[my_cpu_top.scala 303:39]
-  wire [3:0] axi32_to_64_converter_io_slave_wstrb; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_wlast; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_wvalid; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_wready; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_bvalid; // @[my_cpu_top.scala 303:39]
-  wire  axi32_to_64_converter_io_slave_bready; // @[my_cpu_top.scala 303:39]
-  wire  plic_periph_clock; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_reset; // @[my_cpu_top.scala 326:26]
-  wire [31:0] plic_periph_io_axi_port_araddr; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_io_axi_port_arvalid; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_io_axi_port_arready; // @[my_cpu_top.scala 326:26]
-  wire [63:0] plic_periph_io_axi_port_rdata; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_io_axi_port_rlast; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_io_axi_port_rvalid; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_io_axi_port_rready; // @[my_cpu_top.scala 326:26]
-  wire [31:0] plic_periph_io_axi_port_awaddr; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_io_axi_port_awvalid; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_io_axi_port_awready; // @[my_cpu_top.scala 326:26]
-  wire [63:0] plic_periph_io_axi_port_wdata; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_io_axi_port_wvalid; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_io_axi_port_wready; // @[my_cpu_top.scala 326:26]
-  wire  plic_periph_io_axi_port_bvalid; // @[my_cpu_top.scala 326:26]
-  wire  axi2apb_clock; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_reset; // @[my_cpu_top.scala 327:25]
-  wire [31:0] axi2apb_io_axi_port_araddr; // @[my_cpu_top.scala 327:25]
-  wire [2:0] axi2apb_io_axi_port_arsize; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_axi_port_arvalid; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_axi_port_arready; // @[my_cpu_top.scala 327:25]
-  wire [63:0] axi2apb_io_axi_port_rdata; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_axi_port_rlast; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_axi_port_rvalid; // @[my_cpu_top.scala 327:25]
-  wire [31:0] axi2apb_io_axi_port_awaddr; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_axi_port_awvalid; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_axi_port_awready; // @[my_cpu_top.scala 327:25]
-  wire [63:0] axi2apb_io_axi_port_wdata; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_axi_port_wvalid; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_axi_port_wready; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_axi_port_bvalid; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_apb_port_psel; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_apb_port_penable; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_apb_port_pwrite; // @[my_cpu_top.scala 327:25]
-  wire [31:0] axi2apb_io_apb_port_pwdata; // @[my_cpu_top.scala 327:25]
-  wire [31:0] axi2apb_io_apb_port_paddr; // @[my_cpu_top.scala 327:25]
-  wire [3:0] axi2apb_io_apb_port_pstrb; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_io_apb_port_pready; // @[my_cpu_top.scala 327:25]
-  wire [31:0] axi2apb_io_apb_port_prdata; // @[my_cpu_top.scala 327:25]
-  wire  axi2apb_uart_clock; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_reset; // @[my_cpu_top.scala 329:30]
-  wire [31:0] axi2apb_uart_io_axi_port_araddr; // @[my_cpu_top.scala 329:30]
-  wire [2:0] axi2apb_uart_io_axi_port_arsize; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_axi_port_arvalid; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_axi_port_arready; // @[my_cpu_top.scala 329:30]
-  wire [63:0] axi2apb_uart_io_axi_port_rdata; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_axi_port_rlast; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_axi_port_rvalid; // @[my_cpu_top.scala 329:30]
-  wire [31:0] axi2apb_uart_io_axi_port_awaddr; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_axi_port_awvalid; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_axi_port_awready; // @[my_cpu_top.scala 329:30]
-  wire [63:0] axi2apb_uart_io_axi_port_wdata; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_axi_port_wvalid; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_axi_port_wready; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_axi_port_bvalid; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_apb_port_psel; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_apb_port_penable; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_apb_port_pwrite; // @[my_cpu_top.scala 329:30]
-  wire [31:0] axi2apb_uart_io_apb_port_pwdata; // @[my_cpu_top.scala 329:30]
-  wire [31:0] axi2apb_uart_io_apb_port_paddr; // @[my_cpu_top.scala 329:30]
-  wire [3:0] axi2apb_uart_io_apb_port_pstrb; // @[my_cpu_top.scala 329:30]
-  wire  axi2apb_uart_io_apb_port_pready; // @[my_cpu_top.scala 329:30]
-  wire [31:0] axi2apb_uart_io_apb_port_prdata; // @[my_cpu_top.scala 329:30]
-  wire  spi_clk; // @[my_cpu_top.scala 333:31]
-  wire  spi_resetn; // @[my_cpu_top.scala 333:31]
-  wire  spi_in_psel; // @[my_cpu_top.scala 333:31]
-  wire  spi_in_penable; // @[my_cpu_top.scala 333:31]
-  wire  spi_in_pwrite; // @[my_cpu_top.scala 333:31]
-  wire [31:0] spi_in_pwdata; // @[my_cpu_top.scala 333:31]
-  wire [31:0] spi_in_paddr; // @[my_cpu_top.scala 333:31]
-  wire [3:0] spi_in_pstrb; // @[my_cpu_top.scala 333:31]
-  wire  spi_in_pready; // @[my_cpu_top.scala 333:31]
-  wire  spi_in_pslverr; // @[my_cpu_top.scala 333:31]
-  wire [31:0] spi_in_prdata; // @[my_cpu_top.scala 333:31]
-  wire [2:0] spi_in_pprot; // @[my_cpu_top.scala 333:31]
-  wire  spi_spi_clk; // @[my_cpu_top.scala 333:31]
-  wire [1:0] spi_spi_cs; // @[my_cpu_top.scala 333:31]
-  wire  spi_spi_mosi; // @[my_cpu_top.scala 333:31]
-  wire  spi_spi_miso; // @[my_cpu_top.scala 333:31]
-  wire  spi_spi_irq_out; // @[my_cpu_top.scala 333:31]
-  wire  uart_apb_clk; // @[my_cpu_top.scala 334:32]
-  wire  uart_apb_resetn; // @[my_cpu_top.scala 334:32]
-  wire  uart_apb_in_psel; // @[my_cpu_top.scala 334:32]
-  wire  uart_apb_in_penable; // @[my_cpu_top.scala 334:32]
-  wire  uart_apb_in_pwrite; // @[my_cpu_top.scala 334:32]
-  wire [31:0] uart_apb_in_pwdata; // @[my_cpu_top.scala 334:32]
-  wire [31:0] uart_apb_in_paddr; // @[my_cpu_top.scala 334:32]
-  wire [3:0] uart_apb_in_pstrb; // @[my_cpu_top.scala 334:32]
-  wire  uart_apb_in_pready; // @[my_cpu_top.scala 334:32]
-  wire  uart_apb_in_pslverr; // @[my_cpu_top.scala 334:32]
-  wire [31:0] uart_apb_in_prdata; // @[my_cpu_top.scala 334:32]
-  wire [2:0] uart_apb_in_pprot; // @[my_cpu_top.scala 334:32]
-  wire  uart_apb_uart_rx; // @[my_cpu_top.scala 334:32]
-  wire  uart_apb_uart_tx; // @[my_cpu_top.scala 334:32]
-  wire  uart_apb_o_interrupt; // @[my_cpu_top.scala 334:32]
-  reg  board_reset_REG; // @[my_cpu_top.scala 165:27]
-  clk_pll pll_instance ( // @[my_cpu_top.scala 136:34]
+  wire  pll_instance_clk_in1; // @[my_cpu_top.scala 134:34]
+  wire  pll_instance_clk_out1; // @[my_cpu_top.scala 134:34]
+  wire  u_riscv_cpu_clock; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_reset; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_ext_int_timer; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_inst_sram_en; // @[my_cpu_top.scala 158:29]
+  wire [63:0] u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 158:29]
+  wire [39:0] u_riscv_cpu_inst_sram_rdata_L; // @[my_cpu_top.scala 158:29]
+  wire [1:0] u_riscv_cpu_inst_write_en; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_stage2_flush; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_stage2_stall; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_pre_branch; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_data_sram_en; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_data_sram_wen; // @[my_cpu_top.scala 158:29]
+  wire [1:0] u_riscv_cpu_data_size; // @[my_cpu_top.scala 158:29]
+  wire [31:0] u_riscv_cpu_data_sram_addr; // @[my_cpu_top.scala 158:29]
+  wire [63:0] u_riscv_cpu_data_sram_wdata; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_data_cache; // @[my_cpu_top.scala 158:29]
+  wire [63:0] u_riscv_cpu_data_sram_rdata; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_data_stage2_stall; // @[my_cpu_top.scala 158:29]
+  wire [7:0] u_riscv_cpu_data_wstrb; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_data_fence_i_control; // @[my_cpu_top.scala 158:29]
+  wire  u_riscv_cpu_icache_tag_flush; // @[my_cpu_top.scala 158:29]
+  wire  inst_cache_clock; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_reset; // @[my_cpu_top.scala 159:30]
+  wire [31:0] inst_cache_io_port_araddr; // @[my_cpu_top.scala 159:30]
+  wire [7:0] inst_cache_io_port_arlen; // @[my_cpu_top.scala 159:30]
+  wire [2:0] inst_cache_io_port_arsize; // @[my_cpu_top.scala 159:30]
+  wire [1:0] inst_cache_io_port_arburst; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_port_arvalid; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_port_arready; // @[my_cpu_top.scala 159:30]
+  wire [63:0] inst_cache_io_port_rdata; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_port_rlast; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_port_rvalid; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_stage2_flush; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_stage2_stall; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_stage1_valid_flush; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_inst_ready_to_use; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_inst_buffer_full; // @[my_cpu_top.scala 159:30]
+  wire [63:0] inst_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 159:30]
+  wire [63:0] inst_cache_io_p_addr_for_tlb; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_sram_req; // @[my_cpu_top.scala 159:30]
+  wire [63:0] inst_cache_io_sram_addr; // @[my_cpu_top.scala 159:30]
+  wire [1:0] inst_cache_io_sram_write_en; // @[my_cpu_top.scala 159:30]
+  wire [39:0] inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_sram_cache; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_tag_valid_flush; // @[my_cpu_top.scala 159:30]
+  wire  inst_cache_io_pre_branch; // @[my_cpu_top.scala 159:30]
+  wire  data_cache_clock; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_reset; // @[my_cpu_top.scala 161:30]
+  wire [31:0] data_cache_io_port_araddr; // @[my_cpu_top.scala 161:30]
+  wire [7:0] data_cache_io_port_arlen; // @[my_cpu_top.scala 161:30]
+  wire [2:0] data_cache_io_port_arsize; // @[my_cpu_top.scala 161:30]
+  wire [1:0] data_cache_io_port_arburst; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_port_arvalid; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_port_arready; // @[my_cpu_top.scala 161:30]
+  wire [63:0] data_cache_io_port_rdata; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_port_rlast; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_port_rvalid; // @[my_cpu_top.scala 161:30]
+  wire [31:0] data_cache_io_port_awaddr; // @[my_cpu_top.scala 161:30]
+  wire [7:0] data_cache_io_port_awlen; // @[my_cpu_top.scala 161:30]
+  wire [2:0] data_cache_io_port_awsize; // @[my_cpu_top.scala 161:30]
+  wire [1:0] data_cache_io_port_awburst; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_port_awvalid; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_port_awready; // @[my_cpu_top.scala 161:30]
+  wire [63:0] data_cache_io_port_wdata; // @[my_cpu_top.scala 161:30]
+  wire [7:0] data_cache_io_port_wstrb; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_port_wlast; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_port_wvalid; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_port_wready; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_port_bvalid; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_stage2_stall; // @[my_cpu_top.scala 161:30]
+  wire [31:0] data_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 161:30]
+  wire [31:0] data_cache_io_p_addr_for_tlb; // @[my_cpu_top.scala 161:30]
+  wire [7:0] data_cache_io_data_wstrb; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_sram_req; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_sram_wr; // @[my_cpu_top.scala 161:30]
+  wire [2:0] data_cache_io_sram_size; // @[my_cpu_top.scala 161:30]
+  wire [31:0] data_cache_io_sram_addr; // @[my_cpu_top.scala 161:30]
+  wire [63:0] data_cache_io_sram_wdata; // @[my_cpu_top.scala 161:30]
+  wire [63:0] data_cache_io_sram_rdata; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_sram_cache; // @[my_cpu_top.scala 161:30]
+  wire  data_cache_io_fence_i_control; // @[my_cpu_top.scala 161:30]
+  wire  _axi_cross_bar_clock; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_reset; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_m_port_0_araddr; // @[my_cpu_top.scala 163:32]
+  wire [7:0] _axi_cross_bar_io_m_port_0_arlen; // @[my_cpu_top.scala 163:32]
+  wire [2:0] _axi_cross_bar_io_m_port_0_arsize; // @[my_cpu_top.scala 163:32]
+  wire [1:0] _axi_cross_bar_io_m_port_0_arburst; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_0_arvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_0_arready; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_m_port_0_rdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_0_rlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_0_rvalid; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_m_port_1_araddr; // @[my_cpu_top.scala 163:32]
+  wire [7:0] _axi_cross_bar_io_m_port_1_arlen; // @[my_cpu_top.scala 163:32]
+  wire [2:0] _axi_cross_bar_io_m_port_1_arsize; // @[my_cpu_top.scala 163:32]
+  wire [1:0] _axi_cross_bar_io_m_port_1_arburst; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_1_arvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_1_arready; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_m_port_1_rdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_1_rlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_1_rvalid; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_m_port_1_awaddr; // @[my_cpu_top.scala 163:32]
+  wire [7:0] _axi_cross_bar_io_m_port_1_awlen; // @[my_cpu_top.scala 163:32]
+  wire [2:0] _axi_cross_bar_io_m_port_1_awsize; // @[my_cpu_top.scala 163:32]
+  wire [1:0] _axi_cross_bar_io_m_port_1_awburst; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_1_awvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_1_awready; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_m_port_1_wdata; // @[my_cpu_top.scala 163:32]
+  wire [7:0] _axi_cross_bar_io_m_port_1_wstrb; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_1_wlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_1_wvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_1_wready; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_m_port_1_bvalid; // @[my_cpu_top.scala 163:32]
+  wire [3:0] _axi_cross_bar_io_s_port_0_arid; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_0_araddr; // @[my_cpu_top.scala 163:32]
+  wire [7:0] _axi_cross_bar_io_s_port_0_arlen; // @[my_cpu_top.scala 163:32]
+  wire [2:0] _axi_cross_bar_io_s_port_0_arsize; // @[my_cpu_top.scala 163:32]
+  wire [1:0] _axi_cross_bar_io_s_port_0_arburst; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_arvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_arready; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_0_rdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_rlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_rvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_rready; // @[my_cpu_top.scala 163:32]
+  wire [3:0] _axi_cross_bar_io_s_port_0_awid; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_0_awaddr; // @[my_cpu_top.scala 163:32]
+  wire [7:0] _axi_cross_bar_io_s_port_0_awlen; // @[my_cpu_top.scala 163:32]
+  wire [2:0] _axi_cross_bar_io_s_port_0_awsize; // @[my_cpu_top.scala 163:32]
+  wire [1:0] _axi_cross_bar_io_s_port_0_awburst; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_awvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_awready; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_0_wdata; // @[my_cpu_top.scala 163:32]
+  wire [7:0] _axi_cross_bar_io_s_port_0_wstrb; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_wlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_wvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_wready; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_bvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_0_bready; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_1_araddr; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_1_arvalid; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_1_rdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_1_rlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_1_rvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_1_rready; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_1_awaddr; // @[my_cpu_top.scala 163:32]
+  wire [2:0] _axi_cross_bar_io_s_port_1_awsize; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_1_awvalid; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_1_wdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_1_wvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_1_wready; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_1_bvalid; // @[my_cpu_top.scala 163:32]
+  wire [3:0] _axi_cross_bar_io_s_port_2_arid; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_2_araddr; // @[my_cpu_top.scala 163:32]
+  wire [7:0] _axi_cross_bar_io_s_port_2_arlen; // @[my_cpu_top.scala 163:32]
+  wire [2:0] _axi_cross_bar_io_s_port_2_arsize; // @[my_cpu_top.scala 163:32]
+  wire [1:0] _axi_cross_bar_io_s_port_2_arburst; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_arvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_arready; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_2_rdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_rlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_rvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_rready; // @[my_cpu_top.scala 163:32]
+  wire [3:0] _axi_cross_bar_io_s_port_2_awid; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_2_awaddr; // @[my_cpu_top.scala 163:32]
+  wire [7:0] _axi_cross_bar_io_s_port_2_awlen; // @[my_cpu_top.scala 163:32]
+  wire [2:0] _axi_cross_bar_io_s_port_2_awsize; // @[my_cpu_top.scala 163:32]
+  wire [1:0] _axi_cross_bar_io_s_port_2_awburst; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_awvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_awready; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_2_wdata; // @[my_cpu_top.scala 163:32]
+  wire [7:0] _axi_cross_bar_io_s_port_2_wstrb; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_wlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_wvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_wready; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_bvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_2_bready; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_3_araddr; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_3_arvalid; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_3_rdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_3_rlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_3_rvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_3_rready; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_3_awaddr; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_3_awvalid; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_3_wdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_3_wvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_3_wready; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_3_bvalid; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_4_araddr; // @[my_cpu_top.scala 163:32]
+  wire [2:0] _axi_cross_bar_io_s_port_4_arsize; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_4_arvalid; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_4_rdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_4_rlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_4_rvalid; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_4_awaddr; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_4_awvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_4_awready; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_4_wdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_4_wvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_4_wready; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_4_bvalid; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_5_araddr; // @[my_cpu_top.scala 163:32]
+  wire [2:0] _axi_cross_bar_io_s_port_5_arsize; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_5_arvalid; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_5_rdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_5_rlast; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_5_rvalid; // @[my_cpu_top.scala 163:32]
+  wire [31:0] _axi_cross_bar_io_s_port_5_awaddr; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_5_awvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_5_awready; // @[my_cpu_top.scala 163:32]
+  wire [63:0] _axi_cross_bar_io_s_port_5_wdata; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_5_wvalid; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_5_wready; // @[my_cpu_top.scala 163:32]
+  wire  _axi_cross_bar_io_s_port_5_bvalid; // @[my_cpu_top.scala 163:32]
+  wire  axi_ram_s_aclk; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_aresetn; // @[my_cpu_top.scala 267:35]
+  wire [3:0] axi_ram_s_axi_arid; // @[my_cpu_top.scala 267:35]
+  wire [31:0] axi_ram_s_axi_araddr; // @[my_cpu_top.scala 267:35]
+  wire [7:0] axi_ram_s_axi_arlen; // @[my_cpu_top.scala 267:35]
+  wire [2:0] axi_ram_s_axi_arsize; // @[my_cpu_top.scala 267:35]
+  wire [1:0] axi_ram_s_axi_arburst; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_arvalid; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_arready; // @[my_cpu_top.scala 267:35]
+  wire [3:0] axi_ram_s_axi_rid; // @[my_cpu_top.scala 267:35]
+  wire [63:0] axi_ram_s_axi_rdata; // @[my_cpu_top.scala 267:35]
+  wire [1:0] axi_ram_s_axi_rresp; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_rlast; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_rvalid; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_rready; // @[my_cpu_top.scala 267:35]
+  wire [3:0] axi_ram_s_axi_awid; // @[my_cpu_top.scala 267:35]
+  wire [31:0] axi_ram_s_axi_awaddr; // @[my_cpu_top.scala 267:35]
+  wire [7:0] axi_ram_s_axi_awlen; // @[my_cpu_top.scala 267:35]
+  wire [2:0] axi_ram_s_axi_awsize; // @[my_cpu_top.scala 267:35]
+  wire [1:0] axi_ram_s_axi_awburst; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_awvalid; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_awready; // @[my_cpu_top.scala 267:35]
+  wire [63:0] axi_ram_s_axi_wdata; // @[my_cpu_top.scala 267:35]
+  wire [7:0] axi_ram_s_axi_wstrb; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_wlast; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_wvalid; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_wready; // @[my_cpu_top.scala 267:35]
+  wire [3:0] axi_ram_s_axi_bid; // @[my_cpu_top.scala 267:35]
+  wire [1:0] axi_ram_s_axi_bresp; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_bvalid; // @[my_cpu_top.scala 267:35]
+  wire  axi_ram_s_axi_bready; // @[my_cpu_top.scala 267:35]
+  wire  timer_periph_clock; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_reset; // @[my_cpu_top.scala 282:27]
+  wire [31:0] timer_periph_io_axi_port_araddr; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_axi_port_arvalid; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_axi_port_arready; // @[my_cpu_top.scala 282:27]
+  wire [63:0] timer_periph_io_axi_port_rdata; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_axi_port_rlast; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_axi_port_rvalid; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_axi_port_rready; // @[my_cpu_top.scala 282:27]
+  wire [31:0] timer_periph_io_axi_port_awaddr; // @[my_cpu_top.scala 282:27]
+  wire [2:0] timer_periph_io_axi_port_awsize; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_axi_port_awvalid; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_axi_port_awready; // @[my_cpu_top.scala 282:27]
+  wire [63:0] timer_periph_io_axi_port_wdata; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_axi_port_wvalid; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_axi_port_wready; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_axi_port_bvalid; // @[my_cpu_top.scala 282:27]
+  wire  timer_periph_io_int_line; // @[my_cpu_top.scala 282:27]
+  wire  axi32_to_64_converter_clock; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_reset; // @[my_cpu_top.scala 289:39]
+  wire [3:0] axi32_to_64_converter_io_master_arid; // @[my_cpu_top.scala 289:39]
+  wire [31:0] axi32_to_64_converter_io_master_araddr; // @[my_cpu_top.scala 289:39]
+  wire [7:0] axi32_to_64_converter_io_master_arlen; // @[my_cpu_top.scala 289:39]
+  wire [2:0] axi32_to_64_converter_io_master_arsize; // @[my_cpu_top.scala 289:39]
+  wire [1:0] axi32_to_64_converter_io_master_arburst; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_arvalid; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_arready; // @[my_cpu_top.scala 289:39]
+  wire [63:0] axi32_to_64_converter_io_master_rdata; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_rlast; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_rvalid; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_rready; // @[my_cpu_top.scala 289:39]
+  wire [3:0] axi32_to_64_converter_io_master_awid; // @[my_cpu_top.scala 289:39]
+  wire [31:0] axi32_to_64_converter_io_master_awaddr; // @[my_cpu_top.scala 289:39]
+  wire [7:0] axi32_to_64_converter_io_master_awlen; // @[my_cpu_top.scala 289:39]
+  wire [2:0] axi32_to_64_converter_io_master_awsize; // @[my_cpu_top.scala 289:39]
+  wire [1:0] axi32_to_64_converter_io_master_awburst; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_awvalid; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_awready; // @[my_cpu_top.scala 289:39]
+  wire [63:0] axi32_to_64_converter_io_master_wdata; // @[my_cpu_top.scala 289:39]
+  wire [7:0] axi32_to_64_converter_io_master_wstrb; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_wlast; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_wvalid; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_wready; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_bvalid; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_master_bready; // @[my_cpu_top.scala 289:39]
+  wire [3:0] axi32_to_64_converter_io_slave_arid; // @[my_cpu_top.scala 289:39]
+  wire [31:0] axi32_to_64_converter_io_slave_araddr; // @[my_cpu_top.scala 289:39]
+  wire [7:0] axi32_to_64_converter_io_slave_arlen; // @[my_cpu_top.scala 289:39]
+  wire [2:0] axi32_to_64_converter_io_slave_arsize; // @[my_cpu_top.scala 289:39]
+  wire [1:0] axi32_to_64_converter_io_slave_arburst; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_arvalid; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_arready; // @[my_cpu_top.scala 289:39]
+  wire [31:0] axi32_to_64_converter_io_slave_rdata; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_rlast; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_rvalid; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_rready; // @[my_cpu_top.scala 289:39]
+  wire [3:0] axi32_to_64_converter_io_slave_awid; // @[my_cpu_top.scala 289:39]
+  wire [31:0] axi32_to_64_converter_io_slave_awaddr; // @[my_cpu_top.scala 289:39]
+  wire [7:0] axi32_to_64_converter_io_slave_awlen; // @[my_cpu_top.scala 289:39]
+  wire [2:0] axi32_to_64_converter_io_slave_awsize; // @[my_cpu_top.scala 289:39]
+  wire [1:0] axi32_to_64_converter_io_slave_awburst; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_awvalid; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_awready; // @[my_cpu_top.scala 289:39]
+  wire [31:0] axi32_to_64_converter_io_slave_wdata; // @[my_cpu_top.scala 289:39]
+  wire [3:0] axi32_to_64_converter_io_slave_wstrb; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_wlast; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_wvalid; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_wready; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_bvalid; // @[my_cpu_top.scala 289:39]
+  wire  axi32_to_64_converter_io_slave_bready; // @[my_cpu_top.scala 289:39]
+  wire [3:0] axi_can_32_axi_port_arid; // @[my_cpu_top.scala 308:25]
+  wire [31:0] axi_can_32_axi_port_araddr; // @[my_cpu_top.scala 308:25]
+  wire [7:0] axi_can_32_axi_port_arlen; // @[my_cpu_top.scala 308:25]
+  wire [2:0] axi_can_32_axi_port_arsize; // @[my_cpu_top.scala 308:25]
+  wire [1:0] axi_can_32_axi_port_arburst; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_arvalid; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_arready; // @[my_cpu_top.scala 308:25]
+  wire [3:0] axi_can_32_axi_port_rid; // @[my_cpu_top.scala 308:25]
+  wire [31:0] axi_can_32_axi_port_rdata; // @[my_cpu_top.scala 308:25]
+  wire [1:0] axi_can_32_axi_port_rresp; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_rlast; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_rvalid; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_rready; // @[my_cpu_top.scala 308:25]
+  wire [3:0] axi_can_32_axi_port_awid; // @[my_cpu_top.scala 308:25]
+  wire [31:0] axi_can_32_axi_port_awaddr; // @[my_cpu_top.scala 308:25]
+  wire [7:0] axi_can_32_axi_port_awlen; // @[my_cpu_top.scala 308:25]
+  wire [2:0] axi_can_32_axi_port_awsize; // @[my_cpu_top.scala 308:25]
+  wire [1:0] axi_can_32_axi_port_awburst; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_awvalid; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_awready; // @[my_cpu_top.scala 308:25]
+  wire [31:0] axi_can_32_axi_port_wdata; // @[my_cpu_top.scala 308:25]
+  wire [3:0] axi_can_32_axi_port_wstrb; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_wlast; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_wvalid; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_wready; // @[my_cpu_top.scala 308:25]
+  wire [3:0] axi_can_32_axi_port_bid; // @[my_cpu_top.scala 308:25]
+  wire [1:0] axi_can_32_axi_port_bresp; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_bvalid; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_axi_port_bready; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_can_intr; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_can_tx; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_can_rx; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_clk; // @[my_cpu_top.scala 308:25]
+  wire  axi_can_32_rst_n; // @[my_cpu_top.scala 308:25]
+  wire  plic_periph_clock; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_reset; // @[my_cpu_top.scala 312:26]
+  wire [31:0] plic_periph_io_axi_port_araddr; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_io_axi_port_arvalid; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_io_axi_port_arready; // @[my_cpu_top.scala 312:26]
+  wire [63:0] plic_periph_io_axi_port_rdata; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_io_axi_port_rlast; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_io_axi_port_rvalid; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_io_axi_port_rready; // @[my_cpu_top.scala 312:26]
+  wire [31:0] plic_periph_io_axi_port_awaddr; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_io_axi_port_awvalid; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_io_axi_port_awready; // @[my_cpu_top.scala 312:26]
+  wire [63:0] plic_periph_io_axi_port_wdata; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_io_axi_port_wvalid; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_io_axi_port_wready; // @[my_cpu_top.scala 312:26]
+  wire  plic_periph_io_axi_port_bvalid; // @[my_cpu_top.scala 312:26]
+  wire  axi2apb_clock; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_reset; // @[my_cpu_top.scala 313:25]
+  wire [31:0] axi2apb_io_axi_port_araddr; // @[my_cpu_top.scala 313:25]
+  wire [2:0] axi2apb_io_axi_port_arsize; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_axi_port_arvalid; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_axi_port_arready; // @[my_cpu_top.scala 313:25]
+  wire [63:0] axi2apb_io_axi_port_rdata; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_axi_port_rlast; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_axi_port_rvalid; // @[my_cpu_top.scala 313:25]
+  wire [31:0] axi2apb_io_axi_port_awaddr; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_axi_port_awvalid; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_axi_port_awready; // @[my_cpu_top.scala 313:25]
+  wire [63:0] axi2apb_io_axi_port_wdata; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_axi_port_wvalid; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_axi_port_wready; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_axi_port_bvalid; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_apb_port_psel; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_apb_port_penable; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_apb_port_pwrite; // @[my_cpu_top.scala 313:25]
+  wire [31:0] axi2apb_io_apb_port_pwdata; // @[my_cpu_top.scala 313:25]
+  wire [31:0] axi2apb_io_apb_port_paddr; // @[my_cpu_top.scala 313:25]
+  wire [3:0] axi2apb_io_apb_port_pstrb; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_io_apb_port_pready; // @[my_cpu_top.scala 313:25]
+  wire [31:0] axi2apb_io_apb_port_prdata; // @[my_cpu_top.scala 313:25]
+  wire  axi2apb_uart_clock; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_reset; // @[my_cpu_top.scala 315:30]
+  wire [31:0] axi2apb_uart_io_axi_port_araddr; // @[my_cpu_top.scala 315:30]
+  wire [2:0] axi2apb_uart_io_axi_port_arsize; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_axi_port_arvalid; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_axi_port_arready; // @[my_cpu_top.scala 315:30]
+  wire [63:0] axi2apb_uart_io_axi_port_rdata; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_axi_port_rlast; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_axi_port_rvalid; // @[my_cpu_top.scala 315:30]
+  wire [31:0] axi2apb_uart_io_axi_port_awaddr; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_axi_port_awvalid; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_axi_port_awready; // @[my_cpu_top.scala 315:30]
+  wire [63:0] axi2apb_uart_io_axi_port_wdata; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_axi_port_wvalid; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_axi_port_wready; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_axi_port_bvalid; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_apb_port_psel; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_apb_port_penable; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_apb_port_pwrite; // @[my_cpu_top.scala 315:30]
+  wire [31:0] axi2apb_uart_io_apb_port_pwdata; // @[my_cpu_top.scala 315:30]
+  wire [31:0] axi2apb_uart_io_apb_port_paddr; // @[my_cpu_top.scala 315:30]
+  wire [3:0] axi2apb_uart_io_apb_port_pstrb; // @[my_cpu_top.scala 315:30]
+  wire  axi2apb_uart_io_apb_port_pready; // @[my_cpu_top.scala 315:30]
+  wire [31:0] axi2apb_uart_io_apb_port_prdata; // @[my_cpu_top.scala 315:30]
+  wire  spi_clk; // @[my_cpu_top.scala 319:31]
+  wire  spi_resetn; // @[my_cpu_top.scala 319:31]
+  wire  spi_in_psel; // @[my_cpu_top.scala 319:31]
+  wire  spi_in_penable; // @[my_cpu_top.scala 319:31]
+  wire  spi_in_pwrite; // @[my_cpu_top.scala 319:31]
+  wire [31:0] spi_in_pwdata; // @[my_cpu_top.scala 319:31]
+  wire [31:0] spi_in_paddr; // @[my_cpu_top.scala 319:31]
+  wire [3:0] spi_in_pstrb; // @[my_cpu_top.scala 319:31]
+  wire  spi_in_pready; // @[my_cpu_top.scala 319:31]
+  wire  spi_in_pslverr; // @[my_cpu_top.scala 319:31]
+  wire [31:0] spi_in_prdata; // @[my_cpu_top.scala 319:31]
+  wire [2:0] spi_in_pprot; // @[my_cpu_top.scala 319:31]
+  wire  spi_spi_clk; // @[my_cpu_top.scala 319:31]
+  wire [1:0] spi_spi_cs; // @[my_cpu_top.scala 319:31]
+  wire  spi_spi_mosi; // @[my_cpu_top.scala 319:31]
+  wire  spi_spi_miso; // @[my_cpu_top.scala 319:31]
+  wire  spi_spi_irq_out; // @[my_cpu_top.scala 319:31]
+  wire  uart_apb_clk; // @[my_cpu_top.scala 320:32]
+  wire  uart_apb_resetn; // @[my_cpu_top.scala 320:32]
+  wire  uart_apb_in_psel; // @[my_cpu_top.scala 320:32]
+  wire  uart_apb_in_penable; // @[my_cpu_top.scala 320:32]
+  wire  uart_apb_in_pwrite; // @[my_cpu_top.scala 320:32]
+  wire [31:0] uart_apb_in_pwdata; // @[my_cpu_top.scala 320:32]
+  wire [31:0] uart_apb_in_paddr; // @[my_cpu_top.scala 320:32]
+  wire [3:0] uart_apb_in_pstrb; // @[my_cpu_top.scala 320:32]
+  wire  uart_apb_in_pready; // @[my_cpu_top.scala 320:32]
+  wire  uart_apb_in_pslverr; // @[my_cpu_top.scala 320:32]
+  wire [31:0] uart_apb_in_prdata; // @[my_cpu_top.scala 320:32]
+  wire [2:0] uart_apb_in_pprot; // @[my_cpu_top.scala 320:32]
+  wire  uart_apb_uart_rx; // @[my_cpu_top.scala 320:32]
+  wire  uart_apb_uart_tx; // @[my_cpu_top.scala 320:32]
+  wire  uart_apb_o_interrupt; // @[my_cpu_top.scala 320:32]
+  reg  board_reset_REG; // @[my_cpu_top.scala 151:27]
+  clk_pll pll_instance ( // @[my_cpu_top.scala 134:34]
     .clk_in1(pll_instance_clk_in1),
-    .clk_out1(pll_instance_clk_out1),
-    .clk_out2(pll_instance_clk_out2)
+    .clk_out1(pll_instance_clk_out1)
   );
-  axi_clock_converter can_axi_clock_converter ( // @[my_cpu_top.scala 140:45]
-    .m_axi_arid(can_axi_clock_converter_m_axi_arid),
-    .m_axi_araddr(can_axi_clock_converter_m_axi_araddr),
-    .m_axi_arlen(can_axi_clock_converter_m_axi_arlen),
-    .m_axi_arsize(can_axi_clock_converter_m_axi_arsize),
-    .m_axi_arburst(can_axi_clock_converter_m_axi_arburst),
-    .m_axi_arvalid(can_axi_clock_converter_m_axi_arvalid),
-    .m_axi_arready(can_axi_clock_converter_m_axi_arready),
-    .m_axi_rid(can_axi_clock_converter_m_axi_rid),
-    .m_axi_rdata(can_axi_clock_converter_m_axi_rdata),
-    .m_axi_rresp(can_axi_clock_converter_m_axi_rresp),
-    .m_axi_rlast(can_axi_clock_converter_m_axi_rlast),
-    .m_axi_rvalid(can_axi_clock_converter_m_axi_rvalid),
-    .m_axi_rready(can_axi_clock_converter_m_axi_rready),
-    .m_axi_awid(can_axi_clock_converter_m_axi_awid),
-    .m_axi_awaddr(can_axi_clock_converter_m_axi_awaddr),
-    .m_axi_awlen(can_axi_clock_converter_m_axi_awlen),
-    .m_axi_awsize(can_axi_clock_converter_m_axi_awsize),
-    .m_axi_awburst(can_axi_clock_converter_m_axi_awburst),
-    .m_axi_awvalid(can_axi_clock_converter_m_axi_awvalid),
-    .m_axi_awready(can_axi_clock_converter_m_axi_awready),
-    .m_axi_wdata(can_axi_clock_converter_m_axi_wdata),
-    .m_axi_wstrb(can_axi_clock_converter_m_axi_wstrb),
-    .m_axi_wlast(can_axi_clock_converter_m_axi_wlast),
-    .m_axi_wvalid(can_axi_clock_converter_m_axi_wvalid),
-    .m_axi_wready(can_axi_clock_converter_m_axi_wready),
-    .m_axi_bid(can_axi_clock_converter_m_axi_bid),
-    .m_axi_bresp(can_axi_clock_converter_m_axi_bresp),
-    .m_axi_bvalid(can_axi_clock_converter_m_axi_bvalid),
-    .m_axi_bready(can_axi_clock_converter_m_axi_bready),
-    .s_axi_arid(can_axi_clock_converter_s_axi_arid),
-    .s_axi_araddr(can_axi_clock_converter_s_axi_araddr),
-    .s_axi_arlen(can_axi_clock_converter_s_axi_arlen),
-    .s_axi_arsize(can_axi_clock_converter_s_axi_arsize),
-    .s_axi_arburst(can_axi_clock_converter_s_axi_arburst),
-    .s_axi_arvalid(can_axi_clock_converter_s_axi_arvalid),
-    .s_axi_arready(can_axi_clock_converter_s_axi_arready),
-    .s_axi_rid(can_axi_clock_converter_s_axi_rid),
-    .s_axi_rdata(can_axi_clock_converter_s_axi_rdata),
-    .s_axi_rresp(can_axi_clock_converter_s_axi_rresp),
-    .s_axi_rlast(can_axi_clock_converter_s_axi_rlast),
-    .s_axi_rvalid(can_axi_clock_converter_s_axi_rvalid),
-    .s_axi_rready(can_axi_clock_converter_s_axi_rready),
-    .s_axi_awid(can_axi_clock_converter_s_axi_awid),
-    .s_axi_awaddr(can_axi_clock_converter_s_axi_awaddr),
-    .s_axi_awlen(can_axi_clock_converter_s_axi_awlen),
-    .s_axi_awsize(can_axi_clock_converter_s_axi_awsize),
-    .s_axi_awburst(can_axi_clock_converter_s_axi_awburst),
-    .s_axi_awvalid(can_axi_clock_converter_s_axi_awvalid),
-    .s_axi_awready(can_axi_clock_converter_s_axi_awready),
-    .s_axi_wdata(can_axi_clock_converter_s_axi_wdata),
-    .s_axi_wstrb(can_axi_clock_converter_s_axi_wstrb),
-    .s_axi_wlast(can_axi_clock_converter_s_axi_wlast),
-    .s_axi_wvalid(can_axi_clock_converter_s_axi_wvalid),
-    .s_axi_wready(can_axi_clock_converter_s_axi_wready),
-    .s_axi_bid(can_axi_clock_converter_s_axi_bid),
-    .s_axi_bresp(can_axi_clock_converter_s_axi_bresp),
-    .s_axi_bvalid(can_axi_clock_converter_s_axi_bvalid),
-    .s_axi_bready(can_axi_clock_converter_s_axi_bready),
-    .s_axi_aclk(can_axi_clock_converter_s_axi_aclk),
-    .s_axi_aresetn(can_axi_clock_converter_s_axi_aresetn),
-    .m_axi_aclk(can_axi_clock_converter_m_axi_aclk),
-    .m_axi_aresetn(can_axi_clock_converter_m_axi_aresetn)
-  );
-  axi_can_32 axi_can_32 ( // @[my_cpu_top.scala 154:29]
-    .axi_port_arid(axi_can_32_axi_port_arid),
-    .axi_port_araddr(axi_can_32_axi_port_araddr),
-    .axi_port_arlen(axi_can_32_axi_port_arlen),
-    .axi_port_arsize(axi_can_32_axi_port_arsize),
-    .axi_port_arburst(axi_can_32_axi_port_arburst),
-    .axi_port_arvalid(axi_can_32_axi_port_arvalid),
-    .axi_port_arready(axi_can_32_axi_port_arready),
-    .axi_port_rid(axi_can_32_axi_port_rid),
-    .axi_port_rdata(axi_can_32_axi_port_rdata),
-    .axi_port_rresp(axi_can_32_axi_port_rresp),
-    .axi_port_rlast(axi_can_32_axi_port_rlast),
-    .axi_port_rvalid(axi_can_32_axi_port_rvalid),
-    .axi_port_rready(axi_can_32_axi_port_rready),
-    .axi_port_awid(axi_can_32_axi_port_awid),
-    .axi_port_awaddr(axi_can_32_axi_port_awaddr),
-    .axi_port_awlen(axi_can_32_axi_port_awlen),
-    .axi_port_awsize(axi_can_32_axi_port_awsize),
-    .axi_port_awburst(axi_can_32_axi_port_awburst),
-    .axi_port_awvalid(axi_can_32_axi_port_awvalid),
-    .axi_port_awready(axi_can_32_axi_port_awready),
-    .axi_port_wdata(axi_can_32_axi_port_wdata),
-    .axi_port_wstrb(axi_can_32_axi_port_wstrb),
-    .axi_port_wlast(axi_can_32_axi_port_wlast),
-    .axi_port_wvalid(axi_can_32_axi_port_wvalid),
-    .axi_port_wready(axi_can_32_axi_port_wready),
-    .axi_port_bid(axi_can_32_axi_port_bid),
-    .axi_port_bresp(axi_can_32_axi_port_bresp),
-    .axi_port_bvalid(axi_can_32_axi_port_bvalid),
-    .axi_port_bready(axi_can_32_axi_port_bready),
-    .can_intr(axi_can_32_can_intr),
-    .can_tx(axi_can_32_can_tx),
-    .can_rx(axi_can_32_can_rx),
-    .clk(axi_can_32_clk),
-    .rst_n(axi_can_32_rst_n)
-  );
-  lys_cpu u_riscv_cpu ( // @[my_cpu_top.scala 172:29]
+  lys_cpu u_riscv_cpu ( // @[my_cpu_top.scala 158:29]
     .clock(u_riscv_cpu_clock),
     .reset(u_riscv_cpu_reset),
     .ext_int_timer(u_riscv_cpu_ext_int_timer),
-    .ext_int_out_int(u_riscv_cpu_ext_int_out_int),
     .inst_cache(u_riscv_cpu_inst_cache),
     .inst_sram_en(u_riscv_cpu_inst_sram_en),
     .inst_sram_addr(u_riscv_cpu_inst_sram_addr),
@@ -26681,7 +27404,7 @@ module mycpu_top(
     .data_fence_i_control(u_riscv_cpu_data_fence_i_control),
     .icache_tag_flush(u_riscv_cpu_icache_tag_flush)
   );
-  inst_cache inst_cache ( // @[my_cpu_top.scala 173:30]
+  inst_cache inst_cache ( // @[my_cpu_top.scala 159:30]
     .clock(inst_cache_clock),
     .reset(inst_cache_reset),
     .io_port_araddr(inst_cache_io_port_araddr),
@@ -26708,7 +27431,7 @@ module mycpu_top(
     .io_tag_valid_flush(inst_cache_io_tag_valid_flush),
     .io_pre_branch(inst_cache_io_pre_branch)
   );
-  data_cache data_cache ( // @[my_cpu_top.scala 175:30]
+  data_cache data_cache ( // @[my_cpu_top.scala 161:30]
     .clock(data_cache_clock),
     .reset(data_cache_reset),
     .io_port_araddr(data_cache_io_port_araddr),
@@ -26745,7 +27468,7 @@ module mycpu_top(
     .io_sram_cache(data_cache_io_sram_cache),
     .io_fence_i_control(data_cache_io_fence_i_control)
   );
-  axi_cross_bar_addr_switch _axi_cross_bar ( // @[my_cpu_top.scala 177:32]
+  axi_cross_bar_addr_switch _axi_cross_bar ( // @[my_cpu_top.scala 163:32]
     .clock(_axi_cross_bar_clock),
     .reset(_axi_cross_bar_reset),
     .io_m_port_0_araddr(_axi_cross_bar_io_m_port_0_araddr),
@@ -26880,7 +27603,7 @@ module mycpu_top(
     .io_s_port_5_wready(_axi_cross_bar_io_s_port_5_wready),
     .io_s_port_5_bvalid(_axi_cross_bar_io_s_port_5_bvalid)
   );
-  axi_ram axi_ram ( // @[my_cpu_top.scala 281:35]
+  axi_ram axi_ram ( // @[my_cpu_top.scala 267:35]
     .s_aclk(axi_ram_s_aclk),
     .s_aresetn(axi_ram_s_aresetn),
     .s_axi_arid(axi_ram_s_axi_arid),
@@ -26913,7 +27636,7 @@ module mycpu_top(
     .s_axi_bvalid(axi_ram_s_axi_bvalid),
     .s_axi_bready(axi_ram_s_axi_bready)
   );
-  timer_periph timer_periph ( // @[my_cpu_top.scala 296:27]
+  timer_periph timer_periph ( // @[my_cpu_top.scala 282:27]
     .clock(timer_periph_clock),
     .reset(timer_periph_reset),
     .io_axi_port_araddr(timer_periph_io_axi_port_araddr),
@@ -26933,7 +27656,9 @@ module mycpu_top(
     .io_axi_port_bvalid(timer_periph_io_axi_port_bvalid),
     .io_int_line(timer_periph_io_int_line)
   );
-  axi_converter axi32_to_64_converter ( // @[my_cpu_top.scala 303:39]
+  axi_converter axi32_to_64_converter ( // @[my_cpu_top.scala 289:39]
+    .clock(axi32_to_64_converter_clock),
+    .reset(axi32_to_64_converter_reset),
     .io_master_arid(axi32_to_64_converter_io_master_arid),
     .io_master_araddr(axi32_to_64_converter_io_master_araddr),
     .io_master_arlen(axi32_to_64_converter_io_master_arlen),
@@ -26985,7 +27710,43 @@ module mycpu_top(
     .io_slave_bvalid(axi32_to_64_converter_io_slave_bvalid),
     .io_slave_bready(axi32_to_64_converter_io_slave_bready)
   );
-  plic_periph plic_periph ( // @[my_cpu_top.scala 326:26]
+  axi_can_32 axi_can_32 ( // @[my_cpu_top.scala 308:25]
+    .axi_port_arid(axi_can_32_axi_port_arid),
+    .axi_port_araddr(axi_can_32_axi_port_araddr),
+    .axi_port_arlen(axi_can_32_axi_port_arlen),
+    .axi_port_arsize(axi_can_32_axi_port_arsize),
+    .axi_port_arburst(axi_can_32_axi_port_arburst),
+    .axi_port_arvalid(axi_can_32_axi_port_arvalid),
+    .axi_port_arready(axi_can_32_axi_port_arready),
+    .axi_port_rid(axi_can_32_axi_port_rid),
+    .axi_port_rdata(axi_can_32_axi_port_rdata),
+    .axi_port_rresp(axi_can_32_axi_port_rresp),
+    .axi_port_rlast(axi_can_32_axi_port_rlast),
+    .axi_port_rvalid(axi_can_32_axi_port_rvalid),
+    .axi_port_rready(axi_can_32_axi_port_rready),
+    .axi_port_awid(axi_can_32_axi_port_awid),
+    .axi_port_awaddr(axi_can_32_axi_port_awaddr),
+    .axi_port_awlen(axi_can_32_axi_port_awlen),
+    .axi_port_awsize(axi_can_32_axi_port_awsize),
+    .axi_port_awburst(axi_can_32_axi_port_awburst),
+    .axi_port_awvalid(axi_can_32_axi_port_awvalid),
+    .axi_port_awready(axi_can_32_axi_port_awready),
+    .axi_port_wdata(axi_can_32_axi_port_wdata),
+    .axi_port_wstrb(axi_can_32_axi_port_wstrb),
+    .axi_port_wlast(axi_can_32_axi_port_wlast),
+    .axi_port_wvalid(axi_can_32_axi_port_wvalid),
+    .axi_port_wready(axi_can_32_axi_port_wready),
+    .axi_port_bid(axi_can_32_axi_port_bid),
+    .axi_port_bresp(axi_can_32_axi_port_bresp),
+    .axi_port_bvalid(axi_can_32_axi_port_bvalid),
+    .axi_port_bready(axi_can_32_axi_port_bready),
+    .can_intr(axi_can_32_can_intr),
+    .can_tx(axi_can_32_can_tx),
+    .can_rx(axi_can_32_can_rx),
+    .clk(axi_can_32_clk),
+    .rst_n(axi_can_32_rst_n)
+  );
+  plic_periph plic_periph ( // @[my_cpu_top.scala 312:26]
     .clock(plic_periph_clock),
     .reset(plic_periph_reset),
     .io_axi_port_araddr(plic_periph_io_axi_port_araddr),
@@ -27003,7 +27764,7 @@ module mycpu_top(
     .io_axi_port_wready(plic_periph_io_axi_port_wready),
     .io_axi_port_bvalid(plic_periph_io_axi_port_bvalid)
   );
-  AXI4ToAPB axi2apb ( // @[my_cpu_top.scala 327:25]
+  AXI4ToAPB axi2apb ( // @[my_cpu_top.scala 313:25]
     .clock(axi2apb_clock),
     .reset(axi2apb_reset),
     .io_axi_port_araddr(axi2apb_io_axi_port_araddr),
@@ -27029,7 +27790,7 @@ module mycpu_top(
     .io_apb_port_pready(axi2apb_io_apb_port_pready),
     .io_apb_port_prdata(axi2apb_io_apb_port_prdata)
   );
-  AXI4ToAPB axi2apb_uart ( // @[my_cpu_top.scala 329:30]
+  AXI4ToAPB axi2apb_uart ( // @[my_cpu_top.scala 315:30]
     .clock(axi2apb_uart_clock),
     .reset(axi2apb_uart_reset),
     .io_axi_port_araddr(axi2apb_uart_io_axi_port_araddr),
@@ -27055,7 +27816,7 @@ module mycpu_top(
     .io_apb_port_pready(axi2apb_uart_io_apb_port_pready),
     .io_apb_port_prdata(axi2apb_uart_io_apb_port_prdata)
   );
-  spi spi ( // @[my_cpu_top.scala 333:31]
+  spi spi ( // @[my_cpu_top.scala 319:31]
     .clk(spi_clk),
     .resetn(spi_resetn),
     .in_psel(spi_in_psel),
@@ -27074,7 +27835,7 @@ module mycpu_top(
     .spi_miso(spi_spi_miso),
     .spi_irq_out(spi_spi_irq_out)
   );
-  uart_apb uart_apb ( // @[my_cpu_top.scala 334:32]
+  uart_apb uart_apb ( // @[my_cpu_top.scala 320:32]
     .clk(uart_apb_clk),
     .resetn(uart_apb_resetn),
     .in_psel(uart_apb_in_psel),
@@ -27091,277 +27852,245 @@ module mycpu_top(
     .uart_tx(uart_apb_uart_tx),
     .o_interrupt(uart_apb_o_interrupt)
   );
-  assign can_tx = axi_can_32_can_tx; // @[my_cpu_top.scala 160:16]
-  assign spi_flash_cs = spi_spi_cs[0]; // @[my_cpu_top.scala 372:46]
-  assign spi_flash_clk = spi_spi_clk; // @[my_cpu_top.scala 371:23]
-  assign spi_flash_mosi = spi_spi_mosi; // @[my_cpu_top.scala 373:24]
-  assign spi_flash_hold = 1'h1; // @[my_cpu_top.scala 375:25]
-  assign spi_flash_wp = 1'h1; // @[my_cpu_top.scala 376:25]
-  assign uart_tx = uart_apb_uart_tx; // @[my_cpu_top.scala 385:13]
-  assign board_reset = board_reset_REG; // @[my_cpu_top.scala 165:17]
-  assign pll_instance_clk_in1 = clock; // @[my_cpu_top.scala 137:42]
-  assign can_axi_clock_converter_m_axi_arid = axi32_to_64_converter_io_slave_arid; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_araddr = axi32_to_64_converter_io_slave_araddr; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_arlen = axi32_to_64_converter_io_slave_arlen; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_arsize = axi32_to_64_converter_io_slave_arsize; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_arburst = axi32_to_64_converter_io_slave_arburst; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_arvalid = axi32_to_64_converter_io_slave_arvalid; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_rready = axi32_to_64_converter_io_slave_rready; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_awid = axi32_to_64_converter_io_slave_awid; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_awaddr = axi32_to_64_converter_io_slave_awaddr; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_awlen = axi32_to_64_converter_io_slave_awlen; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_awsize = axi32_to_64_converter_io_slave_awsize; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_awburst = axi32_to_64_converter_io_slave_awburst; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_awvalid = axi32_to_64_converter_io_slave_awvalid; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_wdata = axi32_to_64_converter_io_slave_wdata; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_wstrb = axi32_to_64_converter_io_slave_wstrb; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_wlast = axi32_to_64_converter_io_slave_wlast; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_wvalid = axi32_to_64_converter_io_slave_wvalid; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_m_axi_bready = axi32_to_64_converter_io_slave_bready; // @[my_cpu_top.scala 133:28 342:18]
-  assign can_axi_clock_converter_s_axi_arready = axi_can_32_axi_port_arready; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_rid = axi_can_32_axi_port_rid; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_rdata = axi_can_32_axi_port_rdata; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_rresp = axi_can_32_axi_port_rresp; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_rlast = axi_can_32_axi_port_rlast; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_rvalid = axi_can_32_axi_port_rvalid; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_awready = axi_can_32_axi_port_awready; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_wready = axi_can_32_axi_port_wready; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_bid = axi_can_32_axi_port_bid; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_bresp = axi_can_32_axi_port_bresp; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_bvalid = axi_can_32_axi_port_bvalid; // @[my_cpu_top.scala 134:42 156:34]
-  assign can_axi_clock_converter_s_axi_aclk = pll_instance_clk_out2; // @[my_cpu_top.scala 139:48]
-  assign can_axi_clock_converter_s_axi_aresetn = reset; // @[my_cpu_top.scala 107:32]
-  assign can_axi_clock_converter_m_axi_aclk = pll_instance_clk_out1; // @[my_cpu_top.scala 138:45]
-  assign can_axi_clock_converter_m_axi_aresetn = reset; // @[my_cpu_top.scala 107:32]
-  assign axi_can_32_axi_port_arid = can_axi_clock_converter_s_axi_arid; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_araddr = can_axi_clock_converter_s_axi_araddr; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_arlen = can_axi_clock_converter_s_axi_arlen; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_arsize = can_axi_clock_converter_s_axi_arsize; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_arburst = can_axi_clock_converter_s_axi_arburst; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_arvalid = can_axi_clock_converter_s_axi_arvalid; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_rready = can_axi_clock_converter_s_axi_rready; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_awid = can_axi_clock_converter_s_axi_awid; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_awaddr = can_axi_clock_converter_s_axi_awaddr; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_awlen = can_axi_clock_converter_s_axi_awlen; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_awsize = can_axi_clock_converter_s_axi_awsize; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_awburst = can_axi_clock_converter_s_axi_awburst; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_awvalid = can_axi_clock_converter_s_axi_awvalid; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_wdata = can_axi_clock_converter_s_axi_wdata; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_wstrb = can_axi_clock_converter_s_axi_wstrb; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_wlast = can_axi_clock_converter_s_axi_wlast; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_wvalid = can_axi_clock_converter_s_axi_wvalid; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_axi_port_bready = can_axi_clock_converter_s_axi_bready; // @[my_cpu_top.scala 134:42 145:36]
-  assign axi_can_32_can_rx = can_rx; // @[my_cpu_top.scala 159:24]
-  assign axi_can_32_clk = pll_instance_clk_out1; // @[my_cpu_top.scala 138:45]
-  assign axi_can_32_rst_n = reset; // @[my_cpu_top.scala 107:32]
-  assign u_riscv_cpu_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 163:31]
+  assign can_tx = axi_can_32_can_tx; // @[my_cpu_top.scala 329:12]
+  assign spi_flash_cs = spi_spi_cs[0]; // @[my_cpu_top.scala 364:46]
+  assign spi_flash_clk = spi_spi_clk; // @[my_cpu_top.scala 363:23]
+  assign spi_flash_mosi = spi_spi_mosi; // @[my_cpu_top.scala 365:24]
+  assign spi_flash_hold = 1'h1; // @[my_cpu_top.scala 367:25]
+  assign spi_flash_wp = 1'h1; // @[my_cpu_top.scala 368:25]
+  assign uart_tx = uart_apb_uart_tx; // @[my_cpu_top.scala 377:13]
+  assign board_reset = board_reset_REG; // @[my_cpu_top.scala 151:17]
+  assign pll_instance_clk_in1 = clock; // @[my_cpu_top.scala 135:42]
+  assign u_riscv_cpu_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 149:31]
   assign u_riscv_cpu_reset = ~reset; // @[my_cpu_top.scala 108:26]
-  assign u_riscv_cpu_ext_int_timer = timer_periph_io_int_line; // @[my_cpu_top.scala 301:31]
-  assign u_riscv_cpu_ext_int_out_int = io_interrupt; // @[my_cpu_top.scala 302:33]
-  assign u_riscv_cpu_inst_sram_rdata_L = inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 257:32]
-  assign u_riscv_cpu_inst_write_en = inst_cache_io_sram_write_en; // @[my_cpu_top.scala 265:31]
-  assign u_riscv_cpu_stage2_stall = inst_cache_io_stage2_stall; // @[my_cpu_top.scala 275:35]
-  assign u_riscv_cpu_data_sram_rdata = data_cache_io_sram_rdata; // @[my_cpu_top.scala 244:28]
-  assign u_riscv_cpu_data_stage2_stall = data_cache_io_stage2_stall; // @[my_cpu_top.scala 266:35]
-  assign inst_cache_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 163:31]
+  assign u_riscv_cpu_ext_int_timer = timer_periph_io_int_line; // @[my_cpu_top.scala 287:31]
+  assign u_riscv_cpu_inst_sram_rdata_L = inst_cache_io_sram_rdata_L; // @[my_cpu_top.scala 243:32]
+  assign u_riscv_cpu_inst_write_en = inst_cache_io_sram_write_en; // @[my_cpu_top.scala 251:31]
+  assign u_riscv_cpu_stage2_stall = inst_cache_io_stage2_stall; // @[my_cpu_top.scala 261:35]
+  assign u_riscv_cpu_data_sram_rdata = data_cache_io_sram_rdata; // @[my_cpu_top.scala 230:28]
+  assign u_riscv_cpu_data_stage2_stall = data_cache_io_stage2_stall; // @[my_cpu_top.scala 252:35]
+  assign inst_cache_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 149:31]
   assign inst_cache_reset = ~reset; // @[my_cpu_top.scala 108:26]
-  assign inst_cache_io_port_arready = _axi_cross_bar_io_m_port_0_arready; // @[my_cpu_top.scala 292:33]
-  assign inst_cache_io_port_rdata = _axi_cross_bar_io_m_port_0_rdata; // @[my_cpu_top.scala 292:33]
-  assign inst_cache_io_port_rlast = _axi_cross_bar_io_m_port_0_rlast; // @[my_cpu_top.scala 292:33]
-  assign inst_cache_io_port_rvalid = _axi_cross_bar_io_m_port_0_rvalid; // @[my_cpu_top.scala 292:33]
-  assign inst_cache_io_stage2_flush = u_riscv_cpu_stage2_flush; // @[my_cpu_top.scala 278:31]
-  assign inst_cache_io_stage1_valid_flush = u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 350:37]
-  assign inst_cache_io_inst_ready_to_use = u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 351:36]
-  assign inst_cache_io_inst_buffer_full = u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 352:37]
-  assign inst_cache_io_p_addr_for_tlb = inst_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 215:38]
-  assign inst_cache_io_sram_req = u_riscv_cpu_inst_sram_en; // @[my_cpu_top.scala 251:29]
-  assign inst_cache_io_sram_addr = u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 248:29]
-  assign inst_cache_io_sram_cache = u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 250:29]
-  assign inst_cache_io_tag_valid_flush = u_riscv_cpu_icache_tag_flush; // @[my_cpu_top.scala 279:34]
-  assign inst_cache_io_pre_branch = u_riscv_cpu_pre_branch; // @[my_cpu_top.scala 310:37]
-  assign data_cache_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 163:31]
+  assign inst_cache_io_port_arready = _axi_cross_bar_io_m_port_0_arready; // @[my_cpu_top.scala 278:33]
+  assign inst_cache_io_port_rdata = _axi_cross_bar_io_m_port_0_rdata; // @[my_cpu_top.scala 278:33]
+  assign inst_cache_io_port_rlast = _axi_cross_bar_io_m_port_0_rlast; // @[my_cpu_top.scala 278:33]
+  assign inst_cache_io_port_rvalid = _axi_cross_bar_io_m_port_0_rvalid; // @[my_cpu_top.scala 278:33]
+  assign inst_cache_io_stage2_flush = u_riscv_cpu_stage2_flush; // @[my_cpu_top.scala 264:31]
+  assign inst_cache_io_stage1_valid_flush = u_riscv_cpu_stage1_valid_flush; // @[my_cpu_top.scala 342:37]
+  assign inst_cache_io_inst_ready_to_use = u_riscv_cpu_inst_ready_to_use; // @[my_cpu_top.scala 343:36]
+  assign inst_cache_io_inst_buffer_full = u_riscv_cpu_inst_buffer_full; // @[my_cpu_top.scala 344:37]
+  assign inst_cache_io_p_addr_for_tlb = inst_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 201:38]
+  assign inst_cache_io_sram_req = u_riscv_cpu_inst_sram_en; // @[my_cpu_top.scala 237:29]
+  assign inst_cache_io_sram_addr = u_riscv_cpu_inst_sram_addr; // @[my_cpu_top.scala 234:29]
+  assign inst_cache_io_sram_cache = u_riscv_cpu_inst_cache; // @[my_cpu_top.scala 236:29]
+  assign inst_cache_io_tag_valid_flush = u_riscv_cpu_icache_tag_flush; // @[my_cpu_top.scala 265:34]
+  assign inst_cache_io_pre_branch = u_riscv_cpu_pre_branch; // @[my_cpu_top.scala 296:37]
+  assign data_cache_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 149:31]
   assign data_cache_reset = ~reset; // @[my_cpu_top.scala 108:26]
-  assign data_cache_io_port_arready = _axi_cross_bar_io_m_port_1_arready; // @[my_cpu_top.scala 293:33]
-  assign data_cache_io_port_rdata = _axi_cross_bar_io_m_port_1_rdata; // @[my_cpu_top.scala 293:33]
-  assign data_cache_io_port_rlast = _axi_cross_bar_io_m_port_1_rlast; // @[my_cpu_top.scala 293:33]
-  assign data_cache_io_port_rvalid = _axi_cross_bar_io_m_port_1_rvalid; // @[my_cpu_top.scala 293:33]
-  assign data_cache_io_port_awready = _axi_cross_bar_io_m_port_1_awready; // @[my_cpu_top.scala 293:33]
-  assign data_cache_io_port_wready = _axi_cross_bar_io_m_port_1_wready; // @[my_cpu_top.scala 293:33]
-  assign data_cache_io_port_bvalid = _axi_cross_bar_io_m_port_1_bvalid; // @[my_cpu_top.scala 293:33]
-  assign data_cache_io_p_addr_for_tlb = data_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 216:38]
-  assign data_cache_io_data_wstrb = u_riscv_cpu_data_wstrb; // @[my_cpu_top.scala 243:29]
-  assign data_cache_io_sram_req = u_riscv_cpu_data_sram_en; // @[my_cpu_top.scala 239:23]
-  assign data_cache_io_sram_wr = u_riscv_cpu_data_sram_wen; // @[my_cpu_top.scala 240:23]
-  assign data_cache_io_sram_size = {{1'd0}, u_riscv_cpu_data_size}; // @[my_cpu_top.scala 237:22]
-  assign data_cache_io_sram_addr = u_riscv_cpu_data_sram_addr; // @[my_cpu_top.scala 236:22]
-  assign data_cache_io_sram_wdata = u_riscv_cpu_data_sram_wdata; // @[my_cpu_top.scala 241:23]
-  assign data_cache_io_sram_cache = u_riscv_cpu_data_cache; // @[my_cpu_top.scala 238:23]
-  assign data_cache_io_fence_i_control = u_riscv_cpu_data_fence_i_control; // @[my_cpu_top.scala 242:28]
-  assign _axi_cross_bar_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 163:31]
+  assign data_cache_io_port_arready = _axi_cross_bar_io_m_port_1_arready; // @[my_cpu_top.scala 279:33]
+  assign data_cache_io_port_rdata = _axi_cross_bar_io_m_port_1_rdata; // @[my_cpu_top.scala 279:33]
+  assign data_cache_io_port_rlast = _axi_cross_bar_io_m_port_1_rlast; // @[my_cpu_top.scala 279:33]
+  assign data_cache_io_port_rvalid = _axi_cross_bar_io_m_port_1_rvalid; // @[my_cpu_top.scala 279:33]
+  assign data_cache_io_port_awready = _axi_cross_bar_io_m_port_1_awready; // @[my_cpu_top.scala 279:33]
+  assign data_cache_io_port_wready = _axi_cross_bar_io_m_port_1_wready; // @[my_cpu_top.scala 279:33]
+  assign data_cache_io_port_bvalid = _axi_cross_bar_io_m_port_1_bvalid; // @[my_cpu_top.scala 279:33]
+  assign data_cache_io_p_addr_for_tlb = data_cache_io_v_addr_for_tlb; // @[my_cpu_top.scala 202:38]
+  assign data_cache_io_data_wstrb = u_riscv_cpu_data_wstrb; // @[my_cpu_top.scala 229:29]
+  assign data_cache_io_sram_req = u_riscv_cpu_data_sram_en; // @[my_cpu_top.scala 225:23]
+  assign data_cache_io_sram_wr = u_riscv_cpu_data_sram_wen; // @[my_cpu_top.scala 226:23]
+  assign data_cache_io_sram_size = {{1'd0}, u_riscv_cpu_data_size}; // @[my_cpu_top.scala 223:22]
+  assign data_cache_io_sram_addr = u_riscv_cpu_data_sram_addr; // @[my_cpu_top.scala 222:22]
+  assign data_cache_io_sram_wdata = u_riscv_cpu_data_sram_wdata; // @[my_cpu_top.scala 227:23]
+  assign data_cache_io_sram_cache = u_riscv_cpu_data_cache; // @[my_cpu_top.scala 224:23]
+  assign data_cache_io_fence_i_control = u_riscv_cpu_data_fence_i_control; // @[my_cpu_top.scala 228:28]
+  assign _axi_cross_bar_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 149:31]
   assign _axi_cross_bar_reset = ~reset; // @[my_cpu_top.scala 108:26]
-  assign _axi_cross_bar_io_m_port_0_araddr = inst_cache_io_port_araddr; // @[my_cpu_top.scala 292:33]
-  assign _axi_cross_bar_io_m_port_0_arlen = inst_cache_io_port_arlen; // @[my_cpu_top.scala 292:33]
-  assign _axi_cross_bar_io_m_port_0_arsize = inst_cache_io_port_arsize; // @[my_cpu_top.scala 292:33]
-  assign _axi_cross_bar_io_m_port_0_arburst = inst_cache_io_port_arburst; // @[my_cpu_top.scala 292:33]
-  assign _axi_cross_bar_io_m_port_0_arvalid = inst_cache_io_port_arvalid; // @[my_cpu_top.scala 292:33]
-  assign _axi_cross_bar_io_m_port_1_araddr = data_cache_io_port_araddr; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_arlen = data_cache_io_port_arlen; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_arsize = data_cache_io_port_arsize; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_arburst = data_cache_io_port_arburst; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_arvalid = data_cache_io_port_arvalid; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_awaddr = data_cache_io_port_awaddr; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_awlen = data_cache_io_port_awlen; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_awsize = data_cache_io_port_awsize; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_awburst = data_cache_io_port_awburst; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_awvalid = data_cache_io_port_awvalid; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_wdata = data_cache_io_port_wdata; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_wstrb = data_cache_io_port_wstrb; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_wlast = data_cache_io_port_wlast; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_m_port_1_wvalid = data_cache_io_port_wvalid; // @[my_cpu_top.scala 293:33]
-  assign _axi_cross_bar_io_s_port_0_arready = axi_ram_s_axi_arready; // @[my_cpu_top.scala 282:29]
-  assign _axi_cross_bar_io_s_port_0_rdata = axi_ram_s_axi_rdata; // @[my_cpu_top.scala 282:29]
-  assign _axi_cross_bar_io_s_port_0_rlast = axi_ram_s_axi_rlast; // @[my_cpu_top.scala 282:29]
-  assign _axi_cross_bar_io_s_port_0_rvalid = axi_ram_s_axi_rvalid; // @[my_cpu_top.scala 282:29]
-  assign _axi_cross_bar_io_s_port_0_awready = axi_ram_s_axi_awready; // @[my_cpu_top.scala 282:29]
-  assign _axi_cross_bar_io_s_port_0_wready = axi_ram_s_axi_wready; // @[my_cpu_top.scala 282:29]
-  assign _axi_cross_bar_io_s_port_0_bvalid = axi_ram_s_axi_bvalid; // @[my_cpu_top.scala 282:29]
-  assign _axi_cross_bar_io_s_port_1_rdata = timer_periph_io_axi_port_rdata; // @[my_cpu_top.scala 299:33]
-  assign _axi_cross_bar_io_s_port_1_rlast = timer_periph_io_axi_port_rlast; // @[my_cpu_top.scala 299:33]
-  assign _axi_cross_bar_io_s_port_1_rvalid = timer_periph_io_axi_port_rvalid; // @[my_cpu_top.scala 299:33]
-  assign _axi_cross_bar_io_s_port_1_wready = timer_periph_io_axi_port_wready; // @[my_cpu_top.scala 299:33]
-  assign _axi_cross_bar_io_s_port_1_bvalid = timer_periph_io_axi_port_bvalid; // @[my_cpu_top.scala 299:33]
-  assign _axi_cross_bar_io_s_port_2_arready = axi32_to_64_converter_io_master_arready; // @[my_cpu_top.scala 338:33]
-  assign _axi_cross_bar_io_s_port_2_rdata = axi32_to_64_converter_io_master_rdata; // @[my_cpu_top.scala 338:33]
-  assign _axi_cross_bar_io_s_port_2_rlast = axi32_to_64_converter_io_master_rlast; // @[my_cpu_top.scala 338:33]
-  assign _axi_cross_bar_io_s_port_2_rvalid = axi32_to_64_converter_io_master_rvalid; // @[my_cpu_top.scala 338:33]
-  assign _axi_cross_bar_io_s_port_2_awready = axi32_to_64_converter_io_master_awready; // @[my_cpu_top.scala 338:33]
-  assign _axi_cross_bar_io_s_port_2_wready = axi32_to_64_converter_io_master_wready; // @[my_cpu_top.scala 338:33]
-  assign _axi_cross_bar_io_s_port_2_bvalid = axi32_to_64_converter_io_master_bvalid; // @[my_cpu_top.scala 338:33]
-  assign _axi_cross_bar_io_s_port_3_rdata = plic_periph_io_axi_port_rdata; // @[my_cpu_top.scala 339:33]
-  assign _axi_cross_bar_io_s_port_3_rlast = plic_periph_io_axi_port_rlast; // @[my_cpu_top.scala 339:33]
-  assign _axi_cross_bar_io_s_port_3_rvalid = plic_periph_io_axi_port_rvalid; // @[my_cpu_top.scala 339:33]
-  assign _axi_cross_bar_io_s_port_3_wready = plic_periph_io_axi_port_wready; // @[my_cpu_top.scala 339:33]
-  assign _axi_cross_bar_io_s_port_3_bvalid = plic_periph_io_axi_port_bvalid; // @[my_cpu_top.scala 339:33]
-  assign _axi_cross_bar_io_s_port_4_rdata = axi2apb_io_axi_port_rdata; // @[my_cpu_top.scala 340:33]
-  assign _axi_cross_bar_io_s_port_4_rlast = axi2apb_io_axi_port_rlast; // @[my_cpu_top.scala 340:33]
-  assign _axi_cross_bar_io_s_port_4_rvalid = axi2apb_io_axi_port_rvalid; // @[my_cpu_top.scala 340:33]
-  assign _axi_cross_bar_io_s_port_4_awready = axi2apb_io_axi_port_awready; // @[my_cpu_top.scala 340:33]
-  assign _axi_cross_bar_io_s_port_4_wready = axi2apb_io_axi_port_wready; // @[my_cpu_top.scala 340:33]
-  assign _axi_cross_bar_io_s_port_4_bvalid = axi2apb_io_axi_port_bvalid; // @[my_cpu_top.scala 340:33]
-  assign _axi_cross_bar_io_s_port_5_rdata = axi2apb_uart_io_axi_port_rdata; // @[my_cpu_top.scala 341:33]
-  assign _axi_cross_bar_io_s_port_5_rlast = axi2apb_uart_io_axi_port_rlast; // @[my_cpu_top.scala 341:33]
-  assign _axi_cross_bar_io_s_port_5_rvalid = axi2apb_uart_io_axi_port_rvalid; // @[my_cpu_top.scala 341:33]
-  assign _axi_cross_bar_io_s_port_5_awready = axi2apb_uart_io_axi_port_awready; // @[my_cpu_top.scala 341:33]
-  assign _axi_cross_bar_io_s_port_5_wready = axi2apb_uart_io_axi_port_wready; // @[my_cpu_top.scala 341:33]
-  assign _axi_cross_bar_io_s_port_5_bvalid = axi2apb_uart_io_axi_port_bvalid; // @[my_cpu_top.scala 341:33]
-  assign axi_ram_s_aclk = pll_instance_clk_out1; // @[my_cpu_top.scala 138:45]
+  assign _axi_cross_bar_io_m_port_0_araddr = inst_cache_io_port_araddr; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_0_arlen = inst_cache_io_port_arlen; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_0_arsize = inst_cache_io_port_arsize; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_0_arburst = inst_cache_io_port_arburst; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_0_arvalid = inst_cache_io_port_arvalid; // @[my_cpu_top.scala 278:33]
+  assign _axi_cross_bar_io_m_port_1_araddr = data_cache_io_port_araddr; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_arlen = data_cache_io_port_arlen; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_arsize = data_cache_io_port_arsize; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_arburst = data_cache_io_port_arburst; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_arvalid = data_cache_io_port_arvalid; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_awaddr = data_cache_io_port_awaddr; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_awlen = data_cache_io_port_awlen; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_awsize = data_cache_io_port_awsize; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_awburst = data_cache_io_port_awburst; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_awvalid = data_cache_io_port_awvalid; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_wdata = data_cache_io_port_wdata; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_wstrb = data_cache_io_port_wstrb; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_wlast = data_cache_io_port_wlast; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_m_port_1_wvalid = data_cache_io_port_wvalid; // @[my_cpu_top.scala 279:33]
+  assign _axi_cross_bar_io_s_port_0_arready = axi_ram_s_axi_arready; // @[my_cpu_top.scala 268:29]
+  assign _axi_cross_bar_io_s_port_0_rdata = axi_ram_s_axi_rdata; // @[my_cpu_top.scala 268:29]
+  assign _axi_cross_bar_io_s_port_0_rlast = axi_ram_s_axi_rlast; // @[my_cpu_top.scala 268:29]
+  assign _axi_cross_bar_io_s_port_0_rvalid = axi_ram_s_axi_rvalid; // @[my_cpu_top.scala 268:29]
+  assign _axi_cross_bar_io_s_port_0_awready = axi_ram_s_axi_awready; // @[my_cpu_top.scala 268:29]
+  assign _axi_cross_bar_io_s_port_0_wready = axi_ram_s_axi_wready; // @[my_cpu_top.scala 268:29]
+  assign _axi_cross_bar_io_s_port_0_bvalid = axi_ram_s_axi_bvalid; // @[my_cpu_top.scala 268:29]
+  assign _axi_cross_bar_io_s_port_1_rdata = timer_periph_io_axi_port_rdata; // @[my_cpu_top.scala 285:33]
+  assign _axi_cross_bar_io_s_port_1_rlast = timer_periph_io_axi_port_rlast; // @[my_cpu_top.scala 285:33]
+  assign _axi_cross_bar_io_s_port_1_rvalid = timer_periph_io_axi_port_rvalid; // @[my_cpu_top.scala 285:33]
+  assign _axi_cross_bar_io_s_port_1_wready = timer_periph_io_axi_port_wready; // @[my_cpu_top.scala 285:33]
+  assign _axi_cross_bar_io_s_port_1_bvalid = timer_periph_io_axi_port_bvalid; // @[my_cpu_top.scala 285:33]
+  assign _axi_cross_bar_io_s_port_2_arready = axi32_to_64_converter_io_master_arready; // @[my_cpu_top.scala 324:33]
+  assign _axi_cross_bar_io_s_port_2_rdata = axi32_to_64_converter_io_master_rdata; // @[my_cpu_top.scala 324:33]
+  assign _axi_cross_bar_io_s_port_2_rlast = axi32_to_64_converter_io_master_rlast; // @[my_cpu_top.scala 324:33]
+  assign _axi_cross_bar_io_s_port_2_rvalid = axi32_to_64_converter_io_master_rvalid; // @[my_cpu_top.scala 324:33]
+  assign _axi_cross_bar_io_s_port_2_awready = axi32_to_64_converter_io_master_awready; // @[my_cpu_top.scala 324:33]
+  assign _axi_cross_bar_io_s_port_2_wready = axi32_to_64_converter_io_master_wready; // @[my_cpu_top.scala 324:33]
+  assign _axi_cross_bar_io_s_port_2_bvalid = axi32_to_64_converter_io_master_bvalid; // @[my_cpu_top.scala 324:33]
+  assign _axi_cross_bar_io_s_port_3_rdata = plic_periph_io_axi_port_rdata; // @[my_cpu_top.scala 325:33]
+  assign _axi_cross_bar_io_s_port_3_rlast = plic_periph_io_axi_port_rlast; // @[my_cpu_top.scala 325:33]
+  assign _axi_cross_bar_io_s_port_3_rvalid = plic_periph_io_axi_port_rvalid; // @[my_cpu_top.scala 325:33]
+  assign _axi_cross_bar_io_s_port_3_wready = plic_periph_io_axi_port_wready; // @[my_cpu_top.scala 325:33]
+  assign _axi_cross_bar_io_s_port_3_bvalid = plic_periph_io_axi_port_bvalid; // @[my_cpu_top.scala 325:33]
+  assign _axi_cross_bar_io_s_port_4_rdata = axi2apb_io_axi_port_rdata; // @[my_cpu_top.scala 326:33]
+  assign _axi_cross_bar_io_s_port_4_rlast = axi2apb_io_axi_port_rlast; // @[my_cpu_top.scala 326:33]
+  assign _axi_cross_bar_io_s_port_4_rvalid = axi2apb_io_axi_port_rvalid; // @[my_cpu_top.scala 326:33]
+  assign _axi_cross_bar_io_s_port_4_awready = axi2apb_io_axi_port_awready; // @[my_cpu_top.scala 326:33]
+  assign _axi_cross_bar_io_s_port_4_wready = axi2apb_io_axi_port_wready; // @[my_cpu_top.scala 326:33]
+  assign _axi_cross_bar_io_s_port_4_bvalid = axi2apb_io_axi_port_bvalid; // @[my_cpu_top.scala 326:33]
+  assign _axi_cross_bar_io_s_port_5_rdata = axi2apb_uart_io_axi_port_rdata; // @[my_cpu_top.scala 327:33]
+  assign _axi_cross_bar_io_s_port_5_rlast = axi2apb_uart_io_axi_port_rlast; // @[my_cpu_top.scala 327:33]
+  assign _axi_cross_bar_io_s_port_5_rvalid = axi2apb_uart_io_axi_port_rvalid; // @[my_cpu_top.scala 327:33]
+  assign _axi_cross_bar_io_s_port_5_awready = axi2apb_uart_io_axi_port_awready; // @[my_cpu_top.scala 327:33]
+  assign _axi_cross_bar_io_s_port_5_wready = axi2apb_uart_io_axi_port_wready; // @[my_cpu_top.scala 327:33]
+  assign _axi_cross_bar_io_s_port_5_bvalid = axi2apb_uart_io_axi_port_bvalid; // @[my_cpu_top.scala 327:33]
+  assign axi_ram_s_aclk = pll_instance_clk_out1; // @[my_cpu_top.scala 136:45]
   assign axi_ram_s_aresetn = reset; // @[my_cpu_top.scala 107:32]
-  assign axi_ram_s_axi_arid = _axi_cross_bar_io_s_port_0_arid; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_araddr = _axi_cross_bar_io_s_port_0_araddr; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_arlen = _axi_cross_bar_io_s_port_0_arlen; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_arsize = _axi_cross_bar_io_s_port_0_arsize; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_arburst = _axi_cross_bar_io_s_port_0_arburst; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_arvalid = _axi_cross_bar_io_s_port_0_arvalid; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_rready = _axi_cross_bar_io_s_port_0_rready; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_awid = _axi_cross_bar_io_s_port_0_awid; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_awaddr = _axi_cross_bar_io_s_port_0_awaddr; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_awlen = _axi_cross_bar_io_s_port_0_awlen; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_awsize = _axi_cross_bar_io_s_port_0_awsize; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_awburst = _axi_cross_bar_io_s_port_0_awburst; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_awvalid = _axi_cross_bar_io_s_port_0_awvalid; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_wdata = _axi_cross_bar_io_s_port_0_wdata; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_wstrb = _axi_cross_bar_io_s_port_0_wstrb; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_wlast = _axi_cross_bar_io_s_port_0_wlast; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_wvalid = _axi_cross_bar_io_s_port_0_wvalid; // @[my_cpu_top.scala 282:29]
-  assign axi_ram_s_axi_bready = _axi_cross_bar_io_s_port_0_bready; // @[my_cpu_top.scala 282:29]
-  assign timer_periph_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 163:31]
+  assign axi_ram_s_axi_arid = _axi_cross_bar_io_s_port_0_arid; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_araddr = _axi_cross_bar_io_s_port_0_araddr; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_arlen = _axi_cross_bar_io_s_port_0_arlen; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_arsize = _axi_cross_bar_io_s_port_0_arsize; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_arburst = _axi_cross_bar_io_s_port_0_arburst; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_arvalid = _axi_cross_bar_io_s_port_0_arvalid; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_rready = _axi_cross_bar_io_s_port_0_rready; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_awid = _axi_cross_bar_io_s_port_0_awid; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_awaddr = _axi_cross_bar_io_s_port_0_awaddr; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_awlen = _axi_cross_bar_io_s_port_0_awlen; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_awsize = _axi_cross_bar_io_s_port_0_awsize; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_awburst = _axi_cross_bar_io_s_port_0_awburst; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_awvalid = _axi_cross_bar_io_s_port_0_awvalid; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_wdata = _axi_cross_bar_io_s_port_0_wdata; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_wstrb = _axi_cross_bar_io_s_port_0_wstrb; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_wlast = _axi_cross_bar_io_s_port_0_wlast; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_wvalid = _axi_cross_bar_io_s_port_0_wvalid; // @[my_cpu_top.scala 268:29]
+  assign axi_ram_s_axi_bready = _axi_cross_bar_io_s_port_0_bready; // @[my_cpu_top.scala 268:29]
+  assign timer_periph_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 149:31]
   assign timer_periph_reset = ~reset; // @[my_cpu_top.scala 108:26]
-  assign timer_periph_io_axi_port_araddr = _axi_cross_bar_io_s_port_1_araddr; // @[my_cpu_top.scala 299:33]
-  assign timer_periph_io_axi_port_arvalid = _axi_cross_bar_io_s_port_1_arvalid; // @[my_cpu_top.scala 299:33]
-  assign timer_periph_io_axi_port_rready = _axi_cross_bar_io_s_port_1_rready; // @[my_cpu_top.scala 299:33]
-  assign timer_periph_io_axi_port_awaddr = _axi_cross_bar_io_s_port_1_awaddr; // @[my_cpu_top.scala 299:33]
-  assign timer_periph_io_axi_port_awsize = _axi_cross_bar_io_s_port_1_awsize; // @[my_cpu_top.scala 299:33]
-  assign timer_periph_io_axi_port_awvalid = _axi_cross_bar_io_s_port_1_awvalid; // @[my_cpu_top.scala 299:33]
-  assign timer_periph_io_axi_port_wdata = _axi_cross_bar_io_s_port_1_wdata; // @[my_cpu_top.scala 299:33]
-  assign timer_periph_io_axi_port_wvalid = _axi_cross_bar_io_s_port_1_wvalid; // @[my_cpu_top.scala 299:33]
-  assign axi32_to_64_converter_io_master_arid = _axi_cross_bar_io_s_port_2_arid; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_araddr = _axi_cross_bar_io_s_port_2_araddr; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_arlen = _axi_cross_bar_io_s_port_2_arlen; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_arsize = _axi_cross_bar_io_s_port_2_arsize; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_arburst = _axi_cross_bar_io_s_port_2_arburst; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_arvalid = _axi_cross_bar_io_s_port_2_arvalid; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_rready = _axi_cross_bar_io_s_port_2_rready; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_awid = _axi_cross_bar_io_s_port_2_awid; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_awaddr = _axi_cross_bar_io_s_port_2_awaddr; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_awlen = _axi_cross_bar_io_s_port_2_awlen; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_awsize = _axi_cross_bar_io_s_port_2_awsize; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_awburst = _axi_cross_bar_io_s_port_2_awburst; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_awvalid = _axi_cross_bar_io_s_port_2_awvalid; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_wdata = _axi_cross_bar_io_s_port_2_wdata; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_wstrb = _axi_cross_bar_io_s_port_2_wstrb; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_wlast = _axi_cross_bar_io_s_port_2_wlast; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_wvalid = _axi_cross_bar_io_s_port_2_wvalid; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_master_bready = _axi_cross_bar_io_s_port_2_bready; // @[my_cpu_top.scala 338:33]
-  assign axi32_to_64_converter_io_slave_arready = can_axi_clock_converter_m_axi_arready; // @[my_cpu_top.scala 133:28 146:22]
-  assign axi32_to_64_converter_io_slave_rdata = can_axi_clock_converter_m_axi_rdata; // @[my_cpu_top.scala 133:28 146:22]
-  assign axi32_to_64_converter_io_slave_rlast = can_axi_clock_converter_m_axi_rlast; // @[my_cpu_top.scala 133:28 146:22]
-  assign axi32_to_64_converter_io_slave_rvalid = can_axi_clock_converter_m_axi_rvalid; // @[my_cpu_top.scala 133:28 146:22]
-  assign axi32_to_64_converter_io_slave_awready = can_axi_clock_converter_m_axi_awready; // @[my_cpu_top.scala 133:28 146:22]
-  assign axi32_to_64_converter_io_slave_wready = can_axi_clock_converter_m_axi_wready; // @[my_cpu_top.scala 133:28 146:22]
-  assign axi32_to_64_converter_io_slave_bvalid = can_axi_clock_converter_m_axi_bvalid; // @[my_cpu_top.scala 133:28 146:22]
-  assign plic_periph_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 163:31]
+  assign timer_periph_io_axi_port_araddr = _axi_cross_bar_io_s_port_1_araddr; // @[my_cpu_top.scala 285:33]
+  assign timer_periph_io_axi_port_arvalid = _axi_cross_bar_io_s_port_1_arvalid; // @[my_cpu_top.scala 285:33]
+  assign timer_periph_io_axi_port_rready = _axi_cross_bar_io_s_port_1_rready; // @[my_cpu_top.scala 285:33]
+  assign timer_periph_io_axi_port_awaddr = _axi_cross_bar_io_s_port_1_awaddr; // @[my_cpu_top.scala 285:33]
+  assign timer_periph_io_axi_port_awsize = _axi_cross_bar_io_s_port_1_awsize; // @[my_cpu_top.scala 285:33]
+  assign timer_periph_io_axi_port_awvalid = _axi_cross_bar_io_s_port_1_awvalid; // @[my_cpu_top.scala 285:33]
+  assign timer_periph_io_axi_port_wdata = _axi_cross_bar_io_s_port_1_wdata; // @[my_cpu_top.scala 285:33]
+  assign timer_periph_io_axi_port_wvalid = _axi_cross_bar_io_s_port_1_wvalid; // @[my_cpu_top.scala 285:33]
+  assign axi32_to_64_converter_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 149:31]
+  assign axi32_to_64_converter_reset = ~reset; // @[my_cpu_top.scala 108:26]
+  assign axi32_to_64_converter_io_master_arid = _axi_cross_bar_io_s_port_2_arid; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_araddr = _axi_cross_bar_io_s_port_2_araddr; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_arlen = _axi_cross_bar_io_s_port_2_arlen; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_arsize = _axi_cross_bar_io_s_port_2_arsize; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_arburst = _axi_cross_bar_io_s_port_2_arburst; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_arvalid = _axi_cross_bar_io_s_port_2_arvalid; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_rready = _axi_cross_bar_io_s_port_2_rready; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_awid = _axi_cross_bar_io_s_port_2_awid; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_awaddr = _axi_cross_bar_io_s_port_2_awaddr; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_awlen = _axi_cross_bar_io_s_port_2_awlen; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_awsize = _axi_cross_bar_io_s_port_2_awsize; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_awburst = _axi_cross_bar_io_s_port_2_awburst; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_awvalid = _axi_cross_bar_io_s_port_2_awvalid; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_wdata = _axi_cross_bar_io_s_port_2_wdata; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_wstrb = _axi_cross_bar_io_s_port_2_wstrb; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_wlast = _axi_cross_bar_io_s_port_2_wlast; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_wvalid = _axi_cross_bar_io_s_port_2_wvalid; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_master_bready = _axi_cross_bar_io_s_port_2_bready; // @[my_cpu_top.scala 324:33]
+  assign axi32_to_64_converter_io_slave_arready = axi_can_32_axi_port_arready; // @[my_cpu_top.scala 328:22]
+  assign axi32_to_64_converter_io_slave_rdata = axi_can_32_axi_port_rdata; // @[my_cpu_top.scala 328:22]
+  assign axi32_to_64_converter_io_slave_rlast = axi_can_32_axi_port_rlast; // @[my_cpu_top.scala 328:22]
+  assign axi32_to_64_converter_io_slave_rvalid = axi_can_32_axi_port_rvalid; // @[my_cpu_top.scala 328:22]
+  assign axi32_to_64_converter_io_slave_awready = axi_can_32_axi_port_awready; // @[my_cpu_top.scala 328:22]
+  assign axi32_to_64_converter_io_slave_wready = axi_can_32_axi_port_wready; // @[my_cpu_top.scala 328:22]
+  assign axi32_to_64_converter_io_slave_bvalid = axi_can_32_axi_port_bvalid; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_arid = axi32_to_64_converter_io_slave_arid; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_araddr = axi32_to_64_converter_io_slave_araddr; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_arlen = axi32_to_64_converter_io_slave_arlen; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_arsize = axi32_to_64_converter_io_slave_arsize; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_arburst = axi32_to_64_converter_io_slave_arburst; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_arvalid = axi32_to_64_converter_io_slave_arvalid; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_rready = axi32_to_64_converter_io_slave_rready; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_awid = axi32_to_64_converter_io_slave_awid; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_awaddr = axi32_to_64_converter_io_slave_awaddr; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_awlen = axi32_to_64_converter_io_slave_awlen; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_awsize = axi32_to_64_converter_io_slave_awsize; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_awburst = axi32_to_64_converter_io_slave_awburst; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_awvalid = axi32_to_64_converter_io_slave_awvalid; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_wdata = axi32_to_64_converter_io_slave_wdata; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_wstrb = axi32_to_64_converter_io_slave_wstrb; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_wlast = axi32_to_64_converter_io_slave_wlast; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_wvalid = axi32_to_64_converter_io_slave_wvalid; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_axi_port_bready = axi32_to_64_converter_io_slave_bready; // @[my_cpu_top.scala 328:22]
+  assign axi_can_32_can_rx = can_rx; // @[my_cpu_top.scala 330:20]
+  assign axi_can_32_clk = pll_instance_clk_out1; // @[my_cpu_top.scala 136:45]
+  assign axi_can_32_rst_n = reset; // @[my_cpu_top.scala 107:32]
+  assign plic_periph_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 149:31]
   assign plic_periph_reset = ~reset; // @[my_cpu_top.scala 108:26]
-  assign plic_periph_io_axi_port_araddr = _axi_cross_bar_io_s_port_3_araddr; // @[my_cpu_top.scala 339:33]
-  assign plic_periph_io_axi_port_arvalid = _axi_cross_bar_io_s_port_3_arvalid; // @[my_cpu_top.scala 339:33]
-  assign plic_periph_io_axi_port_rready = _axi_cross_bar_io_s_port_3_rready; // @[my_cpu_top.scala 339:33]
-  assign plic_periph_io_axi_port_awaddr = _axi_cross_bar_io_s_port_3_awaddr; // @[my_cpu_top.scala 339:33]
-  assign plic_periph_io_axi_port_awvalid = _axi_cross_bar_io_s_port_3_awvalid; // @[my_cpu_top.scala 339:33]
-  assign plic_periph_io_axi_port_wdata = _axi_cross_bar_io_s_port_3_wdata; // @[my_cpu_top.scala 339:33]
-  assign plic_periph_io_axi_port_wvalid = _axi_cross_bar_io_s_port_3_wvalid; // @[my_cpu_top.scala 339:33]
-  assign axi2apb_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 163:31]
+  assign plic_periph_io_axi_port_araddr = _axi_cross_bar_io_s_port_3_araddr; // @[my_cpu_top.scala 325:33]
+  assign plic_periph_io_axi_port_arvalid = _axi_cross_bar_io_s_port_3_arvalid; // @[my_cpu_top.scala 325:33]
+  assign plic_periph_io_axi_port_rready = _axi_cross_bar_io_s_port_3_rready; // @[my_cpu_top.scala 325:33]
+  assign plic_periph_io_axi_port_awaddr = _axi_cross_bar_io_s_port_3_awaddr; // @[my_cpu_top.scala 325:33]
+  assign plic_periph_io_axi_port_awvalid = _axi_cross_bar_io_s_port_3_awvalid; // @[my_cpu_top.scala 325:33]
+  assign plic_periph_io_axi_port_wdata = _axi_cross_bar_io_s_port_3_wdata; // @[my_cpu_top.scala 325:33]
+  assign plic_periph_io_axi_port_wvalid = _axi_cross_bar_io_s_port_3_wvalid; // @[my_cpu_top.scala 325:33]
+  assign axi2apb_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 149:31]
   assign axi2apb_reset = ~reset; // @[my_cpu_top.scala 108:26]
-  assign axi2apb_io_axi_port_araddr = _axi_cross_bar_io_s_port_4_araddr; // @[my_cpu_top.scala 340:33]
-  assign axi2apb_io_axi_port_arsize = _axi_cross_bar_io_s_port_4_arsize; // @[my_cpu_top.scala 340:33]
-  assign axi2apb_io_axi_port_arvalid = _axi_cross_bar_io_s_port_4_arvalid; // @[my_cpu_top.scala 340:33]
-  assign axi2apb_io_axi_port_awaddr = _axi_cross_bar_io_s_port_4_awaddr; // @[my_cpu_top.scala 340:33]
-  assign axi2apb_io_axi_port_awvalid = _axi_cross_bar_io_s_port_4_awvalid; // @[my_cpu_top.scala 340:33]
-  assign axi2apb_io_axi_port_wdata = _axi_cross_bar_io_s_port_4_wdata; // @[my_cpu_top.scala 340:33]
-  assign axi2apb_io_axi_port_wvalid = _axi_cross_bar_io_s_port_4_wvalid; // @[my_cpu_top.scala 340:33]
-  assign axi2apb_io_apb_port_pready = spi_in_pready; // @[my_cpu_top.scala 357:22]
-  assign axi2apb_io_apb_port_prdata = spi_in_prdata; // @[my_cpu_top.scala 357:22]
-  assign axi2apb_uart_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 163:31]
+  assign axi2apb_io_axi_port_araddr = _axi_cross_bar_io_s_port_4_araddr; // @[my_cpu_top.scala 326:33]
+  assign axi2apb_io_axi_port_arsize = _axi_cross_bar_io_s_port_4_arsize; // @[my_cpu_top.scala 326:33]
+  assign axi2apb_io_axi_port_arvalid = _axi_cross_bar_io_s_port_4_arvalid; // @[my_cpu_top.scala 326:33]
+  assign axi2apb_io_axi_port_awaddr = _axi_cross_bar_io_s_port_4_awaddr; // @[my_cpu_top.scala 326:33]
+  assign axi2apb_io_axi_port_awvalid = _axi_cross_bar_io_s_port_4_awvalid; // @[my_cpu_top.scala 326:33]
+  assign axi2apb_io_axi_port_wdata = _axi_cross_bar_io_s_port_4_wdata; // @[my_cpu_top.scala 326:33]
+  assign axi2apb_io_axi_port_wvalid = _axi_cross_bar_io_s_port_4_wvalid; // @[my_cpu_top.scala 326:33]
+  assign axi2apb_io_apb_port_pready = spi_in_pready; // @[my_cpu_top.scala 349:22]
+  assign axi2apb_io_apb_port_prdata = spi_in_prdata; // @[my_cpu_top.scala 349:22]
+  assign axi2apb_uart_clock = pll_instance_clk_out1; // @[my_cpu_top.scala 149:31]
   assign axi2apb_uart_reset = ~reset; // @[my_cpu_top.scala 108:26]
-  assign axi2apb_uart_io_axi_port_araddr = _axi_cross_bar_io_s_port_5_araddr; // @[my_cpu_top.scala 341:33]
-  assign axi2apb_uart_io_axi_port_arsize = _axi_cross_bar_io_s_port_5_arsize; // @[my_cpu_top.scala 341:33]
-  assign axi2apb_uart_io_axi_port_arvalid = _axi_cross_bar_io_s_port_5_arvalid; // @[my_cpu_top.scala 341:33]
-  assign axi2apb_uart_io_axi_port_awaddr = _axi_cross_bar_io_s_port_5_awaddr; // @[my_cpu_top.scala 341:33]
-  assign axi2apb_uart_io_axi_port_awvalid = _axi_cross_bar_io_s_port_5_awvalid; // @[my_cpu_top.scala 341:33]
-  assign axi2apb_uart_io_axi_port_wdata = _axi_cross_bar_io_s_port_5_wdata; // @[my_cpu_top.scala 341:33]
-  assign axi2apb_uart_io_axi_port_wvalid = _axi_cross_bar_io_s_port_5_wvalid; // @[my_cpu_top.scala 341:33]
-  assign axi2apb_uart_io_apb_port_pready = uart_apb_in_pready; // @[my_cpu_top.scala 382:26]
-  assign axi2apb_uart_io_apb_port_prdata = uart_apb_in_prdata; // @[my_cpu_top.scala 382:26]
-  assign spi_clk = pll_instance_clk_out1; // @[my_cpu_top.scala 138:45]
+  assign axi2apb_uart_io_axi_port_araddr = _axi_cross_bar_io_s_port_5_araddr; // @[my_cpu_top.scala 327:33]
+  assign axi2apb_uart_io_axi_port_arsize = _axi_cross_bar_io_s_port_5_arsize; // @[my_cpu_top.scala 327:33]
+  assign axi2apb_uart_io_axi_port_arvalid = _axi_cross_bar_io_s_port_5_arvalid; // @[my_cpu_top.scala 327:33]
+  assign axi2apb_uart_io_axi_port_awaddr = _axi_cross_bar_io_s_port_5_awaddr; // @[my_cpu_top.scala 327:33]
+  assign axi2apb_uart_io_axi_port_awvalid = _axi_cross_bar_io_s_port_5_awvalid; // @[my_cpu_top.scala 327:33]
+  assign axi2apb_uart_io_axi_port_wdata = _axi_cross_bar_io_s_port_5_wdata; // @[my_cpu_top.scala 327:33]
+  assign axi2apb_uart_io_axi_port_wvalid = _axi_cross_bar_io_s_port_5_wvalid; // @[my_cpu_top.scala 327:33]
+  assign axi2apb_uart_io_apb_port_pready = uart_apb_in_pready; // @[my_cpu_top.scala 374:26]
+  assign axi2apb_uart_io_apb_port_prdata = uart_apb_in_prdata; // @[my_cpu_top.scala 374:26]
+  assign spi_clk = pll_instance_clk_out1; // @[my_cpu_top.scala 136:45]
   assign spi_resetn = reset; // @[my_cpu_top.scala 107:32]
-  assign spi_in_psel = axi2apb_io_apb_port_psel; // @[my_cpu_top.scala 357:22]
-  assign spi_in_penable = axi2apb_io_apb_port_penable; // @[my_cpu_top.scala 357:22]
-  assign spi_in_pwrite = axi2apb_io_apb_port_pwrite; // @[my_cpu_top.scala 357:22]
-  assign spi_in_pwdata = axi2apb_io_apb_port_pwdata; // @[my_cpu_top.scala 357:22]
-  assign spi_in_paddr = axi2apb_io_apb_port_paddr; // @[my_cpu_top.scala 357:22]
-  assign spi_in_pstrb = axi2apb_io_apb_port_pstrb; // @[my_cpu_top.scala 357:22]
-  assign spi_in_pprot = 3'h1; // @[my_cpu_top.scala 358:28]
-  assign spi_spi_miso = spi_flash_miso; // @[my_cpu_top.scala 374:32]
-  assign uart_apb_clk = pll_instance_clk_out1; // @[my_cpu_top.scala 138:45]
+  assign spi_in_psel = axi2apb_io_apb_port_psel; // @[my_cpu_top.scala 349:22]
+  assign spi_in_penable = axi2apb_io_apb_port_penable; // @[my_cpu_top.scala 349:22]
+  assign spi_in_pwrite = axi2apb_io_apb_port_pwrite; // @[my_cpu_top.scala 349:22]
+  assign spi_in_pwdata = axi2apb_io_apb_port_pwdata; // @[my_cpu_top.scala 349:22]
+  assign spi_in_paddr = axi2apb_io_apb_port_paddr; // @[my_cpu_top.scala 349:22]
+  assign spi_in_pstrb = axi2apb_io_apb_port_pstrb; // @[my_cpu_top.scala 349:22]
+  assign spi_in_pprot = 3'h1; // @[my_cpu_top.scala 350:28]
+  assign spi_spi_miso = spi_flash_miso; // @[my_cpu_top.scala 366:32]
+  assign uart_apb_clk = pll_instance_clk_out1; // @[my_cpu_top.scala 136:45]
   assign uart_apb_resetn = reset; // @[my_cpu_top.scala 107:32]
-  assign uart_apb_in_psel = axi2apb_uart_io_apb_port_psel; // @[my_cpu_top.scala 382:26]
-  assign uart_apb_in_penable = axi2apb_uart_io_apb_port_penable; // @[my_cpu_top.scala 382:26]
-  assign uart_apb_in_pwrite = axi2apb_uart_io_apb_port_pwrite; // @[my_cpu_top.scala 382:26]
-  assign uart_apb_in_pwdata = axi2apb_uart_io_apb_port_pwdata; // @[my_cpu_top.scala 382:26]
-  assign uart_apb_in_paddr = axi2apb_uart_io_apb_port_paddr; // @[my_cpu_top.scala 382:26]
-  assign uart_apb_in_pstrb = axi2apb_uart_io_apb_port_pstrb; // @[my_cpu_top.scala 382:26]
-  assign uart_apb_in_pprot = 3'h1; // @[my_cpu_top.scala 383:29]
-  assign uart_apb_uart_rx = uart_rx; // @[my_cpu_top.scala 384:28]
+  assign uart_apb_in_psel = axi2apb_uart_io_apb_port_psel; // @[my_cpu_top.scala 374:26]
+  assign uart_apb_in_penable = axi2apb_uart_io_apb_port_penable; // @[my_cpu_top.scala 374:26]
+  assign uart_apb_in_pwrite = axi2apb_uart_io_apb_port_pwrite; // @[my_cpu_top.scala 374:26]
+  assign uart_apb_in_pwdata = axi2apb_uart_io_apb_port_pwdata; // @[my_cpu_top.scala 374:26]
+  assign uart_apb_in_paddr = axi2apb_uart_io_apb_port_paddr; // @[my_cpu_top.scala 374:26]
+  assign uart_apb_in_pstrb = axi2apb_uart_io_apb_port_pstrb; // @[my_cpu_top.scala 374:26]
+  assign uart_apb_in_pprot = 3'h1; // @[my_cpu_top.scala 375:29]
+  assign uart_apb_uart_rx = uart_rx; // @[my_cpu_top.scala 376:28]
   always @(posedge pll_instance_clk_out1) begin
-    board_reset_REG <= ~reset; // @[my_cpu_top.scala 165:28]
+    board_reset_REG <= ~reset; // @[my_cpu_top.scala 151:28]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN

@@ -54,11 +54,11 @@ parameter   spi_cs_num       = 2
   output  [`P_DATA_W-1:0]    in_prdata,
   output                     in_pslverr,
 
-  output                     spi_clk,
-  output  [spi_cs_num-1:0]   spi_cs,
-  output                     spi_mosi,
-  input                      spi_miso,
-  output                     spi_irq_out
+  (*mark_debug = "true"*)output                     spi_clk,
+  (*mark_debug = "true"*)output  [spi_cs_num-1:0]   spi_cs,
+  (*mark_debug = "true"*)output                     spi_mosi,
+  (*mark_debug = "true"*)input                      spi_miso,
+  (*mark_debug = "true"*)output                     spi_irq_out
 );
 
 `ifdef FAST_FLASH

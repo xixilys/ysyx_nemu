@@ -155,7 +155,7 @@ class myCPU extends Module with riscv_macros {//
         val true_branch_state        = Bool()
     }
 
-    val inst_buffer = Module(new fifo_with_bundle(4,new inst_buffer_bundle,1,1)).io
+    val inst_buffer = Module(new fifo_with_bundle(8,new inst_buffer_bundle,1,1)).io
 
     // io.inst_port_test <> _pc2if.io.inst_port_test
     // inst_port_test <> _pc2if.io.inst_port_test

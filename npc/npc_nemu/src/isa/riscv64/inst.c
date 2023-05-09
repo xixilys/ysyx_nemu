@@ -135,7 +135,7 @@ static int decode_exec(Decode *s) {
     CSR(MIP) = CSR(MIP) | (1 << 7 );
     printf("out int is  %d\n",cpu_int.out);
   }else if(cpu_int.out == 1 && BITS(CSR(MIE),11,11) == 1 && BITS(CSR(MSTATUS),3,3) == 1 ) {
-    s->dnpc = isa_raise_intr(0x800000000000000f,s->pc);
+    s->dnpc = isa_raise_intr(0x800000000000000b,s->pc);
     CSR(MSTATUS) = CSR(MSTATUS) &(~(size_t)(1 << 3));
     CSR(MIP) = CSR(MIP) | (1 << 11 );
   }
@@ -331,6 +331,8 @@ void cpu_ebreak(){
 // }
 
 int isa_exec_once(Decode *s) {
+  
   s->isa.inst.val = inst_fetch(&s->snpc, 4);
+    // assert(0);
   return decode_exec(s);
 }

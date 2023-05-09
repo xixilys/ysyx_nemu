@@ -177,6 +177,7 @@ word_t paddr_read(paddr_t addr, int len, uint8_t mem_type,int skip)
 
     return pmem_data; // mem_read_mtrace.data;
   }
+  
   //如果不在设定的内存地址范围内，则进行MMIO处理
   //MMIO目前只模拟了flash
 

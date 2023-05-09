@@ -17,7 +17,7 @@ static uint32_t  *img = NULL;
 static void restart() {
   /* Set the initial program counter. */
   // cpu.pc = RESET_VECTOR;
-  cpu.pc = 0x80000000;
+  cpu.pc = 0x30000000;
   // img = ma
 
   /* The zero register is always 0. */

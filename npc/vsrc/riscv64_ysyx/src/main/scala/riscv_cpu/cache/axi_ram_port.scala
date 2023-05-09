@@ -411,6 +411,20 @@ class axi_converter extends Module {
                 val slave   = new axi_ram_port(32,32)
         })
         io.master <> io.slave
+        val raddr_reg = RegInit(0.U(32.W))
+        raddr_reg := Mux(io.master.arvalid.asBool && io.master.arready.asBool,io.master.araddr,raddr_reg)
+        when(io.master.awaddr(2) === 1.U.asBool) {
+                io.slave.wdata := io.master.wdata >> (4*8);
+                io.slave.wstrb := io.master.wstrb >> 4;
+        }.otherwise{
+                io.slave.wdata := io.master.wdata;
+                io.slave.wstrb := io.master.wstrb;
+        }
+        when(raddr_reg(2) === 1.U.asBool) {
+                io.master.rdata := Cat(0.U(32.W),io.slave.rdata) << (4*8);
+        }.otherwise{
+                io.master.rdata := io.slave.rdata ;
+        }
 }
 
 class axi_clock_converter extends BlackBox {

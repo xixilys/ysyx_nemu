@@ -67,7 +67,7 @@ static int difftest_port = 1234;
 
 
 extern "C" void flash_init(char *img);
-extern uint8_t axi_sim_mem[0x8000000];
+extern uint8_t axi_sim_mem[20000*8];
 static long load_img() {
   if (img_file == NULL) {
     Log("No image is given. Use the default build-in image.");
@@ -78,6 +78,8 @@ static long load_img() {
     fseek(fp, 0, SEEK_SET);
     fread(axi_sim_mem,size,1,fp);
     fclose(fp);
+    img_file = "/home/ddddddd/my_learn/cpu_relative/ysyx4_soc/ysyx/prog/bin/mem/rtthread-mem.bin";
+    flash_init(img_file);
     return size;
   }
 

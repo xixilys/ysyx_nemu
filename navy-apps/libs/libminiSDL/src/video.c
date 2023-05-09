@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <fixedptc.h>
-
+ 
 #define start_vedio 1
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
