@@ -17,7 +17,7 @@ wire vga_clk;
 
 clk_converter clk_con(.clk_in1(clk),
 	.clk_out1(vga_clk));
-vga vga_1(vga_clk,rst,vga_data,h_addr,v_addr,vga_hsync,vga_vsync,vga_valid,vga_r,vga_g,vga_b);
+vga vga_1(vga_clk,rst,vga_data,h_addr,v_addr,vga_hsync,vga_vsync,vga_valid,vga_red,vga_green,vga_blue);
 
 
 assign vga_data = vga_valid?12'hf00:12'h0;
