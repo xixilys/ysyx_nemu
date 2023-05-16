@@ -114,7 +114,7 @@
 	(*mark_debug = "true"*)reg [C_S_AXI_DATA_WIDTH-1:0]	slv_reg3;
 	(*mark_debug = "true"*)reg [C_S_AXI_DATA_WIDTH-1:0]	slv_reg4;
 
-	(*mark_debug = "true"*)reg [C_S_AXI_DATA_WIDTH-1:0]	slv_reg5;
+	reg [C_S_AXI_DATA_WIDTH-1:0]	slv_reg5;
 	wire	 slv_reg_rden;
 	wire	 slv_reg_wren;
 	reg [C_S_AXI_DATA_WIDTH-1:0]	 reg_data_out;
@@ -425,7 +425,7 @@ can_top #(
     .RX_ID_SHORT_MASK  ( 11'h200 ),// dont care the last bit, i.e., acks the id 00000000010(2) and 00000000011(3)
     .RX_ID_LONG_FILTER ( 29'h00000000    ),
     .RX_ID_LONG_MASK   ( 29'h1fffffff    ),
-    .default_c_PTS     ( 16'd20           ),
+    .default_c_PTS     ( 16'd30           ),
     .default_c_PBS1    ( 16'd10          ),
     .default_c_PBS2    ( 16'd5          )
 ) can1_controller (
@@ -449,7 +449,7 @@ wire         can1_clk;
 wire         can1_rx;
 // wire         can1_tx;
 wire         can1_tx_valid;
-reg   [63:0] can1_tx_data = 0;
+	(*mark_debug = "true"*)reg   [63:0] can1_tx_data = 0;
 wire         can1_rx_valid;  // whether data byte is valid
 wire         can1_rx_last;   // indicate the last data byte of a packet
 wire  [ 7:0] can1_rx_data;   // a data byte in the packet
@@ -476,7 +476,7 @@ always @ (posedge can1_clk or negedge can1_rstn)
     end else begin
         if(can1_tx_valid) begin
             can1_tx_cnt <= 0;
-            can1_tx_data <=  {slv_reg0,slv_reg1};
+            can1_tx_data <=  {slv_reg1,slv_reg0};
         end else begin
             can1_tx_cnt <= can1_tx_cnt + 1;
         end

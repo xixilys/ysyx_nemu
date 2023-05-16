@@ -26,7 +26,7 @@
   	input wire can_rx;
   	output wire can_tx;
   	input wire tx_start;
-  	input wire [63:0] tx_data;
+  	(*mark_debug = "true"*) input wire [63:0] tx_data;
   	output reg tx_done;
   	output reg tx_acked;
   	output reg rx_valid;
@@ -81,7 +81,7 @@
 //  	reg [14:0] tx_crc = 1'sb0;
 //  	wire [14:0] tx_crc_next = {tx_crc[13:0], 1'b0} ^ (tx_crc[14] ^ tx_shift[49] ? 15'h4599 : 15'h0000);
 
-   	reg [81:0] tx_shift = 1'sb1;
+   	(*mark_debug = "true"*) reg [81:0] tx_shift = 1'sb1;
   	reg [14:0] tx_crc = 1'sb0;
   	wire [14:0] tx_crc_next = {tx_crc[13:0], 1'b0} ^ (tx_crc[14] ^ tx_shift[81] ? 15'h4599 : 15'h0000);
 

@@ -45,7 +45,7 @@ localparam [1:0] STAT_PTS         = 2'd0,
                  STAT_PBS1         = 2'd1,
                  STAT_PBS2    =    2'd2;
                  
-reg [1:0] stat = STAT_PTS;
+(*mark_debug = "true"*)reg [1:0] stat = STAT_PTS;
                  
 reg        inframe = 1'b0;
 

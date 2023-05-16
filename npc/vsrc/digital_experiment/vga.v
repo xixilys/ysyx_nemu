@@ -1,16 +1,16 @@
 module vga(
 	input clk,
 	input rst,
-	input [23:0]vga_data,
+	input [11:0]vga_data,
 	output [9:0]h_addr,
 	output [9:0]v_addr,
 	output      hsync,
 	output      vsync,
 	output      valid,
-	output [7:0]vga_r,
-	output [7:0]vga_g,
-	output [7:0]vga_b,
-	output  vga_clk
+	output [3:0]vga_r,
+	output [3:0]vga_g,
+	output [3:0]vga_b
+
 );
 //抄的640*480分辨率下的配置
 parameter h_frontporch = 96;//消隐位存在的时间
@@ -44,7 +44,7 @@ always @(posedge rst or posedge clk) begin //计算行像素的东西
 end 
 always @(posedge rst or posedge clk) begin
 	if(rst) begin 
-		x_cnt <= 10'b1;
+		y_cnt <= 10'b1;
 	end
 	else begin
 		if(y_cnt == v_total & x_cnt == h_total) begin
@@ -69,9 +69,9 @@ assign valid = h_valid & v_valid;
 assign h_addr = h_valid ? (x_cnt - h_active - 1 ):{10{1'b0}};
 assign v_addr = v_valid ? (y_cnt - v_active - 1 ):{10{1'b0}};
 //设置输出的颜色
-assign vga_r = vga_data[23:16];
-assign vga_g = vga_data[15:8];
-assign vga_b = vga_data[7:0];
+assign vga_r = vga_data[11:8];
+assign vga_g = vga_data[7:4];
+assign vga_b = vga_data[3:0];
 
 
 endmodule 

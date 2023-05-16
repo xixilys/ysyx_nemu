@@ -8,7 +8,7 @@
 
 #define UART_DEFAULT_BAUDRATE               115200
 // UART_FREQ/(16*UART_DEFAULT_BAUDRATE)
-#define UART_CONFIG_NUM 3
+#define UART_CONFIG_NUM 25
 
 #define UART_BASE            (0x10000000L)
 
