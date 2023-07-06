@@ -1,15 +1,15 @@
-module keyboard_bottom (
+module KeyboardBottom (
 	input clk,
 	input rst,
 	input ps2_clk,
-	input ps2_data,
+		(*mark_debug = "true"*)input ps2_data,
 	output reg continue_flag,
-	output  [7:0]keyboard_data,
-	output  loosen_flag,
+	(*mark_debug = "true"*)	output  [7:0]keyboard_data,
+	(*mark_debug = "true"*)	output  loosen_flag,
 	output ready
 );
 reg [31:0]data_sync;
-reg overflow;
+wire overflow;
 reg nextdata_n;
 reg [15:0] raw_table_data[300:0];
 reg [7:0]  lookup_table[300:0];

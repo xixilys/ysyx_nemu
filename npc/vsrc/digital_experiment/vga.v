@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-module vga(
+module Vga(
 	input clk,
 	input rst,
 	input [11:0]vga_data,

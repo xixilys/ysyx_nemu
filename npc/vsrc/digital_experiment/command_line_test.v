@@ -3,14 +3,11 @@ module command_line_test(
 	input rst,
 	input ps2_clk,
 	input ps2_data,
-	output vga_vs,
-	output vga_hs,
-	output vga_clk,
-	output vga_blank_n,
-	output vga_sync_n,
-	output [7:0]vga_r,
-	output [7:0]vga_g,
-	output [7:0]vga_b,
+	output vga_vsync,
+	output vga_hsync, 
+	output [3:0]vga_red,
+	output [3:0]vga_green,
+	output [3:0]vga_blue,
 	output [9:0]addr_h,
 	output [9:0]addr_v,
 	output   led
@@ -19,9 +16,8 @@ reg [15:0]raw_table_data[255:0];
 reg [7:0]lookup_table[255:0];
 reg [31:0]i ;
 initial begin
-	$readmemh("resource/look_up_table.hex",raw_table_data);
 	for(i = 0;i<=255;i =i+1) begin //初始化table数组
-		lookup_table[raw_table_data[i][15:8]] = raw_table_data[i][7:0];
+		lookup_table[raw_table_data[i][15:8]] = 8'h55;
 	end
 		//for(i = 0;i<=255;i = i+1)begin
 		//	$display("table[%h] = %h raw_data = %h",i,lookup_table[i],raw_table_data[i][7:0]);
@@ -31,16 +27,16 @@ end
 
 reg [23:0]vga_data_array[500000:0];
 initial begin
-	$readmemh("resource/picture.hex",vga_data_array);
+	$readmemh("/media/ddddddd/ddddddd/lesson_learning/nvboard/example/resource/picture.hex",vga_data_array);
 end
 
 reg [11:0] char_table [5000:0];
 initial begin
-	$readmemh("resource/vga_glyphs.hex",char_table);
+	$readmemh("/media/ddddddd/ddddddd/lesson_learning/vga_font.txt",char_table);
 end
 	
 
-reg [23:0]vga_data;
+wire [23:0]vga_data;
 reg [7:0]screen_data[2500:0];
 
 //initial begin
@@ -48,13 +44,16 @@ reg [7:0]screen_data[2500:0];
 //	screen_data[i*70+3] = 8'd49;
 //end
 
+wire vga_clk;
 
-assign vga_sync_n = 0;
-vga vga_module1(clk,rst,vga_data,addr_h,addr_v,vga_hs,vga_vs,vga_blank_n,vga_r,vga_g,vga_b,vga_clk);
+clk_converter clk_con(.clk_in1(clk),
+	.clk_out1(vga_clk));
+vga vga_1(vga_clk,rst,vga_data,h_addr,v_addr,vga_hsync,vga_vsync,vga_valid,vga_red,vga_green,vga_blue);
+
 reg [7:0]asc_data;
-reg [7:0]key_board_data;
+wire [7:0]key_board_data;
 reg [23:0]key_board_data_sync;
-reg loosen_flag;
+wire loosen_flag;
 wire continue_flag;
 wire ready;
 keyboard_bottom keyboard1 (clk,rst,ps2_clk,ps2_data,continue_flag,key_board_data,loosen_flag,ready);
@@ -66,7 +65,7 @@ integer char_y;
 reg  [7:0]temp_asc;
 integer down_set;
 
-always @(negedge vga_vs or posedge rst) begin
+always @(negedge vga_vsync or posedge rst) begin
 	if(rst == 1) begin
 		temp_h = 0;
 		temp_v = 0;

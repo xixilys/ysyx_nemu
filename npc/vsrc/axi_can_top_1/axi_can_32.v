@@ -9,7 +9,7 @@
 
 		// Parameters of Axi Slave Bus Interface S00_AXI
 		parameter integer C_S00_AXI_DATA_WIDTH	= 32,
-		parameter integer C_S00_AXI_ADDR_WIDTH	= 5,
+		parameter integer C_S00_AXI_ADDR_WIDTH	= 6,
 		parameter  [10:0] LOCAL_ID	= 11'h200
 	)
 	(

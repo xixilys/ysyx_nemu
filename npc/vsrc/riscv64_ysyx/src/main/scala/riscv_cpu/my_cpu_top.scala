@@ -109,8 +109,8 @@ class mycpu_top  extends Module with riscv_macros {
     // val        io_slave  = IO(Flipped(new axi_ram_port(64,32)))
     // val        io_interrupt = IO(Input(Bool()))
 
-    val        can_rx     = IO(Vec(2,Input(Bool())))
-    val        can_tx     = IO(Vec(2,Output(Bool())))
+    val        can_rx     = IO(Vec(1,Input(Bool())))
+    val        can_tx     = IO(Vec(1,Output(Bool())))
 
     
     // val        led_shine  = IO(Vec(2,Output(Bool())))
@@ -165,8 +165,8 @@ class mycpu_top  extends Module with riscv_macros {
     val icache = icache_first//.port
     val dcache_first = Module(new data_cache).io  
     val dcache = dcache_first//.port
-    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,8,Array(0,0X0200_0000,0x21000000,0x0c000000,0x30000000,0x1000_0000,0x1000_1000,0x22000000),
-        Array(0,0X0200_BFFF,0x2100FFFF,0x0cFFFFFF,0x3fffffff,0x1000_0fff,0x1000_1fff,0x2200FFFF)))
+    val _axi_cross_bar = Module(new axi_cross_bar_addr_switch(2,7,Array(0,0X0200_0000,0x21000000,0x0c000000,0x30000000,0x1000_0000,0x1000_1000/*,0x22000000*/),
+        Array(0,0X0200_BFFF,0x2100FFFF,0x0cFFFFFF,0x3fffffff,0x1000_0fff,0x1000_1fff/*,0x2200FFFF*/)))
     //length总共也就16，比较拉
     //length总共也就16，比较拉
     
@@ -231,15 +231,7 @@ class mycpu_top  extends Module with riscv_macros {
     dcache.sram_wr    := u_riscv_cpu.data_wr
     dcache.sram_wdata := u_riscv_cpu.data_wdata
     dcache.fence_i_control := u_riscv_cpu.data_fence_i_control
-    dcache_first.data_wstrb := u_riscv_cpu.data_wstrb
-    u_riscv_cpu.data_rdata := dcache.sram_rdata
-    u_riscv_cpu.data_addr_ok := dcache.sram_addr_ok
-    u_riscv_cpu.data_data_ok := dcache.sram_data_ok
-
-    icache.sram_addr        := u_riscv_cpu.inst_addr
-    icache.sram_size        := u_riscv_cpu.inst_size
-    icache.sram_cache       := u_riscv_cpu.inst_cache
-    icache.sram_req         := u_riscv_cpu.inst_req
+    dcache_first.data_wstrb := u_riscv_cpu.data_wstrb32
     icache.sram_wr          := u_riscv_cpu.inst_wr
     icache.sram_wdata       := u_riscv_cpu.inst_wdata
     icache_first.inst_buffer_empty := u_riscv_cpu.inst_buffer_empty
@@ -291,7 +283,7 @@ class mycpu_top  extends Module with riscv_macros {
 
     u_riscv_cpu.ext_int.timer := axi_clint.int_line
     
-    val axi32_to_64_converter =  VecInit(Seq.fill(2)(Module(new axi_converter).io))
+    val axi32_to_64_converter =  VecInit(Seq.fill(1)(Module(new axi_converter).io))
     
 
 
@@ -307,11 +299,11 @@ class mycpu_top  extends Module with riscv_macros {
     // io_sram5 <> dcache_first.sram(1)
     // io_sram6 <> dcache_first.sram(2)
     // io_sram7 <> dcache_first.sram(3)
-
+axi32_to_64_converter
         //peripherals
 
     val axi_can = Module(new axi_can_32)
-    val axi_can_1 = Module(new axi_can_32)
+    // val axi_can_1 = Module(new axi_can_32)
 
     // val axi_can_1 = Module(new axi_can_32).io
     
@@ -337,10 +329,10 @@ class mycpu_top  extends Module with riscv_macros {
     _axi_cross_bar.io.s_port(4) <> axi2apb.io.axi_port
     _axi_cross_bar.io.s_port(5) <> axi2apb_uart.io.axi_port
     _axi_cross_bar.io.s_port(6) <> axi2apb_uart_remote.io.axi_port
-    _axi_cross_bar.io.s_port(7) <> axi32_to_64_converter(1).master
+    // _axi_cross_bar.io.s_port(7) <> axi32_to_64_converter(1).master
     // _axi_cross_bar.io.s_port(7) <> axi_can_1.axi_port
     axi_can.io.axi_port <> axi32_to_64_converter(0).slave
-    axi_can_1.io.axi_port <> axi32_to_64_converter(1).slave
+    // axi_can_1.io.axi_port <> axi32_to_64_converter(1).slave
     // for(i <- 0 to 1) {
 
     can_tx(0) := axi_can.io.can_tx
@@ -349,10 +341,10 @@ class mycpu_top  extends Module with riscv_macros {
     axi_can.io.rst_n := resetn
 
 
-    can_tx(1) := axi_can_1.io.can_tx
-    axi_can_1.io.can_rx := can_rx(1)
-    axi_can_1.io.clk := sys_clk.asBool
-    axi_can_1.io.rst_n := resetn
+    // can_tx(1) := axi_can_1.io.can_tx
+    // axi_can_1.io.can_rx := can_rx(1)
+    // axi_can_1.io.clk := sys_clk.asBool
+    // axi_can_1.io.rst_n := resetn
 
     // }
 // 1
